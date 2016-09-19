@@ -1,6 +1,6 @@
 <?php
 
-use Folklore\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\SelectFields;
 
 class SelectFieldsTest extends \PHPUnit_Framework_TestCase {
 
