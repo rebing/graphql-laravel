@@ -20,7 +20,7 @@ This package is compatible with Eloquent model (or any other data source). See t
 ```json
 {
   "require": {
-    "Rebing/graphql": "dev-master"
+    "Rebing/graphql": "0.1.*"
   }
 }
 ```
