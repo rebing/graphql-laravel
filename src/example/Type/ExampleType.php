@@ -3,7 +3,7 @@
 namespace example\Type;
 
 use example\ExampleModel;
-use Folklore\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 

@@ -3,7 +3,7 @@
 namespace example\Mutation;
 
 use example\ExampleModel;
-use Folklore\GraphQL\Support\Mutation;
+use Rebing\GraphQL\Support\Mutation;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 

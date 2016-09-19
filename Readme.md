@@ -72,7 +72,7 @@ $ php artisan graphql:generate-doc
 - [Adding validation to mutation](#adding-validation-to-mutation)
 
 ##### Advanced Usage
-- [Query authorization](#query-authorization)
+- [Authorization](#authorization)
 - [Query variables](#query-variables)
 - [Custom field](#custom-field)
 - [Eager loading relationships](#eager-loading-relationships)
@@ -434,7 +434,7 @@ When you execute a mutation, it will return the validation errors. Since GraphQL
 
 ## Advanced usage
 
-### Query authorization
+### Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
 An example of Laravel's `'auth'` middleware:

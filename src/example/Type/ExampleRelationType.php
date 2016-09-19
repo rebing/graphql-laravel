@@ -3,7 +3,7 @@
 namespace example\Type;
 
 use example\ExampleRelationModel;
-use Folklore\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
 
 class ExampleRelationType extends GraphQLType {

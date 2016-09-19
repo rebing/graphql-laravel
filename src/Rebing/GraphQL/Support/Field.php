@@ -2,9 +2,11 @@
 
 namespace Rebing\GraphQL\Support;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Fluent;
+use Rebing\GraphQL\Error\ValidationError;
 
 class Field extends Fluent {
 
@@ -43,23 +45,38 @@ class Field extends Fluent {
         $authorize = [$this, 'authorize'];
         return function() use ($resolver, $authorize)
         {
-            $args = func_get_args();
-
-            // Replace the context argument with 'selects and relations'
-            // $args[3] is ResolveInfo
-            if(isset($args[3]))
-            {
-                $fields = new SelectFields($args[3], $resolver[0]->type());
-                $args[2] = $fields;
-            }
+            $arguments = func_get_args();
 
             // Authorize
-            if(call_user_func_array($authorize, [$args[1]]) != true)
+            if(call_user_func_array($authorize, [$arguments[1]]) != true)
             {
                 throw new HttpResponseException(new Response('Forbidden', 403));
             }
 
-            return call_user_func_array($resolver, $args);
+            // Validate mutation arguments
+            if(method_exists($this, 'getRules'))
+            {
+                $rules = call_user_func_array([$this, 'getRules'], $arguments);
+                if(sizeof($rules))
+                {
+                    $args = array_get($arguments, 1, []);
+                    $validator = Validator::make($args, $rules);
+                    if($validator->fails())
+                    {
+                        throw with(new ValidationError('validation'))->setValidator($validator);
+                    }
+                }
+            }
+
+            // Replace the context argument with 'selects and relations'
+            // $args[3] is ResolveInfo
+            if(isset($arguments[3]))
+            {
+                $fields = new SelectFields($arguments[3], $resolver[0]->type());
+                $args[2] = $fields;
+            }
+
+            return call_user_func_array($resolver, $arguments);
         };
     }
 

@@ -31,11 +31,11 @@ return [
     // Example:
     //
     // 'controllers' => [
-    //     'query' => '\Folklore\GraphQL\GraphQLController@query',
-    //     'mutation' => '\Folklore\GraphQL\GraphQLController@mutation'
+    //     'query' => '\Rebing\GraphQL\GraphQLController@query',
+    //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => '\Folklore\GraphQL\GraphQLController@query',
+    'controllers' => '\Rebing\GraphQL\GraphQLController@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
@@ -89,6 +89,6 @@ return [
     //     'message' => '',
     //     'locations' => []
     // ]
-    'error_formatter' => ['\Folklore\GraphQL\GraphQL', 'formatError']
+    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError']
     
 ];

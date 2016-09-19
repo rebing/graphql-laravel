@@ -3,12 +3,23 @@
 namespace example\Query;
 
 use example\ExampleModel;
-use Folklore\GraphQL\Support\Query;
-use Folklore\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SelectFields;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
+use Auth;
 
 class ExampleQuery extends Query {
+
+    public function authorize(array $args)
+    {
+        if(isset($args['id']))
+        {
+            return Auth::id() == $args['id'];
+        }
+
+        return true;
+    }
 
     protected $attributes = [
         'name'  => 'Example query',
