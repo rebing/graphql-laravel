@@ -1,0 +1,49 @@
+{
+    "name": "Rebing/graphql",
+    "description": "Laravel wrapper for PHP GraphQL",
+    "keywords": ["framework", "laravel", "graphql", "react"],
+    "authors": [
+        {
+            "name": "Rebing OÜ",
+            "homepage": "http://www.rebing.ee",
+            "role": "Company"
+        },
+        {
+            "name": "Mikk Mihkel Nurges",
+            "email": "mikk.nurges@rebing.ee",
+            "role": "Developer"
+        },
+        {
+            "name": "Folklore",
+            "email": "info@atelierfolklore.ca",
+            "homepage": "http://atelierfolklore.ca"
+        },
+        {
+            "name": "David Mongeau-Petitpas",
+            "email": "dmp@atelierfolklore.ca",
+            "homepage": "http://mongo.ca",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "~5.1",
+        "webonyx/graphql-php": "~0.5"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.1",
+        "phpunit/phpunit": "^5.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "Rebing\\GraphQL\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+
+        ]
+    }
+}
