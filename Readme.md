@@ -79,7 +79,7 @@ $ php artisan graphql:generate-doc
 
 ### Creating a query
 
-First you need to create a type.
+First you need to create a type. The Eloquent Model is only required, if specifying relations
 
 ```php
 
@@ -91,31 +91,32 @@ First you need to create a type.
     class UserType extends GraphQLType {
         
         protected $attributes = [
-			'name' => 'User',
-			'description' => 'A user'
-		];
+            'name'          => 'User',
+            'description'   => 'A user',
+            'model'         => UserModel::class,
+        ];
 		
-		public function fields()
-		{
-			return [
-				'id' => [
-					'type' => Type::nonNull(Type::string()),
-					'description' => 'The id of the user'
-				],
-				'email' => [
-					'type' => Type::string(),
-					'description' => 'The email of user'
-				]
-			];
-		}
-			
-			
-		// If you want to resolve the field yourself, you can declare a method
-		// with the following format resolve[FIELD_NAME]Field()
-		protected function resolveEmailField($root, $args)
-		{
-			return strtolower($root->email);
-		}
+        public function fields()
+        {
+            return [
+                'id' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'description' => 'The id of the user'
+                ],
+                'email' => [
+                    'type' => Type::string(),
+                    'description' => 'The email of user'
+                ]
+            ];
+        }
+            
+            
+        // If you want to resolve the field yourself, you can declare a method
+        // with the following format resolve[FIELD_NAME]Field()
+        protected function resolveEmailField($root, $args)
+        {
+            return strtolower($root->email);
+        }
         
     }
 
@@ -509,8 +510,8 @@ use Rebing\GraphQL\Support\Field;
 class PictureField extends Field {
         
         protected $attributes = [
-		'description' => 'A picture'
-	];
+            'description'   => 'A picture',
+        ];
 	
 	public function type()
 	{
@@ -556,9 +557,10 @@ use App\GraphQL\Fields\PictureField;
 class UserType extends GraphQLType {
         
         protected $attributes = [
-		'name' => 'User',
-		'description' => 'A user'
-	];
+            'name'          => 'User',
+            'description'   => 'A user',
+            'model'         => UserModel::class,
+        ];
 	
 	public function fields()
 	{
@@ -631,7 +633,7 @@ Your Query would look like
 	}
 ```
 
-Your Type for User would look like
+Your Type for User would look like. The `profile` and `posts` relations must also exist in the UserModel's relations
 
 ```php
 <?php
@@ -648,8 +650,9 @@ class UserType extends GraphQLType
      * @var array
      */
     protected $attributes = [
-        'name' => 'User',
-        'description' => 'A user',
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => UserModel::class,
     ];
 
     /**
@@ -686,8 +689,9 @@ At this point we have a profile and a post type as expected for any model
 class ProfileType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Profile',
-        'description' => 'A user profile',
+        'name'          => 'Profile',
+        'description'   => 'A user profile',
+        'model'         => UserProfileModel::class,
     ];
 
     public function fields()
@@ -706,8 +710,9 @@ class ProfileType extends GraphQLType
 class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Post',
-        'description' => 'A post',
+        'name'          => 'Post',
+        'description'   => 'A post',
+        'model'         => PostModel::class,
     ];
 
     public function fields()

@@ -2,7 +2,7 @@
 
 namespace Rebing\GraphQL\Support;
 
-use Illuminate\Contracts\Validation\Validator;
+use Validator;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Fluent;
@@ -69,11 +69,11 @@ class Field extends Fluent {
             }
 
             // Replace the context argument with 'selects and relations'
-            // $args[3] is ResolveInfo
+            // $arguments[3] is ResolveInfo
             if(isset($arguments[3]))
             {
                 $fields = new SelectFields($arguments[3], $resolver[0]->type());
-                $args[2] = $fields;
+                $arguments[2] = $fields;
             }
 
             return call_user_func_array($resolver, $arguments);
