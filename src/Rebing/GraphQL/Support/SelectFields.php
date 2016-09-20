@@ -10,13 +10,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SelectFields {
 
+    /* @var $args array */
+    private static $args = [];
     /* @var $select array */
     private $select = [];
     /* @var $relations array */
     private $relations = [];
 
-    public function __construct(ResolveInfo $info, $parentType)
+    /**
+     * @param ResolveInfo $info
+     * @param $parentType
+     * @param array $args - arguments given with the query
+     */
+    public function __construct(ResolveInfo $info, $parentType, array $args)
     {
+        self::$args = $args;
+
         $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
 
         $this->select = $fields[0];
@@ -72,33 +81,62 @@ class SelectFields {
     {
         foreach($requestedFields as $key => $field)
         {
-            // With
-            if(is_array($field))
+            $fieldObject = $parentType->getField($key);
+
+            // First check if the field is even accessible
+            $canSelect = self::validateField($fieldObject);
+            if($canSelect)
             {
-                // Get the next parent type, so that 'with' queries could be made
-                // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                // Find the foreign key, if it's a 'belongsTo'/'belongsToMany' relation (not a 'hasOne'/'hasMany')
-                $relation = call_user_func([app($parentType->config['model']), $key]);
-                if(is_a($relation, BelongsTo::class) || is_a($relation, BelongsToMany::class))
+                // With
+                if(is_array($field))
                 {
-                    $foreignKey = $relation->getForeignKey();
-                    if( ! in_array($foreignKey, $select))
+                    // Get the next parent type, so that 'with' queries could be made
+                    // Both keys for the relation are required (e.g 'id' <-> 'user_id')
+                    // Find the foreign key, if it's a 'belongsTo'/'belongsToMany' relation (not a 'hasOne'/'hasMany')
+                    $relation = call_user_func([app($parentType->config['model']), $key]);
+                    if(is_a($relation, BelongsTo::class) || is_a($relation, BelongsToMany::class))
                     {
-                        $select[] = $foreignKey;
+                        $foreignKey = $relation->getForeignKey();
+                        if( ! in_array($foreignKey, $select))
+                        {
+                            $select[] = $foreignKey;
+                        }
                     }
+
+                    // New parent type, which is the relation
+                    $parentType = $parentType->getField($key)->config['type'];
+
+                    $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
                 }
-
-                // New parent type, which is the relation
-                $parentType = $parentType->getField($key)->config['type'];
-
-                $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
-            }
-            // Select
-            else
-            {
-                $select[] = $key;
+                // Select
+                else
+                {
+                    $select[] = $key;
+                }
             }
         }
+    }
+
+    /**
+     * Check the privacy status, if it's given
+     */
+    protected static function validateField($fieldObject)
+    {
+        if(isset($fieldObject->config['privacy']))
+        {
+            $privacyClass = $fieldObject->config['privacy'];
+
+            // If privacy given as a closure
+            if(is_callable($privacyClass))
+            {
+                return call_user_func($privacyClass, self::$args);
+            }
+
+            // If Privacy class given
+            return call_user_func([app($privacyClass), 'fire'], self::$args);
+        }
+
+        return true;
     }
 
     public function getSelect()

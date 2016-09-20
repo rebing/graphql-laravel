@@ -2,14 +2,13 @@
 
 namespace Rebing\GraphQL\Support;
 
-class Privacy {
+abstract class Privacy {
 
-    public function validate()
+    public function fire()
     {
-        return function(array $args)
-        {
-            return true;
-        };
+        return $this->validate(func_get_args()[0]);
     }
+
+    public abstract function validate(array $args);
 
 }

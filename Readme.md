@@ -476,6 +476,81 @@ class UsersQuery extends Query
 }
 ```
 
+### Privacy
+
+You can set custom privacy attributes for every Type's Field. For example, if you want the user's email to only be accessible to themselves:
+
+```
+class UserType extends GraphQLType {
+        
+        ...
+		
+        public function fields()
+        {
+            return [
+                'id' => [
+                    'type'          => Type::nonNull(Type::string()),
+                    'description'   => 'The id of the user'
+                ],
+                'email' => [
+                    'type'          => Type::string(),
+                    'description'   => 'The email of user',
+                    'privacy'       => function(array $args)
+                    {
+                        return $args['id'] == Auth::id();
+                    }
+                ]
+            ];
+        }
+            
+        ...
+        
+    }
+```
+
+or you can create a class that extends the abstract GraphQL Privacy class:
+
+```
+use Rebing\GraphQL\Support\Privacy;
+use Auth;
+
+class MePrivacy extends Privacy {
+
+    public function validate(array $args)
+    {
+        return $args['id'] == Auth::id();
+    }
+
+}
+```
+
+```
+use MePrivacy;
+
+class UserType extends GraphQLType {
+        
+        ...
+		
+        public function fields()
+        {
+            return [
+                'id' => [
+                    'type'          => Type::nonNull(Type::string()),
+                    'description'   => 'The id of the user'
+                ],
+                'email' => [
+                    'type'          => Type::string(),
+                    'description'   => 'The email of user',
+                    'privacy'       => MePrivacy::validate(),
+                ]
+            ];
+        }
+            
+        ...
+        
+    }
+```
+
 ### Query Variables
 
 GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:

@@ -69,10 +69,11 @@ class Field extends Fluent {
             }
 
             // Replace the context argument with 'selects and relations'
+            // $arguments[1] is args given with the query
             // $arguments[3] is ResolveInfo
             if(isset($arguments[3]))
             {
-                $fields = new SelectFields($arguments[3], $resolver[0]->type());
+                $fields = new SelectFields($arguments[3], $this->type(), $arguments[1]);
                 $arguments[2] = $fields;
             }
 
