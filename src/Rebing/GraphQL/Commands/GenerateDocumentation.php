@@ -3,6 +3,7 @@
 namespace Rebing\GraphQL\Commands;
 
 use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -27,13 +28,17 @@ class GenerateDocumentation extends Command {
     {
         $title = '#This project\'s Type, Query and Mutation documentation
         
+* [Types](#types)
+* [Queries](#queries)
+* [Mutations](#mutations)
+        
 ';
         File::put($this->path, $title);
     }
 
     protected function writeTypes()
     {
-        $text = '##Types
+        $text = '#Types
         
 ';
 
@@ -65,7 +70,7 @@ class GenerateDocumentation extends Command {
 
     protected function writeQueriesOrMutations($query = true)
     {
-        $text = '##' . ($query ? 'Queries' : 'Mutations') . '
+        $text = '#' . ($query ? 'Queries' : 'Mutations') . '
 ';
 
         // Block for each query or mutation
@@ -100,7 +105,12 @@ class GenerateDocumentation extends Command {
     {
         foreach($fields as $name => $field)
         {
-            $subtext .= '- ' . $name . ' (' . $field['type'] . ')';
+            $isCustomField = is_a($field['type'], ObjectType::class);
+            $typeString = $isCustomField
+                ? '([' . $field['type'] . '](#' . strtolower(str_replace(' ', '_', $field['type'])) . '))'
+                : '(' . $field['type'] . ')';
+
+            $subtext .= '- **' . $name . '** ' . $typeString;
             if(isset($field['description'])) $subtext .= ': ' . $field['description'];
             $subtext .= '
 ';
@@ -120,7 +130,7 @@ class GenerateDocumentation extends Command {
 
     private function addTitle(&$subtext, $name, array $attributes)
     {
-        $subtext .= '####' . $name . '
+        $subtext .= '###' . $name . '
 ';
         if(isset($attributes['description'])) $subtext .= $attributes['description'] . '
 ';
