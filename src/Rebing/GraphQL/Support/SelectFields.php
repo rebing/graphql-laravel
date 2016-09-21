@@ -24,12 +24,15 @@ class SelectFields {
      */
     public function __construct(ResolveInfo $info, $parentType, array $args)
     {
-        self::$args = $args;
+        if( ! is_null($info->fieldASTs[0]->selectionSet))
+        {
+            self::$args = $args;
 
-        $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
 
-        $this->select = $fields[0];
-        $this->relations = $fields[1];
+            $this->select = $fields[0];
+            $this->relations = $fields[1];
+        }
     }
 
     /**

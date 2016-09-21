@@ -108,13 +108,27 @@ class GenerateDocumentation extends Command {
     {
         foreach($fields as $name => $field)
         {
-            $isCustomField = is_a($field['type'], ObjectType::class);
+            // If inline field
+            if(is_array($field))
+            {
+                $type = $field['type'];
+                $description = $field['description'];
+            }
+            // Custom field
+            else
+            {
+                $field = app($field);
+                $type = $field->type();
+                $description = $field['attributes']['description'];
+            }
+
+            $isCustomField = is_a($type, ObjectType::class);
             $typeString = $isCustomField
-                ? '([' . $field['type'] . '](#' . strtolower(str_replace(' ', '_', $field['type'])) . '-type))'
-                : '(' . $field['type'] . ')';
+                ? '([' . $type . '](#' . strtolower(str_replace(' ', '_', $type)) . '-type))'
+                : '(' . $type . ')';
 
             $subtext .= '- **' . $name . '** ' . $typeString;
-            if(isset($field['description'])) $subtext .= ': ' . $field['description'];
+            if(isset($description)) $subtext .= ': ' . $description;
             $subtext .= '
 ';
         }
@@ -143,13 +157,24 @@ class GenerateDocumentation extends Command {
 
     private function addReturnType(&$text, $type)
     {
+        // If wrapped inside a list
         if(is_a($type, ListOfType::class))
         {
             $type = $type->getWrappedType();
         }
 
+        // If not basic graph type
+        if( ! is_a($type, ObjectType::class))
+        {
+            $name = $type->name;
+        }
+        else
+        {
+            $name = $type->config['name'];
+        }
+
         $text .= '
-Returns [' . $type->config['name'] . '](#' . str_replace(' ', '_', (strtolower($type->config['name']))) . '-type)
+Returns [' . $name . '](#' . str_replace(' ', '_', (strtolower($name))) . '-type)
 ';
     }
 
