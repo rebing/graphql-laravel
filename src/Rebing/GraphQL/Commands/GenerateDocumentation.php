@@ -47,12 +47,12 @@ class GenerateDocumentation extends Command {
         $subtext = '';
         foreach(config('graphql.types') as $typeName => $className)
         {
-            $typeNames .= '* [' . $typeName . '](#' . $typeName . ')
+            $typeNames .= '* [' . $typeName . '](#' . $typeName . '-type)
 ';
             $class = app($className);
 
             $attributes = $class->getAttributes();
-            $subtext = $this->addTitle($subtext, $typeName, $attributes);
+            $subtext = $this->addTitle($subtext, $typeName, $attributes, 'type');
 
             $this->addFields($subtext, $class->fields());
 
@@ -63,6 +63,7 @@ class GenerateDocumentation extends Command {
         $text .= $typeNames . '
 ';
         $text .= $subtext . '
+        
 ';
 
         File::append($this->path, $text);
@@ -76,14 +77,15 @@ class GenerateDocumentation extends Command {
         // Block for each query or mutation
         $queryNames = '';
         $subtext = '';
-        foreach(config('graphql.schema.' . ($query ? 'query' : 'mutation')) as $queryName => $className)
+        $type = $query ? 'query' : 'mutation';
+        foreach(config('graphql.schema.' . $type) as $queryName => $className)
         {
-            $queryNames .= '* [' . $queryName . '](#' . $queryName . ')
+            $queryNames .= '* [' . $queryName . '](#' . $queryName . '-' . $type . ')
 ';
             $class = app($className);
 
             $attributes = $class->getAttributes();
-            $subtext = $this->addTitle($subtext, $queryName, $attributes);
+            $subtext = $this->addTitle($subtext, $queryName, $attributes, $type);
 
             $this->addArgs($subtext, $class->args());
 
@@ -96,6 +98,7 @@ class GenerateDocumentation extends Command {
         $text .= $queryNames . '
 ';
         $text .= $subtext . '
+        
 ';
 
         File::append($this->path, $text);
@@ -107,7 +110,7 @@ class GenerateDocumentation extends Command {
         {
             $isCustomField = is_a($field['type'], ObjectType::class);
             $typeString = $isCustomField
-                ? '([' . $field['type'] . '](#' . strtolower(str_replace(' ', '_', $field['type'])) . '))'
+                ? '([' . $field['type'] . '](#' . strtolower(str_replace(' ', '_', $field['type'])) . '-type))'
                 : '(' . $field['type'] . ')';
 
             $subtext .= '- **' . $name . '** ' . $typeString;
@@ -128,9 +131,9 @@ class GenerateDocumentation extends Command {
         }
     }
 
-    private function addTitle(&$subtext, $name, array $attributes)
+    private function addTitle(&$subtext, $name, array $attributes, $type)
     {
-        $subtext .= '###' . $name . '
+        $subtext .= '### <a name="' . $name . '-' . $type . '"></a>' . $name . '
 ';
         if(isset($attributes['description'])) $subtext .= $attributes['description'] . '
 ';
@@ -146,7 +149,7 @@ class GenerateDocumentation extends Command {
         }
 
         $text .= '
-Returns [' . $type->config['name'] . '](#' . str_replace(' ', '_', (strtolower($type->config['name']))) . ')
+Returns [' . $type->config['name'] . '](#' . str_replace(' ', '_', (strtolower($type->config['name']))) . '-type)
 ';
     }
 
