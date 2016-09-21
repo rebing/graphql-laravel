@@ -4,7 +4,13 @@ Core code is from [Folklore's laravel-graphql](https://github.com/Folkloreatelie
 
 Uses Facebook GraphQL with Laravel 5. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
-This package is compatible with Eloquent model (or any other data source). See the examples below.
+This package is compatible with Eloquent model (or any other data source). It allows creating **queries** and **mutations** as request endpoints.
+Custom **middleware** can be defined for each query/mutation. Queries return **types**, which can have custom **privacy** settings.
+The queried fields will have the option to be retrieved **dynamically** from the database with the help of the `SelectFields` class.
+
+Can also generate a documentation of your API with `$ php artisan graphql:generate-doc`
+
+See the examples below.
 
 ## Installation
 
@@ -20,7 +26,7 @@ This package is compatible with Eloquent model (or any other data source). See t
 ```json
 {
   "require": {
-    "Rebing/graphql": "0.1.*"
+    "Rebing/graphql": "0.2.*"
   }
 }
 ```
@@ -59,20 +65,16 @@ $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 config/graphql.php
 ```
 
-**7-** Generate the documentation file
-
-```
-$ php artisan graphql:generate-doc
-```
-
 ## Usage
 
 - [Creating a query](#creating-a-query)
 - [Creating a mutation](#creating-a-mutation)
 - [Adding validation to mutation](#adding-validation-to-mutation)
+- [Generate documentation](#generate-documentation)
 
 ##### Advanced Usage
 - [Authorization](#authorization)
+- [Privacy](#privacy)
 - [Query variables](#query-variables)
 - [Custom field](#custom-field)
 - [Eager loading relationships](#eager-loading-relationships)
@@ -433,6 +435,13 @@ When you execute a mutation, it will return the validation errors. Since GraphQL
 	}
 ```
 
+### Generating documentation
+
+Once you have created your queries, mutation, types and modified the configuration, run `$ php artisan grapqhl:generate-doc`. This will dynamically
+generate a documentation file of your current graph API in your root folder.
+
+[Check out an example doc](src/example/GraphQL-doc.md)
+
 ## Advanced usage
 
 ### Authorization
@@ -478,7 +487,7 @@ class UsersQuery extends Query
 
 ### Privacy
 
-You can set custom privacy attributes for every Type's Field. For example, if you want the user's email to only be accessible to themselves:
+You can set custom privacy attributes for every Type's Field. If a field is not allowed, `null` will be returned. For example, if you want the user's email to only be accessible to themselves:
 
 ```
 class UserType extends GraphQLType {
