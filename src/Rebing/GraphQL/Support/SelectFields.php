@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SelectFields {
 
@@ -95,14 +96,23 @@ class SelectFields {
                 {
                     // Get the next parent type, so that 'with' queries could be made
                     // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                    // Find the foreign key, if it's a 'belongsTo'/'belongsToMany' relation (not a 'hasOne'/'hasMany')
                     $relation = call_user_func([app($parentType->config['model']), $key]);
+                    // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
+                    $foreignKey = $relation->getForeignKey();
                     if(is_a($relation, BelongsTo::class) || is_a($relation, BelongsToMany::class))
                     {
-                        $foreignKey = $relation->getForeignKey();
                         if( ! in_array($foreignKey, $select))
                         {
                             $select[] = $foreignKey;
+                        }
+                    }
+                    // Otherwise add it in the 'with'
+                    elseif(is_a($relation, HasMany::class))
+                    {
+                        $foreignKey = explode('.', $foreignKey)[1];
+                        if( ! array_key_exists($foreignKey, $field))
+                        {
+                            $field[$foreignKey] = true;
                         }
                     }
 
