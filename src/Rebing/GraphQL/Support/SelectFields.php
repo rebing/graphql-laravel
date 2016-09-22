@@ -135,6 +135,12 @@ class SelectFields {
      */
     protected static function validateField($fieldObject)
     {
+        // If not a selectable field
+        if(isset($fieldObject->config['selectable']) && $fieldObject->config['selectable'] === false)
+        {
+            return false;
+        }
+
         if(isset($fieldObject->config['privacy']))
         {
             $privacyClass = $fieldObject->config['privacy'];

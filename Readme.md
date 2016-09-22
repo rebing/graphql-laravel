@@ -81,7 +81,9 @@ config/graphql.php
 
 ### Creating a query
 
-First you need to create a type. The Eloquent Model is only required, if specifying relations
+First you need to create a type. The Eloquent Model is only required, if specifying relations.
+
+**NB! The `selectable` key is required, if it's a non-database field**
 
 ```php
 
@@ -103,11 +105,17 @@ First you need to create a type. The Eloquent Model is only required, if specify
             return [
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
-                    'description' => 'The id of the user'
+                    'description' => 'The id of the user',
                 ],
                 'email' => [
                     'type' => Type::string(),
-                    'description' => 'The email of user'
+                    'description' => 'The email of user',
+                ],
+                // Uses the 'scopeIsMe' function on our custom User model
+                'isMe' => [
+                    'type' => Type::boolean(),
+                    'description' => 'True, if the queried user is the current user',
+                    'selectable' => false, // Does not try to query this from the database
                 ]
             ];
         }
