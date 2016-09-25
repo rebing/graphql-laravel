@@ -13,15 +13,15 @@ class GraphQLServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->bootPublishes();
-        
+
         $this->bootTypes();
-        
+
         if(config('graphql.routes'))
         {
             include __DIR__.'/routes.php';
         }
     }
-    
+
     /**
      * Bootstrap publishes
      *
@@ -30,14 +30,14 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootPublishes()
     {
         $configPath = __DIR__.'/../../config';
-        
+
         $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
-        
+
         $this->publishes([
             $configPath.'/config.php' => config_path('graphql.php'),
         ], 'config');
     }
-    
+
     /**
      * Bootstrap publishes
      *
@@ -69,12 +69,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerGraphQL();
     }
-    
-    /**
-     * Register panneau
-     *
-     * @return void
-     */
+
     public function registerGraphQL()
     {
         $this->app->singleton('graphql', function($app)
