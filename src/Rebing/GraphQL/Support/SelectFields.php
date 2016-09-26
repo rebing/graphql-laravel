@@ -53,7 +53,7 @@ class SelectFields {
         {
             $parentType = $parentType->getWrappedType();
         }
-        $primaryKey = app($parentType->config['model'])->getKeyName();
+        $primaryKey = isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
 
         self::handleFields($requestedFields, $parentType, $select, $with);
 
