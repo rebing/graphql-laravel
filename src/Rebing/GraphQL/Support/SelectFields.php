@@ -89,7 +89,7 @@ class SelectFields {
 
             // First check if the field is even accessible
             $canSelect = self::validateField($fieldObject);
-            if($canSelect)
+            if($canSelect === true)
             {
                 // With
                 if(is_array($field))
@@ -130,7 +130,7 @@ class SelectFields {
                 }
             }
             // If privacy does not allow the field, return it as null
-            else
+            elseif($canSelect === null)
             {
                 $fieldObject->resolveFn = function()
                 {
@@ -145,10 +145,12 @@ class SelectFields {
      */
     protected static function validateField($fieldObject)
     {
+        $selectable = true;
+
         // If not a selectable field
         if(isset($fieldObject->config['selectable']) && $fieldObject->config['selectable'] === false)
         {
-            return false;
+            $selectable = false;
         }
 
         if(isset($fieldObject->config['privacy']))
@@ -156,16 +158,18 @@ class SelectFields {
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if(is_callable($privacyClass))
+            if(is_callable($privacyClass) && call_user_func($privacyClass, self::$args) === false)
             {
-                return call_user_func($privacyClass, self::$args);
+                $selectable = null;
             }
-
             // If Privacy class given
-            return call_user_func([app($privacyClass), 'fire'], self::$args);
+            elseif(call_user_func([app($privacyClass), 'fire'], self::$args) === false)
+            {
+                $selectable = null;
+            }
         }
 
-        return true;
+        return $selectable;
     }
 
     /**
