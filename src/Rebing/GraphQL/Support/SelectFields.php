@@ -129,6 +129,14 @@ class SelectFields {
                     $select[] = $key;
                 }
             }
+            // If privacy does not allow the field, return it as null
+            else
+            {
+                $fieldObject->resolveFn = function()
+                {
+                    return null;
+                };
+            }
         }
     }
 
