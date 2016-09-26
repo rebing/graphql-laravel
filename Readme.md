@@ -725,7 +725,8 @@ Your Query would look like
 	}
 ```
 
-Your Type for User would look like. The `profile` and `posts` relations must also exist in the UserModel's relations
+Your Type for User would look like. The `profile` and `posts` relations must also exist in the UserModel's relations.
+If some fields are required for the relation to load or validation etc, then you can define an `always` attribute that will add the given attributes to select.
 
 ```php
 <?php
@@ -768,6 +769,8 @@ class UserType extends GraphQLType
             'posts' => [
                 'type' => Type::listOf(GraphQL::type('Post')),
                 'description' => 'The user posts',
+                // Can also be defined as a string
+                'always' => ['title', 'body'],
             ]
         ];
     }

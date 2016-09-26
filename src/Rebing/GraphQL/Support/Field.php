@@ -48,10 +48,13 @@ class Field extends Fluent {
             $arguments = func_get_args();
 
             // Get all given arguments
-            $params = array_merge($arguments[1], $arguments[2]);
+            if( ! is_null($arguments[2]))
+            {
+                $arguments[1] = array_merge($arguments[1], $arguments[2]);
+            }
 
             // Authorize
-            if(call_user_func($authorize, $params) != true)
+            if(call_user_func($authorize, $arguments[1]) != true)
             {
                 throw new HttpResponseException(new Response('Forbidden', 403));
             }
@@ -77,8 +80,7 @@ class Field extends Fluent {
             // $arguments[3] is ResolveInfo
             if(isset($arguments[3]))
             {
-                $fields = new SelectFields($arguments[3], $this->type(), $params);
-                $arguments[1] = array_merge($arguments[1], $arguments[2]);
+                $fields = new SelectFields($arguments[3], $this->type(), $arguments[1]);
                 $arguments[2] = $fields;
             }
 

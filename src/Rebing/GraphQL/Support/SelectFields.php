@@ -119,6 +119,8 @@ class SelectFields {
                     // New parent type, which is the relation
                     $parentType = $parentType->getField($key)->config['type'];
 
+                    self::addAlwaysFields($fieldObject, $field);
+
                     $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
                 }
                 // Select
@@ -156,6 +158,28 @@ class SelectFields {
         }
 
         return true;
+    }
+
+    /**
+     * Add selects that are given by the 'always' attribute
+     */
+    protected static function addAlwaysFields($fieldObject, array &$select)
+    {
+        if(isset($fieldObject->config['always']))
+        {
+            $always = $fieldObject->config['always'];
+
+            if(is_string($always))
+            {
+                $always = explode(',', $always);
+            }
+
+            // Get as 'field' => true
+            foreach($always as $field)
+            {
+                $select[$field] = true;
+            }
+        }
     }
 
     public function getSelect()
