@@ -26,7 +26,7 @@ See the examples below.
 ```json
 {
   "require": {
-    "Rebing/graphql": "0.2.*"
+    "Rebing/graphql": "0.3.*"
   }
 }
 ```
