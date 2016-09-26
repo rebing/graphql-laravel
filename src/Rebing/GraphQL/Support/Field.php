@@ -47,8 +47,11 @@ class Field extends Fluent {
         {
             $arguments = func_get_args();
 
+            // Get all given arguments
+            $params = array_merge($arguments[1], $arguments[2]);
+
             // Authorize
-            if(call_user_func_array($authorize, [$arguments[1]]) != true)
+            if(call_user_func($authorize, $params) != true)
             {
                 throw new HttpResponseException(new Response('Forbidden', 403));
             }
@@ -69,11 +72,13 @@ class Field extends Fluent {
             }
 
             // Replace the context argument with 'selects and relations'
-            // $arguments[1] is args given with the query
+            // $arguments[1] is direct args given with the query
+            // $arguments[2] is context (params given with the query)
             // $arguments[3] is ResolveInfo
             if(isset($arguments[3]))
             {
-                $fields = new SelectFields($arguments[3], $this->type(), $arguments[1]);
+                $fields = new SelectFields($arguments[3], $this->type(), $params);
+                $arguments[1] = array_merge($arguments[1], $arguments[2]);
                 $arguments[2] = $fields;
             }
 
