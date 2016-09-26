@@ -53,14 +53,20 @@ class SelectFields {
         {
             $parentType = $parentType->getWrappedType();
         }
-        $primaryKey = isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
+        $parentTable = self::getTableNameFromParentType($parentType);
+        $primaryKey = self::getPrimaryKeyFromParentType($parentType);
 
         self::handleFields($requestedFields, $parentType, $select, $with);
 
         // If a primary key is given, but not in the selects, add it
-        if( ! is_null($primaryKey) && ! in_array($primaryKey, $select))
+        if( ! is_null($primaryKey))
         {
-            $select[] = $primaryKey;
+            $primaryKey = $parentTable ? ($parentTable . '.' . $primaryKey) : $primaryKey;
+
+            if( ! in_array($primaryKey, $select))
+            {
+                $select[] = $primaryKey;
+            }
         }
 
         if($topLevel)
@@ -83,13 +89,15 @@ class SelectFields {
      */
     protected static function handleFields(array $requestedFields, $parentType, array &$select, array &$with)
     {
+        $parentTable = self::getTableNameFromParentType($parentType);
+
         foreach($requestedFields as $key => $field)
         {
             $fieldObject = $parentType->getField($key);
 
             // First check if the field is even accessible
             $canSelect = self::validateField($fieldObject);
-            if($canSelect === true)
+            if($canSelect)
             {
                 // With
                 if(is_array($field))
@@ -126,11 +134,11 @@ class SelectFields {
                 // Select
                 else
                 {
-                    $select[] = $key;
+                    $select[] = $parentTable ? ($parentTable . '.' . $key) : $key;
                 }
             }
             // If privacy does not allow the field, return it as null
-            elseif($canSelect === null)
+            else
             {
                 $fieldObject->resolveFn = function()
                 {
@@ -145,12 +153,10 @@ class SelectFields {
      */
     protected static function validateField($fieldObject)
     {
-        $selectable = true;
-
         // If not a selectable field
         if(isset($fieldObject->config['selectable']) && $fieldObject->config['selectable'] === false)
         {
-            $selectable = false;
+            return false;
         }
 
         if(isset($fieldObject->config['privacy']))
@@ -158,18 +164,16 @@ class SelectFields {
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if(is_callable($privacyClass) && call_user_func($privacyClass, self::$args) === false)
+            if(is_callable($privacyClass))
             {
-                $selectable = null;
+                return call_user_func($privacyClass, self::$args);
             }
+
             // If Privacy class given
-            elseif(call_user_func([app($privacyClass), 'fire'], self::$args) === false)
-            {
-                $selectable = null;
-            }
+            return call_user_func([app($privacyClass), 'fire'], self::$args);
         }
 
-        return $selectable;
+        return true;
     }
 
     /**
@@ -192,6 +196,16 @@ class SelectFields {
                 $select[$field] = true;
             }
         }
+    }
+
+    private static function getPrimaryKeyFromParentType($parentType)
+    {
+        return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
+    }
+
+    private static function getTableNameFromParentType($parentType)
+    {
+        return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
 
     public function getSelect()
