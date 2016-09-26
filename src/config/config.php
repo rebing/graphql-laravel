@@ -89,6 +89,9 @@ return [
     //     'message' => '',
     //     'locations' => []
     // ]
-    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError']
+    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
+
+    // You can set the key, which will be used to retrieve the dynamic variables
+    'params_key'    => 'params',
     
 ];
