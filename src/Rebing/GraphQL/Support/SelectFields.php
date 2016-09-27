@@ -127,7 +127,7 @@ class SelectFields {
                     // New parent type, which is the relation
                     $parentType = $parentType->getField($key)->config['type'];
 
-                    self::addAlwaysFields($fieldObject, $field);
+                    self::addAlwaysFields($fieldObject, $field, true);
 
                     $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
                 }
@@ -135,6 +135,8 @@ class SelectFields {
                 else
                 {
                     $select[] = $parentTable ? ($parentTable . '.' . $key) : $key;
+
+                    self::addAlwaysFields($fieldObject, $select);
                 }
             }
             // If privacy does not allow the field, return it as null
@@ -179,7 +181,7 @@ class SelectFields {
     /**
      * Add selects that are given by the 'always' attribute
      */
-    protected static function addAlwaysFields($fieldObject, array &$select)
+    protected static function addAlwaysFields($fieldObject, array &$select, $forRelation = false)
     {
         if(isset($fieldObject->config['always']))
         {
@@ -193,7 +195,22 @@ class SelectFields {
             // Get as 'field' => true
             foreach($always as $field)
             {
+                self::addFieldToSelect($field, $select, $forRelation);
+            }
+        }
+    }
+
+    protected static function addFieldToSelect($field, &$select, $forRelation)
+    {
+        if( ! in_array($field, $select))
+        {
+            if($forRelation)
+            {
                 $select[$field] = true;
+            }
+            else
+            {
+                $select[] = $field;
             }
         }
     }
