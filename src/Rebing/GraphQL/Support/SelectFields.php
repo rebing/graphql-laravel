@@ -97,7 +97,7 @@ class SelectFields {
 
             // First check if the field is even accessible
             $canSelect = self::validateField($fieldObject);
-            if($canSelect)
+            if($canSelect === true)
             {
                 // With
                 if(is_array($field))
@@ -107,6 +107,7 @@ class SelectFields {
                     $relation = call_user_func([app($parentType->config['model']), $key]);
                     // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
                     $foreignKey = $relation->getForeignKey();
+                    $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
                     if(is_a($relation, BelongsTo::class) || is_a($relation, BelongsToMany::class))
                     {
                         if( ! in_array($foreignKey, $select))
@@ -127,7 +128,7 @@ class SelectFields {
                     // New parent type, which is the relation
                     $parentType = $parentType->getField($key)->config['type'];
 
-                    self::addAlwaysFields($fieldObject, $field, true);
+                    self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
                     $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
                 }
@@ -136,11 +137,11 @@ class SelectFields {
                 {
                     $select[] = $parentTable ? ($parentTable . '.' . $key) : $key;
 
-                    self::addAlwaysFields($fieldObject, $select);
+                    self::addAlwaysFields($fieldObject, $select, $parentTable);
                 }
             }
             // If privacy does not allow the field, return it as null
-            else
+            elseif($canSelect === null)
             {
                 $fieldObject->resolveFn = function()
                 {
@@ -152,13 +153,18 @@ class SelectFields {
 
     /**
      * Check the privacy status, if it's given
+     *
+     * @return boolean | null - true, if selectable; false, if not selectable, but allowed;
+     *                          null, if not allowed
      */
     protected static function validateField($fieldObject)
     {
+        $selectable = true;
+
         // If not a selectable field
         if(isset($fieldObject->config['selectable']) && $fieldObject->config['selectable'] === false)
         {
-            return false;
+            $selectable = false;
         }
 
         if(isset($fieldObject->config['privacy']))
@@ -166,22 +172,24 @@ class SelectFields {
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if(is_callable($privacyClass))
+            if(is_callable($privacyClass) && call_user_func($privacyClass, self::$args) === false)
             {
-                return call_user_func($privacyClass, self::$args);
+                $selectable = null;
             }
-
             // If Privacy class given
-            return call_user_func([app($privacyClass), 'fire'], self::$args);
+            elseif(call_user_func([app($privacyClass), 'fire'], self::$args) === false)
+            {
+                $selectable = null;
+            }
         }
 
-        return true;
+        return $selectable;
     }
 
     /**
      * Add selects that are given by the 'always' attribute
      */
-    protected static function addAlwaysFields($fieldObject, array &$select, $forRelation = false)
+    protected static function addAlwaysFields($fieldObject, array &$select, $parentTable, $forRelation = false)
     {
         if(isset($fieldObject->config['always']))
         {
@@ -195,12 +203,12 @@ class SelectFields {
             // Get as 'field' => true
             foreach($always as $field)
             {
-                self::addFieldToSelect($field, $select, $forRelation);
+                self::addFieldToSelect($field, $select, $parentTable, $forRelation);
             }
         }
     }
 
-    protected static function addFieldToSelect($field, &$select, $forRelation)
+    protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation)
     {
         if( ! in_array($field, $select))
         {
@@ -210,6 +218,7 @@ class SelectFields {
             }
             else
             {
+                $field = $parentTable ? ($parentTable . '.' . $field) : $field;
                 $select[] = $field;
             }
         }
