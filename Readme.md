@@ -76,6 +76,7 @@ config/graphql.php
 - [Query variables](#query-variables)
 - [Custom field](#custom-field)
 - [Eager loading relationships](#eager-loading-relationships)
+- [Type relationship query](#type-relationship-query)
 
 ### Creating a query
 
@@ -824,7 +825,7 @@ class PostType extends GraphQLType
 }
 ```
 
-### Specific relationship query in Type
+### Type relationship query
 
 You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
 
