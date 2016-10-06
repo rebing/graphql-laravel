@@ -44,7 +44,7 @@ class SelectFields {
      *      where the first key is 'select' array and second is 'with' array.
      *      On other recursions return a closure that will be used in with
      */
-    public static function getSelectableFieldsAndRelations(array $requestedFields, $parentType, $topLevel = true)
+    public static function getSelectableFieldsAndRelations(array $requestedFields, $parentType, $customQuery = null, $topLevel = true)
     {
         $select = [];
         $with = [];
@@ -56,7 +56,7 @@ class SelectFields {
         $parentTable = self::getTableNameFromParentType($parentType);
         $primaryKey = self::getPrimaryKeyFromParentType($parentType);
 
-        self::handleFields($requestedFields, $parentType, $select, $with);
+        self::handleFields($requestedFields, $parentType, $select, $with, $customQuery);
 
         // If a primary key is given, but not in the selects, add it
         if( ! is_null($primaryKey))
@@ -75,8 +75,13 @@ class SelectFields {
         }
         else
         {
-            return function($query) use ($with, $select)
+            return function($query) use ($with, $select, $customQuery)
             {
+                if($customQuery)
+                {
+                    $query = $customQuery(self::$args, $query);
+                }
+
                 $query->select($select);
                 $query->with($with);
             };
@@ -99,6 +104,9 @@ class SelectFields {
             $canSelect = self::validateField($fieldObject);
             if($canSelect === true)
             {
+                // Add a query, if it exists
+                $customQuery = array_get($fieldObject->config, 'query');
+
                 // With
                 if(is_array($field))
                 {
@@ -108,14 +116,14 @@ class SelectFields {
                     // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
                     $foreignKey = $relation->getForeignKey();
                     $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
-                    if(is_a($relation, BelongsTo::class) || is_a($relation, BelongsToMany::class))
+                    if(is_a($relation, BelongsTo::class))
                     {
                         if( ! in_array($foreignKey, $select))
                         {
                             $select[] = $foreignKey;
                         }
                     }
-                    // Otherwise add it in the 'with'
+                    // If 'HasMany', then add it in the 'with'
                     elseif(is_a($relation, HasMany::class))
                     {
                         $foreignKey = explode('.', $foreignKey)[1];
@@ -130,12 +138,12 @@ class SelectFields {
 
                     self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                    $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, false);
+                    $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, $customQuery, false);
                 }
                 // Select
                 else
                 {
-                    $select[] = $parentTable ? ($parentTable . '.' . $key) : $key;
+                    self::addFieldToSelect($key, $select, $parentTable, false);
 
                     self::addAlwaysFields($fieldObject, $select, $parentTable);
                 }

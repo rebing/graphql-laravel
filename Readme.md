@@ -24,7 +24,7 @@ Can also generate a documentation of your API with `$ php artisan graphql:genera
 ```json
 {
   "require": {
-    "Rebing/graphql": "0.4.*"
+    "Rebing/graphql": "1.0.*"
   }
 }
 ```
@@ -81,7 +81,7 @@ config/graphql.php
 
 First you need to create a type. The Eloquent Model is only required, if specifying relations.
 
-**NB! The `selectable` key is required, if it's a non-database field**
+**NB! The `selectable` key is required, if it's a non-database field or not a relation**
 
 ```php
 
@@ -821,6 +821,36 @@ class PostType extends GraphQLType
             ]
         ];
     }
+}
+```
+
+### Specific relationship query in Type
+
+You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
+
+```
+class UserType extends GraphQLType {
+
+    ...
+    
+    public function fields()
+    {
+        return [
+            
+            ...
+            
+            // Relation
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // The first args are the parameters passed to the query
+                'query'         => function(array $args, $query) {
+                    return $query->where('posts.created_at', '>', $args['date_from']);
+                }
+            ]
+        ];
+    }
+
 }
 ```
 
