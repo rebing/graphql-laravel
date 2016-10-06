@@ -10,8 +10,6 @@ The queried fields will have the option to be retrieved **dynamically** from the
 
 Can also generate a documentation of your API with `$ php artisan graphql:generate-doc`
 
-See the examples below.
-
 ## Installation
 
 #### Dependencies:
@@ -238,7 +236,7 @@ http://homestead.app/graphql?query=query+FetchUsers{users{id,email}}
 
 ### Creating a mutation
 
-A mutation is like any other query, it accepts arguments (which will be used to do the mutation) and return an object of a certain type.
+A mutation is like any other query, it accepts arguments (which will be used to do the mutation) and returns an object of a certain type.
 
 For example a mutation to update the password of a user. First you need to define the Mutation.
 

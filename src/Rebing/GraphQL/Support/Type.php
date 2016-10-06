@@ -29,12 +29,14 @@ class Type extends Fluent {
     
     protected function getFieldResolver($name, $field)
     {
-        $resolveMethod = 'resolve'.studly_case($name).'Field';
         if(isset($field['resolve']))
         {
             return $field['resolve'];
         }
-        else if(method_exists($this, $resolveMethod))
+
+        $resolveMethod = 'resolve'.studly_case($name).'Field';
+
+        if(method_exists($this, $resolveMethod))
         {
             $resolver = array($this, $resolveMethod);
             return function() use ($resolver)
