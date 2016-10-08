@@ -1,5 +1,8 @@
 # Laravel GraphQL
 
+[![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
+[![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
+
 Core code is from [Folklore's laravel-graphql](https://github.com/Folkloreatelier/laravel-graphql)
 
 Uses Facebook GraphQL with Laravel 5. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
@@ -24,7 +27,7 @@ Can also generate a documentation of your API with `$ php artisan graphql:genera
 ```json
 {
   "require": {
-    "Rebing/graphql": "1.0.*"
+    "Rebing/graphql": "^1.0"
   }
 }
 ```
