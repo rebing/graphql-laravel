@@ -115,7 +115,7 @@ class GraphQL {
     public function queryAndReturnResult($query, $params = [])
     {
         $schema = $this->schema();
-        $result = GraphQLBase::executeAndReturnResult($schema, $query, null, $params);
+        $result = GraphQLBase::executeAndReturnResult($schema, $query, null, null, $params);
         return $result;
     }
     
