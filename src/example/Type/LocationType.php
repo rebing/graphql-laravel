@@ -1,6 +1,6 @@
 <?php
 
-namespace Sportid\GraphQL\Type\Location;
+namespace Rebing\GraphQL\Type\Location;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;

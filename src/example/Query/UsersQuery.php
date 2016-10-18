@@ -1,6 +1,6 @@
 <?php
 
-namespace Sportid\GraphQL\Query\User;
+namespace Rebing\GraphQL\Query\User;
 
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;

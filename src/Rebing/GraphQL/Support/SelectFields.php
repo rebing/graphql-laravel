@@ -56,7 +56,7 @@ class SelectFields {
         $parentTable = self::getTableNameFromParentType($parentType);
         $primaryKey = self::getPrimaryKeyFromParentType($parentType);
 
-        self::handleFields($requestedFields, $parentType, $select, $with, $customQuery);
+        self::handleFields($requestedFields, $parentType, $select, $with);
 
         // If a primary key is given, but not in the selects, add it
         if( ! is_null($primaryKey))
@@ -126,7 +126,8 @@ class SelectFields {
                     // If 'HasMany', then add it in the 'with'
                     elseif(is_a($relation, HasMany::class))
                     {
-                        $foreignKey = explode('.', $foreignKey)[1];
+                        $substr = explode('.', $foreignKey);
+                        $foreignKey = $substr[count($substr) - 1];
                         if( ! array_key_exists($foreignKey, $field))
                         {
                             $field[$foreignKey] = true;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sportid\GraphQL\Type\User;
+namespace Rebing\GraphQL\Type\User;
 
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
