@@ -126,8 +126,7 @@ class SelectFields {
                     // If 'HasMany', then add it in the 'with'
                     elseif(is_a($relation, HasMany::class))
                     {
-                        $substr = explode('.', $foreignKey);
-                        $foreignKey = $substr[count($substr) - 1];
+                        $foreignKey = explode('.', $foreignKey)[2];
                         if( ! array_key_exists($foreignKey, $field))
                         {
                             $field[$foreignKey] = true;
@@ -135,11 +134,11 @@ class SelectFields {
                     }
 
                     // New parent type, which is the relation
-                    $parentType = $parentType->getField($key)->config['type'];
+                    $newParentType = $parentType->getField($key)->config['type'];
 
                     self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                    $with[$key] = self::getSelectableFieldsAndRelations($field, $parentType, $customQuery, false);
+                    $with[$key] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
                 }
                 // Select
                 else
@@ -219,17 +218,14 @@ class SelectFields {
 
     protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation)
     {
-        if( ! in_array($field, $select))
+        if($forRelation && ! array_key_exists($field, $select))
         {
-            if($forRelation)
-            {
-                $select[$field] = true;
-            }
-            else
-            {
-                $field = $parentTable ? ($parentTable . '.' . $field) : $field;
-                $select[] = $field;
-            }
+            $select[$field] = true;
+        }
+        elseif( ! $forRelation && ! in_array($field, $select))
+        {
+            $field = $parentTable ? ($parentTable . '.' . $field) : $field;
+            $select[] = $field;
         }
     }
 
