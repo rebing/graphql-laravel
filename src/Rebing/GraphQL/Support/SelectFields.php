@@ -156,6 +156,11 @@ class SelectFields {
                     return null;
                 };
             }
+            // If allowed field, but not selectable
+            elseif($canSelect === false)
+            {
+                self::addAlwaysFields($fieldObject, $select, $parentTable);
+            }
         }
     }
 
