@@ -2,9 +2,8 @@
 
 namespace Rebing\GraphQL\Support;
 
+use Rebing\GraphQL\Error\AuthorizationError;
 use Validator;
-use Illuminate\Http\Exception\HttpResponseException;
-use Illuminate\Http\Response;
 use Illuminate\Support\Fluent;
 use Rebing\GraphQL\Error\ValidationError;
 
@@ -56,7 +55,7 @@ class Field extends Fluent {
             // Authorize
             if(call_user_func($authorize, $arguments[1]) != true)
             {
-                throw new HttpResponseException(new Response('Forbidden', 403));
+                throw with(new AuthorizationError('Unauthorized'));
             }
 
             // Validate mutation arguments
