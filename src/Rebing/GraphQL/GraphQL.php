@@ -161,12 +161,6 @@ class GraphQL {
         $instance = $type->toType();
         $this->typesInstances[$name] = $instance;
         
-        //Check if the object has interfaces
-        if($type->interfaces)
-        {
-            InterfaceType::addImplementationToInterfaces($instance);
-        }
-        
         return $instance;
     }
     
