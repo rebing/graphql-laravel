@@ -6,6 +6,7 @@ use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Schema;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
+use Session;
 
 class GraphQL {
     
@@ -90,26 +91,31 @@ class GraphQL {
             'fields' => $typeFields
         ], $opts));
     }
-    
+
     public function query($query, $params = [])
     {
         $executionResult = $this->queryAndReturnResult($query, $params);
-        
-        if (!empty($executionResult->errors))
+
+        $data = [
+            'data' => $executionResult->data,
+        ];
+
+        // Add errors
+        if( ! empty($executionResult->errors))
         {
             $errorFormatter = config('graphql.error_formatter', ['\Rebing\GraphQL', 'formatError']);
-            
-            return [
-                'data' => $executionResult->data,
-                'errors' => array_map($errorFormatter, $executionResult->errors)
-            ];
+
+            $data['errors'] = array_map($errorFormatter, $executionResult->errors);
         }
-        else
+
+        // Add pagination meta data
+        $pagination = Session::get('pagination');
+        if($pagination)
         {
-            return [
-                'data' => $executionResult->data
-            ];
+            $data['pagination'] = $pagination;
         }
+
+        return $data;
     }
     
     public function queryAndReturnResult($query, $params = [])

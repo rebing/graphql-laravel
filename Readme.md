@@ -858,11 +858,31 @@ class UserType extends GraphQLType {
 }
 ```
 
+### Pagination
 
-Lastly your query would look like, if using Homestead
-
-For example, if you use homestead:
+You can add a custom `pagination` array to Session and it will be returned with a query or mutation:
 
 ```
-http://homestead.app/graphql?query=query+FetchUsers{users{uuid, email, team{name}}}
+use Session;
+
+Session::put('pagination', ['total': 21, 'per_page': 10, ...]);
+```
+
+Query `users(limit:10,page:1){id}` might return
+
+```
+{
+    "data": {
+        "users: [
+            {"id": 3},
+            {"id": 5},
+            ...
+        ]
+    },
+    "pagination": {
+        "total": 21,
+        "per_page": 10",
+        ...
+    }
+}
 ```
