@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "728b806ab827504492224d5155b989d1",
-    "content-hash": "fe8b81f6ae68cebbb9dcd6f13d81712c",
+    "hash": "40a4ec2eefd2e2143d95b33e12882463",
+    "content-hash": "7d5735564de132bedf80679bf263ae54",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -433,6 +433,51 @@
                 "laravel"
             ],
             "time": "2016-11-14 15:41:06"
+        },
+        {
+            "name": "laravel/laravel",
+            "version": "v5.3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/laravel.git",
+                "reference": "e0573e67e00ce172ef895862d14a81cd0ca2cadf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/laravel/zipball/e0573e67e00ce172ef895862d14a81cd0ca2cadf",
+                "reference": "e0573e67e00ce172ef895862d14a81cd0ca2cadf",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "5.3.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~5.0",
+                "symfony/css-selector": "3.1.*",
+                "symfony/dom-crawler": "3.1.*"
+            },
+            "type": "project",
+            "autoload": {
+                "classmap": [
+                    "database"
+                ],
+                "psr-4": {
+                    "App\\": "app/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Laravel Framework.",
+            "keywords": [
+                "framework",
+                "laravel"
+            ],
+            "time": "2016-10-03 02:33:52"
         },
         {
             "name": "league/flysystem",
@@ -1869,20 +1914,22 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v0.7.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "f91cbf3409ba0385b2d43b1692600efeda43d980"
+                "url": "https://github.com/rebing/graphql-php.git",
+                "reference": "2c666e0114d9ed027e94af7f3127c64f433e4407"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/f91cbf3409ba0385b2d43b1692600efeda43d980",
-                "reference": "f91cbf3409ba0385b2d43b1692600efeda43d980",
+                "url": "https://api.github.com/repos/rebing/graphql-php/zipball/2c666e0114d9ed027e94af7f3127c64f433e4407",
+                "reference": "2c666e0114d9ed027e94af7f3127c64f433e4407",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4,<8.0-DEV"
+                "ext-mbstring": "*",
+                "laravel/laravel": "^5.1",
+                "php": ">=5.6.4,<8.0-DEV"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8"
@@ -1893,17 +1940,26 @@
                     "GraphQL\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "GraphQL\\Tests\\": "tests/",
+                    "GraphQL\\Benchmarks\\": "benchmarks/",
+                    "GraphQL\\Examples\\Blog\\": "examples/01-blog/Blog/"
+                }
+            },
             "license": [
                 "BSD"
             ],
             "description": "A PHP port of GraphQL reference implementation",
             "homepage": "https://github.com/webonyx/graphql-php",
             "keywords": [
-                "api",
+                "API",
                 "graphql"
             ],
-            "time": "2016-09-16 09:48:07"
+            "support": {
+                "source": "https://github.com/rebing/graphql-php/tree/master"
+            },
+            "time": "2016-11-14 21:52:46"
         }
     ],
     "packages-dev": [
@@ -1960,51 +2016,6 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
-        },
-        {
-            "name": "laravel/laravel",
-            "version": "v5.3.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/laravel.git",
-                "reference": "e0573e67e00ce172ef895862d14a81cd0ca2cadf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/laravel/zipball/e0573e67e00ce172ef895862d14a81cd0ca2cadf",
-                "reference": "e0573e67e00ce172ef895862d14a81cd0ca2cadf",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.3.*",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~5.0",
-                "symfony/css-selector": "3.1.*",
-                "symfony/dom-crawler": "3.1.*"
-            },
-            "type": "project",
-            "autoload": {
-                "classmap": [
-                    "database"
-                ],
-                "psr-4": {
-                    "App\\": "app/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The Laravel Framework.",
-            "keywords": [
-                "framework",
-                "laravel"
-            ],
-            "time": "2016-10-03 02:33:52"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3256,7 +3267,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "webonyx/graphql-php": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
