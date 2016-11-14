@@ -4,7 +4,6 @@ namespace Rebing\GraphQL\Support;
 
 use Rebing\GraphQL\Error\AuthorizationError;
 use Validator;
-use Request;
 use Illuminate\Support\Fluent;
 use Rebing\GraphQL\Error\ValidationError;
 
@@ -73,11 +72,6 @@ class Field extends Fluent {
                     }
                 }
             }
-
-            // Add pagination attributes to Request, if the exist
-            $args = $arguments[1];
-            if(isset($args['limit'])) Request::merge(['limit' => $args['limit']]);
-            if(isset($args['page'])) Request::merge(['page' => $args['page']]);
 
             // Replace the context argument with 'selects and relations'
             // $arguments[1] is direct args given with the query

@@ -860,13 +860,7 @@ class UserType extends GraphQLType {
 
 ### Pagination
 
-You can add a custom `pagination` array to Session and it will be returned with a query or mutation:
-
-```
-use Session;
-
-Session::put('pagination', ['total': 21, 'per_page': 10, ...]);
-```
+Pagination will be returned along with data.
 
 Query `users(limit:10,page:1){id}` might return
 
@@ -874,15 +868,17 @@ Query `users(limit:10,page:1){id}` might return
 {
     "data": {
         "users: [
-            {"id": 3},
-            {"id": 5},
-            ...
+            "data": [
+                {"id": 3},
+                {"id": 5},
+                ...
+            ],
+            "pagination": {
+                "total": 21,
+                "per_page": 10",
+                ...
+            }
         ]
-    },
-    "pagination": {
-        "total": 21,
-        "per_page": 10",
-        ...
     }
 }
 ```

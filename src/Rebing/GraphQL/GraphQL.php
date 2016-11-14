@@ -108,13 +108,6 @@ class GraphQL {
             $data['errors'] = array_map($errorFormatter, $executionResult->errors);
         }
 
-        // Add pagination meta data
-        $pagination = Session::get('pagination');
-        if($pagination)
-        {
-            $data['pagination'] = $pagination;
-        }
-
         return $data;
     }
     
