@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8d417c9d798f4251baa70fc29a438303",
-    "content-hash": "5bf8f7e008d2362a853a4d9aca02e1af",
+    "hash": "728b806ab827504492224d5155b989d1",
+    "content-hash": "fe8b81f6ae68cebbb9dcd6f13d81712c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1869,20 +1869,19 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "dev-master",
+            "version": "v0.7.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rebing/graphql-php.git",
-                "reference": "0ae1460483d8b86adb664bc29a075c3b4d1c9ebd"
+                "url": "https://github.com/webonyx/graphql-php.git",
+                "reference": "f91cbf3409ba0385b2d43b1692600efeda43d980"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rebing/graphql-php/zipball/0ae1460483d8b86adb664bc29a075c3b4d1c9ebd",
-                "reference": "0ae1460483d8b86adb664bc29a075c3b4d1c9ebd",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/f91cbf3409ba0385b2d43b1692600efeda43d980",
+                "reference": "f91cbf3409ba0385b2d43b1692600efeda43d980",
                 "shasum": ""
             },
             "require": {
-                "ext-mbstring": "*",
                 "php": ">=5.4,<8.0-DEV"
             },
             "require-dev": {
@@ -1904,7 +1903,7 @@
                 "api",
                 "graphql"
             ],
-            "time": "2016-11-12 14:48:43"
+            "time": "2016-09-16 09:48:07"
         }
     ],
     "packages-dev": [
@@ -3257,9 +3256,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "webonyx/graphql-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

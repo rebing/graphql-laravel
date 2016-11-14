@@ -27,16 +27,10 @@
     ],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-          "type": "vcs",
-          "url": "https://github.com/rebing/graphql-php"
-        }
-    ],
     "require": {
         "php": ">=5.5.9",
         "illuminate/support": "~5.1",
-        "webonyx/graphql-php": "dev-master"
+        "webonyx/graphql-php": "~0.7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5",
