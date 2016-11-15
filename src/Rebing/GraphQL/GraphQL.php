@@ -1,10 +1,9 @@
 <?php namespace Rebing\GraphQL;
 
+use GraphQL\Error\Error;
 use Rebing\GraphQL\Error\ValidationError;
-use GraphQL\Error;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Schema;
-use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use Session;
 
