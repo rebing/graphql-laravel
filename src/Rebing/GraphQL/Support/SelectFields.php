@@ -98,6 +98,12 @@ class SelectFields {
 
         foreach($requestedFields as $key => $field)
         {
+            // Ignore __typename, as it's a special case
+            if($key === '__typename')
+            {
+                continue;
+            }
+
             $fieldObject = $parentType->getField($key);
 
             // First check if the field is even accessible
