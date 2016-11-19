@@ -3,7 +3,7 @@
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\Type as GraphQLType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType {
@@ -14,7 +14,7 @@ class PaginationType extends ObjectType {
             'name'  => $typeName . '_pagination',
             'fields' => array_merge($this->getPaginationFields(), [
                 'data' => [
-                    'type' => Type::listOf(GraphQL::type($typeName)),
+                    'type' => GraphQLType::listOf(GraphQL::type($typeName)),
                 ],
             ])
         ];
@@ -26,27 +26,27 @@ class PaginationType extends ObjectType {
     {
         return [
             'total' => [
-                'type'          => Type::nonNull(Type::int()),
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of total items selected by the query',
                 'selectable'    => false,
             ],
             'per_page' => [
-                'type'          => Type::nonNull(Type::int()),
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of items returned per page',
                 'selectable'    => false,
             ],
             'current_page' => [
-                'type'          => Type::nonNull(Type::int()),
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Current page of the cursor',
                 'selectable'    => false,
             ],
             'from' => [
-                'type'          => Type::nonNull(Type::int()),
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of the first item returned',
                 'selectable'    => false,
             ],
             'to' => [
-                'type'          => Type::nonNull(Type::int()),
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of the last item returned',
                 'selectable'    => false,
             ],

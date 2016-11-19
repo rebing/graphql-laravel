@@ -119,7 +119,7 @@ class SelectFields {
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
                 // With
-                if(is_array($field))
+                elseif(is_array($field))
                 {
                     // Get the next parent type, so that 'with' queries could be made
                     // Both keys for the relation are required (e.g 'id' <-> 'user_id')
