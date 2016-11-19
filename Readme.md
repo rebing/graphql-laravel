@@ -860,24 +860,38 @@ class UserType extends GraphQLType {
 
 ### Pagination
 
-Pagination will be returned along with data.
+Pagination will be used, if a query or mutation returns a `PaginationType`:
 
-Query `users(limit:10,page:1){id}` might return
+```
+class PostsQuery extends Query {
+
+    public function type()
+    {
+        return GraphQL::paginate('posts');
+    }
+    
+    ...
+    
+    public function resolve($root, $args, SelectFields $fields)
+    {
+        return Post::with($fields->getRelations())->select($fields->getSelect())->paginate()->toArray();
+    }
+}
+```
+
+Query `posts(limit:10,page:1){data{id},total,per_page}` might return
 
 ```
 {
     "data": {
-        "users: [
+        "posts: [
             "data": [
                 {"id": 3},
                 {"id": 5},
                 ...
             ],
-            "pagination": {
-                "total": 21,
-                "per_page": 10",
-                ...
-            }
+            "total": 21,
+            "per_page": 10"
         ]
     }
 }

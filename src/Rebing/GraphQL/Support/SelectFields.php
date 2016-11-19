@@ -113,6 +113,11 @@ class SelectFields {
                 // Add a query, if it exists
                 $customQuery = array_get($fieldObject->config, 'query');
 
+                // Pagination
+                if(is_a($parentType, PaginationType::class))
+                {
+                    self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
+                }
                 // With
                 if(is_array($field))
                 {

@@ -5,6 +5,7 @@ use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Schema;
 use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Support\PaginationType;
 use Session;
 
 class GraphQL {
@@ -160,6 +161,11 @@ class GraphQL {
         $this->typesInstances[$name] = $instance;
         
         return $instance;
+    }
+
+    public function paginate($typeName)
+    {
+        return new PaginationType($typeName);
     }
     
     public static function formatError(Error $e)
