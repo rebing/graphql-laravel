@@ -163,9 +163,9 @@ class GraphQL {
         return $instance;
     }
 
-    public function paginate($typeName)
+    public function paginate($typeName, $customName = null)
     {
-        return new PaginationType($typeName);
+        return new PaginationType($typeName, $customName);
     }
     
     public static function formatError(Error $e)

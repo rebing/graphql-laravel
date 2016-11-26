@@ -8,10 +8,11 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType {
 
-    public function __construct($typeName)
+    public function __construct($typeName, $customName = null)
     {
+        $name = $customName ?: $typeName . '_pagination';
         $config = [
-            'name'  => $typeName . '_pagination',
+            'name'  => $name,
             'fields' => array_merge($this->getPaginationFields(), [
                 'data' => [
                     'type' => GraphQLType::listOf(GraphQL::type($typeName)),
