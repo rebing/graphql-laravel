@@ -27,7 +27,7 @@ Can also generate a documentation of your API with `$ php artisan graphql:genera
 ```json
 {
   "require": {
-    "Rebing/graphql": "^1.0"
+    "rebing/graphql-laravel": "^1.0"
   }
 }
 ```
