@@ -8,7 +8,8 @@ class GraphQLController extends Controller {
     public function query(Request $request)
     {
         // If a singular query was not found, it means the queries are in batch
-        $batch = $request->get('query') ? [$request->all()] : $request->all();
+        $isBatch = ! $request->has('query');
+        $batch = $isBatch ? $request->all() : [$request->all()];
 
         $completedQueries = [];
         $paramsKey = config('graphql.params_key');
@@ -27,7 +28,7 @@ class GraphQLController extends Controller {
             $completedQueries[] = app('graphql')->query($query, $params);
         }
 
-        return $completedQueries;
+        return $isBatch ? $completedQueries : $completedQueries[0];
     }
 
 }
