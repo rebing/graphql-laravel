@@ -42,12 +42,12 @@ class PaginationType extends ObjectType {
                 'selectable'    => false,
             ],
             'from' => [
-                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'type'          => GraphQLType::int(),
                 'description'   => 'Number of the first item returned',
                 'selectable'    => false,
             ],
             'to' => [
-                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'type'          => GraphQLType::int(),
                 'description'   => 'Number of the last item returned',
                 'selectable'    => false,
             ],
