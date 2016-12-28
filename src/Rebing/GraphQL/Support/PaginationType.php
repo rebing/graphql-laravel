@@ -15,7 +15,8 @@ class PaginationType extends ObjectType {
             'name'  => $name,
             'fields' => array_merge($this->getPaginationFields(), [
                 'data' => [
-                    'type' => GraphQLType::listOf(GraphQL::type($typeName)),
+                    'type'      => GraphQLType::listOf(GraphQL::type($typeName)),
+                    'resolve'   => function($data) { return $data->getCollection(); },
                 ],
             ])
         ];
