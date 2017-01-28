@@ -11,8 +11,6 @@ This package is compatible with Eloquent model (or any other data source). It al
 Custom **middleware** can be defined for each query/mutation. Queries return **types**, which can have custom **privacy** settings.
 The queried fields will have the option to be retrieved **dynamically** from the database with the help of the `SelectFields` class.
 
-Can also generate a documentation of your API with `$ php artisan graphql:generate-doc`
-
 ## Installation
 
 #### Dependencies:
@@ -71,7 +69,6 @@ config/graphql.php
 - [Creating a query](#creating-a-query)
 - [Creating a mutation](#creating-a-mutation)
 - [Adding validation to mutation](#adding-validation-to-mutation)
-- [Generate documentation](#generate-documentation)
 
 ##### Advanced Usage
 - [Authorization](#authorization)
@@ -444,13 +441,6 @@ When you execute a mutation, it will return the validation errors. Since GraphQL
 		]
 	}
 ```
-
-### Generating documentation
-
-Once you have created your queries, mutation, types and modified the configuration, run `$ php artisan grapqhl:generate-doc`. This will dynamically
-generate a documentation file of your current graph API in your root folder.
-
-[Check out an example doc](src/example/GraphQL-doc.md)
 
 ## Advanced usage
 
