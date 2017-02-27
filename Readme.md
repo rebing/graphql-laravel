@@ -80,6 +80,7 @@ config/graphql.php
 - [Custom field](#custom-field)
 - [Eager loading relationships](#eager-loading-relationships)
 - [Type relationship query](#type-relationship-query)
+- [Pagination](#pagination)
 
 ### Creating a query
 
