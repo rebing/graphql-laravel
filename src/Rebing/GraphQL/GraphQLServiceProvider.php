@@ -1,6 +1,5 @@
 <?php namespace Rebing\GraphQL;
 
-use Rebing\GraphQL\Commands\GenerateDocumentation;
 use Illuminate\Support\ServiceProvider;
 
 class GraphQLServiceProvider extends ServiceProvider
@@ -66,7 +65,6 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCommands();
         $this->registerGraphQL();
     }
 
@@ -76,17 +74,5 @@ class GraphQLServiceProvider extends ServiceProvider
         {
             return new GraphQL($app);
         });
-    }
-
-    public function registerCommands()
-    {
-        $this->app['command.graphql.generate'] = $this->app->share(
-            function()
-            {
-                return new GenerateDocumentation();
-            }
-        );
-
-        $this->commands('command.graphql.generate');
     }
 }
