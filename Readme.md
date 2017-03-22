@@ -25,7 +25,7 @@ The queried fields will have the option to be retrieved **dynamically** from the
 ```json
 {
   "require": {
-    "rebing/graphql-laravel": "^1.1.1"
+    "rebing/graphql-laravel": "^1.2"
   }
 }
 ```
