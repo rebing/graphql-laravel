@@ -125,7 +125,9 @@ class SelectFields {
                     // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                     $relation = call_user_func([app($parentType->config['model']), $key]);
                     // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
-                    $foreignKey = $relation->getForeignKey();
+                    $foreignKey = method_exists($relation, 'getForeignKey')
+                        ? $relation->getForeignKey()
+                        : $relation->getQualifiedForeignKeyName();
                     $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
                     if(is_a($relation, BelongsTo::class))
                     {
