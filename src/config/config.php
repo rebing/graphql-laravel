@@ -7,23 +7,29 @@ use example\Type\ExampleRelationType;
 use example\Type\ExampleType;
 
 return [
-    
+
     // The prefix for routes
     'prefix' => 'graphql',
-    
+
     // The routes to make GraphQL request. Either a string that will apply
     // to both query and mutation or an array containing the key 'query' and/or
     // 'mutation' with the according Route
     //
     // Example:
     //
+    // Same route for both query and mutation
+    //
+    // 'routes' => 'path/to/query/{graphql_schema?}',
+    //
+    // or define each route
+    //
     // 'routes' => [
-    //     'query' => '/query',
-    //     'mutation' => '/mutation'
+    //     'query' => 'query/{graphql_schema?}',
+    //     'mutation' => 'mutation/{graphql_schema?}',
     // ]
     //
-    'routes' => '/',
-    
+    'routes' => '{graphql_schema?}',
+
     // The controller to use in GraphQL request. Either a string that will apply
     // to both query and mutation or an array containing the key 'query' and/or
     // 'mutation' with the according Controller and method
@@ -35,36 +41,54 @@ return [
     //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => '\Rebing\GraphQL\GraphQLController@query',
+    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
-    
-    // The schema for query and/or mutation. It expects an array to provide
-    // both the 'query' fields and the 'mutation' fields. You can also
-    // provide directly an object GraphQL\Schema
+
+    // The name of the default schema used when no argument is provided
+    // to GraphQL::schema() or when the route is used without the graphql_schema
+    // parameter.
+    'schema' => 'default',
+
+    // The schemas for query and/or mutation. It expects an array of schemas to provide
+    // both the 'query' fields and the 'mutation' fields.
+    //
+    // You can also provide a middleware that will only apply to the given schema
     //
     // Example:
     //
-    // 'schema' => new Schema($queryType, $mutationType)
+    //  'schema' => 'default',
     //
-    // or
+    //  'schemas' => [
+    //      'default' => [
+    //          'query' => [
+    //              'users' => 'App\GraphQL\Query\UsersQuery'
+    //          ],
+    //          'mutation' => [
     //
-    // 'schema' => [
-    //     'query' => [
-    //          'users' => 'App\GraphQL\Query\UsersQuery'
+    //          ]
     //      ],
-    //     'mutation' => [
-    //          
-    //     ]
-    // ]
+    //      'user' => [
+    //          'query' => [
+    //              'profile' => 'App\GraphQL\Query\ProfileQuery'
+    //          ],
+    //          'mutation' => [
     //
-    'schema' => [
-        'query' => [
-            'example_query' => ExampleQuery::class,
-        ],
-        'mutation' => [
-            'example_mutation'  => ExampleMutation::class,
+    //          ],
+    //          'middleware' => ['auth'],
+    //      ]
+    //  ]
+    //
+    'schemas' => [
+        'default' => [
+            'query' => [
+                'example_query' => ExampleQuery::class,
+            ],
+            'mutation' => [
+                'example_mutation'  => ExampleMutation::class,
+            ],
+            'middleware' => []
         ],
     ],
     

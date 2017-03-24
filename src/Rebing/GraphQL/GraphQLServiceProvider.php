@@ -15,6 +15,18 @@ class GraphQLServiceProvider extends ServiceProvider
 
         $this->bootTypes();
 
+        $this->bootSchemas();
+
+        $this->bootRouter();
+    }
+
+    /**
+     * Bootstrap router
+     *
+     * @return void
+     */
+    protected function bootRouter()
+    {
         if(config('graphql.routes'))
         {
             include __DIR__.'/routes.php';
@@ -59,6 +71,19 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
+     * Add schemas from config
+     *
+     * @return void
+     */
+    protected function bootSchemas()
+    {
+        $configSchemas = config('graphql.schemas');
+        foreach ($configSchemas as $name => $schema) {
+            $this->app['graphql']->addSchema($name, $schema);
+        }
+    }
+
+    /**
      * Register any application services.
      *
      * @return void
@@ -75,4 +100,15 @@ class GraphQLServiceProvider extends ServiceProvider
             return new GraphQL($app);
         });
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['graphql'];
+    }
+
 }
