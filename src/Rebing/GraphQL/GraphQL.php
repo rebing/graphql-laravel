@@ -5,15 +5,16 @@ use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Schema;
 use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Events\SchemaAdded;
+use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
 use Session;
 
 class GraphQL {
     
     protected $app;
-    
-    protected $mutations = [];
-    protected $queries = [];
+
+    protected $schemas = [];
     protected $types = [];
     protected $typesInstances = [];
     
@@ -22,79 +23,68 @@ class GraphQL {
         $this->app = $app;
     }
 
-    public function schema()
+    public function schema($schema = null)
     {
-        $this->typesInstances = [];
-        
-        $schema = config('graphql.schema');
         if($schema instanceof Schema)
         {
             return $schema;
         }
-        
+
+        $this->typesInstances = [];
         foreach($this->types as $name => $type)
         {
             $this->type($name);
         }
-        
-        $configQuery = array_get($schema, 'query', []);
-        $configMutation = array_get($schema, 'mutation', []);
-        
-        if(is_string($configQuery))
-        {
-            $queryType = $this->app->make($configQuery)->toType();
+
+        $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
+
+        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
+            throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
-        else
-        {
-            $queryFields = array_merge($configQuery, $this->queries);
-            
-            $queryType = $this->buildTypeFromFields($queryFields, [
-                'name' => 'Query'
-            ]);
+
+        $schema = is_array($schema) ? $schema:$this->schemas[$schemaName];
+
+        $schemaQuery = array_get($schema, 'query', []);
+        $schemaMutation = array_get($schema, 'mutation', []);
+        $schemaTypes = array_get($schema, 'types', []);
+
+        //Get the types either from the schema, or the global types.
+        $types = [];
+        if (sizeof($schemaTypes)) {
+            foreach ($schemaTypes as $name => $type) {
+                $objectType = $this->objectType($type, is_numeric($name) ? []:[
+                    'name' => $name
+                ]);
+                $this->typesInstances[$name] = $objectType;
+                $types[] = $objectType;
+            }
+        } else {
+            foreach ($this->types as $name => $type) {
+                $types[] = $this->type($name);
+            }
         }
-        
-        if(is_string($configMutation))
-        {
-            $mutationType = $this->app->make($configMutation)->toType();
-        }
-        else
-        {
-            $mutationFields = array_merge($configMutation, $this->mutations);
-            
-            $mutationType = $this->buildTypeFromFields($mutationFields, [
-                'name' => 'Mutation'
-            ]);
-        }
-        
+
+        $query = $this->objectType($schemaQuery, [
+            'name' => 'Query'
+        ]);
+
+        $mutation = $this->objectType($schemaMutation, [
+            'name' => 'Mutation'
+        ]);
+
         return new Schema([
-            'query'     => $queryType,
-            'mutation'  => $mutationType,
+            'query'     => $query,
+            'mutation'  => !empty($schemaMutation) ? $mutation : null,
+            'types'     => $types
         ]);
     }
-    
-    protected function buildTypeFromFields($fields, $opts = [])
-    {
-        $typeFields = [];
-        foreach($fields as $key => $field)
-        {
-            if(is_string($field))
-            {
-                $typeFields[$key] = app($field)->toArray();
-            }
-            else
-            {
-                $typeFields[$key] = $field;
-            }
-        }
-        
-        return new ObjectType(array_merge([
-            'fields' => $typeFields
-        ], $opts));
-    }
 
-    public function query($query, $params = [])
+    /**
+     * @param array $opts - additional options, like 'schema', 'context' or 'operationName'
+     */
+    public function query($query, $params = [], $opts = [])
     {
-        $executionResult = $this->queryAndReturnResult($query, $params);
+        $executionResult = $this->queryAndReturnResult($query, $params, $opts);
 
         $data = [
             'data' => $executionResult->data,
@@ -111,23 +101,25 @@ class GraphQL {
         return $data;
     }
     
-    public function queryAndReturnResult($query, $params = [])
+    public function queryAndReturnResult($query, $params = [], $opts = [])
     {
-        $schema = $this->schema();
-        $result = GraphQLBase::executeAndReturnResult($schema, $query, null, null, $params);
+        $context = array_get($opts, 'context');
+        $schemaName = array_get($opts, 'schema');
+        $operationName = array_get($opts, 'operationName');
+
+        $schema = $this->schema($schemaName);
+
+        $result = GraphQLBase::executeAndReturnResult($schema, $query, null, $context, $params, $operationName);
         return $result;
     }
-    
-    public function addMutation($name, $mutator)
+
+    public function addTypes($types)
     {
-        $this->mutations[$name] = $mutator;
+        foreach ($types as $name => $type) {
+            $this->addType($type, is_numeric($name) ? null:$name);
+        }
     }
-    
-    public function addQuery($name, $query)
-    {
-        $this->queries[$name] = $query;
-    }
-    
+
     public function addType($class, $name = null)
     {
         if(!$name)
@@ -161,6 +153,119 @@ class GraphQL {
         $this->typesInstances[$name] = $instance;
         
         return $instance;
+    }
+
+    public function objectType($type, $opts = [])
+    {
+        // If it's already an ObjectType, just update properties and return it.
+        // If it's an array, assume it's an array of fields and build ObjectType
+        // from it. Otherwise, build it from a string or an instance.
+        $objectType = null;
+        if ($type instanceof ObjectType) {
+            $objectType = $type;
+            foreach ($opts as $key => $value) {
+                if (property_exists($objectType, $key)) {
+                    $objectType->{$key} = $value;
+                }
+                if (isset($objectType->config[$key])) {
+                    $objectType->config[$key] = $value;
+                }
+            }
+        } elseif (is_array($type)) {
+            $objectType = $this->buildObjectTypeFromFields($type, $opts);
+        } else {
+            $objectType = $this->buildObjectTypeFromClass($type, $opts);
+        }
+
+        return $objectType;
+    }
+
+    protected function buildObjectTypeFromClass($type, $opts = [])
+    {
+        if (!is_object($type)) {
+            $type = $this->app->make($type);
+        }
+
+        foreach ($opts as $key => $value) {
+            $type->{$key} = $value;
+        }
+
+        return $type->toType();
+    }
+
+    protected function buildObjectTypeFromFields($fields, $opts = [])
+    {
+        $typeFields = [];
+        foreach ($fields as $name => $field) {
+            if (is_string($field)) {
+                $field = $this->app->make($field);
+                $name = is_numeric($name) ? $field->name:$name;
+                $field->name = $name;
+                $field = $field->toArray();
+            } else {
+                $name = is_numeric($name) ? $field['name']:$name;
+                $field['name'] = $name;
+            }
+            $typeFields[$name] = $field;
+        }
+
+        return new ObjectType(array_merge([
+            'fields' => $typeFields
+        ], $opts));
+    }
+
+    public function addSchema($name, $schema)
+    {
+        $this->schemas[$name] = $schema;
+    }
+
+    public function clearType($name)
+    {
+        if (isset($this->types[$name])) {
+            unset($this->types[$name]);
+        }
+    }
+
+    public function clearSchema($name)
+    {
+        if (isset($this->schemas[$name])) {
+            unset($this->schemas[$name]);
+        }
+    }
+
+    public function clearTypes()
+    {
+        $this->types = [];
+    }
+
+    public function clearSchemas()
+    {
+        $this->schemas = [];
+    }
+
+    public function getTypes()
+    {
+        return $this->types;
+    }
+
+    public function getSchemas()
+    {
+        return $this->schemas;
+    }
+
+    protected function clearTypeInstances()
+    {
+        $this->typesInstances = [];
+    }
+
+    protected function getTypeName($class, $name = null)
+    {
+        if ($name) {
+            return $name;
+        }
+
+        $type = is_object($class) ? $class:$this->app->make($class);
+        return $type->name;
     }
 
     public function paginate($typeName, $customName = null)
