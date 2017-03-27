@@ -89,7 +89,7 @@ Schemas are required for defining GraphQL endpoints. You can define multiple sch
 in addition to the global middleware. For example:
 
 ```
-'schema' => 'default',
+'schema' => 'default_schema',
 
 'schemas' => [
     'default' => [
