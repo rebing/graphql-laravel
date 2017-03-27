@@ -31,7 +31,7 @@
         "php": ">=5.5.9",
         "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
         "webonyx/graphql-php": "~0.9.0",
-        "laravel/laravel": "^5.1"
+        "laravel/framework": "5.1.*|5.2.*|5.3.*|5.4.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5"
