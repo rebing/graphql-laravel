@@ -119,7 +119,6 @@ First you need to create a type. The Eloquent Model is only required, if specify
 **NB! The `selectable` key is required, if it's a non-database field or not a relation**
 
 ```php
-
 	namespace App\GraphQL\Type;
 	
 	use GraphQL\Type\Definition\Type;
@@ -168,7 +167,6 @@ First you need to create a type. The Eloquent Model is only required, if specify
 Add the type to the `config/graphql.php` configuration file
 
 ```php
-    
 	'types' => [
 		'user' => 'App\GraphQL\Type\UserType'
 	]
@@ -178,14 +176,12 @@ Add the type to the `config/graphql.php` configuration file
 You could also add the type with the `GraphQL` Facade, in a service provider for example.
 
 ```php
-    
 	GraphQL::addType('App\GraphQL\Type\UserType', 'user');
 
 ```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
-
 	namespace App\GraphQL\Query;
 	
 	use GraphQL;
@@ -235,7 +231,6 @@ Then you need to define a query that returns this type (or a list). You can also
 Add the query to the `config/graphql.php` configuration file
 
 ```php
-    
     'schemas' => [
 		'default' => [
 		    'query' => [
@@ -244,15 +239,6 @@ Add the query to the `config/graphql.php` configuration file
             // ...
 		]
 	]
-
-```
-
-Or using the `GraphQL` facade
-
-```php
-    
-    GraphQL::addQuery('App\GraphQL\Query\UsersQuery', 'users');
-
 ```
 
 And that's it. You should be able to query GraphQL with a request to the url `/graphql` (or anything you choose in your config). Try a GET request with the following `query` input
@@ -278,7 +264,6 @@ A mutation is like any other query, it accepts arguments (which will be used to 
 For example a mutation to update the password of a user. First you need to define the Mutation.
 
 ```php
-
 	namespace App\GraphQL\Mutation;
 	
 	use GraphQL;
@@ -328,22 +313,14 @@ As you can see in the `resolve` method, you use the arguments to update your mod
 You then add the muation to the `config/graphql.php` configuration file
 
 ```php
-    
-    'schema' => [
-		'mutation' => [
-			'updateUserPassword' => 'App\GraphQL\Mutation\UpdateUserPasswordMutation'
-		],
-		// ...
+    'schemas' => [
+		'default' => [
+		    'mutation' => [
+                'updateUserPassword' => 'App\GraphQL\Mutation\UpdateUserPasswordMutation'
+            ],
+            // ...
+		]
 	]
-
-```
-
-Or using the `GraphQL` facade
-
-```php
-    
-    GraphQL::addMutation('App\GraphQL\Mutation\UpdateUserPasswordMutation', 'updateUserPassword');
-
 ```
 
 You should then be able to use the following query on your endpoint to do the mutation.
@@ -369,7 +346,6 @@ It is possible to add validation rules to mutation. It uses the laravel `Validat
 When creating a mutation, you can add a method to define the validation rules that apply by doing the following:
 
 ```php
-
 	namespace App\GraphQL\Mutation;
 	
 	use GraphQL;
