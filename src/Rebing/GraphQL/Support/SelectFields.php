@@ -8,6 +8,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SelectFields {
 
@@ -129,7 +131,7 @@ class SelectFields {
                         ? $relation->getForeignKey()
                         : $relation->getQualifiedForeignKeyName();
                     $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
-                    if(is_a($relation, BelongsTo::class))
+                    if(is_a($relation, BelongsTo::class) || is_a($relation, MorphTo::class))
                     {
                         if( ! in_array($foreignKey, $select))
                         {
@@ -137,7 +139,7 @@ class SelectFields {
                         }
                     }
                     // If 'HasMany', then add it in the 'with'
-                    elseif(is_a($relation, HasMany::class))
+                    elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class))
                     {
                         $foreignKey = explode('.', $foreignKey)[2];
                         if( ! array_key_exists($foreignKey, $field))
