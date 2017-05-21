@@ -46,7 +46,7 @@ $ composer update
 
 **3-** Add the service provider to your `app/config/app.php` file
 ```php
-'Rebing\GraphQL\GraphQLServiceProvider',
+Rebing\GraphQL\GraphQLServiceProvider::class,
 ```
 
 **4-** Add the facade to your `app/config/app.php` file
