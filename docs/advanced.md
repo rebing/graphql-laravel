@@ -429,7 +429,7 @@ class PostsQuery extends Query {
     
     public function resolve($root, $args, SelectFields $fields)
     {
-        return Post::with($fields->getRelations())->select($fields->getSelect())->paginate()->toArray();
+        return Post::with($fields->getRelations())->select($fields->getSelect())->paginate();
     }
 }
 ```
