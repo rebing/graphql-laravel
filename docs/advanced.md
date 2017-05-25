@@ -415,7 +415,8 @@ class UserType extends GraphQLType {
 
 ### Pagination
 
-Pagination will be used, if a query or mutation returns a `PaginationType`:
+Pagination will be used, if a query or mutation returns a `PaginationType`. Note that you have to manually handle the 
+limit and page values:
 
 ```
 class PostsQuery extends Query {
@@ -429,7 +430,8 @@ class PostsQuery extends Query {
     
     public function resolve($root, $args, SelectFields $fields)
     {
-        return Post::with($fields->getRelations())->select($fields->getSelect())->paginate();
+        return Post::with($fields->getRelations())->select($fields->getSelect())
+            ->paginate($args['limit'], ['*'], 'page', $args['page']);
     }
 }
 ```
