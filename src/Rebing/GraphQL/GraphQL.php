@@ -11,13 +11,13 @@ use Rebing\GraphQL\Support\PaginationType;
 use Session;
 
 class GraphQL {
-    
+
     protected $app;
 
     protected $schemas = [];
     protected $types = [];
     protected $typesInstances = [];
-    
+
     public function __construct($app)
     {
         $this->app = $app;
@@ -100,7 +100,7 @@ class GraphQL {
 
         return $data;
     }
-    
+
     public function queryAndReturnResult($query, $params = [], $opts = [])
     {
         $context = array_get($opts, 'context');
@@ -125,33 +125,33 @@ class GraphQL {
         if(!$name)
         {
             $type = is_object($class) ? $class:app($class);
-            $name = $type->name;    
+            $name = $type->name;
         }
-        
+
         $this->types[$name] = $class;
     }
-    
+
     public function type($name, $fresh = false)
     {
         if(!isset($this->types[$name]))
         {
             throw new \Exception('Type '.$name.' not found.');
         }
-        
+
         if(!$fresh && isset($this->typesInstances[$name]))
         {
             return $this->typesInstances[$name];
         }
-        
+
         $type = $this->types[$name];
         if(!is_object($type))
         {
             $type = app($type);
         }
-        
+
         $instance = $type->toType();
         $this->typesInstances[$name] = $instance;
-        
+
         return $instance;
     }
 
@@ -270,15 +270,22 @@ class GraphQL {
 
     public function paginate($typeName, $customName = null)
     {
-        return new PaginationType($typeName, $customName);
+        $name = $customName ?: $typeName . '_pagination';
+
+        if(!isset($this->typesInstances[$name]))
+        {
+            $this->typesInstances[$name] = new PaginationType($typeName, $customName);
+        }
+
+        return $this->typesInstances[$name];
     }
-    
+
     public static function formatError(Error $e)
     {
         $error = [
             'message' => $e->getMessage()
         ];
-        
+
         $locations = $e->getLocations();
         if(!empty($locations))
         {
@@ -287,13 +294,13 @@ class GraphQL {
                 return $loc->toArray();
             }, $locations);
         }
-        
+
         $previous = $e->getPrevious();
         if($previous && $previous instanceof ValidationError)
         {
             $error['validation'] = $previous->getValidatorMessages();
         }
-        
+
         return $error;
     }
 }
