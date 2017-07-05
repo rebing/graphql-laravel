@@ -19,6 +19,8 @@ class SelectFields {
     private $select = [];
     /* @var $relations array */
     private $relations = [];
+    
+    const FOREIGN_KEY = 'foreignKey';
 
     /**
      * @param ResolveInfo $info
@@ -106,6 +108,13 @@ class SelectFields {
                 continue;
             }
 
+            // Always select foreign key
+            if ($field === self::FOREIGN_KEY)
+            {
+                self::addFieldToSelect($key, $select, $parentTable, false);
+                continue;
+            }
+
             $fieldObject = $parentType->getField($key);
 
             // First check if the field is even accessible
@@ -144,7 +153,7 @@ class SelectFields {
                         $foreignKey = explode('.', $foreignKey)[2];
                         if( ! array_key_exists($foreignKey, $field))
                         {
-                            $field[$foreignKey] = true;
+                            $field[$foreignKey] = self::FOREIGN_KEY;
                         }
                     }
 
