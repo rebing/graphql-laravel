@@ -3,6 +3,7 @@
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -119,7 +120,7 @@ class SelectFields {
             // If field doesn't exist on definition we don't select it
             try {
                 $fieldObject = $parentType->getField($key);
-            } catch (\Exception $e) {
+            } catch (InvariantViolation $e) {
                 continue;
             }
 
