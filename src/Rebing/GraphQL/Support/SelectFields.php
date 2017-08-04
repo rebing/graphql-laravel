@@ -3,6 +3,8 @@
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use GraphQL\Error\InvariantViolation;
+use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -115,7 +117,12 @@ class SelectFields {
                 continue;
             }
 
-            $fieldObject = $parentType->getField($key);
+            // If field doesn't exist on definition we don't select it
+            try {
+                $fieldObject = $parentType->getField($key);
+            } catch (InvariantViolation $e) {
+                continue;
+            }
 
             // First check if the field is even accessible
             $canSelect = self::validateField($fieldObject);
@@ -185,6 +192,14 @@ class SelectFields {
             {
                 self::addAlwaysFields($fieldObject, $select, $parentTable);
             }
+        }
+
+        // If parent type is an interface we select all fields
+        // because we don't know which other fields are required
+        // from types which implement this interface
+        if(is_a($parentType, InterfaceType::class))
+        {
+            $select = ['*'];
         }
     }
 
