@@ -5,6 +5,7 @@ namespace DummyNamespace;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
+use Rebing\GraphQL\Support\SelectFields;
 
 class DummyClass extends Mutation
 {
@@ -25,8 +26,11 @@ class DummyClass extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info)
+    public function resolve($root, $args, SelectFields $fields, ResolveInfo $info)
     {
+        $select = $fields->getSelect();
+        $with = $fields->getRelations();
+
         return [];
     }
 }
