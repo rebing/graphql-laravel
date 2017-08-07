@@ -91,6 +91,8 @@ class GraphQLServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerGraphQL();
+
+        $this->registerConsole();
     }
 
     public function registerGraphQL()
@@ -99,6 +101,18 @@ class GraphQLServiceProvider extends ServiceProvider
         {
             return new GraphQL($app);
         });
+    }
+
+    /**
+     * Register console commands
+     *
+     * @return void
+     */
+    public function registerConsole()
+    {
+        $this->commands(\Rebing\GraphQL\Console\TypeMakeCommand::class);
+        $this->commands(\Rebing\GraphQL\Console\QueryMakeCommand::class);
+        $this->commands(\Rebing\GraphQL\Console\MutationMakeCommand::class);
     }
 
     /**

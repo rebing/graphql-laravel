@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class DummyClass extends GraphQLType
+{
+    protected $attributes = [
+        'name' => 'DummyType',
+        'description' => 'A type'
+    ];
+
+    public function fields()
+    {
+        return [
+
+        ];
+    }
+}
