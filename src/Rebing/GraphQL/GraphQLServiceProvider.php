@@ -1,6 +1,9 @@
 <?php namespace Rebing\GraphQL;
 
 use Illuminate\Support\ServiceProvider;
+use Rebing\Console\MutationMakeCommand;
+use Rebing\Console\QueryMakeCommand;
+use Rebing\Console\TypeMakeCommand;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
@@ -110,9 +113,9 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function registerConsole()
     {
-        $this->commands(\Rebing\GraphQL\Console\TypeMakeCommand::class);
-        $this->commands(\Rebing\GraphQL\Console\QueryMakeCommand::class);
-        $this->commands(\Rebing\GraphQL\Console\MutationMakeCommand::class);
+        $this->commands(TypeMakeCommand::class);
+        $this->commands(QueryMakeCommand::class);
+        $this->commands(MutationMakeCommand::class);
     }
 
     /**

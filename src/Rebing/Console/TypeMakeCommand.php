@@ -1,6 +1,6 @@
 <?php
 
-namespace Rebing\GraphQL\Console;
+namespace Rebing\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
