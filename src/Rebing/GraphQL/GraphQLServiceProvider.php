@@ -1,9 +1,9 @@
 <?php namespace Rebing\GraphQL;
 
 use Illuminate\Support\ServiceProvider;
-use Rebing\Console\MutationMakeCommand;
-use Rebing\Console\QueryMakeCommand;
-use Rebing\Console\TypeMakeCommand;
+use Rebing\GraphQL\Console\MutationMakeCommand;
+use Rebing\GraphQL\Console\QueryMakeCommand;
+use Rebing\GraphQL\Console\TypeMakeCommand;
 
 class GraphQLServiceProvider extends ServiceProvider
 {

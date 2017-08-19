@@ -1,10 +1,10 @@
 <?php
 
-namespace Rebing\Console;
+namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
-class QueryMakeCommand extends GeneratorCommand
+class TypeMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,19 +12,19 @@ class QueryMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'make:graphql:query {name}';
+    protected $signature = 'make:graphql:type {name}';
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new GraphQL query class';
+    protected $description = 'Create a new GraphQL type class';
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Query';
+    protected $type = 'Type';
 
     /**
      * Get the stub file for the generator.
@@ -33,7 +33,7 @@ class QueryMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/query.stub';
+        return __DIR__ . '/stubs/type.stub';
     }
 
     /**
@@ -45,7 +45,7 @@ class QueryMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\GraphQL\Query';
+        return $rootNamespace . '\GraphQL\Type';
     }
 
     /**
@@ -74,7 +74,7 @@ class QueryMakeCommand extends GeneratorCommand
     {
         preg_match('/([^\\\]+)$/', $name, $matches);
         $stub = str_replace(
-            'DummyQuery',
+            'DummyType',
             $matches[1],
             $stub
         );
