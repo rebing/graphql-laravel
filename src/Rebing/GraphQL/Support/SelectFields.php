@@ -15,12 +15,14 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SelectFields {
 
-    /* @var $args array */
+    /** @var array */
     private static $args = [];
-    /* @var $select array */
+    /** @var array */
     private $select = [];
-    /* @var $relations array */
+    /** @var array */
     private $relations = [];
+    /** @var array */
+    private static $privacyValidations = [];
     
     const FOREIGN_KEY = 'foreignKey';
 
@@ -240,9 +242,22 @@ class SelectFields {
                 $selectable = null;
             }
             // If Privacy class given
-            elseif(call_user_func([app($privacyClass), 'fire'], self::$args) === false)
+            elseif(is_string($privacyClass))
             {
-                $selectable = null;
+                if(array_has(self::$privacyValidations, $privacyClass))
+                {
+                    $validated = self::$privacyValidations[$privacyClass];
+                }
+                else
+                {
+                    $validated = call_user_func([app($privacyClass), 'fire'], self::$args);
+                    self::$privacyValidations[$privacyClass] = $validated;
+                }
+
+                if( ! $validated)
+                {
+                    $selectable = null;
+                }
             }
         }
 
