@@ -8,13 +8,14 @@
 - [Type relationship query](#type-relationship-query)
 - [Pagination](#pagination)
 - [Batching](#batching)
+- [Enums](#enums)
 
 ### Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
 An example of Laravel's `'auth'` middleware:
 
-```
+```php
 use Auth;
 
 class UsersQuery extends Query
@@ -31,7 +32,7 @@ class UsersQuery extends Query
 
 Or we can make use of arguments passed via the graph query:
 
-```
+```php
 use Auth;
 
 class UsersQuery extends Query
@@ -54,7 +55,7 @@ class UsersQuery extends Query
 
 You can set custom privacy attributes for every Type's Field. If a field is not allowed, `null` will be returned. For example, if you want the user's email to only be accessible to themselves:
 
-```
+```php
 class UserType extends GraphQLType {
         
         ...
@@ -84,7 +85,7 @@ class UserType extends GraphQLType {
 
 or you can create a class that extends the abstract GraphQL Privacy class:
 
-```
+```php
 use Rebing\GraphQL\Support\Privacy;
 use Auth;
 
@@ -98,7 +99,7 @@ class MePrivacy extends Privacy {
 }
 ```
 
-```
+```php
 use MePrivacy;
 
 class UserType extends GraphQLType {
@@ -389,7 +390,7 @@ class PostType extends GraphQLType
 
 You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
 
-```
+```php
 class UserType extends GraphQLType {
 
     ...
@@ -420,7 +421,7 @@ class UserType extends GraphQLType {
 Pagination will be used, if a query or mutation returns a `PaginationType`. Note that you have to manually handle the 
 limit and page values:
 
-```
+```php
 class PostsQuery extends Query {
 
     public function type()
@@ -492,3 +493,59 @@ For systems sending multiple requests at once, this can really help performance 
 within a certain interval of time.
 
 There are tools that help with this and can handle the batching for you, e.g [Apollo](http://www.apollodata.com/)
+
+
+### Enums
+
+Enumeration types are a special kind of scalar that is restricted to a particular set of allowed values.
+Read more about Enums [here](http://graphql.org/learn/schema/#enumeration-types)
+
+First create an Enum as an extension of the GraphQLType class:
+```php
+// app/GraphQL/Enums/EpisodeEnum.php
+namespace App\GraphQL\Enums;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class EpisodeEnum extends GraphQLType {
+
+    protected $enumObject = true;
+
+    protected $attributes = [
+        'name' => 'Episode',
+        'description' => 'The types of demographic elements',
+        'values' => [
+            'NEWHOPE' => 'NEWHOPE',
+            'EMPIRE' => 'EMPIRE',
+            'JEDI' => 'JEDI',
+        ],
+    ];
+    
+}
+
+```
+Register the Enum in the 'types' array of the graphql.php config file:
+
+```php
+// config/graphql.php
+'types' => [
+    'EpisodeEnum' => EpisodeEnum::class
+];
+```
+
+Then use it like:
+```php
+// app/GraphQL/Type/TestType.php
+class TestType extends GraphQLType {
+
+   public function fields()
+   {
+        return [
+            'episode_type' => [
+                'type' => GraphQL::type('EpisodeEnum')
+            ]
+        ]
+   }
+   
+}
+```

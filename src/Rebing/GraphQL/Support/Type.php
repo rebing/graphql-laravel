@@ -2,6 +2,7 @@
 
 namespace Rebing\GraphQL\Support;
 
+use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Fluent;
@@ -11,7 +12,8 @@ class Type extends Fluent {
     protected static $instances = [];
     
     protected $inputObject = false;
-    
+    protected $enumObject = false;
+
     public function attributes()
     {
         return [];
@@ -114,6 +116,9 @@ class Type extends Fluent {
         if($this->inputObject)
         {
             return new InputObjectType($this->toArray());
+        }
+        if ($this->enumObject) {
+            return new EnumType($this->toArray());
         }
         return new ObjectType($this->toArray());
     }
