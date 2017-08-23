@@ -505,9 +505,10 @@ First create an Enum as an extension of the GraphQLType class:
 // app/GraphQL/Enums/EpisodeEnum.php
 namespace App\GraphQL\Enums;
 
-use RebingFolklore\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class EpisodeEnum extends GraphQLType {
+
     protected $enumObject = true;
 
     protected $attributes = [
@@ -519,6 +520,7 @@ class EpisodeEnum extends GraphQLType {
             'JEDI' => 'JEDI',
         ],
     ];
+    
 }
 
 ```
@@ -535,6 +537,7 @@ Then use it like:
 ```php
 // app/GraphQL/Type/TestType.php
 class TestType extends GraphQLType {
+
    public function fields()
    {
         return [
@@ -543,5 +546,6 @@ class TestType extends GraphQLType {
             ]
         ]
    }
+   
 }
 ```
