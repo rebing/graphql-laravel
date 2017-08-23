@@ -82,6 +82,7 @@ config/graphql.php
 - [Type relationship query](docs/advanced.md#type-relationship-query)
 - [Pagination](docs/advanced.md#pagination)
 - [Batching](docs/advanced.md#batching)
+- [Enums](docs/advanced.md#enums)
 
 ### Schemas
 
