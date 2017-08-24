@@ -369,7 +369,7 @@ When creating a mutation, you can add a method to define the validation rules th
 		{
 			return [
 				'id' => ['name' => 'id', 'type' => Type::string()],
-				'email' => ['name' => 'password', 'type' => Type::string()]
+				'email' => ['name' => 'email', 'type' => Type::string()]
 			];
 		}
 		
