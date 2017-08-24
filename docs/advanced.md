@@ -161,9 +161,9 @@ use Rebing\GraphQL\Support\Field;
 
 class PictureField extends Field {
         
-        protected $attributes = [
-            'description'   => 'A picture',
-        ];
+    protected $attributes = [
+        'description'   => 'A picture',
+    ];
 	
 	public function type()
 	{
@@ -230,6 +230,50 @@ class UserType extends GraphQLType {
 		];
 	}
 
+}
+
+```
+
+Also can send parameters to __construct if you need this
+
+```php
+
+namespace App\GraphQL\Type;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+use Rebing\GraphQL\Fields\DateField;
+
+class UserType extends GraphQLType {
+        
+        protected $attributes = [
+            'name'          => 'User',
+            'description'   => 'A user',
+            'model'         => UserModel::class,
+        ];
+    
+    public function fields()
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user'
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user'
+            ],
+            'created_at' => [
+                'field' => DateField::class,
+                'params' => ['field' => 'created_at', 'description' => 'The created_at of user'],
+            ],
+            'updated_at' => [
+                'field' => DateField::class,
+                'params' => ['field' => 'updated_at', 'description' => 'The updated_at of user'],
+            ],
+        ];
+    }
 }
 
 ```
