@@ -45,5 +45,15 @@
         "classmap": [
             "tests/"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rebing\\GraphQL\\GraphQLServiceProvider"
+            ],
+            "aliases": {
+                "GraphQL": "Rebing\\GraphQL\\Support\\Facades\\GraphQL"
+            }
+        }
     }
 }
