@@ -43,14 +43,14 @@ Route::group([
         if(preg_match($schemaParameterPattern, $queryRoute))
         {
             $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
-            Route::post(preg_replace($schemaParameterPattern, '', $queryRoute), [
+            Route::match(['get', 'post'], preg_replace($schemaParameterPattern, '', $queryRoute), [
                 'uses'          => $queryController,
                 'middleware'    => $defaultMiddleware,
             ]);
             
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::post(preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute), [
+                Route::match(['get', 'post'], preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute), [
                     'uses'          => $queryController,
                     'middleware'    => array_get($schema, 'middleware', []),
                 ])->where($name, $name);
@@ -58,7 +58,7 @@ Route::group([
         }
         else
         {
-            Route::get($queryRoute, [
+            Route::match(['get', 'post'], $queryRoute, [
                 'uses'  => $queryController
             ]);
         }
@@ -70,14 +70,14 @@ Route::group([
         if(preg_match($schemaParameterPattern, $mutationRoute))
         {
             $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
-            Route::post(preg_replace($schemaParameterPattern, '', $mutationRoute), [
+            Route::match(['get', 'post'], preg_replace($schemaParameterPattern, '', $mutationRoute), [
                 'uses'          => $mutationController,
                 'middleware'    => $defaultMiddleware,
             ]);
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::post(preg_replace($schemaParameterPattern, '{' . $name . '}', $mutationRoute), [
+                Route::match(['get', 'post'], preg_replace($schemaParameterPattern, '{' . $name . '}', $mutationRoute), [
                     'uses'          => $mutationController,
                     'middleware'    => array_get($schema, 'middleware', []),
                 ])->where($name, $name);
@@ -85,7 +85,7 @@ Route::group([
         }
         else
         {
-            Route::post($mutationRoute, [
+            Route::match(['get', 'post'], $mutationRoute, [
                 'uses'  => $mutationController
             ]);
         }
