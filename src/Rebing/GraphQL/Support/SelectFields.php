@@ -173,10 +173,6 @@ class SelectFields {
                         if( ! array_key_exists($foreignKey, $field))
                         {
                             $field[$foreignKey] = self::FOREIGN_KEY;
-                            if( ! in_array($foreignKey, $select))
-                            {
-                                $select[] = $foreignKey;
-                            }
                         }
                     }
 
