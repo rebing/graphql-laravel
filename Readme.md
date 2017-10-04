@@ -27,7 +27,7 @@ This package is compatible with Eloquent model (or any other data source).
 ```json
 {
   "require": {
-    "rebing/graphql-laravel": "~1.4"
+    "rebing/graphql-laravel": "~1.7"
   }
 }
 ```

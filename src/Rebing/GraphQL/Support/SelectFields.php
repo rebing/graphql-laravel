@@ -8,7 +8,6 @@ use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -23,7 +22,7 @@ class SelectFields {
     private $relations = [];
     /** @var array */
     private static $privacyValidations = [];
-    
+
     const FOREIGN_KEY = 'foreignKey';
 
     /**
@@ -33,7 +32,7 @@ class SelectFields {
      */
     public function __construct(ResolveInfo $info, $parentType, array $args)
     {
-        if( ! is_null($info->fieldASTs[0]->selectionSet))
+        if( ! is_null($info->fieldNodes[0]->selectionSet))
         {
             self::$args = $args;
 
@@ -145,21 +144,21 @@ class SelectFields {
                     // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                     $relation = call_user_func([app($parentType->config['model']), $key]);
                     // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
-                    if(method_exists($relation, 'getForeignKey')) 
+                    if(method_exists($relation, 'getForeignKey'))
                     {
                         $foreignKey = $relation->getForeignKey();
-                    } 
-                    else if(method_exists($relation, 'getQualifiedForeignPivotKeyName')) 
+                    }
+                    else if(method_exists($relation, 'getQualifiedForeignPivotKeyName'))
                     {
                         $foreignKey = $relation->getQualifiedForeignPivotKeyName();
-                    } 
-                    else 
+                    }
+                    else
                     {
                         $foreignKey = $relation->getQualifiedForeignKeyName();
                     }
-                    
+
                     $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
-                    
+
                     if(is_a($relation, BelongsTo::class) || is_a($relation, MorphTo::class))
                     {
                         if( ! in_array($foreignKey, $select))
@@ -174,8 +173,13 @@ class SelectFields {
                         if( ! array_key_exists($foreignKey, $field))
                         {
                             $field[$foreignKey] = self::FOREIGN_KEY;
+                            if( ! in_array($foreignKey, $select))
+                            {
+                                $select[] = $foreignKey;
+                            }
                         }
                     }
+
 
                     // New parent type, which is the relation
                     $newParentType = $parentType->getField($key)->config['type'];
