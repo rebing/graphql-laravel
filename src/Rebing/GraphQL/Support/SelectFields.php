@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Rebing\GraphQL\Support\ResultBagType;
 
 class SelectFields {
 
@@ -37,6 +38,7 @@ class SelectFields {
             self::$args = $args;
 
             $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
@@ -137,6 +139,11 @@ class SelectFields {
                 {
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
+                // Result bag
+                elseif(is_a($parentType, ResultBagType::class))
+                {
+                    self::handleFields($field, $fieldObject->config['type'], $select, $with);
+                }
                 // With
                 elseif(is_array($field))
                 {
@@ -175,7 +182,6 @@ class SelectFields {
                             $field[$foreignKey] = self::FOREIGN_KEY;
                         }
                     }
-
 
                     // New parent type, which is the relation
                     $newParentType = $parentType->getField($key)->config['type'];
