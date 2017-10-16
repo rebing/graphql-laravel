@@ -295,7 +295,10 @@ class SelectFields {
         elseif( ! $forRelation && ! in_array($field, $select))
         {
             $field = $parentTable ? ($parentTable . '.' . $field) : $field;
-            $select[] = $field;
+            if ( ! in_array($field, $select))
+            {
+                $select[] = $field;
+            }
         }
     }
 
