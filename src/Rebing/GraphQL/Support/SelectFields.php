@@ -140,49 +140,55 @@ class SelectFields {
                 // With
                 elseif(is_array($field))
                 {
-                    // Get the next parent type, so that 'with' queries could be made
-                    // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                    $relation = call_user_func([app($parentType->config['model']), $key]);
-                    // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
-                    if(method_exists($relation, 'getForeignKey'))
+                    if (isset($parentType->config['model']))
                     {
-                        $foreignKey = $relation->getForeignKey();
-                    }
-                    else if(method_exists($relation, 'getQualifiedForeignPivotKeyName'))
-                    {
-                        $foreignKey = $relation->getQualifiedForeignPivotKeyName();
+                        // Get the next parent type, so that 'with' queries could be made
+                        // Both keys for the relation are required (e.g 'id' <-> 'user_id')
+                        $relation = call_user_func([app($parentType->config['model']), $key]);
+                        // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
+                        if(method_exists($relation, 'getForeignKey'))
+                        {
+                            $foreignKey = $relation->getForeignKey();
+                        }
+                        else if(method_exists($relation, 'getQualifiedForeignPivotKeyName'))
+                        {
+                            $foreignKey = $relation->getQualifiedForeignPivotKeyName();
+                        }
+                        else
+                        {
+                            $foreignKey = $relation->getQualifiedForeignKeyName();
+                        }
+
+                        $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
+
+                        if(is_a($relation, BelongsTo::class) || is_a($relation, MorphTo::class))
+                        {
+                            if( ! in_array($foreignKey, $select))
+                            {
+                                $select[] = $foreignKey;
+                            }
+                        }
+                        // If 'HasMany', then add it in the 'with'
+                        elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class))
+                        {
+                            $foreignKey = explode('.', $foreignKey)[2];
+                            if( ! array_key_exists($foreignKey, $field))
+                            {
+                                $field[$foreignKey] = self::FOREIGN_KEY;
+                            }
+                        }
+
+                        // New parent type, which is the relation
+                        $newParentType = $parentType->getField($key)->config['type'];
+
+                        self::addAlwaysFields($fieldObject, $field, $parentTable, true);
+
+                        $with[$key] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
                     }
                     else
                     {
-                        $foreignKey = $relation->getQualifiedForeignKeyName();
+                        self::handleFields($field, $fieldObject->config['type'], $select, $with);
                     }
-
-                    $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
-
-                    if(is_a($relation, BelongsTo::class) || is_a($relation, MorphTo::class))
-                    {
-                        if( ! in_array($foreignKey, $select))
-                        {
-                            $select[] = $foreignKey;
-                        }
-                    }
-                    // If 'HasMany', then add it in the 'with'
-                    elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class))
-                    {
-                        $foreignKey = explode('.', $foreignKey)[2];
-                        if( ! array_key_exists($foreignKey, $field))
-                        {
-                            $field[$foreignKey] = self::FOREIGN_KEY;
-                        }
-                    }
-
-
-                    // New parent type, which is the relation
-                    $newParentType = $parentType->getField($key)->config['type'];
-
-                    self::addAlwaysFields($fieldObject, $field, $parentTable, true);
-
-                    $with[$key] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
                 }
                 // Select
                 else
@@ -295,7 +301,10 @@ class SelectFields {
         elseif( ! $forRelation && ! in_array($field, $select))
         {
             $field = $parentTable ? ($parentTable . '.' . $field) : $field;
-            $select[] = $field;
+            if ( ! in_array($field, $select))
+            {
+                $select[] = $field;
+            }
         }
     }
 
