@@ -38,7 +38,6 @@ class SelectFields {
 
             $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
 
-
             $this->select = $fields[0];
             $this->relations = $fields[1];
         }
