@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -169,7 +170,7 @@ class SelectFields {
                             }
                         }
                         // If 'HasMany', then add it in the 'with'
-                        elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class))
+                        elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class))
                         {
                             $foreignKey = explode('.', $foreignKey)[2];
                             if( ! array_key_exists($foreignKey, $field))
