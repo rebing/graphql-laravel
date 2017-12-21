@@ -416,7 +416,7 @@ Alternatively you can define rules with each args
 					'rules' => ['required']
 				],
 				'email' => [
-					'name' => 'password',
+					'name' => 'email',
 					'type' => Type::string(),
 					'rules' => ['required', 'email']
 				]
