@@ -61,10 +61,10 @@ class Field extends Fluent {
             // Validate mutation arguments
             if(method_exists($this, 'getRules'))
             {
-                $rules = call_user_func_array([$this, 'getRules'], $arguments);
+                $args = array_get($arguments, 1, []);
+                $rules = call_user_func_array([$this, 'getRules'], [$args]);
                 if(sizeof($rules))
                 {
-                    $args = array_get($arguments, 1, []);
                     $validator = Validator::make($args, $rules);
                     if($validator->fails())
                     {
@@ -148,5 +148,5 @@ class Field extends Fluent {
         $attributes = $this->getAttributes();
         return isset($attributes[$key]);
     }
-    
+
 }
