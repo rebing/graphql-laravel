@@ -50,11 +50,7 @@ Route::group([
             
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::match(
-                    [
-                        'get',
-                        'post'
-                    ],
+                Route::match(['get', 'post'],
                     Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
                     [
                         'uses'          => $queryController,
@@ -84,11 +80,7 @@ Route::group([
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::match(
-                    [
-                        'get',
-                        'post',
-                    ],
+                Route::match(['get', 'post'],
                     Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
                     [
                         'uses'          => $mutationController,
