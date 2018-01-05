@@ -77,7 +77,16 @@ return [
     //
     //          ],
     //          'middleware' => ['auth'],
-    //      ]
+    //      ],
+    //      'user/me' => [
+    //          'query' => [
+    //              'profile' => 'App\GraphQL\Query\MyProfileQuery'
+    //          ],
+    //          'mutation' => [
+    //
+    //          ],
+    //          'middleware' => ['auth'],
+    //      ],
     //  ]
     //
     'schemas' => [
