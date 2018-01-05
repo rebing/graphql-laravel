@@ -303,4 +303,31 @@ class GraphQL {
 
         return $error;
     }
+
+    /**
+     * Check if the schema expects a nest URI name and return the formatted version
+     * Eg. 'user/me'
+     * will open the query path /graphql/user/me
+     *
+     * @param $name
+     * @param $schemaParameterPattern
+     * @param $queryRoute
+     *
+     * @return mixed
+     */
+    public static function routeNameTransformer ($name, $schemaParameterPattern, $queryRoute) {
+        $multiLevelPath = explode('/', $name);
+        $routeName = null;
+
+        if (count($multiLevelPath) > 1) {
+            foreach ($multiLevelPath as $multiName) {
+                $routeName = !$routeName ? null : $routeName . '/';
+                $routeName =
+                    $routeName
+                    . preg_replace($schemaParameterPattern, '{' . $multiName . '}', $queryRoute);
+            }
+        }
+
+        return $routeName ?: preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute);
+    }
 }
