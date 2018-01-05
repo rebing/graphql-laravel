@@ -3,16 +3,16 @@
 namespace Rebing\GraphQL\Support;
 
 class Mutation extends Field {
-    
-    protected function rules()
+
+    protected function rules(array $args)
     {
         return [];
     }
-    
+
     public function getRules()
     {
         $arguments = func_get_args();
-        
+
         $rules = call_user_func_array([$this, 'rules'], $arguments);
         $argsRules = [];
         foreach($this->args() as $name => $arg)
@@ -29,8 +29,8 @@ class Mutation extends Field {
                 }
             }
         }
-        
+
         return array_merge($argsRules, $rules);
     }
-    
+
 }
