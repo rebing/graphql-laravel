@@ -4,7 +4,7 @@ namespace Rebing\GraphQL\Support;
 
 class Mutation extends Field {
 
-    protected function rules(array $args)
+    protected function rules(array $args = [])
     {
         return [];
     }
