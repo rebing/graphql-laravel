@@ -144,7 +144,7 @@ First you need to create a type. The Eloquent Model is only required, if specify
                     'type' => Type::string(),
                     'description' => 'The email of user',
                 ],
-                // Uses the 'scopeIsMe' function on our custom User model
+                // Uses the 'getIsMeAttribute' function on our custom User model
                 'isMe' => [
                     'type' => Type::boolean(),
                     'description' => 'True, if the queried user is the current user',
