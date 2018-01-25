@@ -113,9 +113,11 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function registerConsole()
     {
+        if (app()->environment('local', 'staging')) {
         $this->commands(TypeMakeCommand::class);
         $this->commands(QueryMakeCommand::class);
         $this->commands(MutationMakeCommand::class);
+        }
     }
 
     /**
