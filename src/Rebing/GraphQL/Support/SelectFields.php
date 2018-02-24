@@ -121,7 +121,11 @@ class SelectFields {
 
             // If field doesn't exist on definition we don't select it
             try {
-                $fieldObject = $parentType->getField($key);
+                if ($parentType instanceof \GraphQL\Type\Definition\ListOfType) {
+                    continue;
+                } else {
+                    $fieldObject = $parentType->getField($key);
+                }
             } catch (InvariantViolation $e) {
                 continue;
             }
