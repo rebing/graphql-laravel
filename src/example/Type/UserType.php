@@ -44,6 +44,11 @@ class UserType extends GraphQLType {
                 'type'          => Type::string(),
                 'description'   => 'Pin (ID code) of the user',
             ],
+            'registered_on'     =>  [
+                'type'          => Type::string(),
+                'description'   => 'Date of the user registration',
+                'aliasFor'      => 'created_at' // This field correspond to the created_at column in the model table
+            ]
 
             /* RELATIONS */
             'profile' => [
