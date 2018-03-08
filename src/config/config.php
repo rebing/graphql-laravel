@@ -126,5 +126,8 @@ return [
 
     // You can set the key, which will be used to retrieve the dynamic variables
     'params_key'    => 'params',
+
+    // Field attribute to change column name of a field
+    'column_name_attribute'  => 'aliasFor'
     
 ];

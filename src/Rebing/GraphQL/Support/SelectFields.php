@@ -198,6 +198,10 @@ class SelectFields {
                 // Select
                 else
                 {
+                    // If an alias for the field is set, use it as DB column
+                    $columnNameProperty = config('graphql.column_name_attribute');
+                    $key = isset($fieldObject->config[$columnNameProperty]) ? $fieldObject->config[$columnNameProperty] : $key;
+
                     self::addFieldToSelect($key, $select, $parentTable, false);
 
                     self::addAlwaysFields($fieldObject, $select, $parentTable);
