@@ -31,6 +31,7 @@ class UserType extends GraphQLType {
             'avatar' => [
                 'type'          => Type::string(),
                 'description'   => 'Avatar (picture) of the user',
+                'alias'         => 'display_picture', // Column name in database
             ],
             'cover' => [
                 'type'          => Type::string(),

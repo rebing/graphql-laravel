@@ -198,6 +198,10 @@ class SelectFields {
                 // Select
                 else
                 {
+                    $key = isset($fieldObject->config['alias'])
+                        ? $fieldObject->config['alias']
+                        : $key;
+
                     self::addFieldToSelect($key, $select, $parentTable, false);
 
                     self::addAlwaysFields($fieldObject, $select, $parentTable);
