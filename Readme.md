@@ -139,6 +139,7 @@ First you need to create a type. The Eloquent Model is only required, if specify
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
                     'description' => 'The id of the user',
+                    'alias' => 'user_id', // Use 'alias', if the database column is different from the type name
                 ],
                 'email' => [
                     'type' => Type::string(),
