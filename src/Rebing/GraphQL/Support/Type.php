@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Support;
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\UnionType;
 use Illuminate\Support\Fluent;
 
 class Type extends Fluent {
@@ -13,6 +14,7 @@ class Type extends Fluent {
     
     protected $inputObject = false;
     protected $enumObject = false;
+    protected $unionType = false;
 
     public function attributes()
     {
@@ -25,6 +27,11 @@ class Type extends Fluent {
     }
     
     public function interfaces()
+    {
+        return [];
+    }
+
+    public function types()
     {
         return [];
     }
@@ -86,6 +93,7 @@ class Type extends Fluent {
     {
         $attributes = $this->attributes();
         $interfaces = $this->interfaces();
+        $types = $this->types();
         
         $attributes = array_merge($this->attributes, [
             'fields' => function () {
@@ -96,6 +104,15 @@ class Type extends Fluent {
         if(sizeof($interfaces))
         {
             $attributes['interfaces'] = $interfaces;
+        }
+
+        if (sizeof($types)) {
+            $attributes['types'] = $types;
+
+            if(method_exists($this, 'resolveType'))
+            {
+                $attributes['resolveType'] = [$this, 'resolveType'];
+            }
         }
         
         return $attributes;
@@ -119,6 +136,9 @@ class Type extends Fluent {
         }
         if ($this->enumObject) {
             return new EnumType($this->toArray());
+        }
+        if ($this->unionType) {
+            return new UnionType($this->toArray());
         }
         return new ObjectType($this->toArray());
     }

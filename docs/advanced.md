@@ -9,6 +9,7 @@
 - [Pagination](#pagination)
 - [Batching](#batching)
 - [Enums](#enums)
+- [Unions](#unions)
 
 ### Authorization
 
@@ -548,4 +549,41 @@ class TestType extends GraphQLType {
    }
    
 }
+```
+
+
+### Unions
+
+```php
+// app/GraphQL/Unions/SearchResultUnion.php
+namespace App\GraphQL\Unions;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class SearchResultUnion extends GraphQLType {
+
+    protected $unionType = true;
+
+    protected $attributes = [
+        'name' => 'SearchResult',
+    ];
+
+    public function types()
+    {
+        return [
+            \GraphQL::type('Post'),
+            \GraphQL::type('Episode'),
+        ];
+    }
+
+    public function resolveType($value)
+    {
+        if ($value instanceof Post) {
+            return \GraphQL::type('Post');
+        } elseif ($value instanceof Episode) {
+            return \GraphQL::type('Episode');
+        }
+    }
+}
+
 ```
