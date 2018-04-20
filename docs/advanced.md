@@ -9,6 +9,7 @@
 - [Pagination](#pagination)
 - [Batching](#batching)
 - [Enums](#enums)
+- [Unions](#unions)
 - [Interfaces](#interfaces)
 
 ### Authorization
@@ -550,6 +551,48 @@ class TestType extends GraphQLType {
    
 }
 ```
+
+
+### Unions
+
+A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
+
+It's useful if you need to return unrelated types in the same Query. For example when implementing a search for multiple different entities.
+
+Example for defining a UnionType:
+
+```php
+// app/GraphQL/Unions/SearchResultUnion.php
+namespace App\GraphQL\Unions;
+
+use Rebing\GraphQL\Support\UnionType;
+
+class SearchResultUnion extends UnionType {
+
+    protected $attributes = [
+        'name' => 'SearchResult',
+    ];
+
+    public function types()
+    {
+        return [
+            \GraphQL::type('Post'),
+            \GraphQL::type('Episode'),
+        ];
+    }
+
+    public function resolveType($value)
+    {
+        if ($value instanceof Post) {
+            return \GraphQL::type('Post');
+        } elseif ($value instanceof Episode) {
+            return \GraphQL::type('Episode');
+        }
+    }
+}
+
+```
+
 
 ### Interfaces
 
