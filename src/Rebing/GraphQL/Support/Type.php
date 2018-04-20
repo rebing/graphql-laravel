@@ -3,6 +3,7 @@
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\EnumType;
+use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Fluent;
@@ -62,6 +63,10 @@ class Type extends Fluent {
                 $field = app($field);
                 $field->name = $name;
                 $allFields[$name] = $field->toArray();
+            }
+            elseif ($field instanceof FieldDefinition)
+            {
+                $allFields[$field->name] = $field;
             }
             else
             {

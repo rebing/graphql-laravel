@@ -83,6 +83,7 @@ config/graphql.php
 - [Pagination](docs/advanced.md#pagination)
 - [Batching](docs/advanced.md#batching)
 - [Enums](docs/advanced.md#enums)
+- [Interfaces](docs/advanced.md#interfaces)
 
 ### Schemas
 
