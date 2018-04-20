@@ -84,6 +84,7 @@ config/graphql.php
 - [Batching](docs/advanced.md#batching)
 - [Enums](docs/advanced.md#enums)
 - [Unions](docs/advanced.md#unions)
+- [Interfaces](docs/advanced.md#interfaces)
 
 ### Schemas
 
