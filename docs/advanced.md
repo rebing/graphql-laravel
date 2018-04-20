@@ -554,15 +554,19 @@ class TestType extends GraphQLType {
 
 ### Unions
 
+A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
+
+It's useful if you need to return unrelated types in the same Query. For example when implementing a search for multiple different entities.
+
+Example for defining a UnionType:
+
 ```php
 // app/GraphQL/Unions/SearchResultUnion.php
 namespace App\GraphQL\Unions;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\UnionType;
 
-class SearchResultUnion extends GraphQLType {
-
-    protected $unionType = true;
+class SearchResultUnion extends UnionType {
 
     protected $attributes = [
         'name' => 'SearchResult',
