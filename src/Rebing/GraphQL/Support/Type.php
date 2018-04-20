@@ -31,11 +31,6 @@ class Type extends Fluent {
         return [];
     }
 
-    public function types()
-    {
-        return [];
-    }
-    
     protected function getFieldResolver($name, $field)
     {
         if(isset($field['resolve']))
@@ -93,7 +88,6 @@ class Type extends Fluent {
     {
         $attributes = $this->attributes();
         $interfaces = $this->interfaces();
-        $types = $this->types();
         
         $attributes = array_merge($this->attributes, [
             'fields' => function () {
@@ -106,15 +100,6 @@ class Type extends Fluent {
             $attributes['interfaces'] = $interfaces;
         }
 
-        if (sizeof($types)) {
-            $attributes['types'] = $types;
-
-            if(method_exists($this, 'resolveType'))
-            {
-                $attributes['resolveType'] = [$this, 'resolveType'];
-            }
-        }
-        
         return $attributes;
     }
 
@@ -136,9 +121,6 @@ class Type extends Fluent {
         }
         if ($this->enumObject) {
             return new EnumType($this->toArray());
-        }
-        if ($this->unionType) {
-            return new UnionType($this->toArray());
         }
         return new ObjectType($this->toArray());
     }
