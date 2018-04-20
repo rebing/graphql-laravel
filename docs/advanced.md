@@ -9,6 +9,7 @@
 - [Pagination](#pagination)
 - [Batching](#batching)
 - [Enums](#enums)
+- [Interfaces](#interfaces)
 
 ### Authorization
 
@@ -547,5 +548,142 @@ class TestType extends GraphQLType {
         ]
    }
    
+}
+```
+
+### Interfaces
+
+You can use interfaces to abstract a set of fields. Read more about Interfaces [here](http://graphql.org/learn/schema/#interfaces)
+
+An implementation of an interface:
+
+```php
+<?php
+// app/GraphQL/Interfaces/CharacterInterface.php
+namespace App\GraphQL\Interfaces;
+
+use GraphQL;
+use Rebing\GraphQL\Support\InterfaceType;
+use GraphQL\Type\Definition\Type;
+
+class CharacterInterface extends InterfaceType {
+    protected $attributes = [
+        'name' => 'Character',
+        'description' => 'Character interface.',
+    ];
+
+    public function fields()
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the character.'
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the character has an appearance.'
+            ],
+        ];
+    }
+
+    public function resolveType($root)
+    {
+        // Use the resolveType to resolve the Type which is implemented trough this interface
+        $type = $root['type'];
+        if ($type === 'human') {
+            return GraphQL::type('Human');
+        } else if  ($type === 'droid') {
+            return GraphQL::type('Droid');
+        }
+    }
+}
+```
+
+A Type that implements an interface:
+
+```php
+<?php
+// app/GraphQL/Types/HumanType.php
+namespace App\GraphQL\Types;
+
+use GraphQL;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+use GraphQL\Type\Definition\Type;
+
+class HumanType extends GraphQLType {
+
+    protected $attributes = [
+        'name' => 'Human',
+        'description' => 'A human.'
+    ];
+
+    public function fields()
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the human.',
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the human has an appearance.'
+            ],
+            'totalCredits' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The total amount of credits this human owns.'
+            ]
+        ];
+    }
+
+    public function interfaces()
+    {
+        return [
+            GraphQL::type('Character')
+        ];
+    }
+}
+```
+
+#### Sharing Interface fields
+
+Since you often have to repeat many of the field definitons of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
+You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
+
+With this you could write the `fields` method of your `HumanType` class like this:
+
+
+```php
+public function fields()
+{
+    $interface = GraphQL::type('Character');
+
+    return [
+        $interface->getField('id'),
+        $interface->getField('name'),
+        $interface->getField('appearsIn'),
+
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ];
+}
+```
+
+Or by using the `getFields` method:
+
+```php
+public function fields()
+{
+    $interface = GraphQL::type('Character');
+
+    return array_merge($interface->getFields(), [
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ]);
 }
 ```
