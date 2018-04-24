@@ -4,6 +4,10 @@ use Illuminate\Support\ServiceProvider;
 use Rebing\GraphQL\Console\MutationMakeCommand;
 use Rebing\GraphQL\Console\QueryMakeCommand;
 use Rebing\GraphQL\Console\TypeMakeCommand;
+use GraphQL\Validator\DocumentValidator;
+use GraphQL\Validator\Rules\DisableIntrospection;
+use GraphQL\Validator\Rules\QueryComplexity;
+use GraphQL\Validator\Rules\QueryDepth;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
@@ -87,6 +91,35 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
+     * Configure security from config
+     *
+     * @return void
+     */
+    protected function applySecurityRules()
+    {
+        $maxQueryComplexity = config('graphql.security.query_max_complexity');
+        if ($maxQueryComplexity !== null) {
+            /** @var QueryComplexity $queryComplexity */
+            $queryComplexity = DocumentValidator::getRule('QueryComplexity');
+            $queryComplexity->setMaxQueryComplexity($maxQueryComplexity);
+        }
+
+        $maxQueryDepth = config('graphql.security.query_max_depth');
+        if ($maxQueryDepth !== null) {
+            /** @var QueryDepth $queryDepth */
+            $queryDepth = DocumentValidator::getRule('QueryDepth');
+            $queryDepth->setMaxQueryDepth($maxQueryDepth);
+        }
+
+        $disableIntrospection = config('graphql.security.disable_introspection');
+        if ($disableIntrospection === true) {
+            /** @var DisableIntrospection $disableIntrospection */
+            $disableIntrospection = DocumentValidator::getRule('DisableIntrospection');
+            $disableIntrospection->setEnabled(DisableIntrospection::ENABLED);
+        }
+    }
+
+    /**
      * Register any application services.
      *
      * @return void
@@ -102,7 +135,11 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $this->app->singleton('graphql', function($app)
         {
-            return new GraphQL($app);
+            $graphql = new GraphQL($app);
+
+            $this->applySecurityRules();
+
+            return $graphql;
         });
     }
 
