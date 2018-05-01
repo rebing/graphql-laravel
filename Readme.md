@@ -74,6 +74,7 @@ config/graphql.php
 - [Adding validation to mutation](#adding-validation-to-mutation)
 
 ##### Advanced Usage
+
 - [Authorization](docs/advanced.md#authorization)
 - [Privacy](docs/advanced.md#privacy)
 - [Query variables](docs/advanced.md#query-variables)
@@ -457,3 +458,16 @@ When you execute a mutation, it will return the validation errors. Since GraphQL
 		]
 	}
 ```
+
+### Advnaced usage
+- [Authorization](docs/advanced.md#authorization)
+- [Privacy](docs/advanced.md#privacy)
+- [Query variables](docs/advanced.md#query-variables)
+- [Custom field](docs/advanced.md#custom-field)
+- [Eager loading relationships](docs/advanced.md#eager-loading-relationships)
+- [Type relationship query](docs/advanced.md#type-relationship-query)
+- [Pagination](docs/advanced.md#pagination)
+- [Batching](docs/advanced.md#batching)
+- [Enums](docs/advanced.md#enums)
+- [Unions](docs/advanced.md#unions)
+- [Interfaces](docs/advanced.md#interfaces)
