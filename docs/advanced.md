@@ -118,7 +118,7 @@ class UserType extends GraphQLType {
                 'email' => [
                     'type'          => Type::string(),
                     'description'   => 'The email of user',
-                    'privacy'       => MePrivacy::validate(),
+                    'privacy'       => MePrivacy::class,
                 ]
             ];
         }
