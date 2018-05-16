@@ -6,6 +6,9 @@ use Rebing\GraphQL\Error\AuthorizationError;
 use Validator;
 use Illuminate\Support\Fluent;
 use Rebing\GraphQL\Error\ValidationError;
+use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\WrappingType;
 
 class Field extends Fluent {
 
@@ -50,16 +53,74 @@ class Field extends Fluent {
             {
                 if(is_callable($arg['rules']))
                 {
-                    $argsRules[$name] = call_user_func_array($arg['rules'], $arguments);
+                    $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
                 }
                 else
                 {
                     $argsRules[$name] = $arg['rules'];
                 }
             }
+
+            if (isset($arg['type'])) {
+                $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
+            }
         }
 
         return array_merge($argsRules, $rules);
+    }
+
+    public function resolveRules($rules, $arguments)
+    {
+        if (is_callable($rules)) {
+            return call_user_func_array($rules, $arguments);
+        }
+
+        return $rules;
+    }
+
+    public function inferRulesFromType($type, $prefix, $resolutionArguments)
+    {
+        $rules = [];
+
+        // if it is an array type, add an array validation component
+        if ($type instanceof ListOfType) {
+            $prefix = "{$prefix}.*";
+        }
+
+        // make sure we are dealing with the actual type
+        if ($type instanceof WrappingType) {
+            $type = $type->getWrappedType();
+        }
+
+        // if it is an input object type - the only type we care about here...
+        if ($type instanceof InputObjectType) {
+            // merge in the input type's rules
+            $rules = array_merge($rules, $this->getInputTypeRules($type, $prefix, $resolutionArguments));
+        }
+
+        // Ignore scalar types
+
+        return $rules;
+    }
+
+    public function getInputTypeRules(InputObjectType $input, $prefix, $resolutionArguments)
+    {
+        $rules = [];
+
+        foreach ($input->getFields() as $name => $field) {
+            $key = "{$prefix}.{$name}";
+
+            // get any explicitly set rules
+            if (isset($field->rules)) {
+                $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
+            }
+
+            // then recursively call the parent method to see if this is an
+            // input object, passing in the new prefix
+            $rules = array_merge($rules, $this->inferRulesFromType($field->type, $key, $resolutionArguments));
+        }
+
+        return $rules;
     }
 
     protected function getResolver()
