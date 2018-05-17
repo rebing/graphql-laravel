@@ -315,7 +315,7 @@ For example, a mutation to update the password of a user. First you need to defi
 
 As you can see in the `resolve` method, you use the arguments to update your model and return it.
 
-You should then add the muation to the `config/graphql.php` configuration file:
+You should then add the mutation to the `config/graphql.php` configuration file:
 
 ```php
     'schemas' => [
