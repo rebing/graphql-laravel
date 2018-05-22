@@ -72,6 +72,7 @@ config/graphql.php
 - [Creating a query](#creating-a-query)
 - [Creating a mutation](#creating-a-mutation)
 - [Adding validation to mutation](#adding-validation-to-mutation)
+- [File uploads](#file-uploads)
 
 ##### Advanced Usage
 
@@ -456,6 +457,55 @@ When you execute a mutation, it will return any validation errors that occur. Si
 				}
 			}
 		]
+	}
+```
+
+#### File uploads
+
+For uploading new files just use `UploadType`. This support of uploading files is base on https://github.com/jaydenseric/graphql-multipart-request-spec
+so you have to upload them as multipart form:
+
+**WARNING:** when you are uploading files, Laravel will use FormRequest - it means that middlewares which are changing request, will not have
+any effect...
+
+
+```php
+
+	use GraphQL;
+	use GraphQL\Type\Definition\Type;
+	use Rebing\GraphQL\Support\UploadType;
+	use Rebing\GraphQL\Support\Mutation;
+
+	class UserProfilePhotoMutation extends Mutation
+	{
+
+		protected $attributes = [
+			'name' => 'UpdateUserProfilePhoto'
+		];
+		
+		public function type()
+		{
+			return GraphQL::type('user');
+		}
+		
+		public function args()
+		{
+			return [
+				'profilePicture' => [
+					'name' => 'profilePicture',
+					'type' => new UploadType(),    // <-- Here is used new type
+					'rules' => ['required', 'image', 'max:1500'],
+				],
+			];
+		}
+		
+		public function resolve($root, $args)
+		{
+			$file = $args['profilePicture'];
+
+			// Do something with file here...
+		}
+
 	}
 ```
 
