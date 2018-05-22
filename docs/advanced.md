@@ -27,7 +27,7 @@ class UsersQuery extends Query
         // true, if logged in
         return ! Auth::guest();
     }
-    
+
     ...
 }
 ```
@@ -45,13 +45,33 @@ class UsersQuery extends Query
         {
             return Auth::id() == $args['id'];
         }
-        
+
         return true;
     }
-    
+
     ...
 }
 ```
+
+If you want to prevent unauthorized queries and mutations from being listed
+in the documentation introspection, you may set `authorize_before_introspection`:
+
+```php
+'schemas' => [
+    'default' => [
+        'authorize_before_introspection' => true,
+        'query' => [
+            'orders' => 'App\GraphQL\Query\OrdersQuery'
+        ],
+        'mutation' => [
+            'createOrder' => 'App\GraphQL\Mutation\CreateOrderMutation'
+        ],
+        'middleware' => ['auth'],
+    ],
+```
+
+However, note that the types used by the unlisted query or mutation will still
+be listed.
 
 ### Privacy
 
@@ -59,9 +79,9 @@ You can set custom privacy attributes for every Type's Field. If a field is not 
 
 ```php
 class UserType extends GraphQLType {
-        
+
         ...
-		
+
         public function fields()
         {
             return [
@@ -79,9 +99,9 @@ class UserType extends GraphQLType {
                 ]
             ];
         }
-            
+
         ...
-        
+
     }
 ```
 
@@ -105,9 +125,9 @@ class MePrivacy extends Privacy {
 use MePrivacy;
 
 class UserType extends GraphQLType {
-        
+
         ...
-		
+
         public function fields()
         {
             return [
@@ -122,9 +142,9 @@ class UserType extends GraphQLType {
                 ]
             ];
         }
-            
+
         ...
-        
+
     }
 ```
 
@@ -133,7 +153,7 @@ class UserType extends GraphQLType {
 GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:
 
 ```
-    query FetchUserByID($id: String) 
+    query FetchUserByID($id: String)
     {
         user(id: $id) {
             id
@@ -157,21 +177,21 @@ You can also define a field as a class if you want to reuse it in multiple types
 ```php
 
 namespace App\GraphQL\Fields;
-	
+
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class PictureField extends Field {
-        
+
         protected $attributes = [
             'description'   => 'A picture',
         ];
-	
+
 	public function type()
 	{
 		return Type::string();
 	}
-		
+
 	public function args()
 	{
 		return [
@@ -185,14 +205,14 @@ class PictureField extends Field {
 			]
 		];
 	}
-	
+
 	protected function resolve($root, $args)
 	{
 		$width = isset($args['width']) ? $args['width']:100;
 		$height = isset($args['height']) ? $args['height']:100;
 		return 'http://placehold.it/'.$width.'x'.$height;
 	}
-        
+
 }
 
 ```
@@ -209,13 +229,13 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 use App\GraphQL\Fields\PictureField;
 
 class UserType extends GraphQLType {
-        
+
         protected $attributes = [
             'name'          => 'User',
             'description'   => 'A user',
             'model'         => UserModel::class,
         ];
-	
+
 	public function fields()
 	{
 		return [
@@ -245,13 +265,13 @@ Your Query would look like
 
 ```php
 	namespace App\GraphQL\Query;
-	
+
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use GraphQL\Type\Definition\ResolveInfo;
 	use Rebing\GraphQL\Support\SelectFields;
 	use Rebing\GraphQL\Support\Query;
-	
+
 	use App\User;
 
 	class UsersQuery extends Query
@@ -272,16 +292,16 @@ Your Query would look like
 				'email' => ['name' => 'email', 'type' => Type::string()]
 			];
 		}
-        
+
 		public function resolve($root, $args, SelectFields $fields, ResolveInfo $info)
 		{
 		    // $info->getFieldSelection($depth = 3);
-		    
+
 			$select = $fields->getSelect();
 			$with = $fields->getRelations();
-			
+
 			$users = User::select($select)->with($with);
-			
+
 			return $users->get();
 		}
 	}
@@ -396,13 +416,13 @@ You can also specify the `query` that will be included with a relationship via E
 class UserType extends GraphQLType {
 
     ...
-    
+
     public function fields()
     {
         return [
-            
+
             ...
-            
+
             // Relation
             'posts' => [
                 'type'          => Type::listOf(GraphQL::type('post')),
@@ -420,7 +440,7 @@ class UserType extends GraphQLType {
 
 ### Pagination
 
-Pagination will be used, if a query or mutation returns a `PaginationType`. Note that you have to manually handle the 
+Pagination will be used, if a query or mutation returns a `PaginationType`. Note that you have to manually handle the
 limit and page values:
 
 ```php
@@ -430,9 +450,9 @@ class PostsQuery extends Query {
     {
         return GraphQL::paginate('posts');
     }
-    
+
     ...
-    
+
     public function resolve($root, $args, SelectFields $fields)
     {
         return Post::with($fields->getRelations())->select($fields->getSelect())
@@ -522,7 +542,7 @@ class EpisodeEnum extends GraphQLType {
             'JEDI' => 'JEDI',
         ],
     ];
-    
+
 }
 
 ```
@@ -548,7 +568,7 @@ class TestType extends GraphQLType {
             ]
         ]
    }
-   
+
 }
 ```
 

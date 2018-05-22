@@ -49,6 +49,16 @@ class GraphQL {
         $schemaSubscription = array_get($schema, 'subscription', []);
         $schemaTypes = array_get($schema, 'types', []);
 
+        if (array_get($schema, 'authorize_before_introspection', false)) {
+            $visibilityFilter = function ($fieldClass) {
+                $field = new $fieldClass();
+                return $field->authorize([]);
+            };
+
+            $schemaQuery = array_filter($schemaQuery, $visibilityFilter);
+            $schemaMutation = array_filter($schemaMutation, $visibilityFilter);
+        }
+
         //Get the types either from the schema, or the global types.
         $types = [];
         if (sizeof($schemaTypes)) {
@@ -72,7 +82,7 @@ class GraphQL {
         $mutation = $this->objectType($schemaMutation, [
             'name' => 'Mutation'
         ]);
-        
+
         $subscription = $this->objectType($schemaSubscription, [
             'name' => 'Subscription'
         ]);

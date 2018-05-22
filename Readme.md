@@ -109,7 +109,7 @@ in addition to the global middleware. For example:
             'profile' => 'App\GraphQL\Query\ProfileQuery'
         ],
         'mutation' => [
-        
+
         ],
         'middleware' => ['auth'],
     ],
@@ -124,18 +124,18 @@ First you need to create a type. The Eloquent Model is only required, if specify
 
 ```php
 	namespace App\GraphQL\Type;
-	
+
 	use GraphQL\Type\Definition\Type;
 	use Rebing\GraphQL\Support\Type as GraphQLType;
-    
+
     class UserType extends GraphQLType {
-        
+
         protected $attributes = [
             'name'          => 'User',
             'description'   => 'A user',
             'model'         => UserModel::class,
         ];
-		
+
         public function fields()
         {
             return [
@@ -156,15 +156,15 @@ First you need to create a type. The Eloquent Model is only required, if specify
                 ]
             ];
         }
-            
-            
+
+
         // If you want to resolve the field yourself, you can declare a method
         // with the following format resolve[FIELD_NAME]Field()
         protected function resolveEmailField($root, $args)
         {
             return strtolower($root->email);
         }
-        
+
     }
 
 ```
@@ -188,23 +188,23 @@ You could also add the type with the `GraphQL` Facade, in a service provider for
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
 	namespace App\GraphQL\Query;
-	
+
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Rebing\GraphQL\Support\Query;    
 	use App\User;
-	
+
 	class UsersQuery extends Query {
-	
+
 		protected $attributes = [
 			'name' => 'Users query'
 		];
-		
+
 		public function type()
 		{
 			return Type::listOf(GraphQL::type('user'));
 		}
-		
+
 		public function args()
 		{
 			return [
@@ -212,7 +212,7 @@ Then you need to define a query that returns this type (or a list). You can also
 				'email' => ['name' => 'email', 'type' => Type::string()]
 			];
 		}
-		
+
 		public function resolve($root, $args)
 		{
 			if(isset($args['id']))
@@ -228,7 +228,7 @@ Then you need to define a query that returns this type (or a list). You can also
 				return User::all();
 			}
 		}
-	
+
 	}
 
 ```
@@ -270,23 +270,23 @@ For example a mutation to update the password of a user. First you need to defin
 
 ```php
 	namespace App\GraphQL\Mutation;
-	
+
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Rebing\GraphQL\Support\Mutation;    
 	use App\User;
-	
+
 	class UpdateUserPasswordMutation extends Mutation {
-	
+
 		protected $attributes = [
 			'name' => 'UpdateUserPassword'
 		];
-		
+
 		public function type()
 		{
 			return GraphQL::type('user');
 		}
-		
+
 		public function args()
 		{
 			return [
@@ -294,7 +294,7 @@ For example a mutation to update the password of a user. First you need to defin
 				'password' => ['name' => 'password', 'type' => Type::nonNull(Type::string())]
 			];
 		}
-		
+
 		public function resolve($root, $args)
 		{
 			$user = User::find($args['id']);
@@ -302,13 +302,13 @@ For example a mutation to update the password of a user. First you need to defin
 			{
 				return null;
 			}
-			
+
 			$user->password = bcrypt($args['password']);
 			$user->save();
-			
+
 			return $user;
 		}
-	
+
 	}
 
 ```
@@ -352,23 +352,23 @@ When creating a mutation, you can add a method to define the validation rules th
 
 ```php
 	namespace App\GraphQL\Mutation;
-	
+
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Rebing\GraphQL\Support\Mutation;    
 	use App\User;
 	
 	class UpdateUserEmailMutation extends Mutation {
-	
+
 		protected $attributes = [
 			'name' => 'UpdateUserEmail'
 		];
-		
+
 		public function type()
 		{
 			return GraphQL::type('user');
 		}
-		
+
 		public function args()
 		{
 			return [
@@ -376,7 +376,7 @@ When creating a mutation, you can add a method to define the validation rules th
 				'email' => ['name' => 'password', 'type' => Type::string()]
 			];
 		}
-		
+
 		public function rules(array $args)
 		{
 			return [
@@ -384,7 +384,7 @@ When creating a mutation, you can add a method to define the validation rules th
 				'email' => ['required', 'email']
 			];
 		}
-		
+
 		public function resolve($root, $args)
 		{
 			$user = User::find($args['id']);
@@ -392,13 +392,13 @@ When creating a mutation, you can add a method to define the validation rules th
 			{
 				return null;
 			}
-			
+
 			$user->email = $args['email'];
 			$user->save();
-			
+
 			return $user;
 		}
-	
+
 	}
 
 ```
@@ -406,11 +406,11 @@ When creating a mutation, you can add a method to define the validation rules th
 Alternatively you can define rules with each args
 
 ```php
-	
+
 	class UpdateUserEmailMutation extends Mutation {
-	
+
 		//...
-		
+
 		public function args()
 		{
 			return [
@@ -426,9 +426,9 @@ Alternatively you can define rules with each args
 				]
 			];
 		}
-		
+
 		//...
-	
+
 	}
 
 ```

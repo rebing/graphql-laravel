@@ -70,6 +70,7 @@ return [
     //          ]
     //      ],
     //      'user' => [
+    //          'authorize_before_introspection' => true,
     //          'query' => [
     //              'profile' => 'App\GraphQL\Query\ProfileQuery'
     //          ],
@@ -100,7 +101,7 @@ return [
             'middleware' => []
         ],
     ],
-    
+
     // The types available in the application. You can then access it from the
     // facade like this: GraphQL::type('user')
     //
@@ -114,7 +115,7 @@ return [
         'example'           => ExampleType::class,
         'relation_example'  => ExampleRelationType::class,
     ],
-    
+
     // This callable will be passed the Error object for each errors GraphQL catch.
     // The method should return an array representing the error.
     // Typically:
