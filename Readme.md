@@ -378,7 +378,7 @@ When creating a mutation, you can add a method to define the validation rules th
 			];
 		}
 		
-		public function rules(array $args)
+		public function rules(array $args = [])
 		{
 			return [
 				'id' => ['required'],
