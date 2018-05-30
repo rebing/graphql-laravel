@@ -36,7 +36,7 @@ class GraphQLUploadMiddleware
      */
     public function processRequest(Request $request)
     {
-        $contentType = $request->header('content-type') ?? '';
+        $contentType = $request->header('content-type') ?: '';
 
         if (mb_stripos($contentType, 'multipart/form-data') !== false) {
             $this->validateParsedBody($request);
