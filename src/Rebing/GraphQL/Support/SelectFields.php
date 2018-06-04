@@ -169,7 +169,8 @@ class SelectFields {
 
                         $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
 
-                        if(is_a($relation, MorphTo::class)){
+                        if(is_a($relation, MorphTo::class))
+                        {
                             $foreignKeyType = $relation->getMorphType();
                             $foreignKeyType = $parentTable ? ($parentTable . '.' . $foreignKeyType) : $foreignKeyType;
 
