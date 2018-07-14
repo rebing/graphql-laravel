@@ -19,7 +19,7 @@ Route::group([
         $queryRoute = $routes;
         $mutationRoute = $routes;
     }
-    
+
     // Controllers
     $controllers = config('graphql.controllers', \Rebing\GraphQL\GraphQLController::class . '@query');
     $queryController = null;
@@ -47,7 +47,7 @@ Route::group([
                 'uses'          => $queryController,
                 'middleware'    => $defaultMiddleware,
             ]);
-            
+
             foreach(config('graphql.schemas') as $name => $schema)
             {
                 Route::match(['get', 'post'],
@@ -97,3 +97,26 @@ Route::group([
         }
     }
 });
+
+if (config('graphql.graphiql.display', true)) {
+    Route::group([
+        'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
+        'middleware'    => config('graphql.graphiql.middleware', [])
+    ], function ($router) {
+        $graphiqlController =  config('graphql.graphiql.controllers') ?? \Rebing\GraphQL\GraphQLController::class . '@graphiql';
+        $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
+        foreach (config('graphql.schemas') as $name => $schema) {
+            Route::match(
+                ['get', 'post'],
+                Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
+                ['uses' => $graphiqlController]
+            )->where($name, $name);
+        }
+
+        Route::match(
+            ['get', 'post'],
+            '/',
+            ['uses'  => $graphiqlController]
+        );
+    });
+}
