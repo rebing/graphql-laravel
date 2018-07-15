@@ -87,6 +87,7 @@ config/graphql.php
 - [Enums](docs/advanced.md#enums)
 - [Unions](docs/advanced.md#unions)
 - [Interfaces](docs/advanced.md#interfaces)
+- [Input Object](docs/advanced.md#input-object)
 
 ### Schemas
 
