@@ -11,6 +11,7 @@
 - [Enums](#enums)
 - [Unions](#unions)
 - [Interfaces](#interfaces)
+- [Input Object](#input-object)
 
 ### Authorization
 
@@ -728,5 +729,73 @@ public function fields()
             'description' => 'The total amount of credits this human owns.'
         ]
     ]);
+}
+```
+
+### Input Object
+
+Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be input type. You can add rules option if you want to validate input data.
+Read more about Input Object [here](https://graphql.org/learn/schema/#input-types)
+
+First create an InputObjectType as an extension of the GraphQLType class:
+```php
+// app/GraphQL/Enums/EpisodeEnum.php
+namespace App\GraphQL\InputObject;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class ReviewInput extends GraphQLType {
+
+    protected $inputObject = true;
+
+    protected $attributes = [
+        'name' => 'ReviewInput',
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
+
+    public function fields()
+    {
+        return [
+            'comment' => [
+                'name' => 'comment',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+		// You can define Laravel Validation here
+                'rules' => ['max:250']
+            ],
+            'score' => [
+                'name' => 'score',
+                'description' => 'A score (0 to 5)'
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
+}
+
+```
+Register the Input Object in the 'types' array of the graphql.php config file:
+
+```php
+// config/graphql.php
+'types' => [
+    'ReviewInput' => ReviewInput::class
+];
+```
+
+Then use it in a mutation, like:
+```php
+// app/GraphQL/Type/TestMutation.php
+class TestMutation extends GraphQLType {
+
+   public function args()
+   {
+        return [
+            'review' => [
+                'type' => GraphQL::type('ReviewInput')
+            ]
+        ]
+   }
+   
 }
 ```
