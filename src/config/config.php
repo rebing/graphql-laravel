@@ -100,7 +100,7 @@ return [
             'middleware' => []
         ],
     ],
-    
+
     // The types available in the application. You can then access it from the
     // facade like this: GraphQL::type('user')
     //
@@ -114,7 +114,7 @@ return [
         'example'           => ExampleType::class,
         'relation_example'  => ExampleRelationType::class,
     ],
-    
+
     // This callable will be passed the Error object for each errors GraphQL catch.
     // The method should return an array representing the error.
     // Typically:
@@ -136,5 +136,17 @@ return [
         'query_max_complexity' => null,
         'query_max_depth' => null,
         'disable_introspection' => false
-    ]
+    ],
+
+    /*
+     * Config for GraphiQL (see (https://github.com/graphql/graphiql).
+     * To disable GraphiQL, set this to null
+     */
+    'graphiql' => [
+        'prefix' => '/graphiql/{graphql_schema?}',
+        'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
+        'middleware' => [],
+        'view' => 'graphql::graphiql',
+        'display' => env('ENABLE_GRAPHIQL', true),
+    ],
 ];

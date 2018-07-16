@@ -63,4 +63,19 @@ class GraphQLController extends Controller {
         }
     }
 
+    public function graphiql(Request $request, $schema = null)
+    {
+        $graphqlPath = '/'.config('graphql.prefix');
+        if ($schema) 
+        {
+            $graphqlPath .= '/' . $schema;
+        }
+        
+        $view = config('graphql.graphiql.view', 'graphql::graphiql');
+        return view($view, [
+            'graphql_schema' => 'graphql_schema',
+            'graphqlPath' => $graphqlPath
+        ]);
+    }
+
 }

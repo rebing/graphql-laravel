@@ -54,6 +54,9 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->publishes([
             $configPath.'/config.php' => config_path('graphql.php'),
         ], 'config');
+
+        $viewsPath = __DIR__.'/../../resources/views';
+        $this->loadViewsFrom($viewsPath, 'graphql');
     }
 
     /**
