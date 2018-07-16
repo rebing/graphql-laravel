@@ -98,14 +98,17 @@ Route::group([
     }
 });
 
-if (config('graphql.graphiql.display', true)) {
+if (config('graphql.graphiql.display', true)) 
+{
     Route::group([
         'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
         'middleware'    => config('graphql.graphiql.middleware', [])
-    ], function ($router) {
+    ], function ($router) 
+    {
         $graphiqlController =  config('graphql.graphiql.controllers') ?? \Rebing\GraphQL\GraphQLController::class . '@graphiql';
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
-        foreach (config('graphql.schemas') as $name => $schema) {
+        foreach (config('graphql.schemas') as $name => $schema) 
+        {
             Route::match(
                 ['get', 'post'],
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
