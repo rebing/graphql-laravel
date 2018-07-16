@@ -140,13 +140,13 @@ return [
 
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
-     * To dissable GraphiQL, set this to null
+     * To disable GraphiQL, set this to null
      */
     'graphiql' => [
         'prefix' => '/graphiql/{graphql_schema?}',
         'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
         'middleware' => [],
         'view' => 'graphql::graphiql',
-        'display' => env('graphiql', true),
+        'display' => env('ENABLE_GRAPHIQL', true),
     ],
 ];
