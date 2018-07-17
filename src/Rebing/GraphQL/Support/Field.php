@@ -155,7 +155,14 @@ class Field extends Fluent {
                 $rules = call_user_func_array([$this, 'getRules'], [$args]);
                 if(sizeof($rules))
                 {
-                    $validator = Validator::make($args, $rules);
+
+                    // allow our error messages to be customised
+                    $messages = [];
+                    if(method_exists($this, 'validationErrorMessages')) {
+                        $messages = call_user_func_array([$this, 'validationErrorMessages'], [$args]);
+                    }
+
+                    $validator = Validator::make($args, $rules, $messages);
                     if($validator->fails())
                     {
                         throw with(new ValidationError('validation'))->setValidator($validator);
