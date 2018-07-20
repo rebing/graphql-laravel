@@ -462,15 +462,15 @@ When you execute a mutation, it will return any validation errors that occur. Si
 ```
 
 
-The validation errors returned can be customised by overriding the `validationErrorMessages` method on the mutation. This method should return an array of custom validation
-messages in the same way documented by Laravel's validation. For example, to check an `email` argument doesn't conflict with any existing data, you could perform the following -
+The validation errors returned can be customised by overriding the `validationErrorMessages` method on the mutation. This method should return an array of custom validation messages in the same way documented by Laravel's validation. For example, to check an `email` argument doesn't conflict with any existing data, you could perform the following -
 
 Note: the keys should be in `field_name`.`validator_type` format so you can return specific errors per validation type.
 
 
 ````php
 
-    public function validationErrorMessages ($args = []) {
+    public function validationErrorMessages ($args = []) 
+    {
         return [
             'name.required' => 'Please enter your full name',
             'name.string' => 'Your name must be a valid string',
