@@ -97,7 +97,8 @@ return [
             'mutation' => [
                 'example_mutation'  => ExampleMutation::class,
             ],
-            'middleware' => []
+            'middleware' => [],
+            'method' => ['get', 'post'],
         ],
     ],
 
@@ -140,7 +141,6 @@ return [
 
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
-     * To disable GraphiQL, set this to null
      */
     'graphiql' => [
         'prefix' => '/graphiql/{graphql_schema?}',
