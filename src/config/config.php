@@ -139,6 +139,14 @@ return [
         'disable_introspection' => false
     ],
 
+    // You can define custom paginators to override the out-of-the-box fields
+    // Useful if you want to inject some parameters of your own that apply at the top
+    // level of the collection rather than to each instance returned. Can also use this
+    // to add in more of the Laravel pagination data (e.g. last_page).
+    'custom_paginators' => [
+        // 'my_custom_pagination' => \Path\To\Your\CustomPagination::class,
+    ],
+
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
