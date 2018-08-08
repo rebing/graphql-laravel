@@ -12,15 +12,15 @@ class PaginationType extends ObjectType {
     public function __construct($typeName, $customName = null)
     {
         $name = $customName ?: $typeName . '_pagination';
-        $paginator = config('graphql.custom_paginators.' . $name);
 
-        $fields = $paginator ? $paginator::getPaginationFields() : [];
+        $customPaginator = config('graphql.custom_paginators.' . $name, null);
+        $customFields = $customPaginator ? $customPaginator::getPaginationFields() : [];
 
         $config = [
             'name'  => $name,
             'fields' => array_merge(
                 $this->getPaginationFields(),
-                $fields,
+                $customFields,
                 [
                     'data' => [
                         'type'      => GraphQLType::listOf(GraphQL::type($typeName)),

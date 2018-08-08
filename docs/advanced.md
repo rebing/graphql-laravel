@@ -454,11 +454,93 @@ Query `posts(limit:10,page:1){data{id},total,per_page}` might return
                 ...
             ],
             "total": 21,
-            "per_page": 10"
+            "per_page": 10
         ]
     }
 }
 ```
+
+Note that you need to add in the extra 'data' object when you request paginated resources as the returned data gives you
+the paginated resources in a data object at the same level as the returned pagination metadata.
+
+#### Customising the pagination results
+You can add in additional metadata results alongside the Laravel 'standard' ones. To keep the Posts theme going, we could 
+create some additional metadata to show the total number of posts, comments and likes for the posts returned in the paginated 
+results.
+
+First, create a class that returns the custom fields you want to see:
+
+```
+use Illuminate\Pagination\LengthAwarePaginator;
+use GraphQL\Type\Definition\Type as GraphQLType;
+
+class MyCustomPaginationFields
+{
+    public static function getPaginationFields()
+    {
+        return [
+            // Pass through a User object that we can use to calculate the totals
+            'totals_for_user' => [
+                'type'          => \GraphQL::type('total'),
+                'description'   => 'Total posts, comments and likes for the result set',
+                'resolve'       => function () {
+                    return app()->make('App\User');
+                },
+                'selectable'    => false,
+            ],
+            // Add in the 'last page' value from the Laravel Paginator
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Last page of the result set',
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->lastPage();
+                },
+                'selectable'    => false,
+            ],
+        ];
+    }
+}
+```
+
+Then add a config entry to map this class:
+
+```
+'custom_paginators' => [
+    'post_pagination' => \Namespace\Of\The\MyCustomPaginationFields::class,
+],
+```
+You can now query against the new fields in the same way as for the core pagination metadata. We could now extend the example 
+query from earlier to get the new fields.
+
+Query: `posts(limit:10,page:1){data{id},totals_for_user,total,per_page,last_page}`:
+
+```
+{
+    "data": {
+        "posts: [
+            "data": [
+                {"id": 3},
+                {"id": 5},
+                ...
+            ],
+            "totals_for_user": [
+                {"posts": 12},
+                {"comments": 42},
+                {"likes": 101}
+            ],
+            "total": 21,
+            "per_page": 10,
+            "last_page": 3
+        ]
+    }
+}
+```
+
+ 
+If you want to change the name of a default field to fit with users expectations (maybe you want 'total_records' rather 
+than 'total'), just copy the entry for the field you want to replace (they're in Rebing/GraphQL/Support/PaginationType.php) 
+and add it to your custom class.
+
 
 ### Batching
 
