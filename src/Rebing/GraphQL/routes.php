@@ -1,9 +1,9 @@
 <?php
 
-Route::group([
+Route::group(array_merge([
     'prefix'        => config('graphql.prefix'),
-    'middleware'    => config('graphql.middleware', [])
-], function($router)
+    'middleware'    => config('graphql.middleware', []),
+], config('graphql.route_group_attributes', [])), function($router)
 {
     // Routes
     $routes = config('graphql.routes');
