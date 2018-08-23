@@ -134,7 +134,7 @@ return [
     'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
 
     // You can set the key, which will be used to retrieve the dynamic variables
-    'params_key'    => 'params',
+    'params_key'    => 'variables',
 
     /*
      * Options to limit the query complexity and depth. See the doc
