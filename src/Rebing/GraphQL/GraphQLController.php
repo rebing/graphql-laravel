@@ -3,10 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Rebing\GraphQL\GraphQLUploadMiddleware;
+
 class GraphQLController extends Controller {
 
     public function query(Request $request, $schema = null)
     {
+        $middleware = new GraphQLUploadMiddleware();
+        $request = $middleware->processRequest($request);
+
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
         if (count($request->route()->parameters) > 1) {
@@ -56,6 +61,21 @@ class GraphQLController extends Controller {
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    public function graphiql(Request $request, $schema = null)
+    {
+        $graphqlPath = '/'.config('graphql.prefix');
+        if ($schema) 
+        {
+            $graphqlPath .= '/' . $schema;
+        }
+        
+        $view = config('graphql.graphiql.view', 'graphql::graphiql');
+        return view($view, [
+            'graphql_schema' => 'graphql_schema',
+            'graphqlPath' => $graphqlPath
+        ]);
     }
 
 }

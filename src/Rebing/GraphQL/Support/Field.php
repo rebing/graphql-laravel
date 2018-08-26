@@ -36,6 +36,17 @@ class Field extends Fluent {
         return [];
     }
 
+    /**
+     * Define custom Laravel Validator messages as per Laravel 'custom error messages'
+     * @param array $args submitted arguments
+     * @return array
+     */
+    public function validationErrorMessages(array $args = [])
+    {
+        return [];
+    }
+
+
     protected function rules(array $args = [])
     {
         return [];
@@ -155,7 +166,11 @@ class Field extends Fluent {
                 $rules = call_user_func_array([$this, 'getRules'], [$args]);
                 if(sizeof($rules))
                 {
-                    $validator = Validator::make($args, $rules);
+
+                    // allow our error messages to be customised
+                    $messages = $this->validationErrorMessages($args);
+
+                    $validator = Validator::make($args, $rules, $messages);
                     if($validator->fails())
                     {
                         throw with(new ValidationError('validation'))->setValidator($validator);
