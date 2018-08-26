@@ -516,7 +516,7 @@ any effect...
 			return [
 				'profilePicture' => [
 					'name' => 'profilePicture',
-					'type' => new UploadType(),    // <-- Here is used new type
+					'type' => new UploadType($this->attributes['name']),
 					'rules' => ['required', 'image', 'max:1500'],
 				],
 			];

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Rebing\GraphQL;
 
 use Closure;
@@ -91,7 +89,7 @@ class GraphQLUploadMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    private function validateParsedBody(Request $request): void
+    private function validateParsedBody(Request $request)
     {
         $bodyParams = $request->all();
 
