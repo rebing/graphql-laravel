@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
@@ -10,8 +8,8 @@ use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils\Utils;
 use \Illuminate\Http\UploadedFile;
 
-class UploadType extends ScalarType
-{
+class UploadType extends ScalarType {
+
     /**
      * @var string
      */
@@ -23,6 +21,13 @@ class UploadType extends ScalarType
     public $description =
         'The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
  [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).';
+
+    public function __construct($name = 'Upload')
+    {
+        $this->name = $name . '_upload';
+
+        parent::__construct();
+    }
 
     /**
      * Serializes an internal value to include in a response.
