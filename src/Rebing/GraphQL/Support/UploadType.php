@@ -24,7 +24,7 @@ class UploadType extends ScalarType {
 
     public function __construct($name = 'Upload')
     {
-        $this->name = $name . '_upload';
+        $this->name = $name;
 
         parent::__construct();
     }
