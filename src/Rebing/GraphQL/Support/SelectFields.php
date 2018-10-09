@@ -98,6 +98,19 @@ class SelectFields {
     }
 
     /**
+     * Determines whether the fieldObject is queryable.
+     *
+     * @param $fieldObject
+     * @return bool
+     */
+    private static function isQueryable($fieldObject) {
+        $is_specified_relation = isset($fieldObject->config['is_relation']) && $fieldObject->config['is_relation'] === true;
+        $is_default_relation = !isset($fieldObject->config['is_relation']);
+
+        return $is_specified_relation || $is_default_relation;
+    }
+
+    /**
      * Get the selects and withs from the given fields
      * and recurse if necessary
      */
@@ -141,7 +154,7 @@ class SelectFields {
                 $customQuery = array_get($fieldObject->config, 'query');
 
                 // Check if the field is a relation that needs to be requested from the DB
-                $queryable = !isset($fieldObject->config['non_relation_field']) || $fieldObject->config['non_relation_field'] === false;
+                $queryable = self::isQueryable($fieldObject);
 
                 // Pagination
                 if(is_a($parentType, PaginationType::class))

@@ -906,7 +906,8 @@ class UserType extends GraphQLType {
                 'description'   => 'A list of posts written by the user',
                 // Now this will simply request the "posts" column, and it won't 
                 // query for all the underlying columns in the "post" object
-                'non_relation_field' => true
+                // The value defaults to true
+                'is_relation' => false
             ]
         ];
     }
