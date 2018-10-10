@@ -98,19 +98,6 @@ class SelectFields {
     }
 
     /**
-     * Determines whether the fieldObject is queryable.
-     *
-     * @param $fieldObject
-     * @return bool
-     */
-    private static function isQueryable($fieldObject) {
-        $is_specified_relation = isset($fieldObject->config['is_relation']) && $fieldObject->config['is_relation'] === true;
-        $is_default_relation = !isset($fieldObject->config['is_relation']);
-
-        return $is_specified_relation || $is_default_relation;
-    }
-
-    /**
      * Get the selects and withs from the given fields
      * and recurse if necessary
      */
@@ -311,6 +298,16 @@ class SelectFields {
         }
 
         return $selectable;
+    }
+
+    /**
+     * Determines whether the fieldObject is queryable.
+     *
+     * @param $fieldObject
+     * @return bool
+     */
+    private static function isQueryable($fieldObject) {
+        return array_get($fieldObject, 'is_relation', true) === true;
     }
 
     /**
