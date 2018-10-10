@@ -12,6 +12,7 @@
 - [Unions](#unions)
 - [Interfaces](#interfaces)
 - [Input Object](#input-object)
+- [JSON Columns](#json-columns)
 
 ### Authorization
 
@@ -879,5 +880,37 @@ class TestMutation extends GraphQLType {
         ]
    }
    
+}
+```
+
+### JSON Columns
+
+When using JSON columns in your database, the field won't be defined as a "relationship", 
+but rather a simple column with nested data. To get a nested object that's not a database relationship, 
+use the `non_relation_field` attribute in your Type:
+
+```php
+class UserType extends GraphQLType {
+
+    ...
+    
+    public function fields()
+    {
+        return [
+            
+            ...
+            
+            // JSON column containing all posts made by this user
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // Now this will simply request the "posts" column, and it won't 
+                // query for all the underlying columns in the "post" object
+                // The value defaults to true
+                'is_relation' => false
+            ]
+        ];
+    }
+
 }
 ```

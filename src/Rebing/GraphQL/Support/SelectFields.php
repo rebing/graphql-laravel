@@ -140,13 +140,16 @@ class SelectFields {
                 // Add a query, if it exists
                 $customQuery = array_get($fieldObject->config, 'query');
 
+                // Check if the field is a relation that needs to be requested from the DB
+                $queryable = self::isQueryable($fieldObject);
+
                 // Pagination
                 if(is_a($parentType, PaginationType::class))
                 {
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
                 // With
-                elseif(is_array($field))
+                elseif(is_array($field) && $queryable)
                 {
                     if (isset($parentType->config['model']))
                     {
@@ -295,6 +298,16 @@ class SelectFields {
         }
 
         return $selectable;
+    }
+
+    /**
+     * Determines whether the fieldObject is queryable.
+     *
+     * @param $fieldObject
+     * @return bool
+     */
+    private static function isQueryable($fieldObject) {
+        return array_get($fieldObject, 'is_relation', true) === true;
     }
 
     /**
