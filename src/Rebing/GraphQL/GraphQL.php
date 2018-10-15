@@ -9,6 +9,8 @@ use Rebing\GraphQL\Events\SchemaAdded;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
 use Session;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 
 class GraphQL {
 
@@ -72,7 +74,7 @@ class GraphQL {
         $mutation = $this->objectType($schemaMutation, [
             'name' => 'Mutation'
         ]);
-        
+
         $subscription = $this->objectType($schemaSubscription, [
             'name' => 'Subscription'
         ]);
@@ -292,19 +294,19 @@ class GraphQL {
             'message' => $e->getMessage()
         ];
 
-        $locations = $e->getLocations();
-        if(!empty($locations))
-        {
-            $error['locations'] = array_map(function($loc)
-            {
-                return $loc->toArray();
-            }, $locations);
-        }
-
         $previous = $e->getPrevious();
-        if($previous && $previous instanceof ValidationError)
-        {
-            $error['validation'] = $previous->getValidatorMessages();
+        if ($previous) {
+            if ($previous instanceof ValidationError) {
+                $error['validation'] = $previous->getValidatorMessages();
+            } else {
+                $error['code'] = $e->getCode();
+                $error['line'] = $e->getPrevious()->getLine();
+                $error['file'] = $e->getPrevious()->getFile();
+                $error['exception'] = get_class($e->getPrevious());
+                $error['trace'] = collect($e->getPrevious()->getTrace())->map(function ($trace) {
+                    return Arr::except($trace, ['args']);
+                })->all();
+            }
         }
 
         return $error;
