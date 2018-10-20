@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Rebing\GraphQL\GraphQLUploadMiddleware;
-
 class GraphQLController extends Controller {
 
     public function query(Request $request, $schema = null)

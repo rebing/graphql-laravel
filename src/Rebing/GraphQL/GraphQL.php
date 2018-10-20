@@ -5,13 +5,10 @@ use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Schema;
 use GraphQL\Type\Definition\ObjectType;
-use Rebing\GraphQL\Events\SchemaAdded;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
-use Session;
 
 class GraphQL {
-
     protected $app;
 
     protected $schemas = [];
@@ -86,7 +83,10 @@ class GraphQL {
     }
 
     /**
-     * @param array $opts - additional options, like 'schema', 'context' or 'operationName'
+     * @param string $query
+     * @param array $params
+     * @param array $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @return mixed
      */
     public function query($query, $params = [], $opts = [])
     {
