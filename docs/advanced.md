@@ -618,8 +618,12 @@ class EpisodeEnum extends GraphQLType
         ],
     ];
 }
-
 ```
+
+> **Note:** within the `$attributes['values']` array the key is enum value the GraphQL client
+> will be able to choose from, while the value is what will your server receive (what will enum
+> be resolved to).
+
 Register the Enum in the `types` array of the `graphql.php` config file:
 
 ```php
