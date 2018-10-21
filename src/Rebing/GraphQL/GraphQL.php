@@ -3,7 +3,7 @@
 use GraphQL\Error\Error;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Schema;
+use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Events\SchemaAdded;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -115,7 +115,7 @@ class GraphQL {
 
         $schema = $this->schema($schemaName);
 
-        $result = GraphQLBase::executeAndReturnResult($schema, $query, null, $context, $params, $operationName);
+        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName);
         return $result;
     }
 
