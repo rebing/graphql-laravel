@@ -364,7 +364,7 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'password', 'type' => Type::string()]
+            'email' => ['name' => 'email', 'type' => Type::string()]
         ];
     }
 
