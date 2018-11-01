@@ -919,7 +919,6 @@ class UserType extends GraphQLType
     public function fields()
     {
         return [
-            
             // ...
             
             // JSON column containing all posts made by this user
@@ -935,6 +934,5 @@ class UserType extends GraphQLType
     }
 
     // ...
-
 }
 ```
