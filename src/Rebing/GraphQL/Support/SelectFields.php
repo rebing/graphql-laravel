@@ -122,12 +122,10 @@ class SelectFields {
 
             // If field doesn't exist on definition we don't select it
             try {
-                if ($parentType instanceof \GraphQL\Type\Definition\ListOfType) {
-                    continue;
-                } elseif ($parentType instanceof \GraphQL\Type\Definition\UnionType) {
-                    continue;
-                } else {
+                if(method_exists($parentType, 'getField')) {
                     $fieldObject = $parentType->getField($key);
+                } else {
+                    continue;
                 }
             } catch (InvariantViolation $e) {
                 continue;
