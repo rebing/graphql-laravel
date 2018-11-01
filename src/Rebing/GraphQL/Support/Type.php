@@ -6,7 +6,6 @@ use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\UnionType;
 use Illuminate\Support\Fluent;
 
 class Type extends Fluent {
@@ -146,7 +145,7 @@ class Type extends Fluent {
      * Dynamically check if an attribute is set.
      *
      * @param  string  $key
-     * @return void
+     * @return bool
      */
     public function __isset($key)
     {
