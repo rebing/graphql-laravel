@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Rebing\GraphQL\GraphQLUploadMiddleware;
-
 class GraphQLController extends Controller {
 
     public function query(Request $request, $schema = null)
@@ -14,7 +12,7 @@ class GraphQLController extends Controller {
 
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
-        if (count($request->route()->parameters) > 1) {
+        if ($request->route()->parameters && count($request->route()->parameters) > 1) {
             $schema = implode('/', $request->route()->parameters);
         }
 
