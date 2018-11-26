@@ -139,7 +139,7 @@ class SelectFields {
                 $customQuery = array_get($fieldObject->config, 'query');
 
                 // Check if the field is a relation that needs to be requested from the DB
-                $queryable = self::isQueryable($fieldObject);
+                $queryable = self::isQueryable($fieldObject->config);
 
                 // Pagination
                 if(is_a($parentType, PaginationType::class))
