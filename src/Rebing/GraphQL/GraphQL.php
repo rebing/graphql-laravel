@@ -33,13 +33,7 @@ class GraphQL {
             $this->type($name);
         }
 
-        $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
-
-        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
-            throw new SchemaNotFound('Type '.$schemaName.' not found.');
-        }
-
-        $schema = is_array($schema) ? $schema:$this->schemas[$schemaName];
+        $schema = $this->getSchemaConfiguration($schema);
 
         $schemaQuery = array_get($schema, 'query', []);
         $schemaMutation = array_get($schema, 'mutation', []);
@@ -69,7 +63,7 @@ class GraphQL {
         $mutation = $this->objectType($schemaMutation, [
             'name' => 'Mutation'
         ]);
-        
+
         $subscription = $this->objectType($schemaSubscription, [
             'name' => 'Subscription'
         ]);
@@ -335,5 +329,16 @@ class GraphQL {
         }
 
         return $routeName ?: preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute);
+    }
+
+    protected function getSchemaConfiguration($schema)
+    {
+        $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
+
+        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
+            throw new SchemaNotFound('Type ' . $schemaName . ' not found.');
+        }
+
+        return is_array($schema) ? $schema : $this->schemas[$schemaName];
     }
 }
