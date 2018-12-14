@@ -9,6 +9,7 @@ use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Type\Definition\NonNull;
 
 class Field extends Fluent {
 
@@ -92,6 +93,11 @@ class Field extends Fluent {
     public function inferRulesFromType($type, $prefix, $resolutionArguments)
     {
         $rules = [];
+
+        // make sure we are dealing with the actual type
+        if ($type instanceof NonNull) {
+            $type = $type->getWrappedType();
+        }
 
         // if it is an array type, add an array validation component
         if ($type instanceof ListOfType) {
