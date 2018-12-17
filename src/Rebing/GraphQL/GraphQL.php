@@ -9,6 +9,7 @@ use GraphQL\Error\FormattedError;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 
 class GraphQL {
     protected $app;
@@ -97,9 +98,11 @@ class GraphQL {
 
         $schema = $this->schema($schemaName);
 
-        $errorFormatter = config('graphql.error_formatter', ['\Rebing\GraphQL', 'formatError']);
+        $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
+        $errorsHandler = config('grahpql.errors_handler', [static::class, 'handleErrors']);
 
         $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName)
+            ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
         return $result;
     }
@@ -284,6 +287,20 @@ class GraphQL {
         }
 
         return $error;
+    }
+
+    public static function handleErrors(array $errors, callable $formatter)
+    {
+        $handler = app()->make(ExceptionHandler::class);
+        foreach ($errors as $error) {
+            // Try to unwrap exception
+            $error = $error->getPrevious() ?: $error;
+            if ($error instanceof \GraphQL\Error\Error) {
+                continue;
+            }
+            $handler->report($error);
+        }
+        return array_map($formatter, $errors);
     }
 
     /**
