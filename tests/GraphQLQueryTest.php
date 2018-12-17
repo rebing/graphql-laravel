@@ -96,15 +96,15 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with error
      *
+     * If an error was encountered before execution begins, the data entry should not be present in the result.
+     *
      * @test
      */
     public function testQueryWithError()
     {
         $result = GraphQL::query($this->queries['examplesWithError']);
 
-        $this->assertArrayHasKey('data', $result);
         $this->assertArrayHasKey('errors', $result);
-        $this->assertNull($result['data']);
         $this->assertCount(1, $result['errors']);
         $this->assertArrayHasKey('message', $result['errors'][0]);
         $this->assertArrayHasKey('locations', $result['errors'][0]);
