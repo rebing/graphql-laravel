@@ -52,7 +52,7 @@ class EndpointTest extends TestCase
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
-            'params' => [
+            'variables' => [
                 'index' => 0
             ]
         ]);
@@ -97,13 +97,13 @@ class EndpointTest extends TestCase
         $response = $this->call('GET', '/graphql', [
             [
                 'query' => $this->queries['examplesWithVariables'],
-                'params' => [
+                'variables' => [
                     'index' => 0
                 ]
             ],
             [
                 'query' => $this->queries['examplesWithVariables'],
-                'params' => [
+                'variables' => [
                     'index' => 0
                 ]
             ]
