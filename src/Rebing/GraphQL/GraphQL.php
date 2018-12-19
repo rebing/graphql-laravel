@@ -1,12 +1,15 @@
 <?php namespace Rebing\GraphQL;
 
+use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Schema;
+use GraphQL\Error\FormattedError;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 
 class GraphQL {
     protected $app;
@@ -84,21 +87,7 @@ class GraphQL {
      */
     public function query($query, $params = [], $opts = [])
     {
-        $executionResult = $this->queryAndReturnResult($query, $params, $opts);
-
-        $data = [
-            'data' => $executionResult->data,
-        ];
-
-        // Add errors
-        if( ! empty($executionResult->errors))
-        {
-            $errorFormatter = config('graphql.error_formatter', ['\Rebing\GraphQL', 'formatError']);
-
-            $data['errors'] = array_map($errorFormatter, $executionResult->errors);
-        }
-
-        return $data;
+        return $this->queryAndReturnResult($query, $params, $opts)->toArray();
     }
 
     public function queryAndReturnResult($query, $params = [], $opts = [])
@@ -109,7 +98,12 @@ class GraphQL {
 
         $schema = $this->schema($schemaName);
 
-        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName);
+        $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
+        $errorsHandler = config('grahpql.errors_handler', [static::class, 'handleErrors']);
+
+        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName)
+            ->setErrorsHandler($errorsHandler)
+            ->setErrorFormatter($errorFormatter);
         return $result;
     }
 
@@ -282,18 +276,9 @@ class GraphQL {
 
     public static function formatError(Error $e)
     {
-        $error = [
-            'message' => $e->getMessage()
-        ];
-
-        $locations = $e->getLocations();
-        if(!empty($locations))
-        {
-            $error['locations'] = array_map(function($loc)
-            {
-                return $loc->toArray();
-            }, $locations);
-        }
+        $debug = config('app.debug') ? (Debug::INCLUDE_DEBUG_MESSAGE | Debug::INCLUDE_TRACE) : 0;
+        $formatter = FormattedError::prepareFormatter(null, $debug);
+        $error = $formatter($e);
 
         $previous = $e->getPrevious();
         if($previous && $previous instanceof ValidationError)
@@ -302,6 +287,20 @@ class GraphQL {
         }
 
         return $error;
+    }
+
+    public static function handleErrors(array $errors, callable $formatter)
+    {
+        $handler = app()->make(ExceptionHandler::class);
+        foreach ($errors as $error) {
+            // Try to unwrap exception
+            $error = $error->getPrevious() ?: $error;
+            if ($error instanceof \GraphQL\Error\Error) {
+                continue;
+            }
+            $handler->report($error);
+        }
+        return array_map($formatter, $errors);
     }
 
     /**

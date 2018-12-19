@@ -133,6 +133,15 @@ return [
     // ]
     'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
 
+    /**
+     * Custom Error Handling
+     *
+     * Expected handler signature is: function (array $errors, callable $formatter): array
+     *
+     * The default handler will pass exceptions to laravel Error Handling mechanism
+     */
+    'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
+
     // You can set the key, which will be used to retrieve the dynamic variables
     'params_key'    => 'variables',
 
