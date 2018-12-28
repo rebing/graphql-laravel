@@ -99,7 +99,7 @@ class GraphQL {
         $schema = $this->schema($schemaName);
 
         $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
-        $errorsHandler = config('grahpql.errors_handler', [static::class, 'handleErrors']);
+        $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
 
         $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName)
             ->setErrorsHandler($errorsHandler)
@@ -295,7 +295,7 @@ class GraphQL {
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
-            if ($error instanceof \GraphQL\Error\Error) {
+            if (!($error instanceof \Exception)) {
                 continue;
             }
             $handler->report($error);
