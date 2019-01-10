@@ -562,7 +562,7 @@ Uncomment **custom_pagination_type** inside graphql config and use your own pagi
 Example usage of custom_pagination_type: <br>
 <br/>
 If you want pagination info under **cursor** rather than same level with **data** ,<br>
-#####Result of default pagination type:
+**Result of default pagination type:**
 ```
 {
  "user": {
@@ -571,7 +571,7 @@ If you want pagination info under **cursor** rather than same level with **data*
  }
 }
 ```
-#####Result of custom pagination type:
+**Result of custom pagination type:**
 ```
 {
  "user": {
@@ -584,7 +584,7 @@ If you want pagination info under **cursor** rather than same level with **data*
 ```
 you will need to create your own **Custom Pagination Type**
 <br/>
-Example of PaginationType.php
+**Example of PaginationType.php**
 ```php
 <?php
 
@@ -627,7 +627,7 @@ class PaginationType extends ObjectType
     }
 }
 ```
-Example of PaginationCursorType.php
+**Example of PaginationCursorType.php**
 ```php
 <?php
 
