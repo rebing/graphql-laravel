@@ -7,7 +7,6 @@
 - [Eager loading relationships](#eager-loading-relationships)
 - [Type relationship query](#type-relationship-query)
 - [Pagination](#pagination)
-- [Custom Pagination Type](#custom-pagination-type)
 - [Batching](#batching)
 - [Enums](#enums)
 - [Unions](#unions)
@@ -553,7 +552,7 @@ If you want to change the name of a default field to fit with users expectations
 than 'total'), just copy the entry for the field you want to replace (they're in Rebing/GraphQL/Support/PaginationType.php) 
 and add it to your custom class.
 
-### Custom Pagination Type
+#### Custom Pagination Type
 If pagination cant fulfill you needs, you might want to custom your own pagination type.<br/>
 Uncomment **custom_pagination_type** inside graphql config and use your own pagination type class.
 ```php
