@@ -37,8 +37,24 @@ class SelectFields {
         if( ! is_null($info->fieldNodes[0]->selectionSet))
         {
             self::$args = $args;
+            $requestedFields = $info->getFieldSelection(5);
+            $parentTypeName = get_object_vars($parentType)['config']['name'];
 
-            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+            // If use pagination,
+            // $parentType & $requestedFields should use dataType
+            // instead of paginationType
+            if(stripos($parentTypeName, 'pagination')){
+                // get pagination data key [default: data]
+                $paginationDataKey = array_keys($requestedFields)[0];
+                // use dataType fields instead of pagination fields
+                $requestedFields = $requestedFields[$paginationDataKey];
+                // use dataType instead of pagination type
+                $parentType = get_object_vars(
+                    get_object_vars($parentType)['config']['fields'][$paginationDataKey]['type']
+                )['ofType'];
+            }
+
+            $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
