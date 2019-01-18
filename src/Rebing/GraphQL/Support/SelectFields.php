@@ -44,7 +44,7 @@ class SelectFields {
             // If use pagination,
             // $parentType & $requestedFields should use QueryType
             // instead of paginationType
-            if($info->returnType instanceof ObjectType){
+            if($info->parentType->name !== 'Mutation' && $info->returnType instanceof ObjectType){
                 // get pagination data key [default: data]
                 $paginationDataKey = array_keys($requestedFields)[0];
                 // use QueryType fields instead of pagination fields
