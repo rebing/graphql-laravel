@@ -268,12 +268,8 @@ class GraphQL {
 
         if(!isset($this->typesInstances[$name]))
         {
-            $customPaginationType = config('graphql.custom_pagination_type', false);
-            if($customPaginationType) {
-                $this->typesInstances[$name] = new $customPaginationType($typeName, $customName);
-            } else {
-                $this->typesInstances[$name] = new PaginationType($typeName, $customName);
-            }
+            $paginationType = config('graphql.pagination_type', PaginationType::class);
+            $this->typesInstances[$name] = new $paginationType($typeName, $customName);
         }
 
         return $this->typesInstances[$name];

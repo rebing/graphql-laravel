@@ -168,7 +168,7 @@ return [
      * You can define your own pagination type.
      * Reference \Rebing\GraphQL\Support\PaginationType::class
      */
-    //'custom_pagination_type' => \App\GraphQL\Pagination\PaginationType::class,
+    'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
 
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).

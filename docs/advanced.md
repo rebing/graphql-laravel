@@ -554,11 +554,11 @@ and add it to your custom class.
 
 #### Custom Pagination Type
 If pagination cant fulfill you needs, you might want to custom your own pagination type.<br/>
-Uncomment **custom_pagination_type** inside graphql config and use your own pagination type class.
+Replace default **pagination_type** inside graphql config and use your own pagination type class.
 ```php
-    'custom_pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
+    'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
 ```
-Example usage of custom_pagination_type: <br>
+Example usage of custom pagination_type: <br>
 <br/>
 If you want pagination info under **cursor** rather than same level with **data** ,<br>
 **Result of default pagination type:**

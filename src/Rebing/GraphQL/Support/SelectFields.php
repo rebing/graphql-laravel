@@ -44,7 +44,8 @@ class SelectFields {
             // If use pagination,
             // $parentType & $requestedFields should use QueryType
             // instead of paginationType
-            if($info->parentType->name !== 'Mutation' && $info->returnType instanceof ObjectType){
+            $paginationType = config('graphql.pagination_type', PaginationType::class);
+            if($info->returnType instanceof $paginationType){
                 // get pagination data key [default: data]
                 $paginationDataKey = array_keys($requestedFields)[0];
                 // use QueryType fields instead of pagination fields
