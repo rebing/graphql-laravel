@@ -123,7 +123,8 @@ class Type extends Fluent {
         {
             return new InputObjectType($this->toArray());
         }
-        if ($this->enumObject) {
+        if ($this->enumObject)
+        {
             return new EnumType($this->toArray());
         }
         return new ObjectType($this->toArray());

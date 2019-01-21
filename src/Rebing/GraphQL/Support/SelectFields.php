@@ -168,6 +168,8 @@ class SelectFields {
                             $foreignKey = $relation->getQualifiedForeignKeyName();
                         }
 
+                        $segments = explode('.', $foreignKey);
+                        $foreignKey = end($segments);
                         $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
 
                         if(is_a($relation, MorphTo::class))
