@@ -39,7 +39,6 @@ class SelectFields {
         {
             self::$args = $args;
             $requestedFields = $info->getFieldSelection(5);
-            $parentTypeName = $parentType->config['name'];
 
             // If use pagination,
             // $parentType & $requestedFields should use QueryType
