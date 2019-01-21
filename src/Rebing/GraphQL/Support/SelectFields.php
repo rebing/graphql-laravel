@@ -39,21 +39,19 @@ class SelectFields {
         {
             self::$args = $args;
             $requestedFields = $info->getFieldSelection(5);
-            $parentTypeName = get_object_vars($parentType)['config']['name'];
+            $parentTypeName = $parentType->config['name'];
 
             // If use pagination,
             // $parentType & $requestedFields should use QueryType
             // instead of paginationType
             $paginationType = config('graphql.pagination_type', PaginationType::class);
             if($info->returnType instanceof $paginationType){
-                // get pagination data key [default: data]
-                $paginationDataKey = array_keys($requestedFields)[0];
-                // use QueryType fields instead of pagination fields
-                $requestedFields = $requestedFields[$paginationDataKey];
-                // use QueryType instead of pagination type
-                $parentType = get_object_vars(
-                    get_object_vars($parentType)['config']['fields'][$paginationDataKey]['type']
-                )['ofType'];
+                foreach ($parentType->config['fields'] as $key => $field) {
+                    if($field['type'] instanceof ListOfType) {
+                        $requestedFields = $requestedFields[$key];
+                        $parentType = $field['type']->ofType;
+                    }
+                }
             }
 
             $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
