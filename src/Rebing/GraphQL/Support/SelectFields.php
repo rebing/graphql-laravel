@@ -6,7 +6,6 @@ use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\UnionType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,18 +38,11 @@ class SelectFields {
         {
             self::$args = $args;
             $requestedFields = $info->getFieldSelection(5);
-
-            // If use pagination,
-            // $parentType & $requestedFields should use QueryType
-            // instead of paginationType
             $paginationType = config('graphql.pagination_type', PaginationType::class);
-            if($info->returnType instanceof $paginationType){
-                foreach ($parentType->config['fields'] as $key => $field) {
-                    if($field['type'] instanceof ListOfType) {
-                        $requestedFields = $requestedFields[$key];
-                        $parentType = $field['type']->ofType;
-                    }
-                }
+
+            if ($parentType instanceof $paginationType) {
+                $requestedFields = $requestedFields[$parentType->dataKey];
+                $parentType = $info->schema->getType($parentType->typeName);
             }
 
             $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
