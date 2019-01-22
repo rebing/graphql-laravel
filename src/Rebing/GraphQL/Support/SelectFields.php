@@ -38,8 +38,15 @@ class SelectFields {
         if( ! is_null($info->fieldNodes[0]->selectionSet))
         {
             self::$args = $args;
+            $requestedFields = $info->getFieldSelection(5);
+            $paginationType = config('graphql.pagination_type', PaginationType::class);
 
-            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+            if ($parentType instanceof $paginationType) {
+                $requestedFields = $requestedFields[$parentType->dataKey];
+                $parentType = $info->schema->getType($parentType->typeName);
+            }
+
+            $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
