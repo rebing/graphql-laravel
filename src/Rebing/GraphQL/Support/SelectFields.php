@@ -2,6 +2,7 @@
 
 namespace Rebing\GraphQL\Support;
 
+use function array_key_exists;
 use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\InterfaceType;
@@ -195,13 +196,10 @@ class SelectFields {
                             }
                         }
                         // If 'HasMany', then add it in the 'with'
-                        elseif(is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class))
+                        elseif((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class))
+                            && !array_key_exists($foreignKey, $field))
                         {
-                            $foreignKey = explode('.', $foreignKey)[2];
-                            if( ! array_key_exists($foreignKey, $field))
-                            {
-                                $field[$foreignKey] = self::FOREIGN_KEY;
-                            }
+                            $field[$foreignKey] = self::FOREIGN_KEY;
                         }
 
                         // New parent type, which is the relation
