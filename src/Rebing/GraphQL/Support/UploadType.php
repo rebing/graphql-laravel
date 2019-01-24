@@ -14,7 +14,6 @@ class UploadType extends ScalarType {
      * @var string
      */
     public $name = 'Upload';
-
     /**
      * @var string
      */
@@ -50,10 +49,6 @@ class UploadType extends ScalarType {
      */
     public function parseValue($value)
     {
-        if (!$value instanceof UploadedFile) {
-            throw new \UnexpectedValueException('Could not get uploaded file, be sure to conform to GraphQL multipart request specification. Instead got: ' . Utils::printSafe($value));
-        }
-
         return $value;
     }
 
@@ -67,5 +62,13 @@ class UploadType extends ScalarType {
     public function parseLiteral($valueNode, ?array $variables = NULL)
     {
         throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: ' . $valueNode->kind, [$valueNode]);
+    }
+
+    public static function getInstance() {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new UploadType();
+        }
+        return $inst;
     }
 }

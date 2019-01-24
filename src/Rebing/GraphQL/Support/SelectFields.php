@@ -38,8 +38,15 @@ class SelectFields {
         if( ! is_null($info->fieldNodes[0]->selectionSet))
         {
             self::$args = $args;
+            $requestedFields = $info->getFieldSelection(5);
+            $paginationType = config('graphql.pagination_type', PaginationType::class);
 
-            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+            if ($parentType instanceof $paginationType) {
+                $requestedFields = $requestedFields[$parentType->dataKey];
+                $parentType = $info->schema->getType($parentType->typeName);
+            }
+
+            $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
@@ -169,9 +176,7 @@ class SelectFields {
                             $foreignKey = $relation->getQualifiedForeignKeyName();
                         }
 
-                        $segments = explode('.', $foreignKey);
-                        $foreignKey = end($segments);
-                        $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
+                        $foreignKey = $parentTable ? ($parentTable . '.' . preg_replace('/^' . preg_quote($parentTable) . '\./', '', $foreignKey)) : $foreignKey;
 
                         if(is_a($relation, MorphTo::class))
                         {
@@ -199,7 +204,12 @@ class SelectFields {
                         elseif((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class))
                             && !array_key_exists($foreignKey, $field))
                         {
-                            $field[$foreignKey] = self::FOREIGN_KEY;
+                            $segments = explode('.', $foreignKey);
+                            $foreignKey = end($segments);
+                            if( ! array_key_exists($foreignKey, $field))
+                            {
+                                $field[$foreignKey] = self::FOREIGN_KEY;
+                            }
                         }
 
                         // New parent type, which is the relation

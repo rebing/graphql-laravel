@@ -503,7 +503,7 @@ class UserProfilePhotoMutation extends Mutation
         return [
             'profilePicture' => [
                 'name' => 'profilePicture',
-                'type' => new UploadType($this->attributes['name']),
+                'type' => UploadType::getInstance(),
                 'rules' => ['required', 'image', 'max:1500'],
             ],
         ];
