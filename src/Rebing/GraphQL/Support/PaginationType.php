@@ -9,25 +9,17 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType {
 
-    public $typeName;
-    public $dataKey = 'data';
-
     public function __construct($typeName, $customName = null)
     {
-        $this->typeName = $typeName;
-        $name = $customName ?: $this->typeName . '_pagination';
-
-        $customPaginator = config('graphql.custom_paginators.' . $name, null);
-        $customFields = $customPaginator ? $customPaginator::getPaginationFields() : [];
+        $name = $customName ?: $typeName . 'Pagination';
 
         $config = [
             'name'  => $name,
             'fields' => array_merge(
                 $this->getPaginationFields(),
-                $customFields,
                 [
-                    $this->dataKey => [
-                        'type'      => GraphQLType::listOf(GraphQL::type($this->typeName)),
+                    'data' => [
+                        'type'      => GraphQLType::listOf(GraphQL::type($typeName)),
                         'resolve'   => function(LengthAwarePaginator $data) { return $data->getCollection();  },
                     ],
                 ]

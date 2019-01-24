@@ -296,10 +296,9 @@ class GraphQL {
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
-            if ($error instanceof \GraphQL\Error\Error) {
-                continue;
+            if ($error instanceof \Exception) {
+                $handler->report($error);
             }
-            $handler->report($error);
         }
         return array_map($formatter, $errors);
     }
