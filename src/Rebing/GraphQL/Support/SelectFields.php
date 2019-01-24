@@ -176,9 +176,7 @@ class SelectFields {
                             $foreignKey = $relation->getQualifiedForeignKeyName();
                         }
 
-                        $segments = explode('.', $foreignKey);
-                        $foreignKey = end($segments);
-                        $foreignKey = $parentTable ? ($parentTable . '.' . $foreignKey) : $foreignKey;
+                        $foreignKey = $parentTable ? ($parentTable . '.' . preg_replace('/^' . preg_quote($parentTable) . '\./', '', $foreignKey)) : $foreignKey;
 
                         if(is_a($relation, MorphTo::class))
                         {
@@ -206,7 +204,12 @@ class SelectFields {
                         elseif((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class))
                             && !array_key_exists($foreignKey, $field))
                         {
-                            $field[$foreignKey] = self::FOREIGN_KEY;
+                            $segments = explode('.', $foreignKey);
+                            $foreignKey = end($segments);
+                            if( ! array_key_exists($foreignKey, $field))
+                            {
+                                $field[$foreignKey] = self::FOREIGN_KEY;
+                            }
                         }
 
                         // New parent type, which is the relation
