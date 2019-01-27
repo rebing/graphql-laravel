@@ -552,7 +552,6 @@ If you want to change the name of a default field to fit with users expectations
 than 'total'), just copy the entry for the field you want to replace (they're in Rebing/GraphQL/Support/PaginationType.php) 
 and add it to your custom class.
 
-```
 ### Batching
 
 You can send multiple queries (or mutations) at once by grouping them together. Therefore, instead of creating two HTTP requests:
