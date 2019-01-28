@@ -18,7 +18,7 @@ class UpdateExampleMutationWithInputType extends Mutation
     public function rules(array $args = [])
     {
         return [
-            'test' => ['required'],
+            'test' => ['email'],
         ];
     }
 
@@ -33,20 +33,26 @@ class UpdateExampleMutationWithInputType extends Mutation
             'test_with_rules' => [
                 'name' => 'test',
                 'type' => Type::string(),
-                'rules' => ['required'],
+                'rules' => ['email'],
             ],
 
             'test_with_rules_closure' => [
                 'name' => 'test',
                 'type' => Type::string(),
                 'rules' => function () {
-                    return ['required'];
+                    return ['email'];
                 },
             ],
 
-            'test_with_rules_input_object' => [
+            'test_with_rules_nullable_input_object' => [
                 'name' => 'test',
                 'type' => GraphQL::type('ExampleValidationInputObject'),
+                'rules' => ['nullable'],
+            ],
+
+            'test_with_rules_non_nullable_input_object' => [
+                'name' => 'test',
+                'type' => Type::nonNull(GraphQL::type('ExampleValidationInputObject')),
                 'rules' => ['required'],
             ],
         ];
