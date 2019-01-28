@@ -146,7 +146,6 @@ class MutationTest extends FieldTest
     {
         $class = $this->getFieldClass();
         $field = new $class();
-        // $rules = $field->getRules();
         $attributes = $field->getAttributes();
         try {
             $attributes['resolve'](null, [
