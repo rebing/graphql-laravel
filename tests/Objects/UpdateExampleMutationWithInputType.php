@@ -18,7 +18,7 @@ class UpdateExampleMutationWithInputType extends Mutation
     public function rules(array $args = [])
     {
         return [
-            'test' => ['email'],
+            'test' => ['required'],
         ];
     }
 
@@ -33,14 +33,14 @@ class UpdateExampleMutationWithInputType extends Mutation
             'test_with_rules' => [
                 'name' => 'test',
                 'type' => Type::string(),
-                'rules' => ['email'],
+                'rules' => ['required'],
             ],
 
             'test_with_rules_closure' => [
                 'name' => 'test',
                 'type' => Type::string(),
                 'rules' => function () {
-                    return ['email'];
+                    return ['required'];
                 },
             ],
 
