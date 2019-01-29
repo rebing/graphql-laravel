@@ -73,7 +73,8 @@ class Field extends Fluent {
                 }
             }
 
-            if (isset($arg['type'])) {
+            if (isset($arg['type'])
+                && ($arg['type'] instanceof NonNull || isset(array_get($arguments, 0, [])[$name]))) {
                 $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
             }
         }
