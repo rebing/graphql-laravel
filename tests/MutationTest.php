@@ -38,12 +38,18 @@ class MutationTest extends FieldTest
         $this->assertEquals($rules['test'], ['required']);
         $this->assertEquals($rules['test_with_rules'], ['required']);
         $this->assertEquals($rules['test_with_rules_closure'], ['required']);
-        $this->assertEquals($rules['test_with_rules_input_object'], ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_input_object.val'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_input_object.nest'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_input_object.nest.email'), ['email']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_input_object.list'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_input_object.list.*.email'), ['email']);
+        $this->assertEquals($rules['test_with_rules_nullable_input_object'], ['nullable']);
+        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.val'));
+        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.nest'));
+        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.nest.email'));
+        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.list'));
+        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.list.*.email'));
+        $this->assertEquals($rules['test_with_rules_non_nullable_input_object'], ['required']);
+        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.val'), ['required']);
+        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.nest'), ['required']);
+        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.nest.email'), ['email']);
+        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.list'), ['required']);
+        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.list.*.email'), ['email']);
     }
 
     /**
@@ -66,7 +72,14 @@ class MutationTest extends FieldTest
             'test' => 'test',
             'test_with_rules' => 'test',
             'test_with_rules_closure' => 'test',
-            'test_with_rules_input_object' => [
+            'test_with_rules_nullable_input_object' => [
+                'val' => 'test',
+                'nest' => ['email' => 'test@test.com'],
+                'list' => [
+                    ['email' => 'test@test.com'],
+                ],
+            ],
+            'test_with_rules_non_nullable_input_object' => [
                 'val' => 'test',
                 'nest' => ['email' => 'test@test.com'],
                 'list' => [
@@ -115,9 +128,12 @@ class MutationTest extends FieldTest
             $this->assertTrue($messages->has('test'));
             $this->assertTrue($messages->has('test_with_rules'));
             $this->assertTrue($messages->has('test_with_rules_closure'));
-            $this->assertTrue($messages->has('test_with_rules_input_object.val'));
-            $this->assertTrue($messages->has('test_with_rules_input_object.nest'));
-            $this->assertTrue($messages->has('test_with_rules_input_object.list'));
+            $this->assertFalse($messages->has('test_with_rules_nullable_input_object.val'));
+            $this->assertFalse($messages->has('test_with_rules_nullable_input_object.nest'));
+            $this->assertFalse($messages->has('test_with_rules_nullable_input_object.list'));
+            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.val'));
+            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
+            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
         }
     }
 
@@ -130,19 +146,22 @@ class MutationTest extends FieldTest
     {
         $class = $this->getFieldClass();
         $field = new $class();
-        $rules = $field->getRules();
         $attributes = $field->getAttributes();
         try {
             $attributes['resolve'](null, [
-                 'test_with_rules_input_object' => [
-                     'nest' => ['email' => 'invalidTestEmail.com'],
-                 ],
+                'test_with_rules_nullable_input_object' => [
+                    'nest' => ['email' => 'invalidTestEmail.com'],
+                ],
+                'test_with_rules_non_nullable_input_object' => [
+                    'nest' => ['email' => 'invalidTestEmail.com'],
+                ],
              ], [], null);
         } catch (\Rebing\GraphQL\Error\ValidationError $e) {
             $messages = $e->getValidatorMessages();
 
             $this->assertEquals($messages->first('test'), 'The test field is required.');
-            $this->assertEquals($messages->first('test_with_rules_input_object.nest.email'), 'The test with rules input object.nest.email must be a valid email address.');
+            $this->assertEquals($messages->first('test_with_rules_nullable_input_object.nest.email'), 'The test with rules nullable input object.nest.email must be a valid email address.');
+            $this->assertEquals($messages->first('test_with_rules_non_nullable_input_object.nest.email'), 'The test with rules non nullable input object.nest.email must be a valid email address.');
         }
     }
 }
