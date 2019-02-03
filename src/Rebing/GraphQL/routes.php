@@ -89,7 +89,7 @@ Route::group(array_merge([
             {
                 Route::match(
                     array_get($schema, 'method', ['get', 'post']),
-                    Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
+                    Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $mutationRoute),
                     [
                         'uses'          => $mutationController,
                         'middleware'    => array_get($schema, 'middleware', []),
