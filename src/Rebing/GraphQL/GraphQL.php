@@ -296,7 +296,7 @@ class GraphQL {
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
-            if ($error instanceof \Exception) {
+            if ($error instanceof \Exception && !($error instanceof ValidationError)) {
                 $handler->report($error);
             }
         }
