@@ -2,6 +2,7 @@
 
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
+use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Schema;
@@ -296,9 +297,13 @@ class GraphQL {
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
-            if ($error instanceof \Exception && !($error instanceof ValidationError)) {
-                $handler->report($error);
+            // Don't report certain GraphQL errors
+            if ($error instanceof ValidationError
+                || $error instanceof AuthorizationError
+                || !($error instanceof \Exception)) {
+                continue;
             }
+            $handler->report($error);
         }
         return array_map($formatter, $errors);
     }
