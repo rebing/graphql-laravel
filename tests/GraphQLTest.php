@@ -183,7 +183,9 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('locations', $error);
         $this->assertEquals($error, [
             'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
-            'category' => 'graphql',
+            'extensions' => [
+                'category' => 'graphql',
+            ],
             'locations' => [
                 [
                     'line' => 3,
