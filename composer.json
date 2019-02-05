@@ -42,6 +42,9 @@
         }
     },
     "autoload-dev": {
+        "files": [
+            "src/Rebing/GraphQL/helpers.php"
+        ],
         "classmap": [
             "tests/"
         ]
