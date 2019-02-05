@@ -142,7 +142,7 @@ class SelectFields {
                 $queryable = self::isQueryable($fieldObject->config);
 
                 // Pagination
-                if(is_a($parentType, PaginationType::class))
+                if(is_a($parentType, config('graphql.pagination_type', PaginationType::class)))
                 {
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
