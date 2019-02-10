@@ -1,6 +1,8 @@
 <?php
 
-Route::group(array_merge([
+$router = app('router');
+
+$router->group(array_merge([
     'prefix'        => config('graphql.prefix'),
     'middleware'    => config('graphql.middleware', []),
 ], config('graphql.route_group_attributes', [])), function($router)
@@ -44,28 +46,38 @@ Route::group(array_merge([
         {
             $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
             $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
-            Route::match($defaultMethod, preg_replace($schemaParameterPattern, '', $queryRoute), [
-                'uses'          => $queryController,
-                'middleware'    => $defaultMiddleware,
-            ]);
+
+            foreach ($defaultMethod as $method) {
+                $router->{$method}(
+                    preg_replace($schemaParameterPattern, '', $queryRoute),
+                    [
+                        'uses'          => $queryController,
+                        'middleware'    => $defaultMiddleware,
+                    ]
+                );
+            }
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::match(
-                    array_get($schema, 'method', ['get', 'post']),
-                    Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
-                    [
-                        'uses'          => $queryController,
-                        'middleware'    => array_get($schema, 'middleware', []),
-                    ]
-                )->where($name, $name);
+                foreach (array_get($schema, 'method', ['get', 'post']) as $method) {
+                    $route = $router->{$method}(
+                        Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
+                        [
+                            'uses'          => $queryController,
+                            'middleware'    => array_get($schema, 'middleware', []),
+                        ]
+                    );
+
+                    if (! is_lumen()) {
+                        $route->where($name, $name);
+                    }
+                }
             }
         }
         else
         {
-            Route::match(['get', 'post'], $queryRoute, [
-                'uses'  => $queryController
-            ]);
+            $router->get($queryRoute, ['uses'  => $queryController]);
+            $router->post($queryRoute, ['uses' => $queryController]);
         }
     }
 
@@ -76,58 +88,67 @@ Route::group(array_merge([
         {
             $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
             $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
-            Route::match(
-                $defaultMethod,
-                preg_replace($schemaParameterPattern, '', $mutationRoute),
-                [
-                    'uses'          => $mutationController,
-                    'middleware'    => $defaultMiddleware,
-                ]
-            );
+
+            foreach ($defaultMethod as $method) {
+                $router->{$method}(
+                    preg_replace($schemaParameterPattern, '', $mutationRoute),
+                    [
+                        'uses'          => $mutationController,
+                        'middleware'    => $defaultMiddleware,
+                    ]
+                );
+            }
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                Route::match(
-                    array_get($schema, 'method', ['get', 'post']),
-                    Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $mutationRoute),
-                    [
-                        'uses'          => $mutationController,
-                        'middleware'    => array_get($schema, 'middleware', []),
-                    ]
-                )->where($name, $name);
+                foreach (array_get($schema, 'method', ['get', 'post']) as $method) {
+                    $route = $router->{$method}(
+                        Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $mutationRoute),
+                        [
+                            'uses'          => $mutationController,
+                            'middleware'    => array_get($schema, 'middleware', []),
+                        ]
+                    );
+
+                    if (! is_lumen()) {
+                        $route->where($name, $name);
+                    }
+                }
             }
         }
         else
         {
-            Route::match(['get', 'post'], $mutationRoute, [
-                'uses'  => $mutationController
-            ]);
+            $router->get($mutationRoute, ['uses'  => $mutationController]);
+            $router->post($mutationRoute, ['uses' => $mutationController]);
         }
     }
 });
 
 if (config('graphql.graphiql.display', true))
 {
-    Route::group([
+    $router->group([
         'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
         'middleware'    => config('graphql.graphiql.middleware', [])
     ], function ($router)
     {
         $graphiqlController =  config('graphql.graphiql.controller', \Rebing\GraphQL\GraphQLController::class . '@graphiql');
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
+        $graphiqlAction = ['uses' => $graphiqlController];
+
         foreach (config('graphql.schemas') as $name => $schema)
         {
-            Route::match(
-                ['get', 'post'],
-                Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
-                ['uses' => $graphiqlController]
-            )->where($name, $name);
+            $route = $router->get(Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'), $graphiqlAction);
+            if (! is_lumen()) {
+                $route->where($name, $name);
+            }
+
+            $route = $router->post(Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'), $graphiqlAction);
+            if (! is_lumen()) {
+                $route->where($name, $name);
+            }
         }
 
-        Route::match(
-            ['get', 'post'],
-            '/',
-            ['uses'  => $graphiqlController]
-        );
+        $router->get('/', $graphiqlAction);
+        $router->post('/', $graphiqlAction);
     });
 }
