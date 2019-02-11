@@ -94,6 +94,7 @@ config/graphql.php
 - [Creating a mutation](#creating-a-mutation)
 - [Adding validation to mutation](#adding-validation-to-mutation)
 - [File uploads](#file-uploads)
+- [Deprecating a field](#deprecating-a-field)
 
 ##### Advanced Usage
 
@@ -546,6 +547,62 @@ class UserProfilePhotoMutation extends Mutation
 ```
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
+
+
+#### Deprecating a field
+
+Sometimes you would want to deprecate a field but still have to maintain backward compatibility 
+until clients completely stop using that field. You can deprecate a field using 
+[directive](https://www.apollographql.com/docs/graphql-tools/schema-directives.html). If you add `deprecationReason` 
+to field attributes and it will become marked as deprecated in GraphQL documentation. You can validate schema on client 
+using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apollo-engine-4032456425ba).
+
+
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{    
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields()
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user',
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user',
+            ],
+            'address' => [
+                'type' => Type::string(),
+                'description' => 'The address of user',
+                'deprecationReason' => 'Deprecated due to address field split'
+            ],
+            'address_line_1' => [
+                'type' => Type::string(),
+                'description' => 'The address line 1 of user',
+            ],
+            'address_line_2' => [
+                'type' => Type::string(),
+                'description' => 'The address line 2 of user',
+            ],
+        ];
+    }
+}
+```
 
 ### Advanced usage
 - [Authorization](docs/advanced.md#authorization)
