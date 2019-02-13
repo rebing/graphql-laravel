@@ -32,6 +32,12 @@ class PaginationType extends ObjectType {
     protected function getPaginationFields()
     {
         return [
+            'count' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Number of teh current paginated items selected by the query',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->count(); },
+                'selectable'    => false,
+            ],
             'total' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of total items selected by the query',
@@ -48,6 +54,12 @@ class PaginationType extends ObjectType {
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Current page of the cursor',
                 'resolve'       => function(LengthAwarePaginator $data) { return $data->currentPage(); },
+                'selectable'    => false,
+            ],
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Last page for the cursor',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->lastPage(); },
                 'selectable'    => false,
             ],
             'from' => [
