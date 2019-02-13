@@ -34,7 +34,7 @@ class PaginationType extends ObjectType {
         return [
             'count' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
-                'description'   => 'Number of teh current paginated items selected by the query',
+                'description'   => 'Number of the current paginated items selected by the query',
                 'resolve'       => function(LengthAwarePaginator $data) { return $data->count(); },
                 'selectable'    => false,
             ],
