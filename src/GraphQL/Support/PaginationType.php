@@ -116,4 +116,3 @@ class PaginationType extends ObjectType
         return $this->customName;
     }
 }
-
