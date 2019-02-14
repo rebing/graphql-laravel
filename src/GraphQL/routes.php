@@ -9,8 +9,10 @@ $router->group(array_merge([
 {
     // Routes
     $routes = config('graphql.routes');
+
     $queryRoute = null;
     $mutationRoute = null;
+
     if(is_array($routes))
     {
         $queryRoute = array_get($routes, 'query');
@@ -24,8 +26,10 @@ $router->group(array_merge([
 
     // Controllers
     $controllers = config('graphql.controllers', \Rebing\GraphQL\GraphQLController::class . '@query');
+
     $queryController = null;
     $mutationController = null;
+
     if(is_array($controllers))
     {
         $queryController = array_get($controllers, 'query');
