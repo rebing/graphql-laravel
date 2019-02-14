@@ -26,18 +26,20 @@ It offers following features and improvements over the original package by
 
 #### Dependencies:
 
-* [Laravel 5.x](https://github.com/laravel/laravel)
+* [Laravel 5.x](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
 #### Installation:
 
-**1.** Require the package via Composer
+**-** Require the package via Composer
 ```bash
 composer require rebing/graphql-laravel
 ```
 
-**2.** Laravel 5.5+ will autodiscover the package, for older versions add the
+##### Laravel 5.5+
+
+**1.** Laravel 5.5+ will autodiscover the package, for older versions add the
 following service provider
 ```php
 Rebing\GraphQL\GraphQLServiceProvider::class,
@@ -50,9 +52,34 @@ and alias
 
 in your `config/app.php` file.
 
-**3.** Publish the configuration file
+**2.** Publish the configuration file
 ```bash
 $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+```
+
+**3.** Review the configuration file
+```
+config/graphql.php
+```
+
+##### Lumen
+
+**1.** Add the following service provider to the `bootstrap/app.php` file
+```php
+$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
+```
+
+**2.** Publish the configuration file
+```bash
+$ php artisan graphql:publish"
+```
+
+**3.** Add the configuration to the `bootstrap/app.php` file
+    *Important:* this needs to be before the registration of the service provider
+```php
+$app->configure('graphql');
+...
+$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 ```
 
 **4.** Review the configuration file
