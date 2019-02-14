@@ -1,18 +1,13 @@
 <?php
-
 namespace Rebing\GraphQL\Support;
-
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-
 class PaginationType extends ObjectType {
-
     public function __construct($typeName, $customName = null)
     {
         $name = $customName ?: $typeName . 'Pagination';
-
         $config = [
             'name'  => $name,
             'fields' => array_merge(
@@ -25,13 +20,17 @@ class PaginationType extends ObjectType {
                 ]
             )
         ];
-
         parent::__construct($config);
     }
-
     protected function getPaginationFields()
     {
         return [
+            'count' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Number of current paginated items selected by the query',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->count(); },
+                'selectable'    => false,
+            ],
             'total' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of total items selected by the query',
@@ -50,6 +49,12 @@ class PaginationType extends ObjectType {
                 'resolve'       => function(LengthAwarePaginator $data) { return $data->currentPage(); },
                 'selectable'    => false,
             ],
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Last page for the cursor',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->lastPage(); },
+                'selectable'    => false,
+            ],
             'from' => [
                 'type'          => GraphQLType::int(),
                 'description'   => 'Number of the first item returned',
@@ -64,5 +69,4 @@ class PaginationType extends ObjectType {
             ],
         ];
     }
-
 }
