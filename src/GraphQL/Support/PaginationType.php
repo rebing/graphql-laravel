@@ -9,22 +9,28 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType
 {
+    protected $typeName;
+    protected $customName;
+
     public function __construct($typeName, $customName = null)
     {
-        $paginationTypeName = $this->getPaginationTypeName($typeName, $customName);
+        $this->typeName = $typeName;
+        $this->customName = $customName;
 
-        $config = $this->getConfig($paginationTypeName);
+        $config = $this->getConfig();
 
         parent::__construct($config);
     }
 
-    public function getPaginationTypeName($typeName, $customName)
+    public function getPaginationTypeName()
     {
-        return $customName ?: $typeName.'Pagination';
+        return $this->customName ?: $this->typeName.'Pagination';
     }
 
     public function getPaginationFields()
     {
+        $typeName = $this->getTypeName();
+
         return [
             'data' => [
                 'type'          => GraphQLType::listOf(GraphQL::type($typeName)),
@@ -92,11 +98,22 @@ class PaginationType extends ObjectType
         ];
     }
 
-    public function getConfig($typeName)
+    public function getConfig()
     {
         return [
-            'name'   => $typeName,
+            'name'   => $this->getPaginationTypeName(),
             'fields' => $this->getPaginationFields(),
         ];
     }
+
+    public function getTypeName()
+    {
+        return $this->typeName;
+    }
+
+    public function getCustomName()
+    {
+        return $this->customName;
+    }
 }
+
