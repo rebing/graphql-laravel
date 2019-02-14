@@ -1,13 +1,13 @@
 <?php
 
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
 use GraphQL\GraphQL;
-use Rebing\GraphQL\Support\SelectFields;
-use Models\User; // not included in this project
+use GraphQL\Type\Definition\Type;
+use Models\User;
+use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SelectFields; // not included in this project
 
-class UserQuery extends Query {
-
+class UserQuery extends Query
+{
     use Authenticate;
 
     protected $attributes = [
@@ -36,5 +36,4 @@ class UserQuery extends Query {
 
         return User::where('id', '=', $args['id'])->with($with)->select($select)->first();
     }
-
 }

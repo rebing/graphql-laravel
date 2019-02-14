@@ -41,7 +41,7 @@ return [
     //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
+    'controllers' => \Rebing\GraphQL\GraphQLController::class.'@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
@@ -106,7 +106,7 @@ return [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
             'middleware' => [],
-            'method' => ['get', 'post'],
+            'method'     => ['get', 'post'],
         ],
     ],
 
@@ -133,7 +133,7 @@ return [
     // ]
     'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
 
-    /**
+    /*
      * Custom Error Handling
      *
      * Expected handler signature is: function (array $errors, callable $formatter): array
@@ -151,9 +151,9 @@ return [
      * for details. Disabled by default.
      */
     'security' => [
-        'query_max_complexity' => null,
-        'query_max_depth' => null,
-        'disable_introspection' => false
+        'query_max_complexity'  => null,
+        'query_max_depth'       => null,
+        'disable_introspection' => false,
     ],
 
     /*
@@ -166,10 +166,10 @@ return [
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
-        'prefix' => '/graphiql/{graphql_schema?}',
+        'prefix'     => '/graphiql/{graphql_schema?}',
         'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
         'middleware' => [],
-        'view' => 'graphql::graphiql',
-        'display' => env('ENABLE_GRAPHIQL', true),
+        'view'       => 'graphql::graphiql',
+        'display'    => env('ENABLE_GRAPHIQL', true),
     ],
 ];

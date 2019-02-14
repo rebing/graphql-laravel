@@ -5,11 +5,9 @@ namespace Rebing\GraphQL\Support;
 use GraphQL\Error\Error;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\ScalarType;
-use GraphQL\Utils\Utils;
-use \Illuminate\Http\UploadedFile;
 
-class UploadType extends ScalarType {
-
+class UploadType extends ScalarType
+{
     /**
      * @var string
      */
@@ -41,7 +39,7 @@ class UploadType extends ScalarType {
     }
 
     /**
-     * Parses an externally provided value (query variable) to use as an input
+     * Parses an externally provided value (query variable) to use as an input.
      *
      * @param mixed $value
      *
@@ -53,22 +51,24 @@ class UploadType extends ScalarType {
     }
 
     /**
-     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
+     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
      *
      * @param \GraphQL\Language\AST\Node $valueNode
      *
      * @return mixed
      */
-    public function parseLiteral($valueNode, ?array $variables = NULL)
+    public function parseLiteral($valueNode, ?array $variables = null)
     {
-        throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: ' . $valueNode->kind, [$valueNode]);
+        throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: '.$valueNode->kind, [$valueNode]);
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         static $inst = null;
         if ($inst === null) {
-            $inst = new UploadType();
+            $inst = new self();
         }
+
         return $inst;
     }
 }

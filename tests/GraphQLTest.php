@@ -1,17 +1,15 @@
 <?php
 
-use GraphQL\Type\Schema;
+use GraphQL\Error\Error;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Error\Error;
+use GraphQL\Type\Schema;
 use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Events\TypeAdded;
-use Rebing\GraphQL\Events\SchemaAdded;
 
 class GraphQLTest extends TestCase
 {
     /**
-     * Test schema default
+     * Test schema default.
      *
      * @test
      */
@@ -26,7 +24,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test schema with object
+     * Test schema with object.
      *
      * @test
      */
@@ -34,12 +32,12 @@ class GraphQLTest extends TestCase
     {
         $schemaObject = new Schema([
             'query' => new ObjectType([
-                'name' => 'Query'
+                'name' => 'Query',
             ]),
             'mutation' => new ObjectType([
-                'name' => 'Mutation'
+                'name' => 'Mutation',
             ]),
-            'types' => []
+            'types' => [],
         ]);
         $schema = GraphQL::schema($schemaObject);
 
@@ -47,7 +45,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test schema with name
+     * Test schema with name.
      *
      * @test
      */
@@ -62,7 +60,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test schema custom
+     * Test schema custom.
      *
      * @test
      */
@@ -70,14 +68,14 @@ class GraphQLTest extends TestCase
     {
         $schema = GraphQL::schema([
             'query' => [
-                'examplesCustom' => ExamplesQuery::class
+                'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class
+                'updateExampleCustom' => UpdateExampleMutation::class,
             ],
             'types' => [
-                CustomExampleType::class
-            ]
+                CustomExampleType::class,
+            ],
         ]);
 
         $this->assertGraphQLSchema($schema);
@@ -87,7 +85,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test schema with wrong name
+     * Test schema with wrong name.
      *
      * @test
      * @expectedException \Rebing\GraphQL\Exception\SchemaNotFound
@@ -98,7 +96,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test type
+     * Test type.
      *
      * @test
      */
@@ -115,7 +113,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test wrong type
+     * Test wrong type.
      *
      * @test
      * @expectedException \Exception
@@ -126,17 +124,17 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test objectType
+     * Test objectType.
      *
      * @test
      */
     public function testObjectType()
     {
         $objectType = new ObjectType([
-            'name' => 'ObjectType'
+            'name' => 'ObjectType',
         ]);
         $type = GraphQL::objectType($objectType, [
-            'name' => 'ExampleType'
+            'name' => 'ExampleType',
         ]);
 
         $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
@@ -148,11 +146,11 @@ class GraphQLTest extends TestCase
     {
         $type = GraphQL::objectType([
             'test' => [
-                'type' => Type::string(),
-                'description' => 'A test field'
-            ]
+                'type'        => Type::string(),
+                'description' => 'A test field',
+            ],
         ], [
-            'name' => 'ExampleType'
+            'name' => 'ExampleType',
         ]);
 
         $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
@@ -164,7 +162,7 @@ class GraphQLTest extends TestCase
     public function testObjectTypeClass()
     {
         $type = GraphQL::objectType(ExampleType::class, [
-            'name' => 'ExampleType'
+            'name' => 'ExampleType',
         ]);
 
         $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
@@ -182,23 +180,23 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('message', $error);
         $this->assertArrayHasKey('locations', $error);
         $this->assertEquals($error, [
-            'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
+            'message'    => 'Cannot query field "examplesQueryNotFound" on type "Query".',
             'extensions' => [
                 'category' => 'graphql',
             ],
             'locations' => [
                 [
-                    'line' => 3,
-                    'column' => 13
-                ]
-            ]
+                    'line'   => 3,
+                    'column' => 13,
+                ],
+            ],
         ]);
     }
 
     public function testFormatValidationError()
     {
         $validator = Validator::make([], [
-            'test' => 'required'
+            'test' => 'required',
         ]);
         $validator->fails();
         $validationError = with(new ValidationError('validation'))->setValidator($validator);
@@ -211,7 +209,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test add type
+     * Test add type.
      *
      * @test
      */
@@ -230,7 +228,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test add type with a name
+     * Test add type with a name.
      *
      * @test
      */
@@ -249,7 +247,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test get types
+     * Test get types.
      *
      * @test
      */
@@ -263,7 +261,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test add schema
+     * Test add schema.
      *
      * @test
      */
@@ -271,14 +269,14 @@ class GraphQLTest extends TestCase
     {
         GraphQL::addSchema('custom_add', [
             'query' => [
-                'examplesCustom' => ExamplesQuery::class
+                'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class
+                'updateExampleCustom' => UpdateExampleMutation::class,
             ],
             'types' => [
-                CustomExampleType::class
-            ]
+                CustomExampleType::class,
+            ],
         ]);
 
         $schemas = GraphQL::getSchemas();
@@ -286,7 +284,7 @@ class GraphQLTest extends TestCase
     }
 
     /**
-     * Test get schemas
+     * Test get schemas.
      *
      * @test
      */

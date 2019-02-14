@@ -6,7 +6,7 @@ use Rebing\GraphQL\Support\Query;
 class ExamplesQuery extends Query
 {
     protected $attributes = [
-        'name' => 'examples'
+        'name' => 'examples',
     ];
 
     public function type()
@@ -17,17 +17,17 @@ class ExamplesQuery extends Query
     public function args()
     {
         return [
-            'index' => ['name' => 'index', 'type' => Type::int()]
+            'index' => ['name' => 'index', 'type' => Type::int()],
         ];
     }
 
     public function resolve($root, $args)
     {
-        $data = include(__DIR__.'/data.php');
+        $data = include __DIR__.'/data.php';
 
         if (isset($args['index'])) {
             return [
-                $data[$args['index']]
+                $data[$args['index']],
             ];
         }
 

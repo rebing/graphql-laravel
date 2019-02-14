@@ -8,10 +8,10 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Fluent;
 
-class Type extends Fluent {
-    
+class Type extends Fluent
+{
     protected static $instances = [];
-    
+
     protected $inputObject = false;
     protected $enumObject = false;
     protected $unionType = false;
@@ -20,12 +20,12 @@ class Type extends Fluent {
     {
         return [];
     }
-    
+
     public function fields()
     {
         return [];
     }
-    
+
     public function interfaces()
     {
         return [];
@@ -33,53 +33,43 @@ class Type extends Fluent {
 
     protected function getFieldResolver($name, $field)
     {
-        if(isset($field['resolve']))
-        {
+        if (isset($field['resolve'])) {
             return $field['resolve'];
         }
 
         $resolveMethod = 'resolve'.studly_case($name).'Field';
 
-        if(method_exists($this, $resolveMethod))
-        {
-            $resolver = array($this, $resolveMethod);
-            return function() use ($resolver)
-            {
+        if (method_exists($this, $resolveMethod)) {
+            $resolver = [$this, $resolveMethod];
+
+            return function () use ($resolver) {
                 $args = func_get_args();
+
                 return call_user_func_array($resolver, $args);
             };
         }
-        
-        return null;
     }
-    
+
     public function getFields()
     {
         $fields = $this->fields();
         $allFields = [];
-        foreach($fields as $name => $field)
-        {
-            if(is_string($field))
-            {
+        foreach ($fields as $name => $field) {
+            if (is_string($field)) {
                 $field = app($field);
                 $field->name = $name;
                 $allFields[$name] = $field->toArray();
-            }
-            elseif ($field instanceof FieldDefinition)
-            {
+            } elseif ($field instanceof FieldDefinition) {
                 $allFields[$field->name] = $field;
-            }
-            else
-            {
+            } else {
                 $resolver = $this->getFieldResolver($name, $field);
-                if($resolver)
-                {
+                if ($resolver) {
                     $field['resolve'] = $resolver;
                 }
                 $allFields[$name] = $field;
             }
         }
-        
+
         return $allFields;
     }
 
@@ -92,15 +82,14 @@ class Type extends Fluent {
     {
         $attributes = $this->attributes();
         $interfaces = $this->interfaces();
-        
+
         $attributes = array_merge($this->attributes, [
             'fields' => function () {
                 return $this->getFields();
-            }
+            },
         ], $attributes);
-        
-        if(sizeof($interfaces))
-        {
+
+        if (count($interfaces)) {
             $attributes['interfaces'] = $interfaces;
         }
 
@@ -116,42 +105,44 @@ class Type extends Fluent {
     {
         return $this->getAttributes();
     }
-    
+
     public function toType()
     {
-        if($this->inputObject)
-        {
+        if ($this->inputObject) {
             return new InputObjectType($this->toArray());
         }
-        if ($this->enumObject)
-        {
+        if ($this->enumObject) {
             return new EnumType($this->toArray());
         }
+
         return new ObjectType($this->toArray());
     }
 
     /**
      * Dynamically retrieve the value of an attribute.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
     {
         $attributes = $this->getAttributes();
-        return isset($attributes[$key]) ? $attributes[$key]:null;
+
+        return isset($attributes[$key]) ? $attributes[$key] : null;
     }
 
     /**
      * Dynamically check if an attribute is set.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return bool
      */
     public function __isset($key)
     {
         $attributes = $this->getAttributes();
+
         return isset($attributes[$key]);
     }
-    
 }

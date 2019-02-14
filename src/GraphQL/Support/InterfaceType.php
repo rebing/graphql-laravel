@@ -4,19 +4,19 @@ namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
 
-class InterfaceType extends Type {
-
+class InterfaceType extends Type
+{
     protected function getTypeResolver()
     {
-        if(!method_exists($this, 'resolveType'))
-        {
-            return null;
+        if (!method_exists($this, 'resolveType')) {
+            return;
         }
-        
-        $resolver = array($this, 'resolveType');
-        return function() use ($resolver)
-        {
+
+        $resolver = [$this, 'resolveType'];
+
+        return function () use ($resolver) {
             $args = func_get_args();
+
             return call_user_func_array($resolver, $args);
         };
     }
@@ -29,19 +29,17 @@ class InterfaceType extends Type {
     public function getAttributes()
     {
         $attributes = parent::getAttributes();
-        
+
         $resolver = $this->getTypeResolver();
-        if(isset($resolver))
-        {
+        if (isset($resolver)) {
             $attributes['resolveType'] = $resolver;
         }
-        
+
         return $attributes;
     }
-    
+
     public function toType()
     {
         return new BaseInterfaceType($this->toArray());
     }
-    
 }

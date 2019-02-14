@@ -22,14 +22,14 @@ class PublishCommand extends Command
     protected $description = 'Publishes GraphQL configuration file to config directory of app';
 
     /**
-     * Filesystem instance for fs operations
+     * Filesystem instance for fs operations.
      *
      * @var Filesystem
      */
     protected $files;
 
     /**
-     * A list of files (source => destination)
+     * A list of files (source => destination).
      *
      * @var array
      */
@@ -40,12 +40,13 @@ class PublishCommand extends Command
         parent::__construct();
         $this->files = $files;
 
-        $fromPath = __DIR__ . '/../../..';
+        $fromPath = __DIR__.'/../../..';
         $this->fileMap = [
-            $fromPath.'/config/config.php' => app()->basePath('config/graphql.php'),
-            $fromPath.'/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php')
+            $fromPath.'/config/config.php'            => app()->basePath('config/graphql.php'),
+            $fromPath.'/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php'),
         ];
     }
+
     /**
      * Execute the console command.
      *
@@ -62,10 +63,12 @@ class PublishCommand extends Command
             $this->status($from, $to, 'File');
         }
     }
+
     /**
      * Create the directory to house the published files if needed.
      *
-     * @param  string $directory
+     * @param string $directory
+     *
      * @return void
      */
     protected function createParentDirectory($directory)
@@ -74,11 +77,13 @@ class PublishCommand extends Command
             $this->files->makeDirectory($directory, 0755, true);
         }
     }
+
     /**
      * Write a status message to the console.
      *
-     * @param  string $from
-     * @param  string $to
+     * @param string $from
+     * @param string $to
+     *
      * @return void
      */
     protected function status($from, $to)

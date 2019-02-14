@@ -10,22 +10,23 @@ use Illuminate\Http\Request;
 
 class GraphQLUploadMiddleware
 {
-     /**
+    /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
         $request = $this->processRequest($request);
+
         return $next($request);
     }
 
-
     /**
-     * Process the request and return either a modified request or the original one
+     * Process the request and return either a modified request or the original one.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -44,9 +45,9 @@ class GraphQLUploadMiddleware
     }
 
     /**
-     * Inject uploaded files defined in the 'map' key into the 'variables' key
+     * Inject uploaded files defined in the 'map' key into the 'variables' key.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Request
      */
@@ -84,9 +85,9 @@ class GraphQLUploadMiddleware
     }
 
     /**
-     * Validates that the request meet our expectations
+     * Validates that the request meet our expectations.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     private function validateParsedBody(Request $request)
     {
@@ -100,7 +101,7 @@ class GraphQLUploadMiddleware
 
         if (!is_array($bodyParams)) {
             throw new RequestError(
-                'GraphQL Server expects JSON object or array, but got ' . Utils::printSafeJson($bodyParams)
+                'GraphQL Server expects JSON object or array, but got '.Utils::printSafeJson($bodyParams)
             );
         }
 

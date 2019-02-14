@@ -14,21 +14,21 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->queries = include(__DIR__.'/Objects/queries.php');
-        $this->data = include(__DIR__.'/Objects/data.php');
+        $this->queries = include __DIR__.'/Objects/queries.php';
+        $this->data = include __DIR__.'/Objects/data.php';
     }
 
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                'examples' => ExamplesQuery::class,
-                'examplesAuthorize' => ExamplesAuthorizeQuery::class,
+                'examples'           => ExamplesQuery::class,
+                'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
             ],
             'mutation' => [
-                'updateExample' => UpdateExampleMutation::class
-            ]
+                'updateExample' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.schemas.custom', [
@@ -36,12 +36,12 @@ class TestCase extends BaseTestCase
                 'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class
-            ]
+                'updateExampleCustom' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class
+            'Example' => ExampleType::class,
         ]);
 
         $app['config']->set('app.debug', true);
@@ -83,14 +83,14 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Rebing\GraphQL\GraphQLServiceProvider::class
+            \Rebing\GraphQL\GraphQLServiceProvider::class,
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class
+            'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class,
         ];
     }
 }

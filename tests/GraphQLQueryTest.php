@@ -1,15 +1,12 @@
 <?php
 
-use GraphQL\Type\Schema;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Error\Error;
-use Rebing\GraphQL\Error\ValidationError;
+use GraphQL\Type\Schema;
 
 class GraphQLQueryTest extends TestCase
 {
     /**
-     * Test query
+     * Test query.
      *
      * @test
      */
@@ -20,12 +17,12 @@ class GraphQLQueryTest extends TestCase
         $this->assertObjectHasAttribute('data', $result);
 
         $this->assertEquals($result->data, [
-            'examples' => $this->data
+            'examples' => $this->data,
         ]);
     }
 
     /**
-     * Test query methods
+     * Test query methods.
      *
      * @test
      */
@@ -40,27 +37,27 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
-     * Test query with variables
+     * Test query with variables.
      *
      * @test
      */
     public function testQueryAndReturnResultWithVariables()
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithVariables'], [
-            'index' => 0
+            'index' => 0,
         ]);
 
         $this->assertObjectHasAttribute('data', $result);
         $this->assertCount(0, $result->errors);
         $this->assertEquals($result->data, [
             'examples' => [
-                $this->data[0]
-            ]
+                $this->data[0],
+            ],
         ]);
     }
 
     /**
-     * Test query with authorize
+     * Test query with authorize.
      *
      * @test
      */
@@ -72,7 +69,7 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
-     * Test query with schema
+     * Test query with schema.
      *
      * @test
      */
@@ -81,20 +78,20 @@ class GraphQLQueryTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'], null, [
             'schema' => [
                 'query' => [
-                    'examplesCustom' => ExamplesQuery::class
-                ]
-            ]
+                    'examplesCustom' => ExamplesQuery::class,
+                ],
+            ],
         ]);
 
         $this->assertObjectHasAttribute('data', $result);
         $this->assertCount(0, $result->errors);
         $this->assertEquals($result->data, [
-            'examplesCustom' => $this->data
+            'examplesCustom' => $this->data,
         ]);
     }
 
     /**
-     * Test query with error
+     * Test query with error.
      *
      * If an error was encountered before execution begins, the data entry should not be present in the result.
      *
@@ -111,7 +108,7 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
-     * Test query with validation error
+     * Test query with validation error.
      *
      * @test
      */
@@ -126,14 +123,14 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
-     * Test query with validation without error
+     * Test query with validation without error.
      *
      * @test
      */
     public function testQueryWithValidation()
     {
         $result = GraphQL::query($this->queries['examplesWithValidation'], [
-            'index' => 0
+            'index' => 0,
         ]);
 
         $this->assertArrayHasKey('data', $result);
