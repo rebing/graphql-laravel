@@ -4,7 +4,7 @@ namespace Rebing\GraphQL\Type\User;
 
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
-use Models\UserProfile; // not included in this project
+use Models\UserProfile;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserProfileType extends GraphQLType

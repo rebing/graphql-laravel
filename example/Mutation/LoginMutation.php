@@ -3,7 +3,7 @@
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Rebing\Services\Auth\UserLoginService; // not included in this project
+use Rebing\Services\Auth\UserLoginService;
 
 class LoginMutation extends Mutation
 {
