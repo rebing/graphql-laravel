@@ -62,7 +62,7 @@ $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 config/graphql.php
 ```
 
-##### Lumen
+##### Lumen (experimental!)
 
 **1.** Add the following service provider to the `bootstrap/app.php` file
 ```php
