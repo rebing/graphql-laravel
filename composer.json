@@ -1,5 +1,5 @@
 {
-    "name": "rebing/graphql-laravel",
+    "name": "absolvent/graphql-laravel",
     "description": "Laravel wrapper for PHP GraphQL",
     "keywords": ["framework", "laravel", "graphql", "react"],
     "authors": [
