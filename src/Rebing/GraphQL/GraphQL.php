@@ -9,6 +9,7 @@ use GraphQL\Type\Schema;
 use GraphQL\Error\FormattedError;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Exception\SchemaNotFound;
+use Rebing\GraphQL\Support\PaginationCursorType;
 use Rebing\GraphQL\Support\PaginationType;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 
@@ -266,6 +267,10 @@ class GraphQL {
     public function paginate($typeName, $customName = null)
     {
         $name = $customName ?: $typeName . '_pagination';
+
+        if (!isset($this->types['PaginationCursor'])) {
+            $this->types['PaginationCursor'] = new PaginationCursorType();
+        }
 
         if(!isset($this->typesInstances[$name]))
         {
