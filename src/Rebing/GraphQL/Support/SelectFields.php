@@ -68,15 +68,15 @@ class SelectFields {
         self::handleFields($requestedFields, $parentType, $select, $with);
 
         // If a primary key is given, but not in the selects, add it
-        if( ! is_null($primaryKey))
+        if (!is_null($primaryKey))
         {
-            if(is_array($primaryKey)){
-                foreach ($primaryKey as $key){
+            if (is_array($primaryKey)) {
+                foreach ($primaryKey as $key) {
                     $select[] = $parentTable ? ($parentTable . '.' . $key) : $key;
                 }
-            }else{
+            } else {
                 $primaryKey = $parentTable ? ($parentTable . '.' . $primaryKey) : $primaryKey;
-                if( ! in_array($primaryKey, $select))
+                if (!in_array($primaryKey, $select))
                 {
                     $select[] = $primaryKey;
                 }
