@@ -183,9 +183,7 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('locations', $error);
         $this->assertEquals($error, [
             'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
-            'extensions' => [
-                'category' => 'graphql',
-            ],
+            'category' => 'graphql',
             'locations' => [
                 [
                     'line' => 3,
@@ -270,6 +268,41 @@ class GraphQLTest extends TestCase
     public function testAddSchema()
     {
         GraphQL::addSchema('custom_add', [
+            'query'    => [
+                'examplesCustom' => ExamplesQuery::class
+            ],
+            'mutation' => [
+                'updateExampleCustom' => UpdateExampleMutation::class
+            ],
+            'types'    => [
+                CustomExampleType::class
+            ]
+        ]);
+
+        $schemas = GraphQL::getSchemas();
+        $this->assertArrayHasKey('custom_add', $schemas);
+    }
+
+    /**
+     * Test merge schema
+     *
+     * @test
+     */
+    public function testMergeSchema()
+    {
+        GraphQL::addSchema('custom_add', [
+            'query'    => [
+                'examplesCustom' => ExamplesQuery::class
+            ],
+            'mutation' => [
+                'updateExampleCustom' => UpdateExampleMutation::class
+            ],
+            'types'    => [
+                CustomExampleType::class
+            ]
+        ]);
+
+        GraphQL::addSchema('custom_add_another', [
             'query' => [
                 'examplesCustom' => ExamplesQuery::class
             ],
@@ -283,6 +316,20 @@ class GraphQLTest extends TestCase
 
         $schemas = GraphQL::getSchemas();
         $this->assertArrayHasKey('custom_add', $schemas);
+        $this->assertArrayHasKey('custom_add_another', $schemas);
+
+        GraphQL::addSchema('custom_add_another', [
+            'query' => [
+                'examplesCustomAnother' => ExamplesQuery::class
+            ]
+        ]);
+
+        $schemas = GraphQL::getSchemas();
+        $this->assertArrayHasKey('custom_add_another', $schemas);
+
+        $querys = $schemas['custom_add_another']['query'];
+        $this->assertArrayHasKey('examplesCustom', $querys);
+        $this->assertArrayHasKey('examplesCustomAnother', $querys);
     }
 
     /**

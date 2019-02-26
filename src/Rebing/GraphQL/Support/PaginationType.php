@@ -15,13 +15,13 @@ class PaginationType extends ObjectType {
 
         $config = [
             'name'  => $name,
-            'fields' => $this->getPaginationFields()
+            'fields' => $this->getPaginationFields($typeName)
         ];
 
         parent::__construct($config);
     }
 
-    protected function getPaginationFields()
+    protected function getPaginationFields($typeName)
     {
         return [
             'data' => [

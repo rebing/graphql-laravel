@@ -1,6 +1,7 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
+[![Build Status](https://travis-ci.org/mfn/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
@@ -544,6 +545,8 @@ class UserProfilePhotoMutation extends Mutation
     }
 }
 ```
+
+Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
 ### Advanced usage
 - [Authorization](docs/advanced.md#authorization)
