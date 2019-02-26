@@ -545,6 +545,8 @@ class UserProfilePhotoMutation extends Mutation
 }
 ```
 
+Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
+
 ### Advanced usage
 - [Authorization](docs/advanced.md#authorization)
 - [Privacy](docs/advanced.md#privacy)
