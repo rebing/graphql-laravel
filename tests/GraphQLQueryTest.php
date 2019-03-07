@@ -60,6 +60,31 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
+     * Test query with complex variables.
+     *
+     * @test
+     */
+    public function testQueryAndReturnResultWithFilterVariables()
+    {
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithFilterVariables'], [
+            'filter' => [
+                'test' => 'Example 1'
+            ]
+        ]);
+
+        $this->assertObjectHasAttribute('data', $result);
+        // When XDebug is used with breaking on exceptions the real error will 
+        // be visible in case the recursion for getInputTypeRules runs away.
+        // GraphQL\Error\Error: Maximum function nesting level of '256' reached, aborting!
+        $this->assertCount(0, $result->errors);
+        $this->assertEquals($result->data, [
+            'examplesFiltered' => [
+                $this->data[0]
+            ]
+        ]);
+    }
+
+    /**
      * Test query with authorize
      *
      * @test

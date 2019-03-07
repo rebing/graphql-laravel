@@ -135,6 +135,12 @@ class Field extends Fluent {
 
             // then recursively call the parent method to see if this is an
             // input object, passing in the new prefix
+            if($field->type instanceof InputObjectType) {
+                // in case the field is a self reference we must not do
+                // a recursive call as it will never stop
+                if($field->type->toString() == $input->toString())
+                    continue;
+            }
             $rules = array_merge($rules, $this->inferRulesFromType($field->type, $key, $resolutionArguments));
         }
 

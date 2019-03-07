@@ -1,7 +1,7 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
-[![Build Status](https://travis-ci.org/mfn/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
+[![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
@@ -562,3 +562,4 @@ Note: You can test your file upload implementation using [Altair](https://altair
 - [Interfaces](docs/advanced.md#interfaces)
 - [Input Object](docs/advanced.md#input-object)
 - [JSON Columns](docs/advanced.md#json-columns)
+- [Field deprecation](docs/advanced.md#field-deprecation)
