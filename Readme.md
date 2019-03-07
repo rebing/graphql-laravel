@@ -562,3 +562,4 @@ Note: You can test your file upload implementation using [Altair](https://altair
 - [Interfaces](docs/advanced.md#interfaces)
 - [Input Object](docs/advanced.md#input-object)
 - [JSON Columns](docs/advanced.md#json-columns)
+- [Field deprecation](docs/advanced.md#field-deprecation)
