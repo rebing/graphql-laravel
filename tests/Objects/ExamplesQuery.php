@@ -17,7 +17,7 @@ class ExamplesQuery extends Query
     public function args()
     {
         return [
-            'index' => ['name' => 'index', 'type' => Type::int()]
+            'index' => ['name' => 'index', 'type' => Type::int()],
         ];
     }
 

@@ -27,6 +27,14 @@ return [
         }
     ",
 
+    'examplesWithFilterVariables' => "
+        query QueryExamplesWithFilterVariables(\$filter: ExampleFilterInput) {
+            examplesFiltered(filter: \$filter) {
+                test
+            }
+        }
+    ",
+
     'shorthandExamplesWithVariables' =>  "
         query QueryShorthandExamplesVariables(\$message: String!) {
             echo(message: \$message)
