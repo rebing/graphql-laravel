@@ -25,6 +25,7 @@ class TestCase extends BaseTestCase
                 'examples' => ExamplesQuery::class,
                 'examplesAuthorize' => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
+                'examplesFiltered' => ExamplesFilteredQuery::class,
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class
@@ -41,7 +42,8 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class
+            'Example' => ExampleType::class,
+            'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 
         $app['config']->set('app.debug', true);
