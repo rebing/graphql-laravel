@@ -109,7 +109,8 @@ class SelectFields {
      */
     protected static function handleFields(array $requestedFields, $parentType, array &$select, array &$with)
     {
-        $parentTable = self::getTableNameFromParentType($parentType);
+        $primaryKey = self::getPrimaryKeyFromParentType($parentType);
+        $parentTable = $primaryKey == "_id" ? null : self::getTableNameFromParentType($parentType);
 
         foreach($requestedFields as $key => $field)
         {
