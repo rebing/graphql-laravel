@@ -72,7 +72,7 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 
 **2.** Publish the configuration file
 ```bash
-$ php artisan graphql:publish"
+$ php artisan graphql:publish
 ```
 
 **3.** Add the configuration to the `bootstrap/app.php` file
@@ -215,7 +215,7 @@ Then you need to define a query that returns this type (or a list). You can also
 namespace App\GraphQL\Query;
 
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 

@@ -16,7 +16,7 @@ class GraphQLController extends Controller {
         if (is_lumen() && $request->request->count() > 1) {
             $schema = implode('/', $request->request->all());
         }
-        elseif ($request->route()->parameters && count($request->route()->parameters) > 1) {
+        elseif (!is_lumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
             $schema = implode('/', $request->route()->parameters);
         }
 
@@ -68,11 +68,11 @@ class GraphQLController extends Controller {
     public function graphiql(Request $request, $schema = null)
     {
         $graphqlPath = '/'.config('graphql.prefix');
-        if ($schema) 
+        if ($schema)
         {
             $graphqlPath .= '/' . $schema;
         }
-        
+
         $view = config('graphql.graphiql.view', 'graphql::graphiql');
         return view($view, [
             'graphql_schema' => 'graphql_schema',
