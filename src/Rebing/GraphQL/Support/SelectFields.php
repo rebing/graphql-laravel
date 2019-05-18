@@ -109,7 +109,7 @@ class SelectFields {
      */
     protected static function handleFields(array $requestedFields, $parentType, array &$select, array &$with)
     {
-        $parentTable = self::getTableNameFromParentType($parentType);
+        $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
         foreach($requestedFields as $key => $field)
         {
@@ -363,7 +363,13 @@ class SelectFields {
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
-
+    
+    private static function isMongodbInstance($parentType)
+    {
+        $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
+        return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
+    }
+    
     public function getSelect()
     {
         return $this->select;
