@@ -2,6 +2,7 @@
 
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\GraphQL as GraphQLBase;
@@ -40,10 +41,10 @@ class GraphQL {
 
         $schema = $this->getSchemaConfiguration($schema);
 
-        $schemaQuery = array_get($schema, 'query', []);
-        $schemaMutation = array_get($schema, 'mutation', []);
-        $schemaSubscription = array_get($schema, 'subscription', []);
-        $schemaTypes = array_get($schema, 'types', []);
+        $schemaQuery = Arr::get($schema, 'query', []);
+        $schemaMutation = Arr::get($schema, 'mutation', []);
+        $schemaSubscription = Arr::get($schema, 'subscription', []);
+        $schemaTypes = Arr::get($schema, 'types', []);
 
         //Get the types either from the schema, or the global types.
         $types = [];
@@ -94,9 +95,9 @@ class GraphQL {
 
     public function queryAndReturnResult($query, $params = [], $opts = [])
     {
-        $context = array_get($opts, 'context');
-        $schemaName = array_get($opts, 'schema');
-        $operationName = array_get($opts, 'operationName');
+        $context = Arr::get($opts, 'context');
+        $schemaName = Arr::get($opts, 'schema');
+        $operationName = Arr::get($opts, 'operationName');
 
         $schema = $this->schema($schemaName);
 

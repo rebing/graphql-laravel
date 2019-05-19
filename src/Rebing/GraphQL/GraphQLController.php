@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 class GraphQLController extends Controller {
 
@@ -41,7 +42,7 @@ class GraphQLController extends Controller {
         foreach($batch as $batchItem)
         {
             $query = $batchItem['query'];
-            $params = array_get($batchItem, $paramsKey);
+            $params = Arr::get($batchItem, $paramsKey);
 
             if(is_string($params))
             {
@@ -49,7 +50,7 @@ class GraphQLController extends Controller {
             }
 
             $completedQueries[] = app('graphql')->query($query, $params, array_merge($opts, [
-                'operationName' => array_get($batchItem, 'operationName'),
+                'operationName' => Arr::get($batchItem, 'operationName'),
             ]));
         }
 

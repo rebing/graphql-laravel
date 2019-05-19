@@ -2,6 +2,7 @@
 
 namespace Rebing\GraphQL\Support;
 
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Validator;
 use Illuminate\Support\Fluent;
@@ -74,7 +75,7 @@ class Field extends Fluent {
             }
 
             if (isset($arg['type'])
-                && ($arg['type'] instanceof NonNull || isset(array_get($arguments, 0, [])[$name]))) {
+                && ($arg['type'] instanceof NonNull || isset(Arr::get($arguments, 0, [])[$name]))) {
                 $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
             }
         }
@@ -175,7 +176,7 @@ class Field extends Fluent {
             // Validate mutation arguments
             if(method_exists($this, 'getRules'))
             {
-                $args = array_get($arguments, 1, []);
+                $args = Arr::get($arguments, 1, []);
                 $rules = call_user_func_array([$this, 'getRules'], [$args]);
                 if(sizeof($rules))
                 {
