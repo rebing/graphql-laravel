@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Str;
 
 class Type extends Fluent {
     
@@ -38,7 +39,7 @@ class Type extends Fluent {
             return $field['resolve'];
         }
 
-        $resolveMethod = 'resolve'.studly_case($name).'Field';
+        $resolveMethod = 'resolve'.Str::studly($name).'Field';
 
         if(method_exists($this, $resolveMethod))
         {
