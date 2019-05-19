@@ -287,7 +287,7 @@ class SelectFields {
             // If Privacy class given
             elseif(is_string($privacyClass))
             {
-                if(array_has(self::$privacyValidations, $privacyClass))
+                if(Arr::has(self::$privacyValidations, $privacyClass))
                 {
                     $validated = self::$privacyValidations[$privacyClass];
                 }
