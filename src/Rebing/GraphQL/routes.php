@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 $router = app('router');
 
 $router->group(array_merge([
@@ -13,8 +15,8 @@ $router->group(array_merge([
     $mutationRoute = null;
     if(is_array($routes))
     {
-        $queryRoute = array_get($routes, 'query');
-        $mutationRoute = array_get($routes, 'mutation');
+        $queryRoute = Arr::get($routes, 'query');
+        $mutationRoute = Arr::get($routes, 'mutation');
     }
     else
     {
@@ -28,8 +30,8 @@ $router->group(array_merge([
     $mutationController = null;
     if(is_array($controllers))
     {
-        $queryController = array_get($controllers, 'query');
-        $mutationController = array_get($controllers, 'mutation');
+        $queryController = Arr::get($controllers, 'query');
+        $mutationController = Arr::get($controllers, 'mutation');
     }
     else
     {
@@ -59,12 +61,12 @@ $router->group(array_merge([
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                foreach (array_get($schema, 'method', ['get', 'post']) as $method) {
+                foreach (Arr::get($schema, 'method', ['get', 'post']) as $method) {
                     $route = $router->{$method}(
                         Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
                         [
                             'uses'          => $queryController,
-                            'middleware'    => array_get($schema, 'middleware', []),
+                            'middleware'    => Arr::get($schema, 'middleware', []),
                         ]
                     );
 
@@ -101,12 +103,12 @@ $router->group(array_merge([
 
             foreach(config('graphql.schemas') as $name => $schema)
             {
-                foreach (array_get($schema, 'method', ['get', 'post']) as $method) {
+                foreach (Arr::get($schema, 'method', ['get', 'post']) as $method) {
                     $route = $router->{$method}(
                         Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $mutationRoute),
                         [
                             'uses'          => $mutationController,
-                            'middleware'    => array_get($schema, 'middleware', []),
+                            'middleware'    => Arr::get($schema, 'middleware', []),
                         ]
                     );
 

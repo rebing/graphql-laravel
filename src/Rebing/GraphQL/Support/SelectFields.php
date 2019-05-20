@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Arr;
 
 class SelectFields {
 
@@ -142,7 +143,7 @@ class SelectFields {
             if($canSelect === true)
             {
                 // Add a query, if it exists
-                $customQuery = array_get($fieldObject->config, 'query');
+                $customQuery = Arr::get($fieldObject->config, 'query');
 
                 // Check if the field is a relation that needs to be requested from the DB
                 $queryable = self::isQueryable($fieldObject->config);
@@ -286,7 +287,7 @@ class SelectFields {
             // If Privacy class given
             elseif(is_string($privacyClass))
             {
-                if(array_has(self::$privacyValidations, $privacyClass))
+                if(Arr::has(self::$privacyValidations, $privacyClass))
                 {
                     $validated = self::$privacyValidations[$privacyClass];
                 }
@@ -313,7 +314,7 @@ class SelectFields {
      * @return bool
      */
     private static function isQueryable($fieldObject) {
-        return array_get($fieldObject, 'is_relation', true) === true;
+        return Arr::get($fieldObject, 'is_relation', true) === true;
     }
 
     /**

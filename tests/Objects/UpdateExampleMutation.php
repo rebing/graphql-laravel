@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\Type;
@@ -50,7 +51,7 @@ class UpdateExampleMutation extends Mutation
     public function resolve($root, $args)
     {
         return [
-            'test' => array_get($args, 'test')
+            'test' => Arr::get($args, 'test')
         ];
     }
 }

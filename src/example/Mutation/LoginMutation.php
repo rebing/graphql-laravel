@@ -1,6 +1,7 @@
 <?php
 
 use GraphQL\GraphQL;
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\Type;
 use Rebing\Services\Auth\UserLoginService; // not included in this project
@@ -41,7 +42,7 @@ class LoginMutation extends Mutation {
     public function resolve($root, $args)
     {
         $loginService = new UserLoginService();
-        $user = $loginService->doLogin($args['email'], $args['password'], array_get($args, 'remember_me'));
+        $user = $loginService->doLogin($args['email'], $args['password'], Arr::get($args, 'remember_me'));
 
         return $user;
     }
