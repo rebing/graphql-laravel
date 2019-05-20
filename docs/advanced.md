@@ -14,6 +14,7 @@
 - [Input Object](#input-object)
 - [JSON Columns](#json-columns)
 - [Field deprecation](#field-deprecation)
+- [Default Field Resolver](#default-field-resolver)
 
 ### Authorization
 
@@ -991,3 +992,16 @@ class UserType extends GraphQLType
     }
 }
 ```
+
+#### Default Field Resolver
+
+It's possible to override the default field resolver provided by the underlying
+webonyx/graphql-php library using the config option `defaultFieldResolver`.
+
+You can define any valid callable (static class method, closure, etc.) for it:
+
+```php
+'defaultFieldResolver' => [Your\Klass::class, 'staticMethod'],
+```
+
+The parameters received are your regular "resolve" function signature.

@@ -103,8 +103,9 @@ class GraphQL {
 
         $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
         $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
+        $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
 
-        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName)
+        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName, $defaultFieldResolver)
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
         return $result;
