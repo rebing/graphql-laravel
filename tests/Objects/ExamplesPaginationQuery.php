@@ -1,8 +1,8 @@
 <?php
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Rebing\GraphQL\Support\Query;
 
 class ExamplesPaginationQuery extends Query
 {
@@ -29,7 +29,7 @@ class ExamplesPaginationQuery extends Query
 
     public function resolve($root, $args)
     {
-        $data = include(__DIR__.'/data.php');
+        $data = include __DIR__.'/data.php';
 
         $take = $args['take'];
         $page = $args['page'] - 1;

@@ -1,8 +1,6 @@
 <?php
 
-use Rebing\Support\Field;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ObjectType;
 
 class FieldTest extends TestCase
 {
@@ -12,7 +10,7 @@ class FieldTest extends TestCase
     }
 
     /**
-     * Test get attributes
+     * Test get attributes.
      *
      * @test
      */
@@ -32,7 +30,7 @@ class FieldTest extends TestCase
     }
 
     /**
-     * Test resolve closure
+     * Test resolve closure.
      *
      * @test
      */
@@ -51,7 +49,7 @@ class FieldTest extends TestCase
     }
 
     /**
-     * Test to array
+     * Test to array.
      *
      * @test
      */

@@ -8,7 +8,7 @@ class ExampleNestedValidationInputObject extends BaseType
     protected $inputObject = true;
 
     protected $attributes = [
-        'name' => 'ExampleNestedValidationInputObject'
+        'name' => 'ExampleNestedValidationInputObject',
     ];
 
     public function type()
@@ -20,9 +20,9 @@ class ExampleNestedValidationInputObject extends BaseType
     {
         return [
             'email' => [
-                'name' => 'email',
-                'type' => Type::string(),
-                'rules' => ['email']
+                'name'  => 'email',
+                'type'  => Type::string(),
+                'rules' => ['email'],
             ],
         ];
     }

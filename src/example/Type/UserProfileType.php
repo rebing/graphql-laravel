@@ -2,13 +2,13 @@
 
 namespace Rebing\GraphQL\Type\User;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Models\UserProfile; // not included in this project
-use GraphQL\GraphQL;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class UserProfileType extends GraphQLType {
-
+class UserProfileType extends GraphQLType
+{
     protected $attributes = [
         'name'          => 'User profile',
         'description'   => 'A user\'s profile',
@@ -54,5 +54,4 @@ class UserProfileType extends GraphQLType {
             ],
         ];
     }
-
 }

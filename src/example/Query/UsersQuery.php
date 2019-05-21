@@ -2,14 +2,14 @@
 
 namespace Rebing\GraphQL\Query\User;
 
-use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
-use Models\User; // not included in this project
+use Models\User;
+use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SelectFields; // not included in this project
 
-class UsersQuery extends Query {
-
+class UsersQuery extends Query
+{
     protected $attributes = [
         'name'  => 'Users',
     ];
@@ -36,5 +36,4 @@ class UsersQuery extends Query {
 
         return User::where('id', '=', $args['id'])->with($with)->select($select)->get();
     }
-
 }

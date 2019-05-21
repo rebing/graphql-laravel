@@ -3,79 +3,79 @@
 
 return [
 
-    'examples' =>  "
+    'examples' => '
         query QueryExamples {
             examples {
                 test
             }
         }
-    ",
+    ',
 
-    'examplesCustom' =>  "
+    'examplesCustom' => '
         query QueryExamplesCustom {
             examplesCustom {
                 test
             }
         }
-    ",
+    ',
 
-    'examplesWithVariables' =>  "
-        query QueryExamplesVariables(\$index: Int) {
-            examples(index: \$index) {
+    'examplesWithVariables' => '
+        query QueryExamplesVariables($index: Int) {
+            examples(index: $index) {
                 test
             }
         }
-    ",
+    ',
 
-    'examplesWithFilterVariables' => "
-        query QueryExamplesWithFilterVariables(\$filter: ExampleFilterInput) {
-            examplesFiltered(filter: \$filter) {
+    'examplesWithFilterVariables' => '
+        query QueryExamplesWithFilterVariables($filter: ExampleFilterInput) {
+            examplesFiltered(filter: $filter) {
                 test
             }
         }
-    ",
+    ',
 
-    'shorthandExamplesWithVariables' =>  "
-        query QueryShorthandExamplesVariables(\$message: String!) {
-            echo(message: \$message)
+    'shorthandExamplesWithVariables' => '
+        query QueryShorthandExamplesVariables($message: String!) {
+            echo(message: $message)
         }
-    ",
+    ',
 
-    'examplesWithAuthorize' =>  "
+    'examplesWithAuthorize' => '
         query QueryExamplesAuthorize {
             examplesAuthorize {
                 test
             }
         }
-    ",
+    ',
 
-    'examplesWithError' =>  "
+    'examplesWithError' => '
         query QueryExamplesWithError {
             examplesQueryNotFound {
                 test
             }
         }
-    ",
+    ',
 
-    'examplesWithValidation' =>  "
-        query QueryExamplesWithValidation(\$index: Int) {
+    'examplesWithValidation' => '
+        query QueryExamplesWithValidation($index: Int) {
             examples {
-                test_validation(index: \$index)
+                test_validation(index: $index)
             }
         }
-    ",
+    ',
 
-    'updateExampleCustom' =>  "
-        mutation UpdateExampleCustom(\$test: String) {
-            updateExampleCustom(test: \$test) {
+    'updateExampleCustom' => '
+        mutation UpdateExampleCustom($test: String) {
+            updateExampleCustom(test: $test) {
                 test
             }
         }
-    ",
+    ',
 
-    'examplePagination' => "
-        query Items(\$take: Int!, \$page: Int!) {
-            examplesPagination(take: \$take, page: \$page) {
+    'examplePagination' => '
+        query Items($take: Int!, $page: Int!) {
+            examplesPagination(take: $take, page: $page) {
                 items {
                     test
                 }
@@ -87,6 +87,6 @@ return [
                 }
             }
         }
-    ",
+    ',
 
 ];

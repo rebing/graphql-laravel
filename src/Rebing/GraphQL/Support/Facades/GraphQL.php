@@ -1,4 +1,6 @@
-<?php namespace Rebing\GraphQL\Support\Facades;
+<?php
+
+namespace Rebing\GraphQL\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -1,13 +1,12 @@
 <?php
 
-use Rebing\Support\Field;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\InterfaceType;
+use GraphQL\Type\Definition\Type;
 
 class InterfaceTypeTest extends TestCase
 {
     /**
-     * Test get attributes
+     * Test get attributes.
      *
      * @test
      */
@@ -21,7 +20,7 @@ class InterfaceTypeTest extends TestCase
     }
 
     /**
-     * Test get attributes resolve type
+     * Test get attributes resolve type.
      *
      * @test
      */
@@ -39,7 +38,7 @@ class InterfaceTypeTest extends TestCase
     }
 
     /**
-     * Test to type
+     * Test to type.
      *
      * @test
      */
