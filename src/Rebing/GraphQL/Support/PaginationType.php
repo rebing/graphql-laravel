@@ -59,6 +59,18 @@ class PaginationType extends ObjectType {
                 'resolve'       => function(LengthAwarePaginator $data) { return $data->lastItem(); },
                 'selectable'    => false,
             ],
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'The last page (number of pages)',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->lastPage(); },
+                'selectable'    => false,
+            ],
+            'has_more_pages' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::boolean()),
+                'description'   => 'Determines if cursor has more pages after the current page',
+                'resolve'       => function(LengthAwarePaginator $data) { return $data->hasMorePages(); },
+                'selectable'    => false,
+            ],
         ];
     }
 
