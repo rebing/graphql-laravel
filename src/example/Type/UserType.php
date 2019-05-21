@@ -2,10 +2,10 @@
 
 namespace Rebing\GraphQL\Type\User;
 
+use Models\User;
 use GraphQL\GraphQL;
 use GraphQL\Privacy\MePrivacy;
 use GraphQL\Type\Definition\Type;
-use Models\User;
 use Rebing\GraphQL\Support\Type as GraphQLType; // not included in this project
 
 class UserType extends GraphQLType

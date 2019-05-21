@@ -1,8 +1,8 @@
 <?php
 
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use Rebing\Support\Field;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ObjectType;
 
 class TypeTest extends TestCase
 {

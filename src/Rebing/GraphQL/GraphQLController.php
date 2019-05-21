@@ -17,16 +17,16 @@ class GraphQLController extends Controller
 
         if (is_lumen() && $request->request->count() > 1) {
             $schema = implode('/', $request->request->all());
-        } elseif (!is_lumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
+        } elseif (! is_lumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
             $schema = implode('/', $request->route()->parameters);
         }
 
-        if (!$schema) {
+        if (! $schema) {
             $schema = config('graphql.default_schema');
         }
 
         // If a singular query was not found, it means the queries are in batch
-        $isBatch = !$request->has('query');
+        $isBatch = ! $request->has('query');
         $batch = $isBatch ? $request->all() : [$request->all()];
 
         $completedQueries = [];

@@ -2,14 +2,14 @@
 
 namespace Rebing\GraphQL;
 
-use GraphQL\Validator\DocumentValidator;
-use Rebing\GraphQL\Console\TypeMakeCommand;
-use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
 use Illuminate\Support\ServiceProvider;
-use Rebing\GraphQL\Console\MutationMakeCommand;
-use Rebing\GraphQL\Console\QueryMakeCommand;
+use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Console\TypeMakeCommand;
+use Rebing\GraphQL\Console\TypeMakeCommand;
+use GraphQL\Validator\Rules\QueryComplexity;
+use Rebing\GraphQL\Console\QueryMakeCommand;
+use Rebing\GraphQL\Console\MutationMakeCommand;
 
 class GraphQLServiceProvider extends ServiceProvider
 {

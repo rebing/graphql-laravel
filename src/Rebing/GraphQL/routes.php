@@ -70,7 +70,7 @@ $router->group(array_merge([
                         ]
                     );
 
-                    if (!is_lumen()) {
+                    if (! is_lumen()) {
                         $route->where($name, $name);
                     }
                 }
@@ -123,7 +123,7 @@ $router->group(array_merge([
                         ]
                     );
 
-                    if (!is_lumen()) {
+                    if (! is_lumen()) {
                         $route->where($name, $name);
                     }
                 }
@@ -155,7 +155,7 @@ if (config('graphql.graphiql.display', true)) {
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphiql.$name"]
             );
-            if (!is_lumen()) {
+            if (! is_lumen()) {
                 $route->where($name, $name);
             }
 
@@ -163,7 +163,7 @@ if (config('graphql.graphiql.display', true)) {
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphiql.$name.post"]
             );
-            if (!is_lumen()) {
+            if (! is_lumen()) {
                 $route->where($name, $name);
             }
         }

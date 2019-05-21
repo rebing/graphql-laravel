@@ -8,7 +8,7 @@ class InterfaceType extends Type
 {
     protected function getTypeResolver()
     {
-        if (!method_exists($this, 'resolveType')) {
+        if (! method_exists($this, 'resolveType')) {
             return;
         }
 

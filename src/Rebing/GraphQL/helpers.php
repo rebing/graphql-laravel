@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('is_lumen')) {
+if (! function_exists('is_lumen')) {
     /**
      * Detect if Lumen installed.
      *
