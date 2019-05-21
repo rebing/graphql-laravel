@@ -8,24 +8,24 @@ class ExampleEnumType extends GraphQLType
     protected $enumObject = true;
 
     protected $attributes = [
-        'name' => 'ExampleEnum',
+        'name'        => 'ExampleEnum',
         'description' => 'An example enum',
-        'values' => [
+        'values'      => [
             'TEST' => [
-                'value' => 1,
-                'description' => 'test'
-            ]
-        ]
+                'value'       => 1,
+                'description' => 'test',
+            ],
+        ],
     ];
 
     public function fields()
     {
         return [
             'test' => [
-                'type' => Type::string(),
-                'description' => 'A test field'
+                'type'        => Type::string(),
+                'description' => 'A test field',
             ],
-            'test_validation' => ExampleValidationField::class
+            'test_validation' => ExampleValidationField::class,
         ];
     }
 }

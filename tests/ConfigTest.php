@@ -2,7 +2,6 @@
 
 use GraphQL\Type\Schema;
 use GraphQL\Utils\BuildSchema;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Validator\DocumentValidator;
 
 class ConfigTest extends TestCase
@@ -14,8 +13,8 @@ class ConfigTest extends TestCase
             'prefix' => 'graphql_test',
 
             'routes' => [
-                'query' => 'query/{graphql_schema?}',
-                'mutation' => 'mutation/{graphql_schema?}'
+                'query'    => 'query/{graphql_schema?}',
+                'mutation' => 'mutation/{graphql_schema?}',
             ],
 
             'params_key' => 'params',
@@ -28,16 +27,16 @@ class ConfigTest extends TestCase
                         'examples' => ExamplesQuery::class,
                     ],
                     'mutation' => [
-                        'updateExample' => UpdateExampleMutation::class
-                    ]
+                        'updateExample' => UpdateExampleMutation::class,
+                    ],
                 ],
                 'custom' => [
                     'query' => [
-                        'examplesCustom' => ExamplesQuery::class
+                        'examplesCustom' => ExamplesQuery::class,
                     ],
                     'mutation' => [
-                        'updateExampleCustom' => UpdateExampleMutation::class
-                    ]
+                        'updateExampleCustom' => UpdateExampleMutation::class,
+                    ],
                 ],
                 'shorthand' => BuildSchema::build('
                     schema {
@@ -52,12 +51,12 @@ class ConfigTest extends TestCase
 
             'types' => [
                 'Example' => ExampleType::class,
-                CustomExampleType::class
+                CustomExampleType::class,
             ],
 
             'security' => [
                 'query_max_complexity' => 1000,
-                'query_max_depth' => 10,
+                'query_max_depth'      => 10,
             ],
 
         ]);
@@ -66,7 +65,7 @@ class ConfigTest extends TestCase
     public function testRouteQuery()
     {
         $response = $this->call('GET', '/graphql_test/query', [
-            'query' => $this->queries['examplesCustom']
+            'query' => $this->queries['examplesCustom'],
         ]);
 
         $this->assertEquals($response->getStatusCode(), 200);
@@ -78,7 +77,7 @@ class ConfigTest extends TestCase
     public function testRouteMutation()
     {
         $response = $this->call('POST', '/graphql_test/mutation', [
-            'query' => $this->queries['updateExampleCustom']
+            'query' => $this->queries['updateExampleCustom'],
         ]);
 
         $this->assertEquals($response->getStatusCode(), 200);
@@ -114,10 +113,10 @@ class ConfigTest extends TestCase
     public function testVariablesInputName()
     {
         $response = $this->call('GET', '/graphql_test/query/default', [
-            'query' => $this->queries['examplesWithVariables'],
+            'query'  => $this->queries['examplesWithVariables'],
             'params' => [
-                'index' => 0
-            ]
+                'index' => 0,
+            ],
         ]);
 
         $this->assertEquals($response->getStatusCode(), 200);
@@ -126,8 +125,8 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('data', $content);
         $this->assertEquals($content['data'], [
             'examples' => [
-                $this->data[0]
-            ]
+                $this->data[0],
+            ],
         ]);
     }
 
@@ -150,7 +149,7 @@ class ConfigTest extends TestCase
             ->method('formatError');
 
         config([
-            'graphql.error_formatter' => [$error, 'formatError']
+            'graphql.error_formatter' => [$error, 'formatError'],
         ]);
 
         $result = GraphQL::query($this->queries['examplesWithError']);

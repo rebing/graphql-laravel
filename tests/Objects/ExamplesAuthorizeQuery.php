@@ -6,7 +6,7 @@ use Rebing\GraphQL\Support\Query;
 class ExamplesAuthorizeQuery extends Query
 {
     protected $attributes = [
-        'name' => 'Examples authorize query'
+        'name' => 'Examples authorize query',
     ];
 
     public function authorize(array $args)
@@ -22,17 +22,17 @@ class ExamplesAuthorizeQuery extends Query
     public function args()
     {
         return [
-            'index' => ['name' => 'index', 'type' => Type::int()]
+            'index' => ['name' => 'index', 'type' => Type::int()],
         ];
     }
 
     public function resolve($root, $args)
     {
-        $data = include(__DIR__.'/data.php');
+        $data = include __DIR__.'/data.php';
 
         if (isset($args['index'])) {
             return [
-                $data[$args['index']]
+                $data[$args['index']],
             ];
         }
 

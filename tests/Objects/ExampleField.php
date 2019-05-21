@@ -6,7 +6,7 @@ use Rebing\GraphQL\Support\Field;
 class ExampleField extends Field
 {
     protected $attributes = [
-        'name' => 'example'
+        'name' => 'example',
     ];
 
     public function type()
@@ -19,8 +19,8 @@ class ExampleField extends Field
         return [
             'index' => [
                 'name' => 'index',
-                'type' => Type::int()
-            ]
+                'type' => Type::int(),
+            ],
         ];
     }
 

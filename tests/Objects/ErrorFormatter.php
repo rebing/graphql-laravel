@@ -8,7 +8,7 @@ class ErrorFormatter
     public function formatError(Error $e)
     {
         $error = [
-            'message' => $e->getMessage()
+            'message' => $e->getMessage(),
         ];
 
         $locations = $e->getLocations();
