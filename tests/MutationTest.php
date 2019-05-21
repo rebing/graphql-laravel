@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 
 class MutationTest extends FieldTest
@@ -39,17 +40,17 @@ class MutationTest extends FieldTest
         $this->assertEquals($rules['test_with_rules'], ['required']);
         $this->assertEquals($rules['test_with_rules_closure'], ['required']);
         $this->assertEquals($rules['test_with_rules_nullable_input_object'], ['nullable']);
-        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.val'));
-        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.nest'));
-        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.nest.email'));
-        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.list'));
-        $this->assertNull(array_get($rules, 'test_with_rules_nullable_input_object.list.*.email'));
+        $this->assertNull(Arr::get($rules, 'test_with_rules_nullable_input_object.val'));
+        $this->assertNull(Arr::get($rules, 'test_with_rules_nullable_input_object.nest'));
+        $this->assertNull(Arr::get($rules, 'test_with_rules_nullable_input_object.nest.email'));
+        $this->assertNull(Arr::get($rules, 'test_with_rules_nullable_input_object.list'));
+        $this->assertNull(Arr::get($rules, 'test_with_rules_nullable_input_object.list.*.email'));
         $this->assertEquals($rules['test_with_rules_non_nullable_input_object'], ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.val'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.nest'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.nest.email'), ['email']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.list'), ['required']);
-        $this->assertEquals(array_get($rules, 'test_with_rules_non_nullable_input_object.list.*.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.val'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.nest'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.nest.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list.*.email'), ['email']);
     }
 
     /**

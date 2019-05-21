@@ -1,12 +1,12 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
-[![Build Status](https://travis-ci.org/mfn/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
+[![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
 
-Uses Facebook GraphQL with Laravel 5. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
+Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
 This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
@@ -27,7 +27,7 @@ It offers following features and improvements over the original package by
 
 #### Dependencies:
 
-* [Laravel 5.x](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
+* [Laravel 5.5+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
@@ -72,7 +72,7 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 
 **2.** Publish the configuration file
 ```bash
-$ php artisan graphql:publish"
+$ php artisan graphql:publish
 ```
 
 **3.** Add the configuration to the `bootstrap/app.php` file
@@ -215,7 +215,7 @@ Then you need to define a query that returns this type (or a list). You can also
 namespace App\GraphQL\Query;
 
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 
@@ -562,3 +562,4 @@ Note: You can test your file upload implementation using [Altair](https://altair
 - [Interfaces](docs/advanced.md#interfaces)
 - [Input Object](docs/advanced.md#input-object)
 - [JSON Columns](docs/advanced.md#json-columns)
+- [Field deprecation](docs/advanced.md#field-deprecation)

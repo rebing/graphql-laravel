@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 class GraphQLController extends Controller {
 
@@ -16,7 +17,7 @@ class GraphQLController extends Controller {
         if (is_lumen() && $request->request->count() > 1) {
             $schema = implode('/', $request->request->all());
         }
-        elseif ($request->route()->parameters && count($request->route()->parameters) > 1) {
+        elseif (!is_lumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
             $schema = implode('/', $request->route()->parameters);
         }
 
@@ -41,7 +42,7 @@ class GraphQLController extends Controller {
         foreach($batch as $batchItem)
         {
             $query = $batchItem['query'];
-            $params = array_get($batchItem, $paramsKey);
+            $params = Arr::get($batchItem, $paramsKey);
 
             if(is_string($params))
             {
@@ -49,7 +50,7 @@ class GraphQLController extends Controller {
             }
 
             $completedQueries[] = app('graphql')->query($query, $params, array_merge($opts, [
-                'operationName' => array_get($batchItem, 'operationName'),
+                'operationName' => Arr::get($batchItem, 'operationName'),
             ]));
         }
 
@@ -68,11 +69,11 @@ class GraphQLController extends Controller {
     public function graphiql(Request $request, $schema = null)
     {
         $graphqlPath = '/'.config('graphql.prefix');
-        if ($schema) 
+        if ($schema)
         {
             $graphqlPath .= '/' . $schema;
         }
-        
+
         $view = config('graphql.graphiql.view', 'graphql::graphiql');
         return view($view, [
             'graphql_schema' => 'graphql_schema',

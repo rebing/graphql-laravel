@@ -172,4 +172,21 @@ return [
         'view' => 'graphql::graphiql',
         'display' => env('ENABLE_GRAPHIQL', true),
     ],
+
+    /*
+     * Overrides the default field resolver
+     * See http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
+     *
+     * Example:
+     *
+     * ```php
+     * 'defaultFieldResolver' => function ($root, $args, $context, $info) {
+     * },
+     * ```
+     * or
+     * ```php
+     * 'defaultFieldResolver' => [SomeKlass::class, 'someMethod'],
+     * ```
+     */
+    'defaultFieldResolver' => null,
 ];

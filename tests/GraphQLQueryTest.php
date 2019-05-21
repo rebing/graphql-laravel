@@ -60,6 +60,31 @@ class GraphQLQueryTest extends TestCase
     }
 
     /**
+     * Test query with complex variables.
+     *
+     * @test
+     */
+    public function testQueryAndReturnResultWithFilterVariables()
+    {
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithFilterVariables'], [
+            'filter' => [
+                'test' => 'Example 1'
+            ]
+        ]);
+
+        $this->assertObjectHasAttribute('data', $result);
+        // When XDebug is used with breaking on exceptions the real error will 
+        // be visible in case the recursion for getInputTypeRules runs away.
+        // GraphQL\Error\Error: Maximum function nesting level of '256' reached, aborting!
+        $this->assertCount(0, $result->errors);
+        $this->assertEquals($result->data, [
+            'examplesFiltered' => [
+                $this->data[0]
+            ]
+        ]);
+    }
+
+    /**
      * Test query with authorize
      *
      * @test
@@ -138,5 +163,82 @@ class GraphQLQueryTest extends TestCase
 
         $this->assertArrayHasKey('data', $result);
         $this->assertArrayNotHasKey('errors', $result);
+    }
+
+    /**
+     * Tests that the custom default field resolver from the static method is invoked
+     *
+     * @test
+     */
+    public function testCustomDefaultFieldResolverStaticClass()
+    {
+        $this->app['config']->set('graphql.defaultFieldResolver', [static::class, 'exampleDefaultFieldResolverForTest']);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'],
+            null, [
+                'schema' => [
+                    'query' => [
+                        'examplesCustom' => ExamplesQuery::class,
+                    ],
+                ],
+            ]);
+
+        $expectedDataResult = [
+            'examplesCustom' => [
+                [
+                    'test' => 'defaultFieldResolver static method value',
+                ],
+                [
+                    'test' => 'defaultFieldResolver static method value',
+                ],
+                [
+                    'test' => 'defaultFieldResolver static method value',
+                ],
+            ],
+        ];
+        $this->assertSame($expectedDataResult, $result->data);
+        $this->assertCount(0, $result->errors);
+    }
+
+    public static function exampleDefaultFieldResolverForTest()
+    {
+        return 'defaultFieldResolver static method value';
+    }
+
+    /**
+     * Tests that the custom default field resolver from the closure is invoked
+     *
+     * @test
+     */
+    public function testCustomDefaultFieldResolverClosure()
+    {
+        $this->app['config']->set('graphql.defaultFieldResolver', function () {
+           return 'defaultFieldResolver closure value';
+        });
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'],
+            null, [
+                'schema' => [
+                    'query' => [
+                        'examplesCustom' => ExamplesQuery::class,
+                    ],
+                ],
+            ]);
+
+        $expectedDataResult = [
+            'examplesCustom' => [
+                [
+                    'test' => 'defaultFieldResolver closure value',
+                ],
+                [
+                    'test' => 'defaultFieldResolver closure value',
+                ],
+                [
+                    'test' => 'defaultFieldResolver closure value',
+                ],
+            ],
+        ];
+        $this->assertSame($expectedDataResult, $result->data);
+        $this->assertCount(0, $result->errors);
     }
 }
