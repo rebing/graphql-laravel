@@ -2,15 +2,15 @@
 
 namespace Rebing\GraphQL\Support;
 
-use GraphQL\Type\Definition\InputObjectType;
-use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\NonNull;
-use GraphQL\Type\Definition\WrappingType;
+use Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
-use Rebing\GraphQL\Error\AuthorizationError;
+use GraphQL\Type\Definition\NonNull;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\WrappingType;
 use Rebing\GraphQL\Error\ValidationError;
-use Validator;
+use GraphQL\Type\Definition\InputObjectType;
+use Rebing\GraphQL\Error\AuthorizationError;
 
 class Field extends Fluent
 {
@@ -146,7 +146,7 @@ class Field extends Fluent
 
     protected function getResolver()
     {
-        if (!method_exists($this, 'resolve')) {
+        if (! method_exists($this, 'resolve')) {
             return;
         }
 
@@ -157,7 +157,7 @@ class Field extends Fluent
             $arguments = func_get_args();
 
             // Get all given arguments
-            if (!is_null($arguments[2]) && is_array($arguments[2])) {
+            if (! is_null($arguments[2]) && is_array($arguments[2])) {
                 $arguments[1] = array_merge($arguments[1], $arguments[2]);
             }
 

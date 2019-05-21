@@ -4,16 +4,16 @@ namespace Rebing\GraphQL;
 
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
+use GraphQL\Type\Schema;
+use Illuminate\Support\Arr;
 use GraphQL\Error\FormattedError;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Schema;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Support\Arr;
-use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Support\PaginationType;
+use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Exception\SchemaNotFound;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 
 class GraphQL
 {
@@ -77,8 +77,8 @@ class GraphQL
 
         return new Schema([
             'query'         => $query,
-            'mutation'      => !empty($schemaMutation) ? $mutation : null,
-            'subscription'  => !empty($schemaSubscription) ? $subscription : null,
+            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
+            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
             'types'         => $types,
         ]);
     }
@@ -123,7 +123,7 @@ class GraphQL
 
     public function addType($class, $name = null)
     {
-        if (!$name) {
+        if (! $name) {
             $type = is_object($class) ? $class : app($class);
             $name = $type->name;
         }
@@ -133,16 +133,16 @@ class GraphQL
 
     public function type($name, $fresh = false)
     {
-        if (!isset($this->types[$name])) {
+        if (! isset($this->types[$name])) {
             throw new \Exception('Type '.$name.' not found.');
         }
 
-        if (!$fresh && isset($this->typesInstances[$name])) {
+        if (! $fresh && isset($this->typesInstances[$name])) {
             return $this->typesInstances[$name];
         }
 
         $type = $this->types[$name];
-        if (!is_object($type)) {
+        if (! is_object($type)) {
             $type = app($type);
         }
 
@@ -179,7 +179,7 @@ class GraphQL
 
     protected function buildObjectTypeFromClass($type, $opts = [])
     {
-        if (!is_object($type)) {
+        if (! is_object($type)) {
             $type = $this->app->make($type);
         }
 
@@ -279,7 +279,7 @@ class GraphQL
     {
         $name = $customName ?: $typeName.'_pagination';
 
-        if (!isset($this->typesInstances[$name])) {
+        if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
             $this->typesInstances[$name] = new $paginationType($typeName, $customName);
         }
@@ -310,7 +310,7 @@ class GraphQL
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError
                 || $error instanceof AuthorizationError
-                || !($error instanceof \Exception)) {
+                || ! ($error instanceof \Exception)) {
                 continue;
             }
             $handler->report($error);
@@ -343,7 +343,7 @@ class GraphQL
             }
 
             foreach ($multiLevelPath as $multiName) {
-                $routeName = !$routeName ? null : $routeName.'/';
+                $routeName = ! $routeName ? null : $routeName.'/';
                 $routeName =
                     $routeName
                     .preg_replace($schemaParameterPattern, '{'.$multiName.'}', $queryRoute);
@@ -357,7 +357,7 @@ class GraphQL
     {
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 
-        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
+        if (! is_array($schema) && ! isset($this->schemas[$schemaName])) {
             throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
 

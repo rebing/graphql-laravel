@@ -1,7 +1,7 @@
 <?php
 
-use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\InterfaceType;
 
 class InterfaceTypeTest extends TestCase
 {

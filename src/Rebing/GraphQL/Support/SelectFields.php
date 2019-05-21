@@ -3,18 +3,18 @@
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\InterfaceType;
+use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\UnionType;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use GraphQL\Type\Definition\InterfaceType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class SelectFields
 {
@@ -36,7 +36,7 @@ class SelectFields
      */
     public function __construct(ResolveInfo $info, $parentType, array $args)
     {
-        if (!is_null($info->fieldNodes[0]->selectionSet)) {
+        if (! is_null($info->fieldNodes[0]->selectionSet)) {
             self::$args = $args;
 
             $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
@@ -68,14 +68,14 @@ class SelectFields
         self::handleFields($requestedFields, $parentType, $select, $with);
 
         // If a primary key is given, but not in the selects, add it
-        if (!is_null($primaryKey)) {
+        if (! is_null($primaryKey)) {
             if (is_array($primaryKey)) {
                 foreach ($primaryKey as $key) {
                     $select[] = $parentTable ? ($parentTable.'.'.$key) : $key;
                 }
             } else {
                 $primaryKey = $parentTable ? ($parentTable.'.'.$primaryKey) : $primaryKey;
-                if (!in_array($primaryKey, $select)) {
+                if (! in_array($primaryKey, $select)) {
                     $select[] = $primaryKey;
                 }
             }
@@ -160,24 +160,24 @@ class SelectFields
                             $foreignKeyType = $relation->getMorphType();
                             $foreignKeyType = $parentTable ? ($parentTable.'.'.$foreignKeyType) : $foreignKeyType;
 
-                            if (!in_array($foreignKey, $select)) {
+                            if (! in_array($foreignKey, $select)) {
                                 $select[] = $foreignKey;
                             }
 
-                            if (!in_array($foreignKeyType, $select)) {
+                            if (! in_array($foreignKeyType, $select)) {
                                 $select[] = $foreignKeyType;
                             }
                         } elseif (is_a($relation, BelongsTo::class)) {
-                            if (!in_array($foreignKey, $select)) {
+                            if (! in_array($foreignKey, $select)) {
                                 $select[] = $foreignKey;
                             }
                         }
                         // If 'HasMany', then add it in the 'with'
                         elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class) || is_a($relation, MorphOne::class))
-                            && !array_key_exists($foreignKey, $field)) {
+                            && ! array_key_exists($foreignKey, $field)) {
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
-                            if (!array_key_exists($foreignKey, $field)) {
+                            if (! array_key_exists($foreignKey, $field)) {
                                 $field[$foreignKey] = self::FOREIGN_KEY;
                             }
                         }
@@ -253,7 +253,7 @@ class SelectFields
                     self::$privacyValidations[$privacyClass] = $validated;
                 }
 
-                if (!$validated) {
+                if (! $validated) {
                     $selectable = null;
                 }
             }
@@ -295,11 +295,11 @@ class SelectFields
 
     protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation)
     {
-        if ($forRelation && !array_key_exists($field, $select)) {
+        if ($forRelation && ! array_key_exists($field, $select)) {
             $select[$field] = true;
-        } elseif (!$forRelation && !in_array($field, $select)) {
+        } elseif (! $forRelation && ! in_array($field, $select)) {
             $field = $parentTable ? ($parentTable.'.'.$field) : $field;
-            if (!in_array($field, $select)) {
+            if (! in_array($field, $select)) {
                 $select[] = $field;
             }
         }

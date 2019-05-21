@@ -1,7 +1,7 @@
 <?php
 
-use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\EnumType;
 
 class EnumTypeTest extends TestCase
 {

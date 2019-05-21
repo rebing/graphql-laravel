@@ -1,9 +1,9 @@
 <?php
 
 use GraphQL\Error\Error;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
 
 class GraphQLTest extends TestCase

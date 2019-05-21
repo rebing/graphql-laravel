@@ -1,8 +1,8 @@
 <?php
 
 use GraphQL\GraphQL;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use Rebing\Services\Auth\UserLoginService; // not included in this project
 

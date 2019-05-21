@@ -1,7 +1,7 @@
 <?php
 
-use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\InputObjectType;
 
 class InputTypeTest extends TestCase
 {
