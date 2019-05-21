@@ -6,6 +6,8 @@ namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ExamplesAuthorizeQuery extends Query
@@ -31,7 +33,7 @@ class ExamplesAuthorizeQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         $data = include __DIR__.'/data.php';
 

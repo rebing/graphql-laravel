@@ -6,6 +6,8 @@ namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -32,7 +34,7 @@ class ExamplesPaginationQuery extends Query
         ];
     }
 
-    public function resolve($root, $args): LengthAwarePaginator
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields): LengthAwarePaginator
     {
         $data = include __DIR__.'/data.php';
 

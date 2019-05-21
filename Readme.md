@@ -161,7 +161,9 @@ First you need to create a type. The Eloquent Model is only required, if specify
 namespace App\GraphQL\Type;
 
 use App\User;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
@@ -226,8 +228,10 @@ namespace App\GraphQL\Query;
 
 use App\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SelectFields;
 
 class UsersQuery extends Query
 {
@@ -248,7 +252,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         if (isset($args['id'])) {
             return User::where('id' , $args['id'])->get();
@@ -306,7 +310,9 @@ namespace App\GraphQL\Mutation;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Mutation;    
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Mutation;
 
 class UpdateUserPasswordMutation extends Mutation
 {
@@ -327,7 +333,7 @@ class UpdateUserPasswordMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         $user = User::find($args['id']);
         if(!$user) {
@@ -386,7 +392,9 @@ namespace App\GraphQL\Mutation;
 
 use App\User;
 use GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Mutation;
 
 class UpdateUserEmailMutation extends Mutation
@@ -416,7 +424,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         $user = User::find($args['id']);
         if (!$user) {
@@ -521,9 +529,11 @@ so you have to upload them as multipart form:
 <?php
 
 use GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Support\Mutation;
+use Rebing\GraphQL\Support\SelectFields;
 
 class UserProfilePhotoMutation extends Mutation
 {
@@ -547,7 +557,7 @@ class UserProfilePhotoMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         $file = $args['profilePicture'];
 

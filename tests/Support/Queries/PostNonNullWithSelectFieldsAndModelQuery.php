@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Support\Queries;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -30,7 +31,7 @@ class PostNonNullWithSelectFieldsAndModelQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, SelectFields $selectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
     {
         return Post
             ::select($selectFields->getSelect())

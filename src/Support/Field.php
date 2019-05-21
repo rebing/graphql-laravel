@@ -192,13 +192,9 @@ abstract class Field extends Fluent
                 }
             }
 
-            // Replace the context argument with 'selects and relations'
-            // $arguments[1] is direct args given with the query
-            // $arguments[2] is context (params given with the query)
-            // $arguments[3] is ResolveInfo
+            // Add the 'selects and relations' feature as 5th arg
             if (isset($arguments[3])) {
-                $fields = new SelectFields($arguments[3], $this->type(), $arguments[1]);
-                $arguments[2] = $fields;
+                $arguments[] = new SelectFields($arguments[3], $this->type(), $arguments[1]);
             }
 
             return call_user_func_array($resolver, $arguments);

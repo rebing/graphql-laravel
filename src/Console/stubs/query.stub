@@ -28,7 +28,7 @@ class DummyClass extends Query
         ];
     }
 
-    public function resolve($root, $args, SelectFields $fields, ResolveInfo $info)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $fields)
     {
         $select = $fields->getSelect();
         $with = $fields->getRelations();

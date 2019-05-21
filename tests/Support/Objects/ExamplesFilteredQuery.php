@@ -6,6 +6,8 @@ namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ExamplesFilteredQuery extends Query
@@ -29,7 +31,7 @@ class ExamplesFilteredQuery extends Query
         ];
     }
 
-    public function resolve($root, $args): array
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields): array
     {
         $data = include __DIR__.'/data.php';
         $result = [];
