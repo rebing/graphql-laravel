@@ -5,9 +5,8 @@ use Rebing\GraphQL\Support\Field;
 
 class ExampleValidationField extends Field
 {
-
     protected $attributes = [
-        'name' => 'example_validation'
+        'name' => 'example_validation',
     ];
 
     public function type()
@@ -19,10 +18,10 @@ class ExampleValidationField extends Field
     {
         return [
             'index' => [
-                'name' => 'index',
-                'type' => Type::int(),
-                'rules' => ['required']
-            ]
+                'name'  => 'index',
+                'type'  => Type::int(),
+                'rules' => ['required'],
+            ],
         ];
     }
 

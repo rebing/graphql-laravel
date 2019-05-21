@@ -1,8 +1,5 @@
 <?php
 
-use Rebing\Support\Field;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ObjectType;
 
 class QueryTest extends FieldTest
 {
@@ -16,7 +13,7 @@ class QueryTest extends FieldTest
         parent::getEnvironmentSetUp($app);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class
+            'Example' => ExampleType::class,
         ]);
     }
 }

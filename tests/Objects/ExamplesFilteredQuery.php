@@ -6,7 +6,7 @@ use Rebing\GraphQL\Support\Query;
 class ExamplesFilteredQuery extends Query
 {
     protected $attributes = [
-        'name' => 'Filtered examples'
+        'name' => 'Filtered examples',
     ];
 
     public function type()
@@ -18,21 +18,21 @@ class ExamplesFilteredQuery extends Query
     {
         return [
             'filter' => [
-                'name' => 'filter', 
-                'type' => GraphQL::type('ExampleFilterInput')
-            ]
+                'name' => 'filter',
+                'type' => GraphQL::type('ExampleFilterInput'),
+            ],
         ];
     }
 
     public function resolve($root, $args)
     {
-        $data = include(__DIR__.'/data.php');
+        $data = include __DIR__.'/data.php';
         $result = [];
 
         if (isset($args['filter'])) {
-            if(isset($args['filter']['test'])) {
-                foreach($data as $item) {
-                    if($item['test'] == $args['filter']['test']) {
+            if (isset($args['filter']['test'])) {
+                foreach ($data as $item) {
+                    if ($item['test'] == $args['filter']['test']) {
                         $result[] = $item;
                     }
                 }

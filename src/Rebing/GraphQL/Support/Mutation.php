@@ -2,6 +2,6 @@
 
 namespace Rebing\GraphQL\Support;
 
-class Mutation extends Field {
-
+class Mutation extends Field
+{
 }

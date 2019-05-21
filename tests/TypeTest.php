@@ -1,13 +1,13 @@
 <?php
 
-use Rebing\Support\Field;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
+use Rebing\Support\Field;
 
 class TypeTest extends TestCase
 {
     /**
-     * Test getFields
+     * Test getFields.
      *
      * @test
      */
@@ -18,13 +18,13 @@ class TypeTest extends TestCase
 
         $this->assertArrayHasKey('test', $fields);
         $this->assertEquals($fields['test'], [
-            'type' => Type::string(),
-            'description' => 'A test field'
+            'type'        => Type::string(),
+            'description' => 'A test field',
         ]);
     }
 
     /**
-     * Test get attributes
+     * Test get attributes.
      *
      * @test
      */
@@ -40,7 +40,7 @@ class TypeTest extends TestCase
     }
 
     /**
-     * Test get attributes fields closure
+     * Test get attributes fields closure.
      *
      * @test
      */
@@ -58,7 +58,7 @@ class TypeTest extends TestCase
     }
 
     /**
-     * Test to array
+     * Test to array.
      *
      * @test
      */
@@ -74,7 +74,7 @@ class TypeTest extends TestCase
     }
 
     /**
-     * Test to type
+     * Test to type.
      *
      * @test
      */
