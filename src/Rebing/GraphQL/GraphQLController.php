@@ -4,6 +4,7 @@ namespace Rebing\GraphQL;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 class GraphQLController extends Controller
 {
