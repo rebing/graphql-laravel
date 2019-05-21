@@ -2,6 +2,7 @@
 
 namespace Rebing\GraphQL;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
