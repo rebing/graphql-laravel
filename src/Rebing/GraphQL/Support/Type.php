@@ -2,12 +2,12 @@
 
 namespace Rebing\GraphQL\Support;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Fluent;
 use GraphQL\Type\Definition\EnumType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
-use GraphQL\Type\Definition\ObjectType;
-use Illuminate\Support\Fluent;
-use Illuminate\Support\Str;
 
 class Type extends Fluent
 {

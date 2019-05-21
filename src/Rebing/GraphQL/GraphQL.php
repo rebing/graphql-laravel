@@ -179,7 +179,7 @@ class GraphQL
 
     protected function buildObjectTypeFromClass($type, $opts = [])
     {
-        if (!is_object($type)) {
+        if (! is_object($type)) {
             $type = $this->app->make($type);
         }
 
@@ -310,7 +310,7 @@ class GraphQL
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError
                 || $error instanceof AuthorizationError
-                || !($error instanceof \Exception)) {
+                || ! ($error instanceof \Exception)) {
                 continue;
             }
             $handler->report($error);

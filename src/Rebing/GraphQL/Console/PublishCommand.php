@@ -55,7 +55,7 @@ class PublishCommand extends Command
     public function handle()
     {
         foreach ($this->fileMap as $from => $to) {
-            if ($this->files->exists($to) && !$this->option('force')) {
+            if ($this->files->exists($to) && ! $this->option('force')) {
                 continue;
             }
             $this->createParentDirectory(dirname($to));
@@ -73,7 +73,7 @@ class PublishCommand extends Command
      */
     protected function createParentDirectory($directory)
     {
-        if (!$this->files->isDirectory($directory)) {
+        if (! $this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
         }
     }

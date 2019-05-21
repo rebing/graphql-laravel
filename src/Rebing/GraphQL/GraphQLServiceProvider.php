@@ -3,7 +3,7 @@
 namespace Rebing\GraphQL;
 
 use GraphQL\Validator\DocumentValidator;
-use GraphQL\Validator\Rules\DisableIntrospection;
+use Rebing\GraphQL\Console\TypeMakeCommand;
 use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
 use Illuminate\Support\ServiceProvider;

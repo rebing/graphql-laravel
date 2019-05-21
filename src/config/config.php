@@ -1,10 +1,10 @@
 <?php
 
 
-use example\Mutation\ExampleMutation;
-use example\Query\ExampleQuery;
-use example\Type\ExampleRelationType;
 use example\Type\ExampleType;
+use example\Query\ExampleQuery;
+use example\Mutation\ExampleMutation;
+use example\Type\ExampleRelationType;
 
 return [
 

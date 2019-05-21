@@ -3,10 +3,10 @@
 namespace Rebing\GraphQL;
 
 use Closure;
-use GraphQL\Error\InvariantViolation;
-use GraphQL\Server\RequestError;
 use GraphQL\Utils\Utils;
 use Illuminate\Http\Request;
+use GraphQL\Server\RequestError;
+use GraphQL\Error\InvariantViolation;
 
 class GraphQLUploadMiddleware
 {
@@ -54,7 +54,7 @@ class GraphQLUploadMiddleware
     private function parseUploadedFiles(Request $request)
     {
         $bodyParams = $request->all();
-        if (!isset($bodyParams['map'])) {
+        if (! isset($bodyParams['map'])) {
             throw new RequestError('The request must define a `map`');
         }
 
@@ -69,7 +69,7 @@ class GraphQLUploadMiddleware
             foreach ($locations as $location) {
                 $items = &$result;
                 foreach (explode('.', $location) as $key) {
-                    if (!isset($items[$key]) || !is_array($items[$key])) {
+                    if (! isset($items[$key]) || ! is_array($items[$key])) {
                         $items[$key] = [];
                     }
                     $items = &$items[$key];
@@ -99,7 +99,7 @@ class GraphQLUploadMiddleware
             );
         }
 
-        if (!is_array($bodyParams)) {
+        if (! is_array($bodyParams)) {
             throw new RequestError(
                 'GraphQL Server expects JSON object or array, but got '.Utils::printSafeJson($bodyParams)
             );
