@@ -217,7 +217,7 @@ class SelectFields
         // If parent type is an interface or union we select all fields
         // because we don't know which other fields are required
         // from types which implement this interface
-        if (is_a($parentType, InterfaceType::class) || is_a($parentType, UnionType::class)) {
+        if (is_a($parentType, UnionType::class)) {
             $select = ['*'];
         }
     }
