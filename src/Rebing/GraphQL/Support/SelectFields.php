@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class SelectFields
 {
@@ -173,7 +174,7 @@ class SelectFields
                             }
                         }
                         // If 'HasMany', then add it in the 'with'
-                        elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class) || is_a($relation, MorphOne::class))
+                        elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphOne::class) || is_a($relation, MorphMany::class) || is_a($relation, HasOne::class) || is_a($relation, MorphOne::class))
                             && ! array_key_exists($foreignKey, $field)) {
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
