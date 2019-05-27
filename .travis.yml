@@ -8,6 +8,7 @@ php:
 matrix:
   allow_failures:
     - php: '7.3'
+  fast_finish: true
 
 before_script:
   - composer install
