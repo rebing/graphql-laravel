@@ -179,16 +179,19 @@ class GraphQLTest extends TestCase
         $this->assertInternalType('array', $error);
         $this->assertArrayHasKey('message', $error);
         $this->assertArrayHasKey('locations', $error);
-        $this->assertEquals($error, [
-            'message'   => 'Cannot query field "examplesQueryNotFound" on type "Query".',
-            'category'  => 'graphql',
+        $expectedError = [
+            'message' => 'Cannot query field "examplesQueryNotFound" on type "Query". Did you mean "examplesPagination"?',
+            'extensions' => [
+                'category' => 'graphql',
+            ],
             'locations' => [
                 [
                     'line'   => 3,
                     'column' => 13,
                 ],
             ],
-        ]);
+        ];
+        $this->assertEquals($expectedError, $error);
     }
 
     public function testFormatValidationError()
