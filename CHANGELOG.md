@@ -3,7 +3,11 @@ CHANGELOG
 
 Next release
 ------------
+### Added
 - This project has a changelog `\o/`
+
+### Changed
+- Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 2019-03-07, v1.21.2
 -------------------

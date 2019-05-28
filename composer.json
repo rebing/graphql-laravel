@@ -39,10 +39,7 @@
     "autoload": {
         "psr-0": {
             "Rebing\\GraphQL\\": "src/"
-        },
-        "files": [
-            "src/Rebing/GraphQL/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [
