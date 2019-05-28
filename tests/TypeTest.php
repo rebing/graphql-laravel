@@ -1,6 +1,5 @@
 <?php
 
-use Rebing\Support\Field;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 
