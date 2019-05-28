@@ -4,6 +4,7 @@ CHANGELOG
 Next release
 ------------
 ### Added
+- Added declare(strict_types=1) directive to all files
 - This project has a changelog `\o/`
 
 ### Changed

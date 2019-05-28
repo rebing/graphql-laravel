@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GraphQL\GraphQL;
 use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\Type;

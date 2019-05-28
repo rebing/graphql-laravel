@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\UnionType as BaseUnionType;
 

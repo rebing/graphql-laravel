@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Type\Location;
 
 use Models\Location;

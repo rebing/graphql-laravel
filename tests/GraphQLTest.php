@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\Type;

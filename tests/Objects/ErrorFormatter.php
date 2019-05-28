@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GraphQL\Error\Error;
 use Rebing\GraphQL\Error\ValidationError;
 

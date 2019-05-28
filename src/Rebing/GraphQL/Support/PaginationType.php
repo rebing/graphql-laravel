@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\ObjectType;

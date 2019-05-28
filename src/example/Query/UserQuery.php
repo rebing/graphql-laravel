@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Models\User;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
