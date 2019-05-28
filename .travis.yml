@@ -1,8 +1,14 @@
 language: php
 
 php:
-  - 7.1
-  - 7.2
+  - '7.1'
+  - '7.2'
+  - '7.3'
+
+matrix:
+  allow_failures:
+    - php: '7.3'
+  fast_finish: true
 
 before_script:
   - composer install
