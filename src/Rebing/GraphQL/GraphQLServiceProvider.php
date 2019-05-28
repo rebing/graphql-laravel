@@ -9,6 +9,7 @@ use Rebing\GraphQL\Console\TypeMakeCommand;
 use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Console\QueryMakeCommand;
 use Rebing\GraphQL\Console\MutationMakeCommand;
+use GraphQL\Validator\Rules\DisableIntrospection;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
