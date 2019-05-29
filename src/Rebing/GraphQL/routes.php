@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Rebing\GraphQL\Helpers;
 
 $router = app('router');
 
@@ -70,7 +71,7 @@ $router->group(array_merge([
                         ]
                     );
 
-                    if (! is_lumen()) {
+                    if (! Helpers::isLumen()) {
                         $route->where($name, $name);
                     }
                 }
@@ -123,7 +124,7 @@ $router->group(array_merge([
                         ]
                     );
 
-                    if (! is_lumen()) {
+                    if (! Helpers::isLumen()) {
                         $route->where($name, $name);
                     }
                 }
@@ -155,7 +156,7 @@ if (config('graphql.graphiql.display', true)) {
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphiql.$name"]
             );
-            if (! is_lumen()) {
+            if (! Helpers::isLumen()) {
                 $route->where($name, $name);
             }
 
@@ -163,7 +164,7 @@ if (config('graphql.graphiql.display', true)) {
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphiql.$name.post"]
             );
-            if (! is_lumen()) {
+            if (! Helpers::isLumen()) {
                 $route->where($name, $name);
             }
         }

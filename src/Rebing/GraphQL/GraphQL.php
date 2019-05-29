@@ -336,7 +336,7 @@ class GraphQL
         $routeName = null;
 
         if (count($multiLevelPath) > 1) {
-            if (is_lumen()) {
+            if (Helpers::isLumen()) {
                 array_walk($multiLevelPath, function (&$multiName) {
                     $multiName = "$multiName:$multiName";
                 });
@@ -350,7 +350,7 @@ class GraphQL
             }
         }
 
-        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(is_lumen() ? "$name:$name" : $name).'}', $queryRoute);
+        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "$name:$name" : $name).'}', $queryRoute);
     }
 
     protected function getSchemaConfiguration($schema)
