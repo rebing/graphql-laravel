@@ -161,6 +161,6 @@ class ConfigTest extends TestCase
             'graphql.error_formatter' => [$error, 'formatError'],
         ]);
 
-        $result = GraphQL::query($this->queries['examplesWithError']);
+        GraphQL::query($this->queries['examplesWithError']);
     }
 }

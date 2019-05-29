@@ -27,7 +27,7 @@ class FieldTest extends TestCase
         $this->assertArrayHasKey('type', $attributes);
         $this->assertArrayHasKey('args', $attributes);
         $this->assertArrayHasKey('resolve', $attributes);
-        $this->assertInternalType('array', $attributes['args']);
+        $this->assertIsArray($attributes['args']);
         $this->assertInstanceOf(Closure::class, $attributes['resolve']);
         $this->assertInstanceOf(get_class($field->type()), $attributes['type']);
     }
@@ -58,7 +58,7 @@ class FieldTest extends TestCase
         $field = new $class();
         $array = $field->toArray();
 
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray($array);
 
         $attributes = $field->getAttributes();
         $this->assertEquals($attributes, $array);

@@ -31,7 +31,7 @@ class GraphQLQueryTest extends TestCase
         $resultArray = GraphQL::query($this->queries['examples']);
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        $this->assertInternalType('array', $resultArray);
+        $this->assertIsArray($resultArray);
         $this->assertArrayHasKey('data', $resultArray);
         $this->assertEquals($resultArray['data'], $result->data);
     }

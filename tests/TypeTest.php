@@ -37,7 +37,7 @@ class TypeTest extends TestCase
         $this->assertArrayHasKey('name', $attributes);
         $this->assertArrayHasKey('fields', $attributes);
         $this->assertInstanceOf(Closure::class, $attributes['fields']);
-        $this->assertInternalType('array', $attributes['fields']());
+        $this->assertIsArray($attributes['fields']());
     }
 
     /**
@@ -64,7 +64,7 @@ class TypeTest extends TestCase
         $type = new ExampleType();
         $array = $type->toArray();
 
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray($array);
 
         $attributes = $type->getAttributes();
         $this->assertEquals($attributes, $array);

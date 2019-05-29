@@ -94,7 +94,7 @@ class GraphQLTest extends TestCase
     public function testSchemaWithWrongName(): void
     {
         $this->expectException(SchemaNotFound::class);
-        $schema = GraphQL::schema('wrong');
+        GraphQL::schema('wrong');
     }
 
     /**
@@ -118,7 +118,7 @@ class GraphQLTest extends TestCase
     public function testWrongType(): void
     {
         $this->expectException(Exception::class);;
-        $typeWrong = GraphQL::type('ExampleWrong');
+        GraphQL::type('ExampleWrong');
     }
 
     /**
@@ -172,7 +172,7 @@ class GraphQLTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
 
-        $this->assertInternalType('array', $error);
+        $this->assertIsArray($error);
         $this->assertArrayHasKey('message', $error);
         $this->assertArrayHasKey('locations', $error);
         $expectedError = [
@@ -200,7 +200,7 @@ class GraphQLTest extends TestCase
         $error = new Error('error', null, null, null, null, $validationError);
         $error = GraphQL::formatError($error);
 
-        $this->assertInternalType('array', $error);
+        $this->assertIsArray($error);
         $this->assertArrayHasKey('validation', $error);
         $this->assertTrue($error['validation']->has('test'));
     }
@@ -327,6 +327,6 @@ class GraphQLTest extends TestCase
         $schemas = GraphQL::getSchemas();
         $this->assertArrayHasKey('default', $schemas);
         $this->assertArrayHasKey('custom', $schemas);
-        $this->assertInternalType('array', $schemas['default']);
+        $this->assertIsArray($schemas['default']);
     }
 }

@@ -39,7 +39,7 @@ class MutationTest extends FieldTest
         $field = new $class();
         $rules = $field->getRules();
 
-        $this->assertInternalType('array', $rules);
+        $this->assertIsArray($rules);
         $this->assertArrayHasKey('test', $rules);
         $this->assertArrayHasKey('test_with_rules', $rules);
         $this->assertArrayHasKey('test_with_rules_closure', $rules);

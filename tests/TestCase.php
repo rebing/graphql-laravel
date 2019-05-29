@@ -14,6 +14,10 @@ use Rebing\GraphQL\Tests\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Objects\ExamplesPaginationQuery;
+use GraphQL\Type\Schema;
+use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\ListOfType;
 
 class TestCase extends BaseTestCase
 {
@@ -64,7 +68,7 @@ class TestCase extends BaseTestCase
 
     protected function assertGraphQLSchema($schema): void
     {
-        $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
+        $this->assertInstanceOf(Schema::class, $schema);
     }
 
     protected function assertGraphQLSchemaHasQuery($schema, $key): void
@@ -77,9 +81,9 @@ class TestCase extends BaseTestCase
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $queryField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ListOfType', $queryListType);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
+        $this->assertInstanceOf(FieldDefinition::class, $queryField);
+        $this->assertInstanceOf(ListOfType::class, $queryListType);
+        $this->assertInstanceOf(ObjectType::class, $queryType);
     }
 
     protected function assertGraphQLSchemaHasMutation($schema, $key): void
@@ -91,8 +95,8 @@ class TestCase extends BaseTestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $mutationField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
+        $this->assertInstanceOf(FieldDefinition::class, $mutationField);
+        $this->assertInstanceOf(ObjectType::class, $mutationType);
     }
 
     protected function getPackageProviders($app): array
