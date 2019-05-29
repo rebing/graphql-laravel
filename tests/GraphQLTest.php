@@ -103,7 +103,7 @@ class GraphQLTest extends TestCase
     public function testType(): void
     {
         $type = GraphQL::type('Example');
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
 
         $typeOther = GraphQL::type('Example');
         $this->assertTrue($type === $typeOther);
@@ -133,7 +133,7 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
         $this->assertEquals($objectType, $type);
         $this->assertEquals($type->name, 'ExampleType');
     }
@@ -149,7 +149,7 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
         $this->assertEquals($type->name, 'ExampleType');
         $fields = $type->getFields();
         $this->assertArrayHasKey('test', $fields);
@@ -161,7 +161,7 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
         $this->assertEquals($type->name, 'ExampleType');
         $fields = $type->getFields();
         $this->assertArrayHasKey('test', $fields);
@@ -219,7 +219,7 @@ class GraphQLTest extends TestCase
         $this->assertInstanceOf(CustomExampleType::class, $type);
 
         $type = GraphQL::type('CustomExample');
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
     }
 
     /**
@@ -236,7 +236,7 @@ class GraphQLTest extends TestCase
         $this->assertInstanceOf(ExampleType::class, $type);
 
         $type = GraphQL::type('CustomExample');
-        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
+        $this->assertInstanceOf(ObjectType::class, $type);
     }
 
     /**

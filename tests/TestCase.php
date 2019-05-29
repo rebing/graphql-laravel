@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests;
 
+use Rebing\GraphQL\GraphQLServiceProvider;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -96,14 +98,14 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            \Rebing\GraphQL\GraphQLServiceProvider::class,
+            GraphQLServiceProvider::class,
         ];
     }
 
     protected function getPackageAliases($app): array
     {
         return [
-            'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class,
+            'GraphQL' => GraphQL::class,
         ];
     }
 }

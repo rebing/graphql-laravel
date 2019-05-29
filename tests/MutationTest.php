@@ -120,7 +120,7 @@ class MutationTest extends FieldTest
 
         try {
             $attributes['resolve'](null, [], [], null);
-        } catch (\Rebing\GraphQL\Error\ValidationError $e) {
+        } catch (ValidationError $e) {
             // FIXME Replace with getValidator()
             $validator = $e->validator;
 
@@ -157,7 +157,7 @@ class MutationTest extends FieldTest
                     'nest' => ['email' => 'invalidTestEmail.com'],
                 ],
              ], [], null);
-        } catch (\Rebing\GraphQL\Error\ValidationError $e) {
+        } catch (ValidationError $e) {
             $messages = $e->getValidatorMessages();
 
             $this->assertEquals($messages->first('test'), 'The test field is required.');
