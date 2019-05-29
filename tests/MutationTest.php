@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests;
 
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
+use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Tests\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Objects\ExampleValidationInputObject;
 use Rebing\GraphQL\Tests\Objects\ExampleNestedValidationInputObject;
@@ -31,8 +32,6 @@ class MutationTest extends FieldTest
 
     /**
      * Test get rules.
-     *
-     * @test
      */
     public function testGetRules()
     {
@@ -63,8 +62,6 @@ class MutationTest extends FieldTest
 
     /**
      * Test resolve.
-     *
-     * @test
      */
     public function testResolve()
     {
@@ -100,9 +97,6 @@ class MutationTest extends FieldTest
 
     /**
      * Test resolve throw validation error.
-     *
-     * @test
-     * @expectedException \Rebing\GraphQL\Error\ValidationError
      */
     public function testResolveThrowValidationError()
     {
@@ -110,13 +104,12 @@ class MutationTest extends FieldTest
         $field = new $class();
 
         $attributes = $field->getAttributes();
+        $this->expectException(ValidationError::class);
         $attributes['resolve'](null, [], [], null);
     }
 
     /**
      * Test validation error.
-     *
-     * @test
      */
     public function testValidationError()
     {
@@ -148,8 +141,6 @@ class MutationTest extends FieldTest
 
     /**
      * Test custom validation error messages.
-     *
-     * @test
      */
     public function testCustomValidationErrorMessages()
     {

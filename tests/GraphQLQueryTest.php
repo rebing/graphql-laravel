@@ -11,8 +11,6 @@ class GraphQLQueryTest extends TestCase
 {
     /**
      * Test query.
-     *
-     * @test
      */
     public function testQueryAndReturnResult()
     {
@@ -27,8 +25,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query methods.
-     *
-     * @test
      */
     public function testQuery()
     {
@@ -42,8 +38,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with variables.
-     *
-     * @test
      */
     public function testQueryAndReturnResultWithVariables()
     {
@@ -62,8 +56,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with complex variables.
-     *
-     * @test
      */
     public function testQueryAndReturnResultWithFilterVariables()
     {
@@ -87,8 +79,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with authorize.
-     *
-     * @test
      */
     public function testQueryAndReturnResultWithAuthorize()
     {
@@ -99,8 +89,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with schema.
-     *
-     * @test
      */
     public function testQueryAndReturnResultWithSchema()
     {
@@ -123,8 +111,6 @@ class GraphQLQueryTest extends TestCase
      * Test query with error.
      *
      * If an error was encountered before execution begins, the data entry should not be present in the result.
-     *
-     * @test
      */
     public function testQueryWithError()
     {
@@ -138,8 +124,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with validation error.
-     *
-     * @test
      */
     public function testQueryWithValidationError()
     {
@@ -153,8 +137,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Test query with validation without error.
-     *
-     * @test
      */
     public function testQueryWithValidation()
     {
@@ -168,8 +150,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Tests that the custom default field resolver from the static method is invoked.
-     *
-     * @test
      */
     public function testCustomDefaultFieldResolverStaticClass()
     {
@@ -208,8 +188,6 @@ class GraphQLQueryTest extends TestCase
 
     /**
      * Tests that the custom default field resolver from the closure is invoked.
-     *
-     * @test
      */
     public function testCustomDefaultFieldResolverClosure()
     {

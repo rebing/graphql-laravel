@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests;
 
 use Validator;
+use Exception;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Tests\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Objects\CustomExampleType;
@@ -20,8 +22,6 @@ class GraphQLTest extends TestCase
 {
     /**
      * Test schema default.
-     *
-     * @test
      */
     public function testSchema()
     {
@@ -35,8 +35,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test schema with object.
-     *
-     * @test
      */
     public function testSchemaWithSchemaObject()
     {
@@ -56,8 +54,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test schema with name.
-     *
-     * @test
      */
     public function testSchemaWithName()
     {
@@ -71,8 +67,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test schema custom.
-     *
-     * @test
      */
     public function testSchemaWithArray()
     {
@@ -96,19 +90,15 @@ class GraphQLTest extends TestCase
 
     /**
      * Test schema with wrong name.
-     *
-     * @test
-     * @expectedException \Rebing\GraphQL\Exception\SchemaNotFound
      */
     public function testSchemaWithWrongName()
     {
+        $this->expectException(SchemaNotFound::class);
         $schema = GraphQL::schema('wrong');
     }
 
     /**
      * Test type.
-     *
-     * @test
      */
     public function testType()
     {
@@ -124,19 +114,15 @@ class GraphQLTest extends TestCase
 
     /**
      * Test wrong type.
-     *
-     * @test
-     * @expectedException \Exception
      */
     public function testWrongType()
     {
+        $this->expectException(Exception::class);;
         $typeWrong = GraphQL::type('ExampleWrong');
     }
 
     /**
      * Test objectType.
-     *
-     * @test
      */
     public function testObjectType()
     {
@@ -221,8 +207,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test add type.
-     *
-     * @test
      */
     public function testAddType()
     {
@@ -240,8 +224,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test add type with a name.
-     *
-     * @test
      */
     public function testAddTypeWithName()
     {
@@ -259,8 +241,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test get types.
-     *
-     * @test
      */
     public function testGetTypes()
     {
@@ -273,8 +253,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test add schema.
-     *
-     * @test
      */
     public function testAddSchema()
     {
@@ -296,8 +274,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test merge schema.
-     *
-     * @test
      */
     public function testMergeSchema()
     {
@@ -345,8 +321,6 @@ class GraphQLTest extends TestCase
 
     /**
      * Test get schemas.
-     *
-     * @test
      */
     public function testGetSchemas()
     {

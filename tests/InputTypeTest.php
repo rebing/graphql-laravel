@@ -11,8 +11,6 @@ class InputTypeTest extends TestCase
 {
     /**
      * Test to type.
-     *
-     * @test
      */
     public function testToType()
     {

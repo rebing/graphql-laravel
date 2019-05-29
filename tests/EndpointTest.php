@@ -8,8 +8,6 @@ class EndpointTest extends TestCase
 {
     /**
      * Test get with default schema.
-     *
-     * @test
      */
     public function testGetDefault()
     {
@@ -28,8 +26,6 @@ class EndpointTest extends TestCase
 
     /**
      * Test get with custom schema.
-     *
-     * @test
      */
     public function testGetCustom()
     {
@@ -46,8 +42,6 @@ class EndpointTest extends TestCase
 
     /**
      * Test get with variables.
-     *
-     * @test
      */
     public function testGetWithVariables()
     {
@@ -71,8 +65,6 @@ class EndpointTest extends TestCase
 
     /**
      * Test get with unauthorized query.
-     *
-     * @test
      */
     public function testGetUnauthorized()
     {
@@ -91,8 +83,6 @@ class EndpointTest extends TestCase
 
     /**
      * Test support batched queries.
-     *
-     * @test
      */
     public function testBatchedQueries()
     {

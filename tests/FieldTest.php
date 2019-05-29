@@ -16,8 +16,6 @@ class FieldTest extends TestCase
 
     /**
      * Test get attributes.
-     *
-     * @test
      */
     public function testGetAttributes()
     {
@@ -36,8 +34,6 @@ class FieldTest extends TestCase
 
     /**
      * Test resolve closure.
-     *
-     * @test
      */
     public function testResolve()
     {
@@ -55,8 +51,6 @@ class FieldTest extends TestCase
 
     /**
      * Test to array.
-     *
-     * @test
      */
     public function testToArray()
     {

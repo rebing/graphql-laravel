@@ -13,8 +13,6 @@ class TypeTest extends TestCase
 {
     /**
      * Test getFields.
-     *
-     * @test
      */
     public function testGetFields()
     {
@@ -30,8 +28,6 @@ class TypeTest extends TestCase
 
     /**
      * Test get attributes.
-     *
-     * @test
      */
     public function testGetAttributes()
     {
@@ -46,8 +42,6 @@ class TypeTest extends TestCase
 
     /**
      * Test get attributes fields closure.
-     *
-     * @test
      */
     public function testGetAttributesFields()
     {
@@ -64,8 +58,6 @@ class TypeTest extends TestCase
 
     /**
      * Test to array.
-     *
-     * @test
      */
     public function testToArray()
     {
@@ -80,8 +72,6 @@ class TypeTest extends TestCase
 
     /**
      * Test to type.
-     *
-     * @test
      */
     public function testToType()
     {

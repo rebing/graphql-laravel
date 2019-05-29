@@ -12,8 +12,6 @@ class InterfaceTypeTest extends TestCase
 {
     /**
      * Test get attributes.
-     *
-     * @test
      */
     public function testGetAttributes()
     {
@@ -26,8 +24,6 @@ class InterfaceTypeTest extends TestCase
 
     /**
      * Test get attributes resolve type.
-     *
-     * @test
      */
     public function testGetAttributesResolveType()
     {
@@ -44,8 +40,6 @@ class InterfaceTypeTest extends TestCase
 
     /**
      * Test to type.
-     *
-     * @test
      */
     public function testToType()
     {
