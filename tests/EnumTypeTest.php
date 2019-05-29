@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\EnumType;
 
 class EnumTypeTest extends TestCase

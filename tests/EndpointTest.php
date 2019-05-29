@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use GraphQL\Type\Schema;
-
 class EndpointTest extends TestCase
 {
     /**
