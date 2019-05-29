@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests;
 
+use GraphQL\Type\Schema;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\FieldDefinition;
 use Rebing\GraphQL\Tests\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -14,10 +18,6 @@ use Rebing\GraphQL\Tests\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Objects\ExamplesPaginationQuery;
-use GraphQL\Type\Schema;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\ListOfType;
 
 class TestCase extends BaseTestCase
 {
