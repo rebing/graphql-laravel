@@ -60,12 +60,12 @@ class TestCase extends BaseTestCase
         $app['config']->set('app.debug', true);
     }
 
-    protected function assertGraphQLSchema($schema)
+    protected function assertGraphQLSchema($schema): void
     {
         $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
     }
 
-    protected function assertGraphQLSchemaHasQuery($schema, $key)
+    protected function assertGraphQLSchemaHasQuery($schema, $key): void
     {
         // Query
         $query = $schema->getQueryType();
@@ -80,7 +80,7 @@ class TestCase extends BaseTestCase
         $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
     }
 
-    protected function assertGraphQLSchemaHasMutation($schema, $key)
+    protected function assertGraphQLSchemaHasMutation($schema, $key): void
     {
         // Mutation
         $mutation = $schema->getMutationType();
@@ -93,14 +93,14 @@ class TestCase extends BaseTestCase
         $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             \Rebing\GraphQL\GraphQLServiceProvider::class,
         ];
     }
 
-    protected function getPackageAliases($app)
+    protected function getPackageAliases($app): array
     {
         return [
             'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class,

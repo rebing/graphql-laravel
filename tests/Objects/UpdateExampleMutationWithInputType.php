@@ -63,7 +63,7 @@ class UpdateExampleMutationWithInputType extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args): array
     {
         return [
             'test' => Arr::get($args, 'test'),

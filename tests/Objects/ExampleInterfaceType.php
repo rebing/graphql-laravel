@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Objects;
 
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\StringType;
 use Rebing\GraphQL\Support\InterfaceType;
 
 class ExampleInterfaceType extends InterfaceType
@@ -14,7 +15,7 @@ class ExampleInterfaceType extends InterfaceType
         'description' => 'An example interface',
     ];
 
-    public function resolveType($root)
+    public function resolveType($root): StringType
     {
         return Type::string();
     }

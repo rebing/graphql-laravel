@@ -29,7 +29,7 @@ class ExamplesFilteredQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args): array
     {
         $data = include __DIR__.'/data.php';
         $result = [];

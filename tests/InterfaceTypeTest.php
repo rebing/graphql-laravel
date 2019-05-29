@@ -13,7 +13,7 @@ class InterfaceTypeTest extends TestCase
     /**
      * Test get attributes.
      */
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $type = new ExampleInterfaceType();
         $attributes = $type->getAttributes();
@@ -25,7 +25,7 @@ class InterfaceTypeTest extends TestCase
     /**
      * Test get attributes resolve type.
      */
-    public function testGetAttributesResolveType()
+    public function testGetAttributesResolveType(): void
     {
         $type = $this->getMockBuilder(ExampleInterfaceType::class)
                     ->setMethods(['resolveType'])
@@ -41,7 +41,7 @@ class InterfaceTypeTest extends TestCase
     /**
      * Test to type.
      */
-    public function testToType()
+    public function testToType(): void
     {
         $type = new ExampleInterfaceType();
         $interfaceType = $type->toType();

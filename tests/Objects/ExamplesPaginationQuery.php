@@ -32,7 +32,7 @@ class ExamplesPaginationQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args): LengthAwarePaginator
     {
         $data = include __DIR__.'/data.php';
 

@@ -71,7 +71,7 @@ class ConfigTest extends TestCase
         ]);
     }
 
-    public function testRouteQuery()
+    public function testRouteQuery(): void
     {
         $response = $this->call('GET', '/graphql_test/query', [
             'query' => $this->queries['examplesCustom'],
@@ -83,7 +83,7 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('data', $content);
     }
 
-    public function testRouteMutation()
+    public function testRouteMutation(): void
     {
         $response = $this->call('POST', '/graphql_test/mutation', [
             'query' => $this->queries['updateExampleCustom'],
@@ -95,14 +95,14 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('data', $content);
     }
 
-    public function testTypes()
+    public function testTypes(): void
     {
         $types = GraphQL::getTypes();
         $this->assertArrayHasKey('Example', $types);
         $this->assertArrayHasKey('CustomExample', $types);
     }
 
-    public function testSchema()
+    public function testSchema(): void
     {
         $schema = GraphQL::schema();
         $schemaCustom = GraphQL::schema('custom');
@@ -110,7 +110,7 @@ class ConfigTest extends TestCase
         $this->assertEquals($schema, $schemaCustom);
     }
 
-    public function testSchemas()
+    public function testSchemas(): void
     {
         $schemas = GraphQL::getSchemas();
 
@@ -119,7 +119,7 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('shorthand', $schemas);
     }
 
-    public function testVariablesInputName()
+    public function testVariablesInputName(): void
     {
         $response = $this->call('GET', '/graphql_test/query/default', [
             'query'  => $this->queries['examplesWithVariables'],
@@ -139,7 +139,7 @@ class ConfigTest extends TestCase
         ]);
     }
 
-    public function testSecurity()
+    public function testSecurity(): void
     {
         $queryComplexity = DocumentValidator::getRule('QueryComplexity');
         $this->assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
@@ -148,7 +148,7 @@ class ConfigTest extends TestCase
         $this->assertEquals(10, $queryDepth->getMaxQueryDepth());
     }
 
-    public function testErrorFormatter()
+    public function testErrorFormatter(): void
     {
         $error = $this->getMockBuilder(ErrorFormatter::class)
                     ->setMethods(['formatError'])

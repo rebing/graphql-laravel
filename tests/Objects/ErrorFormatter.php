@@ -9,7 +9,7 @@ use Rebing\GraphQL\Error\ValidationError;
 
 class ErrorFormatter
 {
-    public function formatError(Error $e)
+    public function formatError(Error $e): array
     {
         $error = [
             'message' => $e->getMessage(),

@@ -12,7 +12,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query.
      */
-    public function testQueryAndReturnResult()
+    public function testQueryAndReturnResult(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
@@ -26,7 +26,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query methods.
      */
-    public function testQuery()
+    public function testQuery(): void
     {
         $resultArray = GraphQL::query($this->queries['examples']);
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
@@ -39,7 +39,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with variables.
      */
-    public function testQueryAndReturnResultWithVariables()
+    public function testQueryAndReturnResultWithVariables(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithVariables'], [
             'index' => 0,
@@ -57,7 +57,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with complex variables.
      */
-    public function testQueryAndReturnResultWithFilterVariables()
+    public function testQueryAndReturnResultWithFilterVariables(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithFilterVariables'], [
             'filter' => [
@@ -80,7 +80,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with authorize.
      */
-    public function testQueryAndReturnResultWithAuthorize()
+    public function testQueryAndReturnResultWithAuthorize(): void
     {
         $result = GraphQL::query($this->queries['examplesWithAuthorize']);
         $this->assertNull($result['data']['examplesAuthorize']);
@@ -90,7 +90,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with schema.
      */
-    public function testQueryAndReturnResultWithSchema()
+    public function testQueryAndReturnResultWithSchema(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'], null, [
             'schema' => [
@@ -112,7 +112,7 @@ class GraphQLQueryTest extends TestCase
      *
      * If an error was encountered before execution begins, the data entry should not be present in the result.
      */
-    public function testQueryWithError()
+    public function testQueryWithError(): void
     {
         $result = GraphQL::query($this->queries['examplesWithError']);
 
@@ -125,7 +125,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with validation error.
      */
-    public function testQueryWithValidationError()
+    public function testQueryWithValidationError(): void
     {
         $result = GraphQL::query($this->queries['examplesWithValidation']);
 
@@ -138,7 +138,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Test query with validation without error.
      */
-    public function testQueryWithValidation()
+    public function testQueryWithValidation(): void
     {
         $result = GraphQL::query($this->queries['examplesWithValidation'], [
             'index' => 0,
@@ -151,7 +151,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Tests that the custom default field resolver from the static method is invoked.
      */
-    public function testCustomDefaultFieldResolverStaticClass()
+    public function testCustomDefaultFieldResolverStaticClass(): void
     {
         $this->app['config']->set('graphql.defaultFieldResolver', [static::class, 'exampleDefaultFieldResolverForTest']);
 
@@ -181,7 +181,7 @@ class GraphQLQueryTest extends TestCase
         $this->assertCount(0, $result->errors);
     }
 
-    public static function exampleDefaultFieldResolverForTest()
+    public static function exampleDefaultFieldResolverForTest(): string
     {
         return 'defaultFieldResolver static method value';
     }
@@ -189,7 +189,7 @@ class GraphQLQueryTest extends TestCase
     /**
      * Tests that the custom default field resolver from the closure is invoked.
      */
-    public function testCustomDefaultFieldResolverClosure()
+    public function testCustomDefaultFieldResolverClosure(): void
     {
         $this->app['config']->set('graphql.defaultFieldResolver', function () {
             return 'defaultFieldResolver closure value';

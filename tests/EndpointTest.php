@@ -9,7 +9,7 @@ class EndpointTest extends TestCase
     /**
      * Test get with default schema.
      */
-    public function testGetDefault()
+    public function testGetDefault(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examples'],
@@ -27,7 +27,7 @@ class EndpointTest extends TestCase
     /**
      * Test get with custom schema.
      */
-    public function testGetCustom()
+    public function testGetCustom(): void
     {
         $response = $this->call('GET', '/graphql/custom', [
             'query' => $this->queries['examplesCustom'],
@@ -43,7 +43,7 @@ class EndpointTest extends TestCase
     /**
      * Test get with variables.
      */
-    public function testGetWithVariables()
+    public function testGetWithVariables(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query'     => $this->queries['examplesWithVariables'],
@@ -66,7 +66,7 @@ class EndpointTest extends TestCase
     /**
      * Test get with unauthorized query.
      */
-    public function testGetUnauthorized()
+    public function testGetUnauthorized(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithAuthorize'],
@@ -84,7 +84,7 @@ class EndpointTest extends TestCase
     /**
      * Test support batched queries.
      */
-    public function testBatchedQueries()
+    public function testBatchedQueries(): void
     {
         $response = $this->call('GET', '/graphql', [
             [

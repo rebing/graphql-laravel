@@ -17,7 +17,7 @@ class FieldTest extends TestCase
     /**
      * Test get attributes.
      */
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();
@@ -35,7 +35,7 @@ class FieldTest extends TestCase
     /**
      * Test resolve closure.
      */
-    public function testResolve()
+    public function testResolve(): void
     {
         $class = $this->getFieldClass();
         $field = $this->getMockBuilder($class)
@@ -52,7 +52,7 @@ class FieldTest extends TestCase
     /**
      * Test to array.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();

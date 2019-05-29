@@ -12,7 +12,7 @@ class InputTypeTest extends TestCase
     /**
      * Test to type.
      */
-    public function testToType()
+    public function testToType(): void
     {
         $type = new ExampleInputType();
         $objectType = $type->toType();

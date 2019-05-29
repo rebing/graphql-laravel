@@ -23,7 +23,7 @@ class GraphQLTest extends TestCase
     /**
      * Test schema default.
      */
-    public function testSchema()
+    public function testSchema(): void
     {
         $schema = GraphQL::schema();
 
@@ -36,7 +36,7 @@ class GraphQLTest extends TestCase
     /**
      * Test schema with object.
      */
-    public function testSchemaWithSchemaObject()
+    public function testSchemaWithSchemaObject(): void
     {
         $schemaObject = new Schema([
             'query' => new ObjectType([
@@ -55,7 +55,7 @@ class GraphQLTest extends TestCase
     /**
      * Test schema with name.
      */
-    public function testSchemaWithName()
+    public function testSchemaWithName(): void
     {
         $schema = GraphQL::schema('custom');
 
@@ -68,7 +68,7 @@ class GraphQLTest extends TestCase
     /**
      * Test schema custom.
      */
-    public function testSchemaWithArray()
+    public function testSchemaWithArray(): void
     {
         $schema = GraphQL::schema([
             'query' => [
@@ -91,7 +91,7 @@ class GraphQLTest extends TestCase
     /**
      * Test schema with wrong name.
      */
-    public function testSchemaWithWrongName()
+    public function testSchemaWithWrongName(): void
     {
         $this->expectException(SchemaNotFound::class);
         $schema = GraphQL::schema('wrong');
@@ -100,7 +100,7 @@ class GraphQLTest extends TestCase
     /**
      * Test type.
      */
-    public function testType()
+    public function testType(): void
     {
         $type = GraphQL::type('Example');
         $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $type);
@@ -115,7 +115,7 @@ class GraphQLTest extends TestCase
     /**
      * Test wrong type.
      */
-    public function testWrongType()
+    public function testWrongType(): void
     {
         $this->expectException(Exception::class);;
         $typeWrong = GraphQL::type('ExampleWrong');
@@ -124,7 +124,7 @@ class GraphQLTest extends TestCase
     /**
      * Test objectType.
      */
-    public function testObjectType()
+    public function testObjectType(): void
     {
         $objectType = new ObjectType([
             'name' => 'ObjectType',
@@ -138,7 +138,7 @@ class GraphQLTest extends TestCase
         $this->assertEquals($type->name, 'ExampleType');
     }
 
-    public function testObjectTypeFromFields()
+    public function testObjectTypeFromFields(): void
     {
         $type = GraphQL::objectType([
             'test' => [
@@ -155,7 +155,7 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('test', $fields);
     }
 
-    public function testObjectTypeClass()
+    public function testObjectTypeClass(): void
     {
         $type = GraphQL::objectType(ExampleType::class, [
             'name' => 'ExampleType',
@@ -167,7 +167,7 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('test', $fields);
     }
 
-    public function testFormatError()
+    public function testFormatError(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
@@ -190,7 +190,7 @@ class GraphQLTest extends TestCase
         $this->assertEquals($expectedError, $error);
     }
 
-    public function testFormatValidationError()
+    public function testFormatValidationError(): void
     {
         $validator = Validator::make([], [
             'test' => 'required',
@@ -208,7 +208,7 @@ class GraphQLTest extends TestCase
     /**
      * Test add type.
      */
-    public function testAddType()
+    public function testAddType(): void
     {
         GraphQL::addType(CustomExampleType::class);
 
@@ -225,7 +225,7 @@ class GraphQLTest extends TestCase
     /**
      * Test add type with a name.
      */
-    public function testAddTypeWithName()
+    public function testAddTypeWithName(): void
     {
         GraphQL::addType(ExampleType::class, 'CustomExample');
 
@@ -242,7 +242,7 @@ class GraphQLTest extends TestCase
     /**
      * Test get types.
      */
-    public function testGetTypes()
+    public function testGetTypes(): void
     {
         $types = GraphQL::getTypes();
         $this->assertArrayHasKey('Example', $types);
@@ -254,7 +254,7 @@ class GraphQLTest extends TestCase
     /**
      * Test add schema.
      */
-    public function testAddSchema()
+    public function testAddSchema(): void
     {
         GraphQL::addSchema('custom_add', [
             'query'    => [
@@ -275,7 +275,7 @@ class GraphQLTest extends TestCase
     /**
      * Test merge schema.
      */
-    public function testMergeSchema()
+    public function testMergeSchema(): void
     {
         GraphQL::addSchema('custom_add', [
             'query'    => [
@@ -322,7 +322,7 @@ class GraphQLTest extends TestCase
     /**
      * Test get schemas.
      */
-    public function testGetSchemas()
+    public function testGetSchemas(): void
     {
         $schemas = GraphQL::getSchemas();
         $this->assertArrayHasKey('default', $schemas);

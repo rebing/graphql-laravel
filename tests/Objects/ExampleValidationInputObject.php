@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Objects;
 
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ListOfType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as BaseType;
 
@@ -16,7 +17,7 @@ class ExampleValidationInputObject extends BaseType
         'name' => 'ExampleValidationInputObject',
     ];
 
-    public function type()
+    public function type(): ListOfType
     {
         return Type::listOf(Type::string());
     }
@@ -42,7 +43,7 @@ class ExampleValidationInputObject extends BaseType
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args): array
     {
         return ['test'];
     }

@@ -33,7 +33,7 @@ class MutationTest extends FieldTest
     /**
      * Test get rules.
      */
-    public function testGetRules()
+    public function testGetRules(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();
@@ -63,7 +63,7 @@ class MutationTest extends FieldTest
     /**
      * Test resolve.
      */
-    public function testResolve()
+    public function testResolve(): void
     {
         $class = $this->getFieldClass();
         $field = $this->getMockBuilder($class)
@@ -98,7 +98,7 @@ class MutationTest extends FieldTest
     /**
      * Test resolve throw validation error.
      */
-    public function testResolveThrowValidationError()
+    public function testResolveThrowValidationError(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();
@@ -111,7 +111,7 @@ class MutationTest extends FieldTest
     /**
      * Test validation error.
      */
-    public function testValidationError()
+    public function testValidationError(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();
@@ -142,7 +142,7 @@ class MutationTest extends FieldTest
     /**
      * Test custom validation error messages.
      */
-    public function testCustomValidationErrorMessages()
+    public function testCustomValidationErrorMessages(): void
     {
         $class = $this->getFieldClass();
         $field = new $class();

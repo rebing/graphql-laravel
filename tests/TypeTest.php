@@ -14,7 +14,7 @@ class TypeTest extends TestCase
     /**
      * Test getFields.
      */
-    public function testGetFields()
+    public function testGetFields(): void
     {
         $type = new ExampleType();
         $fields = $type->getFields();
@@ -29,7 +29,7 @@ class TypeTest extends TestCase
     /**
      * Test get attributes.
      */
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         $type = new ExampleType();
         $attributes = $type->getAttributes();
@@ -43,7 +43,7 @@ class TypeTest extends TestCase
     /**
      * Test get attributes fields closure.
      */
-    public function testGetAttributesFields()
+    public function testGetAttributesFields(): void
     {
         $type = $this->getMockBuilder(ExampleType::class)
                     ->setMethods(['getFields'])
@@ -59,7 +59,7 @@ class TypeTest extends TestCase
     /**
      * Test to array.
      */
-    public function testToArray()
+    public function testToArray(): void
     {
         $type = new ExampleType();
         $array = $type->toArray();
@@ -73,7 +73,7 @@ class TypeTest extends TestCase
     /**
      * Test to type.
      */
-    public function testToType()
+    public function testToType(): void
     {
         $type = new ExampleType();
         $objectType = $type->toType();

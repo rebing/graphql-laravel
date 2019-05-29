@@ -28,7 +28,7 @@ class ExampleField extends Field
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args): array
     {
         return ['test'];
     }
