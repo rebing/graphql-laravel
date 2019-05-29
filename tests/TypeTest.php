@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
+use Closure;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Tests\Objects\ExampleType;
 
 class TypeTest extends TestCase
 {

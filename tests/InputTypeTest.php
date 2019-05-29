@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
 use GraphQL\Type\Definition\InputObjectType;
+use Rebing\GraphQL\Tests\Objects\ExampleInputType;
 
 class InputTypeTest extends TestCase
 {

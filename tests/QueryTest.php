@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
+use Rebing\GraphQL\Tests\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
+
 class QueryTest extends FieldTest
 {
     protected function getFieldClass()

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests\Objects;
+
 use GraphQL\Error\Error;
 use Rebing\GraphQL\Error\ValidationError;
 

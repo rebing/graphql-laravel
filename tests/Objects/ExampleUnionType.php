@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests\Objects;
+
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\UnionType as BaseUnionType;
 
 class ExampleUnionType extends BaseUnionType

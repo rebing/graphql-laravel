@@ -2,11 +2,19 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
+use Validator;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Objects\CustomExampleType;
+use Rebing\GraphQL\Tests\Objects\UpdateExampleMutation;
 
 class GraphQLTest extends TestCase
 {
@@ -260,7 +268,7 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('Example', $types);
 
         $type = app($types['Example']);
-        $this->assertInstanceOf(\ExampleType::class, $type);
+        $this->assertInstanceOf(ExampleType::class, $type);
     }
 
     /**

@@ -42,9 +42,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Rebing\\GraphQL\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {

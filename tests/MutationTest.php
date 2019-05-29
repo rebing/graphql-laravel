@@ -2,8 +2,14 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
+use Rebing\GraphQL\Tests\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Objects\ExampleValidationInputObject;
+use Rebing\GraphQL\Tests\Objects\ExampleNestedValidationInputObject;
+use Rebing\GraphQL\Tests\Objects\UpdateExampleMutationWithInputType;
 
 class MutationTest extends FieldTest
 {

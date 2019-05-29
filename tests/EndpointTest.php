@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
 class EndpointTest extends TestCase
 {
     /**

@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
 use GraphQL\Type\Definition\EnumType;
+use Rebing\GraphQL\Tests\Objects\ExampleEnumType;
 
 class EnumTypeTest extends TestCase
 {

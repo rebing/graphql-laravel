@@ -2,7 +2,16 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
+use Rebing\GraphQL\Tests\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Rebing\GraphQL\Tests\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Objects\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Objects\ExamplesPaginationQuery;
 
 class TestCase extends BaseTestCase
 {

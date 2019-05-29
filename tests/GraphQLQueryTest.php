@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace Rebing\GraphQL\Tests;
+
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
+
 class GraphQLQueryTest extends TestCase
 {
     /**
