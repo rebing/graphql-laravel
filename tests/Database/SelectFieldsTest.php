@@ -10,7 +10,7 @@ use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
@@ -56,7 +56,7 @@ SQL
         $this->assertEquals($expectedResult, $response->json());
     }
 
-    public function testWithSelectFields(): void
+    public function testWithSelectFieldsAndModel(): void
     {
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
@@ -64,7 +64,7 @@ SQL
 
         $graphql = <<<GRAQPHQL
 {
-  postWithSelectFields(id: $post->id) {
+  postWithSelectFieldsAndModel(id: $post->id) {
     id
     title
   }
@@ -84,7 +84,7 @@ SQL
 
         $expectedResult = [
             'data' => [
-                'postWithSelectFields' => [
+                'postWithSelectFieldsAndModel' => [
                     'id' => '1',
                     'title' => 'Title of the post',
                 ],
@@ -141,7 +141,7 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 PostQuery::class,
-                PostWithSelectFieldsQuery::class,
+                PostWithSelectFieldsAndModelQuery::class,
                 PostWithSelectFieldsNoModelQuery::class,
             ],
         ]);
