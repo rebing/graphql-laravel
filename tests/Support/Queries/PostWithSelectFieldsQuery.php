@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
-class PostQueryWithSelectFields extends Query
+class PostWithSelectFieldsQuery extends Query
 {
     protected $attributes = [
         'name' => 'postWithSelectFields',

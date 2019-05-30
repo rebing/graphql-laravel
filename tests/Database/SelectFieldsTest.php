@@ -9,7 +9,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFields;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -100,7 +100,7 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 PostQuery::class,
-                PostQueryWithSelectFields::class,
+                PostWithSelectFieldsQuery::class,
             ],
         ]);
 
