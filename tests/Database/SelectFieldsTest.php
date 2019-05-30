@@ -10,8 +10,10 @@ use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -95,6 +97,40 @@ SQL
         $this->assertEquals($expectedResult, $response->json());
     }
 
+    public function testWithSelectFieldsAndModelAndAlias(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Description of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postWithSelectFieldsAndModelAndAlias(id: $post->id) {
+    id
+    description
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
+SQL
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $result = $response->json();
+
+        $this->assertNull($result['data']['postWithSelectFieldsAndModelAndAlias']);
+        $this->assertSame('Cannot return null for non-nullable field PostWithModelAndAlias.description.', $result['errors'][0]['debugMessage']);
+    }
+
     public function testWithSelectFieldsNoModel(): void
     {
         $post = factory(Post::class)->create([
@@ -142,6 +178,7 @@ SQL
             'query' => [
                 PostQuery::class,
                 PostWithSelectFieldsAndModelQuery::class,
+                PostWithSelectFieldsAndModelAndAliasQuery::class,
                 PostWithSelectFieldsNoModelQuery::class,
             ],
         ]);
@@ -151,6 +188,7 @@ SQL
         $app['config']->set('graphql.types', [
             PostType::class,
             PostWithModelType::class,
+            PostWithModelAndAliasType::class,
         ]);
 
         $app['config']->set('app.debug', true);
