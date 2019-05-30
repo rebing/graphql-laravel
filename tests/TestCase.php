@@ -10,14 +10,14 @@ use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\FieldDefinition;
-use Rebing\GraphQL\Tests\Objects\ExampleType;
-use Rebing\GraphQL\Tests\Objects\ExamplesQuery;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Rebing\GraphQL\Tests\Objects\ExamplesFilteredQuery;
-use Rebing\GraphQL\Tests\Objects\UpdateExampleMutation;
-use Rebing\GraphQL\Tests\Objects\ExampleFilterInputType;
-use Rebing\GraphQL\Tests\Objects\ExamplesAuthorizeQuery;
-use Rebing\GraphQL\Tests\Objects\ExamplesPaginationQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 
 class TestCase extends BaseTestCase
 {
@@ -31,8 +31,8 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->queries = include __DIR__.'/Objects/queries.php';
-        $this->data = include __DIR__.'/Objects/data.php';
+        $this->queries = include __DIR__.'/Support/Objects/queries.php';
+        $this->data = include __DIR__.'/Support/Objects/data.php';
     }
 
     protected function getEnvironmentSetUp($app)
