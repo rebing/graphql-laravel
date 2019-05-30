@@ -9,6 +9,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFields;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -53,6 +54,45 @@ SQL
         $this->assertEquals($expectedResult, $response->json());
     }
 
+    public function testWithSelectFields(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postWithSelectFields(id: $post->id) {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'postWithSelectFields' => [
+                    'id' => '1',
+                    'title' => 'Title of the post',
+                ],
+            ],
+        ];
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
@@ -60,6 +100,7 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 PostQuery::class,
+                PostQueryWithSelectFields::class,
             ],
         ]);
 
