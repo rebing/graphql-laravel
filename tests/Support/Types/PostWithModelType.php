@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class PostType extends GraphQLType
+class PostWithModelType extends GraphQLType
 {
     protected $attributes = [
         'name' => 'Post',

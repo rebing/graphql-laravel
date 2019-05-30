@@ -6,7 +6,7 @@ namespace Rebing\GraphQL\Tests\Database;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
-use Rebing\GraphQL\Tests\Support\Types\PostType;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFields;
@@ -107,7 +107,7 @@ SQL
         $app['config']->set('graphql.schemas.custom', null);
 
         $app['config']->set('graphql.types', [
-            PostType::class,
+            PostWithModelType::class,
         ]);
 
         $app['config']->set('app.debug', true);
