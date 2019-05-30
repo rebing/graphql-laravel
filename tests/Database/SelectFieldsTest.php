@@ -11,8 +11,8 @@ use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
@@ -48,7 +48,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'post' => [
-                    'id' => '1',
+                    'id' => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
@@ -87,7 +87,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsAndModel' => [
-                    'id' => '1',
+                    'id' => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
@@ -160,7 +160,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsNoModel' => [
-                    'id' => '1',
+                    'id' => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
