@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class PostWithModelType extends GraphQLType
+class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'PostWithModel',
-        'model' => Post::class,
+        'name' => 'Post',
     ];
 
     public function fields()

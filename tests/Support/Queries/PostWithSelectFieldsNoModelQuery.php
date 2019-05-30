@@ -10,15 +10,15 @@ use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
-class PostWithSelectFieldsQuery extends Query
+class PostWithSelectFieldsNoModelQuery extends Query
 {
     protected $attributes = [
-        'name' => 'postWithSelectFields',
+        'name' => 'postWithSelectFieldsNoModel',
     ];
 
     public function type()
     {
-        return GraphQL::type('PostWithModel');
+        return GraphQL::type('Post');
     }
 
     public function args()

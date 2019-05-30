@@ -6,10 +6,12 @@ namespace Rebing\GraphQL\Tests\Database;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
-use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
+use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -93,6 +95,45 @@ SQL
         $this->assertEquals($expectedResult, $response->json());
     }
 
+    public function testWithSelectFieldsNoModel(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postWithSelectFieldsNoModel(id: $post->id) {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "id", "title" from "posts" where "posts"."id" = ? limit 1;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'postWithSelectFieldsNoModel' => [
+                    'id' => '1',
+                    'title' => 'Title of the post',
+                ],
+            ],
+        ];
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
@@ -101,12 +142,14 @@ SQL
             'query' => [
                 PostQuery::class,
                 PostWithSelectFieldsQuery::class,
+                PostWithSelectFieldsNoModelQuery::class,
             ],
         ]);
 
         $app['config']->set('graphql.schemas.custom', null);
 
         $app['config']->set('graphql.types', [
+            PostType::class,
             PostWithModelType::class,
         ]);
 
