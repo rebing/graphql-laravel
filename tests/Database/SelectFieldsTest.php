@@ -13,9 +13,13 @@ use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
+use Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -97,6 +101,129 @@ SQL
 
         $this->assertEquals($response->getStatusCode(), 200);
         $this->assertEquals($expectedResult, $response->json());
+    }
+
+    public function testWithNonNullSelectFieldsAndModel(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postNonNullWithSelectFieldsAndModel(id: $post->id) {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+
+        $this->assertSqlQueries('');
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertRegExp('/SQLSTATE\[HY000\]: General error: 1 near "from": syntax error \(SQL: select  from "posts" where "posts"."id" = . limit 1\)/', $response->json()['errors'][0]['debugMessage']);
+    }
+
+    public function testWithListOfSelectFieldsAndModel(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postsListOfWithSelectFieldsAndModel {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts";');
+
+        $expectedResult = array (
+            'data' => array (
+                    'postsListOfWithSelectFieldsAndModel' =>
+                        array (
+                                array (
+                                    'id' => "$post->id",
+                                    'title' => 'Title of the post',
+                                ),
+                        ),
+                ),
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
+    }
+
+    public function testWithNonNullAndListOfSelectFieldsAndModel(): void
+    {
+        factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postsNonNullAndListOfWithSelectFieldsAndModel {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+
+        $this->assertSqlQueries('');
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertRegExp('/SQLSTATE\[HY000\]: General error: 1 near "from": syntax error \(SQL: select  from "posts"\)/', $response->json()['errors'][0]['debugMessage']);
+    }
+
+    public function testWithNonNullAndListOfAndNonNullSelectFieldsAndModel(): void
+    {
+        factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postsNonNullAndListAndNonNullOfWithSelectFieldsAndModel {
+    id
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+
+        $this->assertSqlQueries('');
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertRegExp('/SQLSTATE\[HY000\]: General error: 1 near "from": syntax error \(SQL: select  from "posts"\)/', $response->json()['errors'][0]['debugMessage']);
     }
 
     public function testWithSelectFieldsAndModelAndAlias(): void
@@ -226,7 +353,11 @@ SQL
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
+                PostNonNullWithSelectFieldsAndModelQuery::class,
                 PostQuery::class,
+                PostsListOfWithSelectFieldsAndModelQuery::class,
+                PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::class,
+                PostsNonNullAndListOfWithSelectFieldsAndModelQuery::class,
                 PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::class,
                 PostWithSelectFieldsAndModelAndAliasQuery::class,
                 PostWithSelectFieldsAndModelQuery::class,
