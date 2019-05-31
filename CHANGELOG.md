@@ -19,6 +19,9 @@ Next release
 ### Changed
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
+### Fixed
+- SelectFields now works with wrapped types (nonNull, listOf)
+
 2019-03-07, v1.21.2
 -------------------
 
