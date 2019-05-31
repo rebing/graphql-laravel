@@ -190,4 +190,15 @@ return [
      * ```
      */
     'defaultFieldResolver' => null,
+
+    /*
+     * Any headers that will be added to the response returned by the default controller
+     */
+    'headers' => [],
+
+    /*
+     * Any JSON encoding options when returning a response from the default controller
+     * See http://php.net/manual/function.json-encode.php for the full list of options
+     */
+    'json_encoding_options' => 0,
 ];

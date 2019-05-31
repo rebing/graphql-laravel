@@ -55,7 +55,12 @@ class GraphQLController extends Controller
             ]));
         }
 
-        return $isBatch ? $completedQueries : $completedQueries[0];
+        $data = $isBatch ? $completedQueries : $completedQueries[0];
+
+        $headers = config('graphql.headers', []);
+        $jsonOptions = config('graphql.json_encoding_options', 0);
+
+        return response()->json($data, 200, $headers, $jsonOptions);
     }
 
     protected function queryContext()
