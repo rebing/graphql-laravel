@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-Next release
+2019-05-31, v1.22.0
 ------------
 ### Added
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
