@@ -4,6 +4,7 @@ CHANGELOG
 Next release
 ------------
 ### Added
+- Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - Added declare(strict_types=1) directive to all files
 - This project has a changelog `\o/`
 - Internal

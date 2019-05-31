@@ -51,6 +51,14 @@ class Type extends Fluent
                 return call_user_func_array($resolver, $args);
             };
         }
+
+        if (isset($field['alias'])) {
+            $alias = $field['alias'];
+
+            return function ($type) use ($alias) {
+                return $type->{$alias};
+            };
+        }
     }
 
     public function getFields()
