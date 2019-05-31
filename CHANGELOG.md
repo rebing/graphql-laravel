@@ -3,6 +3,9 @@ CHANGELOG
 
 Next release
 ------------
+## Breaking changes
+- Validation errors are moved from error.validation to error.extensions.validation as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)
+
 ### Added
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - Added declare(strict_types=1) directive to all files
