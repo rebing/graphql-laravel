@@ -3,8 +3,9 @@ CHANGELOG
 
 Next release
 ------------
-- This project has a changelog `\o/`
+### Added
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
+- This project has a changelog `\o/`
 
 2019-03-07, v1.21.2
 -------------------
