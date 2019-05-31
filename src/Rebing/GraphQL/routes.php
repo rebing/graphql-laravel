@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Helpers;
+use Rebing\GraphQL\GraphQLController;
 
 $router = app('router');
 
@@ -24,7 +25,7 @@ $router->group(array_merge([
     }
 
     // Controllers
-    $controllers = config('graphql.controllers', \Rebing\GraphQL\GraphQLController::class.'@query');
+    $controllers = config('graphql.controllers', GraphQLController::class.'@query');
     $queryController = null;
     $mutationController = null;
     if (is_array($controllers)) {
@@ -149,7 +150,7 @@ if (config('graphql.graphiql.display', true)) {
         'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
         'middleware'    => config('graphql.graphiql.middleware', []),
     ], function ($router) {
-        $graphiqlController = config('graphql.graphiql.controller', \Rebing\GraphQL\GraphQLController::class.'@graphiql');
+        $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class.'@graphiql');
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
         $graphiqlAction = ['uses' => $graphiqlController];
 

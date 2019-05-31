@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
+use GraphQL\Language\AST\Node;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\ScalarType;
 
@@ -55,7 +56,7 @@ class UploadType extends ScalarType
     /**
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
      *
-     * @param \GraphQL\Language\AST\Node $valueNode
+     * @param Node $valueNode
      *
      * @return mixed
      */

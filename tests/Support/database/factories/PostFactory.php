@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
-/* @var \Illuminate\Database\Eloquent\Factory $factory */
+/* @var Factory $factory */
 $factory->define(Post::class, function (Faker $faker) {
     return [
         'title' => $faker->title,

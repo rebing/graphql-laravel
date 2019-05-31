@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -61,7 +62,7 @@ class GraphQLController extends Controller
     {
         try {
             return app('auth')->user();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return;
         }
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Exception;
 
-class SchemaNotFound extends \Exception
+use Exception;
+
+class SchemaNotFound extends Exception
 {
 }
