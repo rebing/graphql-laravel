@@ -13,7 +13,9 @@ use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -138,6 +140,47 @@ SQL
         $this->assertEquals($expectedResult, $response->json());
     }
 
+    public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Description of the post',
+        ]);
+
+        $graphql = <<<GRAQPHQL
+{
+  postWithSelectFieldsAndModelAndAliasAndCustomResolver(id: $post->id) {
+    id
+    description
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
+SQL
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $expectedResult = [
+            'data' => [
+                'postWithSelectFieldsAndModelAndAliasAndCustomResolver' => [
+                    'id' => '1',
+                    'description' => 'Custom resolver',
+                ],
+            ],
+        ];
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
+    }
+
     public function testWithSelectFieldsNoModel(): void
     {
         $post = factory(Post::class)->create([
@@ -184,8 +227,9 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 PostQuery::class,
-                PostWithSelectFieldsAndModelQuery::class,
+                PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::class,
                 PostWithSelectFieldsAndModelAndAliasQuery::class,
+                PostWithSelectFieldsAndModelQuery::class,
                 PostWithSelectFieldsNoModelQuery::class,
             ],
         ]);
@@ -194,8 +238,9 @@ SQL
 
         $app['config']->set('graphql.types', [
             PostType::class,
-            PostWithModelType::class,
+            PostWithModelAndAliasAndCustomResolverType::class,
             PostWithModelAndAliasType::class,
+            PostWithModelType::class,
         ]);
 
         $app['config']->set('app.debug', true);
