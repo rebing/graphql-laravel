@@ -8,6 +8,7 @@ use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Definition\InterfaceType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +37,10 @@ class SelectFields
      */
     public function __construct(ResolveInfo $info, $parentType, array $args)
     {
+        if ($parentType instanceof WrappingType) {
+            $parentType = $parentType->getWrappedType(true);
+        }
+
         if (! is_null($info->fieldNodes[0]->selectionSet)) {
             self::$args = $args;
 
