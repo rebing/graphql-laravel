@@ -14,8 +14,8 @@ use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
-use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
 use Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
@@ -124,7 +124,6 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-
         $this->assertSqlQueries('');
 
         $this->assertEquals($response->getStatusCode(), 200);
@@ -137,7 +136,7 @@ GRAQPHQL;
             'title' => 'Title of the post',
         ]);
 
-        $graphql = <<<GRAQPHQL
+        $graphql = <<<'GRAQPHQL'
 {
   postsListOfWithSelectFieldsAndModel {
     id
@@ -154,17 +153,16 @@ GRAQPHQL;
 
         $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts";');
 
-        $expectedResult = array (
-            'data' => array (
-                    'postsListOfWithSelectFieldsAndModel' =>
-                        array (
-                                array (
+        $expectedResult = [
+            'data' => [
+                    'postsListOfWithSelectFieldsAndModel' => [
+                                [
                                     'id' => "$post->id",
                                     'title' => 'Title of the post',
-                                ),
-                        ),
-                ),
-        );
+                                ],
+                        ],
+                ],
+        ];
 
         $this->assertEquals($response->getStatusCode(), 200);
         $this->assertEquals($expectedResult, $response->json());
@@ -176,7 +174,7 @@ GRAQPHQL;
             'title' => 'Title of the post',
         ]);
 
-        $graphql = <<<GRAQPHQL
+        $graphql = <<<'GRAQPHQL'
 {
   postsNonNullAndListOfWithSelectFieldsAndModel {
     id
@@ -191,7 +189,6 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-
         $this->assertSqlQueries('');
 
         $this->assertEquals($response->getStatusCode(), 200);
@@ -204,7 +201,7 @@ GRAQPHQL;
             'title' => 'Title of the post',
         ]);
 
-        $graphql = <<<GRAQPHQL
+        $graphql = <<<'GRAQPHQL'
 {
   postsNonNullAndListAndNonNullOfWithSelectFieldsAndModel {
     id
@@ -218,7 +215,6 @@ GRAQPHQL;
         $response = $this->call('GET', '/graphql', [
             'query' => $graphql,
         ]);
-
 
         $this->assertSqlQueries('');
 
