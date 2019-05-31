@@ -6,6 +6,8 @@ Next release
 ### Added
 - Added declare(strict_types=1) directive to all files
 - This project has a changelog `\o/`
+- Internal
+  - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
