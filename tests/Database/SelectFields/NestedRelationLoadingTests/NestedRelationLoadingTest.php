@@ -197,7 +197,104 @@ GRAQPHQL;
 
         $result = GraphQL::query($graphql);
 
-        $this->assertSame('SQLSTATE[HY000]: General error: 1 near "from": syntax error (SQL: select  from "users" order by "users"."id" asc)', $result['errors'][0]['debugMessage']);
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id", "users"."name" from "users" order by "users"."id" asc;
+select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
+select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
+select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
+select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
+select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
+select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'users' => [
+                    [
+                        'id' => (string) $users[0]->id,
+                        'name' => $users[0]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[0]->posts[0]->body,
+                                'id' => (string) $users[0]->posts[0]->id,
+                                'title' => $users[0]->posts[0]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[0]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
+                                        'title' => $users[0]->posts[0]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[0]->posts[0]->comments[1]->body,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
+                                        'title' => $users[0]->posts[0]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                            [
+                                'body' => $users[0]->posts[1]->body,
+                                'id' => (string) $users[0]->posts[1]->id,
+                                'title' => $users[0]->posts[1]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[0]->posts[1]->comments[0]->body,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
+                                        'title' => $users[0]->posts[1]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[0]->posts[1]->comments[1]->body,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
+                                        'title' => $users[0]->posts[1]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $users[1]->id,
+                        'name' => $users[1]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[1]->posts[0]->body,
+                                'id' => (string) $users[1]->posts[0]->id,
+                                'title' => $users[1]->posts[0]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[1]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
+                                        'title' => $users[1]->posts[0]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[1]->posts[0]->comments[1]->body,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
+                                        'title' => $users[1]->posts[0]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                            [
+                                'body' => $users[1]->posts[1]->body,
+                                'id' => (string) $users[1]->posts[1]->id,
+                                'title' => $users[1]->posts[1]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[1]->posts[1]->comments[0]->body,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
+                                        'title' => $users[1]->posts[1]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[1]->posts[1]->comments[1]->body,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
+                                        'title' => $users[1]->posts[1]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
     }
 
     public function testQueryWith(): void
@@ -243,12 +340,8 @@ GRAQPHQL;
 
         $this->assertSqlQueries(<<<'SQL'
 select * from "users" order by "users"."id" asc;
-select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
-select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
-select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
-select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
-select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
-select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
 SQL
         );
 
@@ -382,7 +475,100 @@ GRAQPHQL;
 
         $result = GraphQL::query($graphql);
 
-        $this->assertSame('SQLSTATE[HY000]: General error: 1 near "from": syntax error (SQL: select  from "users" order by "users"."id" asc)', $result['errors'][0]['debugMessage']);
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id", "users"."name" from "users" order by "users"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'users' => [
+                    [
+                        'id' => (string) $users[0]->id,
+                        'name' => $users[0]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[0]->posts[0]->body,
+                                'id' => (string) $users[0]->posts[0]->id,
+                                'title' => $users[0]->posts[0]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[0]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
+                                        'title' => $users[0]->posts[0]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[0]->posts[0]->comments[1]->body,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
+                                        'title' => $users[0]->posts[0]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                            [
+                                'body' => $users[0]->posts[1]->body,
+                                'id' => (string) $users[0]->posts[1]->id,
+                                'title' => $users[0]->posts[1]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[0]->posts[1]->comments[0]->body,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
+                                        'title' => $users[0]->posts[1]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[0]->posts[1]->comments[1]->body,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
+                                        'title' => $users[0]->posts[1]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $users[1]->id,
+                        'name' => $users[1]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[1]->posts[0]->body,
+                                'id' => (string) $users[1]->posts[0]->id,
+                                'title' => $users[1]->posts[0]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[1]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
+                                        'title' => $users[1]->posts[0]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[1]->posts[0]->comments[1]->body,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
+                                        'title' => $users[1]->posts[0]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                            [
+                                'body' => $users[1]->posts[1]->body,
+                                'id' => (string) $users[1]->posts[1]->id,
+                                'title' => $users[1]->posts[1]->title,
+                                'comments' => [
+                                    [
+                                        'body' => $users[1]->posts[1]->comments[0]->body,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
+                                        'title' => $users[1]->posts[1]->comments[0]->title,
+                                    ],
+                                    [
+                                        'body' => $users[1]->posts[1]->comments[1]->body,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
+                                        'title' => $users[1]->posts[1]->comments[1]->title,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
     }
 
     protected function getEnvironmentSetUp($app)
