@@ -125,10 +125,17 @@ SQL
 
         $this->assertEquals($response->getStatusCode(), 200);
 
-        $result = $response->json();
+        $expectedResult = [
+            'data' => [
+                'postWithSelectFieldsAndModelAndAlias' => [
+                    'id' => '1',
+                    'description' => 'Description of the post',
+                ],
+            ],
+        ];
 
-        $this->assertNull($result['data']['postWithSelectFieldsAndModelAndAlias']);
-        $this->assertSame('Cannot return null for non-nullable field PostWithModelAndAlias.description.', $result['errors'][0]['debugMessage']);
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNoModel(): void
