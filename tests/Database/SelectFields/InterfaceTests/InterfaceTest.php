@@ -19,7 +19,7 @@ class InterfaceTest extends TestCaseDatabase
             'title' => 'Title of the post',
         ]);
 
-        $graphql = <<<GRAQPHQL
+        $graphql = <<<'GRAQPHQL'
 {
   exampleInterfaceQuery {
     title
