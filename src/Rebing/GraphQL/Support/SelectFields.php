@@ -10,7 +10,6 @@ use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\InterfaceType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -216,10 +215,9 @@ class SelectFields
             }
         }
 
-        // If parent type is an interface or union we select all fields
+        // If parent type is an union we select all fields
         // because we don't know which other fields are required
-        // from types which implement this interface
-        if (is_a($parentType, InterfaceType::class) || is_a($parentType, UnionType::class)) {
+        if (is_a($parentType, UnionType::class)) {
             $select = ['*'];
         }
     }
