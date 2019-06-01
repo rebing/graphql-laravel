@@ -32,7 +32,7 @@ GRAQPHQL;
         $result = GraphQL::query($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
-select * from "posts";
+select "title" from "posts";
 SQL
         );
 
