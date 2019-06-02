@@ -70,13 +70,7 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootTypes()
     {
         $configTypes = config('graphql.types');
-        foreach ($configTypes as $name => $type) {
-            if (is_numeric($name)) {
-                $this->app['graphql']->addType($type);
-            } else {
-                $this->app['graphql']->addType($type, $name);
-            }
-        }
+        $this->app['graphql']->addTypes($configTypes);
     }
 
     /**
