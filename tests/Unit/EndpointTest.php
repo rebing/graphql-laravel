@@ -65,6 +65,26 @@ class EndpointTest extends TestCase
         ]);
     }
 
+    public function testGetWithVariablesSerialized(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            'query'     => $this->queries['examplesWithVariables'],
+            'variables' => json_encode([
+                'index' => 0,
+            ]),
+        ]);
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $content = $response->getData(true);
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals($content['data'], [
+            'examples' => [
+                $this->data[0],
+            ],
+        ]);
+    }
+
     /**
      * Test get with unauthorized query.
      */
