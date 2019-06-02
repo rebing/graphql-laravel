@@ -1,8 +1,10 @@
+sudo: false
+
 language: php
 
 cache:
   directories:
-  - $HOME/.composer/cache
+  - $HOME/.composer/cache/files
 
 matrix:
   include:
