@@ -29,7 +29,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.7.*'
     - php: '7.3'
-      env: LARAVEL='5.8.*'
+      env: LARAVEL='5.8.*' CODE_COVERAGE=1
 
 before_script:
   - phpenv config-rm xdebug.ini || true
@@ -38,4 +38,9 @@ install:
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
   - composer install --prefer-dist --no-interaction --no-suggest
 
-script: vendor/bin/phpunit --colors=always --verbose
+script:
+  - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
+  - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
+
+after_success:
+ - if [[ $CODE_COVERAGE = 1 ]]; then bash <(curl -s https://codecov.io/bash); fi

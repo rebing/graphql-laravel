@@ -1,6 +1,7 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
+[![codecov](https://codecov.io/gh/rebing/graphql-laravel/branch/master/graph/badge.svg)](https://codecov.io/gh/rebing/graphql-laravel)
 [![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/rebing/graphql-laravel)
 [![Style CI](https://styleci.io/repos/68595316/shield)](https://styleci.io/repos/68595316)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
