@@ -165,7 +165,7 @@ class Field extends Fluent
 
             // Authorize
             if (call_user_func($authorize, $arguments[1]) != true) {
-                throw with(new AuthorizationError('Unauthorized'));
+                throw new AuthorizationError('Unauthorized');
             }
 
             // Validate mutation arguments
@@ -179,7 +179,7 @@ class Field extends Fluent
 
                     $validator = Validator::make($args, $rules, $messages);
                     if ($validator->fails()) {
-                        throw with(new ValidationError('validation', $validator));
+                        throw new ValidationError('validation', $validator);
                     }
                 }
             }
