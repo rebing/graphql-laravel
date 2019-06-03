@@ -27,7 +27,7 @@ class TestCase extends BaseTestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
