@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
+use RuntimeException;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
@@ -137,7 +138,7 @@ class GraphQL
     public function type($name, $fresh = false)
     {
         if (! isset($this->types[$name])) {
-            throw new Exception('Type '.$name.' not found.');
+            throw new RuntimeException('Type '.$name.' not found.');
         }
 
         if (! $fresh && isset($this->typesInstances[$name])) {
