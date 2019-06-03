@@ -130,7 +130,9 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $this->registerGraphQL();
 
-        $this->registerConsole();
+        if ($this->app->runningInConsole()) {
+            $this->registerConsole();
+        }
     }
 
     public function registerGraphQL()
