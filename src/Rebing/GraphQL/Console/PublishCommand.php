@@ -62,7 +62,7 @@ class PublishCommand extends Command
             }
             $this->createParentDirectory(dirname($to));
             $this->files->copy($from, $to);
-            $this->status($from, $to, 'File');
+            $this->status($from, $to);
         }
     }
 
