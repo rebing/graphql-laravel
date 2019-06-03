@@ -8,7 +8,7 @@ use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
 abstract class TestCaseDatabase extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
