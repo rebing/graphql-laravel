@@ -202,8 +202,9 @@ class GraphQLTest extends TestCase
         $error = GraphQL::formatError($error);
 
         $this->assertIsArray($error);
-        $this->assertArrayHasKey('validation', $error);
-        $this->assertTrue($error['validation']->has('test'));
+        $this->assertArrayHasKey('extensions', $error);
+        $this->assertArrayHasKey('validation', $error['extensions']);
+        $this->assertTrue($error['extensions']['validation']->has('test'));
     }
 
     /**

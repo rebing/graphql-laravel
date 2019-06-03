@@ -132,8 +132,9 @@ class GraphQLQueryTest extends TestCase
 
         $this->assertArrayHasKey('data', $result);
         $this->assertArrayHasKey('errors', $result);
-        $this->assertArrayHasKey('validation', $result['errors'][0]);
-        $this->assertTrue($result['errors'][0]['validation']->has('index'));
+        $this->assertArrayHasKey('extensions', $result['errors'][0]);
+        $this->assertArrayHasKey('validation', $result['errors'][0]['extensions']);
+        $this->assertTrue($result['errors'][0]['extensions']['validation']->has('index'));
     }
 
     /**
