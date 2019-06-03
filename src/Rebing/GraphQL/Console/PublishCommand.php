@@ -49,12 +49,7 @@ class PublishCommand extends Command
         ];
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->fileMap as $from => $to) {
             if ($this->files->exists($to) && ! $this->option('force')) {
@@ -73,7 +68,7 @@ class PublishCommand extends Command
      *
      * @return void
      */
-    protected function createParentDirectory($directory)
+    protected function createParentDirectory(string $directory): void
     {
         if (! $this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -88,7 +83,7 @@ class PublishCommand extends Command
      *
      * @return void
      */
-    protected function status($from, $to)
+    protected function status(string $from, string $to): void
     {
         $from = str_replace(base_path(), '', realpath($from));
         $to = str_replace(base_path(), '', realpath($to));
