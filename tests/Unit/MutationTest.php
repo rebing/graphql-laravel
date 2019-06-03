@@ -121,8 +121,7 @@ class MutationTest extends FieldTest
         try {
             $attributes['resolve'](null, [], [], null);
         } catch (ValidationError $e) {
-            // FIXME Replace with getValidator()
-            $validator = $e->validator;
+            $validator = $e->getValidator();
 
             $this->assertInstanceOf(Validator::class, $validator);
 

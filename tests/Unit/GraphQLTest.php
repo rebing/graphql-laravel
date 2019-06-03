@@ -197,7 +197,7 @@ class GraphQLTest extends TestCase
             'test' => 'required',
         ]);
         $validator->fails();
-        $validationError = with(new ValidationError('validation'))->setValidator($validator);
+        $validationError = with(new ValidationError('validation', $validator));
         $error = new Error('error', null, null, null, null, $validationError);
         $error = GraphQL::formatError($error);
 

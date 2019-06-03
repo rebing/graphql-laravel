@@ -5,20 +5,28 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Error;
 
 use GraphQL\Error\Error;
+use Illuminate\Contracts\Support\MessageBag;
+use Illuminate\Contracts\Validation\Validator;
 
 class ValidationError extends Error
 {
-    public $validator;
+    /** @var Validator */
+    private $validator;
 
-    public function setValidator($validator)
+    public function __construct(string $message, Validator $validator)
     {
-        $this->validator = $validator;
+        parent::__construct($message);
 
-        return $this;
+        $this->validator = $validator;
     }
 
-    public function getValidatorMessages()
+    public function getValidatorMessages(): MessageBag
     {
-        return $this->validator ? $this->validator->messages() : [];
+        return $this->validator->errors();
+    }
+
+    public function getValidator(): Validator
+    {
+        return $this->validator;
     }
 }

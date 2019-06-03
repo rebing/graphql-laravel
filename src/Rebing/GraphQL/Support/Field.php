@@ -179,7 +179,7 @@ class Field extends Fluent
 
                     $validator = Validator::make($args, $rules, $messages);
                     if ($validator->fails()) {
-                        throw with(new ValidationError('validation'))->setValidator($validator);
+                        throw with(new ValidationError('validation', $validator));
                     }
                 }
             }

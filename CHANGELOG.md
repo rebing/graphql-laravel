@@ -17,6 +17,7 @@ Next release
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
+- `ValidatorError`: remove setter and make it a constructor arg, add getter and rely on contracts
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
