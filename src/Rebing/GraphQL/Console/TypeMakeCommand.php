@@ -69,9 +69,9 @@ class TypeMakeCommand extends GeneratorCommand
      * @param string $stub
      * @param string $name
      *
-     * @return $this
+     * @return string
      */
-    protected function replaceType($stub, $name)
+    protected function replaceType(string $stub, string $name): string
     {
         preg_match('/([^\\\]+)$/', $name, $matches);
         $stub = str_replace(
