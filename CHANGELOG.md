@@ -1,10 +1,14 @@
 CHANGELOG
 =========
 
+Next release
+----------------
+### Added
+- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
+
 2019-05-31, v1.22.0
 ------------
 ### Added
-- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - This project has a changelog `\o/`
 
