@@ -194,7 +194,9 @@ abstract class Field extends Fluent
 
             // Add the 'selects and relations' feature as 5th arg
             if (isset($arguments[3])) {
-                $arguments[] = new SelectFields($arguments[3], $this->type(), $arguments[1]);
+                $arguments[] = function () use ($arguments): SelectFields {
+                    return new SelectFields($arguments[3], $this->type(), $arguments[1]);
+                };
             }
 
             return call_user_func_array($resolver, $arguments);

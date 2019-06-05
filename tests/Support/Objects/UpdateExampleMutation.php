@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UpdateExampleMutation extends Mutation
@@ -53,7 +52,7 @@ class UpdateExampleMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields): array
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
     {
         return [
             'test' => Arr::get($args, 'test'),

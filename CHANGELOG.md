@@ -4,9 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...master)
 ------------
 ## Breaking changes
-- The order and arguments for resolvers has changed:
-  - before: `resolve($root, $array, SelectFields $fields, ResolveInfo $info)`
-  - after: `resolve($root, $array, $context, ResolveInfo $info, SelectFields $fields)`
+- The order and arguments/types for resolvers has changed:
+  - before: `resolve($root, $array, SelectFields $selectFields, ResolveInfo $info)`
+  - after: `resolve($root, $array, $context, ResolveInfo $info, Closure $getSelectFields)`
 - Added PHP types / phpdoc to all methods / properties [\#331](https://github.com/rebing/graphql-laravel/pull/331)
   - Changes in method signatures will require small adaptions.
 - Validation errors are moved from error.validation to error.extensions.validation as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)

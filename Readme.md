@@ -252,7 +252,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         if (isset($args['id'])) {
             return User::where('id' , $args['id'])->get();
@@ -333,7 +333,7 @@ class UpdateUserPasswordMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         if(!$user) {
@@ -424,7 +424,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         if (!$user) {
@@ -557,7 +557,7 @@ class UserProfilePhotoMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $selectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $file = $args['profilePicture'];
 
