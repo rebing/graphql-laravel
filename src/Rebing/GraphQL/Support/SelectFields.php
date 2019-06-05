@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
-use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Definition\InterfaceType;
@@ -64,8 +63,8 @@ class SelectFields
         $select = [];
         $with = [];
 
-        if (is_a($parentType, ListOfType::class)) {
-            $parentType = $parentType->getWrappedType();
+        if ($parentType instanceof WrappingType) {
+            $parentType = $parentType->getWrappedType(true);
         }
         $parentTable = self::getTableNameFromParentType($parentType);
         $primaryKey = self::getPrimaryKeyFromParentType($parentType);
