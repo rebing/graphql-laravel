@@ -7,10 +7,10 @@ namespace Rebing\GraphQL\Tests\Support\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Post extends Model
+class User extends Model
 {
-    public function comments(): HasMany
+    public function posts(): HasMany
     {
-        return $this->hasMany(Comment::class)->orderBy('comments.id');
+        return $this->hasMany(Post::class)->orderBy('posts.id');
     }
 }
