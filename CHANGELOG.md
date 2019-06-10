@@ -2,14 +2,17 @@ CHANGELOG
 =========
 
 Next release
-----------------
+------------
+
+2019-06-10, v1.23.0
+-------------------
 ### Added
 - New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
 ### Fixed
-- SelectFields now works with wrapped types (nonNull, listOf)
+- SelectFields now works with wrapped types (nonNull, listOf) [\#315](https://github.com/rebing/graphql-laravel/pull/315)
 
 2019-05-31, v1.22.0
-------------
+-------------------
 ### Added
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - This project has a changelog `\o/`
