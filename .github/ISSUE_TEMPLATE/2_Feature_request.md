@@ -1,7 +1,7 @@
 ---
 name: "✨ Feature request"
 about: 'Suggest a new new feature or other improvements.'
-lables: enhancement
+labels: enhancement
 
 ---
 
