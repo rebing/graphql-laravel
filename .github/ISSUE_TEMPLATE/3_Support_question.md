@@ -1,6 +1,7 @@
 ---
 name: "🙋🏼‍♂️ Support question"
 about: 'I need assistance or clarification on usage of this library.'
+labels: question
 
 ---
 <!--
