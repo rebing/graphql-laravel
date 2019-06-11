@@ -86,7 +86,7 @@
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo csrf_token() ; ?>'
+                        'X-CSRF-TOKEN': '<?php echo csrf_token(); ?>'
                     },
                     body: JSON.stringify(graphQLParams),
                     credentials: 'include',

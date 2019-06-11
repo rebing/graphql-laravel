@@ -1,13 +1,17 @@
-<?php namespace Rebing\GraphQL;
+<?php
 
-use Illuminate\Support\ServiceProvider;
-use Rebing\GraphQL\Console\MutationMakeCommand;
-use Rebing\GraphQL\Console\QueryMakeCommand;
-use Rebing\GraphQL\Console\TypeMakeCommand;
-use GraphQL\Validator\DocumentValidator;
-use GraphQL\Validator\Rules\DisableIntrospection;
-use GraphQL\Validator\Rules\QueryComplexity;
+declare(strict_types=1);
+
+namespace Rebing\GraphQL;
+
 use GraphQL\Validator\Rules\QueryDepth;
+use Illuminate\Support\ServiceProvider;
+use GraphQL\Validator\DocumentValidator;
+use Rebing\GraphQL\Console\TypeMakeCommand;
+use GraphQL\Validator\Rules\QueryComplexity;
+use Rebing\GraphQL\Console\QueryMakeCommand;
+use Rebing\GraphQL\Console\MutationMakeCommand;
+use GraphQL\Validator\Rules\DisableIntrospection;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
@@ -28,20 +32,19 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap router
+     * Bootstrap router.
      *
      * @return void
      */
     protected function bootRouter()
     {
-        if(config('graphql.routes'))
-        {
+        if (config('graphql.routes')) {
             include __DIR__.'/routes.php';
         }
     }
 
     /**
-     * Bootstrap publishes
+     * Bootstrap publishes.
      *
      * @return void
      */
@@ -60,28 +63,18 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap publishes
+     * Bootstrap publishes.
      *
      * @return void
      */
     protected function bootTypes()
     {
         $configTypes = config('graphql.types');
-        foreach($configTypes as $name => $type)
-        {
-            if(is_numeric($name))
-            {
-                $this->app['graphql']->addType($type);
-            }
-            else
-            {
-                $this->app['graphql']->addType($type, $name);
-            }
-        }
+        $this->app['graphql']->addTypes($configTypes);
     }
 
     /**
-     * Add schemas from config
+     * Add schemas from config.
      *
      * @return void
      */
@@ -94,7 +87,7 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure security from config
+     * Configure security from config.
      *
      * @return void
      */
@@ -131,13 +124,14 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $this->registerGraphQL();
 
-        $this->registerConsole();
+        if ($this->app->runningInConsole()) {
+            $this->registerConsole();
+        }
     }
 
     public function registerGraphQL()
     {
-        $this->app->singleton('graphql', function($app)
-        {
+        $this->app->singleton('graphql', function ($app) {
             $graphql = new GraphQL($app);
 
             $this->applySecurityRules();
@@ -147,7 +141,7 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register console commands
+     * Register console commands.
      *
      * @return void
      */
@@ -167,5 +161,4 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         return ['graphql'];
     }
-
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\UnionType as BaseUnionType;
 
-class UnionType extends Type {
-
+class UnionType extends Type
+{
     public function types()
     {
         return [];
@@ -21,21 +23,19 @@ class UnionType extends Type {
         $attributes = parent::getAttributes();
         $types = $this->types();
 
-        if (sizeof($types)) {
+        if (count($types)) {
             $attributes['types'] = $types;
         }
-        
-        if(method_exists($this, 'resolveType'))
-        {
+
+        if (method_exists($this, 'resolveType')) {
             $attributes['resolveType'] = [$this, 'resolveType'];
         }
-        
+
         return $attributes;
     }
-    
+
     public function toType()
     {
         return new BaseUnionType($this->toArray());
     }
-    
 }

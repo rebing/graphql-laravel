@@ -1,72 +1,94 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type as GraphQLType;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Illuminate\Pagination\LengthAwarePaginator;
+use GraphQL\Type\Definition\Type as GraphQLType;
 
-class PaginationType extends ObjectType {
-
+class PaginationType extends ObjectType
+{
     public function __construct($typeName, $customName = null)
     {
-        $name = $customName ?: $typeName . '_pagination';
-
-        $customPaginator = config('graphql.custom_paginators.' . $name, null);
-        $customFields = $customPaginator ? $customPaginator::getPaginationFields() : [];
+        $name = $customName ?: $typeName.'Pagination';
 
         $config = [
-            'name'  => $name,
-            'fields' => array_merge(
-                $this->getPaginationFields(),
-                $customFields,
-                [
-                    'data' => [
-                        'type'      => GraphQLType::listOf(GraphQL::type($typeName)),
-                        'resolve'   => function(LengthAwarePaginator $data) { return $data->getCollection();  },
-                    ],
-                ]
-            )
+            'name'   => $name,
+            'fields' => $this->getPaginationFields($typeName),
         ];
 
         parent::__construct($config);
     }
 
-    protected function getPaginationFields()
+    protected function getPaginationFields($typeName)
     {
         return [
+            'data' => [
+                'type'          => GraphQLType::listOf(GraphQL::type($typeName)),
+                'description'   => 'List of items on the current page',
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->getCollection();
+                },
+            ],
             'total' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of total items selected by the query',
-                'resolve'       => function(LengthAwarePaginator $data) { return $data->total(); },
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->total();
+                },
                 'selectable'    => false,
             ],
             'per_page' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of items returned per page',
-                'resolve'       => function(LengthAwarePaginator $data) { return $data->perPage(); },
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->perPage();
+                },
                 'selectable'    => false,
             ],
             'current_page' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Current page of the cursor',
-                'resolve'       => function(LengthAwarePaginator $data) { return $data->currentPage(); },
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->currentPage();
+                },
                 'selectable'    => false,
             ],
             'from' => [
                 'type'          => GraphQLType::int(),
                 'description'   => 'Number of the first item returned',
-                'resolve'       => function(LengthAwarePaginator $data) { return $data->firstItem(); },
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->firstItem();
+                },
                 'selectable'    => false,
             ],
             'to' => [
                 'type'          => GraphQLType::int(),
                 'description'   => 'Number of the last item returned',
-                'resolve'       => function(LengthAwarePaginator $data) { return $data->lastItem(); },
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->lastItem();
+                },
+                'selectable'    => false,
+            ],
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'The last page (number of pages)',
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->lastPage();
+                },
+                'selectable'    => false,
+            ],
+            'has_more_pages' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::boolean()),
+                'description'   => 'Determines if cursor has more pages after the current page',
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->hasMorePages();
+                },
                 'selectable'    => false,
             ],
         ];
     }
-
 }

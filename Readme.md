@@ -1,9 +1,14 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
+[![codecov](https://codecov.io/gh/rebing/graphql-laravel/branch/master/graph/badge.svg)](https://codecov.io/gh/rebing/graphql-laravel)
+[![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/rebing/graphql-laravel)
+[![Style CI](https://styleci.io/repos/68595316/shield)](https://styleci.io/repos/68595316)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
+[![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
-Uses Facebook GraphQL with Laravel 5. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
+
+Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
 This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
@@ -24,18 +29,20 @@ It offers following features and improvements over the original package by
 
 #### Dependencies:
 
-* [Laravel 5.x](https://github.com/laravel/laravel)
+* [Laravel 5.5+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
 #### Installation:
 
-**1.** Require the package via Composer
+**-** Require the package via Composer
 ```bash
 composer require rebing/graphql-laravel
 ```
 
-**2.** Laravel 5.5+ will autodiscover the package, for older versions add the
+##### Laravel 5.5+
+
+**1.** Laravel 5.5+ will autodiscover the package, for older versions add the
 following service provider
 ```php
 Rebing\GraphQL\GraphQLServiceProvider::class,
@@ -48,9 +55,34 @@ and alias
 
 in your `config/app.php` file.
 
-**3.** Publish the configuration file
+**2.** Publish the configuration file
 ```bash
 $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+```
+
+**3.** Review the configuration file
+```
+config/graphql.php
+```
+
+##### Lumen (experimental!)
+
+**1.** Add the following service provider to the `bootstrap/app.php` file
+```php
+$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
+```
+
+**2.** Publish the configuration file
+```bash
+$ php artisan graphql:publish
+```
+
+**3.** Add the configuration to the `bootstrap/app.php` file
+    *Important:* this needs to be before the registration of the service provider
+```php
+$app->configure('graphql');
+...
+$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 ```
 
 **4.** Review the configuration file
@@ -185,7 +217,7 @@ Then you need to define a query that returns this type (or a list). You can also
 namespace App\GraphQL\Query;
 
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 
@@ -364,7 +396,7 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'password', 'type' => Type::string()]
+            'email' => ['name' => 'email', 'type' => Type::string()]
         ];
     }
 
@@ -501,7 +533,7 @@ class UserProfilePhotoMutation extends Mutation
         return [
             'profilePicture' => [
                 'name' => 'profilePicture',
-                'type' => new UploadType($this->attributes['name']),
+                'type' => UploadType::getInstance(),
                 'rules' => ['required', 'image', 'max:1500'],
             ],
         ];
@@ -515,6 +547,8 @@ class UserProfilePhotoMutation extends Mutation
     }
 }
 ```
+
+Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
 ### Advanced usage
 - [Authorization](docs/advanced.md#authorization)
@@ -530,3 +564,4 @@ class UserProfilePhotoMutation extends Mutation
 - [Interfaces](docs/advanced.md#interfaces)
 - [Input Object](docs/advanced.md#input-object)
 - [JSON Columns](docs/advanced.md#json-columns)
+- [Field deprecation](docs/advanced.md#field-deprecation)

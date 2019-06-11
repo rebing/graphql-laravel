@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Type\User;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
-use GraphQL\Type\Definition\Type;
+use Models\User;
 use GraphQL\GraphQL;
 use GraphQL\Privacy\MePrivacy;
-use Models\User; // not included in this project
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType; // not included in this project
 
-class UserType extends GraphQLType {
-
+class UserType extends GraphQLType
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -53,5 +55,4 @@ class UserType extends GraphQLType {
             ],
         ];
     }
-
 }

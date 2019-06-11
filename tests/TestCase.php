@@ -1,6 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Rebing\GraphQL\Tests;
+
+use GraphQL\Type\Schema;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\GraphQLServiceProvider;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\FieldDefinition;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 
 class TestCase extends BaseTestCase
 {
@@ -10,25 +27,26 @@ class TestCase extends BaseTestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->queries = include(__DIR__.'/Objects/queries.php');
-        $this->data = include(__DIR__.'/Objects/data.php');
+        $this->queries = include __DIR__.'/Support/Objects/queries.php';
+        $this->data = include __DIR__.'/Support/Objects/data.php';
     }
 
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                'examples' => ExamplesQuery::class,
-                'examplesAuthorize' => ExamplesAuthorizeQuery::class,
+                'examples'           => ExamplesQuery::class,
+                'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
+                'examplesFiltered'   => ExamplesFilteredQuery::class,
             ],
             'mutation' => [
-                'updateExample' => UpdateExampleMutation::class
-            ]
+                'updateExample' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.schemas.custom', [
@@ -36,23 +54,24 @@ class TestCase extends BaseTestCase
                 'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class
-            ]
+                'updateExampleCustom' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class
+            'Example'            => ExampleType::class,
+            'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 
         $app['config']->set('app.debug', true);
     }
 
-    protected function assertGraphQLSchema($schema)
+    protected function assertGraphQLSchema($schema): void
     {
-        $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
+        $this->assertInstanceOf(Schema::class, $schema);
     }
 
-    protected function assertGraphQLSchemaHasQuery($schema, $key)
+    protected function assertGraphQLSchemaHasQuery($schema, $key): void
     {
         // Query
         $query = $schema->getQueryType();
@@ -62,12 +81,12 @@ class TestCase extends BaseTestCase
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $queryField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ListOfType', $queryListType);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
+        $this->assertInstanceOf(FieldDefinition::class, $queryField);
+        $this->assertInstanceOf(ListOfType::class, $queryListType);
+        $this->assertInstanceOf(ObjectType::class, $queryType);
     }
 
-    protected function assertGraphQLSchemaHasMutation($schema, $key)
+    protected function assertGraphQLSchemaHasMutation($schema, $key): void
     {
         // Mutation
         $mutation = $schema->getMutationType();
@@ -76,21 +95,21 @@ class TestCase extends BaseTestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $mutationField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
+        $this->assertInstanceOf(FieldDefinition::class, $mutationField);
+        $this->assertInstanceOf(ObjectType::class, $mutationType);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            \Rebing\GraphQL\GraphQLServiceProvider::class
+            GraphQLServiceProvider::class,
         ];
     }
 
-    protected function getPackageAliases($app)
+    protected function getPackageAliases($app): array
     {
         return [
-            'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class
+            'GraphQL' => GraphQL::class,
         ];
     }
 }

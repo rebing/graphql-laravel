@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Support;
 
-use Rebing\GraphQL\Error\AuthorizationError;
 use Validator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
-use Rebing\GraphQL\Error\ValidationError;
-use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\WrappingType;
+use Rebing\GraphQL\Error\ValidationError;
+use GraphQL\Type\Definition\InputObjectType;
+use Rebing\GraphQL\Error\AuthorizationError;
 
-class Field extends Fluent {
-
+class Field extends Fluent
+{
     /**
      * Override this in your queries or mutations
-     * to provide custom authorization
+     * to provide custom authorization.
      */
     public function authorize(array $args)
     {
@@ -28,7 +32,6 @@ class Field extends Fluent {
 
     public function type()
     {
-        return null;
     }
 
     public function args()
@@ -37,15 +40,16 @@ class Field extends Fluent {
     }
 
     /**
-     * Define custom Laravel Validator messages as per Laravel 'custom error messages'
+     * Define custom Laravel Validator messages as per Laravel 'custom error messages'.
+     *
      * @param array $args submitted arguments
+     *
      * @return array
      */
     public function validationErrorMessages(array $args = [])
     {
         return [];
     }
-
 
     protected function rules(array $args = [])
     {
@@ -58,21 +62,17 @@ class Field extends Fluent {
 
         $rules = call_user_func_array([$this, 'rules'], $arguments);
         $argsRules = [];
-        foreach($this->args() as $name => $arg)
-        {
-            if(isset($arg['rules']))
-            {
-                if(is_callable($arg['rules']))
-                {
+        foreach ($this->args() as $name => $arg) {
+            if (isset($arg['rules'])) {
+                if (is_callable($arg['rules'])) {
                     $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
-                }
-                else
-                {
+                } else {
                     $argsRules[$name] = $arg['rules'];
                 }
             }
 
-            if (isset($arg['type'])) {
+            if (isset($arg['type'])
+                && ($arg['type'] instanceof NonNull || isset(Arr::get($arguments, 0, [])[$name]))) {
                 $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
             }
         }
@@ -92,6 +92,11 @@ class Field extends Fluent {
     public function inferRulesFromType($type, $prefix, $resolutionArguments)
     {
         $rules = [];
+
+        // make sure we are dealing with the actual type
+        if ($type instanceof NonNull) {
+            $type = $type->getWrappedType();
+        }
 
         // if it is an array type, add an array validation component
         if ($type instanceof ListOfType) {
@@ -128,6 +133,13 @@ class Field extends Fluent {
 
             // then recursively call the parent method to see if this is an
             // input object, passing in the new prefix
+            if ($field->type instanceof InputObjectType) {
+                // in case the field is a self reference we must not do
+                // a recursive call as it will never stop
+                if ($field->type->toString() == $input->toString()) {
+                    continue;
+                }
+            }
             $rules = array_merge($rules, $this->inferRulesFromType($field->type, $key, $resolutionArguments));
         }
 
@@ -136,44 +148,38 @@ class Field extends Fluent {
 
     protected function getResolver()
     {
-        if(!method_exists($this, 'resolve'))
-        {
-            return null;
+        if (! method_exists($this, 'resolve')) {
+            return;
         }
 
         $resolver = [$this, 'resolve'];
         $authorize = [$this, 'authorize'];
-        return function() use ($resolver, $authorize)
-        {
+
+        return function () use ($resolver, $authorize) {
             $arguments = func_get_args();
 
             // Get all given arguments
-            if( ! is_null($arguments[2]) && is_array($arguments[2]))
-            {
+            if (! is_null($arguments[2]) && is_array($arguments[2])) {
                 $arguments[1] = array_merge($arguments[1], $arguments[2]);
             }
 
             // Authorize
-            if(call_user_func($authorize, $arguments[1]) != true)
-            {
-                throw with(new AuthorizationError('Unauthorized'));
+            if (call_user_func($authorize, $arguments[1]) != true) {
+                throw new AuthorizationError('Unauthorized');
             }
 
             // Validate mutation arguments
-            if(method_exists($this, 'getRules'))
-            {
-                $args = array_get($arguments, 1, []);
+            if (method_exists($this, 'getRules')) {
+                $args = Arr::get($arguments, 1, []);
                 $rules = call_user_func_array([$this, 'getRules'], [$args]);
-                if(sizeof($rules))
-                {
+                if (count($rules)) {
 
                     // allow our error messages to be customised
                     $messages = $this->validationErrorMessages($args);
 
                     $validator = Validator::make($args, $rules, $messages);
-                    if($validator->fails())
-                    {
-                        throw with(new ValidationError('validation'))->setValidator($validator);
+                    if ($validator->fails()) {
+                        throw new ValidationError('validation', $validator);
                     }
                 }
             }
@@ -182,8 +188,7 @@ class Field extends Fluent {
             // $arguments[1] is direct args given with the query
             // $arguments[2] is context (params given with the query)
             // $arguments[3] is ResolveInfo
-            if(isset($arguments[3]))
-            {
+            if (isset($arguments[3])) {
                 $fields = new SelectFields($arguments[3], $this->type(), $arguments[1]);
                 $arguments[2] = $fields;
             }
@@ -202,18 +207,16 @@ class Field extends Fluent {
         $attributes = $this->attributes();
 
         $attributes = array_merge($this->attributes, [
-            'args' => $this->args()
+            'args' => $this->args(),
         ], $attributes);
 
         $type = $this->type();
-        if(isset($type))
-        {
+        if (isset($type)) {
             $attributes['type'] = $type;
         }
 
         $resolver = $this->getResolver();
-        if(isset($resolver))
-        {
+        if (isset($resolver)) {
             $attributes['resolve'] = $resolver;
         }
 
@@ -233,25 +236,28 @@ class Field extends Fluent {
     /**
      * Dynamically retrieve the value of an attribute.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function __get($key)
     {
         $attributes = $this->getAttributes();
-        return isset($attributes[$key]) ? $attributes[$key]:null;
+
+        return isset($attributes[$key]) ? $attributes[$key] : null;
     }
 
     /**
      * Dynamically check if an attribute is set.
      *
-     * @param  string  $key
+     * @param string $key
+     *
      * @return void
      */
     public function __isset($key)
     {
         $attributes = $this->getAttributes();
+
         return isset($attributes[$key]);
     }
-
 }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
 class QueryMakeCommand extends GeneratorCommand
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -33,25 +34,25 @@ class QueryMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/query.stub';
+        return __DIR__.'/stubs/query.stub';
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string $rootNamespace
+     * @param string $rootNamespace
      *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\GraphQL\Query';
+        return $rootNamespace.'\GraphQL\Query';
     }
 
     /**
      * Build the class with the given name.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string
      */
@@ -65,12 +66,12 @@ class QueryMakeCommand extends GeneratorCommand
     /**
      * Replace the namespace for the given stub.
      *
-     * @param  string $stub
-     * @param  string $name
+     * @param string $stub
+     * @param string $name
      *
-     * @return $this
+     * @return string
      */
-    protected function replaceType($stub, $name)
+    protected function replaceType(string $stub, string $name): string
     {
         preg_match('/([^\\\]+)$/', $name, $matches);
         $stub = str_replace(

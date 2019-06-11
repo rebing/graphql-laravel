@@ -13,6 +13,8 @@
 - [Interfaces](#interfaces)
 - [Input Object](#input-object)
 - [JSON Columns](#json-columns)
+- [Field deprecation](#field-deprecation)
+- [Default Field Resolver](#default-field-resolver)
 
 ### Authorization
 
@@ -552,7 +554,6 @@ If you want to change the name of a default field to fit with users expectations
 than 'total'), just copy the entry for the field you want to replace (they're in Rebing/GraphQL/Support/PaginationType.php) 
 and add it to your custom class.
 
-
 ### Batching
 
 You can send multiple queries (or mutations) at once by grouping them together. Therefore, instead of creating two HTTP requests:
@@ -919,7 +920,6 @@ class UserType extends GraphQLType
     public function fields()
     {
         return [
-            
             // ...
             
             // JSON column containing all posts made by this user
@@ -935,6 +935,73 @@ class UserType extends GraphQLType
     }
 
     // ...
-
 }
 ```
+
+#### Field deprecation
+
+Sometimes you would want to deprecate a field but still have to maintain backward compatibility 
+until clients completely stop using that field. You can deprecate a field using 
+[directive](https://www.apollographql.com/docs/graphql-tools/schema-directives.html). If you add `deprecationReason` 
+to field attributes it will become marked as deprecated in GraphQL documentation. You can validate schema on client 
+using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apollo-engine-4032456425ba).
+
+
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{    
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields()
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user',
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user',
+            ],
+            'address' => [
+                'type' => Type::string(),
+                'description' => 'The address of user',
+                'deprecationReason' => 'Deprecated due to address field split'
+            ],
+            'address_line_1' => [
+                'type' => Type::string(),
+                'description' => 'The address line 1 of user',
+            ],
+            'address_line_2' => [
+                'type' => Type::string(),
+                'description' => 'The address line 2 of user',
+            ],
+        ];
+    }
+}
+```
+
+#### Default Field Resolver
+
+It's possible to override the default field resolver provided by the underlying
+webonyx/graphql-php library using the config option `defaultFieldResolver`.
+
+You can define any valid callable (static class method, closure, etc.) for it:
+
+```php
+'defaultFieldResolver' => [Your\Klass::class, 'staticMethod'],
+```
+
+The parameters received are your regular "resolve" function signature.
