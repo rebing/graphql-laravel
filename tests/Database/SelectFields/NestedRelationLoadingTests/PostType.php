@@ -8,6 +8,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PostType extends GraphQLType
 {
@@ -24,6 +25,18 @@ class PostType extends GraphQLType
             ],
             'comments' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
+                'args' => [
+                    'flag' => [
+                        Type::boolean(),
+                    ],
+                ],
+                'query' => function (array $args, HasMany $query): HasMany {
+                    if (isset($args['flag'])) {
+                        $query->where('comments.flag', '=', $args['flag']);
+                    }
+
+                    return $query;
+                },
             ],
             'id' => [
                 'type' => Type::nonNull(Type::ID()),
