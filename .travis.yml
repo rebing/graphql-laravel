@@ -36,6 +36,8 @@ matrix:
       env: LARAVEL='5.7.*'
     - php: '7.3'
       env: LARAVEL='5.8.*' CODE_COVERAGE=1
+    - php: '7.4snapshot'
+      env: LARAVEL='5.8.*'
 
 before_script:
   - phpenv config-rm xdebug.ini || true
