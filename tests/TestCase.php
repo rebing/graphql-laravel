@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests;
 
+use Error;
 use GraphQL\Type\Schema;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
+use PHPUnit\Framework\Constraint\IsType;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\FieldDefinition;
@@ -111,5 +113,25 @@ class TestCase extends BaseTestCase
         return [
             'GraphQL' => GraphQL::class,
         ];
+    }
+
+    /**
+     * Implement for Laravel 5.5 testing with PHPUnit 6.5 which doesn't have
+     * `assertIsArray`.
+     *
+     * @param  string  $name
+     * @param  array  $arguments
+     */
+    public function __call(string $name, array $arguments)
+    {
+        if ($name !== 'assertIsArray') {
+            throw new Error('Call to undefined method '.static::class.'::$name via __call()');
+        }
+
+        static::assertThat(
+            $arguments[0],
+            new IsType(IsType::TYPE_ARRAY),
+            $arguments[1] ?? ''
+        );
     }
 }
