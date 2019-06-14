@@ -45,7 +45,8 @@ install:
   - composer install --prefer-dist --no-interaction --no-suggest
 
 script:
-  - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
+  - if [[ $LARAVEL = '5.5.*' && $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose --testsuite=Unit; fi
+  - if [[ $LARAVEL != '5.5.*' && $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
   - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
 
 after_success:
