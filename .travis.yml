@@ -6,6 +6,10 @@ cache:
   directories:
   - $HOME/.composer/cache/files
 
+env:
+  global:
+    - CODE_COVERAGE=0
+
 matrix:
   include:
     - php: '7.1'
