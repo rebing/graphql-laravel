@@ -12,6 +12,7 @@ use PHPUnit\Framework\Constraint\IsType;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\FieldDefinition;
+use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
@@ -103,9 +104,16 @@ class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app): array
     {
-        return [
+        $providers = [
             GraphQLServiceProvider::class,
         ];
+
+        // Support for Laravel 5.5 testing
+        if (class_exists(ConsoleServiceProvider::class)) {
+            $providers[] = ConsoleServiceProvider::class;
+        }
+
+        return $providers;
     }
 
     protected function getPackageAliases($app): array
