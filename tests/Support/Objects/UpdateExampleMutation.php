@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
+use Closure;
 use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
