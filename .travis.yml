@@ -9,6 +9,7 @@ cache:
 env:
   global:
     - CODE_COVERAGE=0
+    - STATIC_ANALYSER=0
 
 matrix:
   include:
@@ -35,7 +36,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.7.*'
     - php: '7.3'
-      env: LARAVEL='5.8.*' CODE_COVERAGE=1
+      env: LARAVEL='5.8.*' CODE_COVERAGE=1 STATIC_ANALYSER=1
     - php: '7.4snapshot'
       env: LARAVEL='5.8.*'
 
@@ -48,6 +49,7 @@ install:
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
+  - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
   - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
 

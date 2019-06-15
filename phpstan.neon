@@ -1,0 +1,17 @@
+parameters:
+  level: 1
+  paths:
+  - src
+  - tests
+  excludes_analyse:
+  - %rootDir%/../../../src/example/*
+  - %rootDir%/../../../src/resources/views/*
+  - %rootDir%/../../../tests/Support/database/*
+  ignoreErrors:
+    - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
+    - '/Call to an undefined static method Rebing\\GraphQL\\Support\\Facades\\GraphQL::/'
+    - '/Call to an undefined static method Rebing\\GraphQL\\Tests\\Support\\Models\\/'
+    - '/Call to static method listen\(\) on an unknown class DB/'
+    - '/Call to static method make\(\) on an unknown class Validator/'
+    - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
+
