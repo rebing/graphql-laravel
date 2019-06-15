@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use GraphQL\Language\AST\FieldNode;
+use GraphQL\Language\AST\FragmentDefinitionNode;
+use GraphQL\Language\AST\FragmentSpreadNode;
+use GraphQL\Language\AST\InlineFragmentNode;
+use GraphQL\Language\AST\SelectionSetNode;
 use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
@@ -27,6 +32,8 @@ class SelectFields
     private $relations = [];
     /** @var array */
     private static $privacyValidations = [];
+    /** @var ResolveInfo */
+    private $info;
 
     const FOREIGN_KEY = 'foreignKey';
 
@@ -44,11 +51,53 @@ class SelectFields
         if (! is_null($info->fieldNodes[0]->selectionSet)) {
             self::$args = $args;
 
-            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection($info,5), $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
         }
+    }
+
+    public function getFieldSelection(ResolveInfo $info, $depth = 0)
+    {
+        $data = [];
+
+        /** @var FieldNode $fieldNode */
+        foreach ($info->fieldNodes as $fieldNode) {
+            $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
+        }
+
+        $fields['fields'] = $data;
+        $fields['args'] = self::$args;
+        return $fields;
+    }
+
+    private function foldSelectionSet(SelectionSetNode $selectionSet, $descend)
+    {
+        $fields = [];
+
+        foreach ($selectionSet->selections as $selectionNode) {
+            if ($selectionNode instanceof FieldNode) {
+                $fields[$selectionNode->name->value]['fields'] = $descend > 0 && !empty($selectionNode->selectionSet)
+                    ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
+                    : true;
+                $fields[$selectionNode->name->value]['args'] = [];
+                foreach ($selectionNode->arguments as $argument) {
+                    $fields[$selectionNode->name->value]['args'][$argument->name->value] = $argument->value->value;
+                }
+            } else if ($selectionNode instanceof FragmentSpreadNode) {
+                $spreadName = $selectionNode->name->value;
+                if (isset($this->info->fragments[$spreadName])) {
+                    /** @var FragmentDefinitionNode $fragment */
+                    $fragment = $this->info->fragments[$spreadName];
+                    $fields = array_merge_recursive($this->foldSelectionSet($fragment->selectionSet, $descend), $fields);
+                }
+            } else if ($selectionNode instanceof InlineFragmentNode) {
+                $fields = array_merge_recursive($this->foldSelectionSet($selectionNode->selectionSet, $descend), $fields);
+            }
+        }
+
+        return $fields;
     }
 
     /**
@@ -89,9 +138,9 @@ class SelectFields
         if ($topLevel) {
             return [$select, $with];
         } else {
-            return function ($query) use ($with, $select, $customQuery) {
+            return function ($query) use ($with, $select, $customQuery, $requestedFields) {
                 if ($customQuery) {
-                    $query = $customQuery(self::$args, $query);
+                    $query = $customQuery($requestedFields['args'] ?? self::$args, $query);
                 }
 
                 $query->select($select);
@@ -108,7 +157,7 @@ class SelectFields
     {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
-        foreach ($requestedFields as $key => $field) {
+        foreach ($requestedFields['fields'] as $key => $field) {
             // Ignore __typename, as it's a special case
             if ($key === '__typename') {
                 continue;
@@ -145,7 +194,7 @@ class SelectFields
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
                 // With
-                elseif (is_array($field) && $queryable) {
+                elseif (is_array($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
@@ -183,7 +232,7 @@ class SelectFields
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
                             if (! array_key_exists($foreignKey, $field)) {
-                                $field[$foreignKey] = self::FOREIGN_KEY;
+                                $field['fields'][$foreignKey] = self::FOREIGN_KEY;
                             }
                         }
 
@@ -334,5 +383,9 @@ class SelectFields
     public function getRelations()
     {
         return $this->relations;
+    }
+
+    public function getResolveInfo() {
+        return $this->info;
     }
 }
