@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use GraphQL\Language\AST\FieldNode;
-use GraphQL\Language\AST\FragmentDefinitionNode;
-use GraphQL\Language\AST\FragmentSpreadNode;
-use GraphQL\Language\AST\InlineFragmentNode;
-use GraphQL\Language\AST\SelectionSetNode;
 use Illuminate\Support\Arr;
+use GraphQL\Language\AST\FieldNode;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Language\AST\SelectionSetNode;
+use GraphQL\Language\AST\FragmentSpreadNode;
+use GraphQL\Language\AST\InlineFragmentNode;
+use GraphQL\Language\AST\FragmentDefinitionNode;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -51,7 +51,7 @@ class SelectFields
         if (! is_null($info->fieldNodes[0]->selectionSet)) {
             self::$args = $args;
 
-            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection($info,5), $parentType);
+            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection($info, 5), $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
@@ -69,6 +69,7 @@ class SelectFields
 
         $fields['fields'] = $data;
         $fields['args'] = self::$args;
+
         return $fields;
     }
 
@@ -78,21 +79,21 @@ class SelectFields
 
         foreach ($selectionSet->selections as $selectionNode) {
             if ($selectionNode instanceof FieldNode) {
-                $fields[$selectionNode->name->value]['fields'] = $descend > 0 && !empty($selectionNode->selectionSet)
+                $fields[$selectionNode->name->value]['fields'] = $descend > 0 && ! empty($selectionNode->selectionSet)
                     ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
                     : true;
                 $fields[$selectionNode->name->value]['args'] = [];
                 foreach ($selectionNode->arguments as $argument) {
                     $fields[$selectionNode->name->value]['args'][$argument->name->value] = $argument->value->value;
                 }
-            } else if ($selectionNode instanceof FragmentSpreadNode) {
+            } elseif ($selectionNode instanceof FragmentSpreadNode) {
                 $spreadName = $selectionNode->name->value;
                 if (isset($this->info->fragments[$spreadName])) {
                     /** @var FragmentDefinitionNode $fragment */
                     $fragment = $this->info->fragments[$spreadName];
                     $fields = array_merge_recursive($this->foldSelectionSet($fragment->selectionSet, $descend), $fields);
                 }
-            } else if ($selectionNode instanceof InlineFragmentNode) {
+            } elseif ($selectionNode instanceof InlineFragmentNode) {
                 $fields = array_merge_recursive($this->foldSelectionSet($selectionNode->selectionSet, $descend), $fields);
             }
         }
@@ -385,7 +386,8 @@ class SelectFields
         return $this->relations;
     }
 
-    public function getResolveInfo() {
+    public function getResolveInfo()
+    {
         return $this->info;
     }
 }
