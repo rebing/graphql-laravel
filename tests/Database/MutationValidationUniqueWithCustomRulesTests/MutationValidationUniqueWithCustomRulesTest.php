@@ -99,15 +99,17 @@ GRAPHQL;
         $this->sqlCounterReset();
 
         $result = GraphQL::query($graphql, [
-            'arg_unique_rule_pass' => 'another_name',
+            'arg_unique_rule_fail' => 'another_name',
         ]);
 
-        $expectedResult = [
-            'data' => [
-                'mutationWithCustomRuleWithRuleObject' => 'mutation result',
-            ],
+        $this->assertCount(1, $result['errors']);
+        $this->assertSame('validation', $result['errors'][0]['message']);
+        /** @var MessageBag $messageBag */
+        $messageBag = $result['errors'][0]['extensions']['validation'];
+        $expectedMessages = [
+            'rule object validation fails',
         ];
-        $this->assertSame($expectedResult, $result);
+        $this->assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testUniqueFailRuleFail(): void
