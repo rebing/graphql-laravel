@@ -281,7 +281,7 @@ class GraphQL
         }
     }
 
-    public function clearTypes()
+    public function clearTypes(): void
     {
         $this->types = [];
     }
