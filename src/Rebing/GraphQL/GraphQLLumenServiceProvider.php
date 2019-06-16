@@ -8,7 +8,7 @@ use Rebing\GraphQL\Console\PublishCommand;
 
 class GraphQLLumenServiceProvider extends GraphQLServiceProvider
 {
-    protected function bootPublishes()
+    protected function bootPublishes(): void
     {
         $configPath = __DIR__.'/../../config';
 

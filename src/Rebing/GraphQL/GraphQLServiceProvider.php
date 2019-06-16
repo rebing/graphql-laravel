@@ -48,7 +48,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function bootPublishes()
+    protected function bootPublishes(): void
     {
         $configPath = __DIR__.'/../../config';
 
