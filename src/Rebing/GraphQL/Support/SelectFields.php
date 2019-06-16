@@ -280,11 +280,11 @@ class SelectFields
     /**
      * Determines whether the fieldObject is queryable.
      *
-     * @param $fieldObject
+     * @param array $fieldObject
      *
      * @return bool
      */
-    private static function isQueryable($fieldObject)
+    private static function isQueryable(array $fieldObject): bool
     {
         return Arr::get($fieldObject, 'is_relation', true) === true;
     }
