@@ -26,7 +26,7 @@ use Auth;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         // true, if logged in
         return ! Auth::guest();
@@ -43,7 +43,7 @@ use Auth;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         if (isset($args['id'])) {
             return Auth::id() == $args['id'];

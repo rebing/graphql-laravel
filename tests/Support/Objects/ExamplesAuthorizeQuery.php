@@ -14,7 +14,7 @@ class ExamplesAuthorizeQuery extends Query
         'name' => 'Examples authorize query',
     ];
 
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         return false;
     }

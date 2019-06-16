@@ -20,7 +20,7 @@ class Field extends Fluent
      * Override this in your queries or mutations
      * to provide custom authorization.
      */
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         return true;
     }
