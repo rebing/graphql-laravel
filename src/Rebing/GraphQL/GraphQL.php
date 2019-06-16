@@ -29,6 +29,7 @@ class GraphQL
 
     protected $schemas = [];
     protected $types = [];
+    /** @var Type[] */
     protected $typesInstances = [];
 
     public function __construct(Application $app)
