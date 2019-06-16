@@ -30,7 +30,7 @@ class MutationWithCustomRuleWithClosure extends Mutation
         ];
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'arg1' => [

@@ -21,7 +21,7 @@ class PostNonNullWithSelectFieldsAndModelQuery extends Query
         return Type::nonNull(GraphQL::type('PostWithModel'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [

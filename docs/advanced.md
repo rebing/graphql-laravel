@@ -180,7 +180,7 @@ class PictureField extends Field
         return Type::string();
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'width' => [
@@ -277,7 +277,7 @@ class UsersQuery extends Query
         return Type::listOf(GraphQL::type('user'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -893,7 +893,7 @@ Then use it in a mutation, like:
 // app/GraphQL/Type/TestMutation.php
 class TestMutation extends GraphQLType {
 
-   public function args()
+   public function args(): array
    {
         return [
             'review' => [

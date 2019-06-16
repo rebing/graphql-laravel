@@ -20,7 +20,7 @@ class ExamplesPaginationQuery extends Query
         return GraphQL::paginate('Example');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'take' => [

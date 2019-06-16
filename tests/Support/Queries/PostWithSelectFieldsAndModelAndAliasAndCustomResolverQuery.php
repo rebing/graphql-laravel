@@ -21,7 +21,7 @@ class PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery extends Query
         return GraphQL::type('PostWithModelAndAliasAndCustomResolver');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [

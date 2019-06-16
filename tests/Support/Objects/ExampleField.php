@@ -18,7 +18,7 @@ class ExampleField extends Field
         return Type::listOf(Type::string());
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'index' => [

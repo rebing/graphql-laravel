@@ -24,7 +24,7 @@ class ExamplesAuthorizeQuery extends Query
         return Type::listOf(GraphQL::type('Example'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'index' => ['name' => 'index', 'type' => Type::int()],

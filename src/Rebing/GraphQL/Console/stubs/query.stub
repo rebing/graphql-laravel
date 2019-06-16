@@ -21,7 +21,7 @@ class DummyClass extends Query
         return Type::listOf(Type::string());
     }
 
-    public function args()
+    public function args(): array
     {
         return [
 

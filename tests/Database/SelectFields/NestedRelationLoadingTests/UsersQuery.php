@@ -16,7 +16,7 @@ class UsersQuery extends Query
         'name' => 'users',
     ];
 
-    public function args()
+    public function args(): array
     {
         return [
             'select' => [

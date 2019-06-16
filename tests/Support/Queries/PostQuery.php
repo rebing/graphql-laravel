@@ -21,7 +21,7 @@ class PostQuery extends Query
         return GraphQL::type('Post');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [

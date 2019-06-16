@@ -21,7 +21,7 @@ class PostWithSelectFieldsAndModelQuery extends Query
         return GraphQL::type('PostWithModel');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [

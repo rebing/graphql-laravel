@@ -32,7 +32,7 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         ];
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'arg_in_rule_pass' => [

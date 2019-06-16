@@ -27,7 +27,7 @@ class UpdateExampleMutation extends Mutation
         ];
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'test' => [
