@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\Type as GraphQLType;
 
 class PaginationType extends ObjectType
 {
-    public function __construct($typeName, $customName = null)
+    public function __construct(string $typeName, string $customName = null)
     {
         $name = $customName ?: $typeName.'Pagination';
 
