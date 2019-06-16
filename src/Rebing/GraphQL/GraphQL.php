@@ -381,7 +381,7 @@ class GraphQL
 
         if (count($multiLevelPath) > 1) {
             if (Helpers::isLumen()) {
-                array_walk($multiLevelPath, function (&$multiName) {
+                array_walk($multiLevelPath, function (string &$multiName): void {
                     $multiName = "$multiName:$multiName";
                 });
             }
