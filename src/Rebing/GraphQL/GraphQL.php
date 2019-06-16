@@ -245,7 +245,11 @@ class GraphQL
         ], $opts));
     }
 
-    public function addSchema($name, $schema)
+    /**
+     * @param  string  $name
+     * @param  Schema|array  $schema
+     */
+    public function addSchema(string $name, $schema): void
     {
         $this->mergeSchemas($name, $schema);
     }
