@@ -13,6 +13,10 @@ use GraphQL\Type\Definition\InputObjectType;
 
 class Type extends Fluent
 {
+    /**
+     * Set to `true` in your type when it should reflect an InputObject.
+     * @var bool
+     */
     protected $inputObject = false;
     protected $enumObject = false;
 
