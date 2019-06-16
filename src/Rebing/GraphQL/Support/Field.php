@@ -125,7 +125,7 @@ class Field extends Fluent
         return $rules;
     }
 
-    public function getInputTypeRules(InputObjectType $input, $prefix, $resolutionArguments)
+    public function getInputTypeRules(InputObjectType $input, string $prefix, array $resolutionArguments): array
     {
         $rules = [];
 
