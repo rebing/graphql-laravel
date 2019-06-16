@@ -138,7 +138,7 @@ class GraphQL
         }
     }
 
-    public function addType($class, $name = null)
+    public function addType(string $class, string $name = null): void
     {
         if (! $name) {
             $type = is_object($class) ? $class : app($class);
