@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use Closure;
 use Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
@@ -152,10 +153,10 @@ class Field extends Fluent
         return $rules;
     }
 
-    protected function getResolver()
+    protected function getResolver(): ?Closure
     {
         if (! method_exists($this, 'resolve')) {
-            return;
+            return null;
         }
 
         $resolver = [$this, 'resolve'];
