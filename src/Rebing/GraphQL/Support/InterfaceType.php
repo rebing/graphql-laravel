@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use Closure;
 use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
 
 class InterfaceType extends Type
 {
-    protected function getTypeResolver()
+    protected function getTypeResolver(): ?Closure
     {
         if (! method_exists($this, 'resolveType')) {
-            return;
+            return null;
         }
 
         $resolver = [$this, 'resolveType'];
