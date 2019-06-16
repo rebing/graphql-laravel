@@ -13,7 +13,7 @@ class ExampleField extends Field
         'name' => 'example',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(Type::string());
     }

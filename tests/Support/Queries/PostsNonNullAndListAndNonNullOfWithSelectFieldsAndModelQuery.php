@@ -16,7 +16,7 @@ class PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery extends Query
         'name' => 'postsNonNullAndListAndNonNullOfWithSelectFieldsAndModel',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('PostWithModel'))));
     }

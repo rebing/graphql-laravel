@@ -13,6 +13,7 @@ use GraphQL\Type\Definition\WrappingType;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
+use GraphQL\Type\Definition\Type as GraphqlType;
 
 class Field extends Fluent
 {
@@ -30,7 +31,7 @@ class Field extends Fluent
         return [];
     }
 
-    public function type()
+    public function type(): GraphqlType
     {
     }
 

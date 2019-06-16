@@ -175,7 +175,7 @@ class PictureField extends Field
         'description'   => 'A picture',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::string();
     }
@@ -272,7 +272,7 @@ class UsersQuery extends Query
         'name' => 'Users query'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
@@ -440,7 +440,7 @@ Note that you have to manually handle the limit and page values:
 ```php
 class PostsQuery extends Query
 {
-    public function type()
+    public function type(): \GraphQL\Type\Definition\Type
     {
         return GraphQL::paginate('posts');
     }

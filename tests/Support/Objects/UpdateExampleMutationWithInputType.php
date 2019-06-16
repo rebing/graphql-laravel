@@ -15,7 +15,7 @@ class UpdateExampleMutationWithInputType extends Mutation
         'name' => 'updateExample',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('Example');
     }

@@ -13,7 +13,7 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         'name' => 'mutationWithCustomRuleWithRuleObject',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::nonNull(Type::string());
     }

@@ -16,7 +16,7 @@ class PostWithSelectFieldsAndModelQuery extends Query
         'name' => 'postWithSelectFieldsAndModel',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('PostWithModel');
     }

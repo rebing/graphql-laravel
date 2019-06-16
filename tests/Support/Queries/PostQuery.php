@@ -16,7 +16,7 @@ class PostQuery extends Query
         'name' => 'post',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('Post');
     }

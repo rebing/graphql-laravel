@@ -13,7 +13,7 @@ class MutationWithCustomRuleWithClosure extends Mutation
         'name' => 'mutationWithCustomRuleWithClosure',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::nonNull(Type::string());
     }

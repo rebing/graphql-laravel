@@ -16,7 +16,7 @@ class PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery extends Query
         'name' => 'postWithSelectFieldsAndModelAndAliasAndCustomResolver',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('PostWithModelAndAliasAndCustomResolver');
     }

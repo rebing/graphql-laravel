@@ -19,7 +19,7 @@ class ExamplesAuthorizeQuery extends Query
         return false;
     }
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('Example'));
     }

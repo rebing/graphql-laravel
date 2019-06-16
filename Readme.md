@@ -227,7 +227,7 @@ class UsersQuery extends Query
         'name' => 'Users query'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
@@ -306,7 +306,7 @@ class UpdateUserPasswordMutation extends Mutation
         'name' => 'UpdateUserPassword'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
@@ -387,7 +387,7 @@ class UpdateUserEmailMutation extends Mutation
         'name' => 'UpdateUserEmail'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
@@ -523,7 +523,7 @@ class UserProfilePhotoMutation extends Mutation
         'name' => 'UpdateUserProfilePhoto'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
