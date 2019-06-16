@@ -313,7 +313,13 @@ class SelectFields
         }
     }
 
-    protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation)
+    /**
+     * @param  string  $field
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  string|null  $parentTable
+     * @param  bool  $forRelation
+     */
+    protected static function addFieldToSelect(string $field, array &$select, ?string $parentTable, bool $forRelation): void
     {
         if ($forRelation && ! array_key_exists($field, $select)) {
             $select[$field] = true;
