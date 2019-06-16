@@ -309,7 +309,7 @@ class GraphQL
         $this->typesInstances = [];
     }
 
-    public function paginate($typeName, $customName = null)
+    public function paginate(string $typeName, string $customName = null): Type
     {
         $name = $customName ?: $typeName.'_pagination';
 
