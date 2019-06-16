@@ -211,10 +211,7 @@ class Field extends Fluent
             'args' => $this->args(),
         ], $attributes);
 
-        $type = $this->type();
-        if (isset($type)) {
-            $attributes['type'] = $type;
-        }
+        $attributes['type'] = $this->type();
 
         $resolver = $this->getResolver();
         if (isset($resolver)) {
