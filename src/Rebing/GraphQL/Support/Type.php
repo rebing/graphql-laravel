@@ -24,7 +24,7 @@ class Type extends Fluent
      */
     protected $enumObject = false;
 
-    public function attributes()
+    public function attributes(): array
     {
         return [];
     }
