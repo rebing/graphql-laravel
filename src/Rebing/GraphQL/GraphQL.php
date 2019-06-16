@@ -12,6 +12,7 @@ use GraphQL\Type\Schema;
 use Illuminate\Support\Arr;
 use GraphQL\Error\FormattedError;
 use GraphQL\GraphQL as GraphQLBase;
+use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\PaginationType;
@@ -105,7 +106,13 @@ class GraphQL
         return $this->queryAndReturnResult($query, $params, $opts)->toArray();
     }
 
-    public function queryAndReturnResult($query, $params = [], $opts = [])
+    /**
+     * @param  string  $query
+     * @param  array|null  $params
+     * @param  array  $opts  Additional options, like 'schema', 'context' or 'operationName'
+     * @return ExecutionResult
+     */
+    public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult
     {
         $context = Arr::get($opts, 'context');
         $schemaName = Arr::get($opts, 'schema');
