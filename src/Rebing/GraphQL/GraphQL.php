@@ -368,13 +368,13 @@ class GraphQL
      * Eg. 'user/me'
      * will open the query path /graphql/user/me.
      *
-     * @param $name
-     * @param $schemaParameterPattern
-     * @param $queryRoute
+     * @param  string  $name
+     * @param  string  $schemaParameterPattern
+     * @param  string  $queryRoute
      *
-     * @return mixed
+     * @return string mixed
      */
-    public static function routeNameTransformer($name, $schemaParameterPattern, $queryRoute)
+    public static function routeNameTransformer(string $name, string $schemaParameterPattern, string $queryRoute): string
     {
         $multiLevelPath = explode('/', $name);
         $routeName = null;
