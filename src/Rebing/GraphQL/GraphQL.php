@@ -18,16 +18,18 @@ use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Contracts\Foundation\Application;
 
 class GraphQL
 {
+    /** @var Application */
     protected $app;
 
     protected $schemas = [];
     protected $types = [];
     protected $typesInstances = [];
 
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
