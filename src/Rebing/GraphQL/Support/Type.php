@@ -18,6 +18,10 @@ class Type extends Fluent
      * @var bool
      */
     protected $inputObject = false;
+    /**
+     * Set to `true` in your type when it should reflect an Enum.
+     * @var bool
+     */
     protected $enumObject = false;
 
     public function attributes()
