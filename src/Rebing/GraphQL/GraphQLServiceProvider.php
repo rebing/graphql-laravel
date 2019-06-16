@@ -91,7 +91,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function applySecurityRules()
+    protected function applySecurityRules(): void
     {
         $maxQueryComplexity = config('graphql.security.query_max_complexity');
         if ($maxQueryComplexity !== null) {
