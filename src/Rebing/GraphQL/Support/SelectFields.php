@@ -348,7 +348,7 @@ class SelectFields
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
     }
 
-    public function getSelect()
+    public function getSelect(): array
     {
         return $this->select;
     }
