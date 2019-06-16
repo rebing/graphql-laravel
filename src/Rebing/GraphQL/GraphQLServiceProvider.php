@@ -67,7 +67,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function bootTypes()
+    protected function bootTypes(): void
     {
         $configTypes = config('graphql.types');
         $this->app['graphql']->addTypes($configTypes);
