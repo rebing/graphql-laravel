@@ -10,6 +10,7 @@ use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -31,11 +32,11 @@ class SelectFields
     const FOREIGN_KEY = 'foreignKey';
 
     /**
-     * @param ResolveInfo $info
-     * @param $parentType
-     * @param array $args - arguments given with the query
+     * @param  ResolveInfo  $info
+     * @param  GraphqlType  $parentType
+     * @param  array  $args  - arguments given with the query
      */
-    public function __construct(ResolveInfo $info, $parentType, array $args)
+    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $args)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
