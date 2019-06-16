@@ -39,7 +39,7 @@ class Type extends Fluent
         return [];
     }
 
-    protected function getFieldResolver($name, $field)
+    protected function getFieldResolver(string $name, array $field): ?callable
     {
         if (isset($field['resolve'])) {
             return $field['resolve'];
@@ -64,6 +64,8 @@ class Type extends Fluent
                 return $type->{$alias};
             };
         }
+
+        return null;
     }
 
     public function getFields()
