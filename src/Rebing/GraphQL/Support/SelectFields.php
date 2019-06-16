@@ -108,8 +108,12 @@ class SelectFields
     /**
      * Get the selects and withs from the given fields
      * and recurse if necessary.
+     * @param  array  $requestedFields
+     * @param  GraphqlType  $parentType
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  array  $with Passed by reference, adds further relations
      */
-    protected static function handleFields(array $requestedFields, $parentType, array &$select, array &$with)
+    protected static function handleFields(array $requestedFields, GraphqlType $parentType, array &$select, array &$with): void
     {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
