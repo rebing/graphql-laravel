@@ -224,7 +224,7 @@ class GraphQL
         return $type->toType();
     }
 
-    protected function buildObjectTypeFromFields($fields, $opts = [])
+    protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
     {
         $typeFields = [];
         foreach ($fields as $name => $field) {
