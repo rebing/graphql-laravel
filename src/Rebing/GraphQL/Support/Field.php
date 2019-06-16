@@ -25,7 +25,7 @@ class Field extends Fluent
         return true;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [];
     }
