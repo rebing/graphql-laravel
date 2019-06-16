@@ -291,7 +291,10 @@ class GraphQL
         $this->schemas = [];
     }
 
-    public function getTypes()
+    /**
+     * @return array<string,string>
+     */
+    public function getTypes(): array
     {
         return $this->types;
     }
