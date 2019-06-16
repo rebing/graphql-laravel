@@ -28,6 +28,11 @@ class GraphQL
     protected $app;
 
     protected $schemas = [];
+    /**
+     * Maps GraphQL type names to their class name.
+     *
+     * @var array<string,string>
+     */
     protected $types = [];
     /** @var Type[] */
     protected $typesInstances = [];
