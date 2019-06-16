@@ -131,7 +131,7 @@ class GraphQL
         return $result;
     }
 
-    public function addTypes($types)
+    public function addTypes(array $types): void
     {
         foreach ($types as $name => $type) {
             $this->addType($type, is_numeric($name) ? null : $name);
