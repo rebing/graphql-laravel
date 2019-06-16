@@ -129,7 +129,7 @@ class GraphQLServiceProvider extends ServiceProvider
         }
     }
 
-    public function registerGraphQL()
+    public function registerGraphQL(): void
     {
         $this->app->singleton('graphql', function ($app) {
             $graphql = new GraphQL($app);
