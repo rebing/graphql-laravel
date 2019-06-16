@@ -52,7 +52,7 @@ class Field extends Fluent
         return [];
     }
 
-    protected function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [];
     }

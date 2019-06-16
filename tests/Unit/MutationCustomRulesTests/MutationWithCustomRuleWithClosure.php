@@ -18,7 +18,7 @@ class MutationWithCustomRuleWithClosure extends Mutation
         return Type::nonNull(Type::string());
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'arg1' => [

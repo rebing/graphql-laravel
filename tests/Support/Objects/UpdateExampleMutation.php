@@ -20,7 +20,7 @@ class UpdateExampleMutation extends Mutation
         return GraphQL::type('Example');
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'test' => ['required'],

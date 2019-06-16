@@ -400,7 +400,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'id' => ['required'],
