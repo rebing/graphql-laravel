@@ -268,17 +268,6 @@ class GraphQL
         $this->typesInstances = [];
     }
 
-    protected function getTypeName($class, $name = null)
-    {
-        if ($name) {
-            return $name;
-        }
-
-        $type = is_object($class) ? $class : $this->app->make($class);
-
-        return $type->name;
-    }
-
     public function paginate($typeName, $customName = null)
     {
         $name = $customName ?: $typeName.'_pagination';
