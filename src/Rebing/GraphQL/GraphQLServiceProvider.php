@@ -78,7 +78,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function bootSchemas()
+    protected function bootSchemas(): void
     {
         $configSchemas = config('graphql.schemas');
         foreach ($configSchemas as $name => $schema) {
