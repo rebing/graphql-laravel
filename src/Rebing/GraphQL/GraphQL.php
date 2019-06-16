@@ -34,7 +34,11 @@ class GraphQL
         $this->app = $app;
     }
 
-    public function schema($schema = null)
+    /**
+     * @param  Schema|string|null  $schema
+     * @return Schema
+     */
+    public function schema($schema = null): Schema
     {
         if ($schema instanceof Schema) {
             return $schema;
