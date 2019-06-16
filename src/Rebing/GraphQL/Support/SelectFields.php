@@ -336,7 +336,7 @@ class SelectFields
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
     }
 
-    private static function getTableNameFromParentType($parentType)
+    private static function getTableNameFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
