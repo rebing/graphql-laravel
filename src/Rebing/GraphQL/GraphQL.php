@@ -95,12 +95,12 @@ class GraphQL
 
     /**
      * @param string $query
-     * @param array  $params
+     * @param array|null  $params
      * @param array  $opts   Additional options, like 'schema', 'context' or 'operationName'
      *
-     * @return mixed
+     * @return array
      */
-    public function query($query, $params = [], $opts = [])
+    public function query(string $query, ?array $params = [], array $opts = []): array
     {
         return $this->queryAndReturnResult($query, $params, $opts)->toArray();
     }
