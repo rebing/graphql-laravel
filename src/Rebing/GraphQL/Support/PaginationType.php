@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use Illuminate\Support\Collection;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,14 +30,14 @@ class PaginationType extends ObjectType
             'data' => [
                 'type'          => GraphQLType::listOf(GraphQL::type($typeName)),
                 'description'   => 'List of items on the current page',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): Collection {
                     return $data->getCollection();
                 },
             ],
             'total' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of total items selected by the query',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): int {
                     return $data->total();
                 },
                 'selectable'    => false,
@@ -44,7 +45,7 @@ class PaginationType extends ObjectType
             'per_page' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Number of items returned per page',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): int {
                     return $data->perPage();
                 },
                 'selectable'    => false,
@@ -52,7 +53,7 @@ class PaginationType extends ObjectType
             'current_page' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'Current page of the cursor',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): int {
                     return $data->currentPage();
                 },
                 'selectable'    => false,
@@ -60,7 +61,7 @@ class PaginationType extends ObjectType
             'from' => [
                 'type'          => GraphQLType::int(),
                 'description'   => 'Number of the first item returned',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): ?int {
                     return $data->firstItem();
                 },
                 'selectable'    => false,
@@ -68,7 +69,7 @@ class PaginationType extends ObjectType
             'to' => [
                 'type'          => GraphQLType::int(),
                 'description'   => 'Number of the last item returned',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): ?int {
                     return $data->lastItem();
                 },
                 'selectable'    => false,
@@ -76,7 +77,7 @@ class PaginationType extends ObjectType
             'last_page' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::int()),
                 'description'   => 'The last page (number of pages)',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): int {
                     return $data->lastPage();
                 },
                 'selectable'    => false,
@@ -84,7 +85,7 @@ class PaginationType extends ObjectType
             'has_more_pages' => [
                 'type'          => GraphQLType::nonNull(GraphQLType::boolean()),
                 'description'   => 'Determines if cursor has more pages after the current page',
-                'resolve'       => function (LengthAwarePaginator $data) {
+                'resolve'       => function (LengthAwarePaginator $data): bool {
                     return $data->hasMorePages();
                 },
                 'selectable'    => false,
