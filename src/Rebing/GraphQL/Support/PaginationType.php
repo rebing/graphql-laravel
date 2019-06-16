@@ -23,7 +23,7 @@ class PaginationType extends ObjectType
         parent::__construct($config);
     }
 
-    protected function getPaginationFields($typeName)
+    protected function getPaginationFields(string $typeName): array
     {
         return [
             'data' => [
