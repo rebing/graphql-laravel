@@ -321,7 +321,12 @@ class GraphQL
         return $this->typesInstances[$name];
     }
 
-    public static function formatError(Error $e)
+    /**
+     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
+     * @param  Error  $e
+     * @return array
+     */
+    public static function formatError(Error $e): array
     {
         $debug = config('app.debug') ? (Debug::INCLUDE_DEBUG_MESSAGE | Debug::INCLUDE_TRACE) : 0;
         $formatter = FormattedError::prepareFormatter(null, $debug);
