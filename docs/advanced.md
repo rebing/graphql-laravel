@@ -785,7 +785,7 @@ class HumanType extends GraphQLType
         ];
     }
 
-    public function interfaces()
+    public function interfaces(): array
     {
         return [
             GraphQL::type('Character')

@@ -23,7 +23,7 @@ class InterfaceImpl1Type extends GraphQLType
         ];
     }
 
-    public function interfaces()
+    public function interfaces(): array
     {
         return [
             GraphQL::type('ExampleInterface'),

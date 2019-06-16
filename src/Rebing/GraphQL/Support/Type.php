@@ -34,7 +34,7 @@ class Type extends Fluent
         return [];
     }
 
-    public function interfaces()
+    public function interfaces(): array
     {
         return [];
     }
