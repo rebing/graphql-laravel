@@ -95,7 +95,7 @@ class Field extends Fluent
         return $rules;
     }
 
-    public function inferRulesFromType($type, $prefix, $resolutionArguments)
+    public function inferRulesFromType(GraphqlType $type, string $prefix, array $resolutionArguments): array
     {
         $rules = [];
 
