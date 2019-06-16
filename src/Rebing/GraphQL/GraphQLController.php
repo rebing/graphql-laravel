@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\View\View;
 
 class GraphQLController extends Controller
 {
@@ -73,7 +74,7 @@ class GraphQLController extends Controller
         }
     }
 
-    public function graphiql(Request $request, $schema = null)
+    public function graphiql(Request $request, string $schema = null): View
     {
         $graphqlPath = '/'.config('graphql.prefix');
         if ($schema) {
