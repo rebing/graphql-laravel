@@ -341,7 +341,7 @@ class SelectFields
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
 
-    private static function isMongodbInstance($parentType)
+    private static function isMongodbInstance(GraphqlType $parentType): bool
     {
         $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
 
