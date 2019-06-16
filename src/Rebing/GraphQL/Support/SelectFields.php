@@ -10,6 +10,7 @@ use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -238,10 +239,11 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @return bool | null - true, if selectable; false, if not selectable, but allowed;
+     * @param  FieldDefinition  $fieldObject
+     * @return bool|null - true, if selectable; false, if not selectable, but allowed;
      *              null, if not allowed
      */
-    protected static function validateField($fieldObject)
+    protected static function validateField(FieldDefinition $fieldObject): ?bool
     {
         $selectable = true;
 
