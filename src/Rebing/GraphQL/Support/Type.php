@@ -10,6 +10,7 @@ use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\Type as GraphqlType;
 
 class Type extends Fluent
 {
@@ -124,7 +125,7 @@ class Type extends Fluent
         return $this->getAttributes();
     }
 
-    public function toType()
+    public function toType(): GraphqlType
     {
         if ($this->inputObject) {
             return new InputObjectType($this->toArray());

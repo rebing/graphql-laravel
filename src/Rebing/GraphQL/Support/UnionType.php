@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType as BaseUnionType;
 
 class UnionType extends Type
@@ -34,7 +35,7 @@ class UnionType extends Type
         return $attributes;
     }
 
-    public function toType()
+    public function toType(): GraphqlType
     {
         return new BaseUnionType($this->toArray());
     }
