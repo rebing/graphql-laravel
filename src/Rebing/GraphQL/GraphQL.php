@@ -43,7 +43,7 @@ class GraphQL
     }
 
     /**
-     * @param  Schema|string|null  $schema
+     * @param  Schema|array|string|null  $schema
      * @return Schema
      */
     public function schema($schema = null): Schema
@@ -397,7 +397,11 @@ class GraphQL
         return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "$name:$name" : $name).'}', $queryRoute);
     }
 
-    protected function getSchemaConfiguration($schema)
+    /**
+     * @param  array|string  $schema
+     * @return array
+     */
+    protected function getSchemaConfiguration($schema): array
     {
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 

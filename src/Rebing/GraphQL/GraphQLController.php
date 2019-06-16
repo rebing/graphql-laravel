@@ -7,11 +7,12 @@ namespace Rebing\GraphQL;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 class GraphQLController extends Controller
 {
-    public function query(Request $request, $schema = null)
+    public function query(Request $request, string $schema = null): JsonResponse
     {
         $middleware = new GraphQLUploadMiddleware();
         $request = $middleware->processRequest($request);
