@@ -206,7 +206,12 @@ class GraphQL
         return $objectType;
     }
 
-    protected function buildObjectTypeFromClass($type, $opts = [])
+    /**
+     * @param  ObjectType|string  $type
+     * @param  array  $opts
+     * @return ObjectType
+     */
+    protected function buildObjectTypeFromClass($type, array $opts = []): ObjectType
     {
         if (! is_object($type)) {
             $type = $this->app->make($type);
