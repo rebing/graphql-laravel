@@ -286,7 +286,7 @@ class GraphQL
         $this->types = [];
     }
 
-    public function clearSchemas()
+    public function clearSchemas(): void
     {
         $this->schemas = [];
     }
