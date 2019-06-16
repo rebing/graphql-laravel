@@ -53,7 +53,7 @@ class GraphQLUploadMiddleware
      *
      * @return \Illuminate\Http\Request
      */
-    private function parseUploadedFiles(Request $request)
+    private function parseUploadedFiles(Request $request): Request
     {
         $bodyParams = $request->all();
         if (! isset($bodyParams['map'])) {
