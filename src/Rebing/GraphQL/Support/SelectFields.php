@@ -291,8 +291,13 @@ class SelectFields
 
     /**
      * Add selects that are given by the 'always' attribute.
+     *
+     * @param  FieldDefinition  $fieldObject
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  string|null  $parentTable
+     * @param  bool  $forRelation
      */
-    protected static function addAlwaysFields($fieldObject, array &$select, $parentTable, $forRelation = false)
+    protected static function addAlwaysFields(FieldDefinition $fieldObject, array &$select, ?string $parentTable, bool $forRelation = false): void
     {
         if (isset($fieldObject->config['always'])) {
             $always = $fieldObject->config['always'];
