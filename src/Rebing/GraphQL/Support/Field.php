@@ -81,7 +81,12 @@ class Field extends Fluent
         return array_merge($argsRules, $rules);
     }
 
-    public function resolveRules($rules, $arguments)
+    /**
+     * @param  array|callable  $rules
+     * @param  array  $arguments
+     * @return array
+     */
+    public function resolveRules($rules, array $arguments): array
     {
         if (is_callable($rules)) {
             return call_user_func_array($rules, $arguments);
