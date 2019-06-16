@@ -340,7 +340,12 @@ class GraphQL
         return $error;
     }
 
-    public static function handleErrors(array $errors, callable $formatter)
+    /**
+     * @param  Error[]  $errors
+     * @param  callable  $formatter
+     * @return Error[]
+     */
+    public static function handleErrors(array $errors, callable $formatter): array
     {
         $handler = app()->make(ExceptionHandler::class);
         foreach ($errors as $error) {
