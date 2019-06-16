@@ -56,11 +56,15 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @return array | Closure - if first recursion, return an array,
+     * @param  array  $requestedFields
+     * @param  GraphqlType  $parentType
+     * @param  Closure|null  $customQuery
+     * @param  bool  $topLevel
+     * @return array|Closure - if first recursion, return an array,
      *               where the first key is 'select' array and second is 'with' array.
      *               On other recursions return a closure that will be used in with
      */
-    public static function getSelectableFieldsAndRelations(array $requestedFields, $parentType, $customQuery = null, $topLevel = true)
+    public static function getSelectableFieldsAndRelations(array $requestedFields, GraphqlType $parentType, ?Closure $customQuery = null, bool $topLevel = true)
     {
         $select = [];
         $with = [];
