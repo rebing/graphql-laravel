@@ -145,7 +145,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerConsole()
+    public function registerConsole(): void
     {
         $this->commands(TypeMakeCommand::class);
         $this->commands(QueryMakeCommand::class);

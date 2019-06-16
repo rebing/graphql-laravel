@@ -25,7 +25,7 @@ class GraphQLLumenServiceProvider extends GraphQLServiceProvider
         parent::register();
     }
 
-    public function registerConsole()
+    public function registerConsole(): void
     {
         parent::registerConsole();
 
