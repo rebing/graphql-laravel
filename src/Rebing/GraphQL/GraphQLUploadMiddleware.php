@@ -90,8 +90,9 @@ class GraphQLUploadMiddleware
      * Validates that the request meet our expectations.
      *
      * @param \Illuminate\Http\Request $request
+     * @return void
      */
-    private function validateParsedBody(Request $request)
+    private function validateParsedBody(Request $request): void
     {
         $bodyParams = $request->all();
 
