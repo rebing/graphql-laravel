@@ -13,11 +13,8 @@ use GraphQL\Type\Definition\InputObjectType;
 
 class Type extends Fluent
 {
-    protected static $instances = [];
-
     protected $inputObject = false;
     protected $enumObject = false;
-    protected $unionType = false;
 
     public function attributes()
     {

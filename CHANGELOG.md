@@ -23,6 +23,10 @@ Next release
 ### Fixed
 - SelectFields now works with wrapped types (nonNull, listOf)
 
+### Removed
+- Unused static field `\Rebing\GraphQL\Support\Type::$instances`
+- Unused field `\Rebing\GraphQL\Support\Type::$unionType`
+
 2019-03-07, v1.21.2
 -------------------
 
