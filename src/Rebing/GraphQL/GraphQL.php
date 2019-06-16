@@ -11,6 +11,7 @@ use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
 use Illuminate\Support\Arr;
 use GraphQL\Error\FormattedError;
+use GraphQL\Type\Definition\Type;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Definition\ObjectType;
@@ -148,7 +149,7 @@ class GraphQL
         $this->types[$name] = $class;
     }
 
-    public function type($name, $fresh = false)
+    public function type(string $name, bool $fresh = false): Type
     {
         if (! isset($this->types[$name])) {
             throw new RuntimeException('Type '.$name.' not found.');
