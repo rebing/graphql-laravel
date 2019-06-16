@@ -256,7 +256,7 @@ class Field extends Fluent
      *
      * @param string $key
      *
-     * @return void
+     * @return bool
      */
     public function __isset($key)
     {
