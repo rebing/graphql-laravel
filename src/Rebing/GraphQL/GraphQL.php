@@ -304,7 +304,7 @@ class GraphQL
         return $this->schemas;
     }
 
-    protected function clearTypeInstances()
+    protected function clearTypeInstances(): void
     {
         $this->typesInstances = [];
     }
