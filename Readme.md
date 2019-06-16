@@ -487,7 +487,7 @@ argument doesn't conflict with any existing data, you could perform the followin
 > return specific errors per validation type.
 
 ````php
-public function validationErrorMessages ($args = []) 
+public function validationErrorMessages(array $args = []): array
 {
     return [
         'name.required' => 'Please enter your full name',

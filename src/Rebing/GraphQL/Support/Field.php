@@ -47,7 +47,7 @@ class Field extends Fluent
      *
      * @return array
      */
-    public function validationErrorMessages(array $args = [])
+    public function validationErrorMessages(array $args = []): array
     {
         return [];
     }
