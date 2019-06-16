@@ -299,7 +299,7 @@ class GraphQL
         return $this->types;
     }
 
-    public function getSchemas()
+    public function getSchemas(): array
     {
         return $this->schemas;
     }
