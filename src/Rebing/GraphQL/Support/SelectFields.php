@@ -353,7 +353,7 @@ class SelectFields
         return $this->select;
     }
 
-    public function getRelations()
+    public function getRelations(): array
     {
         return $this->relations;
     }
