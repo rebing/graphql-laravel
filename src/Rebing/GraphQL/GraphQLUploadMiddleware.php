@@ -34,7 +34,7 @@ class GraphQLUploadMiddleware
      *
      * @return \Illuminate\Http\Request
      */
-    public function processRequest(Request $request)
+    public function processRequest(Request $request): Request
     {
         $contentType = $request->header('content-type') ?: '';
 
