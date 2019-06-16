@@ -274,7 +274,7 @@ class GraphQL
         }
     }
 
-    public function clearSchema($name)
+    public function clearSchema(string $name): void
     {
         if (isset($this->schemas[$name])) {
             unset($this->schemas[$name]);
