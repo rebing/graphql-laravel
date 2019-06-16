@@ -267,7 +267,7 @@ class GraphQL
         }
     }
 
-    public function clearType($name)
+    public function clearType(string $name): void
     {
         if (isset($this->types[$name])) {
             unset($this->types[$name]);
