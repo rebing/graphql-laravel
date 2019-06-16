@@ -331,7 +331,7 @@ class SelectFields
         }
     }
 
-    private static function getPrimaryKeyFromParentType($parentType)
+    private static function getPrimaryKeyFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
     }
