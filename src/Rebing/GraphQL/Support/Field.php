@@ -57,7 +57,7 @@ class Field extends Fluent
         return [];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         $arguments = func_get_args();
 
