@@ -68,7 +68,7 @@ class Type extends Fluent
         return null;
     }
 
-    public function getFields()
+    public function getFields(): array
     {
         $fields = $this->fields();
         $allFields = [];
