@@ -29,7 +29,7 @@ class Type extends Fluent
         return [];
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [];
     }

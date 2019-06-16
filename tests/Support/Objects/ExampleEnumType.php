@@ -22,7 +22,7 @@ class ExampleEnumType extends GraphQLType
         ],
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'test' => [

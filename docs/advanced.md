@@ -67,7 +67,7 @@ class UserType extends GraphQLType
 {        
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -113,7 +113,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -224,7 +224,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
     
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -328,7 +328,7 @@ class UserType extends GraphQLType
     /**
      * @return array
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'uuid' => [
@@ -365,7 +365,7 @@ class ProfileType extends GraphQLType
         'model'         => UserProfileModel::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'name' => [
@@ -386,7 +386,7 @@ class PostType extends GraphQLType
         'model'         => PostModel::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'title' => [
@@ -412,7 +412,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
 
@@ -643,7 +643,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class TestType extends GraphQLType
 {
-   public function fields()
+   public function fields(): array
    {
         return [
             'episode_type' => [
@@ -720,7 +720,7 @@ class CharacterInterface extends InterfaceType
         'description' => 'Character interface.',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -766,7 +766,7 @@ class HumanType extends GraphQLType
         'description' => 'A human.'
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -803,7 +803,7 @@ With this you could write the `fields` method of your `HumanType` class like thi
 
 
 ```php
-public function fields()
+public function fields(): array
 {
     $interface = GraphQL::type('Character');
 
@@ -823,7 +823,7 @@ public function fields()
 Or by using the `getFields` method:
 
 ```php
-public function fields()
+public function fields(): array
 {
     $interface = GraphQL::type('Character');
 
@@ -859,7 +859,7 @@ class ReviewInput extends GraphQLType
         'description' => 'A review with a comment and a score (0 to 5)'
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'comment' => [
@@ -917,7 +917,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             // ...
@@ -964,7 +964,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

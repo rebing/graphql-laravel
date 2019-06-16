@@ -166,7 +166,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

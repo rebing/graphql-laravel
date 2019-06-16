@@ -14,7 +14,7 @@ class InterfaceImpl1Type extends GraphQLType
         'name' => 'InterfaceImpl1',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'title' => [

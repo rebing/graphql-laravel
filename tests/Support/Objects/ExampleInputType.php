@@ -16,7 +16,7 @@ class ExampleInputType extends GraphQLType
         'description' => 'An example input',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'test' => [

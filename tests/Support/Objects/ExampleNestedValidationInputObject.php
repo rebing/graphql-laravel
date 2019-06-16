@@ -21,7 +21,7 @@ class ExampleNestedValidationInputObject extends BaseType
         return Type::listOf(Type::string());
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'email' => [
