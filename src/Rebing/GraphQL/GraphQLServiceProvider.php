@@ -36,7 +36,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function bootRouter()
+    protected function bootRouter(): void
     {
         if (config('graphql.routes')) {
             include __DIR__.'/routes.php';
