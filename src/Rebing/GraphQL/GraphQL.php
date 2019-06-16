@@ -176,7 +176,12 @@ class GraphQL
         return $instance;
     }
 
-    public function objectType($type, $opts = [])
+    /**
+     * @param  ObjectType|array|string  $type
+     * @param  array  $opts
+     * @return ObjectType
+     */
+    public function objectType($type, array $opts = []): ObjectType
     {
         // If it's already an ObjectType, just update properties and return it.
         // If it's an array, assume it's an array of fields and build ObjectType
