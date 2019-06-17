@@ -79,6 +79,8 @@
                 history.replaceState(null, null, newSearch);
             }
 
+            var xcrsfToken = null;
+
             // Defines a GraphQL fetcher using the fetch API.
             function graphQLFetcher(graphQLParams) {
                 return fetch('<?php echo $graphqlPath; ?>', {
@@ -86,11 +88,13 @@
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo csrf_token(); ?>'
+                        'X-CSRF-TOKEN': xcrsfToken || '<?php echo csrf_token(); ?>'
                     },
                     body: JSON.stringify(graphQLParams),
                     credentials: 'include',
                 }).then(function (response) {
+                    xcrsfToken = response.headers.get('x-csrf-token');
+
                     return response.text();
                 }).then(function (responseBody) {
                     try {
