@@ -402,7 +402,7 @@ class GraphQL
     }
 
     /**
-     * @param  array|string  $schema
+     * @param  array|string|null  $schema
      * @return array
      */
     protected function getSchemaConfiguration($schema): array
