@@ -296,7 +296,7 @@ class GraphQL
     }
 
     /**
-     * @return array<string,string>
+     * @return array<string,object|string>
      */
     public function getTypes(): array
     {
