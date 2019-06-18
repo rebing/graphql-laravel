@@ -37,8 +37,8 @@
       copy them directly into your environment, or perhaps include them in your
       favored resource bundler.
      -->
-    <link rel="stylesheet" href="./node_modules/graphiql/graphiql.css" />
-    <script src="./node_modules/graphiql/graphiql.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/graphiql/0.13.0/graphiql.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/graphiql/0.13.0/graphiql.min.js" charset="utf-8"></script>
 
   </head>
   <body>
