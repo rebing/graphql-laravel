@@ -20,6 +20,8 @@ Next release
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
+- Updated GraphiQL to 0.13.0 (\#335)[https://github.com/rebing/graphql-laravel/pull/335]
+  - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
 - `ValidatorError`: remove setter and make it a constructor arg, add getter and rely on contracts
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
