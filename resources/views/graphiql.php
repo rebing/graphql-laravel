@@ -103,6 +103,8 @@
         history.replaceState(null, null, newSearch);
       }
 
+      var xcsrfToken = null;
+
       // Defines a GraphQL fetcher using the fetch API. You're not required to
       // use fetch, and could instead implement graphQLFetcher however you like,
       // as long as it returns a Promise or Observable.
@@ -114,10 +116,12 @@
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'x-csrf-token': xcsrfToken || '<?php echo csrf_token(); ?>'
           },
           body: JSON.stringify(graphQLParams),
           credentials: 'include',
         }).then(function (response) {
+          xcsrfToken = response.headers.get('x-csrf-token');
           return response.text();
         }).then(function (responseBody) {
           try {
