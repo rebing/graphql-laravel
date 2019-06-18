@@ -10,31 +10,37 @@ use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\Type as GraphqlType;
 
 class Type extends Fluent
 {
-    protected static $instances = [];
-
+    /**
+     * Set to `true` in your type when it should reflect an InputObject.
+     * @var bool
+     */
     protected $inputObject = false;
+    /**
+     * Set to `true` in your type when it should reflect an Enum.
+     * @var bool
+     */
     protected $enumObject = false;
-    protected $unionType = false;
 
-    public function attributes()
+    public function attributes(): array
     {
         return [];
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [];
     }
 
-    public function interfaces()
+    public function interfaces(): array
     {
         return [];
     }
 
-    protected function getFieldResolver($name, $field)
+    protected function getFieldResolver(string $name, array $field): ?callable
     {
         if (isset($field['resolve'])) {
             return $field['resolve'];
@@ -59,9 +65,11 @@ class Type extends Fluent
                 return $type->{$alias};
             };
         }
+
+        return null;
     }
 
-    public function getFields()
+    public function getFields(): array
     {
         $fields = $this->fields();
         $allFields = [];
@@ -117,7 +125,7 @@ class Type extends Fluent
         return $this->getAttributes();
     }
 
-    public function toType()
+    public function toType(): GraphqlType
     {
         if ($this->inputObject) {
             return new InputObjectType($this->toArray());

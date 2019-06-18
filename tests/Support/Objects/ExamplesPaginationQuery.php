@@ -15,12 +15,12 @@ class ExamplesPaginationQuery extends Query
         'name' => 'Examples with pagination',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::paginate('Example');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'take' => [

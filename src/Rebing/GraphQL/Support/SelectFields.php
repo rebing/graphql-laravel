@@ -13,6 +13,8 @@ use GraphQL\Language\AST\VariableNode;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
@@ -40,11 +42,11 @@ class SelectFields
     const FOREIGN_KEY = 'foreignKey';
 
     /**
-     * @param ResolveInfo $info
-     * @param $parentType
-     * @param array $args - arguments given with the query
+     * @param  ResolveInfo  $info
+     * @param  GraphqlType  $parentType
+     * @param  array  $args  - arguments given with the query
      */
-    public function __construct(ResolveInfo $info, $parentType, array $args)
+    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $args)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
@@ -115,11 +117,15 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @return array | Closure - if first recursion, return an array,
+     * @param  array  $requestedFields
+     * @param  GraphqlType  $parentType
+     * @param  Closure|null  $customQuery
+     * @param  bool  $topLevel
+     * @return array|Closure - if first recursion, return an array,
      *               where the first key is 'select' array and second is 'with' array.
      *               On other recursions return a closure that will be used in with
      */
-    public static function getSelectableFieldsAndRelations(array $requestedFields, $parentType, $customQuery = null, $topLevel = true)
+    public static function getSelectableFieldsAndRelations(array $requestedFields, GraphqlType $parentType, ?Closure $customQuery = null, bool $topLevel = true)
     {
         $select = [];
         $with = [];
@@ -163,8 +169,12 @@ class SelectFields
     /**
      * Get the selects and withs from the given fields
      * and recurse if necessary.
+     * @param  array  $requestedFields
+     * @param  GraphqlType  $parentType
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  array  $with Passed by reference, adds further relations
      */
-    protected static function handleFields(array $requestedFields, $parentType, array &$select, array &$with)
+    protected static function handleFields(array $requestedFields, GraphqlType $parentType, array &$select, array &$with): void
     {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
@@ -289,10 +299,11 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @return bool | null - true, if selectable; false, if not selectable, but allowed;
+     * @param  FieldDefinition  $fieldObject
+     * @return bool|null - true, if selectable; false, if not selectable, but allowed;
      *              null, if not allowed
      */
-    protected static function validateField($fieldObject)
+    protected static function validateField(FieldDefinition $fieldObject): ?bool
     {
         $selectable = true;
 
@@ -329,19 +340,24 @@ class SelectFields
     /**
      * Determines whether the fieldObject is queryable.
      *
-     * @param $fieldObject
+     * @param array $fieldObject
      *
      * @return bool
      */
-    private static function isQueryable($fieldObject)
+    private static function isQueryable(array $fieldObject): bool
     {
         return Arr::get($fieldObject, 'is_relation', true) === true;
     }
 
     /**
      * Add selects that are given by the 'always' attribute.
+     *
+     * @param  FieldDefinition  $fieldObject
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  string|null  $parentTable
+     * @param  bool  $forRelation
      */
-    protected static function addAlwaysFields($fieldObject, array &$select, $parentTable, $forRelation = false)
+    protected static function addAlwaysFields(FieldDefinition $fieldObject, array &$select, ?string $parentTable, bool $forRelation = false): void
     {
         if (isset($fieldObject->config['always'])) {
             $always = $fieldObject->config['always'];
@@ -357,7 +373,13 @@ class SelectFields
         }
     }
 
-    protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation)
+    /**
+     * @param  string  $field
+     * @param  array  $select Passed by reference, adds further fields to select
+     * @param  string|null  $parentTable
+     * @param  bool  $forRelation
+     */
+    protected static function addFieldToSelect(string $field, array &$select, ?string $parentTable, bool $forRelation): void
     {
         if ($forRelation && ! array_key_exists($field, $select)) {
             $select[$field] = true;
@@ -369,34 +391,34 @@ class SelectFields
         }
     }
 
-    private static function getPrimaryKeyFromParentType($parentType)
+    private static function getPrimaryKeyFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
     }
 
-    private static function getTableNameFromParentType($parentType)
+    private static function getTableNameFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
 
-    private static function isMongodbInstance($parentType)
+    private static function isMongodbInstance(GraphqlType $parentType): bool
     {
         $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
 
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
     }
 
-    public function getSelect()
+    public function getSelect(): array
     {
         return $this->select;
     }
 
-    public function getRelations()
+    public function getRelations(): array
     {
         return $this->relations;
     }
 
-    public function getResolveInfo()
+    public function getResolveInfo(): ResolveInfo
     {
         return $this->info;
     }

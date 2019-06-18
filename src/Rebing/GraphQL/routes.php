@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Helpers;
+use Illuminate\Routing\Router;
 use Rebing\GraphQL\GraphQLController;
 
 $router = app('router');
@@ -11,7 +12,7 @@ $router = app('router');
 $router->group(array_merge([
     'prefix'        => config('graphql.prefix'),
     'middleware'    => config('graphql.middleware', []),
-], config('graphql.route_group_attributes', [])), function ($router) {
+], config('graphql.route_group_attributes', [])), function (Router $router): void {
     // Routes
     $routes = config('graphql.routes');
     $queryRoute = null;
@@ -149,7 +150,7 @@ if (config('graphql.graphiql.display', true)) {
     $router->group([
         'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
         'middleware'    => config('graphql.graphiql.middleware', []),
-    ], function ($router) {
+    ], function (Router $router): void {
         $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class.'@graphiql');
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
         $graphiqlAction = ['uses' => $graphiqlController];

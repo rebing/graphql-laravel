@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
-use GraphQL\Language\AST\Node;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\ScalarType;
 
@@ -22,7 +21,7 @@ class UploadType extends ScalarType
         'The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
  [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).';
 
-    public function __construct($name = 'Upload')
+    public function __construct(string $name = 'Upload')
     {
         $this->name = $name;
 
@@ -30,11 +29,7 @@ class UploadType extends ScalarType
     }
 
     /**
-     * Serializes an internal value to include in a response.
-     *
-     * @param mixed $value
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function serialize($value)
     {
@@ -42,11 +37,7 @@ class UploadType extends ScalarType
     }
 
     /**
-     * Parses an externally provided value (query variable) to use as an input.
-     *
-     * @param mixed $value
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function parseValue($value)
     {
@@ -54,11 +45,7 @@ class UploadType extends ScalarType
     }
 
     /**
-     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
-     *
-     * @param Node $valueNode
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function parseLiteral($valueNode, ?array $variables = null)
     {

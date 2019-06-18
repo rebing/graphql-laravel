@@ -14,17 +14,17 @@ class ExamplesAuthorizeQuery extends Query
         'name' => 'Examples authorize query',
     ];
 
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         return false;
     }
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('Example'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'index' => ['name' => 'index', 'type' => Type::int()],

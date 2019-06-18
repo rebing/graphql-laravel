@@ -34,7 +34,7 @@ class GraphQLUploadMiddleware
      *
      * @return \Illuminate\Http\Request
      */
-    public function processRequest(Request $request)
+    public function processRequest(Request $request): Request
     {
         $contentType = $request->header('content-type') ?: '';
 
@@ -53,7 +53,7 @@ class GraphQLUploadMiddleware
      *
      * @return \Illuminate\Http\Request
      */
-    private function parseUploadedFiles(Request $request)
+    private function parseUploadedFiles(Request $request): Request
     {
         $bodyParams = $request->all();
         if (! isset($bodyParams['map'])) {
@@ -90,8 +90,9 @@ class GraphQLUploadMiddleware
      * Validates that the request meet our expectations.
      *
      * @param \Illuminate\Http\Request $request
+     * @return void
      */
-    private function validateParsedBody(Request $request)
+    private function validateParsedBody(Request $request): void
     {
         $bodyParams = $request->all();
 

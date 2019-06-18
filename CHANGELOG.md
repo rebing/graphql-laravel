@@ -4,11 +4,14 @@ CHANGELOG
 Next release
 ------------
 ## Breaking changes
+- Added PHP types / phpdoc to all methods / properties [\#331](https://github.com/rebing/graphql-laravel/pull/331)
+  - Changes in method signatures will require small adaptions.
 - Validation errors are moved from error.validation to error.extensions.validation as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)
 - SelectFields on interface types now only selects specific fields instead of all [\#294](https://github.com/rebing/graphql-laravel/pull/294)
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
 - New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
 - Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - Added declare(strict_types=1) directive to all files
@@ -22,6 +25,10 @@ Next release
 
 ### Fixed
 - SelectFields now works with wrapped types (nonNull, listOf)
+
+### Removed
+- Unused static field `\Rebing\GraphQL\Support\Type::$instances`
+- Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 
 2019-03-07, v1.21.2
 -------------------

@@ -16,12 +16,12 @@ class PostWithSelectFieldsAndModelAndAliasQuery extends Query
         'name' => 'postWithSelectFieldsAndModelAndAlias',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('PostWithModelAndAlias');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [

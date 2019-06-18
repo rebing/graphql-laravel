@@ -16,7 +16,7 @@ class UsersQuery extends Query
         'name' => 'users',
     ];
 
-    public function args()
+    public function args(): array
     {
         return [
             'select' => [
@@ -28,7 +28,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function type()
+    public function type(): Type
     {
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }

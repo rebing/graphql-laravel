@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use Closure;
 use Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
@@ -13,6 +14,7 @@ use GraphQL\Type\Definition\WrappingType;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
+use GraphQL\Type\Definition\Type as GraphqlType;
 
 class Field extends Fluent
 {
@@ -20,21 +22,21 @@ class Field extends Fluent
      * Override this in your queries or mutations
      * to provide custom authorization.
      */
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         return true;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [];
     }
 
-    public function type()
+    public function type(): GraphqlType
     {
     }
 
-    public function args()
+    public function args(): array
     {
         return [];
     }
@@ -46,17 +48,17 @@ class Field extends Fluent
      *
      * @return array
      */
-    public function validationErrorMessages(array $args = [])
+    public function validationErrorMessages(array $args = []): array
     {
         return [];
     }
 
-    protected function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         $arguments = func_get_args();
 
@@ -80,7 +82,12 @@ class Field extends Fluent
         return array_merge($argsRules, $rules);
     }
 
-    public function resolveRules($rules, $arguments)
+    /**
+     * @param  array|callable  $rules
+     * @param  array  $arguments
+     * @return array
+     */
+    public function resolveRules($rules, array $arguments): array
     {
         if (is_callable($rules)) {
             return call_user_func_array($rules, $arguments);
@@ -89,7 +96,7 @@ class Field extends Fluent
         return $rules;
     }
 
-    public function inferRulesFromType($type, $prefix, $resolutionArguments)
+    public function inferRulesFromType(GraphqlType $type, string $prefix, array $resolutionArguments): array
     {
         $rules = [];
 
@@ -119,7 +126,7 @@ class Field extends Fluent
         return $rules;
     }
 
-    public function getInputTypeRules(InputObjectType $input, $prefix, $resolutionArguments)
+    public function getInputTypeRules(InputObjectType $input, string $prefix, array $resolutionArguments): array
     {
         $rules = [];
 
@@ -146,10 +153,10 @@ class Field extends Fluent
         return $rules;
     }
 
-    protected function getResolver()
+    protected function getResolver(): ?Closure
     {
         if (! method_exists($this, 'resolve')) {
-            return;
+            return null;
         }
 
         $resolver = [$this, 'resolve'];
@@ -210,10 +217,7 @@ class Field extends Fluent
             'args' => $this->args(),
         ], $attributes);
 
-        $type = $this->type();
-        if (isset($type)) {
-            $attributes['type'] = $type;
-        }
+        $attributes['type'] = $this->type();
 
         $resolver = $this->getResolver();
         if (isset($resolver)) {
@@ -252,7 +256,7 @@ class Field extends Fluent
      *
      * @param string $key
      *
-     * @return void
+     * @return bool
      */
     public function __isset($key)
     {

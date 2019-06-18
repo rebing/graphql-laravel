@@ -16,7 +16,7 @@ class ExampleInterfaceQuery extends Query
         'name' => 'exampleInterfaceQuery',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('ExampleInterface'));
     }

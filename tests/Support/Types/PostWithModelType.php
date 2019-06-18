@@ -15,7 +15,7 @@ class PostWithModelType extends GraphQLType
         'model' => Post::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

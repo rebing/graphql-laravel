@@ -15,7 +15,7 @@ class CommentType extends GraphQLType
         'model' => Comment::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

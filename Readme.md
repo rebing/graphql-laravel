@@ -166,7 +166,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -227,12 +227,12 @@ class UsersQuery extends Query
         'name' => 'Users query'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -306,12 +306,12 @@ class UpdateUserPasswordMutation extends Mutation
         'name' => 'UpdateUserPassword'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::nonNull(Type::string())],
@@ -387,12 +387,12 @@ class UpdateUserEmailMutation extends Mutation
         'name' => 'UpdateUserEmail'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -400,7 +400,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'id' => ['required'],
@@ -431,7 +431,7 @@ class UpdateUserEmailMutation extends Mutation
 
     //...
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [
@@ -487,7 +487,7 @@ argument doesn't conflict with any existing data, you could perform the followin
 > return specific errors per validation type.
 
 ````php
-public function validationErrorMessages ($args = []) 
+public function validationErrorMessages(array $args = []): array
 {
     return [
         'name.required' => 'Please enter your full name',
@@ -523,12 +523,12 @@ class UserProfilePhotoMutation extends Mutation
         'name' => 'UpdateUserProfilePhoto'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'profilePicture' => [

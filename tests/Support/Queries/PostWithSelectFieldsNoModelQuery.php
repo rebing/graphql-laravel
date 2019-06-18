@@ -16,12 +16,12 @@ class PostWithSelectFieldsNoModelQuery extends Query
         'name' => 'postWithSelectFieldsNoModel',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('Post');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [
