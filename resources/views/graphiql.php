@@ -109,7 +109,7 @@
       function graphQLFetcher(graphQLParams) {
         // This example expects a GraphQL server at the path /graphql.
         // Change this to point wherever you host your GraphQL server.
-        return fetch('/graphql', {
+        return fetch('<?php echo $graphqlPath; ?>', {
           method: 'post',
           headers: {
             'Accept': 'application/json',
