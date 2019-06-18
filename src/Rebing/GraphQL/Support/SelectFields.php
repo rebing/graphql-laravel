@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use GraphQL\Language\AST\ArgumentNode;
-use GraphQL\Language\AST\VariableNode;
 use Illuminate\Support\Arr;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Error\InvariantViolation;
+use GraphQL\Language\AST\ArgumentNode;
+use GraphQL\Language\AST\VariableNode;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
