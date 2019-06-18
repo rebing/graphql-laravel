@@ -77,6 +77,7 @@ class TypeTest extends TestCase
     public function testToType(): void
     {
         $type = new ExampleType();
+        /** @var ObjectType $objectType */
         $objectType = $type->toType();
 
         $this->assertInstanceOf(ObjectType::class, $objectType);
