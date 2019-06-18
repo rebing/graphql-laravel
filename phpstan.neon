@@ -36,8 +36,4 @@ parameters:
     - '/Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::(orderBy|select)\(\)/'
     - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
     - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
-    - '/Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleEnumType::\$name/' # TODO: fix
     - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
-    - '/Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleInputType::\$name/' # TODO: fix
-    - '/Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleInterfaceType::\$name/' # TODO: fix
-    - '/Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleType::\$name/' # TODO: Fix
