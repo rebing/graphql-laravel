@@ -31,7 +31,7 @@ class GraphQL
     /**
      * Maps GraphQL type names to their class name.
      *
-     * @var array<string,string>
+     * @var array<string,object|string>
      */
     protected $types = [];
     /** @var Type[] */
