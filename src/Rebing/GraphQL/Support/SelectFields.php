@@ -50,22 +50,23 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
+        $this->info = $info;
         if (! is_null($info->fieldNodes[0]->selectionSet)) {
             self::$args = $args;
 
-            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection($info, 5), $parentType);
+            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection(5), $parentType);
 
             $this->select = $fields[0];
             $this->relations = $fields[1];
         }
     }
 
-    public function getFieldSelection(ResolveInfo $info, $depth = 0)
+    public function getFieldSelection($depth = 0)
     {
         $data = [];
 
         /** @var FieldNode $fieldNode */
-        foreach ($info->fieldNodes as $fieldNode) {
+        foreach ($this->info->fieldNodes as $fieldNode) {
             $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
         }
 
@@ -87,7 +88,7 @@ class SelectFields
                 $fields[$selectionNode->name->value]['args'] = [];
                 foreach ($selectionNode->arguments as $argument) {
                     if ($argument->value instanceof VariableNode) {
-                        $value = $argument->value->name->value;
+                        $value = $this->info->variableValues[$argument->value->name->value] ?? null;
                     } else {
                         $value = $argument->value->value;
                     }
