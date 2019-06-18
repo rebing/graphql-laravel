@@ -25,7 +25,7 @@ install:
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
-  - if [[ $STATIC_ANALYSER = 1 ]]; then sed -e "s#'src'#'src/Rebing'#" -i vendor/nunomaduro/larastan/src/ApplicationResolver.php; composer phpstan; fi
+  - if [[ $STATIC_ANALYSER = 1 ]]; then sed -e "s#'src'#'src/Rebing'#" -i vendor/nunomaduro/larastan/src/ApplicationResolver.php; sed -e 's#class_alias#// &#' -i src/Rebing/GraphQL/GraphQLLumenServiceProvider.php; composer phpstan; fi
   - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
   - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
 
