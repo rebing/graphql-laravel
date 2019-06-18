@@ -37,7 +37,8 @@
     "require-dev": {
         "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*",
         "phpunit/phpunit": "^5.5|~6.0|~7.0|~8.0",
-        "phpstan/phpstan": "^0.11.8"
+        "phpstan/phpstan": "^0.11.8",
+        "nunomaduro/larastan": "^0.3.17"
     },
     "autoload": {
         "psr-4": {
