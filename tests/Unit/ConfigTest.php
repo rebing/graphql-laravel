@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
 use Rebing\GraphQL\Tests\TestCase;
+use GraphQL\Validator\Rules\QueryDepth;
 use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Validator\Rules\QueryComplexity;
@@ -147,6 +148,7 @@ class ConfigTest extends TestCase
         $queryComplexity = DocumentValidator::getRule('QueryComplexity');
         $this->assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
 
+        /** @var QueryDepth $queryDepth */
         $queryDepth = DocumentValidator::getRule('QueryDepth');
         $this->assertEquals(10, $queryDepth->getMaxQueryDepth());
     }
