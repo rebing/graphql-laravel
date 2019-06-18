@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use GraphQL\Language\AST\ArgumentNode;
+use GraphQL\Language\AST\VariableNode;
 use Illuminate\Support\Arr;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Error\InvariantViolation;
@@ -84,7 +86,14 @@ class SelectFields
                     : true;
                 $fields[$selectionNode->name->value]['args'] = [];
                 foreach ($selectionNode->arguments as $argument) {
-                    $fields[$selectionNode->name->value]['args'][$argument->name->value] = $argument->value->value;
+                    if ($argument->value instanceof VariableNode) {
+                        $value = $argument->value->name->value;
+                    } else {
+                        $value = $argument->value->value;
+                    }
+                    if ($argument instanceof ArgumentNode) {
+                        $fields[$selectionNode->name->value]['args'][$argument->name->value] = $value;
+                    }
                 }
             } elseif ($selectionNode instanceof FragmentSpreadNode) {
                 $spreadName = $selectionNode->name->value;
