@@ -6,18 +6,11 @@ namespace Rebing\GraphQL\Support;
 
 use Closure;
 use Illuminate\Support\Arr;
-use GraphQL\Language\AST\FieldNode;
 use GraphQL\Error\InvariantViolation;
-use GraphQL\Language\AST\ArgumentNode;
-use GraphQL\Language\AST\VariableNode;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
-use GraphQL\Language\AST\SelectionSetNode;
-use GraphQL\Language\AST\FragmentSpreadNode;
-use GraphQL\Language\AST\InlineFragmentNode;
 use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Language\AST\FragmentDefinitionNode;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,8 +29,6 @@ class SelectFields
     private $relations = [];
     /** @var array */
     private static $privacyValidations = [];
-    /** @var ResolveInfo */
-    private $info;
 
     const FOREIGN_KEY = 'foreignKey';
 
@@ -52,65 +43,21 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $this->info = $info;
         self::$args = $args;
-        $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection(5), $parentType);
+        $requestedFields = $this->getFieldSelection($info, $args, 5);
+        $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
         $this->select = $fields[0];
         $this->relations = $fields[1];
     }
 
-    public function getFieldSelection($depth = 0)
+    private function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
     {
-        $data = [];
+        $resolveInfoFieldsAndArguments = new ResolveInfoFieldsAndArguments($resolveInfo);
 
-        if (! is_null($this->info->fieldNodes[0]->selectionSet)) {
-            /** @var FieldNode $fieldNode */
-            foreach ($this->info->fieldNodes as $fieldNode) {
-                if (! is_null($fieldNode->selectionSet)) {
-                    $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
-                }
-            }
-        }
-
-        $fields['fields'] = $data;
-        $fields['args'] = self::$args;
-
-        return $fields;
-    }
-
-    private function foldSelectionSet(SelectionSetNode $selectionSet, $descend)
-    {
-        $fields = [];
-
-        foreach ($selectionSet->selections as $selectionNode) {
-            if ($selectionNode instanceof FieldNode) {
-                $fields[$selectionNode->name->value]['fields'] = $descend > 0 && ! empty($selectionNode->selectionSet)
-                    ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
-                    : true;
-                $fields[$selectionNode->name->value]['args'] = [];
-                foreach ($selectionNode->arguments as $argument) {
-                    if ($argument->value instanceof VariableNode) {
-                        $value = $this->info->variableValues[$argument->value->name->value] ?? null;
-                    } else {
-                        $value = $argument->value->value;
-                    }
-                    if ($argument instanceof ArgumentNode) {
-                        $fields[$selectionNode->name->value]['args'][$argument->name->value] = $value;
-                    }
-                }
-            } elseif ($selectionNode instanceof FragmentSpreadNode) {
-                $spreadName = $selectionNode->name->value;
-                if (isset($this->info->fragments[$spreadName])) {
-                    /** @var FragmentDefinitionNode $fragment */
-                    $fragment = $this->info->fragments[$spreadName];
-                    $fields = array_merge_recursive($this->foldSelectionSet($fragment->selectionSet, $descend), $fields);
-                }
-            } elseif ($selectionNode instanceof InlineFragmentNode) {
-                $fields = array_merge_recursive($this->foldSelectionSet($selectionNode->selectionSet, $descend), $fields);
-            }
-        }
-
-        return $fields;
+        return [
+            'args' => $args,
+            'fields' => $resolveInfoFieldsAndArguments->getFieldsAndArgumentsSelection($depth),
+        ];
     }
 
     /**
@@ -416,10 +363,5 @@ class SelectFields
     public function getRelations(): array
     {
         return $this->relations;
-    }
-
-    public function getResolveInfo(): ResolveInfo
-    {
-        return $this->info;
     }
 }
