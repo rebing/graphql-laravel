@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class SelectFields
 {
     /** @var array */
-    private static $args = [];
-    /** @var array */
     private $select = [];
     /** @var array */
     private $relations = [];
@@ -43,7 +41,6 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
-        self::$args = $args;
         $requestedFields = $this->getFieldSelection($info, $args, 5);
         $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
         $this->select = $fields[0];
@@ -149,7 +146,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = self::validateField($fieldObject);
+            $canSelect = self::validateField($fieldObject, $field['args']);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = Arr::get($fieldObject->config, 'query');
@@ -247,10 +244,11 @@ class SelectFields
      * Check the privacy status, if it's given.
      *
      * @param  FieldDefinition  $fieldObject
+     * @param  array  $fieldArgs Arguments given with the field
      * @return bool|null - true, if selectable; false, if not selectable, but allowed;
      *              null, if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $fieldArgs): ?bool
     {
         $selectable = true;
 
@@ -263,7 +261,7 @@ class SelectFields
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if (is_callable($privacyClass) && call_user_func($privacyClass, self::$args) === false) {
+            if (is_callable($privacyClass) && call_user_func($privacyClass, $fieldArgs) === false) {
                 $selectable = null;
             }
             // If Privacy class given
@@ -271,7 +269,7 @@ class SelectFields
                 if (Arr::has(self::$privacyValidations, $privacyClass)) {
                     $validated = self::$privacyValidations[$privacyClass];
                 } else {
-                    $validated = call_user_func([app($privacyClass), 'fire'], self::$args);
+                    $validated = call_user_func([app($privacyClass), 'fire'], $fieldArgs);
                     self::$privacyValidations[$privacyClass] = $validated;
                 }
 
