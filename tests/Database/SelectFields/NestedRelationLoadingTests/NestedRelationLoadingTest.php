@@ -572,12 +572,9 @@ SQL
     }
 
     /**
-     * The test is expected to break and needs adaption once the referenced
-     * issue is fixed:
-     * - SQL queries
-     * - actual posts returned (only 1 post per user).
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314
      *
-     * @see https://github.com/rebing/graphql-laravel/issues/314
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
     public function testQuerySelectAndWithAndSubArgs(): void
     {
@@ -691,12 +688,9 @@ SQL
     }
 
     /**
-     * The test is expected to break and needs adaption once the referenced
-     * issue is fixed:
-     * - SQL queries
-     * - actual posts AND comments returned (only 1 post and 1 comment per user).
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314
      *
-     * @see https://github.com/rebing/graphql-laravel/issues/314
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
     public function testQuerySelectAndWithAndNestedSubArgs(): void
     {
