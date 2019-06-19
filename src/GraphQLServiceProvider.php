@@ -51,7 +51,7 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootPublishes(): void
     {
-        $configPath = __DIR__.'/../../config';
+        $configPath = __DIR__.'/../config';
 
         $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
 
@@ -59,7 +59,7 @@ class GraphQLServiceProvider extends ServiceProvider
             $configPath.'/config.php' => config_path('graphql.php'),
         ], 'config');
 
-        $viewsPath = __DIR__.'/../../resources/views';
+        $viewsPath = __DIR__.'/../resources/views';
         $this->loadViewsFrom($viewsPath, 'graphql');
     }
 

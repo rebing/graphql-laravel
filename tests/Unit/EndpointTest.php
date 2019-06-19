@@ -148,6 +148,6 @@ class EndpointTest extends TestCase
         $response->assertSee('This GraphiQL example illustrates how to use some of GraphiQL\'s props');
         // The argument to fetch is extracted from the configuration
         $response->assertSee('return fetch(\'/graphql\', {');
-        $response->assertSee("'X-CSRF-TOKEN': xcrsfToken || ''");
+        $response->assertSee("'x-csrf-token': xcsrfToken || ''");
     }
 }

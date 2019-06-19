@@ -41,7 +41,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Rebing\\GraphQL\\": "src/Rebing/GraphQL/"
+            "Rebing\\GraphQL\\": "src/"
         }
     },
     "autoload-dev": {
