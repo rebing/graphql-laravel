@@ -104,7 +104,7 @@ class SelectFields
         } else {
             return function ($query) use ($with, $select, $customQuery, $requestedFields) {
                 if ($customQuery) {
-                    $query = $customQuery($requestedFields['args'] ?? self::$args, $query);
+                    $query = $customQuery($requestedFields['args'], $query);
                 }
 
                 $query->select($select);
