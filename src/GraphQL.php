@@ -182,7 +182,7 @@ class GraphQL
 
     /**
      * @param  ObjectType|array|string  $type
-     * @param  array  $opts
+     * @param  array<string,string>  $opts
      * @return ObjectType
      */
     public function objectType($type, array $opts = []): ObjectType
