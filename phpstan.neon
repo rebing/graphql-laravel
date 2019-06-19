@@ -9,7 +9,6 @@ parameters:
   - %rootDir%/../../../tests/Support/database/*
   ignoreErrors:
     - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
-    - '/Call to an undefined static method Rebing\\GraphQL\\Support\\Facades\\GraphQL::/'
     - '/Call to an undefined static method Rebing\\GraphQL\\Tests\\Support\\Models\\/'
     - '/Call to static method listen\(\) on an unknown class DB/'
     - '/Call to static method make\(\) on an unknown class Validator/'
@@ -37,3 +36,5 @@ parameters:
     - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
     - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
     - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
+    - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
+    - '/Parameter #1 \$abstract of function app expects string\|null, object\|string given/'
