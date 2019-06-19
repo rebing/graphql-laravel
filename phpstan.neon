@@ -1,12 +1,11 @@
 parameters:
   level: max
   paths:
-  - src
-  - tests
+    - %rootDir%/../../../src/
+    - %rootDir%/../../../tests/
   excludes_analyse:
-  - %rootDir%/../../../src/example/*
-  - %rootDir%/../../../src/resources/views/*
-  - %rootDir%/../../../tests/Support/database/*
+    - %rootDir%/../../../src/example/
+    - %rootDir%/../../../tests/Support/database/
   ignoreErrors:
     - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
     - '/Call to an undefined static method Rebing\\GraphQL\\Tests\\Support\\Models\\/'
