@@ -53,23 +53,21 @@ class SelectFields
         }
 
         $this->info = $info;
-        if (! is_null($info->fieldNodes[0]->selectionSet)) {
-            self::$args = $args;
-
-            $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection(5), $parentType);
-
-            $this->select = $fields[0];
-            $this->relations = $fields[1];
-        }
+        self::$args = $args;
+        $fields = self::getSelectableFieldsAndRelations($this->getFieldSelection(5), $parentType);
+        $this->select = $fields[0];
+        $this->relations = $fields[1];
     }
 
     public function getFieldSelection($depth = 0)
     {
         $data = [];
 
-        /** @var FieldNode $fieldNode */
-        foreach ($this->info->fieldNodes as $fieldNode) {
-            $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
+        if (! is_null($this->info->fieldNodes[0]->selectionSet)) {
+            /** @var FieldNode $fieldNode */
+            foreach ($this->info->fieldNodes as $fieldNode) {
+                $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
+            }
         }
 
         $fields['fields'] = $data;
