@@ -1,3 +1,5 @@
+includes:
+  - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
   level: max
   paths:
@@ -7,19 +9,13 @@ parameters:
     - %currentWorkingDirectory%/tests/Support/database/
   ignoreErrors:
     - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
-    - '/Call to an undefined static method Rebing\\GraphQL\\Tests\\Support\\Models\\/'
-    - '/Call to static method listen\(\) on an unknown class DB/'
-    - '/Call to static method make\(\) on an unknown class Validator/'
     - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
     - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
     - '/Parameter #2 \.\.\.\$args of function array_merge_recursive expects array, array\|GraphQL\\Type\\Schema given/'
     - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
-    - '/Cannot access property \$parameters on object\|string/'
-    - '/Call to an undefined method Illuminate\\Contracts\\Routing\\ResponseFactory\|Illuminate\\Http\\Response::json\(\)/'
-    - '/Method Rebing\\GraphQL\\GraphQLController::graphiql\(\) should return Illuminate\\Contracts\\View\\View but returns Illuminate\\Contracts\\View\\Factory\|Illuminate\\View\\View/'
+    - '/Cannot access property \$parameters on mixed/'
     - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
     - '/Strict comparison using === between null and array will always evaluate to false/'
-    - '/Parameter #2 \$key of static method Illuminate\\Support\\Arr::get\(\) expects string, int given/'
     - '/Cannot access offset . on array\|Closure/'
     - '/Call to function is_array\(\) with string will always evaluate to false/' # TODO: fix \Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations
     - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, string\) given/'
@@ -29,10 +25,12 @@ parameters:
     - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
     - '/Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind/'
     - '/Parameter #2 \$nodes of class GraphQL\\Error\\Error constructor expects GraphQL\\Language\\AST\\Node\|\(iterable<GraphQL\\Language\\AST\\Node>&Traversable\)\|null, array<int, GraphQL\\Language\\AST\\Node> given/'
-    - '/Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany::(orderBy|where)\(\)/'
-    - '/Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::(orderBy|select)\(\)/'
     - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
     - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
     - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
     - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
     - '/Parameter #1 \$abstract of function app expects string\|null, object\|string given/'
+    - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
+    - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
+    - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
+    - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
