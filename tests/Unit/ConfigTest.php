@@ -6,8 +6,10 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
 use Rebing\GraphQL\Tests\TestCase;
+use GraphQL\Validator\Rules\QueryDepth;
 use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
@@ -142,9 +144,11 @@ class ConfigTest extends TestCase
 
     public function testSecurity(): void
     {
+        /** @var QueryComplexity $queryComplexity */
         $queryComplexity = DocumentValidator::getRule('QueryComplexity');
         $this->assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
 
+        /** @var QueryDepth $queryDepth */
         $queryDepth = DocumentValidator::getRule('QueryDepth');
         $this->assertEquals(10, $queryDepth->getMaxQueryDepth());
     }

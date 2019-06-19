@@ -31,7 +31,7 @@ class GraphQL
     /**
      * Maps GraphQL type names to their class name.
      *
-     * @var array<string,string>
+     * @var array<string,object|string>
      */
     protected $types = [];
     /** @var Type[] */
@@ -145,7 +145,11 @@ class GraphQL
         }
     }
 
-    public function addType(string $class, string $name = null): void
+    /**
+     * @param  object|string  $class
+     * @param  string|null  $name
+     */
+    public function addType($class, string $name = null): void
     {
         if (! $name) {
             $type = is_object($class) ? $class : app($class);
@@ -292,7 +296,7 @@ class GraphQL
     }
 
     /**
-     * @return array<string,string>
+     * @return array<string,object|string>
      */
     public function getTypes(): array
     {
@@ -398,7 +402,7 @@ class GraphQL
     }
 
     /**
-     * @param  array|string  $schema
+     * @param  array|string|null  $schema
      * @return array
      */
     protected function getSchemaConfiguration($schema): array

@@ -45,6 +45,7 @@ class InterfaceTypeTest extends TestCase
     public function testToType(): void
     {
         $type = new ExampleInterfaceType();
+        /** @var InterfaceType $interfaceType */
         $interfaceType = $type->toType();
 
         $this->assertInstanceOf(InterfaceType::class, $interfaceType);

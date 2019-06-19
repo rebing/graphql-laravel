@@ -12,6 +12,9 @@ use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
+/**
+ * @property string $name
+ */
 class Type extends Fluent
 {
     /**
