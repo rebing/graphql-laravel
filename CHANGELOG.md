@@ -26,6 +26,9 @@ Next release
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
+- SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
+  - This also applies to privacy checks on fields, the callback now receives the field arguments too
+  - Previously the initial query arguments would be used everywhere
 - SelectFields now works with wrapped types (nonNull, listOf)
 
 ### Removed
