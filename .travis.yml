@@ -45,6 +45,7 @@ before_script:
 
 install:
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
+  - if [[ $STATIC_ANALYSER = 0 ]]; then composer remove --dev nunomaduro/larastan --no-interaction --no-update; fi
   - composer install --prefer-dist --no-interaction --no-suggest
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
