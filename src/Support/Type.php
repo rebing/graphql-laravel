@@ -33,6 +33,9 @@ class Type extends Fluent
         return [];
     }
 
+    /**
+     * @return array<string,array|string|FieldDefinition>
+     */
     public function fields(): array
     {
         return [];
