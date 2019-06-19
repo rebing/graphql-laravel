@@ -36,6 +36,9 @@ class Field extends Fluent
     {
     }
 
+    /**
+     * @return array<string,array>
+     */
     public function args(): array
     {
         return [];
