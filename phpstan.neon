@@ -4,7 +4,6 @@ parameters:
     - %rootDir%/../../../src/
     - %rootDir%/../../../tests/
   excludes_analyse:
-    - %rootDir%/../../../src/example/
     - %rootDir%/../../../tests/Support/database/
   ignoreErrors:
     - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
