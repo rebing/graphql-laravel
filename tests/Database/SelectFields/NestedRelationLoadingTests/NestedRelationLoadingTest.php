@@ -572,12 +572,9 @@ SQL
     }
 
     /**
-     * The test is expected to break and needs adaption once the referenced
-     * issue is fixed:
-     * - SQL queries
-     * - actual posts returned (only 1 post per user).
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
      *
-     * @see https://github.com/rebing/graphql-laravel/issues/314
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
     public function testQuerySelectAndWithAndSubArgs(): void
     {
@@ -630,8 +627,8 @@ GRAQPHQL;
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
-select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
-select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) order by "comments"."id" asc;
 SQL
         );
 
@@ -659,23 +656,6 @@ SQL
                                     ],
                                 ],
                             ],
-                            [
-                                'body' => $users[0]->posts[1]->body,
-                                'id' => (string) $users[0]->posts[1]->id,
-                                'title' => $users[0]->posts[1]->title,
-                                'comments' => [
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
-                                        'title' => $users[0]->posts[1]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
-                                        'title' => $users[0]->posts[1]->comments[1]->title,
-                                    ],
-                                ],
-                            ],
                         ],
                     ],
                     [
@@ -699,23 +679,6 @@ SQL
                                     ],
                                 ],
                             ],
-                            [
-                                'body' => $users[1]->posts[1]->body,
-                                'id' => (string) $users[1]->posts[1]->id,
-                                'title' => $users[1]->posts[1]->title,
-                                'comments' => [
-                                    [
-                                        'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
-                                        'title' => $users[1]->posts[1]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
-                                        'title' => $users[1]->posts[1]->comments[1]->title,
-                                    ],
-                                ],
-                            ],
                         ],
                     ],
                 ],
@@ -725,12 +688,9 @@ SQL
     }
 
     /**
-     * The test is expected to break and needs adaption once the referenced
-     * issue is fixed:
-     * - SQL queries
-     * - actual posts AND comments returned (only 1 post and 1 comment per user).
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
      *
-     * @see https://github.com/rebing/graphql-laravel/issues/314
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
     public function testQuerySelectAndWithAndNestedSubArgs(): void
     {
@@ -793,8 +753,8 @@ GRAQPHQL;
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
-select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
-select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) and "comments"."flag" = ? order by "comments"."id" asc;
 SQL
         );
 
@@ -815,28 +775,6 @@ SQL
                                         'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
-                                    [
-                                        'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
-                                        'title' => $users[0]->posts[0]->comments[1]->title,
-                                    ],
-                                ],
-                            ],
-                            [
-                                'body' => $users[0]->posts[1]->body,
-                                'id' => (string) $users[0]->posts[1]->id,
-                                'title' => $users[0]->posts[1]->title,
-                                'comments' => [
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
-                                        'title' => $users[0]->posts[1]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
-                                        'title' => $users[0]->posts[1]->comments[1]->title,
-                                    ],
                                 ],
                             ],
                         ],
@@ -854,28 +792,6 @@ SQL
                                         'body' => $users[1]->posts[0]->comments[0]->body,
                                         'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
-                                        'title' => $users[1]->posts[0]->comments[1]->title,
-                                    ],
-                                ],
-                            ],
-                            [
-                                'body' => $users[1]->posts[1]->body,
-                                'id' => (string) $users[1]->posts[1]->id,
-                                'title' => $users[1]->posts[1]->title,
-                                'comments' => [
-                                    [
-                                        'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
-                                        'title' => $users[1]->posts[1]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
-                                        'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
                             ],

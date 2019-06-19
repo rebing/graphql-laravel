@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class SelectFields
 {
     /** @var array */
-    private static $args = [];
-    /** @var array */
     private $select = [];
     /** @var array */
     private $relations = [];
@@ -43,14 +41,20 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
-        if (! is_null($info->fieldNodes[0]->selectionSet)) {
-            self::$args = $args;
+        $requestedFields = $this->getFieldSelection($info, $args, 5);
+        $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
+        $this->select = $fields[0];
+        $this->relations = $fields[1];
+    }
 
-            $fields = self::getSelectableFieldsAndRelations($info->getFieldSelection(5), $parentType);
+    private function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
+    {
+        $resolveInfoFieldsAndArguments = new ResolveInfoFieldsAndArguments($resolveInfo);
 
-            $this->select = $fields[0];
-            $this->relations = $fields[1];
-        }
+        return [
+            'args' => $args,
+            'fields' => $resolveInfoFieldsAndArguments->getFieldsAndArgumentsSelection($depth),
+        ];
     }
 
     /**
@@ -95,9 +99,9 @@ class SelectFields
         if ($topLevel) {
             return [$select, $with];
         } else {
-            return function ($query) use ($with, $select, $customQuery) {
+            return function ($query) use ($with, $select, $customQuery, $requestedFields) {
                 if ($customQuery) {
-                    $query = $customQuery(self::$args, $query);
+                    $query = $customQuery($requestedFields['args'], $query);
                 }
 
                 $query->select($select);
@@ -118,7 +122,7 @@ class SelectFields
     {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
-        foreach ($requestedFields as $key => $field) {
+        foreach ($requestedFields['fields'] as $key => $field) {
             // Ignore __typename, as it's a special case
             if ($key === '__typename') {
                 continue;
@@ -142,7 +146,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = self::validateField($fieldObject);
+            $canSelect = self::validateField($fieldObject, $field['args']);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = Arr::get($fieldObject->config, 'query');
@@ -155,7 +159,7 @@ class SelectFields
                     self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
                 // With
-                elseif (is_array($field) && $queryable) {
+                elseif (is_array($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
@@ -193,7 +197,7 @@ class SelectFields
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
                             if (! array_key_exists($foreignKey, $field)) {
-                                $field[$foreignKey] = self::FOREIGN_KEY;
+                                $field['fields'][$foreignKey] = self::FOREIGN_KEY;
                             }
                         }
 
@@ -240,10 +244,11 @@ class SelectFields
      * Check the privacy status, if it's given.
      *
      * @param  FieldDefinition  $fieldObject
+     * @param  array  $fieldArgs Arguments given with the field
      * @return bool|null - true, if selectable; false, if not selectable, but allowed;
      *              null, if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $fieldArgs): ?bool
     {
         $selectable = true;
 
@@ -256,7 +261,7 @@ class SelectFields
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if (is_callable($privacyClass) && call_user_func($privacyClass, self::$args) === false) {
+            if (is_callable($privacyClass) && call_user_func($privacyClass, $fieldArgs) === false) {
                 $selectable = null;
             }
             // If Privacy class given
@@ -264,7 +269,7 @@ class SelectFields
                 if (Arr::has(self::$privacyValidations, $privacyClass)) {
                     $validated = self::$privacyValidations[$privacyClass];
                 } else {
-                    $validated = call_user_func([app($privacyClass), 'fire'], self::$args);
+                    $validated = call_user_func([app($privacyClass), 'fire'], $fieldArgs);
                     self::$privacyValidations[$privacyClass] = $validated;
                 }
 
