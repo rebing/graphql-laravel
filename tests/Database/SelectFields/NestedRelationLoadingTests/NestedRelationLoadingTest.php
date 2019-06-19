@@ -572,7 +572,7 @@ SQL
     }
 
     /**
-     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
      *
      * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
@@ -688,7 +688,7 @@ SQL
     }
 
     /**
-     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
      *
      * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */

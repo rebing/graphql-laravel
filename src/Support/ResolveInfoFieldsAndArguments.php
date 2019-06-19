@@ -9,8 +9,8 @@ use GraphQL\Language\AST\ArgumentNode;
 use GraphQL\Language\AST\VariableNode;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Language\AST\SelectionSetNode;
-use GraphQL\Language\AST\InlineFragmentNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
+use GraphQL\Language\AST\InlineFragmentNode;
 
 /**
  * This adapts \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
@@ -28,7 +28,7 @@ class ResolveInfoFieldsAndArguments
 
     /**
      * Helper method that returns names of all fields with attributes selected in query for
-     * $this->fieldName up to $depth levels
+     * $this->fieldName up to $depth levels.
      *
      * Example:
      * query MyQuery{
