@@ -66,7 +66,9 @@ class SelectFields
         if (! is_null($this->info->fieldNodes[0]->selectionSet)) {
             /** @var FieldNode $fieldNode */
             foreach ($this->info->fieldNodes as $fieldNode) {
-                $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
+                if (! is_null($fieldNode->selectionSet)) {
+                    $data = array_merge_recursive($data, $this->foldSelectionSet($fieldNode->selectionSet, $depth));
+                }
             }
         }
 
