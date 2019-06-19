@@ -19,7 +19,6 @@ parameters:
     - '/Method Rebing\\GraphQL\\GraphQLController::graphiql\(\) should return Illuminate\\Contracts\\View\\View but returns Illuminate\\Contracts\\View\\Factory\|Illuminate\\View\\View/'
     - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
     - '/Strict comparison using === between null and array will always evaluate to false/'
-    - '/Parameter #2 \$key of static method Illuminate\\Support\\Arr::get\(\) expects string, int given/'
     - '/Cannot access offset . on array\|Closure/'
     - '/Call to function is_array\(\) with string will always evaluate to false/' # TODO: fix \Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations
     - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, string\) given/'
