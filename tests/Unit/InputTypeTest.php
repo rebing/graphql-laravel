@@ -16,6 +16,7 @@ class InputTypeTest extends TestCase
     public function testToType(): void
     {
         $type = new ExampleInputType();
+        /** @var InputObjectType $objectType */
         $objectType = $type->toType();
 
         $this->assertInstanceOf(InputObjectType::class, $objectType);

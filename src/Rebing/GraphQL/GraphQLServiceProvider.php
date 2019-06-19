@@ -71,7 +71,7 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootTypes(): void
     {
         $configTypes = config('graphql.types');
-        $this->app['graphql']->addTypes($configTypes);
+        $this->app->make('graphql')->addTypes($configTypes);
     }
 
     /**
@@ -83,7 +83,7 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $configSchemas = config('graphql.schemas');
         foreach ($configSchemas as $name => $schema) {
-            $this->app['graphql']->addSchema($name, $schema);
+            $this->app->make('graphql')->addSchema($name, $schema);
         }
     }
 
