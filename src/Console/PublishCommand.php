@@ -33,7 +33,7 @@ class PublishCommand extends Command
     /**
      * A list of files (source => destination).
      *
-     * @var array
+     * @var array<string,string>
      */
     protected $fileMap = [];
 
