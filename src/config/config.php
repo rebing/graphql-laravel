@@ -1,6 +1,5 @@
 <?php
 
-
 use example\Type\ExampleType;
 use example\Query\ExampleQuery;
 use example\Mutation\ExampleMutation;
