@@ -1,7 +1,5 @@
 <?php
 
-use GraphQL\Type\Definition\Type;
-
 class FieldTest extends TestCase
 {
     protected function getFieldClass()

@@ -1,6 +1,5 @@
 <?php
 
-
 class QueryTest extends FieldTest
 {
     protected function getFieldClass()
