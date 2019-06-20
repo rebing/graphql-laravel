@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-Next release
+[Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...v1)
 ------------
 
 2019-06-10, v1.23.0
