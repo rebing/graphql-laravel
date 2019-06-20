@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-Next release
+[Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...master)
 ------------
 ## Breaking changes
 - Added PHP types / phpdoc to all methods / properties [\#331](https://github.com/rebing/graphql-laravel/pull/331)
@@ -12,10 +12,7 @@ Next release
 
 ### Added
 - GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
-- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
-- Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
 - Added declare(strict_types=1) directive to all files
-- This project has a changelog `\o/`
 - Internal
   - Test suite has been refactored and now features Database (SQLite) tests too
 
@@ -29,11 +26,23 @@ Next release
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
   - This also applies to privacy checks on fields, the callback now receives the field arguments too
   - Previously the initial query arguments would be used everywhere
-- SelectFields now works with wrapped types (nonNull, listOf)
 
 ### Removed
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
+
+2019-06-10, v1.23.0
+-------------------
+### Added
+- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
+### Fixed
+- SelectFields now works with wrapped types (nonNull, listOf) [\#315](https://github.com/rebing/graphql-laravel/pull/315)
+
+2019-05-31, v1.22.0
+-------------------
+### Added
+- Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
+- This project has a changelog `\o/`
 
 2019-03-07, v1.21.2
 -------------------
