@@ -1,13 +1,23 @@
-includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
+    ### This library
     level: max
     paths:
         - %currentWorkingDirectory%/src/
         - %currentWorkingDirectory%/tests/
+    ### Larastan
+    scopeClass: NunoMaduro\Larastan\Analyser\Scope
+    universalObjectCratesClasses:
+        - Illuminate\Database\Eloquent\Model
+        - Illuminate\Http\Resources\Json\JsonResource
+        - Illuminate\Http\Request
+        - Illuminate\Contracts\Auth\Authenticatable
     excludes_analyse:
+        ### This library
         - %currentWorkingDirectory%/tests/Support/database/
+        ### Larastan
+        - *.blade.php
     ignoreErrors:
+        ### This library
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
         - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
@@ -37,3 +47,76 @@ parameters:
         - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
         # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
         - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
+        ### Larastan
+        - '#Result of function abort \(void\) is used#'
+        - '#Call to an undefined method Illuminate\\Support\\HigherOrder#'
+        - '#Method App\\Exceptions\\Handler::render\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response#'
+        - '#Property App\\Http\\Middleware\\TrustProxies::\$headers \(string\) does not accept default value of type int#'
+        # Ignore error from issue #244
+        - '#Cannot call method viaRequest\(\) on Illuminate\\Auth\\AuthManager\|null\.#'
+    # From Larastan but path changed
+    bootstrap: %currentWorkingDirectory%/vendor/nunomaduro/larastan/bootstrap.php
+    # From Larastan but changed to true
+    reportUnmatchedIgnoredErrors: false
+
+### Below here only Larastan defaults
+services:
+    -
+        class: NunoMaduro\Larastan\Methods\Extension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+
+    -
+        class: NunoMaduro\Larastan\Properties\Extension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\ModelExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\AuthExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\RequestExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\CookieExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\ResponseExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\RequestExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\RedirectExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\UrlExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\ViewExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\TransExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
