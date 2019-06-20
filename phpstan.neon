@@ -40,24 +40,23 @@ parameters:
         - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
-        - '/Parameter #1 \$abstract of function app expects string\|null, object\|string given/'
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
         - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
         # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
         - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
-        ### Larastan
-        - '#Result of function abort \(void\) is used#'
-        - '#Call to an undefined method Illuminate\\Support\\HigherOrder#'
-        - '#Method App\\Exceptions\\Handler::render\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response#'
-        - '#Property App\\Http\\Middleware\\TrustProxies::\$headers \(string\) does not accept default value of type int#'
+        ### Larastan ; manually disable the ones reported
+        #- '#Result of function abort \(void\) is used#'
+        #- '#Call to an undefined method Illuminate\\Support\\HigherOrder#'
+        #- '#Method App\\Exceptions\\Handler::render\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response#'
+        #- '#Property App\\Http\\Middleware\\TrustProxies::\$headers \(string\) does not accept default value of type int#'
         # Ignore error from issue #244
-        - '#Cannot call method viaRequest\(\) on Illuminate\\Auth\\AuthManager\|null\.#'
+        #- '#Cannot call method viaRequest\(\) on Illuminate\\Auth\\AuthManager\|null\.#'
     # From Larastan but path changed
     bootstrap: %currentWorkingDirectory%/vendor/nunomaduro/larastan/bootstrap.php
     # From Larastan but changed to true
-    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: true
 
 ### Below here only Larastan defaults
 services:
