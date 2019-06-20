@@ -167,7 +167,7 @@ return [
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
-        'prefix'     => '/graphiql/{graphql_schema?}',
+        'prefix'     => '/graphiql',
         'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
         'middleware' => [],
         'view'       => 'graphql::graphiql',
