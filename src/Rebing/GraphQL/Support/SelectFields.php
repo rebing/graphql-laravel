@@ -320,9 +320,8 @@ class SelectFields
 
     protected static function addFieldToSelect($field, &$select, $parentTable, $forRelation, $column = null)
     {
-        $column = $column ?: $field;
         if ($forRelation && !array_key_exists($field, $select)) {
-            $select[$column] = true;
+            $select[$field] = true;
         } elseif (!$forRelation && !in_array($field, $select)) {
             $field = $parentTable ? ($parentTable . '.' . $field) : $field;
             $dbColumn = $column ?: $field;
