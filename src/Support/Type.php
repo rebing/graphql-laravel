@@ -63,8 +63,8 @@ class Type extends Fluent
                 return call_user_func_array($resolver, $args);
             };
         }
-        return null;
 
+        return null;
     }
 
     public function getFields(): array
