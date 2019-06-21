@@ -296,7 +296,7 @@ class SelectFields
     }
 
     /**
-     * Determines whether the fieldObject is queryable.
+     * Retrieves the SQL column alias expression
      *
      * @param $fieldObject
      *
