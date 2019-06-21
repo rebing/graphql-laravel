@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
 
@@ -72,39 +72,39 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string)$users[0]->id,
+                        'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string)$users[0]->posts[0]->id,
+                                'id' => (string) $users[0]->posts[0]->id,
                                 'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
                                         'title' => $users[0]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string)$users[0]->posts[1]->id,
+                                'id' => (string) $users[0]->posts[1]->id,
                                 'title' => $users[0]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
                                         'title' => $users[0]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
                                         'title' => $users[0]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -112,39 +112,39 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string)$users[1]->id,
+                        'id' => (string) $users[1]->id,
                         'name' => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string)$users[1]->posts[0]->id,
+                                'id' => (string) $users[1]->posts[0]->id,
                                 'title' => $users[1]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
                                         'title' => $users[1]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string)$users[1]->posts[1]->id,
+                                'id' => (string) $users[1]->posts[1]->id,
                                 'title' => $users[1]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
                                         'title' => $users[1]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
                                         'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -214,39 +214,39 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string)$users[0]->id,
+                        'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string)$users[0]->posts[0]->id,
+                                'id' => (string) $users[0]->posts[0]->id,
                                 'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
                                         'title' => $users[0]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string)$users[0]->posts[1]->id,
+                                'id' => (string) $users[0]->posts[1]->id,
                                 'title' => $users[0]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
                                         'title' => $users[0]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
                                         'title' => $users[0]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -254,39 +254,39 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string)$users[1]->id,
+                        'id' => (string) $users[1]->id,
                         'name' => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string)$users[1]->posts[0]->id,
+                                'id' => (string) $users[1]->posts[0]->id,
                                 'title' => $users[1]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
                                         'title' => $users[1]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string)$users[1]->posts[1]->id,
+                                'id' => (string) $users[1]->posts[1]->id,
                                 'title' => $users[1]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
                                         'title' => $users[1]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
                                         'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -352,39 +352,39 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string)$users[0]->id,
+                        'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string)$users[0]->posts[0]->id,
+                                'id' => (string) $users[0]->posts[0]->id,
                                 'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
                                         'title' => $users[0]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string)$users[0]->posts[1]->id,
+                                'id' => (string) $users[0]->posts[1]->id,
                                 'title' => $users[0]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
                                         'title' => $users[0]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
                                         'title' => $users[0]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -392,39 +392,39 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string)$users[1]->id,
+                        'id' => (string) $users[1]->id,
                         'name' => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string)$users[1]->posts[0]->id,
+                                'id' => (string) $users[1]->posts[0]->id,
                                 'title' => $users[1]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
                                         'title' => $users[1]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string)$users[1]->posts[1]->id,
+                                'id' => (string) $users[1]->posts[1]->id,
                                 'title' => $users[1]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
                                         'title' => $users[1]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
                                         'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -490,39 +490,39 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string)$users[0]->id,
+                        'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string)$users[0]->posts[0]->id,
+                                'id' => (string) $users[0]->posts[0]->id,
                                 'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
                                         'title' => $users[0]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string)$users[0]->posts[1]->id,
+                                'id' => (string) $users[0]->posts[1]->id,
                                 'title' => $users[0]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
                                         'title' => $users[0]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
                                         'title' => $users[0]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -530,39 +530,39 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string)$users[1]->id,
+                        'id' => (string) $users[1]->id,
                         'name' => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string)$users[1]->posts[0]->id,
+                                'id' => (string) $users[1]->posts[0]->id,
                                 'title' => $users[1]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
                                         'title' => $users[1]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string)$users[1]->posts[1]->id,
+                                'id' => (string) $users[1]->posts[1]->id,
                                 'title' => $users[1]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
                                         'title' => $users[1]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
                                         'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -644,39 +644,39 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string)$users[0]->id,
+                        'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string)$users[0]->posts[0]->id,
+                                'id' => (string) $users[0]->posts[0]->id,
                                 'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
                                         'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[0]->comments[1]->id,
                                         'title' => $users[0]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string)$users[0]->posts[1]->id,
+                                'id' => (string) $users[0]->posts[1]->id,
                                 'title' => $users[0]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
                                         'title' => $users[0]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[0]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
                                         'title' => $users[0]->posts[1]->comments[1]->title,
                                     ],
                                 ],
@@ -684,39 +684,39 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string)$users[1]->id,
+                        'id' => (string) $users[1]->id,
                         'name' => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string)$users[1]->posts[0]->id,
+                                'id' => (string) $users[1]->posts[0]->id,
                                 'title' => $users[1]->posts[0]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[0]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
                                         'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[0]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[0]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[0]->comments[1]->id,
                                         'title' => $users[1]->posts[0]->comments[1]->title,
                                     ],
                                 ],
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string)$users[1]->posts[1]->id,
+                                'id' => (string) $users[1]->posts[1]->id,
                                 'title' => $users[1]->posts[1]->title,
                                 'comments' => [
                                     [
                                         'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[0]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
                                         'title' => $users[1]->posts[1]->comments[0]->title,
                                     ],
                                     [
                                         'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string)$users[1]->posts[1]->comments[1]->id,
+                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
                                         'title' => $users[1]->posts[1]->comments[1]->title,
                                     ],
                                 ],
