@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Rebing\GraphQL\Tests\Support\Types;
 
@@ -24,6 +24,12 @@ class PostWithModelAndAliasType extends GraphQLType
             'description' => [
                 'type' => Type::nonNull(Type::string()),
                 'alias' => 'title',
+            ],
+            'commentCount' => [
+                'type' => Type::nonNull(Type::int()),
+                'alias' => function () {
+                    return 'SELECT count(*) FROM comments WHERE posts.id = comments.post_id';
+                },
             ],
         ];
     }
