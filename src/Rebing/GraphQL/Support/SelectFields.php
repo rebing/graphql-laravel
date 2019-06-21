@@ -6,18 +6,18 @@ namespace Rebing\GraphQL\Support;
 
 use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Facades\DB;
 
 class SelectFields
 {
@@ -296,7 +296,6 @@ class SelectFields
                 return DB::raw('(' . $alias() . ') AS ' . $key);
             }
         }
-        return null;
     }
 
     /**
