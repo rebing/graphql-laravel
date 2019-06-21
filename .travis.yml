@@ -9,6 +9,8 @@ cache:
 env:
   global:
     - CODE_COVERAGE=0
+    - INSTALL_LARAVEL=0
+    - INSTALL_LUMEN=0
     - STATIC_ANALYSER=0
 
 matrix:
@@ -36,7 +38,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.7.*'
     - php: '7.3'
-      env: LARAVEL='5.8.*' CODE_COVERAGE=1 STATIC_ANALYSER=1
+      env: LARAVEL='5.8.*' CODE_COVERAGE=1 STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
     - php: '7.4snapshot'
       env: LARAVEL='5.8.*'
 
@@ -53,6 +55,7 @@ script:
   - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
   - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
+  - if [[ $INSTALL_LARAVEL = 1 ]]; then export -f travis_retry ; tests/integration-larvavel.sh; fi
 
 after_success:
  - if [[ $CODE_COVERAGE = 1 ]]; then bash <(curl -s https://codecov.io/bash); fi
