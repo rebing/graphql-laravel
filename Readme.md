@@ -90,6 +90,13 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 config/graphql.php
 ```
 
+The default GraphiQL view makes use of the global `csrf_token()` helper function.
+Out of the box, this function is not available in Lumen.
+
+To work this around:
+- Point to your local GraphiQL view: change `graphql.view` to `'vendor/graphql/graphiql'`
+- Modify your file `resources/views/vendor/graphql/graphiql.php` and remove the call
+
 ## Usage
 
 - [Schemas](#schemas)
