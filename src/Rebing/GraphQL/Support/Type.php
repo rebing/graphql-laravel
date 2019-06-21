@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
@@ -40,7 +40,7 @@ class Type extends Fluent
             return $field['resolve'];
         }
 
-        $resolveMethod = 'resolve' . Str::studly($name) . 'Field';
+        $resolveMethod = 'resolve'.Str::studly($name).'Field';
 
         if (method_exists($this, $resolveMethod)) {
             $resolver = [$this, $resolveMethod];

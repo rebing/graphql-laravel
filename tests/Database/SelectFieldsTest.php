@@ -1,11 +1,12 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
@@ -20,7 +21,6 @@ use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQue
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
-use Rebing\GraphQL\Tests\Support\Models\Comment;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -332,7 +332,7 @@ SQL
                 'postWithSelectFieldsAndModelAndAlias' => [
                     'id' => '1',
                     'description' => 'Description of the post',
-                    'commentCount' => 2
+                    'commentCount' => 2,
                 ],
             ],
         ];
