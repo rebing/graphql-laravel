@@ -56,6 +56,7 @@ script:
   - if [[ $CODE_COVERAGE = 0 ]]; then vendor/bin/phpunit --colors=always --verbose; fi
   - if [[ $CODE_COVERAGE = 1 ]]; then phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml; fi
   - if [[ $INSTALL_LARAVEL = 1 ]]; then export -f travis_retry ; tests/integration-larvavel.sh; fi
+  - if [[ $INSTALL_LUMEN = 1 ]]; then export -f travis_retry ; tests/integration-lumen.sh; fi
 
 after_success:
  - if [[ $CODE_COVERAGE = 1 ]]; then bash <(curl -s https://codecov.io/bash); fi
