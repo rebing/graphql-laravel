@@ -47,8 +47,7 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-        $this->assertSqlQueries(
-            <<<'SQL'
+        $this->assertSqlQueries(<<<'SQL'
 select * from "posts" where "posts"."id" = ? limit 1;
 SQL
         );
@@ -87,8 +86,7 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-        $this->assertSqlQueries(
-            <<<'SQL'
+        $this->assertSqlQueries(<<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
 SQL
         );
@@ -404,8 +402,7 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-        $this->assertSqlQueries(
-            <<<'SQL'
+        $this->assertSqlQueries(<<<'SQL'
 select "id", "title" from "posts" where "posts"."id" = ? limit 1;
 SQL
         );
