@@ -10,8 +10,8 @@ use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Console\TypeMakeCommand;
 use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Console\QueryMakeCommand;
+use Illuminate\Contracts\Container\Container;
 use Rebing\GraphQL\Console\MutationMakeCommand;
-use Illuminate\Contracts\Foundation\Application;
 use GraphQL\Validator\Rules\DisableIntrospection;
 
 class GraphQLServiceProvider extends ServiceProvider
@@ -132,7 +132,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
     public function registerGraphQL(): void
     {
-        $this->app->singleton('graphql', function (Application $app): GraphQL {
+        $this->app->singleton('graphql', function (Container $app): GraphQL {
             $graphql = new GraphQL($app);
 
             $this->applySecurityRules();
