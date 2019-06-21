@@ -33,6 +33,8 @@ class DummyClass extends Query
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
-        return [];
+        return [
+            'The DummyQuery works',
+        ];
     }
 }
