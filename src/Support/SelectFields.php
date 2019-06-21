@@ -296,7 +296,7 @@ class SelectFields
     }
 
     /**
-     * Retrieves the SQL column alias expression
+     * Retrieves the SQL column alias expression.
      *
      * @param $fieldObject
      *
