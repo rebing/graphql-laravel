@@ -22,7 +22,7 @@ class ExampleValidationInputObject extends BaseType
         return Type::listOf(Type::string());
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'val' => [

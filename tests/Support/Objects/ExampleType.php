@@ -14,7 +14,7 @@ class ExampleType extends GraphQLType
         'description' => 'An example',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'test' => [

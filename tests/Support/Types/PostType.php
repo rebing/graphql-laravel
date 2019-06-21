@@ -13,7 +13,7 @@ class PostType extends GraphQLType
         'name' => 'Post',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

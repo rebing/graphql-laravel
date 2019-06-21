@@ -576,12 +576,9 @@ SQL
     }
 
     /**
-     * The test is expected to break and needs adaption once the referenced
-     * issue is fixed:
-     * - SQL queries
-     * - actual posts returned (only 1 post per user).
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
      *
-     * @see https://github.com/rebing/graphql-laravel/issues/314
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
      */
     public function testQuerySelectAndWithAndSubArgs(): void
     {
@@ -635,8 +632,8 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
-select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
-select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) order by "comments"."id" asc;
 SQL
         );
 
@@ -664,23 +661,6 @@ SQL
                                     ],
                                 ],
                             ],
-                            [
-                                'body' => $users[0]->posts[1]->body,
-                                'id' => (string) $users[0]->posts[1]->id,
-                                'title' => $users[0]->posts[1]->title,
-                                'comments' => [
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[0]->id,
-                                        'title' => $users[0]->posts[1]->comments[0]->title,
-                                    ],
-                                    [
-                                        'body' => $users[0]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[0]->posts[1]->comments[1]->id,
-                                        'title' => $users[0]->posts[1]->comments[1]->title,
-                                    ],
-                                ],
-                            ],
                         ],
                     ],
                     [
@@ -704,20 +684,119 @@ SQL
                                     ],
                                 ],
                             ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Created to show the bug for https://github.com/rebing/graphql-laravel/issues/314.
+     *
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/327
+     */
+    public function testQuerySelectAndWithAndNestedSubArgs(): void
+    {
+        /** @var User[] $users */
+        $users = factory(User::class, 2)
+            ->create()
+            ->each(function (User $user): void {
+                $post = factory(Post::class)
+                    ->create([
+                        'flag' => true,
+                        'user_id' => $user->id,
+                    ]);
+                factory(Comment::class)
+                    ->create([
+                        'flag' => true,
+                        'post_id' => $post->id,
+                    ]);
+                factory(Comment::class)
+                    ->create([
+                        'post_id' => $post->id,
+                    ]);
+
+                $post = factory(Post::class)
+                    ->create([
+                        'user_id' => $user->id,
+                    ]);
+                factory(Comment::class)
+                    ->create([
+                        'flag' => true,
+                        'post_id' => $post->id,
+                    ]);
+                factory(Comment::class)
+                    ->create([
+                        'post_id' => $post->id,
+                    ]);
+            });
+
+        $graphql = <<<'GRAQPHQL'
+{
+  users(select: true, with: true) {
+    id
+    name
+    posts(flag: true) {
+      body
+      id
+      title
+      comments(flag: true) {
+        body
+        id
+        title
+      }
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = GraphQL::query($graphql);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id", "users"."name" from "users" order by "users"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
+select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) and "comments"."flag" = ? order by "comments"."id" asc;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'users' => [
+                    [
+                        'id' => (string) $users[0]->id,
+                        'name' => $users[0]->name,
+                        'posts' => [
                             [
-                                'body' => $users[1]->posts[1]->body,
-                                'id' => (string) $users[1]->posts[1]->id,
-                                'title' => $users[1]->posts[1]->title,
+                                'body' => $users[0]->posts[0]->body,
+                                'id' => (string) $users[0]->posts[0]->id,
+                                'title' => $users[0]->posts[0]->title,
                                 'comments' => [
                                     [
-                                        'body' => $users[1]->posts[1]->comments[0]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[0]->id,
-                                        'title' => $users[1]->posts[1]->comments[0]->title,
+                                        'body' => $users[0]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[0]->posts[0]->comments[0]->id,
+                                        'title' => $users[0]->posts[0]->comments[0]->title,
                                     ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $users[1]->id,
+                        'name' => $users[1]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[1]->posts[0]->body,
+                                'id' => (string) $users[1]->posts[0]->id,
+                                'title' => $users[1]->posts[0]->title,
+                                'comments' => [
                                     [
-                                        'body' => $users[1]->posts[1]->comments[1]->body,
-                                        'id' => (string) $users[1]->posts[1]->comments[1]->id,
-                                        'title' => $users[1]->posts[1]->comments[1]->title,
+                                        'body' => $users[1]->posts[0]->comments[0]->body,
+                                        'id' => (string) $users[1]->posts[0]->comments[0]->id,
+                                        'title' => $users[1]->posts[0]->comments[0]->title,
                                     ],
                                 ],
                             ],

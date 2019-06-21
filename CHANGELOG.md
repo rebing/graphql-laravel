@@ -1,27 +1,48 @@
 CHANGELOG
 =========
 
-Next release
+[Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...master)
 ------------
 ## Breaking changes
+- Added PHP types / phpdoc to all methods / properties [\#331](https://github.com/rebing/graphql-laravel/pull/331)
+  - Changes in method signatures will require small adaptions.
 - Validation errors are moved from error.validation to error.extensions.validation as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)
 - SelectFields on interface types now only selects specific fields instead of all [\#294](https://github.com/rebing/graphql-laravel/pull/294)
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
-- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
-- Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
+- GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
 - Added declare(strict_types=1) directive to all files
-- This project has a changelog `\o/`
 - Internal
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
+- Updated GraphiQL to 0.13.0 (\#335)[https://github.com/rebing/graphql-laravel/pull/335]
+  - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
 - `ValidatorError`: remove setter and make it a constructor arg, add getter and rely on contracts
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
-- SelectFields now works with wrapped types (nonNull, listOf)
+- SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
+  - This also applies to privacy checks on fields, the callback now receives the field arguments too
+  - Previously the initial query arguments would be used everywhere
+
+### Removed
+- Unused static field `\Rebing\GraphQL\Support\Type::$instances`
+- Unused field `\Rebing\GraphQL\Support\Type::$unionType`
+
+2019-06-10, v1.23.0
+-------------------
+### Added
+- New config options `headers` to send custom HTTP headers and `json_encoding_options` for encoding the JSON response [\#293](https://github.com/rebing/graphql-laravel/pull/293)
+### Fixed
+- SelectFields now works with wrapped types (nonNull, listOf) [\#315](https://github.com/rebing/graphql-laravel/pull/315)
+
+2019-05-31, v1.22.0
+-------------------
+### Added
+- Auto-resolve aliased fields [\#283](https://github.com/rebing/graphql-laravel/pull/283)
+- This project has a changelog `\o/`
 
 2019-03-07, v1.21.2
 -------------------

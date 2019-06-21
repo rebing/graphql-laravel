@@ -15,19 +15,19 @@ class UpdateExampleMutationWithInputType extends Mutation
         'name' => 'updateExample',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('Example');
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'test' => ['required'],
         ];
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'test' => [

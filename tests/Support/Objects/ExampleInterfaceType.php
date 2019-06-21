@@ -20,7 +20,7 @@ class ExampleInterfaceType extends InterfaceType
         return Type::string();
     }
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'test' => [

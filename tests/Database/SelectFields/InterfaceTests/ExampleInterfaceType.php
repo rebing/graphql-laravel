@@ -14,7 +14,7 @@ class ExampleInterfaceType extends InterfaceType
         'name' => 'ExampleInterface',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'title' => [

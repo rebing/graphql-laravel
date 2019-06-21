@@ -17,7 +17,7 @@ class ExampleFilterInputType extends GraphQLType
         'description' => 'A nested filter input with self reference',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'AND' => [

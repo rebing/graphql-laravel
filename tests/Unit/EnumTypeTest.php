@@ -16,6 +16,7 @@ class EnumTypeTest extends TestCase
     public function testToType(): void
     {
         $type = new ExampleEnumType();
+        /** @var EnumType $objectType */
         $objectType = $type->toType();
 
         $this->assertInstanceOf(EnumType::class, $objectType);

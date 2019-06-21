@@ -26,7 +26,7 @@ use Auth;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         // true, if logged in
         return ! Auth::guest();
@@ -43,7 +43,7 @@ use Auth;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args)
+    public function authorize(array $args): bool
     {
         if (isset($args['id'])) {
             return Auth::id() == $args['id'];
@@ -67,7 +67,7 @@ class UserType extends GraphQLType
 {        
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -113,7 +113,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -175,12 +175,12 @@ class PictureField extends Field
         'description'   => 'A picture',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::string();
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'width' => [
@@ -224,7 +224,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
     
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -272,12 +272,12 @@ class UsersQuery extends Query
         'name' => 'Users query'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -328,7 +328,7 @@ class UserType extends GraphQLType
     /**
      * @return array
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'uuid' => [
@@ -365,7 +365,7 @@ class ProfileType extends GraphQLType
         'model'         => UserProfileModel::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'name' => [
@@ -386,7 +386,7 @@ class PostType extends GraphQLType
         'model'         => PostModel::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'title' => [
@@ -412,7 +412,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
 
@@ -440,7 +440,7 @@ Note that you have to manually handle the limit and page values:
 ```php
 class PostsQuery extends Query
 {
-    public function type()
+    public function type(): \GraphQL\Type\Definition\Type
     {
         return GraphQL::paginate('posts');
     }
@@ -643,7 +643,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class TestType extends GraphQLType
 {
-   public function fields()
+   public function fields(): array
    {
         return [
             'episode_type' => [
@@ -720,7 +720,7 @@ class CharacterInterface extends InterfaceType
         'description' => 'Character interface.',
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -766,7 +766,7 @@ class HumanType extends GraphQLType
         'description' => 'A human.'
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
@@ -785,7 +785,7 @@ class HumanType extends GraphQLType
         ];
     }
 
-    public function interfaces()
+    public function interfaces(): array
     {
         return [
             GraphQL::type('Character')
@@ -803,7 +803,7 @@ With this you could write the `fields` method of your `HumanType` class like thi
 
 
 ```php
-public function fields()
+public function fields(): array
 {
     $interface = GraphQL::type('Character');
 
@@ -823,7 +823,7 @@ public function fields()
 Or by using the `getFields` method:
 
 ```php
-public function fields()
+public function fields(): array
 {
     $interface = GraphQL::type('Character');
 
@@ -859,7 +859,7 @@ class ReviewInput extends GraphQLType
         'description' => 'A review with a comment and a score (0 to 5)'
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'comment' => [
@@ -893,7 +893,7 @@ Then use it in a mutation, like:
 // app/GraphQL/Type/TestMutation.php
 class TestMutation extends GraphQLType {
 
-   public function args()
+   public function args(): array
    {
         return [
             'review' => [
@@ -917,7 +917,7 @@ class UserType extends GraphQLType
 
     // ...
 
-    public function fields()
+    public function fields(): array
     {
         return [
             // ...
@@ -964,7 +964,7 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
