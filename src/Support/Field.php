@@ -16,7 +16,7 @@ use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
-class Field extends Fluent
+abstract class Field extends Fluent
 {
     /**
      * Override this in your queries or mutations
@@ -32,9 +32,7 @@ class Field extends Fluent
         return [];
     }
 
-    public function type(): GraphqlType
-    {
-    }
+    abstract public function type(): GraphqlType;
 
     /**
      * @return array<string,array>

@@ -15,7 +15,7 @@ class ExampleUnionType extends BaseUnionType
         'description' => 'An example union',
     ];
 
-    public function types()
+    public function types(): array
     {
         return [
             GraphQL::type('Example'),

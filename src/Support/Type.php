@@ -15,7 +15,7 @@ use GraphQL\Type\Definition\Type as GraphqlType;
 /**
  * @property string $name
  */
-class Type extends Fluent
+abstract class Type extends Fluent
 {
     /**
      * Set to `true` in your type when it should reflect an InputObject.
@@ -36,10 +36,7 @@ class Type extends Fluent
     /**
      * @return array<string,array|string|FieldDefinition>
      */
-    public function fields(): array
-    {
-        return [];
-    }
+    abstract public function fields(): array;
 
     public function interfaces(): array
     {

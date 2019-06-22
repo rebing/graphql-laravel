@@ -17,6 +17,7 @@ CHANGELOG
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
+- Made the following classes _abstract_: `Support\Field`, `Support\InterfceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 (\#335)[https://github.com/rebing/graphql-laravel/pull/335]
   - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
 - `ValidatorError`: remove setter and make it a constructor arg, add getter and rely on contracts

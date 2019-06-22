@@ -7,12 +7,12 @@ namespace Rebing\GraphQL\Support;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType as BaseUnionType;
 
-class UnionType extends Type
+abstract class UnionType extends Type
 {
-    public function types()
-    {
-        return [];
-    }
+    /**
+     * @return GraphqlType[]
+     */
+    abstract public function types(): array;
 
     /**
      * Get the attributes from the container.

@@ -8,7 +8,7 @@ use Closure;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
 
-class InterfaceType extends Type
+abstract class InterfaceType extends Type
 {
     protected function getTypeResolver(): ?Closure
     {
