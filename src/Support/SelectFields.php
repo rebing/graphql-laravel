@@ -10,6 +10,7 @@ use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Database\Query\Expression;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -319,13 +320,19 @@ class SelectFields
     }
 
     /**
-     * @param  string  $field
+     * @param  string|Expression  $field
      * @param  array  $select Passed by reference, adds further fields to select
      * @param  string|null  $parentTable
      * @param  bool  $forRelation
      */
-    protected static function addFieldToSelect(string $field, array &$select, ?string $parentTable, bool $forRelation): void
+    protected static function addFieldToSelect($field, array &$select, ?string $parentTable, bool $forRelation): void
     {
+        if ($field instanceof Expression) {
+            $select[] = $field;
+
+            return;
+        }
+
         if ($forRelation && ! array_key_exists($field, $select)) {
             $select[$field] = true;
         } elseif (! $forRelation && ! in_array($field, $select)) {

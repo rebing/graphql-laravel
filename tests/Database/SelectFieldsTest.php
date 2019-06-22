@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Database;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Types\PostType;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
@@ -280,6 +281,55 @@ SQL
                 'postWithSelectFieldsAndModelAndAlias' => [
                     'id' => '1',
                     'description' => 'Description of the post',
+                ],
+            ],
+        ];
+
+        $this->assertEquals($response->getStatusCode(), 200);
+        $this->assertEquals($expectedResult, $response->json());
+    }
+
+    public function testWithSelectFieldsAndModelAndCallbackSqlAlias(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Description of the post',
+        ]);
+
+        factory(Comment::class, 2)
+            ->create([
+                'post_id' => $post->id,
+            ]);
+
+        $graphql = <<<GRAQPHQL
+    {
+      postWithSelectFieldsAndModelAndAlias(id: $post->id) {
+        id
+        description
+        commentCount
+      }
+    }
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts.id = comments.post_id) AS commentCount from "posts" where "posts"."id" = ? limit 1;
+SQL
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $expectedResult = [
+            'data' => [
+                'postWithSelectFieldsAndModelAndAlias' => [
+                    'id' => '1',
+                    'description' => 'Description of the post',
+                    'commentCount' => 2,
                 ],
             ],
         ];

@@ -61,7 +61,7 @@ abstract class Type extends Fluent
             };
         }
 
-        if (isset($field['alias'])) {
+        if (isset($field['alias']) && is_string($field['alias'])) {
             $alias = $field['alias'];
 
             return function ($type) use ($alias) {

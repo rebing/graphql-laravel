@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Types;
 
+use DB;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -24,6 +25,10 @@ class PostWithModelAndAliasType extends GraphQLType
             'description' => [
                 'type' => Type::nonNull(Type::string()),
                 'alias' => 'title',
+            ],
+            'commentCount' => [
+                'type' => Type::nonNull(Type::int()),
+                'alias' => DB::raw('(SELECT count(*) FROM comments WHERE posts.id = comments.post_id) AS commentCount'),
             ],
         ];
     }
