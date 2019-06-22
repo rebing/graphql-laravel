@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DummyNamespace;
 
+use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
