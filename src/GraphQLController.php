@@ -21,8 +21,11 @@ class GraphQLController extends Controller
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
 
-        if (Helpers::isLumen() && $request->request->count() > 1) {
-            $schema = implode('/', $request->request->all());
+        if (Helpers::isLumen()) {
+            $route = $request->route();
+            if (isset($route[2]) && count($route[2]) > 1) {
+                $schema = implode('/', $route[2]);
+            }
         } elseif (! Helpers::isLumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
             $schema = implode('/', $request->route()->parameters);
         }
