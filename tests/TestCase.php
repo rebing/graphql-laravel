@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests;
 
 use Error;
 use GraphQL\Type\Schema;
+use Illuminate\Console\Command;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use PHPUnit\Framework\Constraint\IsType;
@@ -14,6 +15,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\FieldDefinition;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
@@ -141,5 +143,31 @@ class TestCase extends BaseTestCase
             new IsType(IsType::TYPE_ARRAY),
             $arguments[1] ?? ''
         );
+    }
+
+    /**
+     * The `CommandTester` is directly returned, use methods like
+     * `->getDisplay()` or `->getStatusCode()` on it.
+     *
+     * @param Command $command
+     * @param array $arguments The command line arguments, array of key=>value
+     *   Examples:
+     *   - named  arguments: ['model' => 'Post']
+     *   - boolean flags: ['--all' => true]
+     *   - arguments with values: ['--arg' => 'value']
+     * @param array $interactiveInput Interactive responses to the command
+     *   I.e. anything the command `->ask()` or `->confirm()`, etc.
+     * @return CommandTester
+     */
+    protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
+    {
+        $command->setLaravel($this->app);
+
+        $tester = new CommandTester($command);
+        $tester->setInputs($interactiveInput);
+
+        $tester->execute($arguments);
+
+        return $tester;
     }
 }
