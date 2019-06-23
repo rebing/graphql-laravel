@@ -7,16 +7,13 @@
 #
 # This script is meant to be run on Travis CI
 
-echo "Prevent shallow repository error"
-git fetch --unshallow
-
 echo "Install Lumen"
-travis_retry composer create-project --quiet --prefer-dist "laravel/lumen" lumen
-cd lumen
+travis_retry composer create-project --quiet --prefer-dist "laravel/lumen" ../lumen
+cd ../lumen
 
 echo "Add package from source"
-sed -e 's|"type": "project",|&\n"repositories": [ { "type": "vcs", "url": "../" } ],|' -i composer.json
-travis_retry composer require --dev "rebing/graphql-laravel:dev-master#${TRAVIS_COMMIT}"
+sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json
+travis_retry composer require --dev "rebing/graphql-laravel:*"
 
 echo "Install library"
 
