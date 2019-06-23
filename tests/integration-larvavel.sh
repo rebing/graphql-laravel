@@ -37,7 +37,7 @@ curl 'http://127.0.0.1:8001/graphql?query=%7BExampleQuery%7D' -sSfLv | grep 'The
 if [[ $? = 0 ]]; then
   echo "Example GraphQL query works 👍"
 else
-  echo "Example GraphQL query DID NOT work 👎"
+  echo "Example GraphQL query DID NOT work 🚨"
   curl 'http://127.0.0.1:8001/graphql?query=%7BExampleQuery%7D' -sSfLv
   cat storage/logs/*
   exit 1
@@ -49,7 +49,7 @@ curl 'http://127.0.0.1:8001/graphiql' -sSfLv | grep '<div id="graphiql">Loading.
 if [[ $? = 0 ]]; then
   echo "Can access GraphiQL 👍"
 else
-  echo "Cannot access GraphiQL 👎"
+  echo "Cannot access GraphiQL 🚨"
   curl 'http://127.0.0.1:8001/graphiql' -sSfLv
   cat storage/logs/*
   exit 1

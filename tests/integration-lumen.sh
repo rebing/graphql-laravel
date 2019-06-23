@@ -28,11 +28,15 @@ echo "Initialize configuration"
 sed -e 's|\$app->register(Rebing\\\GraphQL\\\GraphQLLumenServiceProvider::class);|$app->configure("graphql");\n&\n|' -i bootstrap/app.php
 
 
-echo "Make GraphQL ExampleQuery"
+echo "Make GraphQL queries"
 php artisan make:graphql:query ExampleQuery
+php artisan make:graphql:query ExampleMultiLevelQuery
 
 echo "Add ExampleQuery to config"
 sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Query\\\ExampleQuery::class,|" -i config/graphql.php
+
+echo "Add ExampleMultiLevelQuery in a multi path level schema to the config"
+sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Query\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php
 
 echo "Use local copy of GraphiQL view"
 sed -e "s|'view'       => 'graphql::graphiql'|'view'       => 'vendor/graphql/graphiql'|" -i config/graphql.php
@@ -48,13 +52,14 @@ echo "Send GraphQL HTTP request to fetch ExampleQuery"
 curl 'http://127.0.0.1:8002/graphql?query=%7BExampleQuery%7D' -sSfLv | grep 'The ExampleQuery works'
 
 if [[ $? = 0 ]]; then
-  echo "Example GraphQL query works 👍"
+  echo "GraphQL ExampleQuery works 👍"
 else
-  echo "Example GraphQL query DID NOT work 👎"
+  echo "GraphQL ExampleQuery DID NOT work 🚨"
   curl 'http://127.0.0.1:8002/graphql?query=%7BExampleQuery%7D' -sSfLv
   cat storage/logs/*
   exit 1
 fi
+
 
 echo "Test accessing GraphiQL"
 curl 'http://127.0.0.1:8002/graphiql' -sSfLv | grep '<div id="graphiql">Loading...</div>'
@@ -62,8 +67,22 @@ curl 'http://127.0.0.1:8002/graphiql' -sSfLv | grep '<div id="graphiql">Loading.
 if [[ $? = 0 ]]; then
   echo "Can access GraphiQL 👍"
 else
-  echo "Cannot access GraphiQL 👎"
+  echo "Cannot access GraphiQL 🚨"
   curl 'http://127.0.0.1:8002/graphiql' -sSfLv
   cat storage/logs/*
   exit 1
 fi
+
+
+echo "Send GraphQL HTTP request to fetch ExampleMultiLevelQuery"
+curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BExampleMultiLevelQuery%7D' -sSfLv | grep 'The ExampleMultiLevelQuery works'
+
+if [[ $? = 0 ]]; then
+  echo "GraphQL ExampleMultiLevelQuery works 👍"
+else
+  echo "GraphQL ExampleMultiLevelQuery DID NOT work 🚨"
+  curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BExampleMultiLevelQuery%7D' -sSfLv
+  cat storage/logs/*
+  exit 1
+fi
+
