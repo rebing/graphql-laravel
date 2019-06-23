@@ -23,6 +23,7 @@ CHANGELOG
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
+- Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
   - This also applies to privacy checks on fields, the callback now receives the field arguments too
   - Previously the initial query arguments would be used everywhere
