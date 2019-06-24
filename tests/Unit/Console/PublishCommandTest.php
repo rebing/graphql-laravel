@@ -58,7 +58,6 @@ class PublishCommandTest extends TestCase
         $tester = $this->runCommand($command);
 
         $this->assertSame(0, $tester->getStatusCode());
-        dump($tester->getDisplay());
         $this->assertRegExp('|Copied File.*/config/config.php.* To|', $tester->getDisplay());
         $this->assertRegExp('|Copied File.*/resources/views/graphiql.php.* To|', $tester->getDisplay());
     }
