@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...v1)
 ------------
+### Changed
+- Prefix named GraphiQL routes with `graphql.` for compatibility with Folklore [\#360](https://github.com/rebing/graphql-laravel/pull/360)
 
 2019-06-10, v1.23.0
 -------------------
