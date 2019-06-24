@@ -797,8 +797,8 @@ return [
 
 ### Eager loading relationships
 
-The third argument passed to a query's resolve method is an instance of
-`Rebing\GraphQL\Support\SelectFields` which you can use to retrieve keys
+The fifth argument passed to a query's resolve method is a Closure which returns
+an instance of `Rebing\GraphQL\Support\SelectFields` which you can use to retrieve keys
 from the request. The following is an example of using this information
 to eager load related Eloquent models.
 
@@ -837,10 +837,11 @@ return [
 ];
 }
 
-public function resolve($root, $args, SelectFields $fields, ResolveInfo $info)
+public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
 {
 // $info->getFieldSelection($depth = 3);
 
+$fields = $getSelectFields();
 $select = $fields->getSelect();
 $with = $fields->getRelations();
 
@@ -999,8 +1000,9 @@ return GraphQL::paginate('posts');
 
 // ...
 
-public function resolve($root, $args, SelectFields $fields)
+public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
 {
+$fields = $getSelectFields();
 return Post::with($fields->getRelations())->select($fields->getSelect())
 ->paginate($args['limit'], ['*'], 'page', $args['page']);
 }
