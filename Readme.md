@@ -1462,7 +1462,7 @@ class TestMutation extends GraphQLType {
 
 When using JSON columns in your database, the field won't be defined as a "relationship",
 but rather a simple column with nested data. To get a nested object that's not a database relationship,
-use the `non_relation_field` attribute in your Type:
+use the `is_relation` attribute in your Type:
 
 ```php
 class UserType extends GraphQLType
