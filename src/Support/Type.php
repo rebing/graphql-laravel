@@ -36,7 +36,10 @@ abstract class Type extends Fluent
     /**
      * @return array<string,array|string|FieldDefinition>
      */
-    abstract public function fields(): array;
+    public function fields(): array
+    {
+        return [];
+    }
 
     public function interfaces(): array
     {
