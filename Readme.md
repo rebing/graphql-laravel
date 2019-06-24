@@ -161,9 +161,7 @@ First you need to create a type. The Eloquent Model is only required, if specify
 namespace App\GraphQL\Type;
 
 use App\User;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
@@ -226,12 +224,12 @@ Then you need to define a query that returns this type (or a list). You can also
 
 namespace App\GraphQL\Query;
 
+use Closure;
 use App\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 
 class UsersQuery extends Query
 {
@@ -307,11 +305,11 @@ For example, a mutation to update the password of a user. First you need to defi
 
 namespace App\GraphQL\Mutation;
 
+use CLosure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Mutation;
 
 class UpdateUserPasswordMutation extends Mutation
@@ -390,11 +388,11 @@ When creating a mutation, you can add a method to define the validation rules th
 
 namespace App\GraphQL\Mutation;
 
+use Closure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Mutation;
 
 class UpdateUserEmailMutation extends Mutation
@@ -442,9 +440,9 @@ class UpdateUserEmailMutation extends Mutation
 Alternatively, you can define rules on each argument:
 
 ```php
+<?php
 class UpdateUserEmailMutation extends Mutation
 {
-
     //...
 
     public function args(): array
@@ -464,7 +462,6 @@ class UpdateUserEmailMutation extends Mutation
     }
 
     //...
-
 }
 ```
 
@@ -528,12 +525,14 @@ so you have to upload them as multipart form:
 ```php
 <?php
 
+namespace App\GraphQL\Mutation;
+
+use Closure;
 use GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Support\Mutation;
-use Rebing\GraphQL\Support\SelectFields;
 
 class UserProfilePhotoMutation extends Mutation
 {
@@ -543,7 +542,7 @@ class UserProfilePhotoMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type('user');
+        return GraphQL::type('User');
     }
 
     public function args(): array
@@ -1119,13 +1118,13 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class TestType extends GraphQLType
 {
-   public function fields(): array
-   {
+    public function fields(): array
+    {
         return [
             'episode_type' => [
                 'type' => GraphQL::type('EpisodeEnum')
             ]
-        ]
+        ];
     }
 }
 ```
