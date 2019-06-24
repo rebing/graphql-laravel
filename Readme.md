@@ -61,7 +61,7 @@ $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```
 
 **3.** Review the configuration file
-```
+```php
 config/graphql.php
 ```
 
@@ -86,7 +86,7 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 ```
 
 **4.** Review the configuration file
-```
+```php
 config/graphql.php
 ```
 
@@ -282,7 +282,7 @@ Add the query to the `config/graphql.php` configuration file
 
 And that's it. You should be able to query GraphQL with a request to the url `/graphql` (or anything you choose in your config). Try a GET request with the following `query` input
 
-```
+```graphql
 query FetchUsers {
     users {
         id
@@ -365,7 +365,7 @@ You should then add the mutation to the `config/graphql.php` configuration file:
 
 You should then be able to use the following query on your endpoint to do the mutation:
 
-```
+```graphql
 mutation users {
     updateUserPassword(id: "1", password: "newpassword") {
         id
@@ -441,7 +441,7 @@ class UpdateUserEmailMutation extends Mutation
 
 Alternatively, you can define rules on each argument:
 
-```php	
+```php
 class UpdateUserEmailMutation extends Mutation
 {
 
@@ -578,13 +578,13 @@ use Auth;
 
 class UsersQuery extends Query
 {
-public function authorize(array $args): bool
-{
-// true, if logged in
-return ! Auth::guest();
-}
+    public function authorize(array $args): bool
+    {
+        // true, if logged in
+        return ! Auth::guest();
+    }
 
-// ...
+    // ...
 }
 ```
 
@@ -595,16 +595,16 @@ use Auth;
 
 class UsersQuery extends Query
 {
-public function authorize(array $args): bool
-{
-if (isset($args['id'])) {
-return Auth::id() == $args['id'];
-}
+    public function authorize(array $args): bool
+    {
+        if (isset($args['id'])) {
+            return Auth::id() == $args['id'];
+        }
 
-return true;
-}
+        return true;
+    }
 
-// ...
+    // ...
 }
 ```
 
@@ -617,27 +617,26 @@ only be accessible to themselves:
 ```php
 class UserType extends GraphQLType
 {
-// ...
+    // ...
 
-public function fields(): array
-{
-return [
-'id' => [
-'type'          => Type::nonNull(Type::string()),
-'description'   => 'The id of the user'
-],
-'email' => [
-'type'          => Type::string(),
-'description'   => 'The email of user',
-'privacy'       => function(array $args)
-{
-return $args['id'] == Auth::id();
-}
-]
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type'          => Type::nonNull(Type::string()),
+                'description'   => 'The id of the user'
+            ],
+            'email' => [
+                'type'          => Type::string(),
+                'description'   => 'The email of user',
+                'privacy'       => function(array $args) {
+                    return $args['id'] == Auth::id();
+                }
+            ]
+        ];
+    }
 
-// ...
+    // ...
 
 }
 ```
@@ -650,10 +649,10 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-public function validate(array $args)
-{
-return $args['id'] == Auth::id();
-}
+    public function validate(array $args)
+    {
+        return $args['id'] == Auth::id();
+    }
 }
 ```
 
@@ -663,24 +662,24 @@ use MePrivacy;
 class UserType extends GraphQLType
 {
 
-// ...
+    // ...
 
-public function fields(): array
-{
-return [
-'id' => [
-'type'          => Type::nonNull(Type::string()),
-'description'   => 'The id of the user'
-],
-'email' => [
-'type'          => Type::string(),
-'description'   => 'The email of user',
-'privacy'       => MePrivacy::class,
-]
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type'          => Type::nonNull(Type::string()),
+                'description'   => 'The id of the user'
+            ],
+            'email' => [
+                'type'          => Type::string(),
+                'description'   => 'The email of user',
+                'privacy'       => MePrivacy::class,
+            ]
+        ];
+    }
 
-// ...
+    // ...
 
 }
 ```
@@ -689,13 +688,13 @@ return [
 
 GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:
 
-```
+```graphql
 query FetchUserByID($id: String)
 {
-user(id: $id) {
-id
-email
-}
+    user(id: $id) {
+        id
+        email
+    }
 }
 ```
 
@@ -717,7 +716,7 @@ You can also define a field as a class if you want to reuse it in multiple types
 <?php
 
 namespace App\GraphQL\Fields;
-	
+
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
@@ -725,34 +724,34 @@ class PictureField extends Field
 {        
     protected $attributes = [
         'description'   => 'A picture',
-];
+    ];
 
-public function type(): Type
-{
-return Type::string();
-}
+    public function type(): Type
+    {
+        return Type::string();
+    }
 
-public function args(): array
-{
-return [
-'width' => [
-'type' => Type::int(),
-'description' => 'The width of the picture'
-],
-'height' => [
-'type' => Type::int(),
-'description' => 'The height of the picture'
-]
-];
-}
+    public function args(): array
+    {
+        return [
+            'width' => [
+                'type' => Type::int(),
+                'description' => 'The width of the picture'
+            ],
+            'height' => [
+                'type' => Type::int(),
+                'description' => 'The height of the picture'
+            ]
+        ];
+    }
 
-protected function resolve($root, $args)
-{
-$width = isset($args['width']) ? $args['width']:100;
-$height = isset($args['height']) ? $args['height']:100;
+    protected function resolve($root, $args)
+    {
+        $width = isset($args['width']) ? $args['width']:100;
+        $height = isset($args['height']) ? $args['height']:100;
 
-return 'http://placehold.it/'.$width.'x'.$height;
-}
+        return 'http://placehold.it/'.$width.'x'.$height;
+    }
 }
 ```
 
@@ -772,25 +771,25 @@ class UserType extends GraphQLType
 {
     protected $attributes = [
         'name'          => 'User',
-'description'   => 'A user',
-'model'         => User::class,
-];
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
 
-public function fields(): array
-{
-return [
-'id' => [
-'type' => Type::nonNull(Type::string()),
-'description' => 'The id of the user'
-],
-'email' => [
-'type' => Type::string(),
-'description' => 'The email of user'
-],
-//Instead of passing an array, you pass a class path to your custom field
-'picture' => PictureField::class
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user'
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user'
+            ],
+            //Instead of passing an array, you pass a class path to your custom field
+            'picture' => PictureField::class
+        ];
+    }
 }
 
 ```
@@ -822,33 +821,33 @@ class UsersQuery extends Query
 {
     protected $attributes = [
         'name' => 'Users query'
-];
+    ];
 
-public function type(): Type
-{
-return Type::listOf(GraphQL::type('user'));
-}
+    public function type(): Type
+    {
+        return Type::listOf(GraphQL::type('user'));
+    }
 
-public function args(): array
-{
-return [
-'id' => ['name' => 'id', 'type' => Type::string()],
-'email' => ['name' => 'email', 'type' => Type::string()]
-];
-}
+    public function args(): array
+    {
+        return [
+            'id' => ['name' => 'id', 'type' => Type::string()],
+            'email' => ['name' => 'email', 'type' => Type::string()]
+        ];
+    }
 
-public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
-{
-// $info->getFieldSelection($depth = 3);
+    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    {
+        // $info->getFieldSelection($depth = 3);
 
-$fields = $getSelectFields();
-$select = $fields->getSelect();
-$with = $fields->getRelations();
+        $fields = $getSelectFields();
+        $select = $fields->getSelect();
+        $with = $fields->getRelations();
 
-$users = User::select($select)->with($with);
+        $users = User::select($select)->with($with);
 
-return $users->get();
-}
+        return $users->get();
+    }
 }
 ```
 
@@ -874,36 +873,36 @@ class UserType extends GraphQLType
      */
     protected $attributes = [
         'name'          => 'User',
-'description'   => 'A user',
-'model'         => User::class,
-];
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
 
-/**
-* @return array
-*/
-public function fields(): array
-{
-return [
-'uuid' => [
-'type' => Type::nonNull(Type::string()),
-'description' => 'The uuid of the user'
-],
-'email' => [
-'type' => Type::nonNull(Type::string()),
-'description' => 'The email of user'
-],
-'profile' => [
-'type' => GraphQL::type('Profile'),
-'description' => 'The user profile',
-],
-'posts' => [
-'type' => Type::listOf(GraphQL::type('Post')),
-'description' => 'The user posts',
-// Can also be defined as a string
-'always' => ['title', 'body'],
-]
-];
-}
+    /**
+    * @return array
+    */
+    public function fields(): array
+    {
+        return [
+            'uuid' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The uuid of the user'
+            ],
+            'email' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The email of user'
+            ],
+            'profile' => [
+                'type' => GraphQL::type('Profile'),
+                'description' => 'The user profile',
+            ],
+            'posts' => [
+                'type' => Type::listOf(GraphQL::type('Post')),
+                'description' => 'The user posts',
+                // Can also be defined as a string
+                'always' => ['title', 'body'],
+            ]
+        ];
+    }
 }
 ```
 
@@ -912,46 +911,46 @@ At this point we have a profile and a post type as expected for any model
 ```php
 class ProfileType extends GraphQLType
 {
-protected $attributes = [
-'name'          => 'Profile',
-'description'   => 'A user profile',
-'model'         => UserProfileModel::class,
-];
+    protected $attributes = [
+        'name'          => 'Profile',
+        'description'   => 'A user profile',
+        'model'         => UserProfileModel::class,
+    ];
 
-public function fields(): array
-{
-return [
-'name' => [
-'type' => Type::string(),
-'description' => 'The name of user'
-]
-];
-}
+    public function fields(): array
+    {
+        return [
+            'name' => [
+                'type' => Type::string(),
+                'description' => 'The name of user'
+            ]
+        ];
+    }
 }
 ```
 
 ```php
 class PostType extends GraphQLType
 {
-protected $attributes = [
-'name'          => 'Post',
-'description'   => 'A post',
-'model'         => PostModel::class,
-];
+    protected $attributes = [
+        'name'          => 'Post',
+        'description'   => 'A post',
+        'model'         => PostModel::class,
+    ];
 
-public function fields(): array
-{
-return [
-'title' => [
-'type' => Type::nonNull(Type::string()),
-'description' => 'The title of the post'
-],
-'body' => [
-'type' => Type::string(),
-'description' => 'The body the post'
-]
-];
-}
+    public function fields(): array
+    {
+        return [
+            'title' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The title of the post'
+            ],
+            'body' => [
+                'type' => Type::string(),
+                'description' => 'The body the post'
+            ]
+        ];
+    }
 }
 ```
 
@@ -963,25 +962,24 @@ You can also specify the `query` that will be included with a relationship via E
 class UserType extends GraphQLType
 {
 
-// ...
+    // ...
 
-public function fields(): array
-{
-return [
+    public function fields(): array
+    {
+        return [
+            // ...
 
-// ...
-
-// Relation
-'posts' => [
-'type'          => Type::listOf(GraphQL::type('post')),
-'description'   => 'A list of posts written by the user',
-// The first args are the parameters passed to the query
-'query'         => function(array $args, $query) {
-return $query->where('posts.created_at', '>', $args['date_from']);
-}
-]
-];
-}
+            // Relation
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // The first args are the parameters passed to the query
+                'query'         => function(array $args, $query) {
+                    return $query->where('posts.created_at', '>', $args['date_from']);
+                }
+            ]
+        ];
+    }
 }
 ```
 
@@ -993,19 +991,21 @@ Note that you have to manually handle the limit and page values:
 ```php
 class PostsQuery extends Query
 {
-public function type(): \GraphQL\Type\Definition\Type
-{
-return GraphQL::paginate('posts');
-}
+    public function type(): \GraphQL\Type\Definition\Type
+    {
+        return GraphQL::paginate('posts');
+    }
 
-// ...
+    // ...
 
-public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
-{
-$fields = $getSelectFields();
-return Post::with($fields->getRelations())->select($fields->getSelect())
-->paginate($args['limit'], ['*'], 'page', $args['page']);
-}
+    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    {
+        $fields = $getSelectFields();
+        return Post
+            ::with($fields->getRelations())
+            ->select($fields->getSelect())
+            ->paginate($args['limit'], ['*'], 'page', $args['page']);
+    }
 }
 ```
 
@@ -1013,17 +1013,17 @@ Query `posts(limit:10,page:1){data{id},total,per_page}` might return
 
 ```
 {
-"data": {
-"posts: [
-"data": [
-{"id": 3},
-{"id": 5},
-...
-],
-"total": 21,
-"per_page": 10
-]
-}
+    "data": {
+        "posts: [
+            "data": [
+                {"id": 3},
+                {"id": 5},
+                ...
+            ],
+            "total": 21,
+            "per_page": 10
+        ]
+    }
 }
 ```
 
@@ -1043,29 +1043,29 @@ use GraphQL\Type\Definition\Type as GraphQLType;
 
 class MyCustomPaginationFields
 {
-public static function getPaginationFields()
-{
-return [
-// Pass through a User object that we can use to calculate the totals
-'totals_for_user' => [
-'type'          => \GraphQL::type('total'),
-'description'   => 'Total posts, comments and likes for the result set',
-'resolve'       => function () {
-return app()->make('App\User');
-},
-'selectable'    => false,
-],
-// Add in the 'last page' value from the Laravel Paginator
-'last_page' => [
-'type'          => GraphQLType::nonNull(GraphQLType::int()),
-'description'   => 'Last page of the result set',
-'resolve'       => function (LengthAwarePaginator $data) {
-return $data->lastPage();
-},
-'selectable'    => false,
-],
-];
-}
+    public static function getPaginationFields()
+    {
+        return [
+            // Pass through a User object that we can use to calculate the totals
+            'totals_for_user' => [
+                'type'          => \GraphQL::type('total'),
+                'description'   => 'Total posts, comments and likes for the result set',
+                'resolve'       => function () {
+                    return app()->make('App\User');
+                },
+                'selectable'    => false,
+            ],
+            // Add in the 'last page' value from the Laravel Paginator
+            'last_page' => [
+                'type'          => GraphQLType::nonNull(GraphQLType::int()),
+                'description'   => 'Last page of the result set',
+                'resolve'       => function (LengthAwarePaginator $data) {
+                    return $data->lastPage();
+                },
+                'selectable'    => false,
+            ],
+        ];
+    }
 }
 ```
 
@@ -1073,7 +1073,7 @@ Then add a config entry to map this class:
 
 ```php
 'custom_paginators' => [
-'post_pagination' => \Namespace\Of\The\MyCustomPaginationFields::class,
+    'post_pagination' => \Namespace\Of\The\MyCustomPaginationFields::class,
 ],
 ```
 You can now query against the new fields in the same way as for the core pagination metadata. We could now extend the example
@@ -1083,23 +1083,23 @@ Query: `posts(limit:10,page:1){data{id},totals_for_user,total,per_page,last_page
 
 ```
 {
-"data": {
-"posts: [
-"data": [
-{"id": 3},
-{"id": 5},
-...
-],
-"totals_for_user": [
-{"posts": 12},
-{"comments": 42},
-{"likes": 101}
-],
-"total": 21,
-"per_page": 10,
-"last_page": 3
-]
-}
+    "data": {
+        "posts: [
+            "data": [
+                {"id": 3},
+                {"id": 5},
+                ...
+            ],
+            "totals_for_user": [
+                {"posts": 12},
+                {"comments": 42},
+                {"likes": 101}
+            ],
+            "total": 21,
+            "per_page": 10,
+            "last_page": 3
+        ]
+    }
 }
 ```
 
@@ -1115,13 +1115,13 @@ You can send multiple queries (or mutations) at once by grouping them together. 
 ```
 POST
 {
-query: "query postsQuery { posts { id, comment, author_id } }"
+    query: "query postsQuery { posts { id, comment, author_id } }"
 }
 
 POST
 {
-query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
-variables: { "comment": "Hi there!" }
+    query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
+    variables: { "comment": "Hi there!" }
 }
 ```
 
@@ -1130,13 +1130,13 @@ you could batch it as one
 ```
 POST
 [
-{
-query: "query postsQuery { posts { id, comment, author_id } }"
-},
-{
-query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
-variables: { "comment": "Hi there!" }
-}
+    {
+        query: "query postsQuery { posts { id, comment, author_id } }"
+    },
+    {
+        query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
+        variables: { "comment": "Hi there!" }
+    }
 ]
 ```
 
@@ -1165,13 +1165,13 @@ class EpisodeEnum extends GraphQLType
 
     protected $attributes = [
         'name' => 'Episode',
-'description' => 'The types of demographic elements',
-'values' => [
-'NEWHOPE' => 'NEWHOPE',
-'EMPIRE' => 'EMPIRE',
-'JEDI' => 'JEDI',
-],
-];
+        'description' => 'The types of demographic elements',
+        'values' => [
+            'NEWHOPE' => 'NEWHOPE',
+            'EMPIRE' => 'EMPIRE',
+            'JEDI' => 'JEDI',
+        ],
+    ];
 }
 ```
 
@@ -1183,7 +1183,7 @@ Register the Enum in the `types` array of the `graphql.php` config file:
 
 ```php
 'types' => [
-'EpisodeEnum' => EpisodeEnum::class
+    'EpisodeEnum' => EpisodeEnum::class
 ];
 ```
 
@@ -1201,10 +1201,10 @@ class TestType extends GraphQLType
    {
         return [
             'episode_type' => [
-'type' => GraphQL::type('EpisodeEnum')
-]
-]
-}
+                'type' => GraphQL::type('EpisodeEnum')
+            ]
+        ]
+    }
 }
 ```
 
@@ -1230,24 +1230,24 @@ class SearchResultUnion extends UnionType
 {
     protected $attributes = [
         'name' => 'SearchResult',
-];
+    ];
 
-public function types()
-{
-return [
-GraphQL::type('Post'),
-GraphQL::type('Episode'),
-];
-}
+    public function types()
+    {
+        return [
+            GraphQL::type('Post'),
+            GraphQL::type('Episode'),
+        ];
+    }
 
-public function resolveType($value)
-{
-if ($value instanceof Post) {
-return GraphQL::type('Post');
-} elseif ($value instanceof Episode) {
-return GraphQL::type('Episode');
-}
-}
+    public function resolveType($value)
+    {
+        if ($value instanceof Post) {
+            return GraphQL::type('Post');
+        } elseif ($value instanceof Episode) {
+            return GraphQL::type('Episode');
+        }
+    }
 }
 
 ```
@@ -1271,34 +1271,34 @@ class CharacterInterface extends InterfaceType
 {
     protected $attributes = [
         'name' => 'Character',
-'description' => 'Character interface.',
-];
+        'description' => 'Character interface.',
+    ];
 
-public function fields(): array
-{
-return [
-'id' => [
-'type' => Type::nonNull(Type::int()),
-'description' => 'The id of the character.'
-],
-'name' => Type::string(),
-'appearsIn' => [
-'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
-'description' => 'A list of episodes in which the character has an appearance.'
-],
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the character.'
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the character has an appearance.'
+            ],
+        ];
+    }
 
-public function resolveType($root)
-{
-// Use the resolveType to resolve the Type which is implemented trough this interface
-$type = $root['type'];
-if ($type === 'human') {
-return GraphQL::type('Human');
-} elseif  ($type === 'droid') {
-return GraphQL::type('Droid');
-}
-}
+    public function resolveType($root)
+    {
+        // Use the resolveType to resolve the Type which is implemented trough this interface
+        $type = $root['type'];
+        if ($type === 'human') {
+            return GraphQL::type('Human');
+        } elseif  ($type === 'droid') {
+            return GraphQL::type('Droid');
+        }
+    }
 }
 ```
 
@@ -1317,34 +1317,34 @@ class HumanType extends GraphQLType
 {
     protected $attributes = [
         'name' => 'Human',
-'description' => 'A human.'
-];
+        'description' => 'A human.'
+    ];
 
-public function fields(): array
-{
-return [
-'id' => [
-'type' => Type::nonNull(Type::int()),
-'description' => 'The id of the human.',
-],
-'name' => Type::string(),
-'appearsIn' => [
-'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
-'description' => 'A list of episodes in which the human has an appearance.'
-],
-'totalCredits' => [
-'type' => Type::nonNull(Type::int()),
-'description' => 'The total amount of credits this human owns.'
-]
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the human.',
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the human has an appearance.'
+            ],
+            'totalCredits' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The total amount of credits this human owns.'
+            ]
+        ];
+    }
 
-public function interfaces(): array
-{
-return [
-GraphQL::type('Character')
-];
-}
+    public function interfaces(): array
+    {
+        return [
+            GraphQL::type('Character')
+        ];
+    }
 }
 ```
 
@@ -1359,18 +1359,18 @@ With this you could write the `fields` method of your `HumanType` class like thi
 ```php
 public function fields(): array
 {
-$interface = GraphQL::type('Character');
+    $interface = GraphQL::type('Character');
 
-return [
-$interface->getField('id'),
-$interface->getField('name'),
-$interface->getField('appearsIn'),
+    return [
+        $interface->getField('id'),
+        $interface->getField('name'),
+        $interface->getField('appearsIn'),
 
-'totalCredits' => [
-'type' => Type::nonNull(Type::int()),
-'description' => 'The total amount of credits this human owns.'
-]
-];
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ];
 }
 ```
 
@@ -1379,14 +1379,14 @@ Or by using the `getFields` method:
 ```php
 public function fields(): array
 {
-$interface = GraphQL::type('Character');
+    $interface = GraphQL::type('Character');
 
-return array_merge($interface->getFields(), [
-'totalCredits' => [
-'type' => Type::nonNull(Type::int()),
-'description' => 'The total amount of credits this human owns.'
-]
-]);
+    return array_merge($interface->getFields(), [
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ]);
 }
 ```
 
@@ -1410,35 +1410,34 @@ class ReviewInput extends GraphQLType
 
     protected $attributes = [
         'name' => 'ReviewInput',
-'description' => 'A review with a comment and a score (0 to 5)'
-];
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
 
-public function fields(): array
-{
-return [
-'comment' => [
-'name' => 'comment',
-'description' => 'A comment (250 max chars)',
-'type' => Type::string(),
-// You can define Laravel Validation here
-'rules' => ['max:250']
-],
-'score' => [
-'name' => 'score',
-'description' => 'A score (0 to 5)',
-'type' => Type::int(),
-'rules' => ['min:0', 'max:5']
-]
-];
+    public function fields(): array
+    {
+        return [
+            'comment' => [
+                'name' => 'comment',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+                // You can define Laravel Validation here
+                'rules' => ['max:250']
+            ],
+            'score' => [
+                'name' => 'score',
+                'description' => 'A score (0 to 5)',
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
 }
-}
-
 ```
 Register the Input Object in the `types` array of the `graphql.php` config file:
 
 ```php
 'types' => [
-'ReviewInput' => ReviewInput::class
+    'ReviewInput' => ReviewInput::class
 ];
 ```
 
@@ -1447,14 +1446,14 @@ Then use it in a mutation, like:
 // app/GraphQL/Type/TestMutation.php
 class TestMutation extends GraphQLType {
 
-public function args(): array
-{
-return [
-'review' => [
-'type' => GraphQL::type('ReviewInput')
-]
-]
-}
+    public function args(): array
+    {
+        return [
+            'review' => [
+                'type' => GraphQL::type('ReviewInput')
+            ]
+        ]
+    }
 
 }
 ```
@@ -1469,26 +1468,26 @@ use the `non_relation_field` attribute in your Type:
 class UserType extends GraphQLType
 {
 
-// ...
+    // ...
 
-public function fields(): array
-{
-return [
-// ...
+    public function fields(): array
+    {
+        return [
+            // ...
 
-// JSON column containing all posts made by this user
-'posts' => [
-'type'          => Type::listOf(GraphQL::type('post')),
-'description'   => 'A list of posts written by the user',
-// Now this will simply request the "posts" column, and it won't
-// query for all the underlying columns in the "post" object
-// The value defaults to true
-'is_relation' => false
-]
-];
-}
+            // JSON column containing all posts made by this user
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // Now this will simply request the "posts" column, and it won't
+                // query for all the underlying columns in the "post" object
+                // The value defaults to true
+                'is_relation' => false
+            ]
+        ];
+    }
 
-// ...
+    // ...
 }
 ```
 
@@ -1514,36 +1513,36 @@ class UserType extends GraphQLType
 {    
     protected $attributes = [
         'name'          => 'User',
-'description'   => 'A user',
-'model'         => User::class,
-];
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
 
-public function fields(): array
-{
-return [
-'id' => [
-'type' => Type::nonNull(Type::string()),
-'description' => 'The id of the user',
-],
-'email' => [
-'type' => Type::string(),
-'description' => 'The email of user',
-],
-'address' => [
-'type' => Type::string(),
-'description' => 'The address of user',
-'deprecationReason' => 'Deprecated due to address field split'
-],
-'address_line_1' => [
-'type' => Type::string(),
-'description' => 'The address line 1 of user',
-],
-'address_line_2' => [
-'type' => Type::string(),
-'description' => 'The address line 2 of user',
-],
-];
-}
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user',
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user',
+            ],
+            'address' => [
+                'type' => Type::string(),
+                'description' => 'The address of user',
+                'deprecationReason' => 'Deprecated due to address field split'
+            ],
+            'address_line_1' => [
+                'type' => Type::string(),
+                'description' => 'The address line 1 of user',
+            ],
+            'address_line_2' => [
+                'type' => Type::string(),
+                'description' => 'The address line 2 of user',
+            ],
+        ];
+    }
 }
 ```
 
