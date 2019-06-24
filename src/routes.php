@@ -159,7 +159,7 @@ if (config('graphql.graphiql.display', true)) {
         foreach (config('graphql.schemas') as $name => $schema) {
             $route = $router->get(
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
-                $graphiqlAction + ['as' => "graphiql.$name"]
+                $graphiqlAction + ['as' => "graphql.graphiql.$name"]
             );
             if (! Helpers::isLumen()) {
                 $route->where($name, $name);
@@ -167,14 +167,14 @@ if (config('graphql.graphiql.display', true)) {
 
             $route = $router->post(
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
-                $graphiqlAction + ['as' => "graphiql.$name.post"]
+                $graphiqlAction + ['as' => "graphql.graphiql.$name.post"]
             );
             if (! Helpers::isLumen()) {
                 $route->where($name, $name);
             }
         }
 
-        $router->get('/', $graphiqlAction + ['as' => 'graphiql']);
-        $router->post('/', $graphiqlAction + ['as' => 'graphiql.post']);
+        $router->get('/', $graphiqlAction + ['as' => 'graphql.graphiql']);
+        $router->post('/', $graphiqlAction + ['as' => 'graphql.graphiql.post']);
     });
 }
