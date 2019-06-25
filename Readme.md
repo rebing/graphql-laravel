@@ -120,6 +120,7 @@ To work this around:
 - [JSON Columns](#json-columns)
 - [Field deprecation](#field-deprecation)
 - [Default Field Resolver](#default-field-resolver)
+- [Migrating from Folklore](#migrating-from-folklore)
 
 ### Schemas
 
@@ -1499,3 +1500,57 @@ You can define any valid callable (static class method, closure, etc.) for it:
 ```
 
 The parameters received are your regular "resolve" function signature.
+
+## Guides
+
+### Migrating from Folklore
+https://github.com/folkloreinc/laravel-graphql, formerly also known as https://github.com/Folkloreatelier/laravel-graphql
+
+Both code bases are very similar and, depending on your level of customization, the migration may be very quick.
+
+Note: this migration is written with version 2.* of this library in mind.
+
+The following is not a bullet-proof list but should serve as a guide. It's not an error if you don't need to perform certain steps.
+
+**Make a backup before proceeding!**
+
+- `composer remove folklore/graphql`
+- if you've a custom ServiceProvider or did include it manually, remove it. The point is that the existing GraphQL code should not be triggered to run.
+- `composer require rebing/graphql-laravel`
+- Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings, graphiql)
+- Change namespace references:
+  - from `Folklore\`
+  - to `Rebing\`
+- The signature of the method fields changed:
+  - from `public function fields()`
+  - to `public function fields(): array`
+- The signature of the method toType changed:
+  - from `public function toType()`
+  - to `public function toType(): \GraphQL\Type\Definition\Type`
+- The signature of the method getFields changed:
+  - from `public function getFields()`
+  - to `public function getFields(): array`
+- The signature of the method interfaces changed:
+  - from `public function interfaces()`
+  - to `public function interfaces(): array`
+- The signature of the method types changed:
+  - from `public function types()`
+  - to `public function types(): array`
+- The signature of the method type changed:
+  - from `public function type()`
+  - to `public function type(): \GraphQL\Type\Definition\Type`
+- The signature of the method args changed:
+  - from `public function args()`
+  - to `public function args(): array`
+- The signature of the method queryContext changed:
+  - from `protected function queryContext($query, $variables, $schema)`
+  - to `protected function queryContext()`
+- The signature of the controller method query changed:
+  - from `function query($query, $variables = [], $opts = [])`
+  - to `function query(string $query, ?array $variables = [], array $opts = []): array`
+- The trait `ShouldValidate` does not exist anymore; the provided features are baked into `Field`
+- The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
+- If you're using custom Scalar types:
+  - the signature of the method parseLiteral changed (due to upgrade of the webonxy library):
+    - from `public function parseLiteral($ast)`
+    - to `public function parseLiteral($valueNode, ?array $variables = null)`
