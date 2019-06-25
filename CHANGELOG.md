@@ -37,6 +37,11 @@ CHANGELOG
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 
+2019-06-10, v1.24.0
+-------------------
+### Changed
+- Prefix named GraphiQL routes with `graphql.` for compatibility with Folklore [\#360](https://github.com/rebing/graphql-laravel/pull/360)
+
 2019-06-10, v1.23.0
 -------------------
 ### Added
