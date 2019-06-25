@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\InputType;
 
-class ExampleInputType extends GraphQLType
+class ExampleInputType extends InputType
 {
-    protected $inputObject = true;
-
     protected $attributes = [
         'name'        => 'ExampleInput',
         'description' => 'An example input',

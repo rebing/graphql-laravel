@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
 use GraphQL\Type\Definition\ListOfType;
-use Rebing\GraphQL\Support\Type as BaseType;
 
-class ExampleNestedValidationInputObject extends BaseType
+class ExampleNestedValidationInputObject extends InputType
 {
-    protected $inputObject = true;
-
     protected $attributes = [
         'name' => 'ExampleNestedValidationInputObject',
     ];

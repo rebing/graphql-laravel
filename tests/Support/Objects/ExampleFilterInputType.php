@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class ExampleFilterInputType extends GraphQLType
+class ExampleFilterInputType extends InputType
 {
-    protected $inputObject = true;
-
     protected $attributes = [
         'name'        => 'ExampleFilterInput',
         'description' => 'A nested filter input with self reference',

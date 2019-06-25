@@ -1323,12 +1323,10 @@ First create an InputObjectType as an extension of the GraphQLType class:
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\InputType;
 
-class ReviewInput extends GraphQLType
+class ReviewInput extends InputType
 {
-    protected $inputObject = true;
-
     protected $attributes = [
         'name' => 'ReviewInput',
         'description' => 'A review with a comment and a score (0 to 5)'

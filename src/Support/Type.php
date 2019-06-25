@@ -20,6 +20,8 @@ abstract class Type extends Fluent
     /**
      * Set to `true` in your type when it should reflect an InputObject.
      * @var bool
+     * @deprecated Use InputType instead
+     * @see InputType
      */
     protected $inputObject = false;
     /**
