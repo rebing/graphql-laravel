@@ -17,8 +17,8 @@ CHANGELOG
 - `InputType` support class which eventually replace `$inputObject=true` [\#363](https://github.com/rebing/graphql-laravel/pull/363)
 - Support `DB::raw()` in `alias` fields
 - GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
-- Added declare(strict_types=1) directive to all files
 - Internal
+  - Added declare(strict_types=1) directive to all files
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
