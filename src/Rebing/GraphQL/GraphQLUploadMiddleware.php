@@ -35,7 +35,7 @@ class GraphQLUploadMiddleware
     {
         $contentType = $request->header('content-type') ?: '';
 
-        if (mb_stripos($contentType, 'multipart/form-data') !== false) {
+        if (mb_stripos($contentType, 'multipart/form-data') !== false || count($request->allFiles())) {
             $this->validateParsedBody($request);
             $request = $this->parseUploadedFiles($request);
         }
