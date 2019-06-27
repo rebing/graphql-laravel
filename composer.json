@@ -28,26 +28,29 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.1",
+        "php": ">= 7.1",
+        "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*",
         "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
-        "webonyx/graphql-php": "^0.13"
+        "webonyx/graphql-php": "^0.13",
+        "ext-json": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "3.5.*|3.6.*|3.7.*",
-        "phpunit/phpunit": "^5.5|~6.0|~7.0"
+        "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*",
+        "phpunit/phpunit": "^5.5|~6.0|~7.0|~8.0",
+        "nunomaduro/larastan": "^0.3.17"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Rebing\\GraphQL\\": "src/"
-        },
-        "files": [
-            "src/Rebing/GraphQL/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Rebing\\GraphQL\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse"
     },
     "extra": {
         "laravel": {

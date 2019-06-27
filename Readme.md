@@ -1,12 +1,14 @@
 # Laravel GraphQL
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
-[![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/mfn/graphql-laravel)
+[![codecov](https://codecov.io/gh/rebing/graphql-laravel/branch/master/graph/badge.svg)](https://codecov.io/gh/rebing/graphql-laravel)
+[![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/rebing/graphql-laravel)
+[![Style CI](https://styleci.io/repos/68595316/shield)](https://styleci.io/repos/68595316)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
 
-Uses Facebook GraphQL with Laravel 5. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
+Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
 This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
@@ -27,7 +29,7 @@ It offers following features and improvements over the original package by
 
 #### Dependencies:
 
-* [Laravel 5.x](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
+* [Laravel 5.5+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
@@ -59,7 +61,7 @@ $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```
 
 **3.** Review the configuration file
-```
+```php
 config/graphql.php
 ```
 
@@ -72,7 +74,7 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 
 **2.** Publish the configuration file
 ```bash
-$ php artisan graphql:publish"
+$ php artisan graphql:publish
 ```
 
 **3.** Add the configuration to the `bootstrap/app.php` file
@@ -84,9 +86,16 @@ $app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
 ```
 
 **4.** Review the configuration file
-```
+```php
 config/graphql.php
 ```
+
+The default GraphiQL view makes use of the global `csrf_token()` helper function.
+Out of the box, this function is not available in Lumen.
+
+To work this around:
+- Point to your local GraphiQL view: change `graphql.view` to `'vendor/graphql/graphiql'`
+- Modify your file `resources/views/vendor/graphql/graphiql.php` and remove the call
 
 ## Usage
 
@@ -95,22 +104,21 @@ config/graphql.php
 - [Creating a mutation](#creating-a-mutation)
 - [Adding validation to mutation](#adding-validation-to-mutation)
 - [File uploads](#file-uploads)
-
-##### Advanced Usage
-
-- [Authorization](docs/advanced.md#authorization)
-- [Privacy](docs/advanced.md#privacy)
-- [Query variables](docs/advanced.md#query-variables)
-- [Custom field](docs/advanced.md#custom-field)
-- [Eager loading relationships](docs/advanced.md#eager-loading-relationships)
-- [Type relationship query](docs/advanced.md#type-relationship-query)
-- [Pagination](docs/advanced.md#pagination)
-- [Batching](docs/advanced.md#batching)
-- [Enums](docs/advanced.md#enums)
-- [Unions](docs/advanced.md#unions)
-- [Interfaces](docs/advanced.md#interfaces)
-- [Input Object](docs/advanced.md#input-object)
-- [JSON Columns](docs/advanced.md#json-columns)
+- [Authorization](#authorization)
+- [Privacy](#privacy)
+- [Query variables](#query-variables)
+- [Custom field](#custom-field)
+- [Eager loading relationships](#eager-loading-relationships)
+- [Type relationship query](#type-relationship-query)
+- [Pagination](#pagination)
+- [Batching](#batching)
+- [Enums](#enums)
+- [Unions](#unions)
+- [Interfaces](#interfaces)
+- [Input Object](#input-object)
+- [JSON Columns](#json-columns)
+- [Field deprecation](#field-deprecation)
+- [Default Field Resolver](#default-field-resolver)
 
 ### Schemas
 
@@ -164,13 +172,15 @@ class UserType extends GraphQLType
         'model'         => User::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [
                 'type' => Type::nonNull(Type::string()),
                 'description' => 'The id of the user',
-                'alias' => 'user_id', // Use 'alias', if the database column is different from the type name
+                // Use 'alias', if the database column is different from the type name.
+                // You can also use `DB::raw()` to solve more complex issues
+                'alias' => 'user_id',
             ],
             'email' => [
                 'type' => Type::string(),
@@ -214,8 +224,10 @@ Then you need to define a query that returns this type (or a list). You can also
 
 namespace App\GraphQL\Query;
 
+use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 
@@ -225,12 +237,12 @@ class UsersQuery extends Query
         'name' => 'Users query'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return Type::listOf(GraphQL::type('user'));
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -238,7 +250,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         if (isset($args['id'])) {
             return User::where('id' , $args['id'])->get();
@@ -268,7 +280,7 @@ Add the query to the `config/graphql.php` configuration file
 
 And that's it. You should be able to query GraphQL with a request to the url `/graphql` (or anything you choose in your config). Try a GET request with the following `query` input
 
-```
+```graphql
 query FetchUsers {
     users {
         id
@@ -293,10 +305,12 @@ For example, a mutation to update the password of a user. First you need to defi
 
 namespace App\GraphQL\Mutation;
 
+use CLosure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Mutation;    
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\Mutation;
 
 class UpdateUserPasswordMutation extends Mutation
 {
@@ -304,12 +318,12 @@ class UpdateUserPasswordMutation extends Mutation
         'name' => 'UpdateUserPassword'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::nonNull(Type::string())],
@@ -317,7 +331,7 @@ class UpdateUserPasswordMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         if(!$user) {
@@ -349,7 +363,7 @@ You should then add the mutation to the `config/graphql.php` configuration file:
 
 You should then be able to use the following query on your endpoint to do the mutation:
 
-```
+```graphql
 mutation users {
     updateUserPassword(id: "1", password: "newpassword") {
         id
@@ -374,8 +388,10 @@ When creating a mutation, you can add a method to define the validation rules th
 
 namespace App\GraphQL\Mutation;
 
+use Closure;
 use App\User;
 use GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 
@@ -385,12 +401,12 @@ class UpdateUserEmailMutation extends Mutation
         'name' => 'UpdateUserEmail'
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::string()],
@@ -398,7 +414,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function rules(array $args = [])
+    protected function rules(array $args = []): array
     {
         return [
             'id' => ['required'],
@@ -406,7 +422,7 @@ class UpdateUserEmailMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         if (!$user) {
@@ -423,13 +439,13 @@ class UpdateUserEmailMutation extends Mutation
 
 Alternatively, you can define rules on each argument:
 
-```php	
+```php
+<?php
 class UpdateUserEmailMutation extends Mutation
 {
-
     //...
 
-    public function args()
+    public function args(): array
     {
         return [
             'id' => [
@@ -446,7 +462,6 @@ class UpdateUserEmailMutation extends Mutation
     }
 
     //...
-
 }
 ```
 
@@ -485,7 +500,7 @@ argument doesn't conflict with any existing data, you could perform the followin
 > return specific errors per validation type.
 
 ````php
-public function validationErrorMessages ($args = []) 
+public function validationErrorMessages(array $args = []): array
 {
     return [
         'name.required' => 'Please enter your full name',
@@ -510,7 +525,11 @@ so you have to upload them as multipart form:
 ```php
 <?php
 
+namespace App\GraphQL\Mutation;
+
+use Closure;
 use GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Support\Mutation;
@@ -521,12 +540,12 @@ class UserProfilePhotoMutation extends Mutation
         'name' => 'UpdateUserProfilePhoto'
     ];
 
-    public function type()
+    public function type(): Type
     {
-        return GraphQL::type('user');
+        return GraphQL::type('User');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'profilePicture' => [
@@ -537,7 +556,7 @@ class UserProfilePhotoMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $file = $args['profilePicture'];
 
@@ -548,18 +567,913 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
-### Advanced usage
-- [Authorization](docs/advanced.md#authorization)
-- [Privacy](docs/advanced.md#privacy)
-- [Query variables](docs/advanced.md#query-variables)
-- [Custom field](docs/advanced.md#custom-field)
-- [Eager loading relationships](docs/advanced.md#eager-loading-relationships)
-- [Type relationship query](docs/advanced.md#type-relationship-query)
-- [Pagination](docs/advanced.md#pagination)
-- [Batching](docs/advanced.md#batching)
-- [Enums](docs/advanced.md#enums)
-- [Unions](docs/advanced.md#unions)
-- [Interfaces](docs/advanced.md#interfaces)
-- [Input Object](docs/advanced.md#input-object)
-- [JSON Columns](docs/advanced.md#json-columns)
-- [Field deprecation](docs/advanced.md#field-deprecation)
+### Authorization
+
+For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
+An example of Laravel's `'auth'` middleware:
+
+```php
+use Auth;
+
+class UsersQuery extends Query
+{
+    public function authorize(array $args): bool
+    {
+        // true, if logged in
+        return ! Auth::guest();
+    }
+
+    // ...
+}
+```
+
+Or we can make use of arguments passed via the GraphQL query:
+
+```php
+use Auth;
+
+class UsersQuery extends Query
+{
+    public function authorize(array $args): bool
+    {
+        if (isset($args['id'])) {
+            return Auth::id() == $args['id'];
+        }
+
+        return true;
+    }
+
+    // ...
+}
+```
+
+### Privacy
+
+You can set custom privacy attributes for every Type's Field. If a field is not
+allowed, `null` will be returned. For example, if you want the user's email to
+only be accessible to themselves:
+
+```php
+class UserType extends GraphQLType
+{
+    // ...
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type'          => Type::nonNull(Type::string()),
+                'description'   => 'The id of the user'
+            ],
+            'email' => [
+                'type'          => Type::string(),
+                'description'   => 'The email of user',
+                'privacy'       => function(array $args) {
+                    return $args['id'] == Auth::id();
+                }
+            ]
+        ];
+    }
+
+    // ...
+
+}
+```
+
+or you can create a class that extends the abstract GraphQL Privacy class:
+
+```php
+use Auth;
+use Rebing\GraphQL\Support\Privacy;
+
+class MePrivacy extends Privacy
+{
+    public function validate(array $args)
+    {
+        return $args['id'] == Auth::id();
+    }
+}
+```
+
+```php
+use MePrivacy;
+
+class UserType extends GraphQLType
+{
+
+    // ...
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type'          => Type::nonNull(Type::string()),
+                'description'   => 'The id of the user'
+            ],
+            'email' => [
+                'type'          => Type::string(),
+                'description'   => 'The email of user',
+                'privacy'       => MePrivacy::class,
+            ]
+        ];
+    }
+
+    // ...
+
+}
+```
+
+### Query Variables
+
+GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:
+
+```graphql
+query FetchUserByID($id: String)
+{
+    user(id: $id) {
+        id
+        email
+    }
+}
+```
+
+When you query the GraphQL endpoint, you can pass a `params` (or whatever you define in the config) parameter.
+
+```
+http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&params={"id":123}
+```
+
+Notice that your client side framework might use another parameter name than `params`.
+You can customize the parameter name to anything your client is using by adjusting
+the `params_key` in the `graphql.php` configuration file.
+
+### Custom field
+
+You can also define a field as a class if you want to reuse it in multiple types.
+
+```php
+<?php
+
+namespace App\GraphQL\Fields;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Field;
+
+class PictureField extends Field
+{        
+    protected $attributes = [
+        'description'   => 'A picture',
+    ];
+
+    public function type(): Type
+    {
+        return Type::string();
+    }
+
+    public function args(): array
+    {
+        return [
+            'width' => [
+                'type' => Type::int(),
+                'description' => 'The width of the picture'
+            ],
+            'height' => [
+                'type' => Type::int(),
+                'description' => 'The height of the picture'
+            ]
+        ];
+    }
+
+    protected function resolve($root, $args)
+    {
+        $width = isset($args['width']) ? $args['width']:100;
+        $height = isset($args['height']) ? $args['height']:100;
+
+        return 'http://placehold.it/'.$width.'x'.$height;
+    }
+}
+```
+
+You can then use it in your type declaration
+
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use App\GraphQL\Fields\PictureField;
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user'
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user'
+            ],
+            //Instead of passing an array, you pass a class path to your custom field
+            'picture' => PictureField::class
+        ];
+    }
+}
+
+```
+
+### Eager loading relationships
+
+The fifth argument passed to a query's resolve method is a Closure which returns
+an instance of `Rebing\GraphQL\Support\SelectFields` which you can use to retrieve keys
+from the request. The following is an example of using this information
+to eager load related Eloquent models.
+
+This way only the required fields will be queried from the database.
+
+Your Query would look like:
+
+```php
+<?php
+
+namespace App\GraphQL\Query;
+
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Query;
+
+class UsersQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'Users query'
+    ];
+
+    public function type(): Type
+    {
+        return Type::listOf(GraphQL::type('user'));
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => ['name' => 'id', 'type' => Type::string()],
+            'email' => ['name' => 'email', 'type' => Type::string()]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    {
+        // $info->getFieldSelection($depth = 3);
+
+        $fields = $getSelectFields();
+        $select = $fields->getSelect();
+        $with = $fields->getRelations();
+
+        $users = User::select($select)->with($with);
+
+        return $users->get();
+    }
+}
+```
+
+Your Type for User might look like shown below. The `profile` and `posts`
+relations must also exist in the UserModel's relations. If some fields are
+required for the relation to load or validation etc, then you can define an
+`always` attribute that will add the given attributes to select.
+
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    /**
+    * @return array
+    */
+    public function fields(): array
+    {
+        return [
+            'uuid' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The uuid of the user'
+            ],
+            'email' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The email of user'
+            ],
+            'profile' => [
+                'type' => GraphQL::type('Profile'),
+                'description' => 'The user profile',
+            ],
+            'posts' => [
+                'type' => Type::listOf(GraphQL::type('Post')),
+                'description' => 'The user posts',
+                // Can also be defined as a string
+                'always' => ['title', 'body'],
+            ]
+        ];
+    }
+}
+```
+
+At this point we have a profile and a post type as expected for any model
+
+```php
+class ProfileType extends GraphQLType
+{
+    protected $attributes = [
+        'name'          => 'Profile',
+        'description'   => 'A user profile',
+        'model'         => UserProfileModel::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'name' => [
+                'type' => Type::string(),
+                'description' => 'The name of user'
+            ]
+        ];
+    }
+}
+```
+
+```php
+class PostType extends GraphQLType
+{
+    protected $attributes = [
+        'name'          => 'Post',
+        'description'   => 'A post',
+        'model'         => PostModel::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'title' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The title of the post'
+            ],
+            'body' => [
+                'type' => Type::string(),
+                'description' => 'The body the post'
+            ]
+        ];
+    }
+}
+```
+
+### Type relationship query
+
+You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
+
+```php
+class UserType extends GraphQLType
+{
+
+    // ...
+
+    public function fields(): array
+    {
+        return [
+            // ...
+
+            // Relation
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // The first args are the parameters passed to the query
+                'query'         => function(array $args, $query) {
+                    return $query->where('posts.created_at', '>', $args['date_from']);
+                }
+            ]
+        ];
+    }
+}
+```
+
+### Pagination
+
+Pagination will be used, if a query or mutation returns a `PaginationType`.
+Note that you have to manually handle the limit and page values:
+
+```php
+class PostsQuery extends Query
+{
+    public function type(): \GraphQL\Type\Definition\Type
+    {
+        return GraphQL::paginate('posts');
+    }
+
+    // ...
+
+    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    {
+        $fields = $getSelectFields();
+        return Post
+            ::with($fields->getRelations())
+            ->select($fields->getSelect())
+            ->paginate($args['limit'], ['*'], 'page', $args['page']);
+    }
+}
+```
+
+Query `posts(limit:10,page:1){data{id},total,per_page}` might return
+
+```
+{
+    "data": {
+        "posts: [
+            "data": [
+                {"id": 3},
+                {"id": 5},
+                ...
+            ],
+            "total": 21,
+            "per_page": 10
+        ]
+    }
+}
+```
+
+Note that you need to add in the extra 'data' object when you request paginated resources as the returned data gives you
+the paginated resources in a data object at the same level as the returned pagination metadata.
+
+### Batching
+
+You can send multiple queries (or mutations) at once by grouping them together. Therefore, instead of creating two HTTP requests:
+
+```
+POST
+{
+    query: "query postsQuery { posts { id, comment, author_id } }"
+}
+
+POST
+{
+    query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
+    variables: { "comment": "Hi there!" }
+}
+```
+
+you could batch it as one
+
+```
+POST
+[
+    {
+        query: "query postsQuery { posts { id, comment, author_id } }"
+    },
+    {
+        query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
+        variables: { "comment": "Hi there!" }
+    }
+]
+```
+
+For systems sending multiple requests at once, this can really help performance by batching together queries that will be made
+within a certain interval of time.
+
+There are tools that help with this and can handle the batching for you, e.g [Apollo](http://www.apollodata.com/)
+
+
+### Enums
+
+Enumeration types are a special kind of scalar that is restricted to a particular set of allowed values.
+Read more about Enums [here](http://graphql.org/learn/schema/#enumeration-types)
+
+First create an Enum as an extension of the GraphQLType class:
+```php
+<?php
+
+namespace App\GraphQL\Enums;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class EpisodeEnum extends GraphQLType
+{
+    protected $enumObject = true;
+
+    protected $attributes = [
+        'name' => 'Episode',
+        'description' => 'The types of demographic elements',
+        'values' => [
+            'NEWHOPE' => 'NEWHOPE',
+            'EMPIRE' => 'EMPIRE',
+            'JEDI' => 'JEDI',
+        ],
+    ];
+}
+```
+
+> **Note:** within the `$attributes['values']` array the key is enum value the GraphQL client
+> will be able to choose from, while the value is what will your server receive (what will enum
+> be resolved to).
+
+Register the Enum in the `types` array of the `graphql.php` config file:
+
+```php
+'types' => [
+    'EpisodeEnum' => EpisodeEnum::class
+];
+```
+
+Then use it like:
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class TestType extends GraphQLType
+{
+    public function fields(): array
+    {
+        return [
+            'episode_type' => [
+                'type' => GraphQL::type('EpisodeEnum')
+            ]
+        ];
+    }
+}
+```
+
+
+### Unions
+
+A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
+
+It's useful if you need to return unrelated types in the same Query. For example when implementing a search for multiple different entities.
+
+Example for defining a UnionType:
+
+```php
+<?php
+
+namespace App\GraphQL\Unions;
+
+use App\Post;
+use GraphQL;
+use Rebing\GraphQL\Support\UnionType;
+
+class SearchResultUnion extends UnionType
+{
+    protected $attributes = [
+        'name' => 'SearchResult',
+    ];
+
+    public function types()
+    {
+        return [
+            GraphQL::type('Post'),
+            GraphQL::type('Episode'),
+        ];
+    }
+
+    public function resolveType($value)
+    {
+        if ($value instanceof Post) {
+            return GraphQL::type('Post');
+        } elseif ($value instanceof Episode) {
+            return GraphQL::type('Episode');
+        }
+    }
+}
+
+```
+
+### Interfaces
+
+You can use interfaces to abstract a set of fields. Read more about Interfaces [here](http://graphql.org/learn/schema/#interfaces)
+
+An implementation of an interface:
+
+```php
+<?php
+
+namespace App\GraphQL\Interfaces;
+
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InterfaceType;
+
+class CharacterInterface extends InterfaceType
+{
+    protected $attributes = [
+        'name' => 'Character',
+        'description' => 'Character interface.',
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the character.'
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the character has an appearance.'
+            ],
+        ];
+    }
+
+    public function resolveType($root)
+    {
+        // Use the resolveType to resolve the Type which is implemented trough this interface
+        $type = $root['type'];
+        if ($type === 'human') {
+            return GraphQL::type('Human');
+        } elseif  ($type === 'droid') {
+            return GraphQL::type('Droid');
+        }
+    }
+}
+```
+
+A Type that implements an interface:
+
+```php
+<?php
+
+namespace App\GraphQL\Types;
+
+use GraphQL;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+use GraphQL\Type\Definition\Type;
+
+class HumanType extends GraphQLType
+{
+    protected $attributes = [
+        'name' => 'Human',
+        'description' => 'A human.'
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the human.',
+            ],
+            'name' => Type::string(),
+            'appearsIn' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
+                'description' => 'A list of episodes in which the human has an appearance.'
+            ],
+            'totalCredits' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The total amount of credits this human owns.'
+            ]
+        ];
+    }
+
+    public function interfaces(): array
+    {
+        return [
+            GraphQL::type('Character')
+        ];
+    }
+}
+```
+
+#### Sharing Interface fields
+
+Since you often have to repeat many of the field definitons of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
+You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
+
+With this you could write the `fields` method of your `HumanType` class like this:
+
+
+```php
+public function fields(): array
+{
+    $interface = GraphQL::type('Character');
+
+    return [
+        $interface->getField('id'),
+        $interface->getField('name'),
+        $interface->getField('appearsIn'),
+
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ];
+}
+```
+
+Or by using the `getFields` method:
+
+```php
+public function fields(): array
+{
+    $interface = GraphQL::type('Character');
+
+    return array_merge($interface->getFields(), [
+        'totalCredits' => [
+            'type' => Type::nonNull(Type::int()),
+            'description' => 'The total amount of credits this human owns.'
+        ]
+    ]);
+}
+```
+
+### Input Object
+
+Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be input type. You can add rules option if you want to validate input data.
+Read more about Input Object [here](https://graphql.org/learn/schema/#input-types)
+
+First create an InputObjectType as an extension of the GraphQLType class:
+```php
+<?php
+
+namespace App\GraphQL\InputObject;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
+
+class ReviewInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'ReviewInput',
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'comment' => [
+                'name' => 'comment',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+                // You can define Laravel Validation here
+                'rules' => ['max:250']
+            ],
+            'score' => [
+                'name' => 'score',
+                'description' => 'A score (0 to 5)',
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
+}
+```
+Register the Input Object in the `types` array of the `graphql.php` config file:
+
+```php
+'types' => [
+    'ReviewInput' => ReviewInput::class
+];
+```
+
+Then use it in a mutation, like:
+```php
+// app/GraphQL/Type/TestMutation.php
+class TestMutation extends GraphQLType {
+
+    public function args(): array
+    {
+        return [
+            'review' => [
+                'type' => GraphQL::type('ReviewInput')
+            ]
+        ]
+    }
+
+}
+```
+
+### JSON Columns
+
+When using JSON columns in your database, the field won't be defined as a "relationship",
+but rather a simple column with nested data. To get a nested object that's not a database relationship,
+use the `is_relation` attribute in your Type:
+
+```php
+class UserType extends GraphQLType
+{
+
+    // ...
+
+    public function fields(): array
+    {
+        return [
+            // ...
+
+            // JSON column containing all posts made by this user
+            'posts' => [
+                'type'          => Type::listOf(GraphQL::type('post')),
+                'description'   => 'A list of posts written by the user',
+                // Now this will simply request the "posts" column, and it won't
+                // query for all the underlying columns in the "post" object
+                // The value defaults to true
+                'is_relation' => false
+            ]
+        ];
+    }
+
+    // ...
+}
+```
+
+#### Field deprecation
+
+Sometimes you would want to deprecate a field but still have to maintain backward compatibility
+until clients completely stop using that field. You can deprecate a field using
+[directive](https://www.apollographql.com/docs/graphql-tools/schema-directives.html). If you add `deprecationReason`
+to field attributes it will become marked as deprecated in GraphQL documentation. You can validate schema on client
+using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apollo-engine-4032456425ba).
+
+
+```php
+<?php
+
+namespace App\GraphQL\Type;
+
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{    
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user',
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user',
+            ],
+            'address' => [
+                'type' => Type::string(),
+                'description' => 'The address of user',
+                'deprecationReason' => 'Deprecated due to address field split'
+            ],
+            'address_line_1' => [
+                'type' => Type::string(),
+                'description' => 'The address line 1 of user',
+            ],
+            'address_line_2' => [
+                'type' => Type::string(),
+                'description' => 'The address line 2 of user',
+            ],
+        ];
+    }
+}
+```
+
+#### Default Field Resolver
+
+It's possible to override the default field resolver provided by the underlying
+webonyx/graphql-php library using the config option `defaultFieldResolver`.
+
+You can define any valid callable (static class method, closure, etc.) for it:
+
+```php
+'defaultFieldResolver' => [Your\Klass::class, 'staticMethod'],
+```
+
+The parameters received are your regular "resolve" function signature.

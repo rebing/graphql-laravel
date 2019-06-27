@@ -1,0 +1,121 @@
+parameters:
+    ### This library
+    level: max
+    paths:
+        - %currentWorkingDirectory%/src/
+        - %currentWorkingDirectory%/tests/
+    ### Larastan
+    scopeClass: NunoMaduro\Larastan\Analyser\Scope
+    universalObjectCratesClasses:
+        - Illuminate\Database\Eloquent\Model
+        - Illuminate\Http\Resources\Json\JsonResource
+        - Illuminate\Http\Request
+        - Illuminate\Contracts\Auth\Authenticatable
+    excludes_analyse:
+        ### This library
+        - %currentWorkingDirectory%/tests/Support/database/
+        ### Larastan
+        - *.blade.php
+    ignoreErrors:
+        ### This library
+        - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
+        - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
+        - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
+        - '/Parameter #2 \.\.\.\$args of function array_merge_recursive expects array, array\|GraphQL\\Type\\Schema given/'
+        - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
+        - '/Cannot access property \$parameters on mixed/'
+        - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
+        - '/Strict comparison using === between null and array will always evaluate to false/'
+        - '/Cannot access offset . on array\|Closure/'
+        - '/Call to function is_array\(\) with string will always evaluate to false/' # TODO: fix \Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations
+        # \Rebing\GraphQL\Support\SelectFields::handleFields
+        - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, mixed\) given/'
+        - '/Binary operation "." between string and array\|string\|null results in an error/'
+        - '/Parameter #1 \$key of function array_key_exists expects int\|string, string\|false given/'
+        - "/Parameter #1 \\$function of function call_user_func expects callable\\(\\): mixed, array\\(mixed, 'fire'\\) given/"
+        - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
+        - '/Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind/'
+        - '/Parameter #2 \$nodes of class GraphQL\\Error\\Error constructor expects GraphQL\\Language\\AST\\Node\|\(iterable<GraphQL\\Language\\AST\\Node>&Traversable\)\|null, array<int, GraphQL\\Language\\AST\\Node> given/'
+        - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
+        - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
+        - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
+        - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
+        - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
+        - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
+        - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
+        - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
+        # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
+        - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
+        ### Larastan ; manually disable the ones reported
+        #- '#Result of function abort \(void\) is used#'
+        #- '#Call to an undefined method Illuminate\\Support\\HigherOrder#'
+        #- '#Method App\\Exceptions\\Handler::render\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\Response#'
+        #- '#Property App\\Http\\Middleware\\TrustProxies::\$headers \(string\) does not accept default value of type int#'
+        # Ignore error from issue #244
+        #- '#Cannot call method viaRequest\(\) on Illuminate\\Auth\\AuthManager\|null\.#'
+    # From Larastan but path changed
+    bootstrap: %currentWorkingDirectory%/vendor/nunomaduro/larastan/bootstrap.php
+    # From Larastan but changed to true
+    reportUnmatchedIgnoredErrors: true
+
+### Below here only Larastan defaults
+services:
+    -
+        class: NunoMaduro\Larastan\Methods\Extension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+
+    -
+        class: NunoMaduro\Larastan\Properties\Extension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\ModelExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\AuthExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\RequestExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\CookieExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\ResponseExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\RequestExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\RedirectExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\UrlExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\ViewExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: NunoMaduro\Larastan\ReturnTypes\Helpers\TransExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
