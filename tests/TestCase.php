@@ -1,6 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Rebing\GraphQL\Tests;
+
+use Error;
+use GraphQL\Type\Schema;
+use Illuminate\Console\Command;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ObjectType;
+use PHPUnit\Framework\Constraint\IsType;
+use Rebing\GraphQL\GraphQLServiceProvider;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\FieldDefinition;
+use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 
 class TestCase extends BaseTestCase
 {
@@ -10,26 +32,26 @@ class TestCase extends BaseTestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->queries = include(__DIR__.'/Objects/queries.php');
-        $this->data = include(__DIR__.'/Objects/data.php');
+        $this->queries = include __DIR__.'/Support/Objects/queries.php';
+        $this->data = include __DIR__.'/Support/Objects/data.php';
     }
 
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                'examples' => ExamplesQuery::class,
-                'examplesAuthorize' => ExamplesAuthorizeQuery::class,
+                'examples'           => ExamplesQuery::class,
+                'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
-                'examplesFiltered' => ExamplesFilteredQuery::class,
+                'examplesFiltered'   => ExamplesFilteredQuery::class,
             ],
             'mutation' => [
-                'updateExample' => UpdateExampleMutation::class
-            ]
+                'updateExample' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.schemas.custom', [
@@ -37,24 +59,24 @@ class TestCase extends BaseTestCase
                 'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class
-            ]
+                'updateExampleCustom' => UpdateExampleMutation::class,
+            ],
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class,
+            'Example'            => ExampleType::class,
             'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 
         $app['config']->set('app.debug', true);
     }
 
-    protected function assertGraphQLSchema($schema)
+    protected function assertGraphQLSchema($schema): void
     {
-        $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
+        $this->assertInstanceOf(Schema::class, $schema);
     }
 
-    protected function assertGraphQLSchemaHasQuery($schema, $key)
+    protected function assertGraphQLSchemaHasQuery($schema, $key): void
     {
         // Query
         $query = $schema->getQueryType();
@@ -64,12 +86,12 @@ class TestCase extends BaseTestCase
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $queryField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ListOfType', $queryListType);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
+        $this->assertInstanceOf(FieldDefinition::class, $queryField);
+        $this->assertInstanceOf(ListOfType::class, $queryListType);
+        $this->assertInstanceOf(ObjectType::class, $queryType);
     }
 
-    protected function assertGraphQLSchemaHasMutation($schema, $key)
+    protected function assertGraphQLSchemaHasMutation($schema, $key): void
     {
         // Mutation
         $mutation = $schema->getMutationType();
@@ -78,21 +100,74 @@ class TestCase extends BaseTestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $mutationField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
+        $this->assertInstanceOf(FieldDefinition::class, $mutationField);
+        $this->assertInstanceOf(ObjectType::class, $mutationType);
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
+    {
+        $providers = [
+            GraphQLServiceProvider::class,
+        ];
+
+        // Support for Laravel 5.5 testing
+        if (class_exists(ConsoleServiceProvider::class)) {
+            $providers[] = ConsoleServiceProvider::class;
+        }
+
+        return $providers;
+    }
+
+    protected function getPackageAliases($app): array
     {
         return [
-            \Rebing\GraphQL\GraphQLServiceProvider::class
+            'GraphQL' => GraphQL::class,
         ];
     }
 
-    protected function getPackageAliases($app)
+    /**
+     * Implement for Laravel 5.5 testing with PHPUnit 6.5 which doesn't have
+     * `assertIsArray`.
+     *
+     * @param  string  $name
+     * @param  array  $arguments
+     */
+    public function __call(string $name, array $arguments)
     {
-        return [
-            'GraphQL' => \Rebing\GraphQL\Support\Facades\GraphQL::class
-        ];
+        if ($name !== 'assertIsArray') {
+            throw new Error('Call to undefined method '.static::class.'::$name via __call()');
+        }
+
+        static::assertThat(
+            $arguments[0],
+            new IsType(IsType::TYPE_ARRAY),
+            $arguments[1] ?? ''
+        );
+    }
+
+    /**
+     * The `CommandTester` is directly returned, use methods like
+     * `->getDisplay()` or `->getStatusCode()` on it.
+     *
+     * @param Command $command
+     * @param array $arguments The command line arguments, array of key=>value
+     *   Examples:
+     *   - named  arguments: ['model' => 'Post']
+     *   - boolean flags: ['--all' => true]
+     *   - arguments with values: ['--arg' => 'value']
+     * @param array $interactiveInput Interactive responses to the command
+     *   I.e. anything the command `->ask()` or `->confirm()`, etc.
+     * @return CommandTester
+     */
+    protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
+    {
+        $command->setLaravel($this->app);
+
+        $tester = new CommandTester($command);
+        $tester->setInputs($interactiveInput);
+
+        $tester->execute($arguments);
+
+        return $tester;
     }
 }
