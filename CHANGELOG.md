@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/v1.23.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
 ------------
 ## Breaking changes
 - The order and arguments/types for resolvers has changed:
