@@ -23,6 +23,11 @@
             "email": "dmp@atelierfolklore.ca",
             "homepage": "http://mongo.ca",
             "role": "Developer"
+        },
+        {
+            "name": "Markus Fischer",
+            "email": "markus@fischer.name",
+            "role": "Developer"
         }
     ],
     "license": "MIT",
