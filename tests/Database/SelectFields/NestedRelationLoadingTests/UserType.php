@@ -41,6 +41,15 @@ class UserType extends GraphQLType
                     return $query;
                 },
             ],
+            'flaggedPosts' => [
+                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
+                'alias' => 'posts',
+                'query' => function (array $args, HasMany $query): HasMany {
+                    $query->where('posts.flag', '=', 1);
+
+                    return $query;
+                },
+            ],
         ];
     }
 }

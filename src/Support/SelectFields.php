@@ -164,7 +164,11 @@ class SelectFields
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                        $relation = call_user_func([app($parentType->config['model']), $key]);
+
+                        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+
+                        $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
+
                         // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
                         if (method_exists($relation, 'getForeignKey')) {
                             $foreignKey = $relation->getForeignKey();
@@ -207,7 +211,7 @@ class SelectFields
 
                         self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$key] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
+                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
                     } else {
                         self::handleFields($field, $fieldObject->config['type'], $select, $with);
                     }
