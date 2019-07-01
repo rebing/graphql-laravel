@@ -83,7 +83,9 @@ class GraphQLQueryTest extends TestCase
      */
     public function testQueryAndReturnResultWithAuthorize(): void
     {
-        $result = GraphQL::query($this->queries['examplesWithAuthorize']);
+        $result = $this->graphql($this->queries['examplesWithAuthorize'], [
+            'expectErrors' => true,
+        ]);
         $this->assertNull($result['data']['examplesAuthorize']);
         $this->assertEquals('Unauthorized', $result['errors'][0]['message']);
     }
@@ -115,7 +117,9 @@ class GraphQLQueryTest extends TestCase
      */
     public function testQueryWithError(): void
     {
-        $result = GraphQL::query($this->queries['examplesWithError']);
+        $result = $this->graphql($this->queries['examplesWithError'], [
+            'expectErrors' => true,
+        ]);
 
         $this->assertArrayHasKey('errors', $result);
         $this->assertCount(1, $result['errors']);
@@ -128,7 +132,9 @@ class GraphQLQueryTest extends TestCase
      */
     public function testQueryWithValidationError(): void
     {
-        $result = GraphQL::query($this->queries['examplesWithValidation']);
+        $result = $this->graphql($this->queries['examplesWithValidation'], [
+            'expectErrors' => true,
+        ]);
 
         $this->assertArrayHasKey('data', $result);
         $this->assertArrayHasKey('errors', $result);
@@ -142,8 +148,10 @@ class GraphQLQueryTest extends TestCase
      */
     public function testQueryWithValidation(): void
     {
-        $result = GraphQL::query($this->queries['examplesWithValidation'], [
-            'index' => 0,
+        $result = $this->graphql($this->queries['examplesWithValidation'], [
+            'variables' => [
+                'index' => 0,
+            ],
         ]);
 
         $this->assertArrayHasKey('data', $result);

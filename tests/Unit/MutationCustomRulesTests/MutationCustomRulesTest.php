@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Contracts\Support\MessageBag;
 
 class MutationCustomRulesTest extends TestCase
@@ -18,8 +17,11 @@ mutation Mutate($arg1: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
-            'arg1' => 'Test argument 1',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg1' => 'Test argument 1',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);
@@ -37,8 +39,11 @@ mutation Mutate($arg1: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
-            'arg1' => 'Test argument 1',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg1' => 'Test argument 1',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);

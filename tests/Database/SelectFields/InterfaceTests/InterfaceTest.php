@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
@@ -29,7 +28,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "title" from "posts";

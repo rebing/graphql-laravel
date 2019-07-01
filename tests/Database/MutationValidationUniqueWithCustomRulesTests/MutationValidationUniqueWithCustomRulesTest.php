@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
@@ -30,8 +29,11 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql, [
-            'arg_unique_rule_pass' => 'another_name',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_unique_rule_pass' => 'another_name',
+            ],
         ]);
 
         $this->assertSqlQueries(<<<'SQL'
@@ -63,8 +65,11 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql, [
-            'arg_unique_rule_pass' => 'name_unique',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_unique_rule_pass' => 'name_unique',
+            ],
         ]);
 
         $this->assertSqlQueries(<<<'SQL'
@@ -98,8 +103,11 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql, [
-            'arg_unique_rule_fail' => 'another_name',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_unique_rule_fail' => 'another_name',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);
@@ -128,8 +136,11 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql, [
-            'arg_unique_rule_fail' => 'name_unique',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_unique_rule_fail' => 'name_unique',
+            ],
         ]);
 
         $this->assertSqlQueries(<<<'SQL'

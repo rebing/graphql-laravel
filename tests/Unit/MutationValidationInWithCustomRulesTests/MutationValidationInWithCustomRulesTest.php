@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Contracts\Support\MessageBag;
 
 class MutationValidationInWithCustomRulesTest extends TestCase
@@ -18,7 +17,7 @@ mutation Mutate($arg_in_rule_pass: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
+        $result = $this->graphql($graphql, [
             'arg_in_rule_pass' => 'valid_name',
         ]);
 
@@ -38,8 +37,11 @@ mutation Mutate($arg_in_rule_fail: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
-            'arg_in_rule_fail' => 'valid_name',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_in_rule_fail' => 'valid_name',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);
@@ -60,8 +62,11 @@ mutation Mutate($arg_in_rule_pass: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
-            'arg_in_rule_pass' => 'invalid_name',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_in_rule_pass' => 'invalid_name',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);
@@ -82,8 +87,11 @@ mutation Mutate($arg_in_rule_fail: String) {
 }
 GRAPHQL;
 
-        $result = GraphQL::query($graphql, [
-            'arg_in_rule_fail' => 'invalid_name',
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_in_rule_fail' => 'invalid_name',
+            ],
         ]);
 
         $this->assertCount(1, $result['errors']);

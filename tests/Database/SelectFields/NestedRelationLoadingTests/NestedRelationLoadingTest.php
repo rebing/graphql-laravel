@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -54,7 +53,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select * from "users" order by "users"."id" asc;
@@ -195,7 +194,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
@@ -336,7 +335,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select * from "users" order by "users"."id" asc;
@@ -473,7 +472,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
@@ -623,7 +622,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
@@ -749,7 +748,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
@@ -832,7 +831,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = GraphQL::query($graphql);
+        $result = $this->graphql($graphql);
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
