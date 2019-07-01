@@ -164,9 +164,7 @@ class SelectFields
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-
                         $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
-
                         $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
 
                         // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
