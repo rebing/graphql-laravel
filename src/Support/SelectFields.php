@@ -333,8 +333,11 @@ class SelectFields
             return;
         }
 
-        if ($forRelation && ! array_key_exists($field, $select)) {
-            $select[$field] = true;
+        if ($forRelation && ! array_key_exists($field, $select['fields'])) {
+            $select['fields'][$field] = [
+                'args' => [],
+                'fields' => true,
+            ];
         } elseif (! $forRelation && ! in_array($field, $select)) {
             $field = $parentTable ? ($parentTable.'.'.$field) : $field;
             if (! in_array($field, $select)) {
