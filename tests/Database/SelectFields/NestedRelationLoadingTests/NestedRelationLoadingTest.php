@@ -821,9 +821,7 @@ SQL
                     ]);
             });
 
-
-
-        $graphql = <<<GRAQPHQL
+        $graphql = <<<'GRAQPHQL'
 {
   users(select: true, with: true) {
     id
@@ -839,7 +837,6 @@ SQL
 GRAQPHQL;
 
         $this->sqlCounterReset();
-
 
         $result = GraphQL::query($graphql);
 
@@ -860,7 +857,7 @@ SQL
                             [
                                 'body' => $users[0]->posts[0]->body,
                                 'id' => (string) $users[0]->posts[0]->id,
-                                'title' => $users[0]->posts[0]->title
+                                'title' => $users[0]->posts[0]->title,
                             ],
                         ],
                     ],
@@ -870,7 +867,6 @@ SQL
 
         $this->assertEquals($expectedResult, $result);
     }
-
 
     protected function getEnvironmentSetUp($app)
     {
