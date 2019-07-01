@@ -855,6 +855,9 @@ relations must also exist in the UserModel's relations. If some fields are
 required for the relation to load or validation etc, then you can define an
 `always` attribute that will add the given attributes to select.
 
+The attribute can be a comma separted string or an array of attribues to
+always include.
+
 ```php
 <?php
 
