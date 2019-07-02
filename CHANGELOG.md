@@ -14,6 +14,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- `alias` is now also supported for relationships [\#367](https://github.com/rebing/graphql-laravel/pull/367)
 - `InputType` support class which eventually replace `$inputObject=true` [\#363](https://github.com/rebing/graphql-laravel/pull/363)
 - Support `DB::raw()` in `alias` fields
 - GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
