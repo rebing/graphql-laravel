@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Support\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -14,11 +15,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property bool $flag
  * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
  */
 class Post extends Model
 {
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->orderBy('comments.id');
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likable');
     }
 }
