@@ -41,6 +41,9 @@ matrix:
       env: LARAVEL='5.8.*' CODE_COVERAGE=1 STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
     - php: '7.4snapshot'
       env: LARAVEL='5.8.*'
+  allow_failures:
+    - php: '7.4snapshot'
+      env: LARAVEL='5.8.*'
 
 before_script:
   - phpenv config-rm xdebug.ini || true
