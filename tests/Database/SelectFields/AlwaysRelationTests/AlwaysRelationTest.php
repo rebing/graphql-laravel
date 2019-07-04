@@ -176,7 +176,6 @@ SQL
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                CommentsQuery::class,
                 UsersQuery::class,
             ],
         ]);
