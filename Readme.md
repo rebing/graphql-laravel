@@ -630,7 +630,7 @@ class UserType extends GraphQLType
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
-                'privacy'       => function(array $args) {
+                'privacy'       => function(array $args): bool {
                     return $args['id'] == Auth::id();
                 }
             ]
@@ -650,7 +650,7 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $args)
+    public function validate(array $args): bool
     {
         return $args['id'] == Auth::id();
     }

@@ -43,6 +43,35 @@ class PostType extends GraphQLType
             'title' => [
                 'type' => Type::nonNull(Type::string()),
             ],
+            'title_privacy_closure_allowed' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => function (array $args): bool {
+                    return true;
+                },
+            ],
+            'title_privacy_closure_denied' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => function (array $args): bool {
+                    return false;
+                },
+            ],
+            'title_privacy_class_allowed' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => PrivacyAllowed::class,
+            ],
+            'title_privacy_class_denied' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => PrivacyDenied::class,
+            ],
+            'title_privacy_class_allowed_called_twice' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => PrivacyAllowed::class,
+            ],
         ];
     }
 }

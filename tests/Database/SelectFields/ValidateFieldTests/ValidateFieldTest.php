@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
+use Mockery;
+use Mockery\MockInterface;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -171,6 +173,197 @@ SQL
                                 'id' => (string) $comment->id,
                             ],
                         ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClosureAllowed(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_allowed
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_allowed' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClosureDenied(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_denied
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_denied' => null,
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassAllowed(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_allowed
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_allowed' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassDenied(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_denied
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_denied' => null,
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassMultipleTimesResultIsCached(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        /** @var PrivacyAllowed|MockInterface $privacyMock */
+        $privacyMock = $this->instance(
+            PrivacyAllowed::class,
+            Mockery::mock(PrivacyAllowed::class)->makePartial()
+        );
+        $privacyMock
+            ->expects('validate')
+            ->andReturn('true')
+            ->once();
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_allowed
+    title_privacy_class_allowed_called_twice
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_allowed' => 'post title',
+                        'title_privacy_class_allowed_called_twice' => 'post title',
                     ],
                 ],
             ],
