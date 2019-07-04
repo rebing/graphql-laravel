@@ -2,31 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysMorphTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
 
-class PostType extends GraphQLType
+class CommentType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Post',
-        'model' => Post::class,
+        'name' => 'Comment',
+        'model' => Comment::class,
     ];
 
     public function fields(): array
     {
         return [
             'id' => [
-                'type' => Type::nonNull(Type::id()),
+                'type' => Type::nonNull(Type::ID()),
             ],
-            'user' => [
-                'type' => GraphQL::type('User'),
+            'post' => [
+                'type' => Type::nonNull(GraphQL::type('Post')),
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),
+            ],
+            'body' => [
+                'type' => Type::string(),
             ],
             'likes' => [
                 'type' => Type::listOf(GraphQL::Type('Like')),

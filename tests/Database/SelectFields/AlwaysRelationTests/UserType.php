@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysMorphTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -24,6 +24,10 @@ class UserType extends GraphQLType
             ],
             'name' => [
                 'type' => Type::nonNull(Type::string()),
+            ],
+            'posts' => [
+                'type' => Type::listOf(GraphQL::type('Post')),
+                'always' => 'comments',
             ],
             'likes' => [
                 'type' => Type::listOf(GraphQL::Type('Like')),

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysMorphTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Like;
@@ -10,8 +10,9 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 
-class AlwaysMorphTest extends TestCaseDatabase
+class AlwaysRelationTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
@@ -19,7 +20,83 @@ class AlwaysMorphTest extends TestCaseDatabase
      * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
      * the test needs to be changed, showing that it works.
      */
-    public function testAlwaysMorphSingleField(): void
+    public function testAlwaysSingleHasManyRelationField(): void
+    {
+        $user = factory(User::class)->create([
+            'name' => 'User Name',
+        ]);
+
+        $post = factory(Post::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $comment = factory(Comment::class)->create([
+            'post_id' => $post->id,
+        ]);
+
+
+        $query = <<<'GRAQPHQL'
+{
+  users {
+    id
+    posts {
+      id
+      title
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query, [
+            'expectErrors' => true,
+        ]);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id" from "users";
+SQL
+        );
+
+//         $this->assertSqlQueries(<<<'SQL'
+// select "users"."id" from "users";
+// select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+// select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
+// SQL
+// );
+
+        unset($result['errors'][0]['trace']);
+        $expectedResult = [
+            'errors' => [
+                [
+                    'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: posts.comments (SQL: select "posts"."id", "posts"."title", "posts"."user_id", "posts"."comments" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)',
+                    'message' => 'Internal server error',
+                    'extensions' => [
+                        'category' => 'internal',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'users',
+                    ],
+                ],
+            ],
+            'data' => [
+                'users' => null,
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
+     * the test needs to be changed, showing that it works.
+     */
+    public function testAlwaysSingleMorphRelationField(): void
     {
         $user = factory(User::class)->create([
             'name' => 'User Name',
@@ -99,6 +176,7 @@ SQL
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
+                CommentsQuery::class,
                 UsersQuery::class,
             ],
         ]);

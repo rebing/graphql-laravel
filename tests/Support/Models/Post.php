@@ -7,6 +7,7 @@ namespace Rebing\GraphQL\Tests\Support\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -19,6 +20,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class Post extends Model
 {
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->orderBy('comments.id');
