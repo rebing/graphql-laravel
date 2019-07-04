@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Models;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +44,7 @@ class Post extends Model
     public function getIsPublishedAttribute(): bool
     {
         $publishedAt = $this->published_at;
+
         return $publishedAt !== null;
     }
 }

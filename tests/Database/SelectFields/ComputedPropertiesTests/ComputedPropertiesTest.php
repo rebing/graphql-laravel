@@ -25,7 +25,6 @@ class ComputedPropertiesTest extends TestCaseDatabase
         $post->published_at = now();
         $post->save();
 
-
         $query = <<<'GRAQPHQL'
 {
   users {
@@ -43,26 +42,26 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-//         $this->assertSqlQueries(<<<'SQL'
-// select "users"."id", "users"."name" from "users";
-// select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
-// SQL
-//         );
+        // $this->assertSqlQueries(<<<'SQL'
+        // select "users"."id", "users"."name" from "users";
+        // select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+        // SQL
+        // );
 
         $expectedResult = [
             'data' => [
                 'users' => [
                     [
-                        "id" => $user->id,
-                        "name" => $user->name,
-                        "posts" => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'posts' => [
                             [
-                                "id" => $post->id,
+                                'id' => $post->id,
                                 // "isPublished" => $post->is_published,
                                 // So, is_published is not being selected and Post::getIsPublishedAttributes evaluates to false.
-                                "isPublished" => false,
-                            ]
-                        ]
+                                'isPublished' => false,
+                            ],
+                        ],
                     ],
                 ],
             ],
