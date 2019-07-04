@@ -46,6 +46,8 @@ parameters:
         - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
         # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
         - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
+        # tests/Unit/GraphQLTest.php
+        - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         ### Larastan ; manually disable the ones reported
         #- '#Result of function abort \(void\) is used#'
         #- '#Call to an undefined method Illuminate\\Support\\HigherOrder#'

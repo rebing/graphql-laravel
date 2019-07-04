@@ -16,11 +16,13 @@ use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 class GraphQL
 {
@@ -183,9 +185,9 @@ class GraphQL
     /**
      * @param  ObjectType|array|string  $type
      * @param  array<string,string>  $opts
-     * @return ObjectType
+     * @return Type
      */
-    public function objectType($type, array $opts = []): ObjectType
+    public function objectType($type, array $opts = []): Type
     {
         // If it's already an ObjectType, just update properties and return it.
         // If it's an array, assume it's an array of fields and build ObjectType
@@ -213,12 +215,20 @@ class GraphQL
     /**
      * @param  ObjectType|string  $type
      * @param  array  $opts
-     * @return ObjectType
+     * @return Type
      */
-    protected function buildObjectTypeFromClass($type, array $opts = []): ObjectType
+    protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
         if (! is_object($type)) {
             $type = $this->app->make($type);
+        }
+
+        if (! $type instanceof TypeConvertible) {
+            throw new TypeNotFound(
+                sprintf('Unable to convert %s to a GraphQL type, please add/implement the interface %s',
+                    get_class($type),
+                    TypeConvertible::class
+                ));
         }
 
         foreach ($opts as $key => $value) {

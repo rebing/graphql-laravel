@@ -11,11 +11,12 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 /**
  * @property string $name
  */
-abstract class Type extends Fluent
+abstract class Type extends Fluent implements TypeConvertible
 {
     /**
      * Set to `true` in your type when it should reflect an InputObject.

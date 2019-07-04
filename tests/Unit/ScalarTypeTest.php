@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Error;
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Support\Queries\ReturnScalarQuery;
 use Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString;
 
 class ScalarTypeTest extends TestCase
 {
-
     public function testScalarType(): void
     {
         $query = <<<'GRAPHQL'
@@ -20,11 +18,14 @@ class ScalarTypeTest extends TestCase
 }
 GRAPHQL;
 
-        $this->expectException(Error::class);
-        $this->expectExceptionMessage('Call to undefined method Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString::toType()');
+        $result = $this->graphql($query);
 
-        $this->graphql($query);
-
+        $expectedResult = [
+            'data' => [
+                'returnScalar' => 'just a string',
+            ],
+        ];
+        $this->assertSame($expectedResult, $result);
     }
 
     protected function getEnvironmentSetUp($app)
