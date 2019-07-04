@@ -13,6 +13,11 @@ class ComputedPropertiesTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    /**
+     * Once https://github.com/rebing/graphql-laravel/issues/377 is fixed,
+     * the test needs to be changed, showing that the computed properties
+     * evaluate correctly, or perhaps throw an error if not properly configured.
+     */
     public function testComputedProperty(): void
     {
         $user = factory(User::class)->create([
@@ -42,11 +47,11 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        // $this->assertSqlQueries(<<<'SQL'
-        // select "users"."id", "users"."name" from "users";
-        // select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
-        // SQL
-        // );
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id", "users"."name" from "users";
+select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+SQL
+        );
 
         $expectedResult = [
             'data' => [
