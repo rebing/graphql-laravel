@@ -365,6 +365,11 @@ class SelectFields
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
     }
 
+    public static function clearPrivacyValidationsCache(): void
+    {
+        static::$privacyValidations = [];
+    }
+
     public function getSelect(): array
     {
         return $this->select;

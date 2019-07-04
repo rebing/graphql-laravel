@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -304,6 +305,8 @@ SQL
 GRAQPHQL;
 
         $this->sqlCounterReset();
+
+        SelectFields::clearPrivacyValidationsCache();
 
         $result = $this->graphql($query);
 
