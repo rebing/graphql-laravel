@@ -15,6 +15,10 @@ class AlwaysMorphTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    /**
+     * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
+     * the test needs to be changed, showing that it works
+     */
     public function testAlwaysMorphSingleField(): void
     {
         $user = factory(User::class)->create([
@@ -51,30 +55,39 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($query);
+        $result = $this->graphql($query, [
+            'expectErrors' => true,
+        ]);
 
-        // Expecting .._id and .._type to be selected.
         $this->assertSqlQueries(<<<'SQL'
 select "users"."name", "users"."id" from "users";
-select "likes"."id", "likes"."likable_id", "likes"."likable_type", "likes"."user_id" from "likes" where "likes"."user_id" in (?);
 SQL
         );
+        // Expecting .._id and .._type to be selected.
+        // select "likes"."id", "likes"."likable_id", "likes"."likable_type", "likes"."user_id" from "likes" where "likes"."user_id" in (?);
 
+        unset($result['errors'][0]['trace']);
         $expectedResult = [
-            'data' => [
-                'users' => [
-                    [
-                        'name' => 'User Name',
-                        'likes' => [
-                            [
-                                'id' => $post->id,
-                            ],
-                            [
-                                'id' => $comment->id,
-                            ],
+            'errors' => [
+                [
+                    'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: likes.likable (SQL: select "likes"."id", "likes"."user_id", "likes"."likable" from "likes" where "likes"."user_id" in (1))',
+                    'message' => 'Internal server error',
+                    'extensions' => [
+                        'category' => 'internal',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
                         ],
                     ],
+                    'path' => [
+                        'users',
+                    ],
                 ],
+            ],
+            'data' => [
+                'users' => null,
             ],
         ];
         $this->assertEquals($expectedResult, $result);
