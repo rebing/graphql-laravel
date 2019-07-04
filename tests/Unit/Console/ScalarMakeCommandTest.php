@@ -25,7 +25,7 @@ class ScalarMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel/app/GraphQL/Scalars/ExampleScalar.php|', $path);
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Scalars/ExampleScalar.php|', $path);
 
                     return true;
                 }),
