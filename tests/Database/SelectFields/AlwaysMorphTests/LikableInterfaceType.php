@@ -8,7 +8,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 
-class LikableInterface extends InterfaceType
+class LikableInterfaceType extends InterfaceType
 {
     protected $attributes = [
         'name' => 'LikableInterface',

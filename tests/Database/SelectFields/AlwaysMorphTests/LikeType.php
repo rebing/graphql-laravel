@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Support\Types;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysMorphTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;

@@ -9,7 +9,6 @@ use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
-use Rebing\GraphQL\Tests\Support\Types\LikeType;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
 class AlwaysMorphTest extends TestCaseDatabase
