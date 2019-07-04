@@ -28,7 +28,7 @@ class MyCustomScalarString extends ScalarType
     }
 
     /**
-     * Parses an externally provided value (query variable) to use as an input
+     * Parses an externally provided value (query variable) to use as an input.
      *
      * In the case of an invalid value this method must throw an Exception
      *
@@ -44,7 +44,7 @@ class MyCustomScalarString extends ScalarType
     }
 
     /**
-     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
+     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
      *
      * In the case of an invalid node or value this method must throw an Exception
      *
@@ -57,8 +57,8 @@ class MyCustomScalarString extends ScalarType
      */
     public function parseLiteral($valueNode, ?array $variables = null)
     {
-        if (!$valueNode instanceof StringValueNode) {
-            throw new InvariantViolation('Expected node of type ' . StringValueNode::class . ' , got ' . get_class($valueNode));
+        if (! $valueNode instanceof StringValueNode) {
+            throw new InvariantViolation('Expected node of type '.StringValueNode::class.' , got '.get_class($valueNode));
         }
 
         return $valueNode->value;

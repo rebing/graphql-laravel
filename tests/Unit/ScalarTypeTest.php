@@ -11,7 +11,6 @@ use Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString;
 
 class ScalarTypeTest extends TestCase
 {
-
     public function testScalarType(): void
     {
         $query = <<<'GRAPHQL'
@@ -24,7 +23,6 @@ GRAPHQL;
         $this->expectExceptionMessage('Call to undefined method Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString::toType()');
 
         $this->graphql($query);
-
     }
 
     protected function getEnvironmentSetUp($app)
