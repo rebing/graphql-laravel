@@ -19,20 +19,20 @@ class CommentType extends GraphQLType
     public function fields(): array
     {
         return [
+            'body' => [
+                'type' => Type::string(),
+            ],
             'id' => [
                 'type' => Type::nonNull(Type::ID()),
+            ],
+            'likes' => [
+                'type' => Type::listOf(GraphQL::Type('Like')),
             ],
             'post' => [
                 'type' => Type::nonNull(GraphQL::type('Post')),
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),
-            ],
-            'body' => [
-                'type' => Type::string(),
-            ],
-            'likes' => [
-                'type' => Type::listOf(GraphQL::Type('Like')),
             ],
         ];
     }

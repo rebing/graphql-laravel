@@ -22,16 +22,16 @@ class UserType extends GraphQLType
             'id' => [
                 'type' => Type::nonNull(Type::id()),
             ],
+            'likes' => [
+                'type' => Type::listOf(GraphQL::Type('Like')),
+                'always' => 'likable',
+            ],
             'name' => [
                 'type' => Type::nonNull(Type::string()),
             ],
             'posts' => [
                 'type' => Type::listOf(GraphQL::type('Post')),
                 'always' => 'comments',
-            ],
-            'likes' => [
-                'type' => Type::listOf(GraphQL::Type('Like')),
-                'always' => 'likable',
             ],
         ];
     }

@@ -19,23 +19,23 @@ class PostType extends GraphQLType
     public function fields(): array
     {
         return [
-            'id' => [
-                'type' => Type::nonNull(Type::id()),
-            ],
-            'user' => [
-                'type' => GraphQL::type('User'),
-            ],
-            'title' => [
-                'type' => Type::nonNull(Type::string()),
-            ],
             'body' => [
                 'type' => Type::nonNull(Type::string()),
             ],
             'comments' => [
                 'type' => Type::listOf(GraphQL::type('Comment')),
             ],
+            'id' => [
+                'type' => Type::nonNull(Type::id()),
+            ],
             'likes' => [
                 'type' => Type::listOf(GraphQL::Type('Like')),
+            ],
+            'title' => [
+                'type' => Type::nonNull(Type::string()),
+            ],
+            'user' => [
+                'type' => GraphQL::type('User'),
             ],
         ];
     }
