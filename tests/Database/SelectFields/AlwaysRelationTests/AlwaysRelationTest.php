@@ -10,7 +10,6 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 
 class AlwaysRelationTest extends TestCaseDatabase
 {
@@ -33,7 +32,6 @@ class AlwaysRelationTest extends TestCaseDatabase
         $comment = factory(Comment::class)->create([
             'post_id' => $post->id,
         ]);
-
 
         $query = <<<'GRAQPHQL'
 {
@@ -59,11 +57,11 @@ SQL
         );
 
 //         $this->assertSqlQueries(<<<'SQL'
-// select "users"."id" from "users";
-// select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
-// select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-// SQL
-// );
+        // select "users"."id" from "users";
+        // select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+        // select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
+        // SQL
+        // );
 
         unset($result['errors'][0]['trace']);
         $expectedResult = [
