@@ -18,7 +18,6 @@ class AlwaysMorphTest extends TestCaseDatabase
 
     public function testAlwaysMorphSingleField(): void
     {
-
         $user = factory(User::class)->create([
             'name' => 'User Name',
         ]);
@@ -69,19 +68,18 @@ SQL
                         'name' => 'User Name',
                         'likes' => [
                             [
-                                "id" => $post->id,
+                                'id' => $post->id,
                             ],
                             [
-                                "id" => $comment->id,
+                                'id' => $comment->id,
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
         ];
         $this->assertEquals($expectedResult, $result);
     }
-
 
     protected function getEnvironmentSetUp($app)
     {

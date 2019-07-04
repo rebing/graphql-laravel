@@ -8,7 +8,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 
-class LikableInterfaceType extends InterfaceType
+class LikableInterface extends InterfaceType
 {
     protected $attributes = [
         'name' => 'LikableInterface',
@@ -27,7 +27,7 @@ class LikableInterfaceType extends InterfaceType
     {
         if ($root instanceof Post) {
             return GraphQL::type('Post');
-        } else if ($root instanceof Comment) {
+        } elseif ($root instanceof Comment) {
             return GraphQL::type('Comment');
         }
     }

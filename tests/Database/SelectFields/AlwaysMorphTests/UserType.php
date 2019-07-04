@@ -27,7 +27,7 @@ class UserType extends GraphQLType
             ],
             'likes' => [
                 'type' => Type::listOf(GraphQL::Type('Like')),
-                'always' => 'likable'
+                'always' => 'likable',
             ],
         ];
     }
