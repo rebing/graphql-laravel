@@ -14,6 +14,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- New `make:graphql:scalar` command and add more information regarding scalars to the readme
 - `TypeConvertible` interface requiring to implement `toType(): \GraphQL\Type\Definition\Type`
   Existing types are not affected because they already made use of the same method/signature, but custom Scalar GraphQL types work differently and benefit from the interface
 - `alias` is now also supported for relationships [\#367](https://github.com/rebing/graphql-laravel/pull/367)

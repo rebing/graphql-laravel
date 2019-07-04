@@ -112,6 +112,7 @@ To work this around:
 - [Type relationship query](#type-relationship-query)
 - [Pagination](#pagination)
 - [Batching](#batching)
+- [Scalar Types](#scalar-types)
 - [Enums](#enums)
 - [Unions](#unions)
 - [Interfaces](#interfaces)
@@ -1070,6 +1071,25 @@ within a certain interval of time.
 
 There are tools that help with this and can handle the batching for you, e.g [Apollo](http://www.apollodata.com/)
 
+### Scalar Types
+
+GraphQL comes with built-in scalar types for string, int, boolean, etc. It's possible to create custom scalar types to special purpose fields.
+
+An example could be a link: instead of using `Type::string()` you could create a scalar type `Link` and reference it with `GraphQL::type('Link')`.
+
+The benefits would be:
+
+- a dedicated description so you can give more meaning/purpose to a field than just call it a string type
+- explicit conversion logic for the followig steps:
+  - converting from the internal logic to the serialized GraphQL output (`serialize`)
+  - query/field input argument conversion (`parseLiteral`)
+  - when passed as variables to your query (`parseValue`)
+
+This also means validation logic can be added within these methods to _ensure_ that the value delivered/received is e.g. a true link.
+
+A scalar type has to implement all the methods; you can quick start this with `artisan make:graphql:scalar <typename>`. Then just add the scalar to your existing types in the schema.
+
+For more advanced use, please [refer to the official documentation regarding scalar types](https://webonyx.github.io/graphql-php/type-system/scalar-types).
 
 ### Enums
 
