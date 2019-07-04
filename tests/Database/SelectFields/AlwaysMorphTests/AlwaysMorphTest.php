@@ -17,7 +17,7 @@ class AlwaysMorphTest extends TestCaseDatabase
 
     /**
      * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
-     * the test needs to be changed, showing that it works
+     * the test needs to be changed, showing that it works.
      */
     public function testAlwaysMorphSingleField(): void
     {
