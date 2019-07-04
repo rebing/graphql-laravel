@@ -15,11 +15,17 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string|null $body
  * @property int|null $user_id
  * @property bool $flag
+ * @property Illuminate\Support\Carbon|null $published_at
+ * @property bool $is_published
  * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
  */
 class Post extends Model
 {
+    protected $dates = [
+        'published_at',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -33,5 +39,12 @@ class Post extends Model
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likable');
+    }
+
+    public function getIsPublishedAttribute(): bool
+    {
+        $publishedAt = $this->published_at;
+
+        return $publishedAt !== null;
     }
 }
