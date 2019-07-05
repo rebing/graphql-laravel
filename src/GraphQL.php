@@ -164,7 +164,7 @@ class GraphQL
     public function type(string $name, bool $fresh = false): Type
     {
         if (! isset($this->types[$name])) {
-            throw new RuntimeException('Type '.$name.' not found.');
+            throw new TypeNotFound("Type $name not found.");
         }
 
         if (! $fresh && isset($this->typesInstances[$name])) {
