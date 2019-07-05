@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
-use RuntimeException;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;

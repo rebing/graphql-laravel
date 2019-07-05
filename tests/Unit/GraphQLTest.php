@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Exception;
 use Validator;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
