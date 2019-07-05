@@ -162,6 +162,7 @@ return [
      * Reference \Rebing\GraphQL\Support\PaginationType::class
      */
     'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
+    'sort_type' => \Rebing\GraphQL\Support\SortType::class,
 
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
