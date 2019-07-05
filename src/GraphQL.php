@@ -154,7 +154,7 @@ class GraphQL
     public function addType($class, string $name = null): void
     {
         if (! $name) {
-            $type = is_object($class) ? $class : app($class);
+            $type = is_object($class) ? $class : $this->app->make($class);
             $name = $type->name;
         }
 
@@ -173,7 +173,7 @@ class GraphQL
 
         $type = $this->types[$name];
         if (! is_object($type)) {
-            $type = app($type);
+            $type = $this->app->make($type);
         }
 
         $instance = $type->toType();
