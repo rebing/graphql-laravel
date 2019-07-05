@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use RuntimeException;
 use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
@@ -26,8 +27,6 @@ class SelectFields
     private $select = [];
     /** @var array */
     private $relations = [];
-    /** @var array */
-    private static $privacyValidations = [];
 
     const FOREIGN_KEY = 'foreignKey';
 
@@ -250,9 +249,10 @@ class SelectFields
      * Check the privacy status, if it's given.
      *
      * @param  FieldDefinition  $fieldObject
-     * @param  array  $queryArgs Arguments given with the query/mutation
-     * @return bool|null - true, if selectable; false, if not selectable, but allowed;
-     *              null, if not allowed
+     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @return bool|null `true`  if selectable
+     *                   `false` if not selectable, but allowed
+     *                   `null`  if not allowed
      */
     protected static function validateField(FieldDefinition $fieldObject, array $queryArgs): ?bool
     {
@@ -266,22 +266,28 @@ class SelectFields
         if (isset($fieldObject->config['privacy'])) {
             $privacyClass = $fieldObject->config['privacy'];
 
-            // If privacy given as a closure
-            if (is_callable($privacyClass) && call_user_func($privacyClass, $queryArgs) === false) {
-                $selectable = null;
-            }
-            // If Privacy class given
-            elseif (is_string($privacyClass)) {
-                if (Arr::has(self::$privacyValidations, $privacyClass)) {
-                    $validated = self::$privacyValidations[$privacyClass];
-                } else {
-                    $validated = call_user_func([app($privacyClass), 'fire'], $queryArgs);
-                    self::$privacyValidations[$privacyClass] = $validated;
-                }
+            switch ($privacyClass) {
+                // If privacy given as a closure
+                case is_callable($privacyClass):
+                    if (false === call_user_func($privacyClass, $queryArgs)) {
+                        $selectable = null;
+                    }
+                    break;
 
-                if (! $validated) {
-                    $selectable = null;
-                }
+                // If Privacy class given
+                case is_string($privacyClass):
+                    $instance = app($privacyClass);
+                    if (false === call_user_func([$instance, 'fire'], $queryArgs)) {
+                        $selectable = null;
+                    }
+                    break;
+
+                default:
+                    throw new RuntimeException(
+                        sprintf("Unsupported use of 'privacy' configuration on field '%s'.",
+                            $fieldObject->name
+                        )
+                    );
             }
         }
 
@@ -366,11 +372,6 @@ class SelectFields
         $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
 
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
-    }
-
-    public static function clearPrivacyValidationsCache(): void
-    {
-        static::$privacyValidations = [];
     }
 
     public function getSelect(): array

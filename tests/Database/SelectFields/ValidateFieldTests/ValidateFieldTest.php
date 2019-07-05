@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -306,8 +305,6 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        SelectFields::clearPrivacyValidationsCache();
-
         $result = $this->graphql($query);
 
         $this->assertSqlQueries(<<<'SQL'
@@ -327,7 +324,7 @@ SQL
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testPrivacyClassMultipleTimesResultIsCached(): void
+    public function testPrivacyClassMultipleTimesIsCalledMultipleTimes(): void
     {
         factory(Post::class)
             ->create([
@@ -342,7 +339,7 @@ SQL
         $privacyMock
             ->expects('validate')
             ->andReturn('true')
-            ->once();
+            ->times(2);
 
         $query = <<<'GRAQPHQL'
 {
@@ -448,6 +445,55 @@ SQL
                         'title_privacy_class_args' => 'post title',
                     ],
                 ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyWrongType(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_wrong_type
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query, [
+            'expectErrors' => true,
+        ]);
+
+        $this->assertSqlQueries('');
+
+        $expectedResult = [
+            'errors' => [
+                [
+                    'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
+                    'message' => 'Internal server error',
+                    'extensions' => [
+                        'category' => 'internal',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'validateFields',
+                    ],
+                ],
+            ],
+            'data' => [
+                'validateFields' => null,
             ],
         ];
         $this->assertEquals($expectedResult, $result);

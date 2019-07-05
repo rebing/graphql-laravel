@@ -100,6 +100,10 @@ class PostType extends GraphQLType
                 ],
                 'privacy' => PrivacyArgs::class,
             ],
+            'title_privacy_wrong_type' => [
+                'type' => Type::string(),
+                'privacy' => true,
+            ],
         ];
     }
 }

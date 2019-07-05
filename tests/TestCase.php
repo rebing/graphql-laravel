@@ -194,13 +194,13 @@ class TestCase extends BaseTestCase
             $appendErrors = '';
             if (isset($result['errors'][0]['trace'])) {
                 $appendErrors = "\n\n".$this->formatSafeTrace($result['errors'][0]['trace']);
-                unset($result['errors'][0]['trace']);
             }
 
             $assertMessage = "Probably unexpected error in GraphQL response:\n"
                 .var_export($result, true)
                 .$appendErrors;
         }
+        unset($result['errors'][0]['trace']);
 
         if ($assertMessage) {
             throw new ExpectationFailedException($assertMessage);
