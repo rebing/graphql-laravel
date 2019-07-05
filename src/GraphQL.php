@@ -54,7 +54,7 @@ class GraphQL
             return $schema;
         }
 
-        $this->typesInstances = [];
+        $this->clearTypeInstances();
 
         foreach ($this->getTypes() as $name => $type) {
             $this->type($name);
