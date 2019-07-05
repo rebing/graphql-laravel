@@ -34,16 +34,16 @@ class SelectFields
     /**
      * @param  ResolveInfo  $info
      * @param  GraphqlType  $parentType
-     * @param  array  $args  - arguments given with the query
+     * @param  array  $queryArgs Arguments given with the query/mutation
      */
-    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $args)
+    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $requestedFields = $this->getFieldSelection($info, $args, 5);
-        $fields = self::getSelectableFieldsAndRelations($requestedFields, $parentType);
+        $requestedFields = $this->getFieldSelection($info, $queryArgs, 5);
+        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType);
         $this->select = $fields[0];
         $this->relations = $fields[1];
     }
@@ -62,6 +62,7 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
+     * @param  array  $queryArgs Arguments given with the query/mutation
      * @param  array  $requestedFields
      * @param  GraphqlType  $parentType
      * @param  Closure|null  $customQuery
@@ -70,7 +71,7 @@ class SelectFields
      *               where the first key is 'select' array and second is 'with' array.
      *               On other recursions return a closure that will be used in with
      */
-    public static function getSelectableFieldsAndRelations(array $requestedFields, GraphqlType $parentType, ?Closure $customQuery = null, bool $topLevel = true)
+    public static function getSelectableFieldsAndRelations(array $queryArgs, array $requestedFields, GraphqlType $parentType, ?Closure $customQuery = null, bool $topLevel = true)
     {
         $select = [];
         $with = [];
@@ -81,7 +82,7 @@ class SelectFields
         $parentTable = self::getTableNameFromParentType($parentType);
         $primaryKey = self::getPrimaryKeyFromParentType($parentType);
 
-        self::handleFields($requestedFields, $parentType, $select, $with);
+        self::handleFields($queryArgs, $requestedFields, $parentType, $select, $with);
 
         // If a primary key is given, but not in the selects, add it
         if (! is_null($primaryKey)) {
@@ -114,12 +115,14 @@ class SelectFields
     /**
      * Get the selects and withs from the given fields
      * and recurse if necessary.
+     *
+     * @param  array  $queryArgs Arguments given with the query/mutation
      * @param  array<string,mixed>  $requestedFields
      * @param  GraphqlType  $parentType
      * @param  array  $select Passed by reference, adds further fields to select
      * @param  array  $with Passed by reference, adds further relations
      */
-    protected static function handleFields(array $requestedFields, GraphqlType $parentType, array &$select, array &$with): void
+    protected static function handleFields(array $queryArgs, array $requestedFields, GraphqlType $parentType, array &$select, array &$with): void
     {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
@@ -147,7 +150,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = self::validateField($fieldObject, $field['args']);
+            $canSelect = self::validateField($fieldObject, $queryArgs);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = Arr::get($fieldObject->config, 'query');
@@ -157,7 +160,7 @@ class SelectFields
 
                 // Pagination
                 if (is_a($parentType, config('graphql.pagination_type', PaginationType::class))) {
-                    self::handleFields($field, $fieldObject->config['type']->getWrappedType(), $select, $with);
+                    self::handleFields($queryArgs, $field, $fieldObject->config['type']->getWrappedType(), $select, $with);
                 }
                 // With
                 elseif (is_array($field['fields']) && $queryable) {
@@ -209,9 +212,9 @@ class SelectFields
 
                         self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($field, $newParentType, $customQuery, false);
+                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType, $customQuery, false);
                     } else {
-                        self::handleFields($field, $fieldObject->config['type'], $select, $with);
+                        self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with);
                     }
                 }
                 // Select
@@ -247,11 +250,11 @@ class SelectFields
      * Check the privacy status, if it's given.
      *
      * @param  FieldDefinition  $fieldObject
-     * @param  array  $fieldArgs Arguments given with the field
+     * @param  array  $queryArgs Arguments given with the query/mutation
      * @return bool|null - true, if selectable; false, if not selectable, but allowed;
      *              null, if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject, array $fieldArgs): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs): ?bool
     {
         $selectable = true;
 
@@ -264,7 +267,7 @@ class SelectFields
             $privacyClass = $fieldObject->config['privacy'];
 
             // If privacy given as a closure
-            if (is_callable($privacyClass) && call_user_func($privacyClass, $fieldArgs) === false) {
+            if (is_callable($privacyClass) && call_user_func($privacyClass, $queryArgs) === false) {
                 $selectable = null;
             }
             // If Privacy class given
@@ -272,7 +275,7 @@ class SelectFields
                 if (Arr::has(self::$privacyValidations, $privacyClass)) {
                     $validated = self::$privacyValidations[$privacyClass];
                 } else {
-                    $validated = call_user_func([app($privacyClass), 'fire'], $fieldArgs);
+                    $validated = call_user_func([app($privacyClass), 'fire'], $queryArgs);
                     self::$privacyValidations[$privacyClass] = $validated;
                 }
 

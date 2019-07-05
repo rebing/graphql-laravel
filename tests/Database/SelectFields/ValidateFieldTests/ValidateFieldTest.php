@@ -374,6 +374,85 @@ SQL
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PostType::fields
+     * within the closure for the field `title_privacy_closure_args`.
+     */
+    public function testPrivacyClosureReceivesQueryArgs(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields(arg_from_query: true) {
+    title_privacy_closure_args(arg_from_field: true)
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_args' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PrivacyArgs::validate.
+     */
+    public function testPrivacyClassReceivesQueryArgs(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields(arg_from_query: true) {
+    title_privacy_class_args(arg_from_field: true)
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_args' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);

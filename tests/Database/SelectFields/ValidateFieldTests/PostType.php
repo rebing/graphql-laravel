@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
+use PHPUnit\Framework\Assert;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -71,6 +72,33 @@ class PostType extends GraphQLType
                 'alias' => 'title',
                 'type' => Type::string(),
                 'privacy' => PrivacyAllowed::class,
+            ],
+            'title_privacy_closure_args' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'args' => [
+                    'arg_from_field' => [
+                        'type' => Type::boolean(),
+                    ],
+                ],
+                'privacy' => function (array $queryArgs): bool {
+                    $expectedQueryArgs = [
+                        'arg_from_query' => true,
+                    ];
+                    Assert::assertSame($expectedQueryArgs, $queryArgs);
+
+                    return true;
+                },
+            ],
+            'title_privacy_class_args' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'args' => [
+                    'arg_from_field' => [
+                        'type' => Type::boolean(),
+                    ],
+                ],
+                'privacy' => PrivacyArgs::class,
             ],
         ];
     }
