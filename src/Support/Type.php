@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Fluent;
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
@@ -16,8 +15,9 @@ use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 /**
  * @property string $name
  */
-abstract class Type extends Fluent implements TypeConvertible
+abstract class Type implements TypeConvertible
 {
+    protected $attributes = [];
     /**
      * Set to `true` in your type when it should reflect an InputObject.
      * @var bool
@@ -174,5 +174,10 @@ abstract class Type extends Fluent implements TypeConvertible
         $attributes = $this->getAttributes();
 
         return isset($attributes[$key]);
+    }
+
+    public function __set(string $key, $value): void
+    {
+        $this->attributes[$key] = $value;
     }
 }

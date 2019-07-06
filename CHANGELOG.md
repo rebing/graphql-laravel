@@ -45,6 +45,7 @@ CHANGELOG
   - Previously the initial query arguments would be used everywhere
 
 ### Removed
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type`
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 
