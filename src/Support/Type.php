@@ -28,6 +28,8 @@ abstract class Type extends Fluent implements TypeConvertible
     /**
      * Set to `true` in your type when it should reflect an Enum.
      * @var bool
+     * @deprecated Use EnumType instead
+     * @see EnumType
      */
     protected $enumObject = false;
 

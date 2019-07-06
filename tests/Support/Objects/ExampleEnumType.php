@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\EnumType;
 
-class ExampleEnumType extends GraphQLType
+class ExampleEnumType extends EnumType
 {
-    protected $enumObject = true;
-
     protected $attributes = [
         'name'        => 'ExampleEnum',
         'description' => 'An example enum',

@@ -1102,12 +1102,10 @@ First create an Enum as an extension of the GraphQLType class:
 
 namespace App\GraphQL\Enums;
 
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\EnumType;
 
-class EpisodeEnum extends GraphQLType
+class EpisodeEnum extends EnumType
 {
-    protected $enumObject = true;
-
     protected $attributes = [
         'name' => 'Episode',
         'description' => 'The types of demographic elements',
