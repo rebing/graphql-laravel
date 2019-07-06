@@ -1177,7 +1177,7 @@ class SearchResultUnion extends UnionType
         'name' => 'SearchResult',
     ];
 
-    public function types()
+    public function types(): array
     {
         return [
             GraphQL::type('Post'),
