@@ -25,13 +25,51 @@ class MutationMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Mutations/Example.php|', $path);
+
+                    return true;
+                }),
+                $this->callback(function (string $contents): bool {
+                    $this->assertRegExp('/class Example extends Mutation/', $contents);
+                    $this->assertRegExp("/'name' => 'example',/", $contents);
+
+                    return true;
+                })
+            );
+        $this->instance(Filesystem::class, $filesystemMock);
+
+        $command = $this->app->make(MutationMakeCommand::class);
+
+        $tester = $this->runCommand($command, [
+            'name' => 'Example',
+        ]);
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertRegExp('/Mutation created successfully/', $tester->getDisplay());
+    }
+
+    public function testEndsWithMutation(): void
+    {
+        $filesystemMock = $this
+            ->getMockBuilder(Filesystem::class)
+            ->setMethods([
+                'isDirectory',
+                'makeDirectory',
+                'put',
+            ])
+            ->getMock();
+        $filesystemMock
+            ->expects($this->once())
+            ->method('put')
+            ->with(
+                $this->callback(function (string $path): bool {
                     $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Mutations/ExampleMutation.php|', $path);
 
                     return true;
                 }),
                 $this->callback(function (string $contents): bool {
                     $this->assertRegExp('/class ExampleMutation extends Mutation/', $contents);
-                    $this->assertRegExp("/'name' => 'exampleMutation',/", $contents);
+                    $this->assertRegExp("/'name' => 'example',/", $contents);
 
                     return true;
                 })
