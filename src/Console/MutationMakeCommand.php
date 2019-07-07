@@ -46,7 +46,7 @@ class MutationMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Mutation';
+        return $rootNamespace.'\GraphQL\Mutations';
     }
 
     /**

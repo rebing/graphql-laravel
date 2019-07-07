@@ -25,7 +25,7 @@ class QueryMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Query/ExampleQuery.php|', $path);
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Queries/ExampleQuery.php|', $path);
 
                     return true;
                 }),

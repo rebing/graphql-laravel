@@ -46,7 +46,7 @@ class TypeMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Type';
+        return $rootNamespace.'\GraphQL\Types';
     }
 
     /**

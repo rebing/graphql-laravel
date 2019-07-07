@@ -25,7 +25,7 @@ class TypeMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Type/ExampleType.php|', $path);
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Types/ExampleType.php|', $path);
 
                     return true;
                 }),

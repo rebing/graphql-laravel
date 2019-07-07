@@ -46,7 +46,7 @@ class QueryMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Query';
+        return $rootNamespace.'\GraphQL\Queries';
     }
 
     /**

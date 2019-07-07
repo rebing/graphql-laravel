@@ -140,7 +140,7 @@ in addition to the global middleware. For example:
     ],
     'user' => [
         'query' => [
-            'profile' => App\GraphQL\Query\ProfileQuery::class
+            'profile' => App\GraphQL\Queries\ProfileQuery::class
         ],
         'mutation' => [
         
@@ -159,7 +159,7 @@ First you need to create a type. The Eloquent Model is only required, if specify
 ```php
 <?php
 
-namespace App\GraphQL\Type;
+namespace App\GraphQL\Types;
 
 use App\User;
 use GraphQL\Type\Definition\Type;
@@ -210,21 +210,21 @@ Add the type to the `config/graphql.php` configuration file
 
 ```php
 'types' => [
-    'user' => App\GraphQL\Type\UserType::class
+    'user' => App\GraphQL\Types\UserType::class
 ]
 ```
 
 You could also add the type with the `GraphQL` Facade, in a service provider for example.
 
 ```php
-GraphQL::addType(\App\GraphQL\Type\UserType::class, 'user');
+GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
 ```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
 <?php
 
-namespace App\GraphQL\Query;
+namespace App\GraphQL\Queries;
 
 use Closure;
 use App\User;
@@ -273,7 +273,7 @@ Add the query to the `config/graphql.php` configuration file
 'schemas' => [
     'default' => [
         'query' => [
-            'users' => App\GraphQL\Query\UsersQuery::class
+            'users' => App\GraphQL\Queries\UsersQuery::class
         ],
         // ...
     ]
@@ -305,7 +305,7 @@ For example, a mutation to update the password of a user. First you need to defi
 ```php
 <?php
 
-namespace App\GraphQL\Mutation;
+namespace App\GraphQL\Mutations;
 
 use CLosure;
 use App\User;
@@ -356,7 +356,7 @@ You should then add the mutation to the `config/graphql.php` configuration file:
 'schemas' => [
     'default' => [
         'mutation' => [
-            'updateUserPassword' => App\GraphQL\Mutation\UpdateUserPasswordMutation::class
+            'updateUserPassword' => App\GraphQL\Mutations\UpdateUserPasswordMutation::class
         ],
         // ...
     ]
@@ -388,7 +388,7 @@ When creating a mutation, you can add a method to define the validation rules th
 ```php
 <?php
 
-namespace App\GraphQL\Mutation;
+namespace App\GraphQL\Mutations;
 
 use Closure;
 use App\User;
@@ -527,7 +527,7 @@ so you have to upload them as multipart form:
 ```php
 <?php
 
-namespace App\GraphQL\Mutation;
+namespace App\GraphQL\Mutations;
 
 use Closure;
 use GraphQL;
@@ -761,7 +761,7 @@ You can then use it in your type declaration
 ```php
 <?php
 
-namespace App\GraphQL\Type;
+namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\PictureField;
 use App\User;
@@ -809,7 +809,7 @@ Your Query would look like:
 ```php
 <?php
 
-namespace App\GraphQL\Query;
+namespace App\GraphQL\Queries;
 
 use App\User;
 use GraphQL;
@@ -863,7 +863,7 @@ always include.
 ```php
 <?php
 
-namespace App\GraphQL\Type;
+namespace App\GraphQL\Types;
 
 use App\User;
 use GraphQL\Type\Definition\Type;
@@ -1134,7 +1134,7 @@ Then use it like:
 ```php
 <?php
 
-namespace App\GraphQL\Type;
+namespace App\GraphQL\Types;
 
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
@@ -1444,7 +1444,7 @@ using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apol
 ```php
 <?php
 
-namespace App\GraphQL\Type;
+namespace App\GraphQL\Types;
 
 use App\User;
 use GraphQL\Type\Definition\Type;

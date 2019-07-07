@@ -25,7 +25,7 @@ class MutationMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Mutation/ExampleMutation.php|', $path);
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Mutations/ExampleMutation.php|', $path);
 
                     return true;
                 }),
