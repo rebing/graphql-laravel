@@ -31,7 +31,7 @@ class QueryMakeCommandTest extends TestCase
                 }),
                 $this->callback(function (string $contents): bool {
                     $this->assertRegExp('/class ExampleQuery extends Query/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleQuery',/", $contents);
+                    $this->assertRegExp("/'name' => 'exampleQuery',/", $contents);
 
                     return true;
                 })

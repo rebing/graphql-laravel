@@ -31,7 +31,7 @@ class MutationMakeCommandTest extends TestCase
                 }),
                 $this->callback(function (string $contents): bool {
                     $this->assertRegExp('/class ExampleMutation extends Mutation/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleMutation',/", $contents);
+                    $this->assertRegExp("/'name' => 'exampleMutation',/", $contents);
 
                     return true;
                 })

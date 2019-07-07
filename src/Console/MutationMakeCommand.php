@@ -60,26 +60,17 @@ class MutationMakeCommand extends GeneratorCommand
     {
         $stub = parent::buildClass($name);
 
-        return $this->replaceType($stub, $name);
+        return $this->replaceGraphqlName($stub);
     }
 
-    /**
-     * Replace the namespace for the given stub.
-     *
-     * @param string $stub
-     * @param string $name
-     *
-     * @return string
-     */
-    protected function replaceType(string $stub, string $name): string
+    protected function replaceGraphqlName(string $stub): string
     {
-        preg_match('/([^\\\]+)$/', $name, $matches);
-        $stub = str_replace(
-            'DummyMutation',
-            $matches[1],
+        $graphqlName = lcfirst($this->getNameInput());
+
+        return str_replace(
+            'DummyGraphqlName',
+            $graphqlName,
             $stub
         );
-
-        return $stub;
     }
 }

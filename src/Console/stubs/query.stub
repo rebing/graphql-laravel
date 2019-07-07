@@ -13,7 +13,7 @@ use Rebing\GraphQL\Support\Query;
 class DummyClass extends Query
 {
     protected $attributes = [
-        'name' => 'DummyQuery',
+        'name' => 'DummyGraphqlName',
         'description' => 'A query'
     ];
 
