@@ -7,7 +7,7 @@ namespace DummyNamespace;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\UnionType;
 
-class DummyUnionType extends UnionType
+class DummyClass extends UnionType
 {
     protected $attributes = [
         'name' => 'DummyUnionType',

@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\StringType;
 use Rebing\GraphQL\Support\InterfaceType;
 
-class DummyInterfaceType extends InterfaceType
+class DummyClass extends InterfaceType
 {
     protected $attributes = [
         'name' => 'DummyInterfaceType',

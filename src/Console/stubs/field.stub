@@ -7,7 +7,7 @@ namespace DummyNamespace;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
-class DummyField extends Field
+class DummyClass extends Field
 {
     protected $attributes = [
         'name' => 'DummyField',
