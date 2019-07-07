@@ -5,160 +5,64 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Illuminate\Filesystem\Filesystem;
 use Rebing\GraphQL\Console\InputMakeCommand;
+use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 
 class InputMakeCommandTest extends TestCase
 {
-    public function testCommand(): void
-    {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Inputs/Example.php|', $path);
+    use MakeCommandAssertionTrait;
 
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class Example extends InputType/', $contents);
-                    $this->assertRegExp("/'name' => 'Example',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(InputMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'Example',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Input created successfully/', $tester->getDisplay());
+    /**
+     * @dataProvider dataForMakeCommand
+     * @param  string  $inputName
+     * @param  string  $expectedFilename
+     * @param  string  $expectedClassDefinition
+     * @param  string  $expectedGraphqlName
+     */
+    public function testCommand(
+        string $inputName,
+        string $expectedFilename,
+        string $expectedClassDefinition,
+        string $expectedGraphqlName
+    ): void {
+        $this->assertMakeCommand(
+            'Input',
+            InputMakeCommand::class,
+            $inputName,
+            $expectedFilename,
+            'App\\\\GraphQL\\\\Inputs',
+            $expectedClassDefinition,
+            $expectedGraphqlName
+        );
     }
 
-    public function testNameEndsWithInput(): void
+    public function dataForMakeCommand(): array
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Inputs/ExampleInput.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleInput extends InputType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleInput',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(InputMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleInput',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Input created successfully/', $tester->getDisplay());
-    }
-
-    public function testNameEndsWithInputObject(): void
-    {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Inputs/ExampleInputObject.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleInputObject extends InputType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleInput',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(InputMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleInputObject',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Input created successfully/', $tester->getDisplay());
-    }
-
-    public function testNameEndsWithType(): void
-    {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Inputs/ExampleInputObjectType.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleInputObjectType extends InputType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleInput',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(InputMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleInputObjectType',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Input created successfully/', $tester->getDisplay());
+        return [
+            'Example' => [
+                'inputName' => 'Example',
+                'expectedFilename' => 'GraphQL/Inputs/Example.php',
+                'expectedClassDefinition' => 'Example extends InputType',
+                'expectedGraphqlName' => "'name' => 'Example',",
+            ],
+            'ExampleInput' => [
+                'inputName' => 'ExampleInput',
+                'expectedFilename' => 'GraphQL/Inputs/ExampleInput.php',
+                'expectedClassDefinition' => 'ExampleInput extends InputType',
+                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+            ],
+            'ExampleInputObject' => [
+                'inputName' => 'ExampleInputObject',
+                'expectedFilename' => 'GraphQL/Inputs/ExampleInputObject.php',
+                'expectedClassDefinition' => 'ExampleInputObject extends InputType',
+                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+            ],
+            'ExampleInputObjectType' => [
+                'inputName' => 'ExampleInputObjectType',
+                'expectedFilename' => 'GraphQL/Inputs/ExampleInputObjectType.php',
+                'expectedClassDefinition' => 'ExampleInputObjectType extends InputType',
+                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+            ],
+        ];
     }
 }

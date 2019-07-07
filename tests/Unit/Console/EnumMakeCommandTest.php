@@ -5,122 +5,58 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Illuminate\Filesystem\Filesystem;
 use Rebing\GraphQL\Console\EnumMakeCommand;
+use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 
 class EnumMakeCommandTest extends TestCase
 {
-    public function testCommand(): void
-    {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Enums/Example.php|', $path);
+    use MakeCommandAssertionTrait;
 
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class Example extends EnumType/', $contents);
-                    $this->assertRegExp("/'name' => 'Example',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(EnumMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'Example',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Enum created successfully/', $tester->getDisplay());
+    /**
+     * @dataProvider dataForMakeCommand
+     * @param  string  $inputName
+     * @param  string  $expectedFilename
+     * @param  string  $expectedClassDefinition
+     * @param  string  $expectedGraphqlName
+     */
+    public function testCommand(
+        string $inputName,
+        string $expectedFilename,
+        string $expectedClassDefinition,
+        string $expectedGraphqlName
+    ): void {
+        $this->assertMakeCommand(
+            'Enum',
+            EnumMakeCommand::class,
+            $inputName,
+            $expectedFilename,
+            'App\\\\GraphQL\\\\Enums',
+            $expectedClassDefinition,
+            $expectedGraphqlName
+        );
     }
 
-    public function testNameEndsWithEnum(): void
+    public function dataForMakeCommand(): array
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Enums/ExampleEnum.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleEnum extends EnumType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleEnum',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(EnumMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleEnum',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Enum created successfully/', $tester->getDisplay());
-    }
-
-    public function testNameEndsWithType(): void
-    {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Enums/ExampleEnumType.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleEnumType extends EnumType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleEnum',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(EnumMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleEnumType',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Enum created successfully/', $tester->getDisplay());
+        return [
+            'Example' => [
+                'inputName' => 'Example',
+                'expectedFilename' => 'GraphQL/Enums/Example.php',
+                'expectedClassDefinition' => 'Example extends EnumType',
+                'expectedGraphqlName' => "'name' => 'Example',",
+            ],
+            'ExampleEnum' => [
+                'inputName' => 'ExampleEnum',
+                'expectedFilename' => 'GraphQL/Enums/ExampleEnum.php',
+                'expectedClassDefinition' => 'ExampleEnum extends EnumType',
+                'expectedGraphqlName' => "'name' => 'ExampleEnum',",
+            ],
+            'ExampleEnumType' => [
+                'inputName' => 'ExampleEnumType',
+                'expectedFilename' => 'GraphQL/Enums/ExampleEnumType.php',
+                'expectedClassDefinition' => 'ExampleEnumType extends EnumType',
+                'expectedGraphqlName' => "'name' => 'ExampleEnum',",
+            ],
+        ];
     }
 }

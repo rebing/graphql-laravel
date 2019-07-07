@@ -45,7 +45,8 @@ class PublishCommandTest extends TestCase
                     return true;
                 }),
                 $this->callback(function (string $to): bool {
-                    $this->assertRegExp('|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|', $to, '2nd call to copy, $to');
+                    $this->assertRegExp('|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|', $to,
+                        '2nd call to copy, $to');
 
                     return true;
                 })
@@ -58,6 +59,7 @@ class PublishCommandTest extends TestCase
 
         $this->assertSame(0, $tester->getStatusCode());
         $this->assertRegExp('|Copied File.*[/\\\\]config[/\\\\]config.php.* To|', $tester->getDisplay());
-        $this->assertRegExp('|Copied File.*[/\\\\]resources[/\\\\]views[/\\\\]graphiql.php.* To|', $tester->getDisplay());
+        $this->assertRegExp('|Copied File.*[/\\\\]resources[/\\\\]views[/\\\\]graphiql.php.* To|',
+            $tester->getDisplay());
     }
 }

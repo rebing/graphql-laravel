@@ -5,46 +5,52 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Illuminate\Filesystem\Filesystem;
 use Rebing\GraphQL\Console\ScalarMakeCommand;
+use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 
 class ScalarMakeCommandTest extends TestCase
 {
-    public function testCommand(): void
+    use MakeCommandAssertionTrait;
+
+    /**
+     * @dataProvider dataForMakeCommand
+     * @param  string  $inputName
+     * @param  string  $expectedFilename
+     * @param  string  $expectedClassDefinition
+     * @param  string  $expectedGraphqlName
+     */
+    public function testCommand(
+        string $inputName,
+        string $expectedFilename,
+        string $expectedClassDefinition,
+        string $expectedGraphqlName
+    ): void {
+        $this->assertMakeCommand(
+            'Scalar',
+            ScalarMakeCommand::class,
+            $inputName,
+            $expectedFilename,
+            'App\\\\GraphQL\\\\Scalars',
+            $expectedClassDefinition,
+            $expectedGraphqlName
+        );
+    }
+
+    public function dataForMakeCommand(): array
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Scalars/ExampleScalar.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleScalar extends ScalarType implements TypeConvertible/', $contents);
-                    $this->assertRegExp("/public \\\$name = 'ExampleScalar';/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(ScalarMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleScalar',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Scalar created successfully/', $tester->getDisplay());
+        return [
+            'Example' => [
+                'inputName' => 'Example',
+                'expectedFilename' => 'GraphQL/Scalars/Example.php',
+                'expectedClassDefinition' => 'Example extends ScalarType implements TypeConvertible',
+                'expectedGraphqlName' => '\$name = \'Example\';',
+            ],
+            'ExampleScalar' => [
+                'inputName' => 'ExampleScalar',
+                'expectedFilename' => 'GraphQL/Scalars/ExampleScalar.php',
+                'expectedClassDefinition' => 'ExampleScalar extends ScalarType implements TypeConvertible',
+                'expectedGraphqlName' => '\$name = \'ExampleScalar\';',
+            ],
+        ];
     }
 }
