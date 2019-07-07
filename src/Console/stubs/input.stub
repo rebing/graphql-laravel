@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\InputType;
 class DummyClass extends InputType
 {
     protected $attributes = [
-        'name' => 'DummyClass',
+        'name' => 'DummyGraphqlName',
         'description' => 'An example input',
     ];
 

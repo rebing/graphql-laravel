@@ -21,4 +21,24 @@ class InputMakeCommand extends GeneratorCommand
     {
         return $rootNamespace.'\GraphQL\Inputs';
     }
+
+    protected function buildClass($name)
+    {
+        $stub = parent::buildClass($name);
+
+        return $this->replaceGraphqlName($stub);
+    }
+
+    protected function replaceGraphqlName(string $stub): string
+    {
+        $graphqlName = $this->getNameInput();
+        $graphqlName = str_replace('InputObject', 'Input', $graphqlName);
+        $graphqlName = preg_replace('/Type$/', '', $graphqlName);
+
+        return str_replace(
+            'DummyGraphqlName',
+            $graphqlName,
+            $stub
+        );
+    }
 }
