@@ -37,7 +37,7 @@ class DummyClass extends Query
         $with = $fields->getRelations();
 
         return [
-            'The DummyQuery works',
+            'The DummyGraphqlName works',
         ];
     }
 }
