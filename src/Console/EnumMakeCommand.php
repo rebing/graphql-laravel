@@ -21,4 +21,23 @@ class EnumMakeCommand extends GeneratorCommand
     {
         return $rootNamespace.'\GraphQL\Enums';
     }
+
+    protected function buildClass($name)
+    {
+        $stub = parent::buildClass($name);
+
+        return $this->replaceGraphqlName($stub);
+    }
+
+    protected function replaceGraphqlName(string $stub): string
+    {
+        $graphqlName = $this->getNameInput();
+        $graphqlName = preg_replace('/Type$/', '', $graphqlName);
+
+        return str_replace(
+            'DummyGraphqlName',
+            $graphqlName,
+            $stub
+        );
+    }
 }

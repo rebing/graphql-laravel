@@ -9,7 +9,7 @@ use Rebing\GraphQL\Support\EnumType;
 class DummyClass extends EnumType
 {
     protected $attributes = [
-        'name' => 'DummyClass',
+        'name' => 'DummyGraphqlName',
         'description' => 'An example enum',
         'values' => [
             'TEST' => [
