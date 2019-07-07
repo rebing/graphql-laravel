@@ -14,6 +14,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- New `make:graphql:union` command
 - New `make:graphql:interface` command
 - New `make:graphql:field` command
 - New `make:graphql:enum` command and dedicated `EnumType`, deprecating `$enumObject=true` in the `Type` class
