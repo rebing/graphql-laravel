@@ -24,7 +24,7 @@ class DummyClass extends InterfaceType
     {
         return [
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
         ];

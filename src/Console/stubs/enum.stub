@@ -11,9 +11,9 @@ class DummyClass extends EnumType
     protected $attributes = [
         'name' => 'DummyClass',
         'description' => 'An example enum',
-        'values'      => [
+        'values' => [
             'TEST' => [
-                'value'       => 1,
+                'value' => 1,
                 'description' => 'test',
             ],
         ],
