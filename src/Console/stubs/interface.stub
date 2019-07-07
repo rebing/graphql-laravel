@@ -11,7 +11,7 @@ use Rebing\GraphQL\Support\InterfaceType;
 class DummyClass extends InterfaceType
 {
     protected $attributes = [
-        'name' => 'DummyClass',
+        'name' => 'DummyGraphqlName',
         'description' => 'An example interface',
     ];
 
