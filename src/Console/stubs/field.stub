@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Field;
 class DummyClass extends Field
 {
     protected $attributes = [
-        'name' => 'DummyField',
+        'name' => 'DummyClass',
     ];
 
     public function type(): Type

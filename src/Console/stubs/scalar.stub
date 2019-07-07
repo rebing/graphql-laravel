@@ -16,7 +16,7 @@ class DummyClass extends ScalarType implements TypeConvertible
     /**
      * @var string
      */
-    public $name = 'DummyType';
+    public $name = 'DummyClass';
 
     /**
      * @var string
