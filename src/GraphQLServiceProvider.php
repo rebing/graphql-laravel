@@ -8,10 +8,15 @@ use GraphQL\Validator\Rules\QueryDepth;
 use Illuminate\Support\ServiceProvider;
 use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Console\TypeMakeCommand;
+use Rebing\GraphQL\Console\EnumMakeCommand;
 use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Console\QueryMakeCommand;
+use Rebing\GraphQL\Console\FieldMakeCommand;
+use Rebing\GraphQL\Console\UnionMakeCommand;
 use Illuminate\Contracts\Container\Container;
+use Rebing\GraphQL\Console\ScalarMakeCommand;
 use Rebing\GraphQL\Console\MutationMakeCommand;
+use Rebing\GraphQL\Console\InterfaceMakeCommand;
 use GraphQL\Validator\Rules\DisableIntrospection;
 
 class GraphQLServiceProvider extends ServiceProvider
@@ -148,9 +153,15 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function registerConsole(): void
     {
-        $this->commands(TypeMakeCommand::class);
-        $this->commands(QueryMakeCommand::class);
+        $this->commands(EnumMakeCommand::class);
+        $this->commands(FieldMakeCommand::class);
+        $this->commands(InterfaceMakeCommand::class);
+        $this->commands(InterfaceMakeCommand::class);
         $this->commands(MutationMakeCommand::class);
+        $this->commands(QueryMakeCommand::class);
+        $this->commands(ScalarMakeCommand::class);
+        $this->commands(TypeMakeCommand::class);
+        $this->commands(UnionMakeCommand::class);
     }
 
     /**
