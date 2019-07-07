@@ -25,13 +25,51 @@ class TypeMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Types/Example.php|', $path);
+
+                    return true;
+                }),
+                $this->callback(function (string $contents): bool {
+                    $this->assertRegExp('/class Example extends GraphQLType/', $contents);
+                    $this->assertRegExp("/'name' => 'Example',/", $contents);
+
+                    return true;
+                })
+            );
+        $this->instance(Filesystem::class, $filesystemMock);
+
+        $command = $this->app->make(TypeMakeCommand::class);
+
+        $tester = $this->runCommand($command, [
+            'name' => 'Example',
+        ]);
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertRegExp('/Type created successfully/', $tester->getDisplay());
+    }
+
+    public function testEndsWithType(): void
+    {
+        $filesystemMock = $this
+            ->getMockBuilder(Filesystem::class)
+            ->setMethods([
+                'isDirectory',
+                'makeDirectory',
+                'put',
+            ])
+            ->getMock();
+        $filesystemMock
+            ->expects($this->once())
+            ->method('put')
+            ->with(
+                $this->callback(function (string $path): bool {
                     $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Types/ExampleType.php|', $path);
 
                     return true;
                 }),
                 $this->callback(function (string $contents): bool {
                     $this->assertRegExp('/class ExampleType extends GraphQLType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleType',/", $contents);
+                    $this->assertRegExp("/'name' => 'Example',/", $contents);
 
                     return true;
                 })

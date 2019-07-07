@@ -9,7 +9,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class DummyClass extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'DummyClass',
+        'name' => 'DummyGraphqlName',
         'description' => 'A type'
     ];
 
