@@ -25,13 +25,51 @@ class QueryMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
+                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Queries/Example.php|', $path);
+
+                    return true;
+                }),
+                $this->callback(function (string $contents): bool {
+                    $this->assertRegExp('/class Example extends Query/', $contents);
+                    $this->assertRegExp("/'name' => 'example',/", $contents);
+
+                    return true;
+                })
+            );
+        $this->instance(Filesystem::class, $filesystemMock);
+
+        $command = $this->app->make(QueryMakeCommand::class);
+
+        $tester = $this->runCommand($command, [
+            'name' => 'Example',
+        ]);
+
+        $this->assertSame(0, $tester->getStatusCode());
+        $this->assertRegExp('/Query created successfully/', $tester->getDisplay());
+    }
+
+    public function testEndsWithQuery(): void
+    {
+        $filesystemMock = $this
+            ->getMockBuilder(Filesystem::class)
+            ->setMethods([
+                'isDirectory',
+                'makeDirectory',
+                'put',
+            ])
+            ->getMock();
+        $filesystemMock
+            ->expects($this->once())
+            ->method('put')
+            ->with(
+                $this->callback(function (string $path): bool {
                     $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Queries/ExampleQuery.php|', $path);
 
                     return true;
                 }),
                 $this->callback(function (string $contents): bool {
                     $this->assertRegExp('/class ExampleQuery extends Query/', $contents);
-                    $this->assertRegExp("/'name' => 'exampleQuery',/", $contents);
+                    $this->assertRegExp("/'name' => 'example',/", $contents);
 
                     return true;
                 })
