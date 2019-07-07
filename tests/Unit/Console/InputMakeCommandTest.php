@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
 use Illuminate\Filesystem\Filesystem;
-use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Console\InputMakeCommand;
 
 class InputMakeCommandTest extends TestCase

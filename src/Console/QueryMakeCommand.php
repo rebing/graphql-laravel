@@ -33,7 +33,7 @@ class QueryMakeCommand extends GeneratorCommand
     {
         $graphqlName = lcfirst($this->getNameInput());
 
-       return str_replace(
+        return str_replace(
             'DummyGraphqlName',
             $graphqlName,
             $stub
