@@ -13,6 +13,7 @@ use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Console\QueryMakeCommand;
 use Rebing\GraphQL\Console\FieldMakeCommand;
 use Rebing\GraphQL\Console\UnionMakeCommand;
+use Rebing\GraphQL\Console\InputMakeCommand;
 use Illuminate\Contracts\Container\Container;
 use Rebing\GraphQL\Console\ScalarMakeCommand;
 use Rebing\GraphQL\Console\MutationMakeCommand;
@@ -155,6 +156,7 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $this->commands(EnumMakeCommand::class);
         $this->commands(FieldMakeCommand::class);
+        $this->commands(InputMakeCommand::class);
         $this->commands(InterfaceMakeCommand::class);
         $this->commands(InterfaceMakeCommand::class);
         $this->commands(MutationMakeCommand::class);
