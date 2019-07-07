@@ -42,7 +42,6 @@ parameters:
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
-        - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
         # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
         - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
         # tests/Unit/GraphQLTest.php
