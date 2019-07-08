@@ -55,32 +55,12 @@ class GraphQL
 
         $this->clearTypeInstances();
 
-        foreach ($this->getTypes() as $name => $type) {
-            $this->type($name);
-        }
-
         $schema = $this->getSchemaConfiguration($schema);
 
         $schemaQuery = Arr::get($schema, 'query', []);
         $schemaMutation = Arr::get($schema, 'mutation', []);
         $schemaSubscription = Arr::get($schema, 'subscription', []);
         $schemaTypes = Arr::get($schema, 'types', []);
-
-        //Get the types either from the schema, or the global types.
-        $types = [];
-        if (count($schemaTypes)) {
-            foreach ($schemaTypes as $name => $type) {
-                $objectType = $this->objectType($type, is_numeric($name) ? [] : [
-                    'name' => $name,
-                ]);
-                $this->typesInstances[$name] = $objectType;
-                $types[] = $objectType;
-            }
-        } else {
-            foreach ($this->getTypes() as $name => $type) {
-                $types[] = $this->type($name);
-            }
-        }
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -98,7 +78,9 @@ class GraphQL
             'query'         => $query,
             'mutation'      => ! empty($schemaMutation) ? $mutation : null,
             'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'types'         => $types,
+            'typeLoader' => function($name) {
+                return $this->type($name);
+            }
         ]);
     }
 
