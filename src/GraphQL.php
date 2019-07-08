@@ -275,10 +275,6 @@ class GraphQL
     {
         $name = $customName ?: $typeName.'_pagination';
 
-        if (!isset($this->types['PaginationCursor'])) {
-            $this->types['PaginationCursor'] = new PaginationCursorType();
-        }
-
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
             $this->typesInstances[$name] = new $paginationType($typeName, $customName);
