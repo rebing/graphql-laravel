@@ -40,7 +40,7 @@ class GraphQLController extends Controller
 
         // If a singular query was not found, it means the queries are in batch
         $isBatch = ! $request->has('query');
-        $inputs = $isBatch ? $request->all() : [$request->all()];
+        $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
 
