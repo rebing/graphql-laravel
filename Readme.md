@@ -1518,6 +1518,11 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - if you've a custom ServiceProvider or did include it manually, remove it. The point is that the existing GraphQL code should not be triggered to run.
 - `composer require rebing/graphql-laravel`
 - Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings, graphiql)
+  - Removed settings
+    - `domain`
+    - `resolvers`
+  - `schema` (defaul schema) renamed to `default_schema`
+  - `middleware_schema` does not exist, it's defined within a `schema.<name>.middleware` now
 - Change namespace references:
   - from `Folklore\`
   - to `Rebing\`
