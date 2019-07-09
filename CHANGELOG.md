@@ -39,6 +39,7 @@ CHANGELOG
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
+- File uploads now correctly work with batched requests [\#397](https://github.com/rebing/graphql-laravel/pull/397)
 - Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
   - This also applies to privacy checks on fields, the callback now receives the field arguments too
