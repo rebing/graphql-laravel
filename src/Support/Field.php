@@ -67,11 +67,7 @@ abstract class Field extends Fluent
         $argsRules = [];
         foreach ($this->args() as $name => $arg) {
             if (isset($arg['rules'])) {
-                if (is_callable($arg['rules'])) {
-                    $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
-                } else {
-                    $argsRules[$name] = $arg['rules'];
-                }
+                $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
             }
 
             if (isset($arg['type'])
@@ -84,11 +80,11 @@ abstract class Field extends Fluent
     }
 
     /**
-     * @param  array|callable  $rules
+     * @param  array|string|callable  $rules
      * @param  array  $arguments
-     * @return array
+     * @return array|string
      */
-    public function resolveRules($rules, array $arguments): array
+    public function resolveRules($rules, array $arguments)
     {
         if (is_callable($rules)) {
             return call_user_func_array($rules, $arguments);
