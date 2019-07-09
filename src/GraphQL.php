@@ -22,6 +22,8 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\UploadType;
+use GraphQL\Type\Introspection;
 
 class GraphQL
 {
@@ -35,6 +37,9 @@ class GraphQL
      * @var array<string,object|string>
      */
     protected $types = [];
+
+    protected const UPLOAD_TYPE_NAME = 'Upload';
+
     /** @var Type[] */
     protected $typesInstances = [];
 
@@ -60,7 +65,6 @@ class GraphQL
         $schemaQuery = Arr::get($schema, 'query', []);
         $schemaMutation = Arr::get($schema, 'mutation', []);
         $schemaSubscription = Arr::get($schema, 'subscription', []);
-        $schemaTypes = Arr::get($schema, 'types', []);
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -75,11 +79,36 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query'         => $query,
-            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
-            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'typeLoader' => function($name) {
-                return $this->type($name);
+            'query' => $query,
+            'mutation' => !empty($schemaMutation) ? $mutation : null,
+            'subscription' => !empty($schemaSubscription) ? $subscription : null,
+            'typeLoader' => function ($name) {
+                if ($name === self::UPLOAD_TYPE_NAME) {
+                    return UploadType::getInstance();
+                }
+                $keyName = array_search($name, $this->typesInstances);
+
+                return $this->type($keyName);
+            },
+            // The closure is only called when loading the whole schema
+            'types' => function () use ($schema) {
+                $types = [];
+                $schemaTypes = Arr::get($schema, 'types', []);
+
+                if (count($schemaTypes)) {
+                    foreach ($schemaTypes as $name => $type) {
+                        $objectType = $this->objectType($type, is_numeric($name) ? [] : [
+                            'name' => $name,
+                        ]);
+                        $this->typesInstances[$name] = $objectType;
+                        $types[] = $objectType;
+                    }
+                } else {
+                    foreach ($this->getTypes() as $name => $type) {
+                        $types[] = $this->type($name);
+                    }
+                }
+                return $types;
             }
         ]);
     }
