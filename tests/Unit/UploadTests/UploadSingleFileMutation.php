@@ -30,6 +30,6 @@ class UploadSingleFileMutation extends Mutation
 
     public function resolve($root, $args): string
     {
-        return $args['file']->get();
+        return file_get_contents($args['file']->getPathname());
     }
 }

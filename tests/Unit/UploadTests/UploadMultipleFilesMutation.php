@@ -33,7 +33,7 @@ class UploadMultipleFilesMutation extends Mutation
     {
         return array_map(
             function (File $file): string {
-                return $file->get();
+                return file_get_contents($file->getPathname());
             },
             $args['files']
         );
