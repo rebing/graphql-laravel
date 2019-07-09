@@ -4,11 +4,13 @@ namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\Type as GraphQLType;
 use Rebing\GraphQL\Type\Definition\DirectionEnumType;
 
 class SortType extends InputObjectType
 {
+    const FIELD_FIELD = 'field';
+    const FIELD_DIRECTION = 'direction';
+
     public function __construct(string $typeName, string $customName = null)
     {
         $name = $customName ?: $typeName.'SortType';
@@ -25,12 +27,12 @@ class SortType extends InputObjectType
     {
         return [
             [
-                'name' => 'field',
+                'name' => self::FIELD_FIELD,
                 'type' => GraphQL::type($typeName),
                 'description' => 'List of fields',
             ],
             [
-                'name' => 'direction',
+                'name' => self::FIELD_DIRECTION,
                 'type' => new DirectionEnumType([
                     DirectionEnumType::TYPE_NAME
                 ]),
