@@ -23,7 +23,6 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\UploadType;
-use GraphQL\Type\Introspection;
 
 class GraphQL
 {
@@ -37,8 +36,6 @@ class GraphQL
      * @var array<string,object|string>
      */
     protected $types = [];
-
-    protected const UPLOAD_TYPE_NAME = 'Upload';
 
     /** @var Type[] */
     protected $typesInstances = [];
@@ -83,12 +80,11 @@ class GraphQL
             'mutation' => !empty($schemaMutation) ? $mutation : null,
             'subscription' => !empty($schemaSubscription) ? $subscription : null,
             'typeLoader' => function ($name) {
-                if ($name === self::UPLOAD_TYPE_NAME) {
-                    return UploadType::getInstance();
+                $keyName = array_search($name, $this->typesInstances, true);
+                if ($keyName !== false) {
+                    return $this->type($keyName);
                 }
-                $keyName = array_search($name, $this->typesInstances);
-
-                return $this->type($keyName);
+                return $this->type($name);
             },
             // The closure is only called when loading the whole schema
             'types' => function () use ($schema) {
