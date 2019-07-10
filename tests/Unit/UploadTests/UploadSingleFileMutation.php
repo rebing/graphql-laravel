@@ -6,7 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
-use Rebing\GraphQL\Support\UploadType;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UploadSingleFileMutation extends Mutation
 {
@@ -23,7 +23,7 @@ class UploadSingleFileMutation extends Mutation
     {
         return [
             'file' => [
-                'type' => UploadType::getInstance(),
+                'type' => GraphQL::type('Upload'),
             ],
         ];
     }

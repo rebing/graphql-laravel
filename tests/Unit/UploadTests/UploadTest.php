@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use Illuminate\Http\UploadedFile;
 use Rebing\GraphQL\Tests\TestCase;
+use Rebing\GraphQL\Support\UploadType;
 
 class UploadTest extends TestCase
 {
@@ -183,6 +184,9 @@ class UploadTest extends TestCase
                 UploadMultipleFilesMutation::class,
                 UploadSingleFileMutation::class,
             ],
+        ]);
+        $app['config']->set('graphql.types', [
+            UploadType::class,
         ]);
     }
 }

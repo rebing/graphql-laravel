@@ -518,9 +518,11 @@ public function validationErrorMessages(array $args = []): array
 
 #### File uploads
 
-For uploading new files just use `UploadType`. This support of uploading files is
-based on https://github.com/jaydenseric/graphql-multipart-request-spec
-so you have to upload them as multipart form:
+This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
+
+You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition.
+
+It is relevant that you send the request as `multipart/form-data`:
 
 > **WARNING:** when you are uploading files, Laravel will use FormRequest - it means
 > that middlewares which are changing request, will not have any effect.
@@ -534,7 +536,6 @@ use Closure;
 use GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Support\Mutation;
 
 class UserProfilePhotoMutation extends Mutation
@@ -553,7 +554,7 @@ class UserProfilePhotoMutation extends Mutation
         return [
             'profilePicture' => [
                 'name' => 'profilePicture',
-                'type' => UploadType::getInstance(),
+                'type' => GraphQL::type('Upload'),
                 'rules' => ['required', 'image', 'max:1500'],
             ],
         ];

@@ -7,7 +7,7 @@ namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Http\Testing\File;
 use Rebing\GraphQL\Support\Mutation;
-use Rebing\GraphQL\Support\UploadType;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UploadMultipleFilesMutation extends Mutation
 {
@@ -24,7 +24,7 @@ class UploadMultipleFilesMutation extends Mutation
     {
         return [
             'files' => [
-                'type' => Type::listOf(UploadType::getInstance()),
+                'type' => Type::listOf(GraphQL::type('Upload')),
             ],
         ];
     }
