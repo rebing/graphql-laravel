@@ -52,8 +52,6 @@ parameters:
         - '/Anonymous function should return string but returns string\|false/'
         # tests/Unit/UploadTests/UploadSingleFileMutation.php
         - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
-        # src/GraphQL.php
-        - '/Parameter #1 \$name of method Rebing\\GraphQL\\GraphQL::type\(\) expects string, int\|string\|false given/'
         ### Larastan ; manually disable the ones reported
         #- '#Result of function abort \(void\) is used#'
         #- '#Call to an undefined method Illuminate\\Support\\HigherOrder#'
