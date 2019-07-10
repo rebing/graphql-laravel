@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
-use Rebing\GraphQL\Support\UploadType;
 use GraphQL\Validator\Rules\QueryDepth;
 use Illuminate\Support\ServiceProvider;
 use GraphQL\Validator\DocumentValidator;
@@ -78,8 +77,6 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootTypes(): void
     {
         $configTypes = config('graphql.types');
-
-        $configTypes['Upload'] = UploadType::class;
         $this->app->make('graphql')->addTypes($configTypes);
     }
 
