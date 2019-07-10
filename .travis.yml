@@ -31,6 +31,8 @@ matrix:
       env: LARAVEL='5.7.*'
     - php: '7.2'
       env: LARAVEL='5.8.*'
+    - php: '7.2'
+      env: LARAVEL='dev-master'
     - php: '7.3'
       env: LARAVEL='5.5.*'
     - php: '7.3'
@@ -39,17 +41,29 @@ matrix:
       env: LARAVEL='5.7.*'
     - php: '7.3'
       env: LARAVEL='5.8.*' CODE_COVERAGE=1 STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
+    - php: '7.3'
+      env: LARAVEL='dev-master'
     - php: '7.4snapshot'
       env: LARAVEL='5.8.*'
+    - php: '7.4snapshot'
+      env: LARAVEL='dev-master'
   allow_failures:
     - php: '7.4snapshot'
       env: LARAVEL='5.8.*'
+    - php: '7.4snapshot'
+      env: LARAVEL='dev-master'
 
 before_script:
   - phpenv config-rm xdebug.ini || true
 
 install:
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
+  - |
+    # dev-master requires liftig other requirements too
+    if [[ $LARAVEL = 'dev-master' ]]; then
+      composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
+      composer require "orchestra/testbench:${LARAVEL}" --no-interaction --no-update
+    fi
   - if [[ $STATIC_ANALYSER = 0 ]]; then composer remove --dev nunomaduro/larastan --no-interaction --no-update; fi
   - composer install --prefer-dist --no-interaction --no-suggest
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
