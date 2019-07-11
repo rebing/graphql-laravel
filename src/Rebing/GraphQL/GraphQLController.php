@@ -72,6 +72,13 @@ class GraphQLController extends Controller
     public function graphiql(Request $request, $schema = null)
     {
         $graphqlPath = '/'.config('graphql.prefix');
+		
+		if (is_lumen() && $request->request->count() > 1) {
+            $schema = implode('/', $request->request->all());
+        } elseif (! is_lumen() && $request->route()->parameters && count($request->route()->parameters) > 1) {
+            $schema = implode('/', $request->route()->parameters);
+        }
+		
         if ($schema) {
             $graphqlPath .= '/'.$schema;
         }
