@@ -36,6 +36,13 @@ class GraphQL
      */
     protected $types = [];
 
+    /**
+     * Maps GraphQL query type names to their type names.
+     *
+     * @var array<string,object|string>
+     */
+    protected $queryTypes = [];
+
     /** @var Type[] */
     protected $typesInstances = [];
 
@@ -79,9 +86,8 @@ class GraphQL
             'mutation' => ! empty($schemaMutation) ? $mutation : null,
             'subscription' => ! empty($schemaSubscription) ? $subscription : null,
             'typeLoader' => function ($name) {
-                $keyName = array_search($name, $this->typesInstances, true);
-                if ($keyName !== false) {
-                    return $this->type($keyName);
+                if (! isset($this->types[$name])) {
+                    $name = $this->queryTypes[$name];
                 }
 
                 return $this->type($name);
@@ -160,12 +166,12 @@ class GraphQL
      */
     public function addType($class, string $name = null): void
     {
-        if (! $name) {
-            $type = is_object($class) ? $class : $this->app->make($class);
-            $name = $type->name;
-        }
+        $type = is_object($class) ? $class : $this->app->make($class);
+        $this->types[$name ?: $type->name] = $class;
 
-        $this->types[$name] = $class;
+        if ($name) {
+            $this->queryTypes[$type->name] = $name;
+        }
     }
 
     public function type(string $name, bool $fresh = false): Type

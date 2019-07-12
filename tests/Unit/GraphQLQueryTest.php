@@ -24,6 +24,17 @@ class GraphQLQueryTest extends TestCase
         ]);
     }
 
+    public function testQueryWhereConfigAliasIsDifferentFromTypClassNameQuery(): void
+    {
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
+
+        $this->assertObjectHasAttribute('data', $result);
+
+        $this->assertEquals($result->data, [
+            'examplesConfigAlias' => $this->data,
+        ]);
+    }
+
     /**
      * Test query methods.
      */
