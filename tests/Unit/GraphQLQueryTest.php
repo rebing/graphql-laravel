@@ -26,7 +26,6 @@ class GraphQLQueryTest extends TestCase
 
     public function testConfigKeysIsDifferentFromTypeClassNameQuery(): void
     {
-
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
 
         $this->assertObjectHasAttribute('data', $result);
@@ -44,11 +43,10 @@ class GraphQLQueryTest extends TestCase
         $this->assertObjectHasAttribute('errors', $result);
 
         $this->assertStringStartsWith(
-            "Type Example2 not found.",
+            'Type Example2 not found.',
             $result->errors[0]->message
         );
     }
-
 
     /**
      * Test query methods.

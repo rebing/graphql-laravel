@@ -75,11 +75,11 @@ class GraphQL
 
         return new Schema([
             'query' => $query,
-            'mutation' => !empty($schemaMutation) ? $mutation : null,
-            'subscription' => !empty($schemaSubscription) ? $subscription : null,
+            'mutation' => ! empty($schemaMutation) ? $mutation : null,
+            'subscription' => ! empty($schemaSubscription) ? $subscription : null,
             'typeLoader' => config('graphql.lazyload_types', false) ? function ($name) {
-                    return $this->type($name);
-            }: null, 
+                return $this->type($name);
+            } : null,
             'types' => function () use ($schema) {
                 $types = [];
                 $schemaTypes = Arr::get($schema, 'types', []);
@@ -163,7 +163,7 @@ class GraphQL
 
     public function type(string $name, bool $fresh = false): Type
     {
-        if (!isset($this->types[$name])) {
+        if (! isset($this->types[$name])) {
             $error = "Type $name not found.";
 
             if (config('graphql.lazyload_types', false)) {
