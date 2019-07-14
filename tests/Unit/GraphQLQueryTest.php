@@ -24,6 +24,32 @@ class GraphQLQueryTest extends TestCase
         ]);
     }
 
+    public function testConfigKeysIsDifferentFromTypeClassNameQuery(): void
+    {
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
+
+        $this->assertObjectHasAttribute('data', $result);
+
+        $this->assertEquals($result->data, [
+            'examplesConfigAlias' => $this->data,
+        ]);
+    }
+
+    public function testConfigKeyIsDifferentFromTypeClassNameNotSupportedInLazyLoadingOfTypes(): void
+    {
+        app('config')->set('graphql.lazyload_types', true);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
+        $this->assertObjectHasAttribute('errors', $result);
+
+        $this->assertStringStartsWith(
+            "Type Example2 not found.",
+            $result->errors[0]->message
+        );
+    }
+
+
     /**
      * Test query methods.
      */

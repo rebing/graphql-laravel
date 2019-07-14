@@ -55,32 +55,11 @@ class GraphQL
 
         $this->clearTypeInstances();
 
-        foreach ($this->getTypes() as $name => $type) {
-            $this->type($name);
-        }
-
         $schema = $this->getSchemaConfiguration($schema);
 
         $schemaQuery = Arr::get($schema, 'query', []);
         $schemaMutation = Arr::get($schema, 'mutation', []);
         $schemaSubscription = Arr::get($schema, 'subscription', []);
-        $schemaTypes = Arr::get($schema, 'types', []);
-
-        //Get the types either from the schema, or the global types.
-        $types = [];
-        if (count($schemaTypes)) {
-            foreach ($schemaTypes as $name => $type) {
-                $objectType = $this->objectType($type, is_numeric($name) ? [] : [
-                    'name' => $name,
-                ]);
-                $this->typesInstances[$name] = $objectType;
-                $types[] = $objectType;
-            }
-        } else {
-            foreach ($this->getTypes() as $name => $type) {
-                $types[] = $this->type($name);
-            }
-        }
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -95,10 +74,32 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query'         => $query,
-            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
-            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'types'         => $types,
+            'query' => $query,
+            'mutation' => !empty($schemaMutation) ? $mutation : null,
+            'subscription' => !empty($schemaSubscription) ? $subscription : null,
+            'typeLoader' => config('graphql.lazyload_types', false) ? function ($name) {
+                    return $this->type($name);
+            }: null, 
+            'types' => function () use ($schema) {
+                $types = [];
+                $schemaTypes = Arr::get($schema, 'types', []);
+
+                if (count($schemaTypes)) {
+                    foreach ($schemaTypes as $name => $type) {
+                        $objectType = $this->objectType($type, is_numeric($name) ? [] : [
+                            'name' => $name,
+                        ]);
+                        $this->typesInstances[$name] = $objectType;
+                        $types[] = $objectType;
+                    }
+                } else {
+                    foreach ($this->getTypes() as $name => $type) {
+                        $types[] = $this->type($name);
+                    }
+                }
+
+                return $types;
+            },
         ]);
     }
 
@@ -162,8 +163,14 @@ class GraphQL
 
     public function type(string $name, bool $fresh = false): Type
     {
-        if (! isset($this->types[$name])) {
-            throw new TypeNotFound("Type $name not found.");
+        if (!isset($this->types[$name])) {
+            $error = "Type $name not found.";
+
+            if (config('graphql.lazyload_types', false)) {
+                $error .= "\nCheck that the config array key for the type matches the name attribute in the type's class.\nIt is required when 'lazyload_types' is enabled";
+            }
+
+            throw new TypeNotFound($error);
         }
 
         if (! $fresh && isset($this->typesInstances[$name])) {

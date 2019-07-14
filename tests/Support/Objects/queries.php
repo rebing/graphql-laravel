@@ -20,6 +20,14 @@ return [
         }
     ',
 
+    'examplesWithConfigAlias' => '
+        query examplesConfigAlias($index: Int) {
+            examplesConfigAlias(index: $index) {
+                test
+            }
+        }
+    ',
+
     'examplesWithVariables' => '
         query QueryExamplesVariables($index: Int) {
             examples(index: $index) {

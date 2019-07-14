@@ -18,12 +18,14 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Component\Console\Tester\CommandTester;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType2;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 
 class TestCase extends BaseTestCase
 {
@@ -45,10 +47,11 @@ class TestCase extends BaseTestCase
     {
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                'examples'           => ExamplesQuery::class,
-                'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
+                'examples' => ExamplesQuery::class,
+                'examplesAuthorize' => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
-                'examplesFiltered'   => ExamplesFilteredQuery::class,
+                'examplesFiltered' => ExamplesFilteredQuery::class,
+                'examplesConfigAlias' => ExamplesConfigAliasQuery::class,
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class,
@@ -58,6 +61,7 @@ class TestCase extends BaseTestCase
         $app['config']->set('graphql.schemas.custom', [
             'query' => [
                 'examplesCustom' => ExamplesQuery::class,
+
             ],
             'mutation' => [
                 'updateExampleCustom' => UpdateExampleMutation::class,
@@ -65,7 +69,8 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example'            => ExampleType::class,
+            'Example' => ExampleType::class,
+            'ExampleConfigAlias' => ExampleType2::class,
             'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 
@@ -218,7 +223,8 @@ class TestCase extends BaseTestCase
      */
     private function formatSafeTrace(array $trace): string
     {
-        return implode("\n",
+        return implode(
+            "\n",
             array_map(function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
@@ -233,6 +239,7 @@ class TestCase extends BaseTestCase
                 }
 
                 return $line;
-            }, $trace, array_keys($trace)));
+            }, $trace, array_keys($trace))
+        );
     }
 }
