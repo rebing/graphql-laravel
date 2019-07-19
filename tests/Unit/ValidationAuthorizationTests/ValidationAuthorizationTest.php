@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
+use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationAuthorizationTest extends TestCase
@@ -23,7 +24,16 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSame('Unauthorized', $result['errors'][0]['message']);
+        $this->assertSame('validation', $result['errors'][0]['message']);
+
+        /** @var MessageBag $messageBag */
+        $messageBag = $result['errors'][0]['extensions']['validation'];
+        $expectedErrors = [
+            'arg1' => [
+                'The selected arg1 is invalid.',
+            ],
+        ];
+        $this->assertSame($expectedErrors, $messageBag->messages());
     }
 
     public function testAuthorizeArgumentsValid(): void

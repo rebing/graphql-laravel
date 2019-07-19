@@ -167,11 +167,6 @@ abstract class Field extends Fluent
                 $arguments[1] = array_merge($arguments[1], $arguments[2]);
             }
 
-            // Authorize
-            if (call_user_func($authorize, $arguments[1]) != true) {
-                throw new AuthorizationError('Unauthorized');
-            }
-
             // Validate mutation arguments
             if (method_exists($this, 'getRules')) {
                 $args = Arr::get($arguments, 1, []);
@@ -186,6 +181,11 @@ abstract class Field extends Fluent
                         throw new ValidationError('validation', $validator);
                     }
                 }
+            }
+
+            // Authorize
+            if (call_user_func($authorize, $arguments[1]) != true) {
+                throw new AuthorizationError('Unauthorized');
             }
 
             // Add the 'selects and relations' feature as 5th arg
