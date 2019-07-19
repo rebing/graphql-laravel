@@ -74,13 +74,13 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query' => $query,
-            'mutation' => ! empty($schemaMutation) ? $mutation : null,
-            'subscription' => ! empty($schemaSubscription) ? $subscription : null,
             'typeLoader' => config('graphql.lazyload_types', false) ? function ($name) {
                 return $this->type($name);
             } : null,
             'types' => function () use ($schema) {
+            'query'         => $query,
+            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
+            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
                 $types = [];
                 $schemaTypes = Arr::get($schema, 'types', []);
 

@@ -47,10 +47,10 @@ class TestCase extends BaseTestCase
     {
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                'examples' => ExamplesQuery::class,
-                'examplesAuthorize' => ExamplesAuthorizeQuery::class,
+                'examples'           => ExamplesQuery::class,
+                'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
-                'examplesFiltered' => ExamplesFilteredQuery::class,
+                'examplesFiltered'   => ExamplesFilteredQuery::class,
                 'examplesConfigAlias' => ExamplesConfigAliasQuery::class,
             ],
             'mutation' => [
@@ -61,7 +61,6 @@ class TestCase extends BaseTestCase
         $app['config']->set('graphql.schemas.custom', [
             'query' => [
                 'examplesCustom' => ExamplesQuery::class,
-
             ],
             'mutation' => [
                 'updateExampleCustom' => UpdateExampleMutation::class,
@@ -69,7 +68,7 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('graphql.types', [
-            'Example' => ExampleType::class,
+            'Example'            => ExampleType::class,
             'ExampleConfigAlias' => ExampleType2::class,
             'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
@@ -223,8 +222,7 @@ class TestCase extends BaseTestCase
      */
     private function formatSafeTrace(array $trace): string
     {
-        return implode(
-            "\n",
+        return implode("\n",
             array_map(function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
@@ -239,7 +237,6 @@ class TestCase extends BaseTestCase
                 }
 
                 return $line;
-            }, $trace, array_keys($trace))
-        );
+            }, $trace, array_keys($trace)));
     }
 }
