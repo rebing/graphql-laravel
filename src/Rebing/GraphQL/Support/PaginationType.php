@@ -18,6 +18,11 @@ class PaginationType extends ObjectType
             'fields' => $this->getPaginationFields($typeName),
         ];
 
+        $underlyingType = GraphQL::type($typeName);
+        if (!empty($underlyingType->config['model'])) {
+            $config['model'] = $underlyingType->config['model'];
+        }
+
         parent::__construct($config);
     }
 
