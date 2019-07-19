@@ -16,6 +16,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- Added support for lazy loading types, can improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405)
 - A migration guide for the Folklore library as part of the readme
 - New `make:graphql:input` command
 - New `make:graphql:union` command

@@ -121,6 +121,7 @@ To work this around:
 - [Field deprecation](#field-deprecation)
 - [Default Field Resolver](#default-field-resolver)
 - [Migrating from Folklore](#migrating-from-folklore)
+- [Performance considerations](#performance-considerations)
 
 ### Schemas
 
@@ -1560,3 +1561,24 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
   - the signature of the method parseLiteral changed (due to upgrade of the webonxy library):
     - from `public function parseLiteral($ast)`
     - to `public function parseLiteral($valueNode, ?array $variables = null)`
+
+## Performance considerations
+
+### Lazy loading of types
+If your schema has a lots of types, loading them all on each request may incur
+a noticable latency overhead due to all types being eager loaded by default.
+
+By changing the configuration `lazyload_types` to `true`, types will be lazy
+loaded and, depending on your use-cae, may improve performance.
+
+However there is a restriction: you **cannot** use aliasing with your types,
+the `name` of a type must be the same name you registered the type under.
+
+I.e. you cannot have a query class `ExampleQuery` with the `$name` property
+`example` but register it with a different one; this will **not** work:
+
+```php
+'query' => [
+    'aliasedEXample' => ExampleQuery::class,
+],
+```
