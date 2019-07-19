@@ -74,21 +74,17 @@ class GraphQL
         ]);
 
         return new Schema([
-            'typeLoader' => config('graphql.lazyload_types', false) ? function ($name) {
-                return $this->type($name);
-            } : null,
-            'types' => function () use ($schema) {
             'query'         => $query,
             'mutation'      => ! empty($schemaMutation) ? $mutation : null,
             'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
+            'types'         => function () use ($schema) {
                 $types = [];
                 $schemaTypes = Arr::get($schema, 'types', []);
 
-                if (count($schemaTypes)) {
+                if ($schemaTypes) {
                     foreach ($schemaTypes as $name => $type) {
-                        $objectType = $this->objectType($type, is_numeric($name) ? [] : [
-                            'name' => $name,
-                        ]);
+                        $opts = is_numeric($name) ? [] : ['name' => $name];
+                        $objectType = $this->objectType($type, $opts);
                         $this->typesInstances[$name] = $objectType;
                         $types[] = $objectType;
                     }
@@ -100,6 +96,11 @@ class GraphQL
 
                 return $types;
             },
+            'typeLoader'    => config('graphql.lazyload_types', false)
+                ? function ($name) {
+                    return $this->type($name);
+                }
+                : null,
         ]);
     }
 
