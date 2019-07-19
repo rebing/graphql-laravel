@@ -26,6 +26,10 @@ class GraphQLQueryTest extends TestCase
 
     public function testConfigKeysIsDifferentFromTypeClassNameQuery(): void
     {
+        if (app('config')->get('graphql.lazyload_types')) {
+            $this->markTestSkipped('Skipping test when lazyload_types=true');
+        }
+
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
 
         $this->assertObjectHasAttribute('data', $result);
