@@ -42,10 +42,10 @@ class GraphQLQueryTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
         $this->assertObjectHasAttribute('errors', $result);
 
-        $this->assertStringStartsWith(
-            'Type Example2 not found.',
-            $result->errors[0]->message
-        );
+        $expected = "Type Example2 not found.
+Check that the config array key for the type matches the name attribute in the type's class.
+It is required when 'lazyload_types' is enabled";
+        $this->assertSame($expected, $result->errors[0]->message);
     }
 
     /**
