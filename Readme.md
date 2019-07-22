@@ -1565,14 +1565,15 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 ## Performance considerations
 
 ### Lazy loading of types
-If your schema has a lots of types, loading them all on each request may incur
-a noticable latency overhead due to all types being eager loaded by default.
 
-By changing the configuration `lazyload_types` to `true`, types will be lazy
-loaded and, depending on your use-cae, may improve performance.
+Lazy loading of types is enabled by default, having no drawback for small
+projects but benfiting usages with many types.
 
-However there is a restriction: you **cannot** use aliasing with your types,
-the `name` of a type must be the same name you registered the type under.
+If you however use aliasing, that the `$name` of a type does not match
+it registered name, this does not work and you've to disable it by setting
+`lazyload_types` to `false` in the configuration.
+
+#### Example of aliasing **not** supported by lazy loading
 
 I.e. you cannot have a query class `ExampleQuery` with the `$name` property
 `example` but register it with a different one; this will **not** work:
