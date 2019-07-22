@@ -136,6 +136,8 @@ SQL
     {
         parent::getEnvironmentSetUp($app);
 
+        $app['config']->set('graphql.lazyload_types', false);
+
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 ParentIdQuery::class,
