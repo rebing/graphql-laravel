@@ -18,7 +18,7 @@ class ParentIdTest extends TestCaseDatabase
         /** @var Post $post */
         $post = factory(Post::class)->create();
         /** @var Comment $comment */
-        $comment = factory(Comment::class)->create(['post_id' => $post->id,]);
+        $comment = factory(Comment::class)->create(['post_id' => $post->id]);
 
         $query = <<<'GRAQPHQL'
 {
@@ -61,7 +61,7 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)->create();
         /** @var Comment $comment */
-        $comment = factory(Comment::class)->create(['post_id' => $post->id,]);
+        $comment = factory(Comment::class)->create(['post_id' => $post->id]);
 
         $query = <<<'GRAQPHQL'
 {
@@ -97,8 +97,7 @@ SQL
                                 ],
                             ],
                         ],
-                    ]
-
+                    ],
                 ],
             ],
         ];
@@ -112,7 +111,7 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 ParentIdQuery::class,
-                ParentIdPaginationQuery::class
+                ParentIdPaginationQuery::class,
             ],
         ]);
 
