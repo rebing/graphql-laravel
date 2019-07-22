@@ -22,7 +22,7 @@ class PaginationType extends ObjectType
         ];
 
         $underlyingType = GraphQL::type($typeName);
-        if (! empty($underlyingType->config['model'])) {
+        if (isset($underlyingType->config['model'])) {
             $config['model'] = $underlyingType->config['model'];
         }
 
