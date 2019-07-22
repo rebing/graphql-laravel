@@ -1569,9 +1569,11 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 Lazy loading of types is enabled by default, having no drawback for small
 projects but benfiting usages with many types.
 
-If you however use aliasing, that the `$name` of a type does not match
-it registered name, this does not work and you've to disable it by setting
-`lazyload_types` to `false` in the configuration.
+There are however scenarios where it's not supported:
+- types using aliases
+- built-in paginations via `GraphQL::pagination()` (which triggers the former)
+
+In either case `lazyload_types` have to be set to `false`.
 
 #### Example of aliasing **not** supported by lazy loading
 

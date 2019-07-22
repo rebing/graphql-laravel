@@ -4,7 +4,7 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
 ------------
 ## Breaking changes
-- Featuring "performance by default", the new `lazyload_types` settings defaults to `true`. The breaking change is that this does not support type aliasing (if your types `$name` is different the one it's registered under). To still use aliasing, set it to `false`.
+- Featuring "performance by default", the new `lazyload_types` settings defaults to `true`. The breaking change is that this does not support type aliasing (if your types `$name` is different the one it's registered under) which includes pagination. To still use either, set it to `false`.
 - The `UploadType` now has to be added manually to the `types` in your schema if you want to use it
   - The `::getInstance()` method is gone
 - The order and arguments/types for resolvers has changed:
@@ -44,6 +44,7 @@ CHANGELOG
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
+- The Paginator correctly inherits the types model so it can be used with `SelectFields` and still generates correct SQL queries [\#415](https://github.com/rebing/graphql-laravel/pull/415)
 - Arguments are now validation before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
 - File uploads now correctly work with batched requests [\#397](https://github.com/rebing/graphql-laravel/pull/397)
 - Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
