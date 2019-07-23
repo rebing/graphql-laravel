@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\ParentIdTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Closure;
 use GraphQL\Type\Definition\Type;
@@ -12,15 +12,15 @@ use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
-class ParentIdQuery extends Query
+class PrimaryKeyPaginationQuery extends Query
 {
     protected $attributes = [
-        'name' => 'parentIdQuery',
+        'name' => 'primaryKeyPaginationQuery',
     ];
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('Post'));
+        return GraphQL::paginate('Post');
     }
 
     public function resolve($root, $args, $ctx, ResolveInfo $info, Closure $getSelectFields)
@@ -31,6 +31,6 @@ class ParentIdQuery extends Query
         return Post
             ::with($selectFields->getRelations())
             ->select($selectFields->getSelect())
-            ->get();
+            ->paginate(1);
     }
 }
