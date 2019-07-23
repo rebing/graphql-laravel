@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use GraphQL\Language\AST\BooleanValueNode;
-use GraphQL\Language\AST\EnumValueNode;
 use GraphQL\Language\AST\FieldNode;
-use GraphQL\Language\AST\ArgumentNode;
-use GraphQL\Language\AST\FloatValueNode;
+use GraphQL\Language\AST\ValueNode;
 use GraphQL\Language\AST\IntValueNode;
+use GraphQL\Language\AST\VariableNode;
+use GraphQL\Language\AST\EnumValueNode;
 use GraphQL\Language\AST\ListValueNode;
 use GraphQL\Language\AST\NullValueNode;
+use GraphQL\Language\AST\FloatValueNode;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Language\AST\ObjectFieldNode;
 use GraphQL\Language\AST\ObjectValueNode;
 use GraphQL\Language\AST\StringValueNode;
-use GraphQL\Language\AST\ValueNode;
-use GraphQL\Language\AST\VariableNode;
-use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
@@ -160,7 +159,7 @@ class ResolveInfoFieldsAndArguments
         }
         // null Type
         if ($value instanceof NullValueNode) {
-            return null;
+            return;
         }
         // object Type
         if ($value instanceof ObjectValueNode) {
@@ -187,6 +186,7 @@ class ResolveInfoFieldsAndArguments
                 $value[$item->name->value] = $this->getValue($item->value);
             }
         }
+
         return $value;
     }
 
@@ -201,6 +201,7 @@ class ResolveInfoFieldsAndArguments
         foreach ($listValueNode->values as $valueNode) {
             $value[] = $this->getValue($valueNode);
         }
+
         return $value;
     }
 }
