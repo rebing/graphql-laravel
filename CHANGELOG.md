@@ -4,7 +4,6 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
 ------------
 ## Breaking changes
-- Featuring "performance by default", the new `lazyload_types` settings defaults to `true`. The breaking change is that this does not support type aliasing (if your types `$name` is different the one it's registered under) which includes pagination. To still use either, set it to `false`.
 - The `UploadType` now has to be added manually to the `types` in your schema if you want to use it
   - The `::getInstance()` method is gone
 - The order and arguments/types for resolvers has changed:
@@ -17,7 +16,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
-- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405)
+- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405) but doens't work together with type aliases or `paginate()`.
 - A migration guide for the Folklore library as part of the readme
 - New `make:graphql:input` command
 - New `make:graphql:union` command

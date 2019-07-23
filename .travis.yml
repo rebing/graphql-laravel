@@ -78,7 +78,7 @@ script:
     fi
   - |
     if [[ $CODE_COVERAGE = 1 ]]; then
-      TESTS_DISABLE_LAZYLOAD_TYPES=1 phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml
+      TESTS_ENABLE_LAZYLOAD_TYPES=1 phpdbg -qrr vendor/bin/phpunit --colors=always --verbose --coverage-clover=coverage.xml
       bash <(curl -s https://codecov.io/bash) -cF lazyload-on
     fi
   - if [[ $INSTALL_LARAVEL = 1 ]]; then export -f travis_retry ; tests/integration-larvavel.sh; fi
