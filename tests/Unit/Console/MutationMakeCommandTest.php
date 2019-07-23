@@ -5,46 +5,52 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Illuminate\Filesystem\Filesystem;
 use Rebing\GraphQL\Console\MutationMakeCommand;
+use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 
 class MutationMakeCommandTest extends TestCase
 {
-    public function testCommand(): void
+    use MakeCommandAssertionTrait;
+
+    /**
+     * @dataProvider dataForMakeCommand
+     * @param  string  $inputName
+     * @param  string  $expectedFilename
+     * @param  string  $expectedClassDefinition
+     * @param  string  $expectedGraphqlName
+     */
+    public function testCommand(
+        string $inputName,
+        string $expectedFilename,
+        string $expectedClassDefinition,
+        string $expectedGraphqlName
+    ): void {
+        $this->assertMakeCommand(
+            'Mutation',
+            MutationMakeCommand::class,
+            $inputName,
+            $expectedFilename,
+            'App\\\\GraphQL\\\\Mutations',
+            $expectedClassDefinition,
+            $expectedGraphqlName
+        );
+    }
+
+    public function dataForMakeCommand(): array
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel/app/GraphQL/Mutation/ExampleMutation.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleMutation extends Mutation/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleMutation',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(MutationMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleMutation',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Mutation created successfully/', $tester->getDisplay());
+        return [
+            'Example' => [
+                'inputName' => 'Example',
+                'expectedFilename' => 'GraphQL/Mutations/Example.php',
+                'expectedClassDefinition' => 'Example extends Mutation',
+                'expectedGraphqlName' => "'name' => 'example',",
+            ],
+            'ExampleMutation' => [
+                'inputName' => 'ExampleMutation',
+                'expectedFilename' => 'GraphQL/Mutations/ExampleMutation.php',
+                'expectedClassDefinition' => 'ExampleMutation extends Mutation',
+                'expectedGraphqlName' => "'name' => 'example',",
+            ],
+        ];
     }
 }

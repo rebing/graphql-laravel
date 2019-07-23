@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
-use RuntimeException;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
@@ -16,11 +15,13 @@ use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 class GraphQL
 {
@@ -52,34 +53,13 @@ class GraphQL
             return $schema;
         }
 
-        $this->typesInstances = [];
-
-        foreach ($this->getTypes() as $name => $type) {
-            $this->type($name);
-        }
+        $this->clearTypeInstances();
 
         $schema = $this->getSchemaConfiguration($schema);
 
         $schemaQuery = Arr::get($schema, 'query', []);
         $schemaMutation = Arr::get($schema, 'mutation', []);
         $schemaSubscription = Arr::get($schema, 'subscription', []);
-        $schemaTypes = Arr::get($schema, 'types', []);
-
-        //Get the types either from the schema, or the global types.
-        $types = [];
-        if (count($schemaTypes)) {
-            foreach ($schemaTypes as $name => $type) {
-                $objectType = $this->objectType($type, is_numeric($name) ? [] : [
-                    'name' => $name,
-                ]);
-                $this->typesInstances[$name] = $objectType;
-                $types[] = $objectType;
-            }
-        } else {
-            foreach ($this->getTypes() as $name => $type) {
-                $types[] = $this->type($name);
-            }
-        }
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -97,7 +77,30 @@ class GraphQL
             'query'         => $query,
             'mutation'      => ! empty($schemaMutation) ? $mutation : null,
             'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'types'         => $types,
+            'types'         => function () use ($schema) {
+                $types = [];
+                $schemaTypes = Arr::get($schema, 'types', []);
+
+                if ($schemaTypes) {
+                    foreach ($schemaTypes as $name => $type) {
+                        $opts = is_numeric($name) ? [] : ['name' => $name];
+                        $objectType = $this->objectType($type, $opts);
+                        $this->typesInstances[$name] = $objectType;
+                        $types[] = $objectType;
+                    }
+                } else {
+                    foreach ($this->getTypes() as $name => $type) {
+                        $types[] = $this->type($name);
+                    }
+                }
+
+                return $types;
+            },
+            'typeLoader'    => config('graphql.lazyload_types', true)
+                ? function ($name) {
+                    return $this->type($name);
+                }
+                : null,
         ]);
     }
 
@@ -152,7 +155,7 @@ class GraphQL
     public function addType($class, string $name = null): void
     {
         if (! $name) {
-            $type = is_object($class) ? $class : app($class);
+            $type = is_object($class) ? $class : $this->app->make($class);
             $name = $type->name;
         }
 
@@ -162,7 +165,13 @@ class GraphQL
     public function type(string $name, bool $fresh = false): Type
     {
         if (! isset($this->types[$name])) {
-            throw new RuntimeException('Type '.$name.' not found.');
+            $error = "Type $name not found.";
+
+            if (config('graphql.lazyload_types', true)) {
+                $error .= "\nCheck that the config array key for the type matches the name attribute in the type's class.\nIt is required when 'lazyload_types' is enabled";
+            }
+
+            throw new TypeNotFound($error);
         }
 
         if (! $fresh && isset($this->typesInstances[$name])) {
@@ -171,7 +180,7 @@ class GraphQL
 
         $type = $this->types[$name];
         if (! is_object($type)) {
-            $type = app($type);
+            $type = $this->app->make($type);
         }
 
         $instance = $type->toType();
@@ -183,9 +192,9 @@ class GraphQL
     /**
      * @param  ObjectType|array|string  $type
      * @param  array<string,string>  $opts
-     * @return ObjectType
+     * @return Type
      */
-    public function objectType($type, array $opts = []): ObjectType
+    public function objectType($type, array $opts = []): Type
     {
         // If it's already an ObjectType, just update properties and return it.
         // If it's an array, assume it's an array of fields and build ObjectType
@@ -213,12 +222,20 @@ class GraphQL
     /**
      * @param  ObjectType|string  $type
      * @param  array  $opts
-     * @return ObjectType
+     * @return Type
      */
-    protected function buildObjectTypeFromClass($type, array $opts = []): ObjectType
+    protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
         if (! is_object($type)) {
             $type = $this->app->make($type);
+        }
+
+        if (! $type instanceof TypeConvertible) {
+            throw new TypeNotFound(
+                sprintf('Unable to convert %s to a GraphQL type, please add/implement the interface %s',
+                    get_class($type),
+                    TypeConvertible::class
+                ));
         }
 
         foreach ($opts as $key => $value) {

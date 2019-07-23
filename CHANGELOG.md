@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
 ------------
 ## Breaking changes
+- Featuring "performance by default", the new `lazyload_types` settings defaults to `true`. The breaking change is that this does not support type aliasing (if your types `$name` is different the one it's registered under) which includes pagination. To still use either, set it to `false`.
+- The `UploadType` now has to be added manually to the `types` in your schema if you want to use it
+  - The `::getInstance()` method is gone
 - The order and arguments/types for resolvers has changed:
   - before: `resolve($root, $array, SelectFields $selectFields, ResolveInfo $info)`
   - after: `resolve($root, $array, $context, ResolveInfo $info, Closure $getSelectFields)`
@@ -14,6 +17,17 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
+- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405)
+- A migration guide for the Folklore library as part of the readme
+- New `make:graphql:input` command
+- New `make:graphql:union` command
+- New `make:graphql:interface` command
+- New `make:graphql:field` command
+- New `make:graphql:enum` command and dedicated `EnumType`, deprecating `$enumObject=true` in the `Type` class
+- New `make:graphql:scalar` command and add more information regarding scalars to the readme
+- `TypeConvertible` interface requiring to implement `toType(): \GraphQL\Type\Definition\Type`
+  Existing types are not affected because they already made use of the same method/signature, but custom Scalar GraphQL types work differently and benefit from the interface
+- `alias` is now also supported for relationships [\#367](https://github.com/rebing/graphql-laravel/pull/367)
 - `InputType` support class which eventually replace `$inputObject=true` [\#363](https://github.com/rebing/graphql-laravel/pull/363)
 - Support `DB::raw()` in `alias` fields
 - GraphiQL: use regenerated CSRF from server if present [\#332](https://github.com/rebing/graphql-laravel/pull/332)
@@ -22,19 +36,24 @@ CHANGELOG
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
-- Made the following classes _abstract_: `Support\Field`, `Support\InterfceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
+- Follow Laravel convention and use plural for namspaces (e.g. new queries are place in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
+- Made the following classes _abstract_: `Support\Field`, `Support\InterfaceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 [\#335](https://github.com/rebing/graphql-laravel/pull/335)
   - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
 - `ValidatorError`: remove setter and make it a constructor arg, add getter and rely on contracts
 - Replace global helper `is_lumen` with static class call `\Rebing\GraphQL\Helpers::isLumen`
 
 ### Fixed
+- The Paginator correctly inherits the types model so it can be used with `SelectFields` and still generates correct SQL queries [\#415](https://github.com/rebing/graphql-laravel/pull/415)
+- Arguments are now validation before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
+- File uploads now correctly work with batched requests [\#397](https://github.com/rebing/graphql-laravel/pull/397)
 - Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
   - This also applies to privacy checks on fields, the callback now receives the field arguments too
   - Previously the initial query arguments would be used everywhere
 
 ### Removed
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type`
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 

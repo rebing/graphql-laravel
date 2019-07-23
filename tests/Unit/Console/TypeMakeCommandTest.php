@@ -5,46 +5,52 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Illuminate\Filesystem\Filesystem;
 use Rebing\GraphQL\Console\TypeMakeCommand;
+use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 
 class TypeMakeCommandTest extends TestCase
 {
-    public function testCommand(): void
+    use MakeCommandAssertionTrait;
+
+    /**
+     * @dataProvider dataForMakeCommand
+     * @param  string  $inputName
+     * @param  string  $expectedFilename
+     * @param  string  $expectedClassDefinition
+     * @param  string  $expectedGraphqlName
+     */
+    public function testCommand(
+        string $inputName,
+        string $expectedFilename,
+        string $expectedClassDefinition,
+        string $expectedGraphqlName
+    ): void {
+        $this->assertMakeCommand(
+            'Type',
+            TypeMakeCommand::class,
+            $inputName,
+            $expectedFilename,
+            'App\\\\GraphQL\\\\Types',
+            $expectedClassDefinition,
+            $expectedGraphqlName
+        );
+    }
+
+    public function dataForMakeCommand(): array
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->setMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
-        $filesystemMock
-            ->expects($this->once())
-            ->method('put')
-            ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel/app/GraphQL/Type/ExampleType.php|', $path);
-
-                    return true;
-                }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleType extends GraphQLType/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleType',/", $contents);
-
-                    return true;
-                })
-            );
-        $this->instance(Filesystem::class, $filesystemMock);
-
-        $command = $this->app->make(TypeMakeCommand::class);
-
-        $tester = $this->runCommand($command, [
-            'name' => 'ExampleType',
-        ]);
-
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Type created successfully/', $tester->getDisplay());
+        return [
+            'Example' => [
+                'inputName' => 'Example',
+                'expectedFilename' => 'GraphQL/Types/Example.php',
+                'expectedClassDefinition' => 'Example extends GraphQLType',
+                'expectedGraphqlName' => "'name' => 'Example',",
+            ],
+            'ExampleType' => [
+                'inputName' => 'ExampleType',
+                'expectedFilename' => 'GraphQL/Types/ExampleType.php',
+                'expectedClassDefinition' => 'ExampleType extends GraphQLType',
+                'expectedGraphqlName' => "'name' => 'Example',",
+            ],
+        ];
     }
 }

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
+use GraphQL\Type\Definition\Type;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\ScalarType;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
-class UploadType extends ScalarType
+class UploadType extends ScalarType implements TypeConvertible
 {
     /**
      * @var string
@@ -52,13 +54,8 @@ class UploadType extends ScalarType
         throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: '.$valueNode->kind, [$valueNode]);
     }
 
-    public static function getInstance()
+    public function toType(): Type
     {
-        static $inst = null;
-        if ($inst === null) {
-            $inst = new self();
-        }
-
-        return $inst;
+        return new static();
     }
 }

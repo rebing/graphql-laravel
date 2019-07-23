@@ -21,7 +21,7 @@ use GraphQL\Type\Definition\ObjectType;
  * @method static array getSchemas()
  * @method static void addSchema(string $name, Schema|array $schema)
  * @method static void addType(object|string $class, string $name = null)
- * @method static ObjectType objectType(ObjectType|array|string $type, array $opts = [])
+ * @method static Type objectType(ObjectType|array|string $type, array $opts = [])
  * @method static array formatError(Error $e)
  */
 class GraphQL extends Facade

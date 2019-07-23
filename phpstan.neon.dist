@@ -27,7 +27,6 @@ parameters:
         - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
         - '/Strict comparison using === between null and array will always evaluate to false/'
         - '/Cannot access offset . on array\|Closure/'
-        - '/Call to function is_array\(\) with string will always evaluate to false/' # TODO: fix \Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations
         # \Rebing\GraphQL\Support\SelectFields::handleFields
         - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, mixed\) given/'
         - '/Binary operation "." between string and array\|string\|null results in an error/'
@@ -43,9 +42,16 @@ parameters:
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
-        - '/Parameter #1 \$abstract of function app expects string\|null, mixed given/'
         # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
         - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
+        # tests/Unit/GraphQLTest.php
+        - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
+        - '/Call to an undefined method Mockery\\/'
+        - '/Parameter #2 \$replace of function str_replace expects array\|string, string\|null given/'
+        # tests/Unit/UploadTests/UploadMultipleFilesMutation.php
+        - '/Anonymous function should return string but returns string\|false/'
+        # tests/Unit/UploadTests/UploadSingleFileMutation.php
+        - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
         ### Larastan ; manually disable the ones reported
         #- '#Result of function abort \(void\) is used#'
         #- '#Call to an undefined method Illuminate\\Support\\HigherOrder#'

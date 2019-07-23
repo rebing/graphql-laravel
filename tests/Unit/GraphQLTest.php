@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Exception;
 use Validator;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
@@ -12,6 +11,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\TestCase;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -118,7 +118,7 @@ class GraphQLTest extends TestCase
      */
     public function testWrongType(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(TypeNotFound::class);
         GraphQL::type('ExampleWrong');
     }
 

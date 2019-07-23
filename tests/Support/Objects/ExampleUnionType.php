@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\UnionType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\UnionType as BaseUnionType;
 
-class ExampleUnionType extends BaseUnionType
+class ExampleUnionType extends UnionType
 {
     protected $attributes = [
         'name'        => 'ExampleUnion',
@@ -25,16 +24,5 @@ class ExampleUnionType extends BaseUnionType
     public function resolveType($root)
     {
         return GraphQL::type('Example');
-    }
-
-    public function fields(): array
-    {
-        return [
-            'test' => [
-                'type'        => Type::string(),
-                'description' => 'A test field',
-            ],
-            'test_validation' => ExampleValidationField::class,
-        ];
     }
 }

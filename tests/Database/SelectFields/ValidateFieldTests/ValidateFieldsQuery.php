@@ -23,6 +23,15 @@ class ValidateFieldsQuery extends Query
         return Type::listOf(GraphQL::type('Post'));
     }
 
+    public function args(): array
+    {
+        return [
+            'arg_from_query' => [
+                'type' => Type::boolean(),
+            ],
+        ];
+    }
+
     public function resolve($root, $args, $contxt, ResolveInfo $info, Closure $getSelectFields)
     {
         /** @var SelectFields $selectFields */

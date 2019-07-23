@@ -9,10 +9,19 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 
 class GraphQLController extends Controller
 {
+    /** @var Container */
+    protected $app;
+
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
+
     public function query(Request $request, string $schema = null): JsonResponse
     {
         $middleware = new GraphQLUploadMiddleware();
@@ -31,28 +40,13 @@ class GraphQLController extends Controller
 
         // If a singular query was not found, it means the queries are in batch
         $isBatch = ! $request->has('query');
-        $batch = $isBatch ? $request->all() : [$request->all()];
+        $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
-        $paramsKey = config('graphql.params_key');
-
-        $opts = [
-            'context'   => $this->queryContext(),
-            'schema'    => $schema,
-        ];
 
         // Complete each query in order
-        foreach ($batch as $batchItem) {
-            $query = $batchItem['query'];
-            $params = Arr::get($batchItem, $paramsKey);
-
-            if (is_string($params)) {
-                $params = json_decode($params, true);
-            }
-
-            $completedQueries[] = app('graphql')->query($query, $params, array_merge($opts, [
-                'operationName' => Arr::get($batchItem, 'operationName'),
-            ]));
+        foreach ($inputs as $input) {
+            $completedQueries[] = $this->executeQuery($schema, $input);
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
@@ -63,12 +57,33 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function queryContext()
+    protected function executeQuery(string $schema, array $input): array
+    {
+        $query = $input['query'];
+
+        $paramsKey = config('graphql.params_key', 'variables');
+        $params = Arr::get($input, $paramsKey);
+        if (is_string($params)) {
+            $params = json_decode($params, true);
+        }
+
+        return $this->app->make('graphql')->query(
+            $query,
+            $params,
+            [
+                'context' => $this->queryContext($query, $params, $schema),
+                'schema' => $schema,
+                'operationName' => Arr::get($input, 'operationName'),
+            ]
+        );
+    }
+
+    protected function queryContext(string $query, ?array $params, string $schema)
     {
         try {
-            return app('auth')->user();
+            return $this->app->make('auth')->user();
         } catch (Exception $e) {
-            return;
+            return null;
         }
     }
 

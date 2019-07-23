@@ -13,7 +13,7 @@ use Rebing\GraphQL\Support\SelectFields;
 class DummyClass extends Mutation
 {
     protected $attributes = [
-        'name' => 'DummyMutation',
+        'name' => 'DummyGraphqlName',
         'description' => 'A mutation'
     ];
 

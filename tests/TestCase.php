@@ -18,12 +18,14 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Component\Console\Tester\CommandTester;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType2;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 
 class TestCase extends BaseTestCase
 {
@@ -43,12 +45,17 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        if (env('TESTS_DISABLE_LAZYLOAD_TYPES') === '1') {
+            $app['config']->set('graphql.lazyload_types', false);
+        }
+
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 'examples'           => ExamplesQuery::class,
                 'examplesAuthorize'  => ExamplesAuthorizeQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
                 'examplesFiltered'   => ExamplesFilteredQuery::class,
+                'examplesConfigAlias' => ExamplesConfigAliasQuery::class,
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class,
@@ -66,6 +73,7 @@ class TestCase extends BaseTestCase
 
         $app['config']->set('graphql.types', [
             'Example'            => ExampleType::class,
+            'ExampleConfigAlias' => ExampleType2::class,
             'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 
@@ -194,13 +202,13 @@ class TestCase extends BaseTestCase
             $appendErrors = '';
             if (isset($result['errors'][0]['trace'])) {
                 $appendErrors = "\n\n".$this->formatSafeTrace($result['errors'][0]['trace']);
-                unset($result['errors'][0]['trace']);
             }
 
             $assertMessage = "Probably unexpected error in GraphQL response:\n"
                 .var_export($result, true)
                 .$appendErrors;
         }
+        unset($result['errors'][0]['trace']);
 
         if ($assertMessage) {
             throw new ExpectationFailedException($assertMessage);

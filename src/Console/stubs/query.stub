@@ -13,7 +13,7 @@ use Rebing\GraphQL\Support\Query;
 class DummyClass extends Query
 {
     protected $attributes = [
-        'name' => 'DummyQuery',
+        'name' => 'DummyGraphqlName',
         'description' => 'A query'
     ];
 
@@ -31,12 +31,13 @@ class DummyClass extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
+        /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $select = $fields->getSelect();
         $with = $fields->getRelations();
 
         return [
-            'The DummyQuery works',
+            'The DummyGraphqlName works',
         ];
     }
 }

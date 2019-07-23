@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
+use Mockery;
+use Mockery\MockInterface;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -173,6 +175,325 @@ SQL
                         ],
                     ],
                 ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClosureAllowed(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_allowed
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_allowed' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClosureDenied(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_denied
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_denied' => null,
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassAllowed(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_allowed
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_allowed' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassDenied(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_denied
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_denied' => null,
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyClassMultipleTimesIsCalledMultipleTimes(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        /** @var PrivacyAllowed|MockInterface $privacyMock */
+        $privacyMock = $this->instance(
+            PrivacyAllowed::class,
+            Mockery::mock(PrivacyAllowed::class)->makePartial()
+        );
+        $privacyMock
+            ->expects('validate')
+            ->andReturn('true')
+            ->times(2);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_allowed
+    title_privacy_class_allowed_called_twice
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_allowed' => 'post title',
+                        'title_privacy_class_allowed_called_twice' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PostType::fields
+     * within the closure for the field `title_privacy_closure_args`.
+     */
+    public function testPrivacyClosureReceivesQueryArgs(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields(arg_from_query: true) {
+    title_privacy_closure_args(arg_from_field: true)
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_args' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PrivacyArgs::validate.
+     */
+    public function testPrivacyClassReceivesQueryArgs(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields(arg_from_query: true) {
+    title_privacy_class_args(arg_from_field: true)
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_args' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyWrongType(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_wrong_type
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query, [
+            'expectErrors' => true,
+        ]);
+
+        $this->assertSqlQueries('');
+
+        $expectedResult = [
+            'errors' => [
+                [
+                    'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
+                    'message' => 'Internal server error',
+                    'extensions' => [
+                        'category' => 'internal',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'validateFields',
+                    ],
+                ],
+            ],
+            'data' => [
+                'validateFields' => null,
             ],
         ];
         $this->assertEquals($expectedResult, $result);

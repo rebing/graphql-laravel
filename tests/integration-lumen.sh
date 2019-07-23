@@ -30,10 +30,10 @@ php artisan make:graphql:query ExampleQuery
 php artisan make:graphql:query ExampleMultiLevelQuery
 
 echo "Add ExampleQuery to config"
-sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Query\\\ExampleQuery::class,|" -i config/graphql.php
+sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
 
 echo "Add ExampleMultiLevelQuery in a multi path level schema to the config"
-sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Query\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php
+sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Queries\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php
 
 echo "Use local copy of GraphiQL view"
 sed -e "s|'view'       => 'graphql::graphiql'|'view'       => 'vendor/graphql/graphiql'|" -i config/graphql.php
@@ -46,13 +46,13 @@ php -S 127.0.0.1:8002 -t public >/dev/null 2>&1 &
 sleep 2
 
 echo "Send GraphQL HTTP request to fetch ExampleQuery"
-curl 'http://127.0.0.1:8002/graphql?query=%7BExampleQuery%7D' -sSfLv | grep 'The ExampleQuery works'
+curl 'http://127.0.0.1:8002/graphql?query=%7Bexample%7D' -sSfLv | grep 'The example works'
 
 if [[ $? = 0 ]]; then
   echo "GraphQL ExampleQuery works 👍"
 else
   echo "GraphQL ExampleQuery DID NOT work 🚨"
-  curl 'http://127.0.0.1:8002/graphql?query=%7BExampleQuery%7D' -sSfLv
+  curl 'http://127.0.0.1:8002/graphql?query=%7Bexample%7D' -sSfLv
   cat storage/logs/*
   exit 1
 fi
@@ -72,13 +72,13 @@ fi
 
 
 echo "Send GraphQL HTTP request to fetch ExampleMultiLevelQuery"
-curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BExampleMultiLevelQuery%7D' -sSfLv | grep 'The ExampleMultiLevelQuery works'
+curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BexampleMultiLevel%7D' -sSfLv | grep 'The exampleMultiLevel works'
 
 if [[ $? = 0 ]]; then
   echo "GraphQL ExampleMultiLevelQuery works 👍"
 else
   echo "GraphQL ExampleMultiLevelQuery DID NOT work 🚨"
-  curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BExampleMultiLevelQuery%7D' -sSfLv
+  curl 'http://127.0.0.1:8002/graphql/multi/level?query=%7BexampleMultiLevel%7D' -sSfLv
   cat storage/logs/*
   exit 1
 fi
