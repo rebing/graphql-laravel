@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\ParentIdTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
-class ParentIdTest extends TestCaseDatabase
+class PrimaryKeyTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
-    public function testParentIdRetrievedWhenSelectingRelations(): void
+    public function testPrimaryKeyRetrievedWhenSelectingRelations(): void
     {
         /** @var Post $post */
         $post = factory(Post::class)->create();
@@ -22,7 +22,7 @@ class ParentIdTest extends TestCaseDatabase
 
         $query = <<<'GRAQPHQL'
 {
-  parentIdQuery {
+  primaryKeyQuery {
     comments {
       title
     }
@@ -42,7 +42,7 @@ SQL
 
         $expectedResult = [
             'data' => [
-                'parentIdQuery' => [
+                'primaryKeyQuery' => [
                     [
                         'comments' => [
                             [
@@ -56,7 +56,7 @@ SQL
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testParentIdRetrievedWhenSelectingRelationsAndResultPaginated(): void
+    public function testPrimaryKeyRetrievedWhenSelectingRelationsAndResultPaginated(): void
     {
         /** @var Post $post */
         $post = factory(Post::class)->create([
@@ -77,7 +77,7 @@ SQL
 
         $query = <<<'GRAQPHQL'
 {
-  parentIdPaginationQuery {
+  primaryKeyPaginationQuery {
     current_page
     data {
       title
@@ -108,7 +108,7 @@ SQL
 
         $expectedResult = [
             'data' => [
-                'parentIdPaginationQuery' => [
+                'primaryKeyPaginationQuery' => [
                     'current_page' => 1,
                     'data' => [
                         [
@@ -140,8 +140,8 @@ SQL
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                ParentIdQuery::class,
-                ParentIdPaginationQuery::class,
+                PrimaryKeyQuery::class,
+                PrimaryKeyPaginationQuery::class,
             ],
         ]);
 

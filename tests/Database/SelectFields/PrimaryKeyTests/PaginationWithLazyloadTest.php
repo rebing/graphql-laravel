@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\ParentIdTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -38,7 +38,7 @@ class PaginationWithLazyloadTest extends TestCaseDatabase
 
         $query = <<<'GRAQPHQL'
 {
-  parentIdPaginationQuery {
+  primaryKeyPaginationQuery {
     current_page
     data {
       title
@@ -86,12 +86,12 @@ It is required when \'lazyload_types\' is enabled',
                         ],
                     ],
                     'path' => [
-                        'parentIdPaginationQuery',
+                        'primaryKeyPaginationQuery',
                     ],
                 ],
             ],
             'data' => [
-                'parentIdPaginationQuery' => null,
+                'primaryKeyPaginationQuery' => null,
             ],
         ];
         $this->assertEquals($expectedResult, $result);
@@ -103,8 +103,8 @@ It is required when \'lazyload_types\' is enabled',
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
-                ParentIdQuery::class,
-                ParentIdPaginationQuery::class,
+                PrimaryKeyQuery::class,
+                PrimaryKeyPaginationQuery::class,
             ],
         ]);
 
