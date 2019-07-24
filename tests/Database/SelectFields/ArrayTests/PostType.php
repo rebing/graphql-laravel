@@ -24,13 +24,8 @@ class PostType extends GraphQLType
             ],
             'properties' => [
                 'type' => Type::listOf(GraphQL::type('Property')),
-                'selectable' => false,
+                'is_relation' => false,
             ],
         ];
-    }
-
-    protected function resolvePropertiesField($root, $args)
-    {
-        return $root->properties;
     }
 }

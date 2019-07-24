@@ -7,7 +7,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 
 class ArrayTest extends TestCaseDatabase
 {
-    public function testArrayFieldRetrieved()
+    public function testArrayFieldRetrieved(): void
     {
         $properties = [
             [

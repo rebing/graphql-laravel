@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string $title
  * @property string|null $body
  * @property int|null $user_id
- * @property string|null $properties
+ * @property array|null $properties
  * @property bool $flag
  * @property Illuminate\Support\Carbon|null $published_at
  * @property bool $is_published

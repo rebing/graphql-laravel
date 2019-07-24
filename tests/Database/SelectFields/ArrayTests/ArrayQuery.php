@@ -30,8 +30,7 @@ class ArrayQuery extends Query
 
         return Post
             ::with($selectFields->getRelations())
-            ->select(['*'])
-            //->select($selectFields->getSelect())
+            ->select($selectFields->getSelect())
             ->get();
     }
 }
