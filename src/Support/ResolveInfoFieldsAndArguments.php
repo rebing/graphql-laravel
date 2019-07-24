@@ -38,6 +38,7 @@ class ResolveInfoFieldsAndArguments
     /**
      * Helper method that returns names of all fields with attributes selected in query for
      * $this->fieldName up to $depth levels.
+     *
      * Example:
      * query MyQuery{
      * {
@@ -50,6 +51,7 @@ class ResolveInfoFieldsAndArguments
      *     }
      *   }
      * }
+     *
      * Given this ResolveInfo instance is a part of "root" field resolution, and $depth === 1,
      * method will return:
      * [
@@ -76,8 +78,10 @@ class ResolveInfoFieldsAndArguments
      *          ],
      *      ],
      * ],
+     *
      * Warning: this method it is a naive implementation which does not take into account
      * conditional typed fragments. So use it with care for fields of interface and union types.
+     *
      * @param  int  $depth  How many levels to include in output
      * @return array
      * @see \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
@@ -99,8 +103,8 @@ class ResolveInfoFieldsAndArguments
     }
 
     /**
-     * @param  SelectionSetNode $selectionSet
-     * @param  int              $descend
+     * @param  SelectionSetNode  $selectionSet
+     * @param  int  $descend
      * @return array
      * @see \GraphQL\Type\Definition\ResolveInfo::foldSelectionSet
      * @throws \Exception
