@@ -27,6 +27,8 @@ class PaginationType extends ObjectType
         }
 
         parent::__construct($config);
+
+        app('graphql')->registerObjectType($name, $this);
     }
 
     protected function getPaginationFields(string $typeName): array

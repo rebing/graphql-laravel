@@ -162,6 +162,12 @@ class GraphQL
         $this->types[$name] = $class;
     }
 
+    public function registerObjectType(string $name, ObjectType $type): void
+    {
+        $this->typesInstances[$name] = $type;
+        $this->types[$name] = $type;
+    }
+
     public function type(string $name, bool $fresh = false): Type
     {
         if (! isset($this->types[$name])) {
