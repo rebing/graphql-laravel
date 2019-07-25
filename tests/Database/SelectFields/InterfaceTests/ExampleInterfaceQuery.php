@@ -24,8 +24,11 @@ class ExampleInterfaceQuery extends Query
 
     public function resolve($root, $args, $contxt, ResolveInfo $info, Closure $getSelectFields)
     {
+        $fields = $getSelectFields();
+
         return Post
-            ::select($getSelectFields()->getSelect())
+            ::select($fields->getSelect())
+            ->with($fields->getRelations())
             ->get();
     }
 }
