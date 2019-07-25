@@ -35,7 +35,7 @@ CHANGELOG
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
-- Follow Laravel convention and use plural for namspaces (e.g. new queries are place in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
+- Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
 - Made the following classes _abstract_: `Support\Field`, `Support\InterfaceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 [\#335](https://github.com/rebing/graphql-laravel/pull/335)
   - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
@@ -44,7 +44,7 @@ CHANGELOG
 
 ### Fixed
 - The Paginator correctly inherits the types model so it can be used with `SelectFields` and still generates correct SQL queries [\#415](https://github.com/rebing/graphql-laravel/pull/415)
-- Arguments are now validation before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
+- Arguments are now validated before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
 - File uploads now correctly work with batched requests [\#397](https://github.com/rebing/graphql-laravel/pull/397)
 - Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
