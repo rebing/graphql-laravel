@@ -1592,8 +1592,11 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 
 Lazy loading of types is a way of improving the start up performance.
 
-If you are declaring types using aliases it is not supported.
-If that is not the case, you can enable it with `lazyload_types` set to `true`.
+There are however scenarios where it's not supported:
+- types using aliases
+- built-in paginations via `GraphQL::pagination()` (which triggers the former)
+
+If you use neither, you can enable it with `lazyload_types` set to `true`.
 
 #### Example of aliasing **not** supported by lazy loading
 
