@@ -35,6 +35,7 @@ CHANGELOG
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
+- Types and Schemas are now only booted when the `graphql` service is requested, improving performance when having this library installed but not using it in certain workloads (pure artisan commands, non-GraphQL web requests, etc.) [\#427](https://github.com/rebing/graphql-laravel/pull/427)
 - Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
 - Made the following classes _abstract_: `Support\Field`, `Support\InterfaceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 [\#335](https://github.com/rebing/graphql-laravel/pull/335)
