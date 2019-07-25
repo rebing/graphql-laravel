@@ -24,6 +24,7 @@ It offers following features and improvements over the original package by
   and thus dealing with n+1 problems
 * Pagination support
 * Server-side support for [query batching](https://blog.apollographql.com/batching-client-graphql-queries-a685f5bcd41b)
+* Support for file uploads
 
 ## Installation
 
@@ -120,6 +121,7 @@ To work this around:
 - [JSON Columns](#json-columns)
 - [Field deprecation](#field-deprecation)
 - [Default Field Resolver](#default-field-resolver)
+- [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
 - [Migrating from Folklore](#migrating-from-folklore)
 - [Performance considerations](#performance-considerations)
 
@@ -521,7 +523,13 @@ public function validationErrorMessages(array $args = []): array
 
 This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
-You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition.
+You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition:
+
+```php
+'types' => [
+    \Rebing\GraphQL\Support\UploadType::class,
+],
+```
 
 It is relevant that you send the request as `multipart/form-data`:
 
@@ -1505,6 +1513,52 @@ The parameters received are your regular "resolve" function signature.
 
 ## Guides
 
+### Upgrading from v1 to v2
+
+Although version 2 builds on the same code base and does not radically change how the library itself works, many things were improved, sometimes leading to incompatible changes.
+
+- Step 0: make a backup!
+- Re-publish the configuration file to learn about all the new settings
+- The order and arguments/types for resolvers has changed:
+  - before: `resolve($root, $array, SelectFields $selectFields, ResolveInfo $info)`
+  - after: `resolve($root, $array, $context, ResolveInfo $info, Closure $getSelectFields)`
+  - If you now want to use SelectFields, you've to first request it: `$selectFields = $getSelectFields();`. The primary reason for this is performance. SelectFields is an optional feature but consumes resources to traverse the GraphQL request AST and introspect all the types for their configuration to apply its magic. In the past it was always constructed and thus consumed resources, even when not requested. This has been changed to an explicit form.
+- Many method signature declarations changed to improve type safety, which have to be adapted:
+  - The signature of the method fields changed:
+    - from `public function fields()`
+    - to `public function fields(): array`
+  - The signature of the method toType changed:
+    - from `public function toType()`
+    - to `public function toType(): \GraphQL\Type\Definition\Type`
+  - The signature of the method getFields changed:
+    - from `public function getFields()`
+    - to `public function getFields(): array`
+  - The signature of the method interfaces changed:
+    - from `public function interfaces()`
+    - to `public function interfaces(): array`
+  - The signature of the method types changed:
+    - from `public function types()`
+    - to `public function types(): array`
+  - The signature of the method type changed:
+    - from `public function type()`
+    - to `public function type(): \GraphQL\Type\Definition\Type`
+  - The signature of the method args changed:
+    - from `public function args()`
+    - to `public function args(): array`
+  - The signature of the method queryContext changed:
+    - from `protected function queryContext($query, $variables, $schema)`
+    - to `protected function queryContext()`
+  - The signature of the controller method query changed:
+    - from `function query($query, $variables = [], $opts = [])`
+    - to `function query(string $query, ?array $variables = [], array $opts = []): array`
+  - If you're using custom Scalar types:
+    - the signature of the method parseLiteral changed (due to upgrade of the webonxy library):
+      - from `public function parseLiteral($ast)`
+      - to `public function parseLiteral($valueNode, ?array $variables = null)`
+- The `UploadType` now has to be added manually to the `types` in your schema if you want to use it. The `::getInstance()` method is gone, you simple reference it like any other type via `GraphQL::type('Upload')`.
+- Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); the respective `make` commands have been adjusted. This will not break any existing code, but code generates will use the new schema.
+- Be sure to read the [Changelog](CHANGELOG.md) for more details
+
 ### Migrating from Folklore
 https://github.com/folkloreinc/laravel-graphql, formerly also known as https://github.com/Folkloreatelier/laravel-graphql
 
@@ -1528,39 +1582,9 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - Change namespace references:
   - from `Folklore\`
   - to `Rebing\`
-- The signature of the method fields changed:
-  - from `public function fields()`
-  - to `public function fields(): array`
-- The signature of the method toType changed:
-  - from `public function toType()`
-  - to `public function toType(): \GraphQL\Type\Definition\Type`
-- The signature of the method getFields changed:
-  - from `public function getFields()`
-  - to `public function getFields(): array`
-- The signature of the method interfaces changed:
-  - from `public function interfaces()`
-  - to `public function interfaces(): array`
-- The signature of the method types changed:
-  - from `public function types()`
-  - to `public function types(): array`
-- The signature of the method type changed:
-  - from `public function type()`
-  - to `public function type(): \GraphQL\Type\Definition\Type`
-- The signature of the method args changed:
-  - from `public function args()`
-  - to `public function args(): array`
-- The signature of the method queryContext changed:
-  - from `protected function queryContext($query, $variables, $schema)`
-  - to `protected function queryContext()`
-- The signature of the controller method query changed:
-  - from `function query($query, $variables = [], $opts = [])`
-  - to `function query(string $query, ?array $variables = [], array $opts = []): array`
+- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)  
 - The trait `ShouldValidate` does not exist anymore; the provided features are baked into `Field`
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
-- If you're using custom Scalar types:
-  - the signature of the method parseLiteral changed (due to upgrade of the webonxy library):
-    - from `public function parseLiteral($ast)`
-    - to `public function parseLiteral($valueNode, ?array $variables = null)`
 
 ## Performance considerations
 
