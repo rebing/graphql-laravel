@@ -162,20 +162,6 @@ abstract class Type implements TypeConvertible
         return isset($attributes[$key]) ? $attributes[$key] : null;
     }
 
-    /**
-     * Dynamically check if an attribute is set.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        $attributes = $this->getAttributes();
-
-        return isset($attributes[$key]);
-    }
-
     public function __set(string $key, $value): void
     {
         $this->attributes[$key] = $value;
