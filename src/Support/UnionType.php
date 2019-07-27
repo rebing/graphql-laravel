@@ -22,9 +22,9 @@ abstract class UnionType extends Type
     public function getAttributes(): array
     {
         $attributes = parent::getAttributes();
-        $types = $this->types();
 
-        if (count($types)) {
+        $types = $this->types();
+        if ($types) {
             $attributes['types'] = $types;
         }
 

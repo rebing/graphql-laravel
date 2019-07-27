@@ -35,7 +35,7 @@ abstract class InterfaceType extends Type
         $attributes = parent::getAttributes();
 
         $resolver = $this->getTypeResolver();
-        if (isset($resolver)) {
+        if ($resolver) {
             $attributes['resolveType'] = $resolver;
         }
 
