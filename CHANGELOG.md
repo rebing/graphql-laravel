@@ -53,7 +53,8 @@ CHANGELOG
   - Previously the initial query arguments would be used everywhere
 
 ### Removed
-- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type`
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Field` [\#431](https://github.com/rebing/graphql-laravel/pull/431)
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type` [\#389](https://github.com/rebing/graphql-laravel/pull/389)
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 
