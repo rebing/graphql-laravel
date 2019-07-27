@@ -30,7 +30,7 @@ abstract class InterfaceType extends Type
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributes = parent::getAttributes();
 
