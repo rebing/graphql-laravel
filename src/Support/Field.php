@@ -212,9 +212,11 @@ abstract class Field
     {
         $attributes = $this->attributes();
 
-        $attributes = array_merge($this->attributes, [
-            'args' => $this->args(),
-        ], $attributes);
+        $attributes = array_merge(
+            $this->attributes,
+            ['args' => $this->args()],
+            $attributes
+        );
 
         $attributes['type'] = $this->type();
 
