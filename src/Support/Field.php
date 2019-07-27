@@ -7,7 +7,6 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use Validator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Fluent;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\WrappingType;
@@ -16,11 +15,16 @@ use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
-abstract class Field extends Fluent
+abstract class Field
 {
+    protected $attributes = [];
+
     /**
      * Override this in your queries or mutations
      * to provide custom authorization.
+     *
+     * @param  array  $args
+     * @return bool
      */
     public function authorize(array $args): bool
     {
@@ -204,7 +208,7 @@ abstract class Field extends Fluent
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributes = $this->attributes();
 
@@ -227,7 +231,7 @@ abstract class Field extends Fluent
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->getAttributes();
     }
@@ -258,5 +262,10 @@ abstract class Field extends Fluent
         $attributes = $this->getAttributes();
 
         return isset($attributes[$key]);
+    }
+
+    public function __set(string $key, $value): void
+    {
+        $this->attributes[$key] = $value;
     }
 }
