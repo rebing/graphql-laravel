@@ -332,11 +332,13 @@ class GraphQL
 
     public function paginate(string $typeName, string $customName = null): Type
     {
-        $name = $customName ?: $typeName.'_pagination';
+        $name = $customName ?: $typeName.'Pagination';
 
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
-            $this->typesInstances[$name] = new $paginationType($typeName, $customName);
+            $paginationClass = new $paginationType($typeName, $customName);
+            $this->typesInstances[$name] = $paginationClass;
+            $this->types[$name] = $paginationClass;
         }
 
         return $this->typesInstances[$name];

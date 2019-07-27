@@ -9,16 +9,12 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
-class PaginationWithLazyloadTest extends TestCaseDatabase
+class PaginationTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
-    public function testPaginationWhenLazyloadIsEnabled(): void
+    public function testPagination(): void
     {
-        if (false === app('config')->get('graphql.lazyload_types')) {
-            $this->markTestSkipped('Skipping test when lazyload_types=false');
-        }
-
         /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'post 1',
@@ -58,9 +54,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($query, [
-            'expectErrors' => true,
-        ]);
+        $result = $this->graphql($query);
 
         $this->assertSqlQueries(<<<'SQL'
 select count(*) as aggregate from "posts";
@@ -70,28 +64,26 @@ SQL
         );
 
         $expectedResult = [
-            'errors' => [
-                [
-                    'debugMessage' => 'Type PostPagination not found.
-Check that the config array key for the type matches the name attribute in the type\'s class.
-It is required when \'lazyload_types\' is enabled',
-                    'message' => 'Internal server error',
-                    'extensions' => [
-                        'category' => 'internal',
-                    ],
-                    'locations' => [
+            'data' => [
+                'primaryKeyPaginationQuery' => [
+                    'current_page' => 1,
+                    'data' => [
                         [
-                            'line' => 2,
-                            'column' => 3,
+                            'title' => 'post 1',
+                            'comments' => [
+                                [
+                                    'title' => 'post 1 comment 1',
+                                ],
+                            ],
                         ],
                     ],
-                    'path' => [
-                        'primaryKeyPaginationQuery',
-                    ],
+                    'from' => 1,
+                    'has_more_pages' => true,
+                    'last_page' => 2,
+                    'per_page' => 1,
+                    'to' => 1,
+                    'total' => 2,
                 ],
-            ],
-            'data' => [
-                'primaryKeyPaginationQuery' => null,
             ],
         ];
         $this->assertEquals($expectedResult, $result);
