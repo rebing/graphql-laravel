@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
 
+use Rebing\GraphQL\Tests\Support\Models\Tag;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
@@ -802,6 +803,101 @@ SQL
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/419
+     */
+    public function testQuerySelectAndWithAndScalarAndObjSubArgs(): void
+    {
+        /** @var User[] $users */
+        $users = factory(User::class, 2)
+            ->create()
+            ->each(function (User $user): void {
+                $post = factory(Post::class)
+                    ->create([
+                        'title' => 'post1 title',
+                        'body' => 'post1 body',
+                        'user_id' => $user->id,
+                    ]);
+                $post->tags()->save(factory(Tag::class)
+                    ->create([
+                        'name' => 'tag1',
+                    ]));
+                $post->tags()->save(factory(Tag::class)
+                    ->create([
+                        'name' => 'tag2',
+                    ]));
+
+                $post = factory(Post::class)
+                    ->create([
+                        'title' => 'post2 title',
+                        'body' => 'post2 body',
+                        'user_id' => $user->id,
+                    ]);
+                $post->tags()->save(factory(Tag::class)
+                    ->create([
+                        'name' => 'tag3',
+                    ]));
+                $post->tags()->save(factory(Tag::class)
+                    ->create([
+                        'name' => 'tag4',
+                    ]));
+            });
+
+        $graphql = <<<'GRAQPHQL'
+{
+  users(select: true, with: true) {
+    id
+    name
+    posts(filter: {title: "title", body: "body", keywords: ["tag3", "tag4"]}) {
+      body
+      id
+      title
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($graphql);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id", "users"."name" from "users" order by "users"."id" asc;
+select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."title" like ? and "posts"."title" like ? and exists (select * from "tags" inner join "taggables" on "tags"."id" = "taggables"."tag_id" where "posts"."id" = "taggables"."taggable_id" and "taggables"."taggable_type" = ? and "name" in (?, ?)) order by "posts"."id" asc;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'users' => [
+                    [
+                        'id' => (string) $users[0]->id,
+                        'name' => $users[0]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[0]->posts[1]->body,
+                                'id' => (string) $users[0]->posts[1]->id,
+                                'title' => $users[0]->posts[1]->title,
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $users[1]->id,
+                        'name' => $users[1]->name,
+                        'posts' => [
+                            [
+                                'body' => $users[1]->posts[1]->body,
+                                'id' => (string) $users[1]->posts[1]->id,
+                                'title' => $users[1]->posts[1]->title,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
     public function testRelationshipAlias(): void
     {
         $users = factory(User::class, 1)
@@ -876,6 +972,7 @@ SQL
             CommentType::class,
             PostType::class,
             UserType::class,
+            FilterInput::class,
         ]);
     }
 }
