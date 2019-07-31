@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
 
-use Rebing\GraphQL\Tests\Support\Models\Tag;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
+use Rebing\GraphQL\Tests\Support\Models\Tag;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -804,7 +804,7 @@ SQL
     }
 
     /**
-     * Fixed with https://github.com/rebing/graphql-laravel/pull/419
+     * Fixed with https://github.com/rebing/graphql-laravel/pull/419.
      */
     public function testQuerySelectAndWithAndScalarAndObjSubArgs(): void
     {
