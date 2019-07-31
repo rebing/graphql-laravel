@@ -7,7 +7,6 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use Validator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Fluent;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\WrappingType;
@@ -16,11 +15,16 @@ use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
-abstract class Field extends Fluent
+abstract class Field
 {
+    protected $attributes = [];
+
     /**
      * Override this in your queries or mutations
      * to provide custom authorization.
+     *
+     * @param  array  $args
+     * @return bool
      */
     public function authorize(array $args): bool
     {
@@ -204,13 +208,15 @@ abstract class Field extends Fluent
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributes = $this->attributes();
 
-        $attributes = array_merge($this->attributes, [
-            'args' => $this->args(),
-        ], $attributes);
+        $attributes = array_merge(
+            $this->attributes,
+            ['args' => $this->args()],
+            $attributes
+        );
 
         $attributes['type'] = $this->type();
 
@@ -227,7 +233,7 @@ abstract class Field extends Fluent
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->getAttributes();
     }
@@ -246,17 +252,8 @@ abstract class Field extends Fluent
         return isset($attributes[$key]) ? $attributes[$key] : null;
     }
 
-    /**
-     * Dynamically check if an attribute is set.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    public function __set(string $key, $value): void
     {
-        $attributes = $this->getAttributes();
-
-        return isset($attributes[$key]);
+        $this->attributes[$key] = $value;
     }
 }

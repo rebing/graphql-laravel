@@ -45,8 +45,8 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        if (env('TESTS_DISABLE_LAZYLOAD_TYPES') === '1') {
-            $app['config']->set('graphql.lazyload_types', false);
+        if (env('TESTS_ENABLE_LAZYLOAD_TYPES') === '1') {
+            $app['config']->set('graphql.lazyload_types', true);
         }
 
         $app['config']->set('graphql.schemas.default', [

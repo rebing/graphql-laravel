@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string $title
  * @property string|null $body
  * @property int|null $user_id
+ * @property array|null $properties
  * @property bool $flag
  * @property Illuminate\Support\Carbon|null $published_at
  * @property bool $is_published
@@ -26,6 +27,10 @@ class Post extends Model
 {
     protected $dates = [
         'published_at',
+    ];
+
+    protected $casts = [
+        'properties' => 'array',
     ];
 
     public function user(): BelongsTo

@@ -31,10 +31,6 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $this->bootPublishes();
 
-        $this->bootTypes();
-
-        $this->bootSchemas();
-
         $this->bootRouter();
     }
 
@@ -70,26 +66,28 @@ class GraphQLServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap publishes.
+     * Add types from config.
      *
+     * @param  GraphQL  $graphQL
      * @return void
      */
-    protected function bootTypes(): void
+    protected function bootTypes(GraphQL $graphQL): void
     {
         $configTypes = config('graphql.types');
-        $this->app->make('graphql')->addTypes($configTypes);
+        $graphQL->addTypes($configTypes);
     }
 
     /**
      * Add schemas from config.
      *
+     * @param  GraphQL  $graphQL
      * @return void
      */
-    protected function bootSchemas(): void
+    protected function bootSchemas(GraphQL $graphQL): void
     {
         $configSchemas = config('graphql.schemas');
         foreach ($configSchemas as $name => $schema) {
-            $this->app->make('graphql')->addSchema($name, $schema);
+            $graphQL->addSchema($name, $schema);
         }
     }
 
@@ -143,7 +141,13 @@ class GraphQLServiceProvider extends ServiceProvider
 
             $this->applySecurityRules();
 
+            $this->bootSchemas($graphql);
+
             return $graphql;
+        });
+
+        $this->app->afterResolving('graphql', function (GraphQL $graphQL) {
+            $this->bootTypes($graphQL);
         });
     }
 

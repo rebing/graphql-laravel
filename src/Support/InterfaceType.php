@@ -30,12 +30,12 @@ abstract class InterfaceType extends Type
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributes = parent::getAttributes();
 
         $resolver = $this->getTypeResolver();
-        if (isset($resolver)) {
+        if ($resolver) {
             $attributes['resolveType'] = $resolver;
         }
 

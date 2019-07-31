@@ -108,7 +108,7 @@ abstract class Type implements TypeConvertible
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributes = $this->attributes();
         $interfaces = $this->interfaces();
@@ -131,7 +131,7 @@ abstract class Type implements TypeConvertible
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->getAttributes();
     }
@@ -160,20 +160,6 @@ abstract class Type implements TypeConvertible
         $attributes = $this->getAttributes();
 
         return isset($attributes[$key]) ? $attributes[$key] : null;
-    }
-
-    /**
-     * Dynamically check if an attribute is set.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        $attributes = $this->getAttributes();
-
-        return isset($attributes[$key]);
     }
 
     public function __set(string $key, $value): void

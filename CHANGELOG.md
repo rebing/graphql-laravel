@@ -4,7 +4,6 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
 ------------
 ## Breaking changes
-- Featuring "performance by default", the new `lazyload_types` settings defaults to `true`. The breaking change is that this does not support type aliasing (if your types `$name` is different the one it's registered under) which includes pagination. To still use either, set it to `false`.
 - The `UploadType` now has to be added manually to the `types` in your schema if you want to use it
   - The `::getInstance()` method is gone
 - The order and arguments/types for resolvers has changed:
@@ -17,7 +16,7 @@ CHANGELOG
   - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
 
 ### Added
-- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405)
+- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405) but doens't work together with type aliases or `paginate()`.
 - A migration guide for the Folklore library as part of the readme
 - New `make:graphql:input` command
 - New `make:graphql:union` command
@@ -36,7 +35,8 @@ CHANGELOG
   - Test suite has been refactored and now features Database (SQLite) tests too
 
 ### Changed
-- Follow Laravel convention and use plural for namspaces (e.g. new queries are place in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
+- Types and Schemas are now only booted when the `graphql` service is requested, improving performance when having this library installed but not using it in certain workloads (pure artisan commands, non-GraphQL web requests, etc.) [\#427](https://github.com/rebing/graphql-laravel/pull/427)
+- Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
 - Made the following classes _abstract_: `Support\Field`, `Support\InterfaceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 [\#335](https://github.com/rebing/graphql-laravel/pull/335)
   - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
@@ -45,7 +45,7 @@ CHANGELOG
 
 ### Fixed
 - The Paginator correctly inherits the types model so it can be used with `SelectFields` and still generates correct SQL queries [\#415](https://github.com/rebing/graphql-laravel/pull/415)
-- Arguments are now validation before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
+- Arguments are now validated before they're passed to `authorize()` [\#413](https://github.com/rebing/graphql-laravel/pull/413)
 - File uploads now correctly work with batched requests [\#397](https://github.com/rebing/graphql-laravel/pull/397)
 - Path multi-level support for Schemas works again [\#358](https://github.com/rebing/graphql-laravel/pull/358)
 - SelectFields correctly passes field arguments to the custom query [\#327](https://github.com/rebing/graphql-laravel/pull/327)
@@ -53,7 +53,8 @@ CHANGELOG
   - Previously the initial query arguments would be used everywhere
 
 ### Removed
-- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type`
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Field` [\#431](https://github.com/rebing/graphql-laravel/pull/431)
+- Removed `\Fluent` dependency on `\Rebing\GraphQL\Support\Type` [\#389](https://github.com/rebing/graphql-laravel/pull/389)
 - Unused static field `\Rebing\GraphQL\Support\Type::$instances`
 - Unused field `\Rebing\GraphQL\Support\Type::$unionType`
 
