@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
@@ -23,8 +24,8 @@ class FilterInput extends InputType
                 'type' => Type::string(),
             ],
             'keywords' => [
-                'type' => Type::listOf(Type::string())
-            ]
+                'type' => Type::listOf(Type::string()),
+            ],
         ];
     }
 }
