@@ -207,7 +207,12 @@ class SelectFields
 
                         $with[$relationsKey] = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType, $customQuery, false);
                     } else {
-                        self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with);
+                        if (method_exists($fieldObject->getType(), 'getWrappedType')) {
+                            $type = $fieldObject->getType()->getWrappedType();
+                        } else {
+                            $type = $fieldObject->config['type'];
+                        }
+                        self::handleFields($queryArgs, $field, $type, $select, $with);
                     }
                 }
                 // Select
