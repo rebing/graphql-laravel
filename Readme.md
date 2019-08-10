@@ -1114,9 +1114,9 @@ First create an Enum as an extension of the GraphQLType class:
 
 namespace App\GraphQL\Enums;
 
-use Rebing\GraphQL\Support\EnumType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
-class EpisodeEnum extends EnumType
+class EpisodeEnum extends GraphQLType
 {
     protected $attributes = [
         'name' => 'Episode',
@@ -1127,6 +1127,8 @@ class EpisodeEnum extends EnumType
             'JEDI' => 'JEDI',
         ],
     ];
+
+    protected $enumObject = true;
 }
 ```
 
@@ -1356,15 +1358,17 @@ First create an InputObjectType as an extension of the GraphQLType class:
 
 namespace App\GraphQL\InputObject;
 
+use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
 
-class ReviewInput extends InputType
+class ReviewInput extends GraphQLType
 {
     protected $attributes = [
         'name' => 'ReviewInput',
         'description' => 'A review with a comment and a score (0 to 5)'
     ];
+
+    protected $inputObject = true;
 
     public function fields(): array
     {
