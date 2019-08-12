@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/v1.24.0...master)
-------------
+[Next release](https://github.com/rebing/graphql-laravel/compare/2.0.0...master)
+--------------
+
+2019-08-05, 2.0.0
+-----------------
 ## Breaking changes
 - The `UploadType` now has to be added manually to the `types` in your schema if you want to use it
   - The `::getInstance()` method is gone
