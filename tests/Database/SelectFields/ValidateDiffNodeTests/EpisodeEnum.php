@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
-
 use Rebing\GraphQL\Support\EnumType;
 
 class EpisodeEnum extends EnumType

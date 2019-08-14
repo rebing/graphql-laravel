@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
-use GraphQL\Type\Definition\Type;
 use PHPUnit\Framework\Assert;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\User;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
 {
@@ -54,10 +54,10 @@ class UserType extends GraphQLType
                         'type' => Type::listOf(Type::string()),
                     ],
                     'customType' => [
-                        'type' => GraphQL::type('MyCustomScalarString')
+                        'type' => GraphQL::type('MyCustomScalarString'),
                     ],
                 ],
-                'query' => function(array $args, $query) {
+                'query' => function (array $args, $query) {
                     $expectedQueryArgs = [
                         'id' => 2,
                         'name' => 'tom',
@@ -67,16 +67,17 @@ class UserType extends GraphQLType
                         'author' => 'EMPIRE',
                         'post' => [
                             'id' => 2,
-                            'body' => 'body2'
+                            'body' => 'body2',
                         ],
                         'keywords' => [
                             'key4',
                             'key5',
-                            'key6'
+                            'key6',
                         ],
-                        'customType' => 'custom string'
+                        'customType' => 'custom string',
                     ];
                     Assert::assertSame($expectedQueryArgs, $args);
+
                     return $query;
                 },
             ],
