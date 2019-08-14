@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
+namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InputType;
@@ -17,14 +17,14 @@ class FilterInput extends InputType
     public function fields(): array
     {
         return [
-            'title' => [
-                'type' => Type::string(),
-            ],
             'body' => [
                 'type' => Type::string(),
             ],
-            'keywords' => [
-                'type' => Type::listOf(Type::string()),
+            'id' => [
+                'type' => Type::int(),
+            ],
+            'title' => [
+                'type' => Type::string(),
             ],
         ];
     }

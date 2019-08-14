@@ -32,26 +32,10 @@ class UserType extends GraphQLType
                     'flag' => [
                         Type::boolean(),
                     ],
-                    'filter' => [
-                        'type' => GraphQL::type('Filter'),
-                    ],
                 ],
                 'query' => function (array $args, HasMany $query): HasMany {
                     if (isset($args['flag'])) {
                         $query->where('posts.flag', '=', $args['flag']);
-                    }
-                    if (isset($args['filter'])) {
-                        if (isset($args['filter']['title'])) {
-                            $query->where('posts.title', 'like', "%{$args['filter']['title']}%");
-                        }
-                        if (isset($args['filter']['body'])) {
-                            $query->where('posts.title', 'like', "%{$args['filter']['title']}%");
-                        }
-                        if (isset($args['filter']['keywords'])) {
-                            $query->whereHas('tags', function ($query) use ($args) {
-                                $query->whereIn('name', $args['filter']['keywords']);
-                            });
-                        }
                     }
 
                     return $query;

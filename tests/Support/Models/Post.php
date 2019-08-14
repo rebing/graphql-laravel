@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @property int $id
@@ -21,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property bool $is_published
  * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
- * @property-read \Illuminate\Database\Eloquent\Collection|Tag[] $tags
  */
 class Post extends Model
 {
@@ -46,11 +44,6 @@ class Post extends Model
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likable');
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function getIsPublishedAttribute(): bool

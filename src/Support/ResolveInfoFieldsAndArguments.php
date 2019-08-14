@@ -20,6 +20,7 @@ use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * This adapts \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
@@ -85,7 +86,6 @@ class ResolveInfoFieldsAndArguments
      * @param  int  $depth  How many levels to include in output
      * @return array
      * @see \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
-     * @throws \Exception
      */
     public function getFieldsAndArgumentsSelection(int $depth = 0): array
     {
@@ -107,7 +107,6 @@ class ResolveInfoFieldsAndArguments
      * @param  int  $descend
      * @return array
      * @see \GraphQL\Type\Definition\ResolveInfo::foldSelectionSet
-     * @throws \Exception
      */
     private function foldSelectionSet(SelectionSetNode $selectionSet, int $descend): array
     {
@@ -145,8 +144,7 @@ class ResolveInfoFieldsAndArguments
 
     /**
      * @param ValueNode $value
-     * @return mixed
-     * @throws \Exception
+     * @return mixed|null
      */
     private function getValue(ValueNode $value)
     {
@@ -155,32 +153,49 @@ class ResolveInfoFieldsAndArguments
 
             return $this->info->variableValues[$variableName] ?? null;
         }
-        // Scalar Types
-        if ($value instanceof IntValueNode || $value instanceof FloatValueNode || $value instanceof StringValueNode || $value instanceof BooleanValueNode || $value instanceof EnumValueNode) {
-            return $value->value;
+
+        if ($value instanceof IntValueNode)
+        {
+            return (int) $value->value;
         }
-        // null Type
+
+        if ($value instanceof FloatValueNode) {
+           return (float) $value->value;
+        }
+
+        if ($value instanceof StringValueNode) {
+            return (string) $value->value;
+        }
+
+        if ($value instanceof BooleanValueNode) {
+            return (boolean) $value->value;
+        }
+
+        if ($value instanceof EnumValueNode)
+        {
+            return (string) $value->value;
+        }
+
         if ($value instanceof NullValueNode) {
-            return;
+            return null;
         }
-        // object Type
+
         if ($value instanceof ObjectValueNode) {
             return $this->getInputObjectValue($value);
         }
-        // list object Type
+
         if ($value instanceof ListValueNode) {
             return $this->getInputListObjectValue($value);
         }
 
-        throw new \Exception('Failed to resolve unknown ValueNode type');
+        throw new \RuntimeException('Failed to resolve unknown ValueNode type');
     }
 
     /**
      * @param ObjectValueNode $objectValueNode
      * @return array
-     * @throws \Exception
      */
-    private function getInputObjectValue(ObjectValueNode $objectValueNode)
+    private function getInputObjectValue(ObjectValueNode $objectValueNode): array
     {
         $value = [];
         foreach ($objectValueNode->fields->getIterator() as $item) {
@@ -195,9 +210,8 @@ class ResolveInfoFieldsAndArguments
     /**
      * @param ListValueNode $listValueNode
      * @return array
-     * @throws \Exception
      */
-    private function getInputListObjectValue(ListValueNode $listValueNode)
+    private function getInputListObjectValue(ListValueNode $listValueNode): array
     {
         $value = [];
         foreach ($listValueNode->values as $valueNode) {
