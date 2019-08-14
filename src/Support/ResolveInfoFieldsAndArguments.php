@@ -20,7 +20,6 @@ use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * This adapts \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
@@ -154,13 +153,12 @@ class ResolveInfoFieldsAndArguments
             return $this->info->variableValues[$variableName] ?? null;
         }
 
-        if ($value instanceof IntValueNode)
-        {
+        if ($value instanceof IntValueNode) {
             return (int) $value->value;
         }
 
         if ($value instanceof FloatValueNode) {
-           return (float) $value->value;
+            return (float) $value->value;
         }
 
         if ($value instanceof StringValueNode) {
@@ -168,16 +166,15 @@ class ResolveInfoFieldsAndArguments
         }
 
         if ($value instanceof BooleanValueNode) {
-            return (boolean) $value->value;
+            return (bool) $value->value;
         }
 
-        if ($value instanceof EnumValueNode)
-        {
+        if ($value instanceof EnumValueNode) {
             return (string) $value->value;
         }
 
         if ($value instanceof NullValueNode) {
-            return null;
+            return;
         }
 
         if ($value instanceof ObjectValueNode) {

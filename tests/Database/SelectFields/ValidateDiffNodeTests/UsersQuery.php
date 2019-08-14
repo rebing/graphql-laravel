@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 use Illuminate\Foundation\Testing\Assert;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Tests\Support\Models\User;
 
 class UsersQuery extends Query
@@ -46,8 +46,8 @@ class UsersQuery extends Query
                 'type' => Type::listOf(Type::string()),
             ],
             'customType' => [
-                'type' => GraphQL::type('MyCustomScalarString')
-            ]
+                'type' => GraphQL::type('MyCustomScalarString'),
+            ],
         ];
     }
 
@@ -69,16 +69,17 @@ class UsersQuery extends Query
             'author' => 'NEWHOPE',
             'post' => [
                 'body' => 'body',
-                'id' => 1
+                'id' => 1,
             ],
             'keywords' => [
                 'key1',
                 'key2',
-                'key3'
+                'key3',
             ],
-            'customType' => 'hello world'
+            'customType' => 'hello world',
         ];
         Assert::assertSame($expectedQueryArgs, $args);
+
         return User::select($fields->getSelect())
             ->with($fields->getRelations())
             ->get();
