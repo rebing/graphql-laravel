@@ -6,6 +6,9 @@ CHANGELOG
 ### Added
 - Allow `'alias'` to be a callback [\#452 / crissi](https://github.com/rebing/graphql-laravel/pull/452)
 
+### Fixed
+- Support adding Schema objects directly [\#449 / mfn](https://github.com/rebing/graphql-laravel/pull/449)
+
 2019-08-05, 2.0.0
 -----------------
 ## Breaking changes
