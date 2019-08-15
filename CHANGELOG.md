@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.0.0...master)
 --------------
+## Breaking changes
+- Add the current `\Illuminate\Http\Request` as 4th parameter to `\Rebing\GraphQL\GraphQLController::queryContext` [\#450 / mfn](https://github.com/rebing/graphql-laravel/pull/450)
+
 ### Added
 - Allow `'alias'` to be a callback [\#452 / crissi](https://github.com/rebing/graphql-laravel/pull/452)
 

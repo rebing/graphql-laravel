@@ -46,7 +46,7 @@ class GraphQLController extends Controller
 
         // Complete each query in order
         foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery($schema, $input);
+            $completedQueries[] = $this->executeQuery($request, $schema, $input);
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
@@ -57,7 +57,7 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function executeQuery(string $schema, array $input): array
+    protected function executeQuery(Request $request, string $schema, array $input): array
     {
         $query = $input['query'];
 
@@ -71,14 +71,14 @@ class GraphQLController extends Controller
             $query,
             $params,
             [
-                'context' => $this->queryContext($query, $params, $schema),
+                'context' => $this->queryContext($query, $params, $schema, $request),
                 'schema' => $schema,
                 'operationName' => Arr::get($input, 'operationName'),
             ]
         );
     }
 
-    protected function queryContext(string $query, ?array $params, string $schema)
+    protected function queryContext(string $query, ?array $params, string $schema, Request $request)
     {
         try {
             return $this->app->make('auth')->user();
