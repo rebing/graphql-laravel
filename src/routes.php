@@ -76,7 +76,18 @@ $router->group(array_merge([
                     );
 
                     if (! Helpers::isLumen()) {
-                        $route->where($name, $name);
+                        $multiLevelPath = explode('/', $name);
+                        if (count($multiLevelPath) > 1) {
+                            
+                            $where = [];
+                            foreach ($multiLevelPath as $multiName) {
+                                $where[$multiName] = $multiName;
+                            }
+
+                            $route->where($where);
+                        } else {
+                            $route->where($name, $name);
+                        }
                     }
                 }
             }
@@ -129,7 +140,18 @@ $router->group(array_merge([
                     );
 
                     if (! Helpers::isLumen()) {
-                        $route->where($name, $name);
+                        $multiLevelPath = explode('/', $name);
+                        if (count($multiLevelPath) > 1) {
+
+                            $where = [];
+                            foreach ($multiLevelPath as $multiName) {
+                                $where[$multiName] = $multiName;
+                            }
+
+                            $route->where($where);
+                        } else {
+                            $route->where($name, $name);
+                        }
                     }
                 }
             }
