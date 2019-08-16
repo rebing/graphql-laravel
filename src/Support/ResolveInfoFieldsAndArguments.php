@@ -142,10 +142,6 @@ class ResolveInfoFieldsAndArguments
         return $fields;
     }
 
-    /**
-     * @param ValueNode $value
-     * @return mixed|null
-     */
     private function getValue(ValueNode $value)
     {
         if ($value instanceof VariableNode) {
@@ -189,10 +185,6 @@ class ResolveInfoFieldsAndArguments
         throw new RuntimeException('Failed to resolve unknown ValueNode type');
     }
 
-    /**
-     * @param ObjectValueNode $objectValueNode
-     * @return array
-     */
     private function getInputObjectValue(ObjectValueNode $objectValueNode): array
     {
         $value = [];
@@ -205,10 +197,6 @@ class ResolveInfoFieldsAndArguments
         return $value;
     }
 
-    /**
-     * @param ListValueNode $listValueNode
-     * @return array
-     */
     private function getInputListObjectValue(ListValueNode $listValueNode): array
     {
         $value = [];
