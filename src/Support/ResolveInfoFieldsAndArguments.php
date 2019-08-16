@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use RuntimeException;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Language\AST\ValueNode;
 use GraphQL\Language\AST\IntValueNode;
@@ -185,7 +186,7 @@ class ResolveInfoFieldsAndArguments
             return $this->getInputListObjectValue($value);
         }
 
-        throw new \RuntimeException('Failed to resolve unknown ValueNode type');
+        throw new RuntimeException('Failed to resolve unknown ValueNode type');
     }
 
     /**
