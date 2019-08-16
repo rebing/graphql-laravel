@@ -42,5 +42,4 @@ parameters:
         - '/Anonymous function should return string but returns string\|false/'
         # tests/Unit/UploadTests/UploadSingleFileMutation.php
         - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
-    bootstrap: %currentWorkingDirectory%/vendor/nunomaduro/larastan/bootstrap.php
     reportUnmatchedIgnoredErrors: true
