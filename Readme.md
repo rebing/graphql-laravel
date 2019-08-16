@@ -186,7 +186,8 @@ class UserType extends GraphQLType
                 'description' => 'The id of the user',
                 // Use 'alias', if the database column is different from the type name.
                 // This is supported for discrete values as well as relations.
-                // You can also use `DB::raw()` to solve more complex issues
+                // - you can also use `DB::raw()` to solve more complex issues
+                // - or a callback returning the value (string or `DB::raw()` result)
                 'alias' => 'user_id',
             ],
             'email' => [
