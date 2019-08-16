@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database;
 
-use DateTime;
 use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -303,13 +302,13 @@ SQL
         factory(Comment::class)
             ->create([
                 'post_id' => $post->id,
-                'created_at' => new DateTime('2000-01-01'),
+                'created_at' => new Carbon('2000-01-01'),
             ]);
 
         factory(Comment::class)
             ->create([
                 'post_id' => $post->id,
-                'created_at' => new DateTime('2018-05-05'),
+                'created_at' => new Carbon('2018-05-05'),
             ]);
 
         $graphql = <<<GRAQPHQL
