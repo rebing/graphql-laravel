@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use RuntimeException;
 use GraphQL\Language\AST\FieldNode;
-use GraphQL\Language\AST\ArgumentNode;
+use GraphQL\Language\AST\ValueNode;
+use GraphQL\Language\AST\IntValueNode;
 use GraphQL\Language\AST\VariableNode;
+use GraphQL\Language\AST\EnumValueNode;
+use GraphQL\Language\AST\ListValueNode;
+use GraphQL\Language\AST\NullValueNode;
+use GraphQL\Language\AST\FloatValueNode;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Language\AST\ObjectFieldNode;
+use GraphQL\Language\AST\ObjectValueNode;
+use GraphQL\Language\AST\StringValueNode;
+use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
@@ -114,7 +124,7 @@ class ResolveInfoFieldsAndArguments
                 ];
 
                 foreach ($selectionNode->arguments ?? [] as $argumentNode) {
-                    $fields[$name]['args'][$argumentNode->name->value] = $this->getValue($argumentNode);
+                    $fields[$name]['args'][$argumentNode->name->value] = $this->getValue($argumentNode->value);
                 }
             } elseif ($selectionNode instanceof FragmentSpreadNode) {
                 $spreadName = $selectionNode->name->value;
@@ -132,15 +142,68 @@ class ResolveInfoFieldsAndArguments
         return $fields;
     }
 
-    private function getValue(ArgumentNode $argumentNode)
+    private function getValue(ValueNode $value)
     {
-        $value = $argumentNode->value;
         if ($value instanceof VariableNode) {
             $variableName = $value->name->value;
 
             return $this->info->variableValues[$variableName] ?? null;
         }
 
-        return $argumentNode->value->value;
+        if ($value instanceof IntValueNode) {
+            return (int) $value->value;
+        }
+
+        if ($value instanceof FloatValueNode) {
+            return (float) $value->value;
+        }
+
+        if ($value instanceof StringValueNode) {
+            return (string) $value->value;
+        }
+
+        if ($value instanceof BooleanValueNode) {
+            return (bool) $value->value;
+        }
+
+        if ($value instanceof EnumValueNode) {
+            return (string) $value->value;
+        }
+
+        if ($value instanceof NullValueNode) {
+            return;
+        }
+
+        if ($value instanceof ObjectValueNode) {
+            return $this->getInputObjectValue($value);
+        }
+
+        if ($value instanceof ListValueNode) {
+            return $this->getInputListObjectValue($value);
+        }
+
+        throw new RuntimeException('Failed to resolve unknown ValueNode type');
+    }
+
+    private function getInputObjectValue(ObjectValueNode $objectValueNode): array
+    {
+        $value = [];
+        foreach ($objectValueNode->fields->getIterator() as $item) {
+            if ($item instanceof ObjectFieldNode) {
+                $value[$item->name->value] = $this->getValue($item->value);
+            }
+        }
+
+        return $value;
+    }
+
+    private function getInputListObjectValue(ListValueNode $listValueNode): array
+    {
+        $value = [];
+        foreach ($listValueNode->values as $valueNode) {
+            $value[] = $this->getValue($valueNode);
+        }
+
+        return $value;
     }
 }

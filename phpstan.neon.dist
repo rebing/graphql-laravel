@@ -11,7 +11,6 @@ parameters:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
         - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
-        - '/Parameter #2 \.\.\.\$args of function array_merge_recursive expects array, array\|GraphQL\\Type\\Schema given/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
         - '/Cannot access property \$parameters on mixed/'
         - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
@@ -32,8 +31,6 @@ parameters:
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
-        # \Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments::getValue
-        - '/Access to an undefined property GraphQL\\Language\\AST\\ValueNode::\$value/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'

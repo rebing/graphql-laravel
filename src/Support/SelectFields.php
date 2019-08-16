@@ -215,6 +215,7 @@ class SelectFields
                     $key = isset($fieldObject->config['alias'])
                         ? $fieldObject->config['alias']
                         : $key;
+                    $key = $key instanceof Closure ? $key() : $key;
 
                     self::addFieldToSelect($key, $select, $parentTable, false);
 

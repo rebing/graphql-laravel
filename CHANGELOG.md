@@ -3,6 +3,12 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.0.0...master)
 --------------
+### Added
+- Allow `'alias'` to be a callback [\#452 / crissi](https://github.com/rebing/graphql-laravel/pull/452)
+
+### Fixed
+- Support adding Schema objects directly [\#449 / mfn](https://github.com/rebing/graphql-laravel/pull/449)
+- Input arguments are properly parsed when objects or lists are passed [\#419 / sowork](https://github.com/rebing/graphql-laravel/pull/419)
 
 2019-08-05, 2.0.0
 -----------------
