@@ -21,7 +21,6 @@ parameters:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Class Orchestra\\Database\\ConsoleServiceProvider not found/'
         - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
-        - '/Parameter #2 \.\.\.\$args of function array_merge_recursive expects array, array\|GraphQL\\Type\\Schema given/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
         - '/Cannot access property \$parameters on mixed/'
         - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'

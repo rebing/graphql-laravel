@@ -331,4 +331,34 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('custom', $schemas);
         $this->assertIsArray($schemas['default']);
     }
+
+    public function testAddSchemaObjectAndExecuteQuery(): void
+    {
+        $schema = new Schema([
+            'query' => new ObjectType([
+                'name' => 'Query',
+                'fields' => [
+                    'testQuery' => [
+                        'type' => Type::string(),
+                        'resolve' => function () {
+                            return 'Returning test data';
+                        },
+                    ],
+                ],
+            ]),
+        ]);
+
+        GraphQL::addSchema('schema_from_object', $schema);
+
+        $result = GraphQL::query('{ testQuery }', null, [
+            'schema' => 'schema_from_object',
+        ]);
+
+        $expectedResult = [
+            'data' => [
+                'testQuery' => 'Returning test data',
+            ],
+        ];
+        $this->assertSame($expectedResult, $result);
+    }
 }

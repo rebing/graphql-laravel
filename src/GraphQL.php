@@ -28,6 +28,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
+    /** @var array<array|Schema> */
     protected $schemas = [];
     /**
      * Maps GraphQL type names to their class name.
@@ -56,6 +57,10 @@ class GraphQL
         $this->clearTypeInstances();
 
         $schema = $this->getSchemaConfiguration($schema);
+
+        if ($schema instanceof Schema) {
+            return $schema;
+        }
 
         $schemaQuery = Arr::get($schema, 'query', []);
         $schemaMutation = Arr::get($schema, 'mutation', []);
@@ -281,7 +286,7 @@ class GraphQL
      */
     public function mergeSchemas(string $name, $schema): void
     {
-        if (isset($this->schemas[$name]) && $this->schemas[$name]) {
+        if (isset($this->schemas[$name]) && is_array($this->schemas[$name]) && is_array($schema)) {
             $this->schemas[$name] = array_merge_recursive($this->schemas[$name], $schema);
         } else {
             $this->schemas[$name] = $schema;
@@ -422,9 +427,9 @@ class GraphQL
 
     /**
      * @param  array|string|null  $schema
-     * @return array
+     * @return array|Schema
      */
-    protected function getSchemaConfiguration($schema): array
+    protected function getSchemaConfiguration($schema)
     {
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 
