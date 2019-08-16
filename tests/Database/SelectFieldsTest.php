@@ -348,9 +348,6 @@ SQL
 
         $this->assertEquals($response->getStatusCode(), 200);
         $this->assertEquals($expectedResult, $response->json());
-
-        // clear the mock
-        Carbon::setTestNow();
     }
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
