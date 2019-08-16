@@ -21,6 +21,9 @@ use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQue
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery;
+use DateTime;
+use Illuminate\Support\Carbon;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -295,17 +298,27 @@ SQL
             'title' => 'Description of the post',
         ]);
 
-        factory(Comment::class, 2)
+        Carbon::setTestNow('2018-01-01');
+
+        factory(Comment::class)
             ->create([
                 'post_id' => $post->id,
+                'created_at' => new DateTime('2000-01-01')
             ]);
+
+        factory(Comment::class)
+            ->create([
+                'post_id' => $post->id,
+                'created_at' => new DateTime('2018-05-05')
+            ]);
+
 
         $graphql = <<<GRAQPHQL
     {
-      postWithSelectFieldsAndModelAndAlias(id: $post->id) {
+      postWithSelectFieldsAndModelAndAliasCallback(id: $post->id) {
         id
         description
-        commentCount
+        commentsLastMonth
       }
     }
 GRAQPHQL;
@@ -318,7 +331,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts.id = comments.post_id) AS commentCount from "posts" where "posts"."id" = ? limit 1;
+select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '2018-01-01 00:00:00') AS commentsLastMonth from "posts" where "posts"."id" = ? limit 1;
 SQL
         );
 
@@ -326,16 +339,19 @@ SQL
 
         $expectedResult = [
             'data' => [
-                'postWithSelectFieldsAndModelAndAlias' => [
+                'postWithSelectFieldsAndModelAndAliasCallback' => [
                     'id' => '1',
                     'description' => 'Description of the post',
-                    'commentCount' => 2,
+                    'commentsLastMonth' => 1
                 ],
             ],
         ];
 
         $this->assertEquals($response->getStatusCode(), 200);
         $this->assertEquals($expectedResult, $response->json());
+
+        // clear the mock
+        Carbon::setTestNow();
     }
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
@@ -433,6 +449,7 @@ SQL
                 PostWithSelectFieldsAndModelAndAliasQuery::class,
                 PostWithSelectFieldsAndModelQuery::class,
                 PostWithSelectFieldsNoModelQuery::class,
+                PostWithSelectFieldsAndModelAndAliasCallbackQuery::class
             ],
         ]);
 
