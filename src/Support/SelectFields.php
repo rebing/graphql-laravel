@@ -213,7 +213,7 @@ class SelectFields
                 // Select
                 else {
                     $key = isset($fieldObject->config['alias'])
-                        ? $fieldObject->config['alias']
+                        ? value($fieldObject->config['alias'])
                         : $key;
 
                     self::addFieldToSelect($key, $select, $parentTable, false);

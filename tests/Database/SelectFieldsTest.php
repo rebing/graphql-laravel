@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database;
 
+use DateTime;
+use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -18,12 +20,10 @@ use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuer
 use Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery;
-use DateTime;
-use Illuminate\Support\Carbon;
 
 class SelectFieldsTest extends TestCaseDatabase
 {
@@ -303,15 +303,14 @@ SQL
         factory(Comment::class)
             ->create([
                 'post_id' => $post->id,
-                'created_at' => new DateTime('2000-01-01')
+                'created_at' => new DateTime('2000-01-01'),
             ]);
 
         factory(Comment::class)
             ->create([
                 'post_id' => $post->id,
-                'created_at' => new DateTime('2018-05-05')
+                'created_at' => new DateTime('2018-05-05'),
             ]);
-
 
         $graphql = <<<GRAQPHQL
     {
@@ -342,7 +341,7 @@ SQL
                 'postWithSelectFieldsAndModelAndAliasCallback' => [
                     'id' => '1',
                     'description' => 'Description of the post',
-                    'commentsLastMonth' => 1
+                    'commentsLastMonth' => 1,
                 ],
             ],
         ];
@@ -449,7 +448,7 @@ SQL
                 PostWithSelectFieldsAndModelAndAliasQuery::class,
                 PostWithSelectFieldsAndModelQuery::class,
                 PostWithSelectFieldsNoModelQuery::class,
-                PostWithSelectFieldsAndModelAndAliasCallbackQuery::class
+                PostWithSelectFieldsAndModelAndAliasCallbackQuery::class,
             ],
         ]);
 
