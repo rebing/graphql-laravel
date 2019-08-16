@@ -12,9 +12,6 @@ class ValidateDiffNodeTests extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
-    /**
-     * Fixed with https://github.com/rebing/graphql-laravel/pull/419.
-     */
     public function testDiffValueNodeAndNestedValueNodeArgs(): void
     {
         /** @var User[] $users */
