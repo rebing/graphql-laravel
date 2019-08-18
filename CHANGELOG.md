@@ -1,10 +1,17 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/2.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/2.0.1...master)
 --------------
+
+2019-08-18, 2.0.1
+-----------------
 ### Added
 - Allow `'alias'` to be a callback [\#452 / crissi](https://github.com/rebing/graphql-laravel/pull/452)
+
+### Changed
+- Internal
+  - Properly separate larastans' phpstan config from ours [\#451 / szepeviktor](https://github.com/rebing/graphql-laravel/pull/451)
 
 ### Fixed
 - Support adding Schema objects directly [\#449 / mfn](https://github.com/rebing/graphql-laravel/pull/449)
