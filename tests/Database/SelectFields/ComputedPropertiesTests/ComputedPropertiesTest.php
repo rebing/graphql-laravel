@@ -13,11 +13,6 @@ class ComputedPropertiesTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
-    /**
-     * Once https://github.com/rebing/graphql-laravel/issues/377 is fixed,
-     * the test needs to be changed, showing that the computed properties
-     * evaluate correctly, or perhaps throw an error if not properly configured.
-     */
     public function testComputedProperty(): void
     {
         $user = factory(User::class)->create([
@@ -49,7 +44,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id", "users"."name" from "users";
-select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+select "posts"."id", "posts"."published_at", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
 SQL
         );
 
@@ -57,21 +52,19 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => $user->id,
+                        'id' => (string) $user->id,
                         'name' => $user->name,
                         'posts' => [
                             [
-                                'id' => $post->id,
-                                // "isPublished" => $post->is_published,
-                                // So, is_published is not being selected and Post::getIsPublishedAttributes evaluates to false.
-                                'isPublished' => false,
+                                'id' => (string) $post->id,
+                                'isPublished' => true,
                             ],
                         ],
                     ],
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        $this->assertSame($expectedResult, $result);
     }
 
     protected function getEnvironmentSetUp($app)

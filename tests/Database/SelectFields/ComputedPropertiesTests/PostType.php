@@ -28,6 +28,7 @@ class PostType extends GraphQLType
             'isPublished' => [
                 'type' => Type::nonNull(Type::boolean()),
                 'selectable' => false,
+                'always' => 'published_at',
             ],
             'publishedAt' => [
                 'type' => Type::string(),
