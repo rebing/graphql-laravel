@@ -66,6 +66,10 @@ before_script:
 install:
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
   - |
+    # 6.0 requires lifting other requirements too
+    if [[ $LARAVEL = '6.0.*' ]]; then
+      composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
+    fi
     # dev-master requires liftig other requirements too
     if [[ $LARAVEL = 'dev-master' ]]; then
       composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
