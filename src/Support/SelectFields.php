@@ -172,7 +172,7 @@ class SelectFields
                             $foreignKey = $relation->getQualifiedForeignKeyName();
                         }
 
-                        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace('/^'.preg_quote($parentTable).'\./', '', $foreignKey)) : $foreignKey;
+                        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace('/^'.preg_quote($parentTable, '/').'\./', '', $foreignKey)) : $foreignKey;
 
                         if (is_a($relation, MorphTo::class)) {
                             $foreignKeyType = $relation->getMorphType();
