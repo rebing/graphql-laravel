@@ -94,9 +94,9 @@ class SelectFields
         if ($topLevel) {
             return [$select, $with];
         } else {
-            return function ($query) use ($with, $select, $customQuery, $queryArgs) {
+            return function ($query) use ($with, $select, $customQuery, $queryArgs, $requestedFields) {
                 if ($customQuery) {
-                    $query = $customQuery($queryArgs, $query);
+                    $query = $customQuery(array_merge($queryArgs, $requestedFields['args']), $query);
                 }
 
                 $query->select($select);
