@@ -990,7 +990,12 @@ class UserType extends GraphQLType
             'posts' => [
                 'type'          => Type::listOf(GraphQL::type('post')),
                 'description'   => 'A list of posts written by the user',
-                // The first args are the parameters passed to the query
+                'args'          => [
+                    'date_from' => [
+                        'type' => Type::string(),
+                    ],
+                 ],
+                // The $args are the combination of the query/mutation arguments merged with the local arguments
                 'query'         => function(array $args, $query) {
                     return $query->where('posts.created_at', '>', $args['date_from']);
                 }

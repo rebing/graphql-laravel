@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.0.1...master)
 --------------
+### Changed
+- Custom `'query'` for relations now receive not only the local `'args'` defined but also merged in the ones from the initial query/mutation [\#460 / nurges](https://github.com/rebing/graphql-laravel/pull/460)
+  - Local arguments with the same name override the ones from the query / mutation
 
 2019-08-18, 2.0.1
 -----------------
