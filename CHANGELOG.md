@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.0.1...master)
 --------------
+### Added
+- Allow to load deeper nested queries by allowing to change the depth when calling `$getSelectFields(int $depth)` [\#472 / mfn](https://github.com/rebing/graphql-laravel/pull/472)
 
 2019-08-18, 2.0.1
 -----------------

@@ -33,15 +33,16 @@ class SelectFields
     /**
      * @param  ResolveInfo  $info
      * @param  GraphqlType  $parentType
-     * @param  array  $queryArgs Arguments given with the query/mutation
+     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @param  int  $depth The depth to walk the AST and introspect for nested relations
      */
-    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs)
+    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs, int $depth)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $requestedFields = $this->getFieldSelection($info, $queryArgs, 5);
+        $requestedFields = $this->getFieldSelection($info, $queryArgs, $depth);
         $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType);
         $this->select = $fields[0];
         $this->relations = $fields[1];

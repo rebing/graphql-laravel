@@ -817,6 +817,8 @@ to eager load related Eloquent models.
 
 This way only the required fields will be queried from the database.
 
+The Closure accepts an optional parameter for the depth of the query to analyse.
+
 Your Query would look like:
 
 ```php
@@ -824,6 +826,7 @@ Your Query would look like:
 
 namespace App\GraphQL\Queries;
 
+use Closure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
@@ -854,6 +857,10 @@ class UsersQuery extends Query
     {
         // $info->getFieldSelection($depth = 3);
 
+        // If your GraphQL query exceeds the default nesting query, you can increase it here:
+        // $fields = $getSelectFields(11);
+
+        /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $select = $fields->getSelect();
         $with = $fields->getRelations();
