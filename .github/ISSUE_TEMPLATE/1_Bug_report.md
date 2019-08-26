@@ -7,13 +7,16 @@ labels: bug
 
 ### Versions:
 - graphql-laravel Version: #.#.#
-- Laravel/Lumen Version: #.#.#
+- Laravel Version: #.#.# <!-- remove if not applicable -->
+- Lumen Version: #.#.# <!-- remove if not applicable -->
 - PHP Version: #.#.#
 
 ### Description:
 
 <!--
-Describe what problem you found with code 
+Please describe in detail the nature of the bug, code samples, etc.
+
+The more, the better.
 -->
 
 ### Steps To Reproduce:
