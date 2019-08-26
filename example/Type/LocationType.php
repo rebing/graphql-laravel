@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Type\Location;
 
 use Models\Location;
-use Models\Location;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType; // not included in this project
 
@@ -17,7 +16,7 @@ class LocationType extends GraphQLType
         'model'         => Location::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'id' => [

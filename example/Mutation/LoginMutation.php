@@ -15,12 +15,12 @@ class LoginMutation extends Mutation
         'description'   => 'Log the user in by email',
     ];
 
-    public function type()
+    public function type(): Type
     {
         return GraphQL::type('user');
     }
 
-    public function args()
+    public function args(): array
     {
         return [
             'email' => [

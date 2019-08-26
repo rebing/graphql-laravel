@@ -17,7 +17,7 @@ class UserProfileType extends GraphQLType
         'model'         => UserProfile::class,
     ];
 
-    public function fields()
+    public function fields(): array
     {
         return [
             'user_id' => [
