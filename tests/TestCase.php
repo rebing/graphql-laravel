@@ -185,9 +185,10 @@ class TestCase extends BaseTestCase
      *
      * @param  string  $query
      * @param  array  $options
-     * @return array Supports the following options:
-     *  - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
-     *  - `variables` (default: null): GraphQL variables for the query
+     *   Supports the following options:
+     *   - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
+     *   - `variables` (default: null): GraphQL variables for the query
+     * @return array GraphQL result
      */
     protected function graphql(string $query, array $options = []): array
     {
@@ -215,6 +216,34 @@ class TestCase extends BaseTestCase
         }
 
         return $result;
+    }
+
+    /**
+     * Helper to dispatch an HTTP GraphQL requests.
+     *
+     * @param  string  $query
+     * @param  array  $options
+     *   Supports the following options:
+     *   - `httpStatusCode` (default: 200): the HTTP status code to expect
+     * @return array GraphQL result
+     */
+    protected function httpGraphql(string $query, array $options = []): array
+    {
+        $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $query,
+        ]);
+
+        $httpStatusCode = $response->getStatusCode();
+
+        if ($expectedHttpStatusCode !== $httpStatusCode) {
+            $result = $response->getData(true);
+            $msg = var_export($result, true)."\n";
+            $this->assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
+        }
+
+        return $response->getData(true);
     }
 
     /**

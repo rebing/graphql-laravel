@@ -35,15 +35,17 @@ class SelectFields
      * @param  GraphqlType  $parentType
      * @param  array  $queryArgs  Arguments given with the query/mutation
      * @param  int  $depth The depth to walk the AST and introspect for nested relations
+     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
+     *   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
      */
-    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs, int $depth)
+    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs, int $depth, $ctx)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
 
         $requestedFields = $this->getFieldSelection($info, $queryArgs, $depth);
-        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType);
+        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
     }
@@ -62,17 +64,24 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @param  array  $queryArgs Arguments given with the query/mutation
+     * @param  array  $queryArgs  Arguments given with the query/mutation
      * @param  array  $requestedFields
      * @param  GraphqlType  $parentType
      * @param  Closure|null  $customQuery
      * @param  bool  $topLevel
+     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
      * @return array|Closure - if first recursion, return an array,
      *               where the first key is 'select' array and second is 'with' array.
      *               On other recursions return a closure that will be used in with
      */
-    public static function getSelectableFieldsAndRelations(array $queryArgs, array $requestedFields, GraphqlType $parentType, ?Closure $customQuery = null, bool $topLevel = true)
-    {
+    public static function getSelectableFieldsAndRelations(
+        array $queryArgs,
+        array $requestedFields,
+        GraphqlType $parentType,
+        ?Closure $customQuery = null,
+        bool $topLevel = true,
+        $ctx = null
+    ) {
         $select = [];
         $with = [];
 
@@ -82,7 +91,7 @@ class SelectFields
         $parentTable = self::getTableNameFromParentType($parentType);
         $primaryKey = self::getPrimaryKeyFromParentType($parentType);
 
-        self::handleFields($queryArgs, $requestedFields, $parentType, $select, $with);
+        self::handleFields($queryArgs, $requestedFields, $parentType, $select, $with, $ctx);
 
         // If a primary key is given, but not in the selects, add it
         if (null !== $primaryKey) {
@@ -95,9 +104,9 @@ class SelectFields
         if ($topLevel) {
             return [$select, $with];
         } else {
-            return function ($query) use ($with, $select, $customQuery, $requestedFields) {
+            return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx) {
                 if ($customQuery) {
-                    $query = $customQuery($requestedFields['args'], $query);
+                    $query = $customQuery($requestedFields['args'], $query, $ctx);
                 }
 
                 $query->select($select);
@@ -115,9 +124,16 @@ class SelectFields
      * @param  GraphqlType  $parentType
      * @param  array  $select Passed by reference, adds further fields to select
      * @param  array  $with Passed by reference, adds further relations
+     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
      */
-    protected static function handleFields(array $queryArgs, array $requestedFields, GraphqlType $parentType, array &$select, array &$with): void
-    {
+    protected static function handleFields(
+        array $queryArgs,
+        array $requestedFields,
+        GraphqlType $parentType,
+        array &$select,
+        array &$with,
+        $ctx
+    ): void {
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
         foreach ($requestedFields['fields'] as $key => $field) {
@@ -154,7 +170,7 @@ class SelectFields
 
                 // Pagination
                 if (is_a($parentType, config('graphql.pagination_type', PaginationType::class))) {
-                    self::handleFields($queryArgs, $field, $fieldObject->config['type']->getWrappedType(), $select, $with);
+                    self::handleFields($queryArgs, $field, $fieldObject->config['type']->getWrappedType(), $select, $with, $ctx);
                 }
                 // With
                 elseif (is_array($field['fields']) && $queryable) {
@@ -206,9 +222,9 @@ class SelectFields
 
                         self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType, $customQuery, false);
+                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType, $customQuery, false, $ctx);
                     } else {
-                        self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with);
+                        self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
                     }
                 }
                 // Select
@@ -310,8 +326,12 @@ class SelectFields
      * @param  string|null  $parentTable
      * @param  bool  $forRelation
      */
-    protected static function addAlwaysFields(FieldDefinition $fieldObject, array &$select, ?string $parentTable, bool $forRelation = false): void
-    {
+    protected static function addAlwaysFields(
+        FieldDefinition $fieldObject,
+        array &$select,
+        ?string $parentTable,
+        bool $forRelation = false
+    ): void {
         if (isset($fieldObject->config['always'])) {
             $always = $fieldObject->config['always'];
 

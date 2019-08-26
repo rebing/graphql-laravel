@@ -997,8 +997,15 @@ class UserType extends GraphQLType
             'posts' => [
                 'type'          => Type::listOf(GraphQL::type('post')),
                 'description'   => 'A list of posts written by the user',
-                // The first args are the parameters passed to the query
-                'query'         => function(array $args, $query) {
+                'args'          => [
+                    'date_from' => [
+                        'type' => Type::string(),
+                    ],
+                 ],
+                // $args are the local arguments passed to the relation
+                // $query is the relation builder object
+                // $ctx is the GraphQL context (can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
+                'query'         => function(array $args, $query, $ctx) {
                     return $query->where('posts.created_at', '>', $args['date_from']);
                 }
             ]
