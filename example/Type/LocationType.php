@@ -6,7 +6,7 @@ namespace Rebing\GraphQL\Type\Location;
 
 use Models\Location;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Type as GraphQLType; // not included in this project
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class LocationType extends GraphQLType
 {

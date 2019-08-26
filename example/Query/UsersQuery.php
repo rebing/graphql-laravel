@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Query\User;
 
+use Closure;
 use Models\User;
 use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 
 class UsersQuery extends Query
 {
@@ -33,6 +35,7 @@ class UsersQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
+        /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $select = $fields->getSelect();
         $with = $fields->getRelations();

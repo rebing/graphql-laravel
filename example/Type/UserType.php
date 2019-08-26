@@ -8,7 +8,7 @@ use Models\User;
 use GraphQL\GraphQL;
 use GraphQL\Privacy\MePrivacy;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Type as GraphQLType; // not included in this project
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
 {

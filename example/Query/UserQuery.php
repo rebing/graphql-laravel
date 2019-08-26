@@ -7,6 +7,7 @@ use GraphQL\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
 
 class UserQuery extends Query
 {
@@ -33,6 +34,7 @@ class UserQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
+        /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $select = $fields->getSelect();
         $with = $fields->getRelations();
