@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/2.0.1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/2.1.0...master)
 --------------
+
+2019-08-27, 2.1.0
+-----------------
 ### Added
 - The custom `'query'` now receives the GraphQL context as the 3rd arg (same as any resolver) [\#464 / mfn](https://github.com/rebing/graphql-laravel/pull/464)
 - Allow to load deeper nested queries by allowing to change the depth when calling `$getSelectFields(int $depth)` [\#472 / mfn](https://github.com/rebing/graphql-laravel/pull/472)
