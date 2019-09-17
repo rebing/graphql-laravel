@@ -60,6 +60,11 @@ class UpdateExampleMutationWithInputType extends Mutation
                 'type'  => Type::nonNull(GraphQL::type('ExampleValidationInputObject')),
                 'rules' => ['required'],
             ],
+            'list_of_mails' => [
+                'name' => 'list_of_mails',
+                'type' => Type::listOf(Type::string()),
+                'rules' => ['email'],
+            ],
         ];
     }
 

@@ -38,6 +38,11 @@ class ExampleValidationInputObject extends InputType
                 'type'  => Type::listOf(GraphQL::type('ExampleNestedValidationInputObject')),
                 'rules' => ['required'],
             ],
+            'list_of_mails' => [
+                'name' => 'list_of_mails',
+                'type' => Type::listOf(Type::string()),
+                'rules' => ['email'],
+            ],
         ];
     }
 
