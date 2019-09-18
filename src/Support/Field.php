@@ -7,15 +7,15 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use Validator;
 use Illuminate\Support\Arr;
+use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\WrappingType;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use GraphQL\Type\Definition\Type as GraphqlType;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ScalarType;
 
 abstract class Field
 {
@@ -169,7 +169,7 @@ abstract class Field
 
     protected function getResolver(): ?Closure
     {
-        if (!method_exists($this, 'resolve')) {
+        if (! method_exists($this, 'resolve')) {
             return null;
         }
 
@@ -180,7 +180,7 @@ abstract class Field
             $arguments = func_get_args();
 
             // Get all given arguments
-            if (!is_null($arguments[2]) && is_array($arguments[2])) {
+            if (! is_null($arguments[2]) && is_array($arguments[2])) {
                 $arguments[1] = array_merge($arguments[1], $arguments[2]);
             }
 
