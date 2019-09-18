@@ -14,6 +14,8 @@ use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
 use Rebing\GraphQL\Error\AuthorizationError;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ScalarType;
 
 abstract class Field
 {
@@ -63,6 +65,19 @@ abstract class Field
         return [];
     }
 
+    public function getKeyName(string $name, Type $type): string
+    {
+        if ($type instanceof NonNull) {
+            $type = $type->getWrappedType();
+        }
+
+        if ($type instanceof ListOfType && $type->getWrappedType() instanceof ScalarType) {
+            return "{$name}.*";
+        }
+
+        return $name;
+    }
+
     public function getRules(): array
     {
         $arguments = func_get_args();
@@ -71,9 +86,8 @@ abstract class Field
         $argsRules = [];
         foreach ($this->args() as $name => $arg) {
             if (isset($arg['rules'])) {
-                $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
+                $argsRules[$this->getKeyName($name, $arg['type'])] = $this->resolveRules($arg['rules'], $arguments);
             }
-
             if (isset($arg['type'])
                 && ($arg['type'] instanceof NonNull || isset(Arr::get($arguments, 0, [])[$name]))) {
                 $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
@@ -132,8 +146,7 @@ abstract class Field
         $rules = [];
 
         foreach ($input->getFields() as $name => $field) {
-            $key = "{$prefix}.{$name}";
-
+            $key = $this->getKeyName("{$prefix}.{$name}", $field->type);
             // get any explicitly set rules
             if (isset($field->rules)) {
                 $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
@@ -156,7 +169,7 @@ abstract class Field
 
     protected function getResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolve')) {
+        if (!method_exists($this, 'resolve')) {
             return null;
         }
 
@@ -167,7 +180,7 @@ abstract class Field
             $arguments = func_get_args();
 
             // Get all given arguments
-            if (! is_null($arguments[2]) && is_array($arguments[2])) {
+            if (!is_null($arguments[2]) && is_array($arguments[2])) {
                 $arguments[1] = array_merge($arguments[1], $arguments[2]);
             }
 
@@ -176,7 +189,6 @@ abstract class Field
                 $args = Arr::get($arguments, 1, []);
                 $rules = call_user_func_array([$this, 'getRules'], [$args]);
                 if (count($rules)) {
-
                     // allow our error messages to be customised
                     $messages = $this->validationErrorMessages($args);
 
