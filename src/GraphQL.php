@@ -358,7 +358,7 @@ class GraphQL
      */
     public function wrapType(string $typeName, string $customTypeName, string $wrapperTypeClass): Type
     {
-        if (!isset($this->typesInstances[$customTypeName])) {
+        if (! isset($this->typesInstances[$customTypeName])) {
             $wrapperClass = new $wrapperTypeClass($typeName, $customTypeName);
             $this->typesInstances[$customTypeName] = $wrapperClass;
             $this->types[$customTypeName] = $wrapperClass;
