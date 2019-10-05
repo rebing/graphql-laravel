@@ -125,6 +125,7 @@ To work this around:
 - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
 - [Migrating from Folklore](#migrating-from-folklore)
 - [Performance considerations](#performance-considerations)
+- [Wrap Types](#wrap-types)
 
 ### Schemas
 
@@ -148,7 +149,7 @@ in addition to the global middleware. For example:
             'profile' => App\GraphQL\Queries\ProfileQuery::class
         ],
         'mutation' => [
-        
+
         ],
         'middleware' => ['auth'],
     ],
@@ -171,7 +172,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -208,7 +209,7 @@ class UserType extends GraphQLType
     protected function resolveEmailField($root, $args)
     {
         return strtolower($root->email);
-    }    
+    }
 }
 ```
 
@@ -515,7 +516,7 @@ public function validationErrorMessages(array $args = []): array
         'name.string' => 'Your name must be a valid string',
         'email.required' => 'Please enter your email address',
         'email.email' => 'Please enter a valid email address',
-        'email.exists' => 'Sorry, this email address is already in use',                     
+        'email.exists' => 'Sorry, this email address is already in use',
     ];
 }
 ````
@@ -735,7 +736,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class PictureField extends Field
-{        
+{
     protected $attributes = [
         'description'   => 'A picture',
     ];
@@ -1478,7 +1479,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -1598,7 +1599,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - Change namespace references:
   - from `Folklore\`
   - to `Rebing\`
-- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)  
+- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)
 - The trait `ShouldValidate` does not exist anymore; the provided features are baked into `Field`
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
 
@@ -1620,4 +1621,34 @@ I.e. you cannot have a query class `ExampleQuery` with the `$name` property
 'query' => [
     'aliasedEXample' => ExampleQuery::class,
 ],
+```
+
+### Wrap Types
+
+You can wrap types to add more information to the queries and mutations. Similar as the pagination is working you can do the same with your extra data that you want to inject. For instance, in your query:
+
+```php
+public function type(): Type
+{
+    return GraphQL::wrapType(
+        'ImageType',
+        'ImageMessageType',
+        //this class is like \Rebing\GraphQL\Support\PaginationType::class
+        \App\GraphQL\Types\WrapMessagesType::class,
+    );
+}
+
+public function resolve($root, $args)
+{
+    return [
+        'data' => Image::find($args['idImage']),
+        'messages' => new Collection(
+            [
+                //You need to create the SimpleMessage class and the messages type
+                new SimpleMessage('Your image was found'),
+                new SimpleMessage('This is other message...'),
+            ]
+        ),
+    ];
+}
 ```
