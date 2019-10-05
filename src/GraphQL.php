@@ -348,7 +348,7 @@ class GraphQL
     }
 
     /**
-     * To add customs result to the query or mutations
+     * To add customs result to the query or mutations.
      *
      * @param string $typeName         The original type name
      * @param string $customTypeName   The new type name
@@ -365,6 +365,7 @@ class GraphQL
         $wrapperClass = new $wrapperTypeClass($typeName, $customTypeName);
         $this->typesInstances[$customTypeName] = $wrapperClass;
         $this->types[$customTypeName] = $wrapperClass;
+
         return $this->typesInstances[$customTypeName];
     }
 
