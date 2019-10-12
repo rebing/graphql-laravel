@@ -164,6 +164,11 @@ abstract class Field
         $authorize = [$this, 'authorize'];
 
         return function () use ($resolver, $authorize) {
+            // 0 - the "root" object; `null` for queries, otherwise the parent of a type
+            // 1 - the provided `args` of the query or type (if applicable), empty array otherwise
+            // 2 - the "GraphQL query context" (see \Rebing\GraphQL\GraphQLController::queryContext)
+            // 3 - \GraphQL\Type\Definition\ResolveInfo as provided by the underlying GraphQL PHP library
+            // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
             $arguments = func_get_args();
 
             // Validate mutation arguments
