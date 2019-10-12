@@ -166,11 +166,6 @@ abstract class Field
         return function () use ($resolver, $authorize) {
             $arguments = func_get_args();
 
-            // Get all given arguments
-            if (! is_null($arguments[2]) && is_array($arguments[2])) {
-                $arguments[1] = array_merge($arguments[1], $arguments[2]);
-            }
-
             // Validate mutation arguments
             if (method_exists($this, 'getRules')) {
                 $args = Arr::get($arguments, 1, []);
