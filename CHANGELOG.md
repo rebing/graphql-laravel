@@ -6,6 +6,9 @@ CHANGELOG
 ### Added
 - Add `wrapType()`, allowing to add more information for queries/mutations [\#496 / albertcito](https://github.com/rebing/graphql-laravel/pull/496)
 ### Changed
+- The signature of `authorize` changed, receiving not the exact same argumenst the resolver would [\#489 / mfn](https://github.com/rebing/graphql-laravel/pull/489)
+  - before: `public function authorize(array $args)`
+  - after: `public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool`
 - Forward PHP engine errors to the application error handler [\#487 / mfn](https://github.com/rebing/graphql-laravel/pull/487)
 
 2019-08-27, 2.1.0
