@@ -172,18 +172,16 @@ abstract class Field
             $arguments = func_get_args();
 
             // Validate mutation arguments
-            if (method_exists($this, 'getRules')) {
-                $args = Arr::get($arguments, 1, []);
-                $rules = call_user_func_array([$this, 'getRules'], [$args]);
-                if (count($rules)) {
+            $args = Arr::get($arguments, 1, []);
+            $rules = call_user_func_array([$this, 'getRules'], [$args]);
+            if (count($rules)) {
 
-                    // allow our error messages to be customised
-                    $messages = $this->validationErrorMessages($args);
+                // allow our error messages to be customised
+                $messages = $this->validationErrorMessages($args);
 
-                    $validator = Validator::make($args, $rules, $messages);
-                    if ($validator->fails()) {
-                        throw new ValidationError('validation', $validator);
-                    }
+                $validator = Validator::make($args, $rules, $messages);
+                if ($validator->fails()) {
+                    throw new ValidationError('validation', $validator);
                 }
             }
 
