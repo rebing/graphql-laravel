@@ -172,7 +172,7 @@ abstract class Field
             $arguments = func_get_args();
 
             // Validate mutation arguments
-            $args = Arr::get($arguments, 1, []);
+            $args = $arguments[1];
             $rules = call_user_func_array([$this, 'getRules'], [$args]);
             if (count($rules)) {
 
