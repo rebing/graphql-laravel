@@ -11,15 +11,14 @@ use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class EngineErrorInResolverTest extends TestCase
 {
-    private const ERROR_REGEX = '/QueryWithEngineErrorInCodeQuery::getResult\(\) must be of the type int\w*, string given, called in/';
-
     public function testForEngineError(): void
     {
         $result = $this->graphql('query { queryWithEngineErrorInCode }', [
             'expectErrors' => true,
         ]);
 
-        $this->assertRegExp(static::ERROR_REGEX, $result['errors'][0]['debugMessage']);
+        // Using a regex here because in some cases the message gets prefixed with "Type error:"
+        $this->assertRegExp('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
     }
 
     protected function resolveApplicationExceptionHandler($app)
@@ -31,7 +30,8 @@ class EngineErrorInResolverTest extends TestCase
             ->shouldReceive('report')
             ->with(Mockery::on(
                 function (FatalThrowableError $error) {
-                    $this->assertRegExp(static::ERROR_REGEX, $error->getMessage());
+                    // Using a regex here because in some cases the message gets prefixed with "Type error:"
+                    $this->assertRegExp('/Simulating a TypeError/', $error->getMessage());
 
                     return true;
                 }
