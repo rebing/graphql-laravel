@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
+use Error as PhpError;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
@@ -22,6 +23,7 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class GraphQL
 {
@@ -397,12 +399,21 @@ class GraphQL
         foreach ($errors as $error) {
             // Try to unwrap exception
             $error = $error->getPrevious() ?: $error;
+
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError
                 || $error instanceof AuthorizationError
-                || ! ($error instanceof Exception)) {
+                || ! (
+                    $error instanceof Exception
+                    || $error instanceof PhpError
+                )) {
                 continue;
             }
+
+            if (! $error instanceof Exception) {
+                $error = new FatalThrowableError($error);
+            }
+
             $handler->report($error);
         }
 

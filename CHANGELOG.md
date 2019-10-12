@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.1.0...master)
 --------------
+### Changed
+- Forward PHP engine errors to the application error handler
 
 2019-08-27, 2.1.0
 -----------------
