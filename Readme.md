@@ -590,10 +590,12 @@ An example of Laravel's `'auth'` middleware:
 
 ```php
 use Auth;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         // true, if logged in
         return ! Auth::guest();
@@ -607,10 +609,12 @@ Or we can make use of arguments passed via the GraphQL query:
 
 ```php
 use Auth;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class UsersQuery extends Query
 {
-    public function authorize(array $args): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         if (isset($args['id'])) {
             return Auth::id() == $args['id'];

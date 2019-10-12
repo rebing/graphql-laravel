@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
+use Closure;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class ValidationAndAuthorizationMutation extends Mutation
 {
@@ -13,7 +15,7 @@ class ValidationAndAuthorizationMutation extends Mutation
         'name' => 'validationAndAuthorization',
     ];
 
-    public function authorize(array $args): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         return $args['arg1'] === 'value1';
     }

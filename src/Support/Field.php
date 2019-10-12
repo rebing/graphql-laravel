@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\WrappingType;
 use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
@@ -23,10 +24,14 @@ abstract class Field
      * Override this in your queries or mutations
      * to provide custom authorization.
      *
+     * @param  mixed  $root
      * @param  array  $args
+     * @param  mixed  $ctx
+     * @param  ResolveInfo|null  $resolveInfo
+     * @param  Closure|null  $getSelectFields
      * @return bool
      */
-    public function authorize(array $args): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         return true;
     }
@@ -185,11 +190,6 @@ abstract class Field
                 }
             }
 
-            // Authorize
-            if (call_user_func($authorize, $arguments[1]) != true) {
-                throw new AuthorizationError('Unauthorized');
-            }
-
             // Add the 'selects and relations' feature as 5th arg
             if (isset($arguments[3])) {
                 $arguments[] = function (int $depth = null) use ($arguments): SelectFields {
@@ -197,6 +197,11 @@ abstract class Field
 
                     return new SelectFields($arguments[3], $this->type(), $arguments[1], $depth ?? 5, $ctx);
                 };
+            }
+
+            // Authorize
+            if (call_user_func_array($authorize, $arguments) != true) {
+                throw new AuthorizationError('Unauthorized');
             }
 
             return call_user_func_array($resolver, $arguments);
