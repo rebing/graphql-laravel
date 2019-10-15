@@ -361,4 +361,38 @@ class GraphQLTest extends TestCase
         ];
         $this->assertSame($expectedResult, $result);
     }
+
+    public function testAddSchemaObjectAndExecuteQueryWithRootValue(): void
+    {
+        $schema = new Schema([
+            'query' => new ObjectType([
+                'name' => 'Query',
+                'fields' => [
+                    'testQuery' => [
+                        'type' => Type::string(),
+                        'resolve' => function ($root) {
+                            return strtolower($root['testQuery']);
+                        },
+                    ],
+                ],
+            ]),
+        ]);
+
+        GraphQL::addSchema('schema_from_object', $schema);
+
+        $result = GraphQL::query('{ testQuery }', null, [
+            'schema' => 'schema_from_object',
+            'rootValue' => [
+                'testQuery' => 'CONVERTED TO LOWERCASE',
+            ],
+        ]);
+
+        $expectedResult = [
+            'data' => [
+                'testQuery' => 'converted to lowercase',
+            ],
+        ];
+
+        $this->assertSame($expectedResult, $result);
+    }
 }

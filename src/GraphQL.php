@@ -134,6 +134,7 @@ class GraphQL
         $context = Arr::get($opts, 'context');
         $schemaName = Arr::get($opts, 'schema');
         $operationName = Arr::get($opts, 'operationName');
+        $rootValue = Arr::get($opts, 'rootValue', null);
 
         $schema = $this->schema($schemaName);
 
@@ -141,7 +142,7 @@ class GraphQL
         $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
 
-        $result = GraphQLBase::executeQuery($schema, $query, null, $context, $params, $operationName, $defaultFieldResolver)
+        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $params, $operationName, $defaultFieldResolver)
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
 
