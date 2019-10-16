@@ -19,15 +19,16 @@ class PostType extends GraphQLType
     public function fields(): array
     {
         $interface = GraphQL::type('LikableInterface');
+
         return [
-            'title' => [
-                'type' => Type::nonNull(Type::string()),
-                'alias' => 'name',
-                'resolve' => function ($root) {
-                    return $root->title;
-                }
-            ],
-        ] + $interface->getFields();
+                'title' => [
+                    'type' => Type::nonNull(Type::string()),
+                    'alias' => 'name',
+                    'resolve' => function ($root) {
+                        return $root->title;
+                    },
+                ],
+            ] + $interface->getFields();
     }
 
     public function interfaces(): array

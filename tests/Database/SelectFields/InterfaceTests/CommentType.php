@@ -19,10 +19,11 @@ class CommentType extends GraphQLType
     public function fields(): array
     {
         $interface = GraphQL::type('LikableInterface');
+
         return [
                 'title' => [
                     'type' => Type::nonNull(Type::string()),
-                    'alias' => 'title'
+                    'alias' => 'title',
                 ],
             ] + $interface->getFields();
     }

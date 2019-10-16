@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\User;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UserType extends GraphQLType
 {
@@ -26,8 +26,8 @@ class UserType extends GraphQLType
                 'type' => Type::nonNull(Type::string()),
             ],
             'likes' => [
-                'type' => Type::listOf(GraphQL::type('Like'))
-            ]
+                'type' => Type::listOf(GraphQL::type('Like')),
+            ],
         ];
     }
 }

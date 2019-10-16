@@ -23,7 +23,7 @@ class ExampleInterfaceType extends InterfaceType
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),
-                'alias' => 'title'
+                'alias' => 'title',
             ],
             'exampleRelation' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleRelation')))),

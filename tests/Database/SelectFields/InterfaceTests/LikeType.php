@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Like;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class LikeType extends GraphQLType
 {
@@ -23,8 +23,8 @@ class LikeType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'likable' => [
-                'type' => GraphQL::type('LikableInterface')
-            ]
+                'type' => GraphQL::type('LikableInterface'),
+            ],
         ];
     }
 }

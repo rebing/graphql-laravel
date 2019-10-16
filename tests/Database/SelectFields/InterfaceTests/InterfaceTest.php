@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
-use Rebing\GraphQL\Tests\Support\Models\Like;
-use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
+use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
@@ -88,7 +88,7 @@ SQL
             'data' => [
                 'exampleInterfaceQuery' => [
                     [
-                        'id' => (string) $post->id,
+                        'id' => (string)$post->id,
                         'title' => 'Title of the post',
                         'exampleRelation' => [
                             [
@@ -118,7 +118,7 @@ SQL
         Like::create([
             'likable_id' => $post->id,
             'likable_type' => Post::class,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $graphql = <<<'GRAPHQL'
@@ -150,11 +150,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string) $user->id,
+                        'id' => (string)$user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $post->id,
+                                    'id' => (string)$post->id,
                                     'title' => $post->title,
                                 ],
                             ],
