@@ -88,7 +88,7 @@ SQL
             'data' => [
                 'exampleInterfaceQuery' => [
                     [
-                        'id' => (string)$post->id,
+                        'id' => (string) $post->id,
                         'title' => 'Title of the post',
                         'exampleRelation' => [
                             [
@@ -150,11 +150,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string)$user->id,
+                        'id' => (string) $user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string)$post->id,
+                                    'id' => (string) $post->id,
                                     'title' => $post->title,
                                 ],
                             ],

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InterfaceType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Rebing\GraphQL\Tests\Support\Models\Comment;
+use Rebing\GraphQL\Support\InterfaceType;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
 
 class LikableInterfaceType extends InterfaceType
 {
@@ -25,7 +24,7 @@ class LikableInterfaceType extends InterfaceType
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),
-                'alias' => 'title'
+                'alias' => 'title',
             ],
         ];
     }
