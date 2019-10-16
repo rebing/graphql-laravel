@@ -23,7 +23,6 @@ class InterfaceImpl1Type extends GraphQLType
         return [
             'title' => [
                 'type' => Type::nonNull(Type::string()),
-                'alias' => 'name',
             ],
         ] + $interface->getFields();
     }
