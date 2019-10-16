@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
+use Rebing\GraphQL\Tests\Support\Models\Like;
+use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -100,6 +102,70 @@ SQL
         $this->assertSame($expectedResult, $result);
     }
 
+    public function testGeneratedInterfaceFieldSqlQuery()
+    {
+        $post = factory(Post::class)
+            ->create([
+                'title' => 'Title of the post',
+            ]);
+        factory(Comment::class)
+            ->create([
+                'title' => 'Title of the comment',
+                'post_id' => $post->id,
+            ]);
+
+        $user = factory(User::class)->create();
+        Like::create([
+            'likable_id' => $post->id,
+            'likable_type' => Post::class,
+            'user_id' => $user->id
+        ]);
+
+        $graphql = <<<'GRAPHQL'
+{
+  userQuery {
+    id
+    likes{
+      likable{
+        id
+        title
+      }
+    }
+  }
+}
+GRAPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($graphql);
+
+        $this->assertSqlQueries(<<<'SQL'
+select "users"."id" from "users";
+select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
+select "id", "title" from "posts" where "posts"."id" in (?);
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'userQuery' => [
+                    [
+                        'id' => (string) $user->id,
+                        'likes' => [
+                            [
+                                'likable' => [
+                                    'id' => (string) $post->id,
+                                    'title' => $post->title,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertSame($expectedResult, $result);
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
@@ -107,6 +173,7 @@ SQL
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 ExampleInterfaceQuery::class,
+                UserQuery::class,
             ],
         ]);
 
@@ -116,6 +183,11 @@ SQL
             ExampleInterfaceType::class,
             InterfaceImpl1Type::class,
             ExampleRelationType::class,
+            LikableInterfaceType::class,
+            PostType::class,
+            CommentType::class,
+            UserType::class,
+            LikeType::class,
         ]);
     }
 }

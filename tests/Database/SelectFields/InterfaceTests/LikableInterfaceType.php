@@ -8,11 +8,13 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InterfaceType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
+use Rebing\GraphQL\Tests\Support\Models\Post;
 
-class ExampleInterfaceType extends InterfaceType
+class LikableInterfaceType extends InterfaceType
 {
     protected $attributes = [
-        'name' => 'ExampleInterface',
+        'name' => 'LikableInterface',
     ];
 
     public function fields(): array
@@ -25,18 +27,16 @@ class ExampleInterfaceType extends InterfaceType
                 'type' => Type::nonNull(Type::string()),
                 'alias' => 'title'
             ],
-            'exampleRelation' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleRelation')))),
-                'query' => function (array $args, HasMany $query): HasMany {
-                    return $query->where('id', '>=', 1);
-                },
-                'alias' => 'comments',
-            ],
         ];
     }
 
-    public function resolveType()
+    public function resolveType($root)
     {
-        return GraphQL::type('InterfaceImpl1');
+        if ($root instanceof Post) {
+            return GraphQL::type('Post');
+        }
+        if ($root instanceof Comment) {
+            return GraphQL::type('Comment');
+        }
     }
 }
