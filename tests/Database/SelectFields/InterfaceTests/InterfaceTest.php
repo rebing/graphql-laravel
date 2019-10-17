@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
+use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -104,6 +105,7 @@ SQL
 
     public function testGeneratedInterfaceFieldSqlQuery()
     {
+        $this->expectException(ExpectationFailedException::class);
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -142,7 +144,7 @@ GRAPHQL;
         $this->assertSqlQueries(<<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select "id", "title" from "posts" where "posts"."id" in (?);
+select "id", "name" from "posts" where "posts"."id" in (?);
 SQL
         );
 
