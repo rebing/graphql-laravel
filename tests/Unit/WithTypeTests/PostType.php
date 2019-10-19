@@ -10,7 +10,7 @@ class PostType extends GraphQLType
 {
     protected $attributes = [
         'name' => 'PostType',
-        'description' => 'Post type'
+        'description' => 'Post type',
     ];
 
     public function fields() : array
@@ -18,12 +18,12 @@ class PostType extends GraphQLType
         return [
             'post_id' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'Simple Message'
+                'description' => 'Simple Message',
             ],
             'title' => [
                 'type' => Type::string(),
                 'defaultValue' => 'success',
-            ]
+            ],
         ];
     }
 }

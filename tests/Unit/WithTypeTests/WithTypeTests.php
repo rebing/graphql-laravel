@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Rebing\GraphQL\Tests\Unit\UploadTests;
+namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
-use Illuminate\Http\UploadedFile;
 use Rebing\GraphQL\Tests\TestCase;
-use Rebing\GraphQL\Tests\Unit\WithTypeTests\{
-    PostType,
-    PostMessagesQuery,
-    SimpleMessageType,
-};
+use Rebing\GraphQL\Tests\Unit\WithTypeTests\PostType;
+use Rebing\GraphQL\Tests\Unit\WithTypeTests\PostMessagesQuery;
+use Rebing\GraphQL\Tests\Unit\WithTypeTests\SimpleMessageType;
 
 class WithTypeTests extends TestCase
 {
@@ -34,14 +31,14 @@ class WithTypeTests extends TestCase
                 'postMessages' => [
                     'data' => [
                         'post_id',
-                        'title'
+                        'title',
                     ],
                     'messages' => [
                         '*' => [
                             'message',
                             'type',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
         ];

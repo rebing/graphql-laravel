@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use GraphQL;
+use GraphQL\Type\Definition\Type;
 
 class MessageWrapper
 {
     /**
      * @param string $typeName type graphql
-     * @return void
+     * @return Type
      */
-    public static function type(string $typeName)
+    public static function type(string $typeName): Type
     {
         return GraphQL::wrapType(
             $typeName,

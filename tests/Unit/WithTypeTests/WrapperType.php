@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type as GraphQLType;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Support\Collection;
+use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\Type as GraphQLType;
 
 class WrapperType extends ObjectType
 {
     /**
-     * @param string $typeName   The type name defined in graphql.php configuration file.
-     * @param string $customName The new name for wrap type
+     * @param string $typeName       The type name defined in graphql.php configuration file.
+     * @param string $customTypeName The new name for wrap type
      */
     public function __construct(string $typeName, string $customTypeName)
     {
@@ -32,7 +32,7 @@ class WrapperType extends ObjectType
     }
 
     /**
-     * Resolve the wrap type
+     * Resolve the wrap type.
      *
      * @param string $typeName The type name defined in graphql.php configuration file.
      *
@@ -45,7 +45,7 @@ class WrapperType extends ObjectType
                 'type' => GraphQL::type($typeName),
                 'resolve' => function ($data) {
                     $model = array_key_exists('data', $data) ?
-                        $data['data']:
+                        $data['data'] :
                         $data;
                     return $model;
                 },

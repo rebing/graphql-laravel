@@ -2,8 +2,6 @@
 
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
-use App\Logic\Enum\SimpleMessage as SimpleMessageType;
-
 class SimpleMessage
 {
     public $message;
@@ -11,7 +9,7 @@ class SimpleMessage
     public $code;
 
     /**
-     * Create a message to return to the users in frontend
+     * Create a message to return to the users in frontend.
      *
      * @param string  $message message to show
      * @param string  $type    MessageType enum value
