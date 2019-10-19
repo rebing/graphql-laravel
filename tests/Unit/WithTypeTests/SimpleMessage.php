@@ -21,5 +21,4 @@ class SimpleMessage
         $this->message = $message;
         $this->type = $type;
     }
-
 }

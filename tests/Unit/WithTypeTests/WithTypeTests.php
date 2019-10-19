@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Rebing\GraphQL\Tests\Unit\WithTypeTests\PostType;
-use Rebing\GraphQL\Tests\Unit\WithTypeTests\PostMessagesQuery;
-use Rebing\GraphQL\Tests\Unit\WithTypeTests\SimpleMessageType;
 
 class WithTypeTests extends TestCase
 {

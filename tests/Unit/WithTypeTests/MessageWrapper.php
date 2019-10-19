@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 
 class MessageWrapper

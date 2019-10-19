@@ -17,7 +17,6 @@ class WrapperType extends ObjectType
      */
     public function __construct(string $typeName, string $customTypeName)
     {
-
         $config = [
             'name'   => $customTypeName,
             'fields' => $this->getMessagesFields($typeName),
@@ -47,6 +46,7 @@ class WrapperType extends ObjectType
                     $model = array_key_exists('data', $data) ?
                         $data['data'] :
                         $data;
+
                     return $model;
                 },
             ],

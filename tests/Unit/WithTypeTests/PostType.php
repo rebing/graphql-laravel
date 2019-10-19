@@ -4,7 +4,6 @@ namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
-use GraphQL;
 
 class PostType extends GraphQLType
 {
