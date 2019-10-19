@@ -341,12 +341,30 @@ class GraphQL
 
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
-            $paginationClass = new $paginationType($typeName, $customName);
-            $this->typesInstances[$name] = $paginationClass;
-            $this->types[$name] = $paginationClass;
+            $this->wrapType($typeName, $name, $paginationType);
         }
 
         return $this->typesInstances[$name];
+    }
+
+    /**
+     * To add customs result to the query or mutations.
+     *
+     * @param string $typeName         The original type name
+     * @param string $customTypeName   The new type name
+     * @param string $wrapperTypeClass The class to create the new type
+     *
+     * @return Type
+     */
+    public function wrapType(string $typeName, string $customTypeName, string $wrapperTypeClass): Type
+    {
+        if (! isset($this->typesInstances[$customTypeName])) {
+            $wrapperClass = new $wrapperTypeClass($typeName, $customTypeName);
+            $this->typesInstances[$customTypeName] = $wrapperClass;
+            $this->types[$customTypeName] = $wrapperClass;
+        }
+
+        return $this->typesInstances[$customTypeName];
     }
 
     /**

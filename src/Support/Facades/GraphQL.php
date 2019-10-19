@@ -23,6 +23,7 @@ use GraphQL\Type\Definition\ObjectType;
  * @method static void addType(object|string $class, string $name = null)
  * @method static Type objectType(ObjectType|array|string $type, array $opts = [])
  * @method static array formatError(Error $e)
+ * @method static Type wrapType(string $typeName, string $customTypeName, string $wrapperTypeClass)
  */
 class GraphQL extends Facade
 {
