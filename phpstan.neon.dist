@@ -39,4 +39,6 @@ parameters:
         - '/Anonymous function should return string but returns string\|false/'
         # tests/Unit/UploadTests/UploadSingleFileMutation.php
         - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
+        # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
+        - '/Trying to invoke Closure\|null but it might not be a callable/'
     reportUnmatchedIgnoredErrors: true
