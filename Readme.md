@@ -125,6 +125,7 @@ To work this around:
 - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
 - [Migrating from Folklore](#migrating-from-folklore)
 - [Performance considerations](#performance-considerations)
+- [Wrap Types](#wrap-types)
 
 ### Schemas
 
@@ -148,7 +149,7 @@ in addition to the global middleware. For example:
             'profile' => App\GraphQL\Queries\ProfileQuery::class
         ],
         'mutation' => [
-        
+
         ],
         'middleware' => ['auth'],
     ],
@@ -1620,4 +1621,30 @@ I.e. you cannot have a query class `ExampleQuery` with the `$name` property
 'query' => [
     'aliasedEXample' => ExampleQuery::class,
 ],
+```
+
+### Wrap Types
+
+You can wrap types to add more information to the queries and mutations. Similar as the pagination is working you can do the same with your extra data that you want to inject ([see test examples](https://github.com/rebing/graphql-laravel/tree/master/tests/Unit/WithTypeTests)). For instance, in your query:
+
+```php
+public function type(): Type
+{
+    return GraphQL::wrapType(
+        'PostType',
+        'PostMessageType',
+        \App\GraphQL\Types\WrapMessagesType::class,
+    );
+}
+
+public function resolve($root, $args)
+{
+    return [
+        'data' => Post::find($args['post_id']),
+        'messages' => new Collection([
+                new SimpleMessage("Congratulations, the post was found"),
+                new SimpleMessage("This post cannot be edited", "warning"),
+        ]),
+    ];
+}
 ```
