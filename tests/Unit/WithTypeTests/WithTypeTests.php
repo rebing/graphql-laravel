@@ -10,39 +10,44 @@ class WithTypeTests extends TestCase
 {
     public function testPostMessagesQuery(): void
     {
-        $query = '{
-            postMessages {
-                data {
-                    post_id
-                    title
-                }
-                messages {
-                    message
-                    type
-                }
-            }
-        }';
+        $query = <<<'GRAQPHQL'
+{
+    postMessages {
+        data {
+            post_id
+            title
+        }
+        messages {
+            message
+            type
+        }
+    }
+}
+GRAQPHQL;
+
+        $result = $this->graphql($query);
 
         $expectedResult = [
             'data' => [
                 'postMessages' => [
                     'data' => [
-                        'post_id',
-                        'title',
+                        'post_id' => 1,
+                        'title' => 'This is the title post',
                     ],
                     'messages' => [
-                        '*' => [
-                            'message',
-                            'type',
+                        [
+                            'message' => 'Congratulations, the post was found',
+                            'type' => 'success',
+                        ],
+                        [
+                            'message' => 'This post cannot be edited", "warning',
+                            'type' => 'success',
                         ],
                     ],
                 ],
             ],
         ];
-
-        $response = $this->json('post', '/graphql', ['query' => $query])
-            ->assertStatus(200)
-            ->assertJsonStructure($expectedResult);
+        $this->assertSame($expectedResult, $result);
     }
 
     protected function getEnvironmentSetUp($app)
