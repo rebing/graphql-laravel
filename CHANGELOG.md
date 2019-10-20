@@ -3,8 +3,10 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/2.1.0...master)
 --------------
+### Added
+- Add `wrapType()`, allowing to add more information for queries/mutations [\#496 / albertcito](https://github.com/rebing/graphql-laravel/pull/496)
 ### Changed
-- Forward PHP engine errors to the application error handler [\487 / mfn](https://github.com/rebing/graphql-laravel/pull/487)
+- Forward PHP engine errors to the application error handler [\#487 / mfn](https://github.com/rebing/graphql-laravel/pull/487)
 
 2019-08-27, 2.1.0
 -----------------
