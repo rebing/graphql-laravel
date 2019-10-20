@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/2.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/3.0.0...master)
 --------------
+
+2019-10-20, 3.0.0
+-----------------
 ### Added
 - Add `wrapType()`, allowing to add more information for queries/mutations [\#496 / albertcito](https://github.com/rebing/graphql-laravel/pull/496)
 ### Changed
