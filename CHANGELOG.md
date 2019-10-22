@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/3.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/3.1.0...master)
 --------------
+
+2019-10-23, 3.1.0
+-----------------
 ### Added
 - Allow passing through the `rootValue` as an option [\#492 / tuurbo](https://github.com/rebing/graphql-laravel/pull/492)
 
