@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -62,7 +61,7 @@ class GraphQLController extends Controller
         $query = $input['query'];
 
         $paramsKey = config('graphql.params_key', 'variables');
-        $params = Arr::get($input, $paramsKey);
+        $params = $input[$paramsKey] ?? null;
         if (is_string($params)) {
             $params = json_decode($params, true);
         }
@@ -73,7 +72,7 @@ class GraphQLController extends Controller
             [
                 'context' => $this->queryContext($query, $params, $schema),
                 'schema' => $schema,
-                'operationName' => Arr::get($input, 'operationName'),
+                'operationName' => $input['operationName'] ?? null,
             ]
         );
     }

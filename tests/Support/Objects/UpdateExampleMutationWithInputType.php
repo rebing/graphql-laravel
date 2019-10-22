@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -66,7 +65,7 @@ class UpdateExampleMutationWithInputType extends Mutation
     public function resolve($root, $args): array
     {
         return [
-            'test' => Arr::get($args, 'test'),
+            'test' => $args['test'],
         ];
     }
 }

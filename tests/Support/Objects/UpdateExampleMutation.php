@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use Closure;
-use Illuminate\Support\Arr;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -56,7 +55,7 @@ class UpdateExampleMutation extends Mutation
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
     {
         return [
-            'test' => Arr::get($args, 'test'),
+            'test' => $args['test'],
         ];
     }
 }

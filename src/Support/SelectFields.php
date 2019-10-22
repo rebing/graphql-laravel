@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Support;
 
 use Closure;
 use RuntimeException;
-use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -163,7 +162,7 @@ class SelectFields
             $canSelect = self::validateField($fieldObject, $queryArgs);
             if ($canSelect === true) {
                 // Add a query, if it exists
-                $customQuery = Arr::get($fieldObject->config, 'query');
+                $customQuery = $fieldObject->config['query'] ?? null;
 
                 // Check if the field is a relation that needs to be requested from the DB
                 $queryable = self::isQueryable($fieldObject->config);
@@ -177,7 +176,7 @@ class SelectFields
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+                        $relationsKey = $fieldObject->config['alias'] ?? $key;
                         $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
 
                         // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
@@ -315,7 +314,7 @@ class SelectFields
      */
     private static function isQueryable(array $fieldObject): bool
     {
-        return Arr::get($fieldObject, 'is_relation', true) === true;
+        return ($fieldObject['is_relation'] ?? true) === true;
     }
 
     /**

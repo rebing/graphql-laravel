@@ -9,7 +9,6 @@ use Error as PhpError;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
 use GraphQL\Type\Schema;
-use Illuminate\Support\Arr;
 use GraphQL\Error\FormattedError;
 use GraphQL\Type\Definition\Type;
 use GraphQL\GraphQL as GraphQLBase;
@@ -64,9 +63,9 @@ class GraphQL
             return $schema;
         }
 
-        $schemaQuery = Arr::get($schema, 'query', []);
-        $schemaMutation = Arr::get($schema, 'mutation', []);
-        $schemaSubscription = Arr::get($schema, 'subscription', []);
+        $schemaQuery = $schema['query'] ?? [];
+        $schemaMutation = $schema['mutation'] ?? [];
+        $schemaSubscription = $schema['subscription'] ?? [];
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -86,7 +85,7 @@ class GraphQL
             'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
             'types'         => function () use ($schema) {
                 $types = [];
-                $schemaTypes = Arr::get($schema, 'types', []);
+                $schemaTypes = $schema['types'] ?? [];
 
                 if ($schemaTypes) {
                     foreach ($schemaTypes as $name => $type) {
@@ -131,10 +130,10 @@ class GraphQL
      */
     public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult
     {
-        $context = Arr::get($opts, 'context');
-        $schemaName = Arr::get($opts, 'schema');
-        $operationName = Arr::get($opts, 'operationName');
-        $rootValue = Arr::get($opts, 'rootValue', null);
+        $context = $opts['context'] ?? null;
+        $schemaName = $opts['schema'] ?? null;
+        $operationName = $opts['operationName'] ?? null;
+        $rootValue = $opts['rootValue'] ?? null;
 
         $schema = $this->schema($schemaName);
 
