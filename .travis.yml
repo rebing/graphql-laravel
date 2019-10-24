@@ -11,6 +11,7 @@ env:
     - INSTALL_LARAVEL=0
     - INSTALL_LUMEN=0
     - STATIC_ANALYSER=0
+    - LINT=0
 
 matrix:
   include:
@@ -31,7 +32,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.8.*' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
     - php: '7.3'
-      env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
+      env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1 LINT=1
     - php: '7.3'
       env: LARAVEL='dev-master'
     - php: '7.4snapshot'
@@ -68,7 +69,7 @@ install:
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
-  - composer lint
+  - if [[ $LINT = 1 ]]; then composer lint; fi
   - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - vendor/bin/phpunit --colors=always --verbose
   - TESTS_ENABLE_LAZYLOAD_TYPES=1 vendor/bin/phpunit --colors=always --verbose
