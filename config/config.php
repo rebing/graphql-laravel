@@ -42,7 +42,7 @@ return [
     //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => \Rebing\GraphQL\GraphQLController::class.'@query',
+    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
@@ -107,7 +107,7 @@ return [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
             'middleware' => [],
-            'method'     => ['get', 'post'],
+            'method' => ['get', 'post'],
         ],
     ],
 
@@ -150,7 +150,7 @@ return [
     'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
 
     // You can set the key, which will be used to retrieve the dynamic variables
-    'params_key'    => 'variables',
+    'params_key' => 'variables',
 
     /*
      * Options to limit the query complexity and depth. See the doc
@@ -158,8 +158,8 @@ return [
      * for details. Disabled by default.
      */
     'security' => [
-        'query_max_complexity'  => null,
-        'query_max_depth'       => null,
+        'query_max_complexity' => null,
+        'query_max_depth' => null,
         'disable_introspection' => false,
     ],
 
@@ -173,11 +173,11 @@ return [
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
-        'prefix'     => '/graphiql',
-        'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
+        'prefix' => '/graphiql',
+        'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
         'middleware' => [],
-        'view'       => 'graphql::graphiql',
-        'display'    => env('ENABLE_GRAPHIQL', true),
+        'view' => 'graphql::graphiql',
+        'display' => env('ENABLE_GRAPHIQL', true),
     ],
 
     /*

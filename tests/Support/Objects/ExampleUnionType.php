@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\UnionType;
 class ExampleUnionType extends UnionType
 {
     protected $attributes = [
-        'name'        => 'ExampleUnion',
+        'name' => 'ExampleUnion',
         'description' => 'An example union',
     ];
 

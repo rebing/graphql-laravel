@@ -48,7 +48,7 @@ class EndpointTest extends TestCase
     public function testGetWithVariables(): void
     {
         $response = $this->call('GET', '/graphql', [
-            'query'     => $this->queries['examplesWithVariables'],
+            'query' => $this->queries['examplesWithVariables'],
             'variables' => [
                 'index' => 0,
             ],
@@ -68,7 +68,7 @@ class EndpointTest extends TestCase
     public function testGetWithVariablesSerialized(): void
     {
         $response = $this->call('GET', '/graphql', [
-            'query'     => $this->queries['examplesWithVariables'],
+            'query' => $this->queries['examplesWithVariables'],
             'variables' => json_encode([
                 'index' => 0,
             ]),
@@ -110,13 +110,13 @@ class EndpointTest extends TestCase
     {
         $response = $this->call('GET', '/graphql', [
             [
-                'query'     => $this->queries['examplesWithVariables'],
+                'query' => $this->queries['examplesWithVariables'],
                 'variables' => [
                     'index' => 0,
                 ],
             ],
             [
-                'query'     => $this->queries['examplesWithVariables'],
+                'query' => $this->queries['examplesWithVariables'],
                 'variables' => [
                     'index' => 0,
                 ],

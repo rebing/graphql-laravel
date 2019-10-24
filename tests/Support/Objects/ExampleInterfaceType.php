@@ -11,7 +11,7 @@ use Rebing\GraphQL\Support\InterfaceType;
 class ExampleInterfaceType extends InterfaceType
 {
     protected $attributes = [
-        'name'        => 'ExampleInterface',
+        'name' => 'ExampleInterface',
         'description' => 'An example interface',
     ];
 
@@ -24,7 +24,7 @@ class ExampleInterfaceType extends InterfaceType
     {
         return [
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
         ];

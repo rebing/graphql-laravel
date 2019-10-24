@@ -10,11 +10,11 @@ use Rebing\GraphQL\Support\EnumType;
 class ExampleEnumType extends EnumType
 {
     protected $attributes = [
-        'name'        => 'ExampleEnum',
+        'name' => 'ExampleEnum',
         'description' => 'An example enum',
-        'values'      => [
+        'values' => [
             'TEST' => [
-                'value'       => 1,
+                'value' => 1,
                 'description' => 'test',
             ],
         ],
@@ -24,7 +24,7 @@ class ExampleEnumType extends EnumType
     {
         return [
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
             'test_validation' => ExampleValidationField::class,

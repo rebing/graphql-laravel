@@ -23,8 +23,8 @@ class ExampleNestedValidationInputObject extends InputType
     {
         return [
             'email' => [
-                'name'  => 'email',
-                'type'  => Type::string(),
+                'name' => 'email',
+                'type' => Type::string(),
                 'rules' => ['email'],
             ],
         ];

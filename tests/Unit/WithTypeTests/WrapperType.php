@@ -18,7 +18,7 @@ class WrapperType extends ObjectType
     public function __construct(string $typeName, string $customTypeName)
     {
         $config = [
-            'name'   => $customTypeName,
+            'name' => $customTypeName,
             'fields' => $this->getMessagesFields($typeName),
         ];
 

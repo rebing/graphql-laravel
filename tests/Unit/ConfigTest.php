@@ -25,7 +25,7 @@ class ConfigTest extends TestCase
             'prefix' => 'graphql_test',
 
             'routes' => [
-                'query'    => 'query/{graphql_schema?}',
+                'query' => 'query/{graphql_schema?}',
                 'mutation' => 'mutation/{graphql_schema?}',
             ],
 
@@ -68,7 +68,7 @@ class ConfigTest extends TestCase
 
             'security' => [
                 'query_max_complexity' => 1000,
-                'query_max_depth'      => 10,
+                'query_max_depth' => 10,
             ],
 
         ]);
@@ -125,7 +125,7 @@ class ConfigTest extends TestCase
     public function testVariablesInputName(): void
     {
         $response = $this->call('GET', '/graphql_test/query/default', [
-            'query'  => $this->queries['examplesWithVariables'],
+            'query' => $this->queries['examplesWithVariables'],
             'params' => [
                 'index' => 0,
             ],

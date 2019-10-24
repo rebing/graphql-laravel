@@ -143,7 +143,7 @@ class GraphQLTest extends TestCase
     {
         $type = GraphQL::objectType([
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
         ], [
@@ -183,7 +183,7 @@ class GraphQLTest extends TestCase
             ],
             'locations' => [
                 [
-                    'line'   => 3,
+                    'line' => 3,
                     'column' => 13,
                 ],
             ],
@@ -259,13 +259,13 @@ class GraphQLTest extends TestCase
     public function testAddSchema(): void
     {
         GraphQL::addSchema('custom_add', [
-            'query'    => [
+            'query' => [
                 'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
                 'updateExampleCustom' => UpdateExampleMutation::class,
             ],
-            'types'    => [
+            'types' => [
                 CustomExampleType::class,
             ],
         ]);
@@ -280,13 +280,13 @@ class GraphQLTest extends TestCase
     public function testMergeSchema(): void
     {
         GraphQL::addSchema('custom_add', [
-            'query'    => [
+            'query' => [
                 'examplesCustom' => ExamplesQuery::class,
             ],
             'mutation' => [
                 'updateExampleCustom' => UpdateExampleMutation::class,
             ],
-            'types'    => [
+            'types' => [
                 CustomExampleType::class,
             ],
         ]);

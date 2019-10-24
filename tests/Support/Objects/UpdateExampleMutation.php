@@ -37,14 +37,14 @@ class UpdateExampleMutation extends Mutation
             ],
 
             'test_with_rules' => [
-                'name'  => 'test',
-                'type'  => Type::string(),
+                'name' => 'test',
+                'type' => Type::string(),
                 'rules' => ['required'],
             ],
 
             'test_with_rules_closure' => [
-                'name'  => 'test',
-                'type'  => Type::string(),
+                'name' => 'test',
+                'type' => Type::string(),
                 'rules' => function () {
                     return ['required'];
                 },

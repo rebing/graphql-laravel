@@ -14,7 +14,7 @@ class UserQuery extends Query
     use Authenticate;
 
     protected $attributes = [
-        'name'  => 'Users',
+        'name' => 'Users',
     ];
 
     public function type(): Type
@@ -25,7 +25,7 @@ class UserQuery extends Query
     public function args(): array
     {
         return [
-            'id'    => [
+            'id' => [
                 'name' => 'id',
                 'type' => Type::int(),
             ],

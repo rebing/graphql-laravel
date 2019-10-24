@@ -14,12 +14,12 @@ class MutationMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/mutation.stub';
+        return __DIR__ . '/stubs/mutation.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Mutations';
+        return $rootNamespace . '\GraphQL\Mutations';
     }
 
     protected function buildClass($name)

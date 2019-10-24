@@ -22,7 +22,7 @@ class TypeTest extends TestCase
 
         $this->assertArrayHasKey('test', $fields);
         $this->assertEquals($fields['test'], [
-            'type'        => Type::string(),
+            'type' => Type::string(),
             'description' => 'A test field',
         ]);
     }

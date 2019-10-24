@@ -9,8 +9,8 @@ use Rebing\GraphQL\Helpers;
 $router = app('router');
 
 $router->group(array_merge([
-    'prefix'        => config('graphql.prefix'),
-    'middleware'    => config('graphql.middleware', []),
+    'prefix' => config('graphql.prefix'),
+    'middleware' => config('graphql.middleware', []),
 ], config('graphql.route_group_attributes', [])), function ($router): void {
     /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
     // Routes
@@ -26,7 +26,7 @@ $router->group(array_merge([
     }
 
     // Controllers
-    $controllers = config('graphql.controllers', GraphQLController::class.'@query');
+    $controllers = config('graphql.controllers', GraphQLController::class . '@query');
     $queryController = null;
     $mutationController = null;
     if (is_array($controllers)) {
@@ -42,8 +42,8 @@ $router->group(array_merge([
     // Query
     if ($queryRoute) {
         if (preg_match($schemaParameterPattern, $queryRoute)) {
-            $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
-            $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
+            $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
+            $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
 
             foreach ($defaultMethod as $method) {
                 $routeName = 'graphql.query';
@@ -53,9 +53,9 @@ $router->group(array_merge([
                 $router->{$method}(
                     preg_replace($schemaParameterPattern, '', $queryRoute),
                     [
-                        'uses'          => $queryController,
-                        'middleware'    => $defaultMiddleware,
-                        'as'            => $routeName,
+                        'uses' => $queryController,
+                        'middleware' => $defaultMiddleware,
+                        'as' => $routeName,
                     ]
                 );
             }
@@ -69,9 +69,9 @@ $router->group(array_merge([
                     $route = $router->{$method}(
                         Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $queryRoute),
                         [
-                            'uses'          => $queryController,
-                            'middleware'    => Arr::get($schema, 'middleware', []),
-                            'as'            => $routeName,
+                            'uses' => $queryController,
+                            'middleware' => Arr::get($schema, 'middleware', []),
+                            'as' => $routeName,
                         ]
                     );
 
@@ -83,11 +83,11 @@ $router->group(array_merge([
         } else {
             $router->get($queryRoute, [
                 'uses' => $queryController,
-                'as'   => 'graphql.query',
+                'as' => 'graphql.query',
             ]);
             $router->post($queryRoute, [
                 'uses' => $queryController,
-                'as'   => 'graphql.query.post',
+                'as' => 'graphql.query.post',
             ]);
         }
     }
@@ -95,8 +95,8 @@ $router->group(array_merge([
     // Mutation routes (define only if different than query)
     if ($mutationRoute && $mutationRoute !== $queryRoute) {
         if (preg_match($schemaParameterPattern, $mutationRoute)) {
-            $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
-            $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
+            $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
+            $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
 
             foreach ($defaultMethod as $method) {
                 $routeName = 'graphql.mutation';
@@ -106,9 +106,9 @@ $router->group(array_merge([
                 $router->{$method}(
                     preg_replace($schemaParameterPattern, '', $mutationRoute),
                     [
-                        'uses'          => $mutationController,
-                        'middleware'    => $defaultMiddleware,
-                        'as'            => $routeName,
+                        'uses' => $mutationController,
+                        'middleware' => $defaultMiddleware,
+                        'as' => $routeName,
                     ]
                 );
             }
@@ -122,9 +122,9 @@ $router->group(array_merge([
                     $route = $router->{$method}(
                         Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, $mutationRoute),
                         [
-                            'uses'          => $mutationController,
-                            'middleware'    => Arr::get($schema, 'middleware', []),
-                            'as'            => $routeName,
+                            'uses' => $mutationController,
+                            'middleware' => Arr::get($schema, 'middleware', []),
+                            'as' => $routeName,
                         ]
                     );
 
@@ -136,11 +136,11 @@ $router->group(array_merge([
         } else {
             $router->get($mutationRoute, [
                 'uses' => $mutationController,
-                'as'   => 'graphql.mutation',
+                'as' => 'graphql.mutation',
             ]);
             $router->post($mutationRoute, [
                 'uses' => $mutationController,
-                'as'   => 'graphql.mutation.post',
+                'as' => 'graphql.mutation.post',
             ]);
         }
     }
@@ -148,11 +148,11 @@ $router->group(array_merge([
 
 if (config('graphql.graphiql.display', true)) {
     $router->group([
-        'prefix'        => config('graphql.graphiql.prefix', 'graphiql'),
-        'middleware'    => config('graphql.graphiql.middleware', []),
+        'prefix' => config('graphql.graphiql.prefix', 'graphiql'),
+        'middleware' => config('graphql.graphiql.middleware', []),
     ], function ($router): void {
         /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
-        $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class.'@graphiql');
+        $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class . '@graphiql');
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
         $graphiqlAction = ['uses' => $graphiqlController];
 

@@ -42,7 +42,7 @@ class GraphQLServiceProvider extends ServiceProvider
     protected function bootRouter(): void
     {
         if (config('graphql.routes')) {
-            include __DIR__.'/routes.php';
+            include __DIR__ . '/routes.php';
         }
     }
 
@@ -53,15 +53,15 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootPublishes(): void
     {
-        $configPath = __DIR__.'/../config';
+        $configPath = __DIR__ . '/../config';
 
-        $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
+        $this->mergeConfigFrom($configPath . '/config.php', 'graphql');
 
         $this->publishes([
-            $configPath.'/config.php' => config_path('graphql.php'),
+            $configPath . '/config.php' => config_path('graphql.php'),
         ], 'config');
 
-        $viewsPath = __DIR__.'/../resources/views';
+        $viewsPath = __DIR__ . '/../resources/views';
         $this->loadViewsFrom($viewsPath, 'graphql');
     }
 

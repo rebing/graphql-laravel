@@ -80,10 +80,10 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query'         => $query,
-            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
-            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'types'         => function () use ($schema) {
+            'query' => $query,
+            'mutation' => ! empty($schemaMutation) ? $mutation : null,
+            'subscription' => ! empty($schemaSubscription) ? $subscription : null,
+            'types' => function () use ($schema) {
                 $types = [];
                 $schemaTypes = $schema['types'] ?? [];
 
@@ -102,7 +102,7 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader'    => config('graphql.lazyload_types', false)
+            'typeLoader' => config('graphql.lazyload_types', false)
                 ? function ($name) {
                     return $this->type($name);
                 }
@@ -339,7 +339,7 @@ class GraphQL
 
     public function paginate(string $typeName, string $customName = null): Type
     {
-        $name = $customName ?: $typeName.'Pagination';
+        $name = $customName ?: $typeName . 'Pagination';
 
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
@@ -444,14 +444,14 @@ class GraphQL
             }
 
             foreach ($multiLevelPath as $multiName) {
-                $routeName = ! $routeName ? null : $routeName.'/';
+                $routeName = ! $routeName ? null : $routeName . '/';
                 $routeName =
                     $routeName
-                    .preg_replace($schemaParameterPattern, '{'.$multiName.'}', $queryRoute);
+                    . preg_replace($schemaParameterPattern, '{' . $multiName . '}', $queryRoute);
             }
         }
 
-        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "$name:$name" : $name).'}', $queryRoute);
+        return $routeName ?: preg_replace($schemaParameterPattern, '{' . (Helpers::isLumen() ? "$name:$name" : $name) . '}', $queryRoute);
     }
 
     /**
@@ -463,7 +463,7 @@ class GraphQL
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 
         if (! is_array($schema) && ! isset($this->schemas[$schemaName])) {
-            throw new SchemaNotFound('Type '.$schemaName.' not found.');
+            throw new SchemaNotFound('Type ' . $schemaName . ' not found.');
         }
 
         return is_array($schema) ? $schema : $this->schemas[$schemaName];

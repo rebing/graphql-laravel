@@ -14,12 +14,12 @@ class QueryMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/query.stub';
+        return __DIR__ . '/stubs/query.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Queries';
+        return $rootNamespace . '\GraphQL\Queries';
     }
 
     protected function buildClass($name)

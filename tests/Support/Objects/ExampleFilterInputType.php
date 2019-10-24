@@ -11,7 +11,7 @@ use Rebing\GraphQL\Support\InputType;
 class ExampleFilterInputType extends InputType
 {
     protected $attributes = [
-        'name'        => 'ExampleFilterInput',
+        'name' => 'ExampleFilterInput',
         'description' => 'A nested filter input with self reference',
     ];
 
@@ -19,17 +19,17 @@ class ExampleFilterInputType extends InputType
     {
         return [
             'AND' => [
-                'type'        => Type::listOf(Type::nonNull(GraphQL::type('ExampleFilterInput'))),
+                'type' => Type::listOf(Type::nonNull(GraphQL::type('ExampleFilterInput'))),
                 'description' => 'List of self references',
             ],
             'test' => [
-                'type'        => Type::String(),
+                'type' => Type::String(),
                 'description' => 'Test field filter',
             ],
             // This field can trigger an infinite recursion
             // in case recursion in Field.getRules() is not handled correctly
             'parent' => [
-                'type'        => GraphQL::type('ExampleFilterInput'),
+                'type' => GraphQL::type('ExampleFilterInput'),
                 'description' => 'Self reference',
             ],
         ];

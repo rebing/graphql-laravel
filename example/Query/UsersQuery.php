@@ -15,7 +15,7 @@ use Rebing\GraphQL\Support\SelectFields;
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name'  => 'Users',
+        'name' => 'Users',
     ];
 
     public function type(): Type
@@ -26,7 +26,7 @@ class UsersQuery extends Query
     public function args(): array
     {
         return [
-            'ids'   => [
+            'ids' => [
                 'name' => 'ids',
                 'type' => Type::listOf(Type::int()),
             ],

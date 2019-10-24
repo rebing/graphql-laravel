@@ -24,18 +24,18 @@ class ExampleValidationInputObject extends InputType
     {
         return [
             'val' => [
-                'name'  => 'val',
-                'type'  => Type::int(),
+                'name' => 'val',
+                'type' => Type::int(),
                 'rules' => ['required'],
             ],
             'nest' => [
-                'name'  => 'nest',
-                'type'  => GraphQL::type('ExampleNestedValidationInputObject'),
+                'name' => 'nest',
+                'type' => GraphQL::type('ExampleNestedValidationInputObject'),
                 'rules' => ['required'],
             ],
             'list' => [
-                'name'  => 'list',
-                'type'  => Type::listOf(GraphQL::type('ExampleNestedValidationInputObject')),
+                'name' => 'list',
+                'type' => Type::listOf(GraphQL::type('ExampleNestedValidationInputObject')),
                 'rules' => ['required'],
             ],
         ];

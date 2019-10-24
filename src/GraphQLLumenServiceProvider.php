@@ -10,11 +10,11 @@ class GraphQLLumenServiceProvider extends GraphQLServiceProvider
 {
     protected function bootPublishes(): void
     {
-        $configPath = __DIR__.'/../config';
+        $configPath = __DIR__ . '/../config';
 
-        $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
+        $this->mergeConfigFrom($configPath . '/config.php', 'graphql');
 
-        $viewsPath = __DIR__.'/../resources/views';
+        $viewsPath = __DIR__ . '/../resources/views';
         $this->loadViewsFrom($viewsPath, 'graphql');
     }
 
