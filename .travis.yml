@@ -30,7 +30,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.5.*'
     - php: '7.3'
-      env: LARAVEL='5.8.*' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
+      env: LARAVEL='5.8.*'
     - php: '7.3'
       env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1 LINT=1
     - php: '7.3'
