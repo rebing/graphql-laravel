@@ -68,6 +68,7 @@ install:
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
+  - composer lint
   - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - vendor/bin/phpunit --colors=always --verbose
   - TESTS_ENABLE_LAZYLOAD_TYPES=1 vendor/bin/phpunit --colors=always --verbose
