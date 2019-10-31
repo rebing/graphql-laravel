@@ -59,6 +59,12 @@ class UpdateExampleMutationWithInputType extends Mutation
                 'type'  => Type::nonNull(GraphQL::type('ExampleValidationInputObject')),
                 'rules' => ['required'],
             ],
+
+            'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [
+                'name'  => 'test',
+                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
+            ],
+
         ];
     }
 

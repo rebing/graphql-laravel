@@ -58,6 +58,11 @@ class MutationTest extends FieldTest
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.nest.email'), ['email']);
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list'), ['required']);
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list.*.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.val'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.nest'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.nest.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.list'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.list.*.email'), ['email']);
     }
 
     /**

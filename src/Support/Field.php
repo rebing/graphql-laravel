@@ -118,7 +118,7 @@ abstract class Field
 
         // make sure we are dealing with the actual type
         if ($type instanceof WrappingType) {
-            $type = $type->getWrappedType();
+            $type = $type->getWrappedType(true);
         }
 
         // if it is an input object type - the only type we care about here...
@@ -144,12 +144,17 @@ abstract class Field
                 $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
             }
 
+            $type = $field->type;
+            if ($field->type instanceof WrappingType) {
+                $type = $field->type->getWrappedType(true);
+            }
+
             // then recursively call the parent method to see if this is an
             // input object, passing in the new prefix
-            if ($field->type instanceof InputObjectType) {
+            if ($type instanceof InputObjectType) {
                 // in case the field is a self reference we must not do
                 // a recursive call as it will never stop
-                if ($field->type->toString() == $input->toString()) {
+                if ($type->toString() == $input->toString()) {
                     continue;
                 }
             }
