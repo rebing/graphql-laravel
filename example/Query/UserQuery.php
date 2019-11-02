@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Models\User;
 use GraphQL\GraphQL;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Models\User;
+use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;
 
 class UserQuery extends Query

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\AuthorizeArgsTests;
 
 use Closure;
-use PHPUnit\Framework\Assert;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use PHPUnit\Framework\Assert;
+use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;
 
 class TestAuthorizationArgsQuery extends Query

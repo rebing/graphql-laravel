@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support\Facades;
 
 use GraphQL\Error\Error;
-use GraphQL\Type\Schema;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Executor\ExecutionResult;
-use Illuminate\Support\Facades\Facade;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Schema;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static array query(string $query, ?array $params = [], array $opts = [])

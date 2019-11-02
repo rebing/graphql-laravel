@@ -2,11 +2,11 @@
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
-use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class ValidateDiffNodeTests extends TestCaseDatabase
 {
