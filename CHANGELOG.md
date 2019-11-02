@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/3.1.0...master)
 --------------
+### Fixed
+- Fix validation rules for non-null list of non-null objects [\#511 / crissi](https://github.com/rebing/graphql-laravel/pull/511/files)
 
 2019-10-23, 3.1.0
 -----------------
