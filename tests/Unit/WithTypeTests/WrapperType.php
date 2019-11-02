@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
-use Illuminate\Support\Collection;
 use GraphQL\Type\Definition\ObjectType;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type as GraphQLType;
+use Illuminate\Support\Collection;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class WrapperType extends ObjectType
 {

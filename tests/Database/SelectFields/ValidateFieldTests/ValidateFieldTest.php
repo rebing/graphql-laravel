@@ -6,10 +6,10 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use Mockery;
 use Mockery\MockInterface;
-use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
+use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class ValidateFieldTest extends TestCaseDatabase
 {

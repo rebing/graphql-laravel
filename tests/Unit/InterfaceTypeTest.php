@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
-use Rebing\GraphQL\Tests\TestCase;
 use GraphQL\Type\Definition\InterfaceType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleInterfaceType;
+use Rebing\GraphQL\Tests\TestCase;
 
 class InterfaceTypeTest extends TestCase
 {

@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database;
 
 use Illuminate\Support\Carbon;
-use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
-use Rebing\GraphQL\Tests\Support\Types\PostType;
-use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
-use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
-use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery;
-use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
-use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery;
-use Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery;
+use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\Support\Types\PostType;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasAndCustomResolverType;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelAndAliasType;
+use Rebing\GraphQL\Tests\Support\Types\PostWithModelType;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class SelectFieldsTest extends TestCaseDatabase
 {

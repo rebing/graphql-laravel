@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use RuntimeException;
 use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\UnionType;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\WrappingType;
-use Illuminate\Database\Query\Expression;
 use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use GraphQL\Type\Definition\UnionType;
+use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Query\Expression;
+use RuntimeException;
 
 class SelectFields
 {

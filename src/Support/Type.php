@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use Illuminate\Support\Str;
 use GraphQL\Type\Definition\EnumType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 /**
