@@ -7,9 +7,9 @@ namespace Rebing\GraphQL\Tests\Unit;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
 
 class MutationTest extends FieldTest
@@ -58,6 +58,11 @@ class MutationTest extends FieldTest
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.nest.email'), ['email']);
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list'), ['required']);
         $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_input_object.list.*.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.val'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.nest'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.nest.email'), ['email']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.list'), ['required']);
+        $this->assertEquals(Arr::get($rules, 'test_with_rules_non_nullable_list_of_non_nullable_input_object.*.list.*.email'), ['email']);
     }
 
     /**

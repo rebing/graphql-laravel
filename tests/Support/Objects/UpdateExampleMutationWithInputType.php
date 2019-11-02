@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Mutation;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Mutation;
 
 class UpdateExampleMutationWithInputType extends Mutation
 {
@@ -59,6 +59,12 @@ class UpdateExampleMutationWithInputType extends Mutation
                 'type'  => Type::nonNull(GraphQL::type('ExampleValidationInputObject')),
                 'rules' => ['required'],
             ],
+
+            'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [
+                'name'  => 'test',
+                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
+            ],
+
         ];
     }
 

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use Validator;
-use Illuminate\Support\Arr;
-use GraphQL\Type\Definition\NonNull;
-use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\WrappingType;
-use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
-use Rebing\GraphQL\Error\AuthorizationError;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\NonNull;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Support\Arr;
+use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Error\ValidationError;
+use Validator;
 
 abstract class Field
 {
@@ -118,7 +118,7 @@ abstract class Field
 
         // make sure we are dealing with the actual type
         if ($type instanceof WrappingType) {
-            $type = $type->getWrappedType();
+            $type = $type->getWrappedType(true);
         }
 
         // if it is an input object type - the only type we care about here...
@@ -144,12 +144,17 @@ abstract class Field
                 $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
             }
 
+            $type = $field->type;
+            if ($field->type instanceof WrappingType) {
+                $type = $field->type->getWrappedType(true);
+            }
+
             // then recursively call the parent method to see if this is an
             // input object, passing in the new prefix
-            if ($field->type instanceof InputObjectType) {
+            if ($type instanceof InputObjectType) {
                 // in case the field is a self reference we must not do
                 // a recursive call as it will never stop
-                if ($field->type->toString() == $input->toString()) {
+                if ($type->toString() == $input->toString()) {
                     continue;
                 }
             }
