@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use Validator;
-use Illuminate\Support\Arr;
-use GraphQL\Type\Definition\NonNull;
-use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\WrappingType;
-use Rebing\GraphQL\Error\ValidationError;
 use GraphQL\Type\Definition\InputObjectType;
-use Rebing\GraphQL\Error\AuthorizationError;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\NonNull;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Support\Arr;
+use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Error\ValidationError;
+use Validator;
 
 abstract class Field
 {
