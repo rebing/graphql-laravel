@@ -27,7 +27,7 @@ class SelectFields
     /** @var array */
     private $relations = [];
 
-    const FOREIGN_KEY = 'foreignKey';
+    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
      * @param  ResolveInfo  $info
@@ -142,7 +142,7 @@ class SelectFields
             }
 
             // Always select foreign key
-            if ($field === self::FOREIGN_KEY) {
+            if ($field === self::ALWAYS_RELATION_KEY) {
                 self::addFieldToSelect($key, $select, $parentTable, false);
                 continue;
             }
@@ -212,7 +212,11 @@ class SelectFields
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
                             if (! array_key_exists($foreignKey, $field)) {
-                                $field['fields'][$foreignKey] = self::FOREIGN_KEY;
+                                $field['fields'][$foreignKey] = self::ALWAYS_RELATION_KEY;
+                            }
+
+                            if (is_a($relation, MorphMany::class) || is_a($relation, MorphOne::class)) {
+                                $field['fields'][$relation->getMorphType()] = self::ALWAYS_RELATION_KEY;
                             }
                         }
 
@@ -295,7 +299,8 @@ class SelectFields
 
                 default:
                     throw new RuntimeException(
-                        sprintf("Unsupported use of 'privacy' configuration on field '%s'.",
+                        sprintf(
+                            "Unsupported use of 'privacy' configuration on field '%s'.",
                             $fieldObject->name
                         )
                     );
