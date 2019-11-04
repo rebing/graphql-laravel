@@ -204,6 +204,8 @@ abstract class Field
                 };
             }
 
+            $arguments[1] = (new AliasArguments($this->args(), $arguments[1]))->get();
+
             // Authorize
             if (call_user_func_array($authorize, $arguments) != true) {
                 throw new AuthorizationError('Unauthorized');

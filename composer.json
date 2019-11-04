@@ -37,7 +37,8 @@
         "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0",
         "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0",
         "webonyx/graphql-php": "^0.13",
-        "ext-json": "*"
+        "ext-json": "*",
+        "crissi/array-key-change": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*|3.9.*|4.0.*",
