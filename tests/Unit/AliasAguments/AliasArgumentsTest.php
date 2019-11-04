@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use PHPUnit\Framework\Assert as PHPUnit;
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleType;
