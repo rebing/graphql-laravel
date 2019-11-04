@@ -28,18 +28,6 @@ class AliasArgumentsTest extends TestCase
         ]);
     }
 
-    protected function assertJsonArguments($arguments, array $assertData)
-    {
-        PHPUnit::assertArraySubset(
-            $assertData,
-            $arguments,
-            true,
-            'failed'
-        );
-
-        return $this;
-    }
-
     public function testMutationAlias()
     {
         $query = '
