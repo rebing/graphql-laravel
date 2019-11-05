@@ -24,7 +24,7 @@ class MutationWithCustomRuleWithClosure extends Mutation
             'arg1' => [
                 'required',
                 function (string $attribute, $value, $fail) {
-                    $fail($attribute . ' is invalid');
+                    $fail($attribute.' is invalid');
                 },
             ],
         ];

@@ -14,7 +14,7 @@ class PaginationType extends ObjectType
 {
     public function __construct(string $typeName, string $customName = null)
     {
-        $name = $customName ?: $typeName . 'Pagination';
+        $name = $customName ?: $typeName.'Pagination';
 
         $config = [
             'name' => $name,

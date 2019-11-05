@@ -26,7 +26,7 @@ $router->group(array_merge([
     }
 
     // Controllers
-    $controllers = config('graphql.controllers', GraphQLController::class . '@query');
+    $controllers = config('graphql.controllers', GraphQLController::class.'@query');
     $queryController = null;
     $mutationController = null;
     if (is_array($controllers)) {
@@ -42,8 +42,8 @@ $router->group(array_merge([
     // Query
     if ($queryRoute) {
         if (preg_match($schemaParameterPattern, $queryRoute)) {
-            $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
-            $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
+            $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
+            $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
 
             foreach ($defaultMethod as $method) {
                 $routeName = 'graphql.query';
@@ -95,8 +95,8 @@ $router->group(array_merge([
     // Mutation routes (define only if different than query)
     if ($mutationRoute && $mutationRoute !== $queryRoute) {
         if (preg_match($schemaParameterPattern, $mutationRoute)) {
-            $defaultMiddleware = config('graphql.schemas.' . config('graphql.default_schema') . '.middleware', []);
-            $defaultMethod = config('graphql.schemas.' . config('graphql.default_schema') . '.method', ['get', 'post']);
+            $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
+            $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
 
             foreach ($defaultMethod as $method) {
                 $routeName = 'graphql.mutation';
@@ -152,7 +152,7 @@ if (config('graphql.graphiql.display', true)) {
         'middleware' => config('graphql.graphiql.middleware', []),
     ], function ($router): void {
         /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
-        $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class . '@graphiql');
+        $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class.'@graphiql');
         $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
         $graphiqlAction = ['uses' => $graphiqlController];
 

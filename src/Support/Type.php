@@ -57,7 +57,7 @@ abstract class Type implements TypeConvertible
             return $field['resolve'];
         }
 
-        $resolveMethod = 'resolve' . Str::studly($name) . 'Field';
+        $resolveMethod = 'resolve'.Str::studly($name).'Field';
 
         if (method_exists($this, $resolveMethod)) {
             $resolver = [$this, $resolveMethod];

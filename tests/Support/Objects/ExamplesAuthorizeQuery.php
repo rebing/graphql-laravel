@@ -35,7 +35,7 @@ class ExamplesAuthorizeQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        $data = include __DIR__ . '/data.php';
+        $data = include __DIR__.'/data.php';
 
         if (isset($args['index'])) {
             return [

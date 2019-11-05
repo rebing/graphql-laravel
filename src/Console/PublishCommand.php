@@ -42,10 +42,10 @@ class PublishCommand extends Command
         parent::__construct();
         $this->files = $files;
 
-        $fromPath = __DIR__ . '/../..';
+        $fromPath = __DIR__.'/../..';
         $this->fileMap = [
-            $fromPath . '/config/config.php' => app()->basePath('config/graphql.php'),
-            $fromPath . '/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php'),
+            $fromPath.'/config/config.php' => app()->basePath('config/graphql.php'),
+            $fromPath.'/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php'),
         ];
     }
 

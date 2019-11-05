@@ -14,12 +14,12 @@ class InputMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__ . '/stubs/input.stub';
+        return __DIR__.'/stubs/input.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\GraphQL\Inputs';
+        return $rootNamespace.'\GraphQL\Inputs';
     }
 
     protected function buildClass($name)

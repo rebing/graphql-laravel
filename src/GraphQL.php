@@ -339,7 +339,7 @@ class GraphQL
 
     public function paginate(string $typeName, string $customName = null): Type
     {
-        $name = $customName ?: $typeName . 'Pagination';
+        $name = $customName ?: $typeName.'Pagination';
 
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
@@ -374,7 +374,7 @@ class GraphQL
      * @param  Error  $e
      * @return array
      */
-    public static function formatError(Error $e): array
+    public static function formatError(PhpError $e): array
     {
         $debug = config('app.debug') ? (Debug::INCLUDE_DEBUG_MESSAGE | Debug::INCLUDE_TRACE) : 0;
         $formatter = FormattedError::prepareFormatter(null, $debug);
@@ -444,14 +444,14 @@ class GraphQL
             }
 
             foreach ($multiLevelPath as $multiName) {
-                $routeName = ! $routeName ? null : $routeName . '/';
+                $routeName = ! $routeName ? null : $routeName.'/';
                 $routeName =
                     $routeName
-                    . preg_replace($schemaParameterPattern, '{' . $multiName . '}', $queryRoute);
+                    .preg_replace($schemaParameterPattern, '{'.$multiName.'}', $queryRoute);
             }
         }
 
-        return $routeName ?: preg_replace($schemaParameterPattern, '{' . (Helpers::isLumen() ? "$name:$name" : $name) . '}', $queryRoute);
+        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "$name:$name" : $name).'}', $queryRoute);
     }
 
     /**
@@ -463,7 +463,7 @@ class GraphQL
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 
         if (! is_array($schema) && ! isset($this->schemas[$schemaName])) {
-            throw new SchemaNotFound('Type ' . $schemaName . ' not found.');
+            throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
 
         return is_array($schema) ? $schema : $this->schemas[$schemaName];

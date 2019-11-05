@@ -104,7 +104,7 @@ class GraphQLUploadMiddleware
 
         if (! is_array($bodyParams)) {
             throw new RequestError(
-                'GraphQL Server expects JSON object or array, but got ' . Utils::printSafeJson($bodyParams)
+                'GraphQL Server expects JSON object or array, but got '.Utils::printSafeJson($bodyParams)
             );
         }
 

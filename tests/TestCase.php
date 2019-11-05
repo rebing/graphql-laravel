@@ -39,8 +39,8 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->queries = include __DIR__ . '/Support/Objects/queries.php';
-        $this->data = include __DIR__ . '/Support/Objects/data.php';
+        $this->queries = include __DIR__.'/Support/Objects/queries.php';
+        $this->data = include __DIR__.'/Support/Objects/data.php';
     }
 
     protected function getEnvironmentSetUp($app)
@@ -144,7 +144,7 @@ class TestCase extends BaseTestCase
     public function __call(string $name, array $arguments)
     {
         if ($name !== 'assertIsArray') {
-            throw new Error('Call to undefined method ' . static::class . '::$name via __call()');
+            throw new Error('Call to undefined method '.static::class.'::$name via __call()');
         }
 
         static::assertThat(
@@ -202,12 +202,12 @@ class TestCase extends BaseTestCase
         if (! $expectErrors && isset($result['errors'])) {
             $appendErrors = '';
             if (isset($result['errors'][0]['trace'])) {
-                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['trace']);
+                $appendErrors = "\n\n".$this->formatSafeTrace($result['errors'][0]['trace']);
             }
 
             $assertMessage = "Probably unexpected error in GraphQL response:\n"
-                . var_export($result, true)
-                . $appendErrors;
+                .var_export($result, true)
+                .$appendErrors;
         }
         unset($result['errors'][0]['trace']);
 
@@ -239,7 +239,7 @@ class TestCase extends BaseTestCase
 
         if ($expectedHttpStatusCode !== $httpStatusCode) {
             $result = $response->getData(true);
-            $msg = var_export($result, true) . "\n";
+            $msg = var_export($result, true)."\n";
             $this->assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
         }
 
@@ -263,10 +263,10 @@ class TestCase extends BaseTestCase
                     $line .= "({$row['line']}) :";
                 }
                 if (isset($row['call'])) {
-                    $line .= ' ' . $row['call'];
+                    $line .= ' '.$row['call'];
                 }
                 if (isset($row['function'])) {
-                    $line .= ' ' . $row['function'];
+                    $line .= ' '.$row['function'];
                 }
 
                 return $line;

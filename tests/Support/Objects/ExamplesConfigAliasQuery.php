@@ -28,7 +28,7 @@ class ExamplesConfigAliasQuery extends Query
 
     public function resolve($root, $args)
     {
-        $data = include __DIR__ . '/data.php';
+        $data = include __DIR__.'/data.php';
 
         if (isset($args['index'])) {
             return [

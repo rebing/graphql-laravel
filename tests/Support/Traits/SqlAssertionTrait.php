@@ -106,7 +106,7 @@ trait SqlAssertionTrait
                                     '?$1',
                                     '= ?',
                                 ],
-                                $query->sql) . ';';
+                                $query->sql).';';
                     },
                     $this->sqlQueryEvents
                 )

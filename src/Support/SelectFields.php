@@ -94,7 +94,7 @@ class SelectFields
 
         // If a primary key is given, but not in the selects, add it
         if (null !== $primaryKey) {
-            $primaryKey = $parentTable ? ($parentTable . '.' . $primaryKey) : $primaryKey;
+            $primaryKey = $parentTable ? ($parentTable.'.'.$primaryKey) : $primaryKey;
             if (! in_array($primaryKey, $select)) {
                 $select[] = $primaryKey;
             }
@@ -189,11 +189,11 @@ class SelectFields
                             $foreignKey = $relation->getQualifiedForeignKeyName();
                         }
 
-                        $foreignKey = $parentTable ? ($parentTable . '.' . preg_replace('/^' . preg_quote($parentTable, '/') . '\./', '', $foreignKey)) : $foreignKey;
+                        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace('/^'.preg_quote($parentTable, '/').'\./', '', $foreignKey)) : $foreignKey;
 
                         if (is_a($relation, MorphTo::class)) {
                             $foreignKeyType = $relation->getMorphType();
-                            $foreignKeyType = $parentTable ? ($parentTable . '.' . $foreignKeyType) : $foreignKeyType;
+                            $foreignKeyType = $parentTable ? ($parentTable.'.'.$foreignKeyType) : $foreignKeyType;
 
                             if (! in_array($foreignKey, $select)) {
                                 $select[] = $foreignKey;
@@ -373,7 +373,7 @@ class SelectFields
                 'fields' => true,
             ];
         } elseif (! $forRelation && ! in_array($field, $select)) {
-            $field = $parentTable ? ($parentTable . '.' . $field) : $field;
+            $field = $parentTable ? ($parentTable.'.'.$field) : $field;
             if (! in_array($field, $select)) {
                 $select[] = $field;
             }
