@@ -54,9 +54,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($query, [
-            'expectErrors' => true,
-        ]);
+        $result = $this->graphql($query);
 
         $this->assertSqlQueries(
             <<<'SQL'
