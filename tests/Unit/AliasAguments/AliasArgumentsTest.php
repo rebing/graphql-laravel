@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Rebing\GraphQL\Tests\Unit\AliasAguments;
 
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleNestedValidationInputObject;
