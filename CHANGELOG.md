@@ -5,6 +5,7 @@ CHANGELOG
 --------------
 ### Fixed
 - Fix validation rules for non-null list of non-null objects [\#511 / crissi](https://github.com/rebing/graphql-laravel/pull/511/files)
+- Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
 
 2019-10-23, 3.1.0
 -----------------
