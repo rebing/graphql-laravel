@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
 
 abstract class InterfaceType extends Type
 {

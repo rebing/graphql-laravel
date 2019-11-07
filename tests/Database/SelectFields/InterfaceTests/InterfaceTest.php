@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
-use PHPUnit\Framework\ExpectationFailedException;
-use Rebing\GraphQL\Tests\Support\Models\Comment;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
+use Rebing\GraphQL\Tests\Support\Models\Comment;
+use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class InterfaceTest extends TestCaseDatabase
 {

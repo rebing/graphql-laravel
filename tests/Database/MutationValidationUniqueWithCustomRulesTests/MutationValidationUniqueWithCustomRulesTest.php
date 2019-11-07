@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
-use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class MutationValidationUniqueWithCustomRulesTest extends TestCaseDatabase
 {

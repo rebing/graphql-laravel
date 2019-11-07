@@ -6,11 +6,11 @@ namespace Rebing\GraphQL\Tests\Support\Types;
 
 use Exception;
 use GraphQL\Error\Error;
-use GraphQL\Error\InvariantViolation;
 use GraphQL\Language\AST\Node;
-use GraphQL\Language\AST\StringValueNode;
-use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Error\InvariantViolation;
+use GraphQL\Type\Definition\ScalarType;
+use GraphQL\Language\AST\StringValueNode;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 class MyCustomScalarString extends ScalarType implements TypeConvertible

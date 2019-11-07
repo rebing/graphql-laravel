@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
+use Rebing\GraphQL\Tests\TestCase;
 use GraphQL\Type\Definition\EnumType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleEnumType;
-use Rebing\GraphQL\Tests\TestCase;
 
 class EnumTypeTest extends TestCase
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
 use DB;
-use Illuminate\Database\Events\QueryExecuted;
 use Rebing\GraphQL\Tests\TestCase;
+use Illuminate\Database\Events\QueryExecuted;
 
 /**
  * Including this trait will **automatically** start counting SQL queries

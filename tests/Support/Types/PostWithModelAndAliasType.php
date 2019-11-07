@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
 use DB;
-use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Carbon;
-use Rebing\GraphQL\Support\Type as GraphQLType;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class PostWithModelAndAliasType extends GraphQLType
 {

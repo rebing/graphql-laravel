@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
-use GraphQL\Validator\DocumentValidator;
-use GraphQL\Validator\Rules\DisableIntrospection;
-use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use GraphQL\Validator\DocumentValidator;
 use Rebing\GraphQL\Console\EnumMakeCommand;
+use Rebing\GraphQL\Console\TypeMakeCommand;
+use GraphQL\Validator\Rules\QueryComplexity;
 use Rebing\GraphQL\Console\FieldMakeCommand;
 use Rebing\GraphQL\Console\InputMakeCommand;
-use Rebing\GraphQL\Console\InterfaceMakeCommand;
-use Rebing\GraphQL\Console\MutationMakeCommand;
 use Rebing\GraphQL\Console\QueryMakeCommand;
-use Rebing\GraphQL\Console\ScalarMakeCommand;
-use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Console\UnionMakeCommand;
+use Illuminate\Contracts\Container\Container;
+use Rebing\GraphQL\Console\ScalarMakeCommand;
+use Rebing\GraphQL\Console\MutationMakeCommand;
+use Rebing\GraphQL\Console\InterfaceMakeCommand;
+use GraphQL\Validator\Rules\DisableIntrospection;
 
 class GraphQLServiceProvider extends ServiceProvider
 {

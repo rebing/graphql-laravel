@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests;
 
 use Error;
-use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
-use Orchestra\Database\ConsoleServiceProvider;
-use Orchestra\Testbench\TestCase as BaseTestCase;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\ObjectType;
 use PHPUnit\Framework\Constraint\IsType;
-use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use GraphQL\Type\Definition\FieldDefinition;
+use Orchestra\Database\ConsoleServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
+use Symfony\Component\Console\Tester\CommandTester;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType2;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
-use Symfony\Component\Console\Tester\CommandTester;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 
 class TestCase extends BaseTestCase
 {

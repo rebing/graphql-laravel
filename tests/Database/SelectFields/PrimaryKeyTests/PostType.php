@@ -6,8 +6,8 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class PostType extends GraphQLType
 {

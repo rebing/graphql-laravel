@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UploadSingleFileMutation extends Mutation
 {

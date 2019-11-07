@@ -7,9 +7,9 @@ namespace Rebing\GraphQL\Tests\Unit;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
 
 class MutationTest extends FieldTest

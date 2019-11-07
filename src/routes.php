@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Arr;
-use Rebing\GraphQL\GraphQLController;
 use Rebing\GraphQL\Helpers;
+use Rebing\GraphQL\GraphQLController;
 
 $router = app('router');
 

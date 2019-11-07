@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PostType extends GraphQLType
 {

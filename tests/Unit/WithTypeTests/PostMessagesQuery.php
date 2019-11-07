@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\Query;
+use Illuminate\Support\Collection;
 
 class PostMessagesQuery extends Query
 {

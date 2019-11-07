@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
-use GraphQL\Validator\DocumentValidator;
-use GraphQL\Validator\Rules\QueryComplexity;
-use GraphQL\Validator\Rules\QueryDepth;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
-use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
-use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\TestCase;
+use GraphQL\Validator\Rules\QueryDepth;
+use GraphQL\Validator\DocumentValidator;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Validator\Rules\QueryComplexity;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
+use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 
 class ConfigTest extends TestCase
 {

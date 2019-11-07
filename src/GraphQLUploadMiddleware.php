@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Closure;
-use GraphQL\Error\InvariantViolation;
-use GraphQL\Server\RequestError;
 use GraphQL\Utils\Utils;
 use Illuminate\Http\Request;
+use GraphQL\Server\RequestError;
+use GraphQL\Error\InvariantViolation;
 
 class GraphQLUploadMiddleware
 {

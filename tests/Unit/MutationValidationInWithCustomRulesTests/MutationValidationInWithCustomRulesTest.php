@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
-use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
+use Illuminate\Contracts\Support\MessageBag;
 
 class MutationValidationInWithCustomRulesTest extends TestCase
 {

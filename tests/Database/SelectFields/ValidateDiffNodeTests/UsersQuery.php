@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
 use PHPUnit\Framework\Assert;
-use Rebing\GraphQL\Support\Facades\GraphQL;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\User;
 
 class UsersQuery extends Query

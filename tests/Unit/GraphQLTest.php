@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
+use Validator;
 use GraphQL\Error\Error;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Tests\TestCase;
+use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
-use Rebing\GraphQL\Tests\TestCase;
-use Validator;
 
 class GraphQLTest extends TestCase
 {

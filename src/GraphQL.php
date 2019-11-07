@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
-use Error as PhpError;
 use Exception;
+use Error as PhpError;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
-use GraphQL\Error\FormattedError;
-use GraphQL\Executor\ExecutionResult;
-use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use GraphQL\Error\FormattedError;
+use GraphQL\Type\Definition\Type;
+use GraphQL\GraphQL as GraphQLBase;
+use GraphQL\Executor\ExecutionResult;
+use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Exception\TypeNotFound;
+use Rebing\GraphQL\Support\PaginationType;
+use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Exception\SchemaNotFound;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Rebing\GraphQL\Error\AuthorizationError;
-use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Exception\SchemaNotFound;
-use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
-use Rebing\GraphQL\Support\PaginationType;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class GraphQL

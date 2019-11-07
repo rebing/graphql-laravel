@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
 use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class ValidationAndAuthorizationMutation extends Mutation
 {

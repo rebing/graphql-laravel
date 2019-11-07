@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\EngineErrorInResolverTests;
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Mockery;
 use Rebing\GraphQL\Tests\TestCase;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class EngineErrorInResolverTest extends TestCase

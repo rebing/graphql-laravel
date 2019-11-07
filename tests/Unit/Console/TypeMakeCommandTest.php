@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
+use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
-use Rebing\GraphQL\Tests\TestCase;
 
 class TypeMakeCommandTest extends TestCase
 {

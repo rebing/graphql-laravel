@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use GraphQL\Language\AST\BooleanValueNode;
-use GraphQL\Language\AST\EnumValueNode;
+use RuntimeException;
 use GraphQL\Language\AST\FieldNode;
-use GraphQL\Language\AST\FloatValueNode;
-use GraphQL\Language\AST\FragmentSpreadNode;
-use GraphQL\Language\AST\InlineFragmentNode;
+use GraphQL\Language\AST\ValueNode;
 use GraphQL\Language\AST\IntValueNode;
+use GraphQL\Language\AST\VariableNode;
+use GraphQL\Language\AST\EnumValueNode;
 use GraphQL\Language\AST\ListValueNode;
 use GraphQL\Language\AST\NullValueNode;
+use GraphQL\Language\AST\FloatValueNode;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Language\AST\ObjectFieldNode;
 use GraphQL\Language\AST\ObjectValueNode;
-use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Language\AST\StringValueNode;
-use GraphQL\Language\AST\ValueNode;
-use GraphQL\Language\AST\VariableNode;
-use GraphQL\Type\Definition\ResolveInfo;
-use RuntimeException;
+use GraphQL\Language\AST\BooleanValueNode;
+use GraphQL\Language\AST\SelectionSetNode;
+use GraphQL\Language\AST\FragmentSpreadNode;
+use GraphQL\Language\AST\InlineFragmentNode;
 
 /**
  * This adapts \GraphQL\Type\Definition\ResolveInfo::getFieldSelection

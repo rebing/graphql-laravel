@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
+use GraphQL\Type\Definition\Type;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\ScalarType;
-use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 class UploadType extends ScalarType implements TypeConvertible
