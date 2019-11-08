@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\LaravelValidatorTests;
 
-use Rebing\GraphQL\Tests\TestCase;
 use Illuminate\Validation\Validator;
+use Rebing\GraphQL\Tests\TestCase;
 
 class LaravelValidatorTest extends TestCase
 {

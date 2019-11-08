@@ -6,8 +6,8 @@ namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Http\Testing\File;
-use Rebing\GraphQL\Support\Mutation;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Mutation;
 
 class UploadMultipleFilesMutation extends Mutation
 {

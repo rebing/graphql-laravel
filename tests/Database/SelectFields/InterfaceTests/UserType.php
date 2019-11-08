@@ -6,8 +6,8 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Tests\Support\Models\User;
 
 class UserType extends GraphQLType
 {

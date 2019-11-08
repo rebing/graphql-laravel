@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use Illuminate\Support\Collection;
 use GraphQL\Type\Definition\ObjectType;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Illuminate\Pagination\LengthAwarePaginator;
 use GraphQL\Type\Definition\Type as GraphQLType;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType
 {

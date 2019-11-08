@@ -2,8 +2,8 @@
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ArrayTests;
 
-use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class ArrayTest extends TestCaseDatabase
 {

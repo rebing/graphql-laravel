@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Tests\Support\Models\Post;
 
 class PostType extends GraphQLType
 {

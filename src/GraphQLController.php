@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controller;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class GraphQLController extends Controller
 {

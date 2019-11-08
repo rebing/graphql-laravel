@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\StringType;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InterfaceType;
 
 class ExampleInterfaceType extends InterfaceType

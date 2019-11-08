@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\TestCase;
 
 class SchemaMultiLevelPathTest extends TestCase
 {
