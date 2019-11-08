@@ -45,7 +45,7 @@
         "nunomaduro/larastan": "0.4.2",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "matt-allan/laravel-code-style": "^0.4.0"
+        "matt-allan/laravel-code-style": "dev-master#addc0fe8c14440a4ef8a62427f1a064080cfba36"
     },
     "autoload": {
         "psr-4": {
