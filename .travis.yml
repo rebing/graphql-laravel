@@ -53,6 +53,10 @@ before_script:
   - phpenv config-rm xdebug.ini || true
 
 install:
+  - |
+    # Due to version incompatiblity with older Laravels we test, we remove it
+    # when not linting (we only need to perform linting at one job)
+    if [[ $LINT = 0 ]]; then composer remove --dev matt-allan/laravel-code-style --no-interaction --no-update; fi
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
   - |
     # 6.0 requires lifting other requirements too
