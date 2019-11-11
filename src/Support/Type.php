@@ -39,7 +39,7 @@ abstract class Type implements TypeConvertible
     }
 
     /**
-     * @return array<string,array|string|FieldDefinition>
+     * @return array<string,array|string|FieldDefinition|Field>
      */
     public function fields(): array
     {
