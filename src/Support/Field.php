@@ -41,6 +41,11 @@ abstract class Field
         return [];
     }
 
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
+    }
+
     abstract public function type(): GraphqlType;
 
     /**

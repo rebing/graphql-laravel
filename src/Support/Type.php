@@ -90,7 +90,7 @@ abstract class Type implements TypeConvertible
                 $field->name = $name;
                 $allFields[$name] = $field->toArray();
             } elseif ($field instanceof Field) {
-                $field->name = $name;
+                $field->setName($name);
                 $allFields[$field->name] = $field->toArray();
             } elseif ($field instanceof FieldDefinition) {
                 $allFields[$field->name] = $field;
