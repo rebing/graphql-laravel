@@ -16,6 +16,9 @@ use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Validator;
 
+/**
+ * @property string $name
+ */
 abstract class Field
 {
     protected $attributes = [];
