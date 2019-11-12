@@ -6,6 +6,8 @@ CHANGELOG
 ### Fixed
 - Fix validation rules for non-null list of non-null objects [\#511 / crissi](https://github.com/rebing/graphql-laravel/pull/511/files)
 - Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
+- ### Added
+- Allow passing through an instance of a `Field` [\#521 / georgeboot](https://github.com/rebing/graphql-laravel/pull/521/files)
 
 2019-10-23, 3.1.0
 -----------------
