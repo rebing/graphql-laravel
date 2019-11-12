@@ -822,7 +822,117 @@ class UserType extends GraphQLType
         ];
     }
 }
+```
 
+Instead of using the class name, you can also supply an actual instance of the `Field`. This allows you to not only re-use the field, but will also open up the possibility to re-use the resolver.
+
+Let's imagine we want a field type that can output dates formatted in all sorts of ways.
+
+```php
+<?php
+
+namespace App\GraphQL\Fields;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Field;
+
+class FormattableDate extends Field
+{        
+    protected $attributes = [
+        'description' => 'A field that can output a date in all sorts of ways.',
+    ];
+
+    public function __construct(array $settings = [])
+    {
+        $this->attributes = \array_merge($this->attributes, $settings);
+    }
+
+    public function type(): Type
+    {
+        return Type::string();
+    }
+
+    public function args(): array
+    {
+        return [
+            'format' => [
+                'type' => Type::string(),
+                'defaultValue' => 'Y-m-d H:i',
+                'description' => 'Defaults to Y-m-d H:i',
+            ],
+            'relative' => [
+                'type' => Type::boolean(),
+                'defaultValue' => false,
+            ],
+        ];
+    }
+
+    protected function resolve($root, $args): ?string
+    {
+        $date = $root->{$this->getProperty()};
+        
+        if (!$date instanceof Carbon) {
+            return null;
+        }
+
+        if ($args['relative']) {
+            return $date->diffForHumans();
+        }
+        
+        return $date->format($args['format']);
+    }
+
+    protected function getProperty(): string
+    {
+        return $this->attributes['alias'] ?? $this->attributes['name'];
+    }
+}
+```
+
+You can use this field in your type as follows:
+
+```php
+<?php
+
+namespace App\GraphQL\Types;
+
+use App\GraphQL\Fields\FormattableDate;
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user'
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user'
+            ],
+
+            // You can simply supply an instance of the class
+            'dateOfBirth' => new FormattableDate,
+
+            // Because the constructor of `FormattableDate` accepts our the array of parameters,
+            // we can override them very easily.
+            // Imagine we want our field to be called `createdAt`, but our database column is called `created_at`:
+            'createdAt' => new FormattableDate([
+                'alias' => 'created_at',
+            ])
+        ];
+    }
+}
 ```
 
 ### Eager loading relationships
