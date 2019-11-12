@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Tests\Unit\InstantiableTypesTest;
 
 use Carbon\Carbon;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Field;
 
 class FormattableDate extends Field
