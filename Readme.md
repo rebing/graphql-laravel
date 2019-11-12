@@ -7,7 +7,7 @@
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
-### Note: these are the docs for 3.*, [please see the `v1` branch for the 1.* docs](https://github.com/rebing/graphql-laravel/tree/v1#laravel-graphql)
+### Note: these are the docs for the current release, [please see the `v1` branch for the 1.* docs](https://github.com/rebing/graphql-laravel/tree/v1#laravel-graphql)
 
 Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
