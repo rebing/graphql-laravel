@@ -118,6 +118,7 @@ To work this around:
     - [Privacy](#privacy)
     - [Query Variables](#query-variables)
     - [Custom field](#custom-field)
+      - [Even better reusable fields](#even-better-reusable-fields)
     - [Eager loading relationships](#eager-loading-relationships)
     - [Type relationship query](#type-relationship-query)
     - [Pagination](#pagination)
@@ -823,6 +824,8 @@ class UserType extends GraphQLType
     }
 }
 ```
+
+#### Even better reusable fields
 
 Instead of using the class name, you can also supply an actual instance of the `Field`. This allows you to not only re-use the field, but will also open up the possibility to re-use the resolver.
 
