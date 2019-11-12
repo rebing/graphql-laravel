@@ -929,7 +929,8 @@ class UserType extends GraphQLType
 
             // Because the constructor of `FormattableDate` accepts our the array of parameters,
             // we can override them very easily.
-            // Imagine we want our field to be called `createdAt`, but our database column is called `created_at`:
+            // Imagine we want our field to be called `createdAt`, but our database column 
+            // is called `created_at`:
             'createdAt' => new FormattableDate([
                 'alias' => 'created_at',
             ])
