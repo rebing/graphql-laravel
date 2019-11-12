@@ -48,14 +48,14 @@ class FormattableDate extends Field
     {
         $date = $root->{$this->getProperty()};
 
-        if (!$date instanceof Carbon) {
+        if (! $date instanceof Carbon) {
             return null;
         }
 
         if ($args['relative']) {
             return $date->diffForHumans();
         }
-        
+
         return $date->format($args['format']);
     }
 
