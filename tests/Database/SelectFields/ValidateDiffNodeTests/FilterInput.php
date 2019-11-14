@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\InputType;
 class FilterInput extends InputType
 {
     protected $attributes = [
-        'name' => 'Filter',
+        'name'        => 'Filter',
         'description' => 'filter object',
     ];
 

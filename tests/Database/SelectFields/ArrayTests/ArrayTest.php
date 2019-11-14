@@ -11,11 +11,11 @@ class ArrayTest extends TestCaseDatabase
     {
         $properties = [
             [
-                'name' => '111',
+                'name'  => '111',
                 'title' => '222',
             ],
             [
-                'name' => '333',
+                'name'  => '333',
                 'title' => '444',
             ],
         ];
@@ -42,7 +42,7 @@ GRAQPHQL;
             'data' => [
                 'arrayQuery' => [
                     [
-                        'id' => $post->id,
+                        'id'         => $post->id,
                         'properties' => [
                             [
                                 'title' => '222',

@@ -68,13 +68,13 @@ SQL
             'errors' => [
                 [
                     'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: posts.comments (SQL: select "posts"."id", "posts"."title", "posts"."user_id", "posts"."comments" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)',
-                    'message' => 'Internal server error',
-                    'extensions' => [
+                    'message'      => 'Internal server error',
+                    'extensions'   => [
                         'category' => 'internal',
                     ],
                     'locations' => [
                         [
-                            'line' => 2,
+                            'line'   => 2,
                             'column' => 3,
                         ],
                     ],
@@ -107,12 +107,12 @@ SQL
                 'post_id' => $post->id,
             ]);
 
-        $postLike = new Like;
+        $postLike = new Like();
         $postLike->likable()->associate($post);
         $postLike->user()->associate($user);
         $postLike->save();
 
-        $commentLike = new Like;
+        $commentLike = new Like();
         $commentLike->likable()->associate($comment);
         $commentLike->user()->associate($user);
         $commentLike->save();
@@ -146,13 +146,13 @@ SQL
             'errors' => [
                 [
                     'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: likes.likable (SQL: select "likes"."id", "likes"."user_id", "likes"."likable" from "likes" where "likes"."user_id" in (1))',
-                    'message' => 'Internal server error',
-                    'extensions' => [
+                    'message'      => 'Internal server error',
+                    'extensions'   => [
                         'category' => 'internal',
                     ],
                     'locations' => [
                         [
-                            'line' => 2,
+                            'line'   => 2,
                             'column' => 3,
                         ],
                     ],
