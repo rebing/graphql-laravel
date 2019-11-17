@@ -44,7 +44,7 @@ class PublishCommand extends Command
 
         $fromPath = __DIR__.'/../..';
         $this->fileMap = [
-            $fromPath.'/config/config.php' => app()->basePath('config/graphql.php'),
+            $fromPath.'/config/config.php'            => app()->basePath('config/graphql.php'),
             $fromPath.'/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php'),
         ];
     }
@@ -52,7 +52,7 @@ class PublishCommand extends Command
     public function handle(): void
     {
         foreach ($this->fileMap as $from => $to) {
-            if ($this->files->exists($to) && ! $this->option('force')) {
+            if ($this->files->exists($to) && !$this->option('force')) {
                 continue;
             }
             $this->createParentDirectory(dirname($to));
@@ -70,7 +70,7 @@ class PublishCommand extends Command
      */
     protected function createParentDirectory(string $directory): void
     {
-        if (! $this->files->isDirectory($directory)) {
+        if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
         }
     }

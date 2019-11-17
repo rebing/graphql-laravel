@@ -32,16 +32,16 @@ GRAQPHQL;
                 'postMessages' => [
                     'data' => [
                         'post_id' => 1,
-                        'title' => 'This is the title post',
+                        'title'   => 'This is the title post',
                     ],
                     'messages' => [
                         [
                             'message' => 'Congratulations, the post was found',
-                            'type' => 'success',
+                            'type'    => 'success',
                         ],
                         [
                             'message' => 'This post cannot be edited", "warning',
-                            'type' => 'success',
+                            'type'    => 'success',
                         ],
                     ],
                 ],

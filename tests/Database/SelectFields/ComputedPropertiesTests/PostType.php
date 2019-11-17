@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Post',
+        'name'  => 'Post',
         'model' => Post::class,
     ];
 
@@ -26,12 +26,12 @@ class PostType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'isPublished' => [
-                'type' => Type::nonNull(Type::boolean()),
+                'type'       => Type::nonNull(Type::boolean()),
                 'selectable' => false,
-                'always' => 'published_at',
+                'always'     => 'published_at',
             ],
             'publishedAt' => [
-                'type' => Type::string(),
+                'type'  => Type::string(),
                 'alias' => 'published_at',
             ],
             'title' => [

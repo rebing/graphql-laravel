@@ -14,10 +14,11 @@ class MutationMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,16 +41,16 @@ class MutationMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Mutations/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Mutations/Example.php',
                 'expectedClassDefinition' => 'Example extends Mutation',
-                'expectedGraphqlName' => "'name' => 'example',",
+                'expectedGraphqlName'     => "'name' => 'example',",
             ],
             'ExampleMutation' => [
-                'inputName' => 'ExampleMutation',
-                'expectedFilename' => 'GraphQL/Mutations/ExampleMutation.php',
+                'inputName'               => 'ExampleMutation',
+                'expectedFilename'        => 'GraphQL/Mutations/ExampleMutation.php',
                 'expectedClassDefinition' => 'ExampleMutation extends Mutation',
-                'expectedGraphqlName' => "'name' => 'example',",
+                'expectedGraphqlName'     => "'name' => 'example',",
             ],
         ];
     }

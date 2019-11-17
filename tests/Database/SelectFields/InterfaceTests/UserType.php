@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\User;
 class UserType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'User',
+        'name'  => 'User',
         'model' => User::class,
     ];
 
