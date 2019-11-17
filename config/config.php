@@ -154,7 +154,7 @@ return [
 
     /*
      * Options to limit the query complexity and depth. See the doc
-     * @ https://github.com/webonyx/graphql-php#security
+     * @ https://webonyx.github.io/graphql-php/security
      * for details. Disabled by default.
      */
     'security' => [
