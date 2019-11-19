@@ -1,8 +1,8 @@
 <?php
 
-namespace Rebing\GraphQL\Support;
+namespace Rebing\GraphQL\Support\AliasArguments;
 
-use Crissi\ArrayKeyChange\ArrayKeyChange;
+use Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;
@@ -24,7 +24,6 @@ class AliasArguments
         $pathsWithAlias = $this->getAliasesInFields($this->typedArgs, '');
 
         return ArrayKeyChange::in($this->arguments)
-            ->skipMissingPaths()
             ->modify($pathsWithAlias);
     }
 

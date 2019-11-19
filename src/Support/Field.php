@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Validator;
+use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
 
 abstract class Field
 {
