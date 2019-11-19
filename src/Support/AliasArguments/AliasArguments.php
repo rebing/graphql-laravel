@@ -2,7 +2,6 @@
 
 namespace Rebing\GraphQL\Support\AliasArguments;
 
-use Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;

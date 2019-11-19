@@ -14,8 +14,8 @@ use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
-use Validator;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use Validator;
 
 abstract class Field
 {

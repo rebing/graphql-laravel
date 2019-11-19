@@ -1,4 +1,5 @@
 <?php
+
 namespace Rebing\GraphQL\Support\AliasArguments;
 
 class ArrayKeyChange
@@ -25,6 +26,7 @@ class ArrayKeyChange
             $this->currentFullPath = $path;
             $this->array = $this->changeKey($this->array, explode('.', $path), $replaceKey);
         }
+
         return $this->array;
     }
 
@@ -33,6 +35,7 @@ class ArrayKeyChange
         uksort($paths, function (string $a, string $b) {
             return $this->pathLevels($b) <=> $this->pathLevels($a);
         });
+
         return $paths;
     }
 
@@ -50,6 +53,7 @@ class ArrayKeyChange
                 $target[$replaceKey] = $target[$segment];
                 unset($target[$segment]);
             }
+
             return $target;
         }
 
@@ -57,11 +61,12 @@ class ArrayKeyChange
             foreach ($target as &$inner) {
                 $this->changeKey($inner, $segments, $replaceKey);
             }
+
             return $target;
         }
 
         $this->changeKey($target[$segment], $segments, $replaceKey);
-        
+
         return $target;
     }
 }
