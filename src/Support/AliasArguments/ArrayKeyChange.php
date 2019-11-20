@@ -20,6 +20,7 @@ class ArrayKeyChange
 
     public function modify(array $pathKeyMappings): array
     {
+        /** @var array<string, string> $pathKeyMappings */
         $pathKeyMappings = $this->orderPaths($pathKeyMappings);
 
         foreach ($pathKeyMappings as $path => $replaceKey) {
