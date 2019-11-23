@@ -25,7 +25,7 @@ class ExampleInterfaceType extends InterfaceType
                 'type' => Type::nonNull(Type::string()),
             ],
             'exampleRelation' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleRelation')))),
+                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleRelation')))),
                 'query' => function (array $args, HasMany $query): HasMany {
                     return $query->where('id', '>=', 1);
                 },

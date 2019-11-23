@@ -29,7 +29,7 @@ class ValidationAndAuthorizationMutation extends Mutation
     {
         return [
             'arg1' => [
-                'type' => Type::string(),
+                'type'  => Type::string(),
                 'rules' => 'in:value1',
             ],
         ];

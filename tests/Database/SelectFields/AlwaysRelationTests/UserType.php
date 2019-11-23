@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\User;
 class UserType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'User',
+        'name'  => 'User',
         'model' => User::class,
     ];
 
@@ -23,14 +23,14 @@ class UserType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'likes' => [
-                'type' => Type::listOf(GraphQL::Type('Like')),
+                'type'   => Type::listOf(GraphQL::Type('Like')),
                 'always' => 'likable',
             ],
             'name' => [
                 'type' => Type::nonNull(Type::string()),
             ],
             'posts' => [
-                'type' => Type::listOf(GraphQL::type('Post')),
+                'type'   => Type::listOf(GraphQL::type('Post')),
                 'always' => 'comments',
             ],
         ];

@@ -27,12 +27,12 @@ class FormattableDate extends Field
     {
         return [
             'format' => [
-                'type' => Type::string(),
+                'type'         => Type::string(),
                 'defaultValue' => $this->defaultFormat,
-                'description' => \sprintf('Defaults to %s', $this->defaultFormat),
+                'description'  => \sprintf('Defaults to %s', $this->defaultFormat),
             ],
             'relative' => [
-                'type' => Type::boolean(),
+                'type'         => Type::boolean(),
                 'defaultValue' => false,
             ],
         ];
@@ -47,7 +47,7 @@ class FormattableDate extends Field
     {
         $date = $root->{$this->getProperty()};
 
-        if (! $date instanceof Carbon) {
+        if (!$date instanceof Carbon) {
             return null;
         }
 
