@@ -10,6 +10,7 @@ CHANGELOG
 - Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
 ### Changed
 - Switch Code Style handling from StyleCI to PHP-CS Fixer [\#502 / crissi](https://github.com/rebing/graphql-laravel/pull/502)
+- More control over validation through optional user-generated validator by introducing `getValidator()` [\#531 / mailspice](https://github.com/rebing/graphql-laravel/pull/531)
 
 2019-10-23, 3.1.0
 -----------------
