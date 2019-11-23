@@ -23,7 +23,7 @@ class LikableInterfaceType extends InterfaceType
                 'type' => Type::nonNull(Type::id()),
             ],
             'title' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'  => Type::nonNull(Type::string()),
                 'alias' => 'title',
             ],
         ];

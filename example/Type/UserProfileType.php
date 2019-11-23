@@ -12,46 +12,46 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class UserProfileType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'User profile',
+        'name'        => 'User profile',
         'description' => 'A user\'s profile',
-        'model' => UserProfile::class,
+        'model'       => UserProfile::class,
     ];
 
     public function fields(): array
     {
         return [
             'user_id' => [
-                'type' => Type::nonNull(Type::int()),
+                'type'        => Type::nonNull(Type::int()),
                 'description' => 'User id',
             ],
             'first_name' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'        => Type::nonNull(Type::string()),
                 'description' => 'First name of the user',
             ],
             'last_name' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'        => Type::nonNull(Type::string()),
                 'description' => 'Last name of the user',
             ],
             'birth_date' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'Birth date as date',
             ],
             'iban' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'IBAN of the user',
             ],
             'phone' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'Phone number',
             ],
             'height' => [
-                'type' => Type::float(),
+                'type'        => Type::float(),
                 'description' => 'Height (in cm)',
             ],
 
             /* RELATIONS */
             'location' => [
-                'type' => GraphQL::type('location'),
+                'type'        => GraphQL::type('location'),
                 'description' => 'Location of the user',
             ],
         ];

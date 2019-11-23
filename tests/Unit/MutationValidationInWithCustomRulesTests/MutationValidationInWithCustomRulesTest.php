@@ -39,7 +39,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_in_rule_fail' => 'valid_name',
             ],
         ]);
@@ -64,7 +64,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_in_rule_pass' => 'invalid_name',
             ],
         ]);
@@ -89,7 +89,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_in_rule_fail' => 'invalid_name',
             ],
         ]);

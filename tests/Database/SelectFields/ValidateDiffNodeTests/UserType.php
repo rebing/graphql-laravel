@@ -13,7 +13,7 @@ use Rebing\GraphQL\Tests\Support\Models\User;
 class UserType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'User',
+        'name'  => 'User',
         'model' => User::class,
     ];
 
@@ -59,14 +59,14 @@ class UserType extends GraphQLType
                 ],
                 'query' => function (array $args, $query) {
                     $expectedQueryArgs = [
-                        'id' => 2,
-                        'name' => 'tom',
-                        'price' => 1.3,
+                        'id'     => 2,
+                        'name'   => 'tom',
+                        'price'  => 1.3,
                         'status' => false,
-                        'flag' => null,
+                        'flag'   => null,
                         'author' => 'EMPIRE',
-                        'post' => [
-                            'id' => 2,
+                        'post'   => [
+                            'id'   => 2,
                             'body' => 'body2',
                         ],
                         'keywords' => [
