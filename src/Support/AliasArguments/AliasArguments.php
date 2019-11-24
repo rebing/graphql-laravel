@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\InputObjectField;
 
 class AliasArguments
 {
@@ -24,7 +25,10 @@ class AliasArguments
     {
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
-            $arg = (object) $arg;
+
+            $lol = $arg;
+            $arg = $arg instanceof InputObjectField ? $arg : (object) $arg;
+
             $type = $arg->type ?? null;
 
             if (null === $type) {
