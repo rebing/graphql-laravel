@@ -78,7 +78,7 @@ class AliasArguments
      * @param mixed $type
      * @return mixed
      */
-    private function getWrappedType(Type $type)
+    private function getWrappedType(Type $type): Type
     {
         if ($type instanceof WrappingType) {
             $type = $type->getWrappedType(true);
