@@ -1,13 +1,15 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support\AliasArguments;
 
+use GraphQL\Type\Definition\InputObjectField;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;
-use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\InputObjectField;
+use GraphQL\Type\Definition\WrappingType;
 
 class AliasArguments
 {
@@ -47,7 +49,7 @@ class AliasArguments
 
             $type = $this->getWrappedType($type);
 
-            if (!($type instanceof InputObjectType)) {
+            if (! ($type instanceof InputObjectType)) {
                 continue;
             }
 
