@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Rebing\GraphQL\Support\AliasArguments;
 
@@ -6,34 +6,32 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\WrappingType;
+use GraphQL\Type\Definition\Type;
 
 class AliasArguments
 {
     private $typedArgs;
     private $arguments;
 
-    public function __construct(array $typedArgs, array $arguments)
+    public function get(array $typedArgs, array $arguments): array
     {
-        $this->typedArgs = $typedArgs;
-        $this->arguments = $arguments;
+        $pathsWithAlias = $this->getAliasesInFields($typedArgs, '');
+
+        return (new ArrayKeyChange)->modify($arguments, $pathsWithAlias);
     }
 
-    public function get(): array
-    {
-        $pathsWithAlias = $this->getAliasesInFields($this->typedArgs, '');
-
-        return ArrayKeyChange::in($this->arguments)
-            ->modify($pathsWithAlias);
-    }
-
-    public function getAliasesInFields(array $fields, $prefix = '', $parentType = null): array
+    private function getAliasesInFields(array $fields, $prefix = '', $parentType = null): array
     {
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
             $arg = (object) $arg;
             $type = $arg->type ?? null;
 
-            $newPrefix = empty($prefix) ? $name : $prefix.'.'.$name;
+            if (null === $type) {
+                continue;
+            }
+
+            $newPrefix = $prefix ? $prefix.'.'.$name : $name;
 
             if (isset($arg->alias)) {
                 $pathAndAlias[$newPrefix] = $arg->alias;
@@ -45,23 +43,23 @@ class AliasArguments
 
             $type = $this->getWrappedType($type);
 
-            if ($type instanceof InputObjectType) {
-                if ($parentType) {
-                    // in case the field is a self reference we must not do
-                    // a recursive call as it will never stop
-                    if ($type->toString() == $parentType->toString()) {
-                        continue;
-                    }
-                }
-
-                $pathAndAlias = $pathAndAlias + $this->getAliasesInFields($type->getFields(), $newPrefix, $type);
+            if (!($type instanceof InputObjectType)) {
+                continue;
             }
+
+            if ($parentType && $type->toString() === $parentType->toString()) {
+                // in case the field is a self reference we must not do
+                // a recursive call as it will never stop
+                continue;
+            }
+
+            $pathAndAlias = $pathAndAlias + $this->getAliasesInFields($type->getFields(), $newPrefix, $type);
         }
 
         return $pathAndAlias;
     }
 
-    private function isWrappedInList($type): bool
+    private function isWrappedInList(Type $type): bool
     {
         if ($type instanceof NonNull) {
             $type = $type->getWrappedType();
@@ -74,7 +72,7 @@ class AliasArguments
      * @param mixed $type
      * @return mixed
      */
-    private function getWrappedType($type)
+    private function getWrappedType(Type $type)
     {
         if ($type instanceof WrappingType) {
             $type = $type->getWrappedType(true);

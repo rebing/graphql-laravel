@@ -1,39 +1,30 @@
-<?php
+<?php declare(strict_types = 1);
+
 
 namespace Rebing\GraphQL\Support\AliasArguments;
 
 class ArrayKeyChange
 {
-    private $array;
-
-    private $currentFullPath;
-
-    private function __construct(array $array)
+    /**
+     * @param array $array
+     * @param array<string, string> $pathKeyMappings
+     * @return array
+     */
+    public function modify(array $array, array $pathKeyMappings): array
     {
-        $this->array = $array;
-    }
-
-    public static function in(array $array): self
-    {
-        return new self($array);
-    }
-
-    public function modify(array $pathKeyMappings): array
-    {
-        /** @var array<string, string> $pathKeyMappings */
+        
         $pathKeyMappings = $this->orderPaths($pathKeyMappings);
 
         foreach ($pathKeyMappings as $path => $replaceKey) {
-            $this->currentFullPath = $path;
-            $this->array = $this->changeKey($this->array, explode('.', $path), $replaceKey);
+            $this->changeKey($array, explode('.', $path), $replaceKey);
         }
 
-        return $this->array;
+        return $array;
     }
 
     private function orderPaths(array $paths): array
     {
-        uksort($paths, function (string $a, string $b) {
+        uksort($paths, function (string $a, string $b): int {
             return $this->pathLevels($b) <=> $this->pathLevels($a);
         });
 

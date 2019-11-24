@@ -205,7 +205,7 @@ abstract class Field
                 };
             }
 
-            $arguments[1] = (new AliasArguments($this->args(), $arguments[1]))->get();
+            $arguments[1] = $this->getArgs($arguments);
 
             // Authorize
             if (call_user_func_array($authorize, $arguments) != true) {
@@ -214,6 +214,16 @@ abstract class Field
 
             return call_user_func_array($resolver, $arguments);
         };
+    }
+
+    protected function aliasArgs(array $arguments): array
+    {
+        return (new AliasArguments)->get($this->args(), $arguments[1]);
+    }
+
+    protected function getArgs(array $arguments): array
+    {
+        return $this->aliasArgs($arguments);
     }
 
     /**
