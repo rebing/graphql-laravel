@@ -78,7 +78,7 @@ class AliasArgumentsTest extends TestCase
         $response = $response->json();
         $arguments = json_decode($response['data']['updateExample']['test'], true);
 
-        $this->assertEquals($arguments, [
+        $this->assertEquals([
             'test_with_alias_and_null' => null,
             'test_has_default_value' => 'DefaultValue123',
             'a_list' => [
@@ -126,6 +126,6 @@ class AliasArgumentsTest extends TestCase
                     ],
                 ],
             ],
-        ]);
+        ], $arguments);
     }
 }

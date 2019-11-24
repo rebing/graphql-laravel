@@ -12,11 +12,10 @@ class ArrayKeyChange
      */
     public function modify(array $array, array $pathKeyMappings): array
     {
-        
         $pathKeyMappings = $this->orderPaths($pathKeyMappings);
 
         foreach ($pathKeyMappings as $path => $replaceKey) {
-            $this->changeKey($array, explode('.', $path), $replaceKey);
+            $array = $this->changeKey($array, explode('.', $path), $replaceKey);
         }
 
         return $array;
@@ -36,7 +35,7 @@ class ArrayKeyChange
         return substr_count($path, '.');
     }
 
-    private function changeKey(array &$target, array $segments, string $replaceKey): array
+    private function changeKey(array $target, array $segments, string $replaceKey): array
     {
         $segment = array_shift($segments);
 
@@ -50,14 +49,14 @@ class ArrayKeyChange
         }
 
         if ($segment === '*') {
-            foreach ($target as &$inner) {
-                $this->changeKey($inner, $segments, $replaceKey);
+            foreach ($target as $index => $inner) {
+                $target[$index] = $this->changeKey($inner, $segments, $replaceKey);
             }
 
             return $target;
         }
 
-        $this->changeKey($target[$segment], $segments, $replaceKey);
+        $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
 
         return $target;
     }
