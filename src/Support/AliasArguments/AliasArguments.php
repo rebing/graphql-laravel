@@ -26,7 +26,7 @@ class AliasArguments
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
 
-            $lol = $arg;
+            // $arg is either an array DSL notation or an InputObjectField
             $arg = $arg instanceof InputObjectField ? $arg : (object) $arg;
 
             $type = $arg->type ?? null;
