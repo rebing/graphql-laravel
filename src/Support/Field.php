@@ -179,7 +179,7 @@ abstract class Field
 
     protected function getResolver(): ?Closure
     {
-        if (!method_exists($this, 'resolve')) {
+        if (! method_exists($this, 'resolve')) {
             return null;
         }
 
