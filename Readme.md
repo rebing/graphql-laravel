@@ -601,17 +601,18 @@ Note: You can test your file upload implementation using [Altair](https://altair
 ### Resolve method
 The resolve method is used in both queries and mutations and it here the response are created.
 
-The first 3 params to the resolve method is required. The `$root`, `$args`, `$context`.
+The first three parameters to the resolve method are hard-coded:
+1. The `$root` object this resolve method belongs to (can be `null`)
+2. The arguments passed as `array $args` (can be an empty array)
+3. The query specific GraphQL context, can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
 
-Arguments here after will be attempted to be injected. Similar to how controller methods works in Laravel.
+Arguments here after will be attempted to be injected, similar to how controller methods works in Laravel.
 
 You can typehint any class that you will need an instance of.
 
-Classes that might be useful to inject:
-
-`GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
-
-`Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
+There are two hardcoded classes which depend on the local data for the query:
+- `GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
+- `Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
 
 Example:
 ```php
