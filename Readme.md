@@ -101,7 +101,7 @@ To work this around:
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
-    - [Note: these are the docs for 3.*, please see the `v1` branch for the 1.* docs](#note-these-are-the-docs-for-3-please-see-the-v1-branch-for-the-1-docs)
+    - [Note: these are the docs for the current release, please see the `v1` branch for the 1.* docs](#note-these-are-the-docs-for-the-current-release-please-see-the-v1-branch-for-the-1-docs)
   - [Installation](#installation)
       - [Dependencies:](#dependencies)
       - [Installation:](#installation)
@@ -129,6 +129,7 @@ To work this around:
     - [Interfaces](#interfaces)
       - [Sharing Interface fields](#sharing-interface-fields)
     - [Input Object](#input-object)
+    - [Input Alias](#input-alias)
     - [JSON Columns](#json-columns)
       - [Field deprecation](#field-deprecation)
       - [Default Field Resolver](#default-field-resolver)
@@ -1619,6 +1620,99 @@ class TestMutation extends GraphQLType {
 
 }
 ```
+
+### Input Alias
+
+It is possible to alias query and mutation arguments as well as input object fields.
+
+It can be especially useful for mutations saving data to the database.
+
+Here you might want the input names to be different from the column names in the database.
+
+Example, where the database columns are `first_name` and `last_name`:
+
+```php
+<?php
+
+namespace App\GraphQL\InputObject;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
+
+class UserInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'UserInput',
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'firstName' => [
+                'alias' => 'first_name',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+                'rules' => ['max:250']
+            ],
+            'lastName' => [
+                'alias' => 'last_name',
+                'description' => 'A score (0 to 5)',
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
+}
+```
+
+
+```php
+<?php
+
+namespace App\GraphQL\Mutations;
+
+use CLosure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\Mutation;
+
+class UpdateUserMutation extends Mutation
+{
+    protected $attributes = [
+        'name' => 'UpdateUser'
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('user');
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string())
+            ],
+            'input' => [
+                'type' => GraphQL::type('UserInput')
+            ]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        $user = User::find($args['id']);
+        $user->fill($args['input']));
+        $user->save();
+
+        return $user;
+    }
+}
+```
+
 
 ### JSON Columns
 

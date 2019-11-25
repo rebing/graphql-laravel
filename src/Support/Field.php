@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
 use ReflectionMethod;
 
 /**
@@ -205,6 +206,8 @@ abstract class Field
                 }
             }
 
+            $arguments[1] = $this->getArgs($arguments);
+
             // Authorize
             if (true != call_user_func_array($authorize, $arguments)) {
                 throw new AuthorizationError('Unauthorized');
@@ -250,6 +253,16 @@ abstract class Field
         $ctx = $arguments[2] ?? null;
 
         return new SelectFields($arguments[3], $this->type(), $arguments[1], $depth ?? 5, $ctx);
+    }
+
+    protected function aliasArgs(array $arguments): array
+    {
+        return (new AliasArguments())->get($this->args(), $arguments[1]);
+    }
+
+    protected function getArgs(array $arguments): array
+    {
+        return $this->aliasArgs($arguments);
     }
 
     /**
