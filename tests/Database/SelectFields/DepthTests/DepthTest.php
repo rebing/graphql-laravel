@@ -111,20 +111,20 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string) $user->id,
+                        'id'    => (string) $user->id,
                         'posts' => [
                             [
-                                'id' => (string) $post->id,
+                                'id'   => (string) $post->id,
                                 'user' => [
-                                    'id' => (string) $user->id,
+                                    'id'    => (string) $user->id,
                                     'posts' => [
                                         [
-                                            'id' => (string) $post->id,
+                                            'id'   => (string) $post->id,
                                             'user' => [
-                                                'id' => (string) $user->id,
+                                                'id'    => (string) $user->id,
                                                 'posts' => [
                                                     [
-                                                        'id' => (string) $post->id,
+                                                        'id'   => (string) $post->id,
                                                         'user' => [
                                                             'id' => (string) $user->id,
                                                         ],

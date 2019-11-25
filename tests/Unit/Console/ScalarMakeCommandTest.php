@@ -14,10 +14,11 @@ class ScalarMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,16 +41,16 @@ class ScalarMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Scalars/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Scalars/Example.php',
                 'expectedClassDefinition' => 'Example extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'Example\';',
+                'expectedGraphqlName'     => '\$name = \'Example\';',
             ],
             'ExampleScalar' => [
-                'inputName' => 'ExampleScalar',
-                'expectedFilename' => 'GraphQL/Scalars/ExampleScalar.php',
+                'inputName'               => 'ExampleScalar',
+                'expectedFilename'        => 'GraphQL/Scalars/ExampleScalar.php',
                 'expectedClassDefinition' => 'ExampleScalar extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'ExampleScalar\';',
+                'expectedGraphqlName'     => '\$name = \'ExampleScalar\';',
             ],
         ];
     }

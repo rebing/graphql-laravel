@@ -10,6 +10,6 @@ use Rebing\GraphQL\Tests\Support\Models\Comment;
 $factory->define(Comment::class, function (Faker $faker) {
     return [
         'title' => $faker->title,
-        'body' => $faker->sentence,
+        'body'  => $faker->sentence,
     ];
 });

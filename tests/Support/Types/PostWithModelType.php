@@ -11,7 +11,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostWithModelType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'PostWithModel',
+        'name'  => 'PostWithModel',
         'model' => Post::class,
     ];
 
