@@ -18,6 +18,9 @@ use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
 
+/**
+ * @property string $name
+ */
 abstract class Field
 {
     protected $attributes = [];
@@ -277,7 +280,7 @@ abstract class Field
     {
         $attributes = $this->getAttributes();
 
-        return isset($attributes[$key]) ? $attributes[$key] : null;
+        return $attributes[$key] ?? null;
     }
 
     public function __set(string $key, $value): void
