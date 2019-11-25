@@ -18,7 +18,7 @@ class WrapperType extends ObjectType
     public function __construct(string $typeName, string $customTypeName)
     {
         $config = [
-            'name' => $customTypeName,
+            'name'   => $customTypeName,
             'fields' => $this->getMessagesFields($typeName),
         ];
 
@@ -41,7 +41,7 @@ class WrapperType extends ObjectType
     {
         return [
             'data' => [
-                'type' => GraphQL::type($typeName),
+                'type'    => GraphQL::type($typeName),
                 'resolve' => function ($data) {
                     $model = array_key_exists('data', $data) ?
                         $data['data'] :
@@ -51,9 +51,9 @@ class WrapperType extends ObjectType
                 },
             ],
             'messages' => [
-                'type' => GraphQLType::listOf(GraphQL::type('SimpleMessageType')),
+                'type'        => GraphQLType::listOf(GraphQL::type('SimpleMessageType')),
                 'description' => 'List of messages',
-                'resolve' => function ($data): Collection {
+                'resolve'     => function ($data): Collection {
                     return $data['messages'];
                 },
             ],

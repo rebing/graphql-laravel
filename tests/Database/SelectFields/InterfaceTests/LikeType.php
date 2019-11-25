@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\Like;
 class LikeType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Like',
+        'name'  => 'Like',
         'model' => Like::class,
     ];
 

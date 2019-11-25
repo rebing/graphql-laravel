@@ -59,7 +59,7 @@ SQL
             ]);
         factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
@@ -89,8 +89,8 @@ SQL
             'data' => [
                 'exampleInterfaceQuery' => [
                     [
-                        'id' => (string) $post->id,
-                        'title' => 'Title of the post',
+                        'id'              => (string) $post->id,
+                        'title'           => 'Title of the post',
                         'exampleRelation' => [
                             [
                                 'title' => 'Title of the comment',
@@ -112,15 +112,15 @@ SQL
             ]);
         factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         $user = factory(User::class)->create();
         Like::create([
-            'likable_id' => $post->id,
+            'likable_id'   => $post->id,
             'likable_type' => Post::class,
-            'user_id' => $user->id,
+            'user_id'      => $user->id,
         ]);
 
         $graphql = <<<'GRAPHQL'
@@ -152,11 +152,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string) $user->id,
+                        'id'    => (string) $user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $post->id,
+                                    'id'    => (string) $post->id,
                                     'title' => $post->title,
                                 ],
                             ],

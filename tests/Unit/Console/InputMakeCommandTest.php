@@ -14,10 +14,11 @@ class InputMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,28 +41,28 @@ class InputMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Inputs/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Inputs/Example.php',
                 'expectedClassDefinition' => 'Example extends InputType',
-                'expectedGraphqlName' => "'name' => 'Example',",
+                'expectedGraphqlName'     => "'name' => 'Example',",
             ],
             'ExampleInput' => [
-                'inputName' => 'ExampleInput',
-                'expectedFilename' => 'GraphQL/Inputs/ExampleInput.php',
+                'inputName'               => 'ExampleInput',
+                'expectedFilename'        => 'GraphQL/Inputs/ExampleInput.php',
                 'expectedClassDefinition' => 'ExampleInput extends InputType',
-                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+                'expectedGraphqlName'     => "'name' => 'ExampleInput',",
             ],
             'ExampleInputObject' => [
-                'inputName' => 'ExampleInputObject',
-                'expectedFilename' => 'GraphQL/Inputs/ExampleInputObject.php',
+                'inputName'               => 'ExampleInputObject',
+                'expectedFilename'        => 'GraphQL/Inputs/ExampleInputObject.php',
                 'expectedClassDefinition' => 'ExampleInputObject extends InputType',
-                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+                'expectedGraphqlName'     => "'name' => 'ExampleInput',",
             ],
             'ExampleInputObjectType' => [
-                'inputName' => 'ExampleInputObjectType',
-                'expectedFilename' => 'GraphQL/Inputs/ExampleInputObjectType.php',
+                'inputName'               => 'ExampleInputObjectType',
+                'expectedFilename'        => 'GraphQL/Inputs/ExampleInputObjectType.php',
                 'expectedClassDefinition' => 'ExampleInputObjectType extends InputType',
-                'expectedGraphqlName' => "'name' => 'ExampleInput',",
+                'expectedGraphqlName'     => "'name' => 'ExampleInput',",
             ],
         ];
     }

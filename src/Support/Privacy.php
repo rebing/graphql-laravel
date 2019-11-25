@@ -12,9 +12,10 @@ abstract class Privacy
     }
 
     /**
-     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @param array $queryArgs Arguments given with the query/mutation
+     *
      * @return bool Return `true` to allow access to the field in question,
-     *   `false otherwise
+     *              `false otherwise
      */
     abstract public function validate(array $queryArgs): bool;
 }

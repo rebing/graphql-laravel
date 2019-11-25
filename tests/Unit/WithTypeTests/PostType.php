@@ -8,7 +8,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'PostType',
+        'name'        => 'PostType',
         'description' => 'Post type',
     ];
 
@@ -16,11 +16,11 @@ class PostType extends GraphQLType
     {
         return [
             'post_id' => [
-                'type' => Type::nonNull(Type::int()),
+                'type'        => Type::nonNull(Type::int()),
                 'description' => 'Simple Message',
             ],
             'title' => [
-                'type' => Type::string(),
+                'type'         => Type::string(),
                 'defaultValue' => 'success',
             ],
         ];

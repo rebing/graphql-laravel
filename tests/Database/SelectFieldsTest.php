@@ -59,7 +59,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'post' => [
-                    'id' => "$post->id",
+                    'id'    => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
@@ -187,7 +187,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsAndModel' => [
-                    'id' => "$post->id",
+                    'id'    => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
@@ -221,7 +221,7 @@ GRAQPHQL;
         $expectedResult = [
             'data' => [
                 'postNonNullWithSelectFieldsAndModel' => [
-                    'id' => "$post->id",
+                    'id'    => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
@@ -258,7 +258,7 @@ GRAQPHQL;
             'data' => [
                     'postsListOfWithSelectFieldsAndModel' => [
                                 [
-                                    'id' => "$post->id",
+                                    'id'    => "$post->id",
                                     'title' => 'Title of the post',
                                 ],
                         ],
@@ -294,7 +294,7 @@ GRAQPHQL;
             'data' => [
                 'postsNonNullAndListOfWithSelectFieldsAndModel' => [
                     [
-                        'id' => "$post->id",
+                        'id'    => "$post->id",
                         'title' => 'Title of the post',
                     ],
                 ],
@@ -330,7 +330,7 @@ GRAQPHQL;
             'data' => [
                 'postsNonNullAndListAndNonNullOfWithSelectFieldsAndModel' => [
                     [
-                        'id' => "$post->id",
+                        'id'    => "$post->id",
                         'title' => 'Title of the post',
                     ],
                 ],
@@ -372,7 +372,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsAndModelAndAlias' => [
-                    'id' => '1',
+                    'id'          => '1',
                     'description' => 'Description of the post',
                 ],
             ],
@@ -392,13 +392,13 @@ SQL
 
         factory(Comment::class)
             ->create([
-                'post_id' => $post->id,
+                'post_id'    => $post->id,
                 'created_at' => new Carbon('2000-01-01'),
             ]);
 
         factory(Comment::class)
             ->create([
-                'post_id' => $post->id,
+                'post_id'    => $post->id,
                 'created_at' => new Carbon('2018-05-05'),
             ]);
 
@@ -429,8 +429,8 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsAndModelAndAliasCallback' => [
-                    'id' => '1',
-                    'description' => 'Description of the post',
+                    'id'                => '1',
+                    'description'       => 'Description of the post',
                     'commentsLastMonth' => 1,
                 ],
             ],
@@ -471,7 +471,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsAndModelAndAliasAndCustomResolver' => [
-                    'id' => '1',
+                    'id'          => '1',
                     'description' => 'Custom resolver',
                 ],
             ],
@@ -510,7 +510,7 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldsNoModel' => [
-                    'id' => "$post->id",
+                    'id'    => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],

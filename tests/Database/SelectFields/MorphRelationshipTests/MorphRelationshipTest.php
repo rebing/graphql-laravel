@@ -70,14 +70,14 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => $user->id,
+                        'id'    => $user->id,
                         'posts' => [
                             [
-                                'id' => $post->id,
+                                'id'    => $post->id,
                                 'title' => $post->title,
                                 'likes' => [
                                     [
-                                        'id' => $like->id,
+                                        'id'   => $like->id,
                                         'user' => [
                                             'id' => $otherUser->id,
                                         ],
@@ -87,7 +87,7 @@ SQL
                         ],
                     ],
                     [
-                        'id' => $otherUser->id,
+                        'id'    => $otherUser->id,
                         'posts' => [],
                     ],
                 ],

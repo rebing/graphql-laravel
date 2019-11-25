@@ -63,7 +63,7 @@ SQL
             'title' => 'post 1',
         ]);
         factory(Comment::class)->create([
-            'title' => 'post 1 comment 1',
+            'title'   => 'post 1 comment 1',
             'post_id' => $post->id,
         ]);
         /** @var Post $post */
@@ -71,7 +71,7 @@ SQL
             'title' => 'post 2',
         ]);
         factory(Comment::class)->create([
-            'title' => 'post 2 comment 1',
+            'title'   => 'post 2 comment 1',
             'post_id' => $post->id,
         ]);
 
@@ -110,9 +110,9 @@ SQL
             'data' => [
                 'primaryKeyPaginationQuery' => [
                     'current_page' => 1,
-                    'data' => [
+                    'data'         => [
                         [
-                            'title' => 'post 1',
+                            'title'    => 'post 1',
                             'comments' => [
                                 [
                                     'title' => 'post 1 comment 1',
@@ -120,12 +120,12 @@ SQL
                             ],
                         ],
                     ],
-                    'from' => 1,
+                    'from'           => 1,
                     'has_more_pages' => true,
-                    'last_page' => 2,
-                    'per_page' => 1,
-                    'to' => 1,
-                    'total' => 2,
+                    'last_page'      => 2,
+                    'per_page'       => 1,
+                    'to'             => 1,
+                    'total'          => 2,
                 ],
             ],
         ];

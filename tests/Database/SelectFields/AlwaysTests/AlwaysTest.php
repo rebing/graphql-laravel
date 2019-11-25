@@ -18,14 +18,14 @@ class AlwaysTest extends TestCaseDatabase
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -54,8 +54,8 @@ SQL
             'data' => [
                 'alwaysQuery' => [
                     [
-                        'body' => 'post body',
-                        'title' => 'post title',
+                        'body'                         => 'post body',
+                        'title'                        => 'post title',
                         'comments_always_single_field' => [
                             [
                                 'id' => (string) $comment->id,
@@ -73,14 +73,14 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -109,8 +109,8 @@ SQL
             'data' => [
                 'alwaysQuery' => [
                     [
-                        'body' => 'post body',
-                        'title' => 'post title',
+                        'body'                                      => 'post body',
+                        'title'                                     => 'post title',
                         'comments_always_multiple_fields_in_string' => [
                             [
                                 'id' => (string) $comment->id,
@@ -128,14 +128,14 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -164,8 +164,8 @@ SQL
             'data' => [
                 'alwaysQuery' => [
                     [
-                        'body' => 'post body',
-                        'title' => 'post title',
+                        'body'                                     => 'post body',
+                        'title'                                    => 'post title',
                         'comments_always_multiple_fields_in_array' => [
                             [
                                 'id' => (string) $comment->id,
@@ -183,14 +183,14 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -219,8 +219,8 @@ SQL
             'data' => [
                 'alwaysQuery' => [
                     [
-                        'body' => 'post body',
-                        'title' => 'post title',
+                        'body'                             => 'post body',
+                        'title'                            => 'post title',
                         'comments_always_same_field_twice' => [
                             [
                                 'id' => (string) $comment->id,

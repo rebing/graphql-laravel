@@ -61,15 +61,15 @@ class UsersQuery extends Query
         /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $expectedQueryArgs = [
-            'id' => 1,
-            'name' => 'john',
-            'price' => 1.2,
+            'id'     => 1,
+            'name'   => 'john',
+            'price'  => 1.2,
             'status' => true,
-            'flag' => null,
+            'flag'   => null,
             'author' => 'NEWHOPE',
-            'post' => [
+            'post'   => [
                 'body' => 'body',
-                'id' => 1,
+                'id'   => 1,
             ],
             'keywords' => [
                 'key1',
