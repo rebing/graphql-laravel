@@ -22,8 +22,8 @@ class ExampleValidationField extends Field
     {
         return [
             'index' => [
-                'name'  => 'index',
-                'type'  => Type::int(),
+                'name' => 'index',
+                'type' => Type::int(),
                 'rules' => ['required'],
             ],
         ];

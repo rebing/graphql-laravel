@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use RuntimeException;
 use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\UnionType;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\WrappingType;
-use Illuminate\Database\Query\Expression;
 use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use GraphQL\Type\Definition\UnionType;
+use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Query\Expression;
+use RuntimeException;
 
 class SelectFields
 {
@@ -27,7 +27,7 @@ class SelectFields
     /** @var array */
     private $relations = [];
 
-    const FOREIGN_KEY = 'foreignKey';
+    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
      * @param  ResolveInfo  $info
@@ -102,16 +102,16 @@ class SelectFields
 
         if ($topLevel) {
             return [$select, $with];
-        } else {
-            return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx) {
-                if ($customQuery) {
-                    $query = $customQuery($requestedFields['args'], $query, $ctx);
-                }
-
-                $query->select($select);
-                $query->with($with);
-            };
         }
+
+        return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx) {
+            if ($customQuery) {
+                $query = $customQuery($requestedFields['args'], $query, $ctx);
+            }
+
+            $query->select($select);
+            $query->with($with);
+        };
     }
 
     /**
@@ -142,8 +142,9 @@ class SelectFields
             }
 
             // Always select foreign key
-            if ($field === self::FOREIGN_KEY) {
+            if ($field === self::ALWAYS_RELATION_KEY) {
                 self::addFieldToSelect($key, $select, $parentTable, false);
+
                 continue;
             }
 
@@ -212,7 +213,11 @@ class SelectFields
                             $segments = explode('.', $foreignKey);
                             $foreignKey = end($segments);
                             if (! array_key_exists($foreignKey, $field)) {
-                                $field['fields'][$foreignKey] = self::FOREIGN_KEY;
+                                $field['fields'][$foreignKey] = self::ALWAYS_RELATION_KEY;
+                            }
+
+                            if (is_a($relation, MorphMany::class) || is_a($relation, MorphOne::class)) {
+                                $field['fields'][$relation->getMorphType()] = self::ALWAYS_RELATION_KEY;
                             }
                         }
 
@@ -283,6 +288,7 @@ class SelectFields
                     if (false === call_user_func($privacyClass, $queryArgs)) {
                         $selectable = null;
                     }
+
                     break;
 
                 // If Privacy class given
@@ -291,11 +297,13 @@ class SelectFields
                     if (false === call_user_func([$instance, 'fire'], $queryArgs)) {
                         $selectable = null;
                     }
+
                     break;
 
                 default:
                     throw new RuntimeException(
-                        sprintf("Unsupported use of 'privacy' configuration on field '%s'.",
+                        sprintf(
+                            "Unsupported use of 'privacy' configuration on field '%s'.",
                             $fieldObject->name
                         )
                     );

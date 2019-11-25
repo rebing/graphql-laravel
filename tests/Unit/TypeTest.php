@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Tests\TestCase;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
+use Rebing\GraphQL\Tests\TestCase;
 
 class TypeTest extends TestCase
 {
@@ -22,7 +22,7 @@ class TypeTest extends TestCase
 
         $this->assertArrayHasKey('test', $fields);
         $this->assertEquals($fields['test'], [
-            'type'        => Type::string(),
+            'type' => Type::string(),
             'description' => 'A test field',
         ]);
     }

@@ -6,11 +6,6 @@ namespace Rebing\GraphQL\Support\AliasArguments;
 
 class ArrayKeyChange
 {
-    /**
-     * @param array $array
-     * @param array<string, string> $pathKeyMappings
-     * @return array
-     */
     public function modify(array $array, array $pathKeyMappings): array
     {
         $pathKeyMappings = $this->orderPaths($pathKeyMappings);
@@ -22,6 +17,9 @@ class ArrayKeyChange
         return $array;
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function orderPaths(array $paths): array
     {
         uksort($paths, function (string $a, string $b): int {
@@ -49,7 +47,7 @@ class ArrayKeyChange
             return $target;
         }
 
-        if ($segment === '*') {
+        if ('*' === $segment) {
             foreach ($target as $index => $inner) {
                 $target[$index] = $this->changeKey($inner, $segments, $replaceKey);
             }

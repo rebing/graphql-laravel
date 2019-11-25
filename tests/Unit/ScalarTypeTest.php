@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Support\Queries\ReturnScalarQuery;
 use Rebing\GraphQL\Tests\Support\Types\MyCustomScalarString;
+use Rebing\GraphQL\Tests\TestCase;
 
 class ScalarTypeTest extends TestCase
 {

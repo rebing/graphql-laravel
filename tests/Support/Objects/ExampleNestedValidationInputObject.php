@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
+use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InputType;
-use GraphQL\Type\Definition\ListOfType;
 
 class ExampleNestedValidationInputObject extends InputType
 {
@@ -23,8 +23,8 @@ class ExampleNestedValidationInputObject extends InputType
     {
         return [
             'email' => [
-                'name'  => 'email',
-                'type'  => Type::string(),
+                'name' => 'email',
+                'type' => Type::string(),
                 'rules' => ['email'],
             ],
         ];

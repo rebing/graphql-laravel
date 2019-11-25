@@ -11,6 +11,7 @@ env:
     - INSTALL_LARAVEL=0
     - INSTALL_LUMEN=0
     - STATIC_ANALYSER=0
+    - LINT=0
 
 matrix:
   include:
@@ -29,9 +30,9 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.5.*'
     - php: '7.3'
-      env: LARAVEL='5.8.*' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
+      env: LARAVEL='5.8.*'
     - php: '7.3'
-      env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1
+      env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1 LINT=1
     - php: '7.3'
       env: LARAVEL='dev-master'
     - php: '7.4snapshot'
@@ -52,6 +53,10 @@ before_script:
   - phpenv config-rm xdebug.ini || true
 
 install:
+  - |
+    # Due to version incompatiblity with older Laravels we test, we remove it
+    # when not linting (we only need to perform linting at one job)
+    if [[ $LINT = 0 ]]; then composer remove --dev matt-allan/laravel-code-style --no-interaction --no-update; fi
   - composer require "illuminate/support:${LARAVEL}" --no-interaction --no-update
   - |
     # 6.0 requires lifting other requirements too
@@ -68,6 +73,7 @@ install:
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
+  - if [[ $LINT = 1 ]]; then composer lint; fi
   - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - vendor/bin/phpunit --colors=always --verbose
   - TESTS_ENABLE_LAZYLOAD_TYPES=1 vendor/bin/phpunit --colors=always --verbose

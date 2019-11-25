@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use Illuminate\Http\UploadedFile;
-use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Support\UploadType;
+use Rebing\GraphQL\Tests\TestCase;
 
 class UploadTest extends TestCase
 {

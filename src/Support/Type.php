@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use Illuminate\Support\Str;
 use GraphQL\Type\Definition\EnumType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
+use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 /**
@@ -39,7 +39,7 @@ abstract class Type implements TypeConvertible
     }
 
     /**
-     * @return array<string,array|string|FieldDefinition>
+     * @return array<string,array|string|FieldDefinition|Field>
      */
     public function fields(): array
     {
@@ -87,6 +87,9 @@ abstract class Type implements TypeConvertible
         foreach ($fields as $name => $field) {
             if (is_string($field)) {
                 $field = app($field);
+                $field->name = $name;
+                $allFields[$name] = $field->toArray();
+            } elseif ($field instanceof Field) {
                 $field->name = $name;
                 $allFields[$name] = $field->toArray();
             } elseif ($field instanceof FieldDefinition) {
@@ -159,7 +162,7 @@ abstract class Type implements TypeConvertible
     {
         $attributes = $this->getAttributes();
 
-        return isset($attributes[$key]) ? $attributes[$key] : null;
+        return $attributes[$key] ?? null;
     }
 
     public function __set(string $key, $value): void

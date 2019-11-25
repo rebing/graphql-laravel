@@ -11,11 +11,12 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
-use Validator;
 
 abstract class Field
 {
@@ -165,9 +166,17 @@ abstract class Field
         return $rules;
     }
 
+    public function getValidator(array $args, array $rules): ValidatorContract
+    {
+        // allow our error messages to be customised
+        $messages = $this->validationErrorMessages($args);
+
+        return Validator::make($args, $rules, $messages);
+    }
+
     protected function getResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolve')) {
+        if (!method_exists($this, 'resolve')) {
             return null;
         }
 
@@ -186,11 +195,7 @@ abstract class Field
             $args = $arguments[1];
             $rules = call_user_func_array([$this, 'getRules'], [$args]);
             if (count($rules)) {
-
-                // allow our error messages to be customised
-                $messages = $this->validationErrorMessages($args);
-
-                $validator = Validator::make($args, $rules, $messages);
+                $validator = $this->getValidator($args, $rules);
                 if ($validator->fails()) {
                     throw new ValidationError('validation', $validator);
                 }
@@ -218,7 +223,7 @@ abstract class Field
 
     protected function aliasArgs(array $arguments): array
     {
-        return (new AliasArguments)->get($this->args(), $arguments[1]);
+        return (new AliasArguments())->get($this->args(), $arguments[1]);
     }
 
     protected function getArgs(array $arguments): array

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
-use Rebing\GraphQL\Tests\TestCase;
-use GraphQL\Validator\Rules\QueryDepth;
 use GraphQL\Validator\DocumentValidator;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Validator\Rules\QueryComplexity;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
-use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
+use GraphQL\Validator\Rules\QueryDepth;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
+use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
@@ -25,7 +25,7 @@ class ConfigTest extends TestCase
             'prefix' => 'graphql_test',
 
             'routes' => [
-                'query'    => 'query/{graphql_schema?}',
+                'query' => 'query/{graphql_schema?}',
                 'mutation' => 'mutation/{graphql_schema?}',
             ],
 
@@ -68,7 +68,7 @@ class ConfigTest extends TestCase
 
             'security' => [
                 'query_max_complexity' => 1000,
-                'query_max_depth'      => 10,
+                'query_max_depth' => 10,
             ],
 
         ]);
@@ -125,7 +125,7 @@ class ConfigTest extends TestCase
     public function testVariablesInputName(): void
     {
         $response = $this->call('GET', '/graphql_test/query/default', [
-            'query'  => $this->queries['examplesWithVariables'],
+            'query' => $this->queries['examplesWithVariables'],
             'params' => [
                 'index' => 0,
             ],

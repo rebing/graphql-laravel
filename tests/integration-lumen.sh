@@ -36,7 +36,7 @@ echo "Add ExampleMultiLevelQuery in a multi path level schema to the config"
 sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Queries\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php
 
 echo "Use local copy of GraphiQL view"
-sed -e "s|'view'       => 'graphql::graphiql'|'view'       => 'vendor/graphql/graphiql'|" -i config/graphql.php
+sed -e "s|'view' => 'graphql::graphiql'|'view' => 'vendor/graphql/graphiql'|" -i config/graphql.php
 
 echo "Removing non-existent csrf_token() call"
 sed -e "s|.*csrf_token.*||" -i resources/views/vendor/graphql/graphiql.php

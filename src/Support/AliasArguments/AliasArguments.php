@@ -20,14 +20,13 @@ class AliasArguments
     {
         $pathsWithAlias = $this->getAliasesInFields($typedArgs, '');
 
-        return (new ArrayKeyChange)->modify($arguments, $pathsWithAlias);
+        return (new ArrayKeyChange())->modify($arguments, $pathsWithAlias);
     }
 
     private function getAliasesInFields(array $fields, $prefix = '', $parentType = null): array
     {
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
-
             // $arg is either an array DSL notation or an InputObjectField
             $arg = $arg instanceof InputObjectField ? $arg : (object) $arg;
 
@@ -74,10 +73,6 @@ class AliasArguments
         return $type instanceof ListOfType;
     }
 
-    /**
-     * @param mixed $type
-     * @return mixed
-     */
     private function getWrappedType(Type $type): Type
     {
         if ($type instanceof WrappingType) {

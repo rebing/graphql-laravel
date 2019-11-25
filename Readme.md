@@ -3,11 +3,10 @@
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
 [![codecov](https://codecov.io/gh/rebing/graphql-laravel/branch/master/graph/badge.svg)](https://codecov.io/gh/rebing/graphql-laravel)
 [![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/rebing/graphql-laravel)
-[![Style CI](https://styleci.io/repos/68595316/shield)](https://styleci.io/repos/68595316)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
 
-### Note: these are the docs for 2.*, [please see the `v1` branch for the 1.* docs](https://github.com/rebing/graphql-laravel/tree/v1#laravel-graphql)
+### Note: these are the docs for the current release, [please see the `v1` branch for the 1.* docs](https://github.com/rebing/graphql-laravel/tree/v1#laravel-graphql)
 
 Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
@@ -101,31 +100,45 @@ To work this around:
 
 ## Usage
 
-- [Schemas](#schemas)
-- [Creating a query](#creating-a-query)
-- [Creating a mutation](#creating-a-mutation)
-- [Adding validation to mutation](#adding-validation-to-mutation)
-- [File uploads](#file-uploads)
-- [Authorization](#authorization)
-- [Privacy](#privacy)
-- [Query variables](#query-variables)
-- [Custom field](#custom-field)
-- [Eager loading relationships](#eager-loading-relationships)
-- [Type relationship query](#type-relationship-query)
-- [Pagination](#pagination)
-- [Batching](#batching)
-- [Scalar Types](#scalar-types)
-- [Enums](#enums)
-- [Unions](#unions)
-- [Interfaces](#interfaces)
-- [Input Object](#input-object)
-- [JSON Columns](#json-columns)
-- [Field deprecation](#field-deprecation)
-- [Default Field Resolver](#default-field-resolver)
-- [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
-- [Migrating from Folklore](#migrating-from-folklore)
-- [Performance considerations](#performance-considerations)
-- [Wrap Types](#wrap-types)
+- [Laravel GraphQL](#laravel-graphql)
+    - [Note: these are the docs for the current release, please see the `v1` branch for the 1.* docs](#note-these-are-the-docs-for-the-current-release-please-see-the-v1-branch-for-the-1-docs)
+  - [Installation](#installation)
+      - [Dependencies:](#dependencies)
+      - [Installation:](#installation)
+        - [Laravel 5.5+](#laravel-55)
+        - [Lumen (experimental!)](#lumen-experimental)
+  - [Usage](#usage)
+    - [Schemas](#schemas)
+    - [Creating a query](#creating-a-query)
+    - [Creating a mutation](#creating-a-mutation)
+      - [Adding validation to a mutation](#adding-validation-to-a-mutation)
+      - [File uploads](#file-uploads)
+    - [Authorization](#authorization)
+    - [Privacy](#privacy)
+    - [Query Variables](#query-variables)
+    - [Custom field](#custom-field)
+      - [Even better reusable fields](#even-better-reusable-fields)
+    - [Eager loading relationships](#eager-loading-relationships)
+    - [Type relationship query](#type-relationship-query)
+    - [Pagination](#pagination)
+    - [Batching](#batching)
+    - [Scalar Types](#scalar-types)
+    - [Enums](#enums)
+    - [Unions](#unions)
+    - [Interfaces](#interfaces)
+      - [Sharing Interface fields](#sharing-interface-fields)
+    - [Input Object](#input-object)
+    - [Input Alias](#input-alias)
+    - [JSON Columns](#json-columns)
+      - [Field deprecation](#field-deprecation)
+      - [Default Field Resolver](#default-field-resolver)
+  - [Guides](#guides)
+    - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
+    - [Migrating from Folklore](#migrating-from-folklore)
+  - [Performance considerations](#performance-considerations)
+    - [Lazy loading of types](#lazy-loading-of-types)
+      - [Example of aliasing **not** supported by lazy loading](#example-of-aliasing-not-supported-by-lazy-loading)
+    - [Wrap Types](#wrap-types)
 
 ### Schemas
 
@@ -810,7 +823,120 @@ class UserType extends GraphQLType
         ];
     }
 }
+```
 
+#### Even better reusable fields
+
+Instead of using the class name, you can also supply an actual instance of the `Field`. This allows you to not only re-use the field, but will also open up the possibility to re-use the resolver.
+
+Let's imagine we want a field type that can output dates formatted in all sorts of ways.
+
+```php
+<?php
+
+namespace App\GraphQL\Fields;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Field;
+
+class FormattableDate extends Field
+{        
+    protected $attributes = [
+        'description' => 'A field that can output a date in all sorts of ways.',
+    ];
+
+    public function __construct(array $settings = [])
+    {
+        $this->attributes = \array_merge($this->attributes, $settings);
+    }
+
+    public function type(): Type
+    {
+        return Type::string();
+    }
+
+    public function args(): array
+    {
+        return [
+            'format' => [
+                'type' => Type::string(),
+                'defaultValue' => 'Y-m-d H:i',
+                'description' => 'Defaults to Y-m-d H:i',
+            ],
+            'relative' => [
+                'type' => Type::boolean(),
+                'defaultValue' => false,
+            ],
+        ];
+    }
+
+    protected function resolve($root, $args): ?string
+    {
+        $date = $root->{$this->getProperty()};
+        
+        if (!$date instanceof Carbon) {
+            return null;
+        }
+
+        if ($args['relative']) {
+            return $date->diffForHumans();
+        }
+        
+        return $date->format($args['format']);
+    }
+
+    protected function getProperty(): string
+    {
+        return $this->attributes['alias'] ?? $this->attributes['name'];
+    }
+}
+```
+
+You can use this field in your type as follows:
+
+```php
+<?php
+
+namespace App\GraphQL\Types;
+
+use App\GraphQL\Fields\FormattableDate;
+use App\User;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class UserType extends GraphQLType
+{
+    protected $attributes = [
+        'name'          => 'User',
+        'description'   => 'A user',
+        'model'         => User::class,
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The id of the user'
+            ],
+            'email' => [
+                'type' => Type::string(),
+                'description' => 'The email of user'
+            ],
+
+            // You can simply supply an instance of the class
+            'dateOfBirth' => new FormattableDate,
+
+            // Because the constructor of `FormattableDate` accepts our the array of parameters,
+            // we can override them very easily.
+            // Imagine we want our field to be called `createdAt`, but our database column 
+            // is called `created_at`:
+            'createdAt' => new FormattableDate([
+                'alias' => 'created_at',
+            ])
+        ];
+    }
+}
 ```
 
 ### Eager loading relationships
@@ -1430,6 +1556,99 @@ class TestMutation extends GraphQLType {
 
 }
 ```
+
+### Input Alias
+
+It is possible to alias query and mutation arguments as well as input object fields.
+
+It can be especially useful for mutations saving data to the database.
+
+Here you might want the input names to be different from the column names in the database.
+
+Example, where the database columns are `first_name` and `last_name`:
+
+```php
+<?php
+
+namespace App\GraphQL\InputObject;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
+
+class UserInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'UserInput',
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'firstName' => [
+                'alias' => 'first_name',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+                'rules' => ['max:250']
+            ],
+            'lastName' => [
+                'alias' => 'last_name',
+                'description' => 'A score (0 to 5)',
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
+}
+```
+
+
+```php
+<?php
+
+namespace App\GraphQL\Mutations;
+
+use CLosure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\Mutation;
+
+class UpdateUserMutation extends Mutation
+{
+    protected $attributes = [
+        'name' => 'UpdateUser'
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('user');
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string())
+            ],
+            'input' => [
+                'type' => GraphQL::type('UserInput')
+            ]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        $user = User::find($args['id']);
+        $user->fill($args['input']));
+        $user->save();
+
+        return $user;
+    }
+}
+```
+
 
 ### JSON Columns
 

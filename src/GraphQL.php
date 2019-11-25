@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
-use Exception;
 use Error as PhpError;
+use Exception;
 use GraphQL\Error\Debug;
 use GraphQL\Error\Error;
-use GraphQL\Type\Schema;
 use GraphQL\Error\FormattedError;
-use GraphQL\Type\Definition\Type;
-use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Definition\ObjectType;
-use Rebing\GraphQL\Error\ValidationError;
-use Rebing\GraphQL\Exception\TypeNotFound;
-use Rebing\GraphQL\Support\PaginationType;
-use Rebing\GraphQL\Error\AuthorizationError;
-use Rebing\GraphQL\Exception\SchemaNotFound;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Exception\SchemaNotFound;
+use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\PaginationType;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class GraphQL
@@ -80,10 +80,10 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query'         => $query,
-            'mutation'      => ! empty($schemaMutation) ? $mutation : null,
-            'subscription'  => ! empty($schemaSubscription) ? $subscription : null,
-            'types'         => function () use ($schema) {
+            'query' => $query,
+            'mutation' => ! empty($schemaMutation) ? $mutation : null,
+            'subscription' => ! empty($schemaSubscription) ? $subscription : null,
+            'types' => function () use ($schema) {
                 $types = [];
                 $schemaTypes = $schema['types'] ?? [];
 
@@ -102,7 +102,7 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader'    => config('graphql.lazyload_types', false)
+            'typeLoader' => config('graphql.lazyload_types', false)
                 ? function ($name) {
                     return $this->type($name);
                 }
