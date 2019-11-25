@@ -14,10 +14,11 @@ class QueryMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,16 +41,16 @@ class QueryMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Queries/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Queries/Example.php',
                 'expectedClassDefinition' => 'Example extends Query',
-                'expectedGraphqlName' => "'name' => 'example',",
+                'expectedGraphqlName'     => "'name' => 'example',",
             ],
             'ExampleQuery' => [
-                'inputName' => 'ExampleQuery',
-                'expectedFilename' => 'GraphQL/Queries/ExampleQuery.php',
+                'inputName'               => 'ExampleQuery',
+                'expectedFilename'        => 'GraphQL/Queries/ExampleQuery.php',
                 'expectedClassDefinition' => 'ExampleQuery extends Query',
-                'expectedGraphqlName' => "'name' => 'example',",
+                'expectedGraphqlName'     => "'name' => 'example',",
             ],
         ];
     }

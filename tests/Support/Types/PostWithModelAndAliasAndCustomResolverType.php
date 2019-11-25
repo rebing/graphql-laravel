@@ -11,7 +11,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostWithModelAndAliasAndCustomResolverType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'PostWithModelAndAliasAndCustomResolver',
+        'name'  => 'PostWithModelAndAliasAndCustomResolver',
         'model' => Post::class,
     ];
 
@@ -22,8 +22,8 @@ class PostWithModelAndAliasAndCustomResolverType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'description' => [
-                'type' => Type::nonNull(Type::string()),
-                'alias' => 'title',
+                'type'    => Type::nonNull(Type::string()),
+                'alias'   => 'title',
                 'resolve' => function (): string {
                     return 'Custom resolver';
                 },

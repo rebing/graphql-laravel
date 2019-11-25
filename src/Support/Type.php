@@ -20,14 +20,18 @@ abstract class Type implements TypeConvertible
     protected $attributes = [];
     /**
      * Set to `true` in your type when it should reflect an InputObject.
+     *
      * @var bool
+     *
      * @deprecated Use InputType instead
      * @see InputType
      */
     protected $inputObject = false;
     /**
      * Set to `true` in your type when it should reflect an Enum.
+     *
      * @var bool
+     *
      * @deprecated Use EnumType instead
      * @see EnumType
      */
