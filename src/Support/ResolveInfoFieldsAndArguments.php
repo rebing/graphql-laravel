@@ -130,11 +130,11 @@ class ResolveInfoFieldsAndArguments
                 $spreadName = $selectionNode->name->value;
                 if (isset($this->info->fragments[$spreadName])) {
                     $fragment = $this->info->fragments[$spreadName];
-                    $fields = array_merge_recursive($this->foldSelectionSet($fragment->selectionSet, $descend),
+                    $fields = array_replace_recursive($this->foldSelectionSet($fragment->selectionSet, $descend),
                         $fields);
                 }
             } elseif ($selectionNode instanceof InlineFragmentNode) {
-                $fields = array_merge_recursive($this->foldSelectionSet($selectionNode->selectionSet, $descend),
+                $fields = array_replace_recursive($this->foldSelectionSet($selectionNode->selectionSet, $descend),
                     $fields);
             }
         }
