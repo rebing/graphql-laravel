@@ -94,7 +94,7 @@ class ResolveInfoFieldsAndArguments
         $fields = [];
 
         foreach ($this->info->fieldNodes as $fieldNode) {
-            if (! $fieldNode->selectionSet) {
+            if (!$fieldNode->selectionSet) {
                 continue;
             }
 
@@ -122,7 +122,7 @@ class ResolveInfoFieldsAndArguments
 
                 $fields[$name] = [
                     'args'   => [],
-                    'fields' => $descend > 0 && ! empty($selectionNode->selectionSet)
+                    'fields' => $descend > 0 && !empty($selectionNode->selectionSet)
                         ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
                         : true,
                 ];
