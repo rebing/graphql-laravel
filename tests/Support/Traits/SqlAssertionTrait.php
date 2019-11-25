@@ -39,8 +39,8 @@ trait SqlAssertionTrait
      *
      * After "reading" this value, the counters are reset.
      *
-     * @param int $expectedCount
-     * @param string $msg Will only be displayed if the assertion fails
+     * @param int    $expectedCount
+     * @param string $msg           Will only be displayed if the assertion fails
      */
     protected function assertSqlCount(int $expectedCount, string $msg = ''): void
     {
@@ -80,7 +80,7 @@ trait SqlAssertionTrait
      * After "reading" this value, the counters are reset.
      *
      * @param string $expectedQueries
-     * @param string $msg Will only be displayed if the assertion fails
+     * @param string $msg             Will only be displayed if the assertion fails
      */
     protected function assertSqlQueries(string $expectedQueries, string $msg = ''): void
     {
@@ -115,7 +115,7 @@ trait SqlAssertionTrait
 
         $this->sqlCounterReset();
 
-        if (! $msg) {
+        if (!$msg) {
             $msg = 'SQL queries mismatch';
         }
 

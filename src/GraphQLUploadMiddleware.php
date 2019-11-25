@@ -56,7 +56,7 @@ class GraphQLUploadMiddleware
     private function parseUploadedFiles(Request $request): Request
     {
         $bodyParams = $request->all();
-        if (! isset($bodyParams['map'])) {
+        if (!isset($bodyParams['map'])) {
             throw new RequestError('The request must define a `map`');
         }
 
@@ -71,7 +71,7 @@ class GraphQLUploadMiddleware
             foreach ($locations as $location) {
                 $items = &$result;
                 foreach (explode('.', $location) as $key) {
-                    if (! isset($items[$key]) || ! is_array($items[$key])) {
+                    if (!isset($items[$key]) || !is_array($items[$key])) {
                         $items[$key] = [];
                     }
                     $items = &$items[$key];
@@ -90,6 +90,7 @@ class GraphQLUploadMiddleware
      * Validates that the request meet our expectations.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return void
      */
     private function validateParsedBody(Request $request): void
@@ -102,7 +103,7 @@ class GraphQLUploadMiddleware
             );
         }
 
-        if (! is_array($bodyParams)) {
+        if (!is_array($bodyParams)) {
             throw new RequestError(
                 'GraphQL Server expects JSON object or array, but got '.Utils::printSafeJson($bodyParams)
             );

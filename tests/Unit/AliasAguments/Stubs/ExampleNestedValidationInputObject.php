@@ -19,17 +19,17 @@ class ExampleNestedValidationInputObject extends InputType
     {
         return [
             'email' => [
-                'type' => Type::string(),
+                'type'  => Type::string(),
                 'alias' => 'email_alias',
             ],
             'defaultField' => [
-                'type' => Type::string(),
-                'alias' => 'default_field_alias',
+                'type'         => Type::string(),
+                'alias'        => 'default_field_alias',
                 'defaultValue' => 'defcon',
             ],
             'defaultFieldZeroLengthString' => [
-                'type' => Type::string(),
-                'alias' => 'default_field_zero_string',
+                'type'         => Type::string(),
+                'alias'        => 'default_field_zero_string',
                 'defaultValue' => '',
             ],
         ];

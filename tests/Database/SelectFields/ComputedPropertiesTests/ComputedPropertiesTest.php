@@ -52,11 +52,11 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string) $user->id,
-                        'name' => $user->name,
+                        'id'    => (string) $user->id,
+                        'name'  => $user->name,
                         'posts' => [
                             [
-                                'id' => (string) $post->id,
+                                'id'          => (string) $post->id,
                                 'isPublished' => true,
                             ],
                         ],

@@ -8,7 +8,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class SimpleMessageType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'SimpleMessageType',
+        'name'        => 'SimpleMessageType',
         'description' => 'A type of a simple message',
     ];
 
@@ -16,11 +16,11 @@ class SimpleMessageType extends GraphQLType
     {
         return [
             'message' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'        => Type::nonNull(Type::string()),
                 'description' => 'Simple Message',
             ],
             'type' => [
-                'type' => Type::string(),
+                'type'         => Type::string(),
                 'defaultValue' => 'success',
             ],
         ];

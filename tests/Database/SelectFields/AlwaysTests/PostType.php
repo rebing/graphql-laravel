@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Post',
+        'name'  => 'Post',
         'model' => Post::class,
     ];
 
@@ -23,23 +23,23 @@ class PostType extends GraphQLType
                 'type' => Type::string(),
             ],
             'comments_always_single_field' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
-                'alias' => 'comments',
+                'type'   => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
+                'alias'  => 'comments',
                 'always' => 'body',
             ],
             'comments_always_multiple_fields_in_string' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
-                'alias' => 'comments',
+                'type'   => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
+                'alias'  => 'comments',
                 'always' => 'body,title',
             ],
             'comments_always_multiple_fields_in_array' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
-                'alias' => 'comments',
+                'type'   => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
+                'alias'  => 'comments',
                 'always' => ['body', 'title'],
             ],
             'comments_always_same_field_twice' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
-                'alias' => 'comments',
+                'type'   => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
+                'alias'  => 'comments',
                 'always' => ['body', 'body'],
             ],
             'id' => [

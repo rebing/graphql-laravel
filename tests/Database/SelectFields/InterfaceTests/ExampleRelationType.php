@@ -11,7 +11,7 @@ use Rebing\GraphQL\Tests\Support\Models\Comment;
 class ExampleRelationType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'ExampleRelation',
+        'name'  => 'ExampleRelation',
         'model' => Comment::class,
     ];
 

@@ -9,12 +9,12 @@ use Rebing\GraphQL\Support\EnumType;
 class EpisodeEnum extends EnumType
 {
     protected $attributes = [
-        'name' => 'Episode',
+        'name'        => 'Episode',
         'description' => 'The types of demographic elements',
-        'values' => [
+        'values'      => [
             'NEWHOPE' => 'NEWHOPE',
-            'EMPIRE' => 'EMPIRE',
-            'JEDI' => 'JEDI',
+            'EMPIRE'  => 'EMPIRE',
+            'JEDI'    => 'JEDI',
         ],
     ];
 }

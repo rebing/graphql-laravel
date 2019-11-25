@@ -83,8 +83,10 @@ class ResolveInfoFieldsAndArguments
      * Warning: this method it is a naive implementation which does not take into account
      * conditional typed fragments. So use it with care for fields of interface and union types.
      *
-     * @param  int  $depth  How many levels to include in output
+     * @param int $depth How many levels to include in output
+     *
      * @return array
+     *
      * @see \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
      */
     public function getFieldsAndArgumentsSelection(int $depth = 0): array
@@ -92,7 +94,7 @@ class ResolveInfoFieldsAndArguments
         $fields = [];
 
         foreach ($this->info->fieldNodes as $fieldNode) {
-            if (! $fieldNode->selectionSet) {
+            if (!$fieldNode->selectionSet) {
                 continue;
             }
 
@@ -103,9 +105,11 @@ class ResolveInfoFieldsAndArguments
     }
 
     /**
-     * @param  SelectionSetNode  $selectionSet
-     * @param  int  $descend
+     * @param SelectionSetNode $selectionSet
+     * @param int              $descend
+     *
      * @return array
+     *
      * @see \GraphQL\Type\Definition\ResolveInfo::foldSelectionSet
      */
     private function foldSelectionSet(SelectionSetNode $selectionSet, int $descend): array
@@ -117,8 +121,8 @@ class ResolveInfoFieldsAndArguments
                 $name = $selectionNode->name->value;
 
                 $fields[$name] = [
-                    'args' => [],
-                    'fields' => $descend > 0 && ! empty($selectionNode->selectionSet)
+                    'args'   => [],
+                    'fields' => $descend > 0 && !empty($selectionNode->selectionSet)
                         ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
                         : true,
                 ];
