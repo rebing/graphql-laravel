@@ -101,7 +101,7 @@ To work this around:
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
-    - [Note: these are the docs for 3.*, please see the `v1` branch for the 1.* docs](#note-these-are-the-docs-for-3-please-see-the-v1-branch-for-the-1-docs)
+    - [Note: these are the docs for the current release, please see the `v1` branch for the 1.* docs](#note-these-are-the-docs-for-the-current-release-please-see-the-v1-branch-for-the-1-docs)
   - [Installation](#installation)
       - [Dependencies:](#dependencies)
       - [Installation:](#installation)
@@ -113,6 +113,7 @@ To work this around:
     - [Creating a mutation](#creating-a-mutation)
       - [Adding validation to a mutation](#adding-validation-to-a-mutation)
       - [File uploads](#file-uploads)
+    - [Resolve method](#resolve-method)
     - [Authorization](#authorization)
     - [Privacy](#privacy)
     - [Query Variables](#query-variables)
@@ -128,6 +129,7 @@ To work this around:
     - [Interfaces](#interfaces)
       - [Sharing Interface fields](#sharing-interface-fields)
     - [Input Object](#input-object)
+    - [Input Alias](#input-alias)
     - [JSON Columns](#json-columns)
       - [Field deprecation](#field-deprecation)
       - [Default Field Resolver](#default-field-resolver)
@@ -595,6 +597,70 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
+
+### Resolve method
+The resolve method is used in both queries and mutations and it here the response are created.
+
+The first three parameters to the resolve method are hard-coded:
+1. The `$root` object this resolve method belongs to (can be `null`)
+2. The arguments passed as `array $args` (can be an empty array)
+3. The query specific GraphQL context, can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
+
+Arguments here after will be attempted to be injected, similar to how controller methods works in Laravel.
+
+You can typehint any class that you will need an instance of.
+
+There are two hardcoded classes which depend on the local data for the query:
+- `GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
+- `Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
+
+Example:
+```php
+<?php
+
+namespace App\GraphQL\Queries;
+
+use Closure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Query;
+use SomeClassNamespace\SomeClassThatDoLogging;
+
+class UsersQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'User query'
+    ];
+
+    public function type(): Type
+    {
+        return Type::listOf(GraphQL::type('user'));
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => ['name' => 'id', 'type' => Type::string()]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $info, SelectFields $fields, SomeClassThatDoLogging $logging)
+    {
+        $logging->log('fetched user');
+
+        $select = $fields->getSelect();
+        $with = $fields->getRelations();
+
+        $users = User::select($select)->with($with);
+
+        return $users->get();
+    }
+}
+```
+
 ### Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
@@ -940,13 +1006,13 @@ class UserType extends GraphQLType
 
 ### Eager loading relationships
 
-The fifth argument passed to a query's resolve method is a Closure which returns
-an instance of `Rebing\GraphQL\Support\SelectFields` which you can use to retrieve keys
-from the request. The following is an example of using this information
-to eager load related Eloquent models.
+The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models.
 
-This way only the required fields will be queried from the database.
+Only the required fields will be queried from the database.
 
+The class can be instanciated by typehinting `SelectFields $selectField` in your resolve method.
+
+You can also construct the class by typehinting a `Closure`. 
 The Closure accepts an optional parameter for the depth of the query to analyse.
 
 Your Query would look like:
@@ -1555,6 +1621,99 @@ class TestMutation extends GraphQLType {
 
 }
 ```
+
+### Input Alias
+
+It is possible to alias query and mutation arguments as well as input object fields.
+
+It can be especially useful for mutations saving data to the database.
+
+Here you might want the input names to be different from the column names in the database.
+
+Example, where the database columns are `first_name` and `last_name`:
+
+```php
+<?php
+
+namespace App\GraphQL\InputObject;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
+
+class UserInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'UserInput',
+        'description' => 'A review with a comment and a score (0 to 5)'
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'firstName' => [
+                'alias' => 'first_name',
+                'description' => 'A comment (250 max chars)',
+                'type' => Type::string(),
+                'rules' => ['max:250']
+            ],
+            'lastName' => [
+                'alias' => 'last_name',
+                'description' => 'A score (0 to 5)',
+                'type' => Type::int(),
+                'rules' => ['min:0', 'max:5']
+            ]
+        ];
+    }
+}
+```
+
+
+```php
+<?php
+
+namespace App\GraphQL\Mutations;
+
+use CLosure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\Mutation;
+
+class UpdateUserMutation extends Mutation
+{
+    protected $attributes = [
+        'name' => 'UpdateUser'
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('user');
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::string())
+            ],
+            'input' => [
+                'type' => GraphQL::type('UserInput')
+            ]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    {
+        $user = User::find($args['id']);
+        $user->fill($args['input']));
+        $user->save();
+
+        return $user;
+    }
+}
+```
+
 
 ### JSON Columns
 
