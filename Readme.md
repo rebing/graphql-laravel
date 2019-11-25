@@ -113,6 +113,7 @@ To work this around:
     - [Creating a mutation](#creating-a-mutation)
       - [Adding validation to a mutation](#adding-validation-to-a-mutation)
       - [File uploads](#file-uploads)
+    - [Resolve method](#resolve-method)
     - [Authorization](#authorization)
     - [Privacy](#privacy)
     - [Query Variables](#query-variables)
@@ -595,6 +596,69 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
+
+### Resolve method
+The resolve method is used in both queries and mutations and it here the response are created.
+
+The first 3 params to the resolve method is required. The `$root`, `$args`, `$context`.
+
+Arguments here after will be attempted to be injected. Similar to how controller methods works in Laravel.
+
+You can typehint any class that you will need an instance of.
+
+Classes that might be useful to inject:
+
+`GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
+
+`Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
+
+Example:
+```php
+<?php
+
+namespace App\GraphQL\Queries;
+
+use Closure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\SelectFields;
+use Rebing\GraphQL\Support\Query;
+use SomeClassNamespace\SomeClassThatDoLogging;
+
+class UsersQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'User query'
+    ];
+
+    public function type(): Type
+    {
+        return Type::listOf(GraphQL::type('user'));
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => ['name' => 'id', 'type' => Type::string()]
+        ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $info, SelectFields $fields, SomeClassThatDoLogging $logging)
+    {
+        $logging->log('fetched user');
+
+        $select = $fields->getSelect();
+        $with = $fields->getRelations();
+
+        $users = User::select($select)->with($with);
+
+        return $users->get();
+    }
+}
+```
+
 ### Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
@@ -940,13 +1004,13 @@ class UserType extends GraphQLType
 
 ### Eager loading relationships
 
-The fifth argument passed to a query's resolve method is a Closure which returns
-an instance of `Rebing\GraphQL\Support\SelectFields` which you can use to retrieve keys
-from the request. The following is an example of using this information
-to eager load related Eloquent models.
+The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models.
 
-This way only the required fields will be queried from the database.
+Only the required fields will be queried from the database.
 
+The class can be instanciated by typehinting `SelectFields $selectField` in your resolve method.
+
+You can also construct the class by typehinting a `Closure`. 
 The Closure accepts an optional parameter for the depth of the query to analyse.
 
 Your Query would look like:
