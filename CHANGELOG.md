@@ -10,7 +10,7 @@ CHANGELOG
 - Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
 ### Changed
 - Switch Code Style handling from StyleCI to PHP-CS Fixer [\#502 / crissi](https://github.com/rebing/graphql-laravel/pull/502)
-- Implemented [ClientAware](https://webonyx.github.io/graphql-php/error-handling/#default-error-formatting) interface on integrated exceptions [\#502 / georgeboot](https://github.com/rebing/graphql-laravel/pull/530)
+- Implemented [ClientAware](https://webonyx.github.io/graphql-php/error-handling/#default-error-formatting) interface on integrated exceptions [\#530 / georgeboot](https://github.com/rebing/graphql-laravel/pull/530)
 
 2019-10-23, 3.1.0
 -----------------
