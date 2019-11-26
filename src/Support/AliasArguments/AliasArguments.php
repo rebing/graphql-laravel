@@ -13,9 +13,6 @@ use GraphQL\Type\Definition\WrappingType;
 
 class AliasArguments
 {
-    private $typedArgs;
-    private $arguments;
-
     public function get(array $typedArgs, array $arguments): array
     {
         $pathsWithAlias = $this->getAliasesInFields($typedArgs, '');

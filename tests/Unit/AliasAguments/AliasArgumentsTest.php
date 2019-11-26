@@ -29,25 +29,26 @@ class AliasArgumentsTest extends TestCase
         ]);
     }
 
-    public function testMutationAlias()
+    public function testMutationAlias(): void
     {
         $query = '
             mutation ($exampleValidationInputObject: ExampleValidationInputObject, $aList: [ExampleNestedValidationInputObject], $aListNonNull: [ExampleNestedValidationInputObject]!, $a_list_non_null_and_type_nonNull: [ExampleNestedValidationInputObject!]!, $a_list_type_nonNull: [ExampleNestedValidationInputObject!]) {
-                updateExample(test: "HELLO", test_with_alias_and_null: null, test_type: $exampleValidationInputObject, a_list: $aList, a_list_non_null: $aListNonNull, a_list_non_null_and_type_nonNull: $a_list_non_null_and_type_nonNull, a_list_type_nonNull: $a_list_type_nonNull) {
+                updateExample(test_type_duplicates: null, test: "HELLO", test_with_alias_and_null: null, test_type: $exampleValidationInputObject, a_list: $aList, a_list_non_null: $aListNonNull, a_list_non_null_and_type_nonNull: $a_list_non_null_and_type_nonNull, a_list_type_nonNull: $a_list_type_nonNull) {
                     test
                 }
             }
         ';
 
-        $response = $this->call('GET', '/graphql', [
-            'query' => $query,
+        $response = $this->graphql($query, [
             'variables' => [
                 'exampleValidationInputObject' => [
+                    'nullValue' => null,
                     'val' => 22,
                     'nest' => [
                         'email' => 'test@mail.com',
                     ],
                     'list' => [
+                        null,
                         [
                             'email' => 'test@mail.com',
                         ],
@@ -76,7 +77,6 @@ class AliasArgumentsTest extends TestCase
             ],
         ]);
 
-        $response = $response->json();
         $arguments = json_decode($response['data']['updateExample']['test'], true);
 
         $this->assertEquals([
@@ -111,8 +111,10 @@ class AliasArgumentsTest extends TestCase
                 ],
             ],
             'test_alias' => 'HELLO',
+            'test_type_duplicates' => null,
             'test_type' => [
                 'val_alias' => 22,
+                'null_value' => null,
                 'defaultValue_alias' => 'def',
                 'nest' => [
                     'email_alias' => 'test@mail.com',
@@ -120,6 +122,7 @@ class AliasArgumentsTest extends TestCase
                     'default_field_zero_string' => '',
                 ],
                 'list' => [
+                    null,
                     [
                         'email_alias' => 'test@mail.com',
                         'default_field_alias' => 'defcon',
