@@ -28,9 +28,9 @@ class UserQuery extends Query
     public function resolve($root, $args)
     {
         return (object) [
-            'id' => 1,
+            'id'          => 1,
             'dateOfBirth' => Carbon::now()->addMonth()->startOfDay(),
-            'created_at' => Carbon::now()->startOfDay(),
+            'created_at'  => Carbon::now()->startOfDay(),
         ];
     }
 }

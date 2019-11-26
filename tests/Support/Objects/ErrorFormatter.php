@@ -16,7 +16,7 @@ class ErrorFormatter
         ];
 
         $locations = $e->getLocations();
-        if (! empty($locations)) {
+        if (!empty($locations)) {
             $error['locations'] = array_map(function ($loc) {
                 return $loc->toArray();
             }, $locations);

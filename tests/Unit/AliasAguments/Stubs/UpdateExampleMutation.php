@@ -24,14 +24,14 @@ class UpdateExampleMutation extends Mutation
         return [
             'test' => [
                 'alias' => 'test_alias',
-                'type' => Type::string(),
+                'type'  => Type::string(),
             ],
             'test_with_alias_and_null' => [
-                'type' => Type::string(),
+                'type'         => Type::string(),
                 'defaultValue' => 'NULL SHOULD NOT ALIAS',
             ],
             'test_has_default_value' => [
-                'type' => Type::string(),
+                'type'         => Type::string(),
                 'defaultValue' => 'DefaultValue123',
             ],
             'test_type' => [

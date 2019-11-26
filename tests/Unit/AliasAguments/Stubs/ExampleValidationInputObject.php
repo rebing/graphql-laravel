@@ -20,12 +20,12 @@ class ExampleValidationInputObject extends InputType
     {
         return [
             'val' => [
-                'type' => Type::int(),
+                'type'  => Type::int(),
                 'alias' => 'val_alias',
             ],
             'defaultValue' => [
-                'type' => Type::int(),
-                'alias' => 'defaultValue_alias',
+                'type'         => Type::int(),
+                'alias'        => 'defaultValue_alias',
                 'defaultValue' => 'def',
             ],
 

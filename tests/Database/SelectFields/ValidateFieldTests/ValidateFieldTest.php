@@ -20,14 +20,14 @@ class ValidateFieldTest extends TestCaseDatabase
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -57,8 +57,8 @@ SQL
                 'validateFields' => [
                     [
                         'body_selectable_false' => null,
-                        'title' => 'post title',
-                        'comments' => [
+                        'title'                 => 'post title',
+                        'comments'              => [
                             [
                                 'id' => (string) $comment->id,
                             ],
@@ -75,14 +75,14 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -112,8 +112,8 @@ SQL
                 'validateFields' => [
                     [
                         'body_selectable_null' => 'post body',
-                        'title' => 'post title',
-                        'comments' => [
+                        'title'                => 'post title',
+                        'comments'             => [
                             [
                                 'id' => (string) $comment->id,
                             ],
@@ -130,14 +130,14 @@ SQL
         /** @var Post $post */
         $post = factory(Post::class)
             ->create([
-                'body' => 'post body',
+                'body'  => 'post body',
                 'title' => 'post title',
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'body' => 'comment body',
+                'body'    => 'comment body',
                 'post_id' => $post->id,
-                'title' => 'comment title',
+                'title'   => 'comment title',
             ]);
 
         $query = <<<'GRAQPHQL'
@@ -167,8 +167,8 @@ SQL
                 'validateFields' => [
                     [
                         'body_selectable_true' => 'post body',
-                        'title' => 'post title',
-                        'comments' => [
+                        'title'                => 'post title',
+                        'comments'             => [
                             [
                                 'id' => (string) $comment->id,
                             ],
@@ -362,7 +362,7 @@ SQL
             'data' => [
                 'validateFields' => [
                     [
-                        'title_privacy_class_allowed' => 'post title',
+                        'title_privacy_class_allowed'              => 'post title',
                         'title_privacy_class_allowed_called_twice' => 'post title',
                     ],
                 ],
@@ -477,13 +477,13 @@ GRAQPHQL;
             'errors' => [
                 [
                     'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
-                    'message' => 'Internal server error',
-                    'extensions' => [
+                    'message'      => 'Internal server error',
+                    'extensions'   => [
                         'category' => 'internal',
                     ],
                     'locations' => [
                         [
-                            'line' => 2,
+                            'line'   => 2,
                             'column' => 3,
                         ],
                     ],

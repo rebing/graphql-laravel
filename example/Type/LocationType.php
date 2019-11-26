@@ -11,40 +11,40 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class LocationType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Location',
+        'name'        => 'Location',
         'description' => 'A location on the map',
-        'model' => Location::class,
+        'model'       => Location::class,
     ];
 
     public function fields(): array
     {
         return [
             'id' => [
-                'type' => Type::nonNull(Type::int()),
+                'type'        => Type::nonNull(Type::int()),
                 'description' => 'Id of the location',
             ],
             'country_code' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'        => Type::nonNull(Type::string()),
                 'description' => 'Country code of the location (e.g "EE")',
             ],
             'address' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'Location\'s address (street, house nr, etc)',
             ],
             'city' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'Location\'s city',
             ],
             'post_code' => [
-                'type' => Type::int(),
+                'type'        => Type::int(),
                 'description' => 'Post code of the location',
             ],
             'latitude' => [
-                'type' => Type::float(),
+                'type'        => Type::float(),
                 'description' => 'Latitude of the location',
             ],
             'longitude' => [
-                'type' => Type::float(),
+                'type'        => Type::float(),
                 'description' => 'Longitude of the location',
             ],
         ];
