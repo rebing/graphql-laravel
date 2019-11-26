@@ -1519,6 +1519,21 @@ class HumanType extends GraphQLType
 }
 ```
 
+#### Supporting custom queries on interface relations
+
+If an interface contains a relation with a custom query, it's required to implement `public function types()` returning an array of `GraphQL::type()`, i.e. all the possible types it may resolve to (quite similar as it works for unions) so that it works correctly with `SelectFields`.
+
+Based on the previous code example, the method would look like:
+```php
+    public function types(): array
+    {
+        return[
+            GraphQL::type('Human'),
+            GraphQL::type('Droid'),
+        ];
+    }
+```
+
 #### Sharing Interface fields
 
 Since you often have to repeat many of the field definitons of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
