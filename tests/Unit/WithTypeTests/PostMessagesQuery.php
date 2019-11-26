@@ -29,7 +29,7 @@ class PostMessagesQuery extends Query
         return [
             'data' => [
                 'post_id' => 1,
-                'title' => 'This is the title post',
+                'title'   => 'This is the title post',
             ],
             'messages' => new Collection([
                 new SimpleMessage('Congratulations, the post was found'),

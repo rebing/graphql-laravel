@@ -12,7 +12,7 @@ abstract class InterfaceType extends Type
 {
     protected function getTypeResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolveType')) {
+        if (!method_exists($this, 'resolveType')) {
             return null;
         }
 
@@ -27,7 +27,7 @@ abstract class InterfaceType extends Type
 
     protected function getTypesResolver(): ?Closure
     {
-        if (! method_exists($this, 'types')) {
+        if (!method_exists($this, 'types')) {
             return null;
         }
 

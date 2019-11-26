@@ -35,7 +35,7 @@ class LikableInterfaceType extends InterfaceType
                 'type' => Type::nonNull(Type::string()),
             ],
             'likes' => [
-                'type' => Type::listOf(GraphQL::type('Like')),
+                'type'  => Type::listOf(GraphQL::type('Like')),
                 'query' => function (array $args, MorphMany $query) {
                     return $query->whereRaw('1=1');
                 },

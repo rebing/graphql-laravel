@@ -31,11 +31,12 @@ abstract class Field
      * Override this in your queries or mutations
      * to provide custom authorization.
      *
-     * @param  mixed  $root
-     * @param  array  $args
-     * @param  mixed  $ctx
-     * @param  ResolveInfo|null  $resolveInfo
-     * @param  Closure|null  $getSelectFields
+     * @param mixed            $root
+     * @param array            $args
+     * @param mixed            $ctx
+     * @param ResolveInfo|null $resolveInfo
+     * @param Closure|null     $getSelectFields
+     *
      * @return bool
      */
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
@@ -96,8 +97,9 @@ abstract class Field
     }
 
     /**
-     * @param  array|string|callable  $rules
-     * @param  array  $arguments
+     * @param array|string|callable $rules
+     * @param array                 $arguments
+     *
      * @return array|string
      */
     public function resolveRules($rules, array $arguments)
@@ -181,7 +183,7 @@ abstract class Field
 
     protected function getResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolve')) {
+        if (!method_exists($this, 'resolve')) {
             return null;
         }
 

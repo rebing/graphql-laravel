@@ -68,7 +68,8 @@ class GraphQLServiceProvider extends ServiceProvider
     /**
      * Add types from config.
      *
-     * @param  GraphQL  $graphQL
+     * @param GraphQL $graphQL
+     *
      * @return void
      */
     protected function bootTypes(GraphQL $graphQL): void
@@ -80,7 +81,8 @@ class GraphQLServiceProvider extends ServiceProvider
     /**
      * Add schemas from config.
      *
-     * @param  GraphQL  $graphQL
+     * @param GraphQL $graphQL
+     *
      * @return void
      */
     protected function bootSchemas(GraphQL $graphQL): void

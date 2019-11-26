@@ -22,7 +22,7 @@ class UploadTest extends TestCase
                 // $parameters
                 [
                     'operations' => json_encode([
-                        'query' => 'mutation($file: Upload!) { uploadSingleFile(file: $file) }',
+                        'query'     => 'mutation($file: Upload!) { uploadSingleFile(file: $file) }',
                         'variables' => [
                             'file' => null,
                         ],
@@ -68,7 +68,7 @@ class UploadTest extends TestCase
                 // $parameters
                 [
                     'operations' => json_encode([
-                        'query' => 'mutation($files: [Upload!]!) { uploadMultipleFiles(files: $files) }',
+                        'query'     => 'mutation($files: [Upload!]!) { uploadMultipleFiles(files: $files) }',
                         'variables' => [
                             'files' => [null, null],
                         ],
@@ -123,13 +123,13 @@ class UploadTest extends TestCase
                 [
                     'operations' => json_encode([
                         [
-                            'query' => 'mutation($file: Upload!) { uploadSingleFile(file: $file) }',
+                            'query'     => 'mutation($file: Upload!) { uploadSingleFile(file: $file) }',
                             'variables' => [
                                 'file' => null,
                             ],
                         ],
                         [
-                            'query' => 'mutation($files: [Upload!]!) { uploadMultipleFiles(files: $files) }',
+                            'query'     => 'mutation($files: [Upload!]!) { uploadMultipleFiles(files: $files) }',
                             'variables' => [
                                 'files' => [null, null],
                             ],
