@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Error;
 
+use GraphQL\Error\ClientAware;
 use GraphQL\Error\Error;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\Validation\Validator;
 
-class ValidationError extends Error
+class ValidationError extends Error implements ClientAware
 {
     /** @var Validator */
     private $validator;
@@ -28,5 +29,15 @@ class ValidationError extends Error
     public function getValidator(): Validator
     {
         return $this->validator;
+    }
+
+    public function isClientSafe(): bool
+    {
+        return true;
+    }
+
+    public function getCategory(): string
+    {
+        return 'validation';
     }
 }
