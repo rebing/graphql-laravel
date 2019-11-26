@@ -49,13 +49,17 @@ class ArrayKeyChange
 
         if ('*' === $segment) {
             foreach ($target as $index => $inner) {
-                $target[$index] = $this->changeKey($inner, $segments, $replaceKey);
+                if ($inner) {
+                    $target[$index] = $this->changeKey($inner, $segments, $replaceKey);
+                }
             }
 
             return $target;
         }
 
-        $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
+        if (array_key_exists($segment, $target) && is_array($target[$segment])) {
+            $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
+        }
 
         return $target;
     }
