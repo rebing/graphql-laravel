@@ -206,7 +206,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->graphql($graphql);
             'query' => $graphql,
         ]);
 
