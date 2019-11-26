@@ -14,8 +14,11 @@ use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
+use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use ReflectionMethod;
 
 /**
  * @property string $name
@@ -203,22 +206,63 @@ abstract class Field
                 }
             }
 
-            // Add the 'selects and relations' feature as 5th arg
-            if (isset($arguments[3])) {
-                $arguments[] = function (int $depth = null) use ($arguments): SelectFields {
-                    $ctx = $arguments[2] ?? null;
-
-                    return new SelectFields($arguments[3], $this->type(), $arguments[1], $depth ?? 5, $ctx);
-                };
-            }
+            $arguments[1] = $this->getArgs($arguments);
 
             // Authorize
-            if (call_user_func_array($authorize, $arguments) != true) {
+            if (true != call_user_func_array($authorize, $arguments)) {
                 throw new AuthorizationError('Unauthorized');
             }
 
-            return call_user_func_array($resolver, $arguments);
+            $method = new ReflectionMethod($this, 'resolve');
+
+            $additionalParams = array_slice($method->getParameters(), 3);
+
+            $additionalArguments = array_map(function ($param) use ($arguments) {
+                $className = null !== $param->getClass() ? $param->getClass()->getName() : null;
+
+                if (null === $className) {
+                    throw new InvalidArgumentException("'{$param->name}' could not be injected");
+                }
+
+                if (Closure::class === $param->getType()->getName()) {
+                    return function (int $depth = null) use ($arguments): SelectFields {
+                        return $this->instanciateSelectFields($arguments, $depth);
+                    };
+                }
+
+                if (SelectFields::class === $className) {
+                    return $this->instanciateSelectFields($arguments);
+                }
+
+                if (ResolveInfo::class === $className) {
+                    return $arguments[3];
+                }
+
+                return app()->make($className);
+            }, $additionalParams);
+
+            return call_user_func_array($resolver, array_merge(
+                [$arguments[0], $arguments[1], $arguments[2]],
+                $additionalArguments
+            ));
         };
+    }
+
+    private function instanciateSelectFields(array $arguments, int $depth = null): SelectFields
+    {
+        $ctx = $arguments[2] ?? null;
+
+        return new SelectFields($arguments[3], $this->type(), $arguments[1], $depth ?? 5, $ctx);
+    }
+
+    protected function aliasArgs(array $arguments): array
+    {
+        return (new AliasArguments())->get($this->args(), $arguments[1]);
+    }
+
+    protected function getArgs(array $arguments): array
+    {
+        return $this->aliasArgs($arguments);
     }
 
     /**

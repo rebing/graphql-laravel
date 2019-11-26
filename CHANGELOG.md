@@ -5,11 +5,14 @@ CHANGELOG
 --------------
 ### Added
 - Allow passing through an instance of a `Field` [\#521 / georgeboot](https://github.com/rebing/graphql-laravel/pull/521/files)
+- Add the ability to alias query and mutations arguments as well as input objects [\#517 / crissi](https://github.com/rebing/graphql-laravel/pull/517/files)
+- Classes can now be injected in the Resolve method from the query/mutation similarly to Laravel controller methods [\#520 / crissi](https://github.com/rebing/graphql-laravel/pull/520/files)
 ### Fixed
 - Fix validation rules for non-null list of non-null objects [\#511 / crissi](https://github.com/rebing/graphql-laravel/pull/511/files)
 - Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
 ### Changed
 - Switch Code Style handling from StyleCI to PHP-CS Fixer [\#502 / crissi](https://github.com/rebing/graphql-laravel/pull/502)
+- Implemented [ClientAware](https://webonyx.github.io/graphql-php/error-handling/#default-error-formatting) interface on integrated exceptions [\#530 / georgeboot](https://github.com/rebing/graphql-laravel/pull/530)
 - More control over validation through optional user-generated validator by introducing `getValidator()` [\#531 / mailspice](https://github.com/rebing/graphql-laravel/pull/531)
 
 2019-10-23, 3.1.0

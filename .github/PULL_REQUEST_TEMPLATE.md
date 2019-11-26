@@ -12,4 +12,4 @@
 
 ### Checklist
 - [ ] Existing tests have been adapted and/or new tests have been added
-- [ ] Code style has been fixed via `composer fix-tyle`
+- [ ] Code style has been fixed via `composer fix-style`
