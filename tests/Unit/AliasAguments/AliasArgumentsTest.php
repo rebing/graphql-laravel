@@ -77,7 +77,7 @@ class AliasArgumentsTest extends TestCase
                 ],
             ],
         ]);
-        
+
         $response = $response->json();
 
         $arguments = json_decode($response['data']['updateExample']['test'], true);

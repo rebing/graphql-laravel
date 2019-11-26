@@ -56,7 +56,7 @@ class UpdateExampleMutation extends Mutation
                     Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE))
                 ),
             ],
-            
+
         ];
     }
 
