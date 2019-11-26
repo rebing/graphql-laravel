@@ -208,6 +208,11 @@ class UserType extends GraphQLType
             'email' => [
                 'type' => Type::string(),
                 'description' => 'The email of user',
+                'resolve => function($root, $args) {
+                    // If you want to resolve the field yourself, 
+                    // it can be done here
+                    return strtolower($root->email);
+                }
             ],
             // Uses the 'getIsMeAttribute' function on our custom User model
             'isMe' => [
@@ -218,7 +223,7 @@ class UserType extends GraphQLType
         ];
     }
 
-    // If you want to resolve the field yourself, you can declare a method
+    // You can also resolve a field by declaring a method in the class
     // with the following format resolve[FIELD_NAME]Field()
     protected function resolveEmailField($root, $args)
     {
