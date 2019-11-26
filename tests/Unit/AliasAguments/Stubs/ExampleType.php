@@ -12,7 +12,7 @@ class ExampleType extends GraphQLType
     public const TYPE = 'Example';
 
     protected $attributes = [
-        'name' => self::TYPE,
+        'name'        => self::TYPE,
         'description' => 'An example',
     ];
 
@@ -20,7 +20,7 @@ class ExampleType extends GraphQLType
     {
         return [
             'test' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'A test field',
             ],
         ];

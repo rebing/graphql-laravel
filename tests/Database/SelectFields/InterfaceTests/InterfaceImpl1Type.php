@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class InterfaceImpl1Type extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'InterfaceImpl1',
+        'name'  => 'InterfaceImpl1',
         'model' => Post::class,
     ];
 

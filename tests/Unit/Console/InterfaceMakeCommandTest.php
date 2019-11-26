@@ -14,10 +14,11 @@ class InterfaceMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,28 +41,28 @@ class InterfaceMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Interfaces/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Interfaces/Example.php',
                 'expectedClassDefinition' => 'Example extends InterfaceType',
-                'expectedGraphqlName' => "'name' => 'Example',",
+                'expectedGraphqlName'     => "'name' => 'Example',",
             ],
             'ExampleType' => [
-                'inputName' => 'ExampleType',
-                'expectedFilename' => 'GraphQL/Interfaces/ExampleType.php',
+                'inputName'               => 'ExampleType',
+                'expectedFilename'        => 'GraphQL/Interfaces/ExampleType.php',
                 'expectedClassDefinition' => 'ExampleType extends InterfaceType',
-                'expectedGraphqlName' => "'name' => 'Example',",
+                'expectedGraphqlName'     => "'name' => 'Example',",
             ],
             'ExampleInterface' => [
-                'inputName' => 'ExampleInterface',
-                'expectedFilename' => 'GraphQL/Interfaces/ExampleInterface.php',
+                'inputName'               => 'ExampleInterface',
+                'expectedFilename'        => 'GraphQL/Interfaces/ExampleInterface.php',
                 'expectedClassDefinition' => 'ExampleInterface extends InterfaceType',
-                'expectedGraphqlName' => "'name' => 'ExampleInterface',",
+                'expectedGraphqlName'     => "'name' => 'ExampleInterface',",
             ],
             'ExampleInterfaceType' => [
-                'inputName' => 'ExampleInterfaceType',
-                'expectedFilename' => 'GraphQL/Interfaces/ExampleInterfaceType.php',
+                'inputName'               => 'ExampleInterfaceType',
+                'expectedFilename'        => 'GraphQL/Interfaces/ExampleInterfaceType.php',
                 'expectedClassDefinition' => 'ExampleInterfaceType extends InterfaceType',
-                'expectedGraphqlName' => "'name' => 'ExampleInterface',",
+                'expectedGraphqlName'     => "'name' => 'ExampleInterface',",
             ],
         ];
     }

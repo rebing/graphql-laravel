@@ -55,30 +55,30 @@ SQL
             'data' => [
                 'users' => [
                     [
-                        'id' => (string) $users[0]->id,
-                        'name' => $users[0]->name,
+                        'id'    => (string) $users[0]->id,
+                        'name'  => $users[0]->name,
                         'posts' => [
                             [
                                 'body' => $users[0]->posts[0]->body,
-                                'id' => (string) $users[0]->posts[0]->id,
+                                'id'   => (string) $users[0]->posts[0]->id,
                             ],
                             [
                                 'body' => $users[0]->posts[1]->body,
-                                'id' => (string) $users[0]->posts[1]->id,
+                                'id'   => (string) $users[0]->posts[1]->id,
                             ],
                         ],
                     ],
                     [
-                        'id' => (string) $users[1]->id,
-                        'name' => $users[1]->name,
+                        'id'    => (string) $users[1]->id,
+                        'name'  => $users[1]->name,
                         'posts' => [
                             [
                                 'body' => $users[1]->posts[0]->body,
-                                'id' => (string) $users[1]->posts[0]->id,
+                                'id'   => (string) $users[1]->posts[0]->id,
                             ],
                             [
                                 'body' => $users[1]->posts[1]->body,
-                                'id' => (string) $users[1]->posts[1]->id,
+                                'id'   => (string) $users[1]->posts[1]->id,
                             ],
                         ],
                     ],

@@ -48,7 +48,7 @@ class AliasArguments
 
             $type = $this->getWrappedType($type);
 
-            if (! ($type instanceof InputObjectType)) {
+            if (!($type instanceof InputObjectType)) {
                 continue;
             }
 

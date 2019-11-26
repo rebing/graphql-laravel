@@ -19,7 +19,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg1' => 'invalid value',
             ],
         ]);

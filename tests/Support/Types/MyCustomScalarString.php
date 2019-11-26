@@ -20,9 +20,9 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @return mixed
-     *
      * @throws Error
+     *
+     * @return mixed
      */
     public function serialize($value)
     {
@@ -36,9 +36,9 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @return mixed
-     *
      * @throws Error
+     *
+     * @return mixed
      */
     public function parseValue($value)
     {
@@ -50,16 +50,16 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * In the case of an invalid node or value this method must throw an Exception
      *
-     * @param Node $valueNode
+     * @param Node         $valueNode
      * @param mixed[]|null $variables
      *
-     * @return mixed
-     *
      * @throws Exception
+     *
+     * @return mixed
      */
     public function parseLiteral($valueNode, ?array $variables = null)
     {
-        if (! $valueNode instanceof StringValueNode) {
+        if (!$valueNode instanceof StringValueNode) {
             throw new InvariantViolation('Expected node of type '.StringValueNode::class.' , got '.get_class($valueNode));
         }
 
