@@ -29,7 +29,7 @@ class AliasArgumentsTest extends TestCase
         ]);
     }
 
-    public function testMutationAlias()
+    public function testMutationAlias(): void
     {
         $query = '
             mutation ($exampleValidationInputObject: ExampleValidationInputObject, $aList: [ExampleNestedValidationInputObject], $aListNonNull: [ExampleNestedValidationInputObject]!, $a_list_non_null_and_type_nonNull: [ExampleNestedValidationInputObject!]!, $a_list_type_nonNull: [ExampleNestedValidationInputObject!]) {
@@ -39,8 +39,7 @@ class AliasArgumentsTest extends TestCase
             }
         ';
 
-        $response = $this->call('GET', '/graphql', [
-            'query' => $query,
+        $response = $this->graphql($query, [
             'variables' => [
                 'exampleValidationInputObject' => [
                     'nullValue' => null,
@@ -77,8 +76,6 @@ class AliasArgumentsTest extends TestCase
                 ],
             ],
         ]);
-
-        $response = $response->json();
 
         $arguments = json_decode($response['data']['updateExample']['test'], true);
 
