@@ -43,6 +43,7 @@ class AliasArgumentsTest extends TestCase
             'query' => $query,
             'variables' => [
                 'exampleValidationInputObject' => [
+                    'nullValue' => null,
                     'val' => 22,
                     'nest' => [
                         'email' => 'test@mail.com',
@@ -113,6 +114,7 @@ class AliasArgumentsTest extends TestCase
             'test_alias' => 'HELLO',
             'test_type' => [
                 'val_alias' => 22,
+                'null_value' => null,
                 'defaultValue_alias' => 'def',
                 'nest' => [
                     'email_alias' => 'test@mail.com',
