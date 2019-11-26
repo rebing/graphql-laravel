@@ -14,10 +14,11 @@ class EnumMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
-     * @param  string  $expectedGraphqlName
+     *
+     * @param string $inputName
+     * @param string $expectedFilename
+     * @param string $expectedClassDefinition
+     * @param string $expectedGraphqlName
      */
     public function testCommand(
         string $inputName,
@@ -40,22 +41,22 @@ class EnumMakeCommandTest extends TestCase
     {
         return [
             'Example' => [
-                'inputName' => 'Example',
-                'expectedFilename' => 'GraphQL/Enums/Example.php',
+                'inputName'               => 'Example',
+                'expectedFilename'        => 'GraphQL/Enums/Example.php',
                 'expectedClassDefinition' => 'Example extends EnumType',
-                'expectedGraphqlName' => "'name' => 'Example',",
+                'expectedGraphqlName'     => "'name' => 'Example',",
             ],
             'ExampleEnum' => [
-                'inputName' => 'ExampleEnum',
-                'expectedFilename' => 'GraphQL/Enums/ExampleEnum.php',
+                'inputName'               => 'ExampleEnum',
+                'expectedFilename'        => 'GraphQL/Enums/ExampleEnum.php',
                 'expectedClassDefinition' => 'ExampleEnum extends EnumType',
-                'expectedGraphqlName' => "'name' => 'ExampleEnum',",
+                'expectedGraphqlName'     => "'name' => 'ExampleEnum',",
             ],
             'ExampleEnumType' => [
-                'inputName' => 'ExampleEnumType',
-                'expectedFilename' => 'GraphQL/Enums/ExampleEnumType.php',
+                'inputName'               => 'ExampleEnumType',
+                'expectedFilename'        => 'GraphQL/Enums/ExampleEnumType.php',
                 'expectedClassDefinition' => 'ExampleEnumType extends EnumType',
-                'expectedGraphqlName' => "'name' => 'ExampleEnum',",
+                'expectedGraphqlName'     => "'name' => 'ExampleEnum',",
             ],
         ];
     }

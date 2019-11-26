@@ -13,7 +13,7 @@ use Rebing\GraphQL\Tests\Support\Models\User;
 class UserType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'User',
+        'name'  => 'User',
         'model' => User::class,
     ];
 
@@ -42,7 +42,7 @@ class UserType extends GraphQLType
                 },
             ],
             'flaggedPosts' => [
-                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
+                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
                 'alias' => 'posts',
                 'query' => function (array $args, HasMany $query): HasMany {
                     $query->where('posts.flag', '=', 1);

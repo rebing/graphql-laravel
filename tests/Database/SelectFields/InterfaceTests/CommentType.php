@@ -12,7 +12,7 @@ use Rebing\GraphQL\Tests\Support\Models\Comment;
 class CommentType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Comment',
+        'name'  => 'Comment',
         'model' => Comment::class,
     ];
 
@@ -22,7 +22,7 @@ class CommentType extends GraphQLType
 
         return [
                 'title' => [
-                    'type' => Type::nonNull(Type::string()),
+                    'type'  => Type::nonNull(Type::string()),
                     'alias' => 'title',
                 ],
             ] + $interface->getFields();

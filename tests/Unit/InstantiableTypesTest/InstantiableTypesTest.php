@@ -30,10 +30,10 @@ GRAQPHQL;
         $expectedResult = [
             'data' => [
                 'user' => [
-                    'default' => $dateOfBirth->format('Y-m-d H:i'),
+                    'default'            => $dateOfBirth->format('Y-m-d H:i'),
                     'formattedDifferent' => $dateOfBirth->format('Y-m-d'),
-                    'relative' => '4 weeks from now',
-                    'alias' => $createdAt->format('Y-m-d H:i'),
+                    'relative'           => '4 weeks from now',
+                    'alias'              => $createdAt->format('Y-m-d H:i'),
                 ],
             ],
         ];

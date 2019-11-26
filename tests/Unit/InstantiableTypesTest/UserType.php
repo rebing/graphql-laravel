@@ -8,7 +8,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 class UserType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'UserType',
+        'name'        => 'UserType',
         'description' => 'User type',
     ];
 
@@ -18,8 +18,8 @@ class UserType extends GraphQLType
             'id' => [
                 'type' => Type::id(),
             ],
-            'dateOfBirth' => new FormattableDate,
-            'createdAt' => new FormattableDate([
+            'dateOfBirth' => new FormattableDate(),
+            'createdAt'   => new FormattableDate([
                 'alias' => 'created_at',
             ]),
         ];

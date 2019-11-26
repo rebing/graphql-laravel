@@ -13,7 +13,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostWithModelAndAliasType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'PostWithModelAndAlias',
+        'name'  => 'PostWithModelAndAlias',
         'model' => Post::class,
     ];
 
@@ -24,16 +24,16 @@ class PostWithModelAndAliasType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'description' => [
-                'type' => Type::nonNull(Type::string()),
+                'type'  => Type::nonNull(Type::string()),
                 'alias' => 'title',
             ],
             'commentCount' => [
-                'type' => Type::nonNull(Type::int()),
+                'type'  => Type::nonNull(Type::int()),
                 'alias' => DB::raw('(SELECT count(*) FROM comments WHERE posts.id = comments.post_id) AS commentCount'),
             ],
 
             'commentsLastMonth' => [
-                'type' => Type::nonNull(Type::int()),
+                'type'  => Type::nonNull(Type::int()),
                 'alias' => function () {
                     $day = Carbon::now()
                         ->startOfMonth()

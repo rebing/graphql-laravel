@@ -33,12 +33,12 @@ class GraphQLController extends Controller
             $schema = implode('/', $routeParameters);
         }
 
-        if (! $schema) {
+        if (!$schema) {
             $schema = config('graphql.default_schema');
         }
 
         // If a singular query was not found, it means the queries are in batch
-        $isBatch = ! $request->has('query');
+        $isBatch = !$request->has('query');
         $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
@@ -70,8 +70,8 @@ class GraphQLController extends Controller
             $query,
             $params,
             [
-                'context' => $this->queryContext($query, $params, $schema),
-                'schema' => $schema,
+                'context'       => $this->queryContext($query, $params, $schema),
+                'schema'        => $schema,
                 'operationName' => $input['operationName'] ?? null,
             ]
         );
@@ -97,12 +97,13 @@ class GraphQLController extends Controller
 
         return view($view, [
             'graphql_schema' => 'graphql_schema',
-            'graphqlPath' => $graphqlPath,
+            'graphqlPath'    => $graphqlPath,
         ]);
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return array<string,string>
      */
     protected function getRouteParameters(Request $request): array

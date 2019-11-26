@@ -11,6 +11,7 @@ class MessageWrapper
 {
     /**
      * @param string $typeName type graphql
+     *
      * @return Type
      */
     public static function type(string $typeName): Type

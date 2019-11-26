@@ -143,7 +143,7 @@ class GraphQLTest extends TestCase
     {
         $type = GraphQL::objectType([
             'test' => [
-                'type' => Type::string(),
+                'type'        => Type::string(),
                 'description' => 'A test field',
             ],
         ], [
@@ -177,13 +177,13 @@ class GraphQLTest extends TestCase
         $this->assertArrayHasKey('message', $error);
         $this->assertArrayHasKey('locations', $error);
         $expectedError = [
-            'message' => 'Cannot query field "examplesQueryNotFound" on type "Query". Did you mean "examplesPagination"?',
+            'message'    => 'Cannot query field "examplesQueryNotFound" on type "Query". Did you mean "examplesPagination"?',
             'extensions' => [
                 'category' => 'graphql',
             ],
             'locations' => [
                 [
-                    'line' => 3,
+                    'line'   => 3,
                     'column' => 13,
                 ],
             ],
@@ -336,10 +336,10 @@ class GraphQLTest extends TestCase
     {
         $schema = new Schema([
             'query' => new ObjectType([
-                'name' => 'Query',
+                'name'   => 'Query',
                 'fields' => [
                     'testQuery' => [
-                        'type' => Type::string(),
+                        'type'    => Type::string(),
                         'resolve' => function () {
                             return 'Returning test data';
                         },
@@ -366,10 +366,10 @@ class GraphQLTest extends TestCase
     {
         $schema = new Schema([
             'query' => new ObjectType([
-                'name' => 'Query',
+                'name'   => 'Query',
                 'fields' => [
                     'testQuery' => [
-                        'type' => Type::string(),
+                        'type'    => Type::string(),
                         'resolve' => function ($root) {
                             return strtolower($root['testQuery']);
                         },
@@ -381,7 +381,7 @@ class GraphQLTest extends TestCase
         GraphQL::addSchema('schema_from_object', $schema);
 
         $result = GraphQL::query('{ testQuery }', null, [
-            'schema' => 'schema_from_object',
+            'schema'    => 'schema_from_object',
             'rootValue' => [
                 'testQuery' => 'CONVERTED TO LOWERCASE',
             ],
