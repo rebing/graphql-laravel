@@ -43,8 +43,8 @@ class AliasArgumentsTest extends TestCase
             'variables' => [
                 'exampleValidationInputObject' => [
                     'nullValue' => null,
-                    'val' => 22,
-                    'nest' => [
+                    'val'       => 22,
+                    'nest'      => [
                         'email' => 'test@mail.com',
                     ],
                     'list' => [
@@ -81,51 +81,51 @@ class AliasArgumentsTest extends TestCase
 
         $this->assertEquals([
             'test_with_alias_and_null' => null,
-            'test_has_default_value' => 'DefaultValue123',
-            'a_list' => [
+            'test_has_default_value'   => 'DefaultValue123',
+            'a_list'                   => [
                 [
-                    'email_alias' => 'test@mail.com',
-                    'default_field_alias' => 'defcon',
+                    'email_alias'               => 'test@mail.com',
+                    'default_field_alias'       => 'defcon',
                     'default_field_zero_string' => '',
                 ],
             ],
             'a_list_non_null' => [
                 [
-                    'email_alias' => 'test@mail.com',
-                    'default_field_alias' => 'defcon',
+                    'email_alias'               => 'test@mail.com',
+                    'default_field_alias'       => 'defcon',
                     'default_field_zero_string' => '',
                 ],
             ],
             'a_list_non_null_and_type_nonNull' => [
                 [
-                    'email_alias' => 'test@mail.com',
-                    'default_field_alias' => 'defcon',
+                    'email_alias'               => 'test@mail.com',
+                    'default_field_alias'       => 'defcon',
                     'default_field_zero_string' => '',
                 ],
             ],
             'a_list_type_nonNull' => [
                 [
-                    'email_alias' => 'test@mail.com',
-                    'default_field_alias' => 'defcon',
+                    'email_alias'               => 'test@mail.com',
+                    'default_field_alias'       => 'defcon',
                     'default_field_zero_string' => '',
                 ],
             ],
-            'test_alias' => 'HELLO',
+            'test_alias'           => 'HELLO',
             'test_type_duplicates' => null,
-            'test_type' => [
-                'val_alias' => 22,
-                'null_value' => null,
+            'test_type'            => [
+                'val_alias'          => 22,
+                'null_value'         => null,
                 'defaultValue_alias' => 'def',
-                'nest' => [
-                    'email_alias' => 'test@mail.com',
-                    'default_field_alias' => 'defcon',
+                'nest'               => [
+                    'email_alias'               => 'test@mail.com',
+                    'default_field_alias'       => 'defcon',
                     'default_field_zero_string' => '',
                 ],
                 'list' => [
                     null,
                     [
-                        'email_alias' => 'test@mail.com',
-                        'default_field_alias' => 'defcon',
+                        'email_alias'               => 'test@mail.com',
+                        'default_field_alias'       => 'defcon',
                         'default_field_zero_string' => '',
                     ],
                 ],

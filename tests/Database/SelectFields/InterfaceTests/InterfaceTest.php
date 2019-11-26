@@ -59,7 +59,7 @@ SQL
             ]);
         factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
@@ -89,8 +89,8 @@ SQL
             'data' => [
                 'exampleInterfaceQuery' => [
                     [
-                        'id' => (string) $post->id,
-                        'title' => 'Title of the post',
+                        'id'              => (string) $post->id,
+                        'title'           => 'Title of the post',
                         'exampleRelation' => [
                             [
                                 'title' => 'Title of the comment',
@@ -111,15 +111,15 @@ SQL
             ]);
         factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         $user = factory(User::class)->create();
         Like::create([
-            'likable_id' => $post->id,
+            'likable_id'   => $post->id,
             'likable_type' => Post::class,
-            'user_id' => $user->id,
+            'user_id'      => $user->id,
         ]);
 
         $graphql = <<<'GRAPHQL'
@@ -160,11 +160,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string) $user->id,
+                        'id'    => (string) $user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $post->id,
+                                    'id'    => (string) $post->id,
                                     'title' => $post->title,
                                 ],
                             ],
@@ -184,21 +184,21 @@ SQL
             ]);
         factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
-            'likable_id' => $post->id,
+            'likable_id'   => $post->id,
             'likable_type' => Post::class,
-            'user_id' => $user->id,
+            'user_id'      => $user->id,
         ]);
         $like2 = Like::create([
-            'likable_id' => $post->id,
+            'likable_id'   => $post->id,
             'likable_type' => Post::class,
-            'user_id' => $user2->id,
+            'user_id'      => $user2->id,
         ]);
 
         $graphql = <<<'GRAPHQL'
@@ -244,11 +244,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string) $user->id,
+                        'id'    => (string) $user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $post->id,
+                                    'id'    => (string) $post->id,
                                     'title' => $post->title,
                                     'likes' => [
                                         [
@@ -263,11 +263,11 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string) $user2->id,
+                        'id'    => (string) $user2->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $post->id,
+                                    'id'    => (string) $post->id,
                                     'title' => $post->title,
                                     'likes' => [
                                         [
@@ -295,21 +295,21 @@ SQL
             ]);
         $comment = factory(Comment::class)
             ->create([
-                'title' => 'Title of the comment',
+                'title'   => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
-            'likable_id' => $comment->id,
+            'likable_id'   => $comment->id,
             'likable_type' => Comment::class,
-            'user_id' => $user->id,
+            'user_id'      => $user->id,
         ]);
         $like2 = Like::create([
-            'likable_id' => $comment->id,
+            'likable_id'   => $comment->id,
             'likable_type' => Comment::class,
-            'user_id' => $user2->id,
+            'user_id'      => $user2->id,
         ]);
 
         $graphql = <<<'GRAPHQL'
@@ -355,11 +355,11 @@ SQL
             'data' => [
                 'userQuery' => [
                     [
-                        'id' => (string) $user->id,
+                        'id'    => (string) $user->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $comment->id,
+                                    'id'    => (string) $comment->id,
                                     'title' => $comment->title,
                                     'likes' => [
                                         [
@@ -374,11 +374,11 @@ SQL
                         ],
                     ],
                     [
-                        'id' => (string) $user2->id,
+                        'id'    => (string) $user2->id,
                         'likes' => [
                             [
                                 'likable' => [
-                                    'id' => (string) $comment->id,
+                                    'id'    => (string) $comment->id,
                                     'title' => $comment->title,
                                     'likes' => [
                                         [

@@ -31,7 +31,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_unique_rule_pass' => 'another_name',
             ],
         ]);
@@ -67,7 +67,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_unique_rule_pass' => 'name_unique',
             ],
         ]);
@@ -105,7 +105,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_unique_rule_fail' => 'another_name',
             ],
         ]);
@@ -138,7 +138,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_unique_rule_fail' => 'name_unique',
             ],
         ]);
@@ -177,7 +177,7 @@ GRAPHQL;
 
         $result = $this->graphql($graphql, [
             'expectErrors' => true,
-            'variables' => [
+            'variables'    => [
                 'arg_unique_rule_fail' => 'name_unique',
             ],
         ]);

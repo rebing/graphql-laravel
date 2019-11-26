@@ -13,7 +13,7 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 class PostType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Post',
+        'name'  => 'Post',
         'model' => Post::class,
     ];
 
@@ -23,7 +23,7 @@ class PostType extends GraphQLType
 
         return [
                 'likes' => [
-                    'type' => Type::listOf(GraphQL::type('Like')),
+                    'type'  => Type::listOf(GraphQL::type('Like')),
                     'query' => function (array $args, MorphMany $query) {
                         return $query->whereRaw('0=0');
                     },

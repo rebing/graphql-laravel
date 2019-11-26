@@ -46,7 +46,8 @@ class GraphQL
     }
 
     /**
-     * @param  Schema|array|string|null  $schema
+     * @param Schema|array|string|null $schema
+     *
      * @return Schema
      */
     public function schema($schema = null): Schema
@@ -80,10 +81,10 @@ class GraphQL
         ]);
 
         return new Schema([
-            'query' => $query,
-            'mutation' => ! empty($schemaMutation) ? $mutation : null,
-            'subscription' => ! empty($schemaSubscription) ? $subscription : null,
-            'types' => function () use ($schema) {
+            'query'        => $query,
+            'mutation'     => !empty($schemaMutation) ? $mutation : null,
+            'subscription' => !empty($schemaSubscription) ? $subscription : null,
+            'types'        => function () use ($schema) {
                 $types = [];
                 $schemaTypes = $schema['types'] ?? [];
 
@@ -111,9 +112,9 @@ class GraphQL
     }
 
     /**
-     * @param string $query
-     * @param array|null  $params
-     * @param array  $opts   Additional options, like 'schema', 'context' or 'operationName'
+     * @param string     $query
+     * @param array|null $params
+     * @param array      $opts   Additional options, like 'schema', 'context' or 'operationName'
      *
      * @return array
      */
@@ -123,9 +124,10 @@ class GraphQL
     }
 
     /**
-     * @param  string  $query
-     * @param  array|null  $params
-     * @param  array  $opts  Additional options, like 'schema', 'context' or 'operationName'
+     * @param string     $query
+     * @param array|null $params
+     * @param array      $opts   Additional options, like 'schema', 'context' or 'operationName'
+     *
      * @return ExecutionResult
      */
     public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult
@@ -156,12 +158,12 @@ class GraphQL
     }
 
     /**
-     * @param  object|string  $class
-     * @param  string|null  $name
+     * @param object|string $class
+     * @param string|null   $name
      */
     public function addType($class, string $name = null): void
     {
-        if (! $name) {
+        if (!$name) {
             $type = is_object($class) ? $class : $this->app->make($class);
             $name = $type->name;
         }
@@ -171,7 +173,7 @@ class GraphQL
 
     public function type(string $name, bool $fresh = false): Type
     {
-        if (! isset($this->types[$name])) {
+        if (!isset($this->types[$name])) {
             $error = "Type $name not found.";
 
             if (config('graphql.lazyload_types', false)) {
@@ -181,12 +183,12 @@ class GraphQL
             throw new TypeNotFound($error);
         }
 
-        if (! $fresh && isset($this->typesInstances[$name])) {
+        if (!$fresh && isset($this->typesInstances[$name])) {
             return $this->typesInstances[$name];
         }
 
         $type = $this->types[$name];
-        if (! is_object($type)) {
+        if (!is_object($type)) {
             $type = $this->app->make($type);
         }
 
@@ -197,8 +199,9 @@ class GraphQL
     }
 
     /**
-     * @param  ObjectType|array|string  $type
-     * @param  array<string,string>  $opts
+     * @param ObjectType|array|string $type
+     * @param array<string,string>    $opts
+     *
      * @return Type
      */
     public function objectType($type, array $opts = []): Type
@@ -227,17 +230,18 @@ class GraphQL
     }
 
     /**
-     * @param  ObjectType|string  $type
-     * @param  array  $opts
+     * @param ObjectType|string $type
+     * @param array             $opts
+     *
      * @return Type
      */
     protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
-        if (! is_object($type)) {
+        if (!is_object($type)) {
             $type = $this->app->make($type);
         }
 
-        if (! $type instanceof TypeConvertible) {
+        if (!$type instanceof TypeConvertible) {
             throw new TypeNotFound(
                 sprintf('Unable to convert %s to a GraphQL type, please add/implement the interface %s',
                     get_class($type),
@@ -274,8 +278,8 @@ class GraphQL
     }
 
     /**
-     * @param  string  $name
-     * @param  Schema|array  $schema
+     * @param string       $name
+     * @param Schema|array $schema
      */
     public function addSchema(string $name, $schema): void
     {
@@ -283,8 +287,8 @@ class GraphQL
     }
 
     /**
-     * @param  string  $name
-     * @param  Schema|array  $schema
+     * @param string       $name
+     * @param Schema|array $schema
      */
     public function mergeSchemas(string $name, $schema): void
     {
@@ -341,7 +345,7 @@ class GraphQL
     {
         $name = $customName ?: $typeName.'Pagination';
 
-        if (! isset($this->typesInstances[$name])) {
+        if (!isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
             $this->wrapType($typeName, $name, $paginationType);
         }
@@ -360,7 +364,7 @@ class GraphQL
      */
     public function wrapType(string $typeName, string $customTypeName, string $wrapperTypeClass): Type
     {
-        if (! isset($this->typesInstances[$customTypeName])) {
+        if (!isset($this->typesInstances[$customTypeName])) {
             $wrapperClass = new $wrapperTypeClass($typeName, $customTypeName);
             $this->typesInstances[$customTypeName] = $wrapperClass;
             $this->types[$customTypeName] = $wrapperClass;
@@ -371,7 +375,9 @@ class GraphQL
 
     /**
      * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
-     * @param  Error  $e
+     *
+     * @param Error $e
+     *
      * @return array
      */
     public static function formatError(Error $e): array
@@ -389,8 +395,9 @@ class GraphQL
     }
 
     /**
-     * @param  Error[]  $errors
-     * @param  callable  $formatter
+     * @param Error[]  $errors
+     * @param callable $formatter
+     *
      * @return Error[]
      */
     public static function handleErrors(array $errors, callable $formatter): array
@@ -403,14 +410,14 @@ class GraphQL
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError
                 || $error instanceof AuthorizationError
-                || ! (
+                || !(
                     $error instanceof Exception
                     || $error instanceof PhpError
                 )) {
                 continue;
             }
 
-            if (! $error instanceof Exception) {
+            if (!$error instanceof Exception) {
                 $error = new FatalThrowableError($error);
             }
 
@@ -425,9 +432,9 @@ class GraphQL
      * Eg. 'user/me'
      * will open the query path /graphql/user/me.
      *
-     * @param  string  $name
-     * @param  string  $schemaParameterPattern
-     * @param  string  $queryRoute
+     * @param string $name
+     * @param string $schemaParameterPattern
+     * @param string $queryRoute
      *
      * @return string mixed
      */
@@ -444,7 +451,7 @@ class GraphQL
             }
 
             foreach ($multiLevelPath as $multiName) {
-                $routeName = ! $routeName ? null : $routeName.'/';
+                $routeName = !$routeName ? null : $routeName.'/';
                 $routeName =
                     $routeName
                     .preg_replace($schemaParameterPattern, '{'.$multiName.'}', $queryRoute);
@@ -455,14 +462,15 @@ class GraphQL
     }
 
     /**
-     * @param  array|string|null  $schema
+     * @param array|string|null $schema
+     *
      * @return array|Schema
      */
     protected function getSchemaConfiguration($schema)
     {
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 
-        if (! is_array($schema) && ! isset($this->schemas[$schemaName])) {
+        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
             throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
 
