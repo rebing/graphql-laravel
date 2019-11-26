@@ -207,8 +207,6 @@ GRAQPHQL;
         $this->sqlCounterReset();
 
         $response = $this->graphql($graphql);
-            'query' => $graphql,
-        ]);
 
         $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts";');
 
@@ -223,8 +221,7 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        $this->assertEquals($expectedResult, $response);
     }
 
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
