@@ -25,6 +25,21 @@ abstract class InterfaceType extends Type
         };
     }
 
+    protected function getTypesResolver(): ?Closure
+    {
+        if (! method_exists($this, 'types')) {
+            return null;
+        }
+
+        $resolver = [$this, 'types'];
+
+        return function () use ($resolver): array {
+            $args = func_get_args();
+
+            return call_user_func_array($resolver, $args);
+        };
+    }
+
     /**
      * Get the attributes from the container.
      *
@@ -34,9 +49,14 @@ abstract class InterfaceType extends Type
     {
         $attributes = parent::getAttributes();
 
-        $resolver = $this->getTypeResolver();
-        if ($resolver) {
-            $attributes['resolveType'] = $resolver;
+        $resolverType = $this->getTypeResolver();
+        if ($resolverType) {
+            $attributes['resolveType'] = $resolverType;
+        }
+
+        $resolverTypes = $this->getTypesResolver();
+        if ($resolverTypes) {
+            $attributes['types'] = $resolverTypes;
         }
 
         return $attributes;

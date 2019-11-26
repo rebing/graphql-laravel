@@ -11,6 +11,7 @@ CHANGELOG
 - Fix validation rules for non-null list of non-null objects [\#511 / crissi](https://github.com/rebing/graphql-laravel/pull/511/files)
 - Add morph type to returned models [\#503 / crissi](https://github.com/rebing/graphql-laravel/pull/503)
 - Querying same field multiple times causes an error (e.g. via fragments) [\#537 / edgarsn](https://github.com/rebing/graphql-laravel/pull/537)
+- Fixed the custom query not being handled by interface's relations [\#486 / EdwinDayot](https://github.com/rebing/graphql-laravel/pull/486)
 ### Changed
 - Switch Code Style handling from StyleCI to PHP-CS Fixer [\#502 / crissi](https://github.com/rebing/graphql-laravel/pull/502)
 - Implemented [ClientAware](https://webonyx.github.io/graphql-php/error-handling/#default-error-formatting) interface on integrated exceptions [\#530 / georgeboot](https://github.com/rebing/graphql-laravel/pull/530)

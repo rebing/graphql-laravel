@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\InterfaceType;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -16,6 +17,14 @@ class LikableInterfaceType extends InterfaceType
         'name' => 'LikableInterface',
     ];
 
+    public function types(): array
+    {
+        return [
+            GraphQL::type('Post'),
+            GraphQL::type('Comment'),
+        ];
+    }
+
     public function fields(): array
     {
         return [
@@ -24,7 +33,12 @@ class LikableInterfaceType extends InterfaceType
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),
-                'alias' => 'title',
+            ],
+            'likes' => [
+                'type' => Type::listOf(GraphQL::type('Like')),
+                'query' => function (array $args, MorphMany $query) {
+                    return $query->whereRaw('1=1');
+                },
             ],
         ];
     }
