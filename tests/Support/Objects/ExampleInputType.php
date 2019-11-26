@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\InputType;
 class ExampleInputType extends InputType
 {
     protected $attributes = [
-        'name'        => 'ExampleInput',
+        'name' => 'ExampleInput',
         'description' => 'An example input',
     ];
 
@@ -18,7 +18,7 @@ class ExampleInputType extends InputType
     {
         return [
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
             'test_validation' => ExampleValidationField::class,

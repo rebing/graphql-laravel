@@ -24,8 +24,8 @@ class MutationTest extends FieldTest
         parent::getEnvironmentSetUp($app);
 
         $app['config']->set('graphql.types', [
-            'Example'                            => ExampleType::class,
-            'ExampleValidationInputObject'       => ExampleValidationInputObject::class,
+            'Example' => ExampleType::class,
+            'ExampleValidationInputObject' => ExampleValidationInputObject::class,
             'ExampleNestedValidationInputObject' => ExampleNestedValidationInputObject::class,
         ]);
     }
@@ -80,18 +80,18 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
         $attributes['resolve'](null, [
-            'test'                                  => 'test',
-            'test_with_rules'                       => 'test',
-            'test_with_rules_closure'               => 'test',
+            'test' => 'test',
+            'test_with_rules' => 'test',
+            'test_with_rules_closure' => 'test',
             'test_with_rules_nullable_input_object' => [
-                'val'  => 'test',
+                'val' => 'test',
                 'nest' => ['email' => 'test@test.com'],
                 'list' => [
                     ['email' => 'test@test.com'],
                 ],
             ],
             'test_with_rules_non_nullable_input_object' => [
-                'val'  => 'test',
+                'val' => 'test',
                 'nest' => ['email' => 'test@test.com'],
                 'list' => [
                     ['email' => 'test@test.com'],

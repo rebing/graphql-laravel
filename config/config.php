@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use example\Type\ExampleType;
-use example\Query\ExampleQuery;
 use example\Mutation\ExampleMutation;
+use example\Query\ExampleQuery;
 use example\Type\ExampleRelationType;
+use example\Type\ExampleType;
 
 return [
 
@@ -107,7 +107,7 @@ return [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
             'middleware' => [],
-            'method'     => ['get', 'post'],
+            'method' => ['get', 'post'],
         ],
     ],
 
@@ -150,16 +150,16 @@ return [
     'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
 
     // You can set the key, which will be used to retrieve the dynamic variables
-    'params_key'    => 'variables',
+    'params_key' => 'variables',
 
     /*
      * Options to limit the query complexity and depth. See the doc
-     * @ https://github.com/webonyx/graphql-php#security
+     * @ https://webonyx.github.io/graphql-php/security
      * for details. Disabled by default.
      */
     'security' => [
-        'query_max_complexity'  => null,
-        'query_max_depth'       => null,
+        'query_max_complexity' => null,
+        'query_max_depth' => null,
         'disable_introspection' => false,
     ],
 
@@ -173,11 +173,11 @@ return [
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
-        'prefix'     => '/graphiql',
+        'prefix' => '/graphiql',
         'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
         'middleware' => [],
-        'view'       => 'graphql::graphiql',
-        'display'    => env('ENABLE_GRAPHIQL', true),
+        'view' => 'graphql::graphiql',
+        'display' => env('ENABLE_GRAPHIQL', true),
     ],
 
     /*

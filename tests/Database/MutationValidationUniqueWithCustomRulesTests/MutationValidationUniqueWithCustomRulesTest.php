@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
-use Rebing\GraphQL\Tests\TestCaseDatabase;
 use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
+use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class MutationValidationUniqueWithCustomRulesTest extends TestCaseDatabase
 {
@@ -157,6 +157,32 @@ SQL
             'rule object validation fails',
         ];
         $this->assertSame($expectedMessages, $messageBag->all());
+    }
+
+    public function testErrorExtension(): void
+    {
+        /* @var User $user */
+        factory(User::class)
+            ->create([
+                'name' => 'name_unique',
+            ]);
+
+        $graphql = <<<'GRAPHQL'
+mutation Mutate($arg_unique_rule_fail: String) {
+  mutationWithCustomRuleWithRuleObject(arg_unique_rule_fail: $arg_unique_rule_fail)
+}
+GRAPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($graphql, [
+            'expectErrors' => true,
+            'variables' => [
+                'arg_unique_rule_fail' => 'name_unique',
+            ],
+        ]);
+
+        $this->assertSame('validation', $result['errors'][0]['extensions']['category']);
     }
 
     protected function getEnvironmentSetUp($app)

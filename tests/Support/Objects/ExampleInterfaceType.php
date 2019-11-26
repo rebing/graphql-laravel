@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\StringType;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InterfaceType;
 
 class ExampleInterfaceType extends InterfaceType
 {
     protected $attributes = [
-        'name'        => 'ExampleInterface',
+        'name' => 'ExampleInterface',
         'description' => 'An example interface',
     ];
 
@@ -24,7 +24,7 @@ class ExampleInterfaceType extends InterfaceType
     {
         return [
             'test' => [
-                'type'        => Type::string(),
+                'type' => Type::string(),
                 'description' => 'A test field',
             ],
         ];

@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Query\User;
 
 use Closure;
-use Models\User;
 use GraphQL\GraphQL;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Models\User;
+use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;
 
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name'  => 'Users',
+        'name' => 'Users',
     ];
 
     public function type(): Type
@@ -26,7 +26,7 @@ class UsersQuery extends Query
     public function args(): array
     {
         return [
-            'ids'   => [
+            'ids' => [
                 'name' => 'ids',
                 'type' => Type::listOf(Type::int()),
             ],

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InterfaceType;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\InterfaceType;
 
 class ExampleInterfaceType extends InterfaceType
 {

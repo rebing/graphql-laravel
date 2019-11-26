@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
-use Rebing\GraphQL\Tests\TestCase;
 use Illuminate\Filesystem\Filesystem;
+use Rebing\GraphQL\Tests\TestCase;
 
 /**
  * @mixin TestCase
