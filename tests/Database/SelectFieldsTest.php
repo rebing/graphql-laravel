@@ -269,6 +269,52 @@ GRAQPHQL;
         $this->assertEquals($expectedResult, $response->json());
     }
 
+    public function testWithListOfSelectFieldsAndModelWithSameFieldsInFragment(): void
+    {
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<'GRAQPHQL'
+{
+  postsListOfWithSelectFieldsAndModel {
+    id
+    title
+    ...Base
+    ...Base2
+  }
+}
+
+fragment Base on PostWithModel {
+    id
+}
+
+fragment Base2 on PostWithModel {
+    id
+    title
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->graphql($graphql);
+
+        $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts";');
+
+        $expectedResult = [
+            'data' => [
+                'postsListOfWithSelectFieldsAndModel' => [
+                    [
+                        'id' => "$post->id",
+                        'title' => 'Title of the post',
+                    ],
+                ],
+            ],
+        ];
+
+        $this->assertEquals($expectedResult, $response);
+    }
+
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
     {
         $post = factory(Post::class)->create([
