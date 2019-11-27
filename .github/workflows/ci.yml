@@ -1,4 +1,4 @@
-name: Static Analysis
+name: graphql-laravel CI
 
 on: [push, pull_request]
 
@@ -24,3 +24,25 @@ jobs:
 
       - name: Run phpstan
         run: composer phpstan -- --no-progress
+
+  code-style-checker:
+    name: Code Style checker
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Setup PHP
+        run: sudo phpdismod xdebug
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: composer install
+        run: composer install --prefer-dist --no-interaction --no-suggest --no-progress
+
+      - name: Run php-cs
+        run: composer lint
