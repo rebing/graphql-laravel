@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Tests\Unit\InstantiableTypesTest;
 
 use GraphQL\Type\Definition\Type;
