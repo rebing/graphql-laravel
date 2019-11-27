@@ -55,7 +55,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select * from "users" order by "users"."id" asc;
 select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
 select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
@@ -196,7 +197,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
 select * from "posts" where "posts"."user_id" = ? and "posts"."user_id" is not null order by "posts"."id" asc;
 select * from "comments" where "comments"."post_id" = ? and "comments"."post_id" is not null order by "comments"."id" asc;
@@ -337,7 +339,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select * from "users" order by "users"."id" asc;
 select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
 select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
@@ -474,7 +477,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
 select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
 select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?, ?, ?) order by "comments"."id" asc;
@@ -624,7 +628,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
 select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
 select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) order by "comments"."id" asc;
@@ -750,7 +755,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
 select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) and "posts"."flag" = ? order by "posts"."id" asc;
 select "comments"."body", "comments"."id", "comments"."title", "comments"."post_id" from "comments" where "comments"."post_id" in (?, ?) and "comments"."flag" = ? order by "comments"."id" asc;
@@ -833,7 +839,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
 select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) and "posts"."flag" = ? order by "posts"."id" asc;
 SQL
