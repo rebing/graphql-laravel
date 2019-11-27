@@ -8,6 +8,7 @@ return (new MattAllan\LaravelCodeStyle\Config())
             '@Laravel' => true,
             '@Laravel:risky' => true,
             // Project specific
+            'array_indentation' => true,
             'declare_strict_types' => true,
             'modernize_types_casting' => true,
             'method_argument_space' => [
