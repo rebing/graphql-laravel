@@ -1,8 +1,3 @@
-<!--
-    Please ignore the StyleCI erro checks for now, only use `composer fix-style`
-    We're currently in the process of removing StyleCI but it hasn't happened yet
--->
-
 ## Summary
 <!-- Please provide an exhaustive description. -->
 
