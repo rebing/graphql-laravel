@@ -10,7 +10,6 @@ env:
   global:
     - INSTALL_LARAVEL=0
     - INSTALL_LUMEN=0
-    - STATIC_ANALYSER=0
     - LINT=0
 
 matrix:
@@ -32,7 +31,7 @@ matrix:
     - php: '7.3'
       env: LARAVEL='5.8.*'
     - php: '7.3'
-      env: LARAVEL='^6.0' STATIC_ANALYSER=1 INSTALL_LARAVEL=1 INSTALL_LUMEN=1 LINT=1
+      env: LARAVEL='^6.0' INSTALL_LARAVEL=1 INSTALL_LUMEN=1 LINT=1
     - php: '7.3'
       env: LARAVEL='dev-master'
     - php: '7.4snapshot'
@@ -72,13 +71,12 @@ install:
       composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
       composer require "orchestra/testbench:${LARAVEL}" --no-interaction --no-update
     fi
-  - if [[ $STATIC_ANALYSER = 0 ]]; then composer remove --dev nunomaduro/larastan --no-interaction --no-update; fi
+  - composer remove --dev nunomaduro/larastan --no-interaction --no-update
   - composer install --prefer-dist --no-interaction --no-suggest
   - if [[ $LARAVEL = '5.5.*' ]]; then composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest; fi
 
 script:
   - if [[ $LINT = 1 ]]; then composer lint; fi
-  - if [[ $STATIC_ANALYSER = 1 ]]; then composer phpstan; fi
   - vendor/bin/phpunit --colors=always --verbose
   - TESTS_ENABLE_LAZYLOAD_TYPES=1 vendor/bin/phpunit --colors=always --verbose
   - if [[ $INSTALL_LARAVEL = 1 ]]; then export -f travis_retry ; tests/integration-larvavel.sh; fi
