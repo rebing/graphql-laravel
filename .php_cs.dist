@@ -7,5 +7,7 @@ return (new MattAllan\LaravelCodeStyle\Config())
         ->setRules([
             '@Laravel' => true,
             '@Laravel:risky' => true,
+            // Project specific
+            'declare_strict_types' => true,
         ])
         ->setRiskyAllowed(true);
