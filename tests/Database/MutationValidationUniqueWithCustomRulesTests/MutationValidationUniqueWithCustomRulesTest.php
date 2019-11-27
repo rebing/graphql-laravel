@@ -36,7 +36,8 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
@@ -72,7 +73,8 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
@@ -143,7 +145,8 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );

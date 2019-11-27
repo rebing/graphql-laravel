@@ -239,10 +239,12 @@ class GraphQL
 
         if (! $type instanceof TypeConvertible) {
             throw new TypeNotFound(
-                sprintf('Unable to convert %s to a GraphQL type, please add/implement the interface %s',
+                sprintf(
+                    'Unable to convert %s to a GraphQL type, please add/implement the interface %s',
                     get_class($type),
                     TypeConvertible::class
-                ));
+                )
+            );
         }
 
         foreach ($opts as $key => $value) {

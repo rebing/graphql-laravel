@@ -46,7 +46,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
 SQL
@@ -101,7 +102,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."body", "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
 SQL
@@ -156,7 +158,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."body", "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
 SQL
@@ -199,7 +202,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 SQL
         );
@@ -235,7 +239,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."id" from "posts";
 SQL
         );
@@ -271,7 +276,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 SQL
         );
@@ -307,7 +313,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."id" from "posts";
 SQL
         );
@@ -354,7 +361,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 SQL
         );
@@ -394,7 +402,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 SQL
         );
@@ -433,7 +442,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 SQL
         );

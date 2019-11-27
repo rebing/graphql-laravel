@@ -96,7 +96,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "posts"."id", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
 select "users"."id" from "users" where "users"."id" in (?);

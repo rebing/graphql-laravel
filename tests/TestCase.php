@@ -255,7 +255,8 @@ class TestCase extends BaseTestCase
      */
     private function formatSafeTrace(array $trace): string
     {
-        return implode("\n",
+        return implode(
+            "\n",
             array_map(function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
@@ -270,6 +271,7 @@ class TestCase extends BaseTestCase
                 }
 
                 return $line;
-            }, $trace, array_keys($trace)));
+            }, $trace, array_keys($trace))
+        );
     }
 }

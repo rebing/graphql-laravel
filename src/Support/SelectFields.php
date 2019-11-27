@@ -190,8 +190,14 @@ class SelectFields
                 if (is_a($parentType, config('graphql.pagination_type', PaginationType::class))) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
-                    self::handleFields($queryArgs, $field, $fieldType->getWrappedType(), $select,
-                        $with, $ctx);
+                    self::handleFields(
+                        $queryArgs,
+                        $field,
+                        $fieldType->getWrappedType(),
+                        $select,
+                        $with,
+                        $ctx
+                    );
                 }
                 // With
                 elseif (is_array($field['fields']) && $queryable) {
@@ -208,11 +214,26 @@ class SelectFields
 
                         self::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$relationsKey] = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType,
-                            $customQuery, false, $ctx);
+                        $with[$relationsKey] = self::getSelectableFieldsAndRelations(
+                            $queryArgs,
+                            $field,
+                            $newParentType,
+                            $customQuery,
+                            false,
+                            $ctx
+                        );
                     } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
-                        self::handleInterfaceFields($queryArgs, $field, $parentTypeUnwrapped, $select, $with, $ctx,
-                            $fieldObject, $key, $customQuery);
+                        self::handleInterfaceFields(
+                            $queryArgs,
+                            $field,
+                            $parentTypeUnwrapped,
+                            $select,
+                            $with,
+                            $ctx,
+                            $fieldObject,
+                            $key,
+                            $customQuery
+                        );
                     } else {
                         self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
                     }
@@ -361,8 +382,11 @@ class SelectFields
         } else {
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
-        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace('/^'.preg_quote($parentTable, '/').'\./',
-                '', $foreignKey)) : $foreignKey;
+        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace(
+            '/^'.preg_quote($parentTable, '/').'\./',
+            '',
+            $foreignKey
+        )) : $foreignKey;
         if (is_a($relation, MorphTo::class)) {
             $foreignKeyType = $relation->getMorphType();
             $foreignKeyType = $parentTable ? ($parentTable.'.'.$foreignKeyType) : $foreignKeyType;
@@ -377,8 +401,10 @@ class SelectFields
                 $select[] = $foreignKey;
             }
         } // If 'HasMany', then add it in the 'with'
-        elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a($relation,
-                    HasOne::class) || is_a($relation, MorphOne::class))
+        elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a(
+            $relation,
+            HasOne::class
+        ) || is_a($relation, MorphOne::class))
             && ! array_key_exists($foreignKey, $field)) {
             $segments = explode('.', $foreignKey);
             $foreignKey = end($segments);
@@ -478,7 +504,8 @@ class SelectFields
                     function (GraphqlType $type) use ($query) {
                         /* @var Relation $query */
                         return app($type->config['model'])->getTable() === $query->getParent()->getTable();
-                    });
+                    }
+                );
                 $typesFiltered = array_values($typesFiltered ?? []);
 
                 if (count($typesFiltered) === 1) {
@@ -496,8 +523,14 @@ class SelectFields
             }
 
             /** @var callable $callable */
-            $callable = self::getSelectableFieldsAndRelations($queryArgs, $field, $newParentType, $customQuery,
-                false, $ctx);
+            $callable = self::getSelectableFieldsAndRelations(
+                $queryArgs,
+                $field,
+                $newParentType,
+                $customQuery,
+                false,
+                $ctx
+            );
 
             return $callable($query);
         };

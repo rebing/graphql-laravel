@@ -56,13 +56,16 @@ trait SqlAssertionTrait
             $msg .= "\n\n";
         }
 
-        $msg .= sprintf("Expected number of SQL statements of %d does not match the actual value of %d\nQueries:\n\n%s\n",
+        $msg .= sprintf(
+            "Expected number of SQL statements of %d does not match the actual value of %d\nQueries:\n\n%s\n",
             $expectedCount,
             $numSqlQueries,
-            implode("\n",
+            implode(
+                "\n",
                 array_map(
                     function (QueryExecuted $query) {
-                        return sprintf('[%s] %s',
+                        return sprintf(
+                            '[%s] %s',
                             $query->connectionName,
                             $query->sql
                         );
@@ -86,7 +89,8 @@ trait SqlAssertionTrait
     {
         $expectedQueries = trim($expectedQueries);
         $actualQueries = trim(
-            implode("\n",
+            implode(
+                "\n",
                 array_map(
                     function (QueryExecuted $query): string {
                         // Replace any numeric literals with "fake" bind
@@ -96,17 +100,18 @@ trait SqlAssertionTrait
                         // IDs which may change during multiple test
                         // runs, which we now manually need to normalize
                         return preg_replace(
-                                [
+                            [
                                     // Covers integers in `WHERE IN ()`
                                     '/\d+(,|\))/',
                                     // Covers simple `WHERE x =`
                                     '/= \d+/',
                                 ],
-                                [
+                            [
                                     '?$1',
                                     '= ?',
                                 ],
-                                $query->sql).';';
+                            $query->sql
+                        ).';';
                     },
                     $this->sqlQueryEvents
                 )

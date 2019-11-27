@@ -51,7 +51,8 @@ GRAQPHQL;
             'expectErrors' => true,
         ]);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 SQL
         );
@@ -134,7 +135,8 @@ GRAQPHQL;
             'expectErrors' => true,
         ]);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."name", "users"."id" from "users";
 SQL
         );

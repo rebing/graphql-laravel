@@ -34,7 +34,8 @@ GRAQPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "title" from "posts";
 SQL
         );
@@ -79,7 +80,8 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "id", "title" from "posts";
 select "comments"."title", "comments"."post_id", "comments"."id" from "comments" where "comments"."post_id" in (?) and "id" >= ? order by "comments"."id" asc;
 SQL
@@ -141,14 +143,16 @@ GRAPHQL;
         $result = $this->graphql($graphql);
 
         if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
 select * from "posts" where "posts"."id" in (?);
 SQL
             );
         } else {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
 select "id", "title" from "posts" where "posts"."id" in (?);
@@ -223,7 +227,8 @@ GRAPHQL;
         $result = $this->graphql($graphql);
 
         if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select * from "posts" where "posts"."id" in (?);
@@ -231,7 +236,8 @@ select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" w
 SQL
             );
         } else {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select "id", "title" from "posts" where "posts"."id" in (?);
@@ -334,7 +340,8 @@ GRAPHQL;
         $result = $this->graphql($graphql);
 
         if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select * from "comments" where "comments"."id" in (?);
@@ -342,7 +349,8 @@ select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" w
 SQL
             );
         } else {
-            $this->assertSqlQueries(<<<'SQL'
+            $this->assertSqlQueries(
+                <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select "id", "title" from "comments" where "comments"."id" in (?);
