@@ -258,13 +258,13 @@ GRAQPHQL;
 
         $expectedResult = [
             'data' => [
-                    'postsListOfWithSelectFieldsAndModel' => [
-                                [
-                                    'id' => "$post->id",
-                                    'title' => 'Title of the post',
-                                ],
-                        ],
+                'postsListOfWithSelectFieldsAndModel' => [
+                    [
+                        'id' => "$post->id",
+                        'title' => 'Title of the post',
+                    ],
                 ],
+            ],
         ];
 
         $this->assertEquals($response->getStatusCode(), 200);

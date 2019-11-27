@@ -101,15 +101,15 @@ trait SqlAssertionTrait
                         // runs, which we now manually need to normalize
                         return preg_replace(
                             [
-                                    // Covers integers in `WHERE IN ()`
-                                    '/\d+(,|\))/',
-                                    // Covers simple `WHERE x =`
-                                    '/= \d+/',
-                                ],
+                                // Covers integers in `WHERE IN ()`
+                                '/\d+(,|\))/',
+                                // Covers simple `WHERE x =`
+                                '/= \d+/',
+                            ],
                             [
-                                    '?$1',
-                                    '= ?',
-                                ],
+                                '?$1',
+                                '= ?',
+                            ],
                             $query->sql
                         ).';';
                     },

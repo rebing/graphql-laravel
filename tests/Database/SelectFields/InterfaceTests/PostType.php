@@ -21,7 +21,8 @@ class PostType extends GraphQLType
     {
         $interface = GraphQL::type('LikableInterface');
 
-        return [
+        return
+            [
                 'likes' => [
                     'type' => Type::listOf(GraphQL::type('Like')),
                     'query' => function (array $args, MorphMany $query) {

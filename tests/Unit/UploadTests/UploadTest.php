@@ -166,9 +166,9 @@ class UploadTest extends TestCase
             [
                 'data' => [
                     'uploadMultipleFiles' => [
-                            'File 2 to upload',
-                            'File 3 to upload',
-                        ],
+                        'File 2 to upload',
+                        'File 3 to upload',
+                    ],
                 ],
             ],
         ];

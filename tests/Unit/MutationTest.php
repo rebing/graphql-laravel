@@ -160,7 +160,7 @@ class MutationTest extends FieldTest
                 'test_with_rules_non_nullable_input_object' => [
                     'nest' => ['email' => 'invalidTestEmail.com'],
                 ],
-             ], [], null);
+            ], [], null);
         } catch (ValidationError $e) {
             $messages = $e->getValidatorMessages();
 
