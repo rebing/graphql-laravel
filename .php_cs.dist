@@ -9,6 +9,7 @@ return (new MattAllan\LaravelCodeStyle\Config())
             '@Laravel:risky' => true,
             // Project specific
             'declare_strict_types' => true,
+            'modernize_types_casting' => true,
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
             ],
