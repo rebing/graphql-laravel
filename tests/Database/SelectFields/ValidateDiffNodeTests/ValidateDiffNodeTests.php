@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -45,7 +47,8 @@ GRAQPHQL;
         $this->sqlCounterReset();
 
         $result = $this->graphql($graphql);
-        $this->assertSqlQueries(<<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id", "users"."name" from "users";
 select "posts"."id", "posts"."body", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
 SQL

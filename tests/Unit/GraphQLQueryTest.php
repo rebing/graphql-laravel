@@ -195,14 +195,17 @@ It is required when 'lazyload_types' is enabled";
     {
         $this->app['config']->set('graphql.defaultFieldResolver', [static::class, 'exampleDefaultFieldResolverForTest']);
 
-        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'],
-            null, [
+        $result = GraphQL::queryAndReturnResult(
+            $this->queries['examplesCustom'],
+            null,
+            [
                 'schema' => [
                     'query' => [
                         'examplesCustom' => ExamplesQuery::class,
                     ],
                 ],
-            ]);
+            ]
+        );
 
         $expectedDataResult = [
             'examplesCustom' => [
@@ -235,14 +238,17 @@ It is required when 'lazyload_types' is enabled";
             return 'defaultFieldResolver closure value';
         });
 
-        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'],
-            null, [
+        $result = GraphQL::queryAndReturnResult(
+            $this->queries['examplesCustom'],
+            null,
+            [
                 'schema' => [
                     'query' => [
                         'examplesCustom' => ExamplesQuery::class,
                     ],
                 ],
-            ]);
+            ]
+        );
 
         $expectedDataResult = [
             'examplesCustom' => [

@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/rebing/graphql-laravel/branch/master/graph/badge.svg)](https://codecov.io/gh/rebing/graphql-laravel)
 [![Build Status](https://travis-ci.org/rebing/graphql-laravel.svg?branch=master)](https://travis-ci.org/rebing/graphql-laravel)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
-[![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LWVjMTMxNzIyZjBlNTFhZGQ5MDVjZDAwZDNjODA3ODE2NjdiOGJkMjMwMTZkZmNhZjhiYTE1MjEyNDk0MWJmMzk)
+[![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
 ### Note: these are the docs for the current release, [please see the `v1` branch for the 1.* docs](https://github.com/rebing/graphql-laravel/tree/v1#laravel-graphql)
 
@@ -1517,6 +1517,21 @@ class HumanType extends GraphQLType
         ];
     }
 }
+```
+
+#### Supporting custom queries on interface relations
+
+If an interface contains a relation with a custom query, it's required to implement `public function types()` returning an array of `GraphQL::type()`, i.e. all the possible types it may resolve to (quite similar as it works for unions) so that it works correctly with `SelectFields`.
+
+Based on the previous code example, the method would look like:
+```php
+    public function types(): array
+    {
+        return[
+            GraphQL::type('Human'),
+            GraphQL::type('Droid'),
+        ];
+    }
 ```
 
 #### Sharing Interface fields

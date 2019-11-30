@@ -37,6 +37,9 @@ class UpdateExampleMutation extends Mutation
             'test_type' => [
                 'type' => GraphQL::type(ExampleValidationInputObject::TYPE),
             ],
+            'test_type_duplicates' => [
+                'type' => GraphQL::type(ExampleValidationInputObject::TYPE),
+            ],
             'a_list' => [
                 'type' => Type::listOf(GraphQL::type(ExampleNestedValidationInputObject::TYPE)),
             ],
@@ -53,6 +56,7 @@ class UpdateExampleMutation extends Mutation
                     Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE))
                 ),
             ],
+
         ];
     }
 

@@ -19,6 +19,10 @@ class ExampleValidationInputObject extends InputType
     public function fields(): array
     {
         return [
+            'nullValue' => [
+                'type' => Type::int(),
+                'alias' => 'null_value',
+            ],
             'val' => [
                 'type' => Type::int(),
                 'alias' => 'val_alias',
