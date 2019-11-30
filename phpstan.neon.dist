@@ -41,4 +41,6 @@ parameters:
         - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
         - '/Trying to invoke Closure\|null but it might not be a callable/'
+        - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string\./'
+        - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given\./'
     reportUnmatchedIgnoredErrors: true
