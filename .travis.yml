@@ -45,10 +45,6 @@ matrix:
     - php: '7.3'
       env: LARAVEL='dev-master'
     - php: '7.4'
-      env: LARAVEL='5.8.*'
-    - php: '7.4'
-      env: LARAVEL='^6.0'
-    - php: '7.4'
       env: LARAVEL='dev-master'
 
 before_script:
