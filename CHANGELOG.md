@@ -1,11 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/4.0.0-rc1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/4.0.0...master)
 --------------
 
-2019-11-28, 4.0.0-rc1
----------------------
+2019-12-09, 4.0.0
+-----------------
 ### Added
 - Allow passing through an instance of a `Field` [\#521 / georgeboot](https://github.com/rebing/graphql-laravel/pull/521/files)
 - Add the ability to alias query and mutations arguments as well as input objects [\#517 / crissi](https://github.com/rebing/graphql-laravel/pull/517/files)
