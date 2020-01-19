@@ -210,7 +210,7 @@ abstract class Field
 
             // Authorize
             if (true != call_user_func_array($authorize, $arguments)) {
-                throw new AuthorizationError('Unauthorized');
+                throw new AuthorizationError($this->getAuthorizationMessage());
             }
 
             $method = new ReflectionMethod($this, 'resolve');
@@ -288,6 +288,11 @@ abstract class Field
         }
 
         return $attributes;
+    }
+
+    public function getAuthorizationMessage(): string
+    {
+        return 'Unauthorized';
     }
 
     /**

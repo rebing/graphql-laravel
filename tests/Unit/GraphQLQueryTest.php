@@ -121,6 +121,18 @@ It is required when 'lazyload_types' is enabled";
     }
 
     /**
+     * Test query with authorize.
+     */
+    public function testQueryAndReturnResultWithCustomAuthorizeMessage(): void
+    {
+        $result = $this->graphql($this->queries['examplesWithAuthorizeMessage'], [
+            'expectErrors' => true,
+        ]);
+        $this->assertNull($result['data']['examplesAuthorizeMessage']);
+        $this->assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
+    }
+
+    /**
      * Test query with schema.
      */
     public function testQueryAndReturnResultWithSchema(): void

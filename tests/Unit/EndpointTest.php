@@ -104,6 +104,24 @@ class EndpointTest extends TestCase
     }
 
     /**
+     * Test get with unauthorized query and custom error message.
+     */
+    public function testGetUnauthorizedWithCustomError(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            'query' => $this->queries['examplesWithAuthorizeMessage'],
+        ]);
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $content = $response->getData(true);
+        $this->assertArrayHasKey('data', $content);
+        $this->assertArrayHasKey('errors', $content);
+        $this->assertEquals($content['errors'][0]['message'], 'You are not authorized to perform this action');
+        $this->assertNull($content['data']['examplesAuthorizeMessage']);
+    }
+
+    /**
      * Test support batched queries.
      */
     public function testBatchedQueries(): void

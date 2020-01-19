@@ -710,6 +710,33 @@ class UsersQuery extends Query
 }
 ```
 
+You can also provide a custom error message when the authorization fails (defaults to Unauthorized):
+
+```php
+use Auth;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+
+class UsersQuery extends Query
+{
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    {
+        if (isset($args['id'])) {
+            return Auth::id() == $args['id'];
+        }
+
+        return true;
+    }
+
+    public function getAuthorizationMessage(): string
+    {
+        return 'You are not authorized to perform this action';
+    }
+
+    // ...
+}
+```
+
 ### Privacy
 
 You can set custom privacy attributes for every Type's Field. If a field is not
