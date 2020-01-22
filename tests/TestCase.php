@@ -17,6 +17,7 @@ use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
@@ -53,6 +54,7 @@ class TestCase extends BaseTestCase
             'query' => [
                 'examples' => ExamplesQuery::class,
                 'examplesAuthorize' => ExamplesAuthorizeQuery::class,
+                'examplesAuthorizeMessage' => ExamplesAuthorizeMessageQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
                 'examplesFiltered' => ExamplesFilteredQuery::class,
                 'examplesConfigAlias' => ExamplesConfigAliasQuery::class,

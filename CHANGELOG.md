@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/4.0.0...master)
 --------------
 
+### Added
+- Add support for custom authorization message
+
 2019-12-09, 4.0.0
 -----------------
 ### Added

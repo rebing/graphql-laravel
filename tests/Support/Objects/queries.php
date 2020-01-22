@@ -58,6 +58,14 @@ return [
         }
     ',
 
+    'examplesWithAuthorizeMessage' => '
+        query QueryExamplesAuthorizeMessage {
+            examplesAuthorizeMessage {
+                test
+            }
+        }
+    ',
+
     'examplesWithError' => '
         query QueryExamplesWithError {
             examplesQueryNotFound {
