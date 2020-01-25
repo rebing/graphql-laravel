@@ -1,5 +1,6 @@
 includes:
     - larastan.neon
+    - phpstan-baseline.neon
 parameters:
     level: max
     paths:
