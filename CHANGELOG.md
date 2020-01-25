@@ -5,7 +5,9 @@ CHANGELOG
 --------------
 
 ### Added
-- Add support for custom authorization message
+- Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
+### Changed
+- Refactor route files with the goal of making adding subscription support easier [\#575 / crissi](https://github.com/rebing/graphql-laravel/pull/575)
 
 2019-12-09, 4.0.0
 -----------------
