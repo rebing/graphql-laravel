@@ -110,15 +110,6 @@ parameters:
 			count: 1
 			path: src/GraphQLServiceProvider.php
 
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) has parameter \\$typedArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -127,11 +118,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:getAliasesInFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:getAliasesInFields\\(\\) has parameter \\$parentType with no typehint specified\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
 
@@ -202,56 +188,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getRules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:resolveRules\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:resolveRules\\(\\) has parameter \\$rules with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:resolveRules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:inferRulesFromType\\(\\) has parameter \\$resolutionArguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:inferRulesFromType\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getInputTypeRules\\(\\) has parameter \\$resolutionArguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getInputTypeRules\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
@@ -584,31 +520,6 @@ parameters:
 			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
 			count: 5
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationValidationUniqueWithCustomRulesTest.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\RuleObjectFail\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1661,71 +1572,6 @@ parameters:
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutation\\:\\:resolve\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutation.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\:\\:resolve\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
@@ -2311,16 +2157,6 @@ parameters:
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
@@ -2329,31 +2165,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\RuleObject\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -2375,25 +2186,6 @@ parameters:
 			count: 1
 			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
 
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\RuleObjectFail\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"

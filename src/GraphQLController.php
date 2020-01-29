@@ -108,6 +108,7 @@ class GraphQLController extends Controller
     protected function getRouteParameters(Request $request): array
     {
         if (Helpers::isLumen()) {
+            /** @var array<int,mixed> $route */
             $route = $request->route();
 
             return $route[2] ?? [];

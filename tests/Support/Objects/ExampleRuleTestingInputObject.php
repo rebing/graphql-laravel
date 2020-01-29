@@ -6,13 +6,17 @@ namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\Type;
+use PHPUnit\Framework\Assert;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\InputType;
 
-class ExampleValidationInputObject extends InputType
+class ExampleRuleTestingInputObject extends InputType
 {
+    /**
+     * @var array<string,string>
+     */
     protected $attributes = [
-        'name' => 'ExampleValidationInputObject',
+        'name' => 'ExampleRuleTestingInputObject',
     ];
 
     public function type(): ListOfType
@@ -29,7 +33,12 @@ class ExampleValidationInputObject extends InputType
             ],
             'otherValue' => [
                 'type' => Type::int(),
-                'rules' => function ($rules) {
+                'rules' => function ($arguments) {
+                    Assert::assertSame(
+                        $arguments,
+                        ['otherValue' => 1337]
+                    );
+
                     return ['required'];
                 },
             ],
@@ -46,7 +55,12 @@ class ExampleValidationInputObject extends InputType
         ];
     }
 
-    public function resolve($root, $args): array
+    /**
+     * @param mixed $root
+     * @param array<string,mixed> $args
+     * @return array<string>
+     */
+    public function resolve($root, array $args): array
     {
         return ['test'];
     }

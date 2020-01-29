@@ -12,6 +12,9 @@ use Rebing\GraphQL\Support\Mutation;
 
 class UpdateExampleMutation extends Mutation
 {
+    /**
+     * @var array<string,string>
+     */
     protected $attributes = [
         'name' => 'updateExample',
     ];
@@ -52,7 +55,15 @@ class UpdateExampleMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
+    /**
+     * @param mixed $root
+     * @param array<string,mixed> $args
+     * @param mixed $context
+     * @param ResolveInfo $resolveInfo
+     * @param Closure $getSelectFields
+     * @return array<string,mixed>
+     */
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
     {
         return [
             'test' => $args['test'],

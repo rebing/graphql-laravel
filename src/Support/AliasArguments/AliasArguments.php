@@ -13,15 +13,61 @@ use GraphQL\Type\Definition\WrappingType;
 
 class AliasArguments
 {
-    public function get(array $typedArgs, array $arguments): array
-    {
-        $pathsWithAlias = $this->getAliasesInFields($typedArgs, '');
+    /** @var array<string,mixed> */
+    private $queryArguments;
+    /** @var array<string,mixed> */
+    private $requestArguments;
+    /** @var int */
+    private $maxDepth;
 
-        return (new ArrayKeyChange())->modify($arguments, $pathsWithAlias);
+    /**
+     * @param array<string,mixed> $queryArguments
+     * @param array<string,mixed> $requestArguments
+     */
+    public function __construct(array $queryArguments, array $requestArguments)
+    {
+        $this->queryArguments = $queryArguments;
+        $this->requestArguments = $requestArguments;
+        $this->maxDepth = $this->getArrayDepth($this->requestArguments);
     }
 
-    private function getAliasesInFields(array $fields, $prefix = '', $parentType = null): array
+    public function get(): array
     {
+        $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, '');
+
+        return (new ArrayKeyChange())->modify($this->requestArguments, $pathsWithAlias);
+    }
+
+    /**
+     * c/p from https://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is/262944#262944.
+     *
+     * @param array<string,mixed> $array
+     * @return int
+     */
+    protected function getArrayDepth(array $array): int
+    {
+        $maxDepth = 1;
+
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $depth = $this->getArrayDepth($value) + 1;
+
+                if ($depth > $maxDepth) {
+                    $maxDepth = $depth;
+                }
+            }
+        }
+
+        return $maxDepth;
+    }
+
+    protected function getAliasesInFields(array $fields, $prefix = ''): array
+    {
+        // checks for traversal beyond the max depth
+        // this scenario occurs in types with recursive relations
+        if (substr_count($prefix, '.') > $this->maxDepth) {
+            return [];
+        }
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
             // $arg is either an array DSL notation or an InputObjectField
@@ -49,13 +95,7 @@ class AliasArguments
                 continue;
             }
 
-            if ($parentType && $type->toString() === $parentType->toString()) {
-                // in case the field is a self reference we must not do
-                // a recursive call as it will never stop
-                continue;
-            }
-
-            $pathAndAlias = $pathAndAlias + $this->getAliasesInFields($type->getFields(), $newPrefix, $type);
+            $pathAndAlias = $pathAndAlias + $this->getAliasesInFields($type->getFields(), $newPrefix);
         }
 
         return $pathAndAlias;
