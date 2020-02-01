@@ -333,7 +333,7 @@ For example, a mutation to update the password of a user. First you need to defi
 
 namespace App\GraphQL\Mutations;
 
-use CLosure;
+use Closure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
@@ -1726,7 +1726,7 @@ class UserInput extends InputType
 
 namespace App\GraphQL\Mutations;
 
-use CLosure;
+use Closure;
 use App\User;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
