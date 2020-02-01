@@ -45,7 +45,8 @@
         "nunomaduro/larastan": "0.5.0",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "matt-allan/laravel-code-style": "0.5.0"
+        "matt-allan/laravel-code-style": "0.5.0",
+        "phpstan/phpstan": "0.12.8"
     },
     "autoload": {
         "psr-4": {
@@ -58,7 +59,7 @@
         }
     },
     "scripts": {
-        "phpstan": "phpstan analyse",
+        "phpstan": "phpstan analyse --memory-limit=512M",
         "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
         "fix-style": "php-cs-fixer fix"
     },
