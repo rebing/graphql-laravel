@@ -5,14 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
-use GraphQL\Type\Definition\InputObjectType;
-use GraphQL\Type\Definition\ListOfType;
-use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
-use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -70,105 +65,25 @@ abstract class Field
         return [];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     * @return array<string,mixed>
+     */
     protected function rules(array $args = []): array
     {
         return [];
     }
 
-    public function getRules(): array
+    /**
+     * @param array<string,mixed> $arguments
+     * @return array<string,mixed>
+     */
+    public function getRules(array $arguments = []): array
     {
-        $arguments = func_get_args();
-
-        $rules = call_user_func_array([$this, 'rules'], $arguments);
-        $argsRules = [];
-        foreach ($this->args() as $name => $arg) {
-            if (isset($arg['rules'])) {
-                $argsRules[$name] = $this->resolveRules($arg['rules'], $arguments);
-            }
-
-            if (isset($arg['type'])
-                && ($arg['type'] instanceof NonNull || isset(Arr::get($arguments, 0, [])[$name]))) {
-                $argsRules = array_merge($argsRules, $this->inferRulesFromType($arg['type'], $name, $arguments));
-            }
-        }
+        $rules = $this->rules($arguments);
+        $argsRules = (new Rules($this->args(), $arguments))->get();
 
         return array_merge($argsRules, $rules);
-    }
-
-    /**
-     * @param  array|string|callable  $rules
-     * @param  array  $arguments
-     * @return array|string
-     */
-    public function resolveRules($rules, array $arguments)
-    {
-        if (is_callable($rules)) {
-            return call_user_func_array($rules, $arguments);
-        }
-
-        return $rules;
-    }
-
-    public function inferRulesFromType(GraphqlType $type, string $prefix, array $resolutionArguments): array
-    {
-        $rules = [];
-
-        // make sure we are dealing with the actual type
-        if ($type instanceof NonNull) {
-            $type = $type->getWrappedType();
-        }
-
-        // if it is an array type, add an array validation component
-        if ($type instanceof ListOfType) {
-            $prefix = "{$prefix}.*";
-        }
-
-        // make sure we are dealing with the actual type
-        if ($type instanceof WrappingType) {
-            $type = $type->getWrappedType(true);
-        }
-
-        // if it is an input object type - the only type we care about here...
-        if ($type instanceof InputObjectType) {
-            // merge in the input type's rules
-            $rules = array_merge($rules, $this->getInputTypeRules($type, $prefix, $resolutionArguments));
-        }
-
-        // Ignore scalar types
-
-        return $rules;
-    }
-
-    public function getInputTypeRules(InputObjectType $input, string $prefix, array $resolutionArguments): array
-    {
-        $rules = [];
-
-        foreach ($input->getFields() as $name => $field) {
-            $key = "{$prefix}.{$name}";
-
-            // get any explicitly set rules
-            if (isset($field->rules)) {
-                $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
-            }
-
-            $type = $field->type;
-            if ($field->type instanceof WrappingType) {
-                $type = $field->type->getWrappedType(true);
-            }
-
-            // then recursively call the parent method to see if this is an
-            // input object, passing in the new prefix
-            if ($type instanceof InputObjectType) {
-                // in case the field is a self reference we must not do
-                // a recursive call as it will never stop
-                if ($type->toString() == $input->toString()) {
-                    continue;
-                }
-            }
-            $rules = array_merge($rules, $this->inferRulesFromType($field->type, $key, $resolutionArguments));
-        }
-
-        return $rules;
     }
 
     public function getValidator(array $args, array $rules): ValidatorContract
@@ -198,7 +113,9 @@ abstract class Field
 
             // Validate mutation arguments
             $args = $arguments[1];
-            $rules = call_user_func_array([$this, 'getRules'], [$args]);
+
+            $rules = $this->getRules($args);
+
             if (count($rules)) {
                 $validator = $this->getValidator($args, $rules);
                 if ($validator->fails()) {
@@ -257,7 +174,7 @@ abstract class Field
 
     protected function aliasArgs(array $arguments): array
     {
-        return (new AliasArguments())->get($this->args(), $arguments[1]);
+        return (new AliasArguments($this->args(), $arguments[1]))->get();
     }
 
     protected function getArgs(array $arguments): array

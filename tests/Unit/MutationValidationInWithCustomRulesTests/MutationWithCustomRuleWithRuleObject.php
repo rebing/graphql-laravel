@@ -44,7 +44,12 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         ];
     }
 
-    public function resolve($root, $args): string
+    /**
+     * @param mixed $root
+     * @param array<string,mixed> $args
+     * @return string
+     */
+    public function resolve($root, array $args): string
     {
         return 'mutation result';
     }

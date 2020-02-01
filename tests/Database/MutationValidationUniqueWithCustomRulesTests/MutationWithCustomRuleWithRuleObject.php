@@ -9,6 +9,9 @@ use Rebing\GraphQL\Support\Mutation;
 
 class MutationWithCustomRuleWithRuleObject extends Mutation
 {
+    /**
+     * @var array<string,string>
+     */
     protected $attributes = [
         'name' => 'mutationWithCustomRuleWithRuleObject',
     ];
@@ -44,7 +47,12 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         ];
     }
 
-    public function resolve($root, $args): string
+    /**
+     * @param mixed $root
+     * @param array<string,mixed> $args
+     * @return string
+     */
+    public function resolve($root, array $args): string
     {
         return 'mutation result';
     }

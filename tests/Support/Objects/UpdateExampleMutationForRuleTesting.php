@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
+use PHPUnit\Framework\Assert;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
-class UpdateExampleMutationWithInputType extends Mutation
+class UpdateExampleMutationForRuleTesting extends Mutation
 {
     /**
      * @var array<string,string>
      */
     protected $attributes = [
-        'name' => 'updateExample',
+        'name' => 'updateExampleMutationForRuleTesting',
     ];
 
     public function type(): Type
@@ -22,6 +23,10 @@ class UpdateExampleMutationWithInputType extends Mutation
         return GraphQL::type('Example');
     }
 
+    /**
+     * @param array<string,mixed> $args
+     * @return array<string,mixed>
+     */
     protected function rules(array $args = []): array
     {
         return [
@@ -29,19 +34,12 @@ class UpdateExampleMutationWithInputType extends Mutation
         ];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function args(): array
     {
         return [
-            'test' => [
-                'name' => 'test',
-                'type' => Type::string(),
-            ],
-
-            'test_with_rules' => [
-                'name' => 'test',
-                'type' => Type::string(),
-                'rules' => ['required'],
-            ],
             'test_with_rules_closure' => [
                 'name' => 'test',
                 'type' => Type::string(),
@@ -49,22 +47,30 @@ class UpdateExampleMutationWithInputType extends Mutation
                     return ['required'];
                 },
             ],
+            'test_with_rules_callback_params' => [
+                'type' => GraphQL::type('ExampleRuleTestingInputObject'),
+                'rules' => function ($inputArguments, $mutationArguments) {
+                    $fullParamsExpected = [
+                        'test_with_rules_callback_params' => [
+                            'otherValue' => 1337,
+                        ],
+                    ];
 
-            'test_with_rules_nullable_input_object' => [
-                'type' => GraphQL::type('ExampleValidationInputObject'),
-                'rules' => ['nullable'],
+                    Assert::assertSame(
+                        $mutationArguments,
+                        $fullParamsExpected
+                    );
+
+                    Assert::assertSame(
+                        $inputArguments,
+                        $fullParamsExpected
+                    );
+
+                    return ['required'];
+                },
+
             ],
 
-            'test_with_rules_non_nullable_input_object' => [
-                'name' => 'test',
-                'type' => Type::nonNull(GraphQL::type('ExampleValidationInputObject')),
-                'rules' => ['required'],
-            ],
-
-            'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [
-                'name'  => 'test',
-                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
-            ],
         ];
     }
 
