@@ -6,6 +6,8 @@ CHANGELOG
 
 ### Added
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
+### Fixed
+- Fix the infinite loop as well as sending the correct matching input data to the rule-callback [\#579 / crissi](https://github.com/rebing/graphql-laravel/pull/579)
 ### Changed
 - Refactor route files with the goal of making adding subscription support easier [\#575 / crissi](https://github.com/rebing/graphql-laravel/pull/575)
 
