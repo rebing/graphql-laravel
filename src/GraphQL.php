@@ -16,6 +16,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Traits\Macroable;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -26,6 +27,8 @@ use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class GraphQL
 {
+    use Macroable;
+
     /** @var Container */
     protected $app;
 

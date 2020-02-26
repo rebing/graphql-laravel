@@ -8,6 +8,7 @@ use GraphQL\Error\Error;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Support\Traits\Macroable;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
@@ -394,5 +395,10 @@ class GraphQLTest extends TestCase
         ];
 
         $this->assertSame($expectedResult, $result);
+    }
+
+    public function testIsMacroable(): void
+    {
+        $this->assertContains(Macroable::class, class_uses_recursive(GraphQL::getFacadeRoot()));
     }
 }

@@ -116,23 +116,24 @@ To work this around:
     - [Resolve method](#resolve-method)
     - [Authorization](#authorization)
     - [Privacy](#privacy)
-    - [Query Variables](#query-variables)
+    - [Query variables](#query-variables)
     - [Custom field](#custom-field)
       - [Even better reusable fields](#even-better-reusable-fields)
     - [Eager loading relationships](#eager-loading-relationships)
     - [Type relationship query](#type-relationship-query)
     - [Pagination](#pagination)
     - [Batching](#batching)
-    - [Scalar Types](#scalar-types)
+    - [Scalar types](#scalar-types)
     - [Enums](#enums)
     - [Unions](#unions)
     - [Interfaces](#interfaces)
-      - [Sharing Interface fields](#sharing-interface-fields)
+      - [Sharing interface fields](#sharing-interface-fields)
     - [Input Object](#input-object)
-    - [Input Alias](#input-alias)
-    - [JSON Columns](#json-columns)
-      - [Field deprecation](#field-deprecation)
-      - [Default Field Resolver](#default-field-resolver)
+    - [Field and input alias](#field-and-input-alias)
+    - [JSON columns](#json-columns)
+    - [Field deprecation](#field-deprecation)
+    - [Default field resolver](#default-field-resolver)
+    - [Macros](#macros)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -186,7 +187,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -209,7 +210,7 @@ class UserType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'The email of user',
                 'resolve' => function($root, $args) {
-                    // If you want to resolve the field yourself, 
+                    // If you want to resolve the field yourself,
                     // it can be done here
                     return strtolower($root->email);
                 }
@@ -228,7 +229,7 @@ class UserType extends GraphQLType
     protected function resolveEmailField($root, $args)
     {
         return strtolower($root->email);
-    }    
+    }
 }
 ```
 
@@ -541,7 +542,7 @@ public function validationErrorMessages(array $args = []): array
         'name.string' => 'Your name must be a valid string',
         'email.required' => 'Please enter your email address',
         'email.email' => 'Please enter a valid email address',
-        'email.exists' => 'Sorry, this email address is already in use',                     
+        'email.exists' => 'Sorry, this email address is already in use',
     ];
 }
 ````
@@ -819,7 +820,7 @@ class UserType extends GraphQLType
 }
 ```
 
-### Query Variables
+### Query variables
 
 GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:
 
@@ -856,7 +857,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class PictureField extends Field
-{        
+{
     protected $attributes = [
         'description'   => 'A picture',
     ];
@@ -943,7 +944,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class FormattableDate extends Field
-{        
+{
     protected $attributes = [
         'description' => 'A field that can output a date in all sorts of ways.',
     ];
@@ -976,7 +977,7 @@ class FormattableDate extends Field
     protected function resolve($root, $args): ?string
     {
         $date = $root->{$this->getProperty()};
-        
+
         if (!$date instanceof Carbon) {
             return null;
         }
@@ -984,7 +985,7 @@ class FormattableDate extends Field
         if ($args['relative']) {
             return $date->diffForHumans();
         }
-        
+
         return $date->format($args['format']);
     }
 
@@ -1032,7 +1033,7 @@ class UserType extends GraphQLType
 
             // Because the constructor of `FormattableDate` accepts our the array of parameters,
             // we can override them very easily.
-            // Imagine we want our field to be called `createdAt`, but our database column 
+            // Imagine we want our field to be called `createdAt`, but our database column
             // is called `created_at`:
             'createdAt' => new FormattableDate([
                 'alias' => 'created_at',
@@ -1050,7 +1051,7 @@ Only the required fields will be queried from the database.
 
 The class can be instanciated by typehinting `SelectFields $selectField` in your resolve method.
 
-You can also construct the class by typehinting a `Closure`. 
+You can also construct the class by typehinting a `Closure`.
 The Closure accepts an optional parameter for the depth of the query to analyse.
 
 Your Query would look like:
@@ -1332,7 +1333,7 @@ within a certain interval of time.
 
 There are tools that help with this and can handle the batching for you, e.g [Apollo](http://www.apollodata.com/)
 
-### Scalar Types
+### Scalar types
 
 GraphQL comes with built-in scalar types for string, int, boolean, etc. It's possible to create custom scalar types to special purpose fields.
 
@@ -1567,7 +1568,7 @@ Based on the previous code example, the method would look like:
     }
 ```
 
-#### Sharing Interface fields
+#### Sharing interface fields
 
 Since you often have to repeat many of the field definitons of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
 You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
@@ -1675,7 +1676,7 @@ class TestMutation extends GraphQLType {
 }
 ```
 
-### Input Alias
+### Field and input alias
 
 It is possible to alias query and mutation arguments as well as input object fields.
 
@@ -1768,7 +1769,7 @@ class UpdateUserMutation extends Mutation
 ```
 
 
-### JSON Columns
+### JSON columns
 
 When using JSON columns in your database, the field won't be defined as a "relationship",
 but rather a simple column with nested data. To get a nested object that's not a database relationship,
@@ -1801,7 +1802,7 @@ class UserType extends GraphQLType
 }
 ```
 
-#### Field deprecation
+### Field deprecation
 
 Sometimes you would want to deprecate a field but still have to maintain backward compatibility
 until clients completely stop using that field. You can deprecate a field using
@@ -1820,7 +1821,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -1856,7 +1857,7 @@ class UserType extends GraphQLType
 }
 ```
 
-#### Default Field Resolver
+### Default field resolver
 
 It's possible to override the default field resolver provided by the underlying
 webonyx/graphql-php library using the config option `defaultFieldResolver`.
@@ -1868,6 +1869,40 @@ You can define any valid callable (static class method, closure, etc.) for it:
 ```
 
 The parameters received are your regular "resolve" function signature.
+
+### Macros
+
+If you would like to define some helpers that you can re-use in a variety of your
+queries, mutations and types, you may use the macro method on the `GraphQL` facade.
+
+For example, from a service provider's boot method:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use GraphQL\Type\Definition\Type;
+use Illuminate\Support\ServiceProvider;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        GraphQL::macro('listOf', function (string $name) : Type {
+            return Type::listOf(GraphQL::type($name));
+        });
+    }
+}
+```
+
+The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
 ## Guides
 
@@ -1940,7 +1975,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - Change namespace references:
   - from `Folklore\`
   - to `Rebing\`
-- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)  
+- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)
 - The trait `ShouldValidate` does not exist anymore; the provided features are baked into `Field`
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
 
