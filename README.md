@@ -131,8 +131,8 @@ To work this around:
     - [Input Object](#input-object)
     - [Input Alias](#input-alias)
     - [JSON Columns](#json-columns)
-      - [Field deprecation](#field-deprecation)
-      - [Default Field Resolver](#default-field-resolver)
+    - [Field deprecation](#field-deprecation)
+    - [Default Field Resolver](#default-field-resolver)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -186,7 +186,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -209,7 +209,7 @@ class UserType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'The email of user',
                 'resolve' => function($root, $args) {
-                    // If you want to resolve the field yourself, 
+                    // If you want to resolve the field yourself,
                     // it can be done here
                     return strtolower($root->email);
                 }
@@ -228,7 +228,7 @@ class UserType extends GraphQLType
     protected function resolveEmailField($root, $args)
     {
         return strtolower($root->email);
-    }    
+    }
 }
 ```
 
@@ -541,7 +541,7 @@ public function validationErrorMessages(array $args = []): array
         'name.string' => 'Your name must be a valid string',
         'email.required' => 'Please enter your email address',
         'email.email' => 'Please enter a valid email address',
-        'email.exists' => 'Sorry, this email address is already in use',                     
+        'email.exists' => 'Sorry, this email address is already in use',
     ];
 }
 ````
@@ -856,7 +856,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class PictureField extends Field
-{        
+{
     protected $attributes = [
         'description'   => 'A picture',
     ];
@@ -943,7 +943,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Field;
 
 class FormattableDate extends Field
-{        
+{
     protected $attributes = [
         'description' => 'A field that can output a date in all sorts of ways.',
     ];
@@ -976,7 +976,7 @@ class FormattableDate extends Field
     protected function resolve($root, $args): ?string
     {
         $date = $root->{$this->getProperty()};
-        
+
         if (!$date instanceof Carbon) {
             return null;
         }
@@ -984,7 +984,7 @@ class FormattableDate extends Field
         if ($args['relative']) {
             return $date->diffForHumans();
         }
-        
+
         return $date->format($args['format']);
     }
 
@@ -1032,7 +1032,7 @@ class UserType extends GraphQLType
 
             // Because the constructor of `FormattableDate` accepts our the array of parameters,
             // we can override them very easily.
-            // Imagine we want our field to be called `createdAt`, but our database column 
+            // Imagine we want our field to be called `createdAt`, but our database column
             // is called `created_at`:
             'createdAt' => new FormattableDate([
                 'alias' => 'created_at',
@@ -1050,7 +1050,7 @@ Only the required fields will be queried from the database.
 
 The class can be instanciated by typehinting `SelectFields $selectField` in your resolve method.
 
-You can also construct the class by typehinting a `Closure`. 
+You can also construct the class by typehinting a `Closure`.
 The Closure accepts an optional parameter for the depth of the query to analyse.
 
 Your Query would look like:
@@ -1801,7 +1801,7 @@ class UserType extends GraphQLType
 }
 ```
 
-#### Field deprecation
+### Field deprecation
 
 Sometimes you would want to deprecate a field but still have to maintain backward compatibility
 until clients completely stop using that field. You can deprecate a field using
@@ -1820,7 +1820,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
-{    
+{
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
@@ -1856,7 +1856,7 @@ class UserType extends GraphQLType
 }
 ```
 
-#### Default Field Resolver
+### Default Field Resolver
 
 It's possible to override the default field resolver provided by the underlying
 webonyx/graphql-php library using the config option `defaultFieldResolver`.
@@ -1940,7 +1940,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - Change namespace references:
   - from `Folklore\`
   - to `Rebing\`
-- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)  
+- See [Upgrade guide from v1 to v2 for all the function signature changes](#upgrading-from-v1-to-v2)
 - The trait `ShouldValidate` does not exist anymore; the provided features are baked into `Field`
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
 
