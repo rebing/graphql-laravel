@@ -133,6 +133,7 @@ To work this around:
     - [JSON columns](#json-columns)
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
+    - [Macros](#macros)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -1868,6 +1869,40 @@ You can define any valid callable (static class method, closure, etc.) for it:
 ```
 
 The parameters received are your regular "resolve" function signature.
+
+### Macros
+
+If you would like to define some helpers that you can re-use in a variety of your
+queries, mutations and types, you may use the macro method on the `GraphQL` facade.
+
+For example, from a service provider's boot method:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use GraphQL\Type\Definition\Type;
+use Illuminate\Support\ServiceProvider;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        GraphQL::macro('listOf', function (string $name) : Type {
+            return Type::listOf(GraphQL::type($name));
+        });
+    }
+}
+```
+
+The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
 ## Guides
 
