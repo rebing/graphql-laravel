@@ -178,8 +178,6 @@ First you need to create a type. The Eloquent Model is only required, if specify
 > **Note:** The `selectable` key is required, if it's a non-database field or not a relation
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use App\User;
@@ -249,8 +247,6 @@ GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
-<?php
-
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -330,8 +326,6 @@ A mutation is like any other query. It accepts arguments (which will be used to 
 For example, a mutation to update the password of a user. First you need to define the Mutation:
 
 ```php
-<?php
-
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -413,8 +407,6 @@ It is possible to add validation rules to a mutation. It uses the Laravel `Valid
 When creating a mutation, you can add a method to define the validation rules that apply by doing the following:
 
 ```php
-<?php
-
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -475,7 +467,6 @@ class UpdateUserEmailMutation extends Mutation
 Alternatively, you can define rules on each argument:
 
 ```php
-<?php
 class UpdateUserEmailMutation extends Mutation
 {
     //...
@@ -566,8 +557,6 @@ It is relevant that you send the request as `multipart/form-data`:
 > that middlewares which are changing request, will not have any effect.
 
 ```php
-<?php
-
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -609,11 +598,12 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
-
 ### Resolve method
-The resolve method is used in both queries and mutations and it here the response are created.
+
+The resolve method is used in both queries and mutations and it's here that responses are created.
 
 The first three parameters to the resolve method are hard-coded:
+
 1. The `$root` object this resolve method belongs to (can be `null`)
 2. The arguments passed as `array $args` (can be an empty array)
 3. The query specific GraphQL context, can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
@@ -627,9 +617,8 @@ There are two hardcoded classes which depend on the local data for the query:
 - `Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
 
 Example:
-```php
-<?php
 
+```php
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -679,6 +668,8 @@ For authorization similar to Laravel's Request (or middleware) functionality, we
 An example of Laravel's `'auth'` middleware:
 
 ```php
+namespace App\GraphQL\Queries;
+
 use Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -698,6 +689,8 @@ class UsersQuery extends Query
 Or we can make use of arguments passed via the GraphQL query:
 
 ```php
+namespace App\GraphQL\Queries;
+
 use Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -720,6 +713,8 @@ class UsersQuery extends Query
 You can also provide a custom error message when the authorization fails (defaults to Unauthorized):
 
 ```php
+namespace App\GraphQL\Queries;
+
 use Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -849,8 +844,6 @@ the `params_key` in the `graphql.php` configuration file.
 You can also define a field as a class if you want to reuse it in multiple types.
 
 ```php
-<?php
-
 namespace App\GraphQL\Fields;
 
 use GraphQL\Type\Definition\Type;
@@ -894,8 +887,6 @@ class PictureField extends Field
 You can then use it in your type declaration
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\PictureField;
@@ -936,8 +927,6 @@ Instead of using the class name, you can also supply an actual instance of the `
 Let's imagine we want a field type that can output dates formatted in all sorts of ways.
 
 ```php
-<?php
-
 namespace App\GraphQL\Fields;
 
 use GraphQL\Type\Definition\Type;
@@ -999,8 +988,6 @@ class FormattableDate extends Field
 You can use this field in your type as follows:
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\FormattableDate;
@@ -1057,8 +1044,6 @@ The Closure accepts an optional parameter for the depth of the query to analyse.
 Your Query would look like:
 
 ```php
-<?php
-
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -1116,8 +1101,6 @@ The attribute can be a comma separted string or an array of attribues to
 always include.
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use App\User;
@@ -1255,9 +1238,17 @@ Pagination will be used, if a query or mutation returns a `PaginationType`.
 Note that you have to manually handle the limit and page values:
 
 ```php
+namespace App\GraphQL\Queries;
+
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+
 class PostsQuery extends Query
 {
-    public function type(): \GraphQL\Type\Definition\Type
+    public function type(): Type
     {
         return GraphQL::paginate('posts');
     }
@@ -1267,8 +1258,8 @@ class PostsQuery extends Query
     public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
     {
         $fields = $getSelectFields();
-        return Post
-            ::with($fields->getRelations())
+
+        return Post::with($fields->getRelations())
             ->select($fields->getSelect())
             ->paginate($args['limit'], ['*'], 'page', $args['page']);
     }
@@ -1360,8 +1351,6 @@ Read more about Enums [here](http://graphql.org/learn/schema/#enumeration-types)
 
 First create an Enum as an extension of the GraphQLType class:
 ```php
-<?php
-
 namespace App\GraphQL\Enums;
 
 use Rebing\GraphQL\Support\EnumType;
@@ -1394,8 +1383,6 @@ Register the Enum in the `types` array of the `graphql.php` config file:
 
 Then use it like:
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -1423,8 +1410,6 @@ It's useful if you need to return unrelated types in the same Query. For example
 Example for defining a UnionType:
 
 ```php
-<?php
-
 namespace App\GraphQL\Unions;
 
 use App\Post;
@@ -1464,8 +1449,6 @@ You can use interfaces to abstract a set of fields. Read more about Interfaces [
 An implementation of an interface:
 
 ```php
-<?php
-
 namespace App\GraphQL\Interfaces;
 
 use GraphQL;
@@ -1510,8 +1493,6 @@ class CharacterInterface extends InterfaceType
 A Type that implements an interface:
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use GraphQL;
@@ -1617,8 +1598,6 @@ Read more about Input Object [here](https://graphql.org/learn/schema/#input-type
 
 First create an InputObjectType as an extension of the GraphQLType class:
 ```php
-<?php
-
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
@@ -1687,8 +1666,6 @@ Here you might want the input names to be different from the column names in the
 Example, where the database columns are `first_name` and `last_name`:
 
 ```php
-<?php
-
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
@@ -1721,10 +1698,7 @@ class UserInput extends InputType
 }
 ```
 
-
 ```php
-<?php
-
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -1768,7 +1742,6 @@ class UpdateUserMutation extends Mutation
 }
 ```
 
-
 ### JSON columns
 
 When using JSON columns in your database, the field won't be defined as a "relationship",
@@ -1778,7 +1751,6 @@ use the `is_relation` attribute in your Type:
 ```php
 class UserType extends GraphQLType
 {
-
     // ...
 
     public function fields(): array
@@ -1812,8 +1784,6 @@ using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apol
 
 
 ```php
-<?php
-
 namespace App\GraphQL\Types;
 
 use App\User;
@@ -1878,8 +1848,6 @@ queries, mutations and types, you may use the macro method on the `GraphQL` faca
 For example, from a service provider's boot method:
 
 ```php
-<?php
-
 namespace App\Providers;
 
 use GraphQL\Type\Definition\Type;
@@ -1895,7 +1863,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        GraphQL::macro('listOf', function (string $name) : Type {
+        GraphQL::macro('listOf', function (string $name): Type {
             return Type::listOf(GraphQL::type($name));
         });
     }
