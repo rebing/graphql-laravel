@@ -23,6 +23,13 @@ parameters:
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection<mixed,mixed>::slice\(\) expects int, float\|int given/'
+        # Rebing\GraphQL\Support\Middleware::handle
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has no return typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$args with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$context with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$root with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has no return typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has parameter \$arguments with no value type specified in iterable type array/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'

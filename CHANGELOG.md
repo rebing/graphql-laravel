@@ -31,6 +31,7 @@ CHANGELOG
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
 - Add support for macros on the GraphQL service/facade [\#592 / stevelacey](https://github.com/rebing/graphql-laravel/pull/592)
+- Add support for resolver middleware [\#594 / stevelacey](https://github.com/rebing/graphql-laravel/pull/594)
 ### Fixed
 - Fix the infinite loop as well as sending the correct matching input data to the rule-callback [\#579 / crissi](https://github.com/rebing/graphql-laravel/pull/579)
 - Fix selecting not the correct columns for interface fields [\#607 / illambo](https://github.com/rebing/graphql-laravel/pull/607)
