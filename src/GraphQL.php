@@ -34,12 +34,14 @@ class GraphQL
 
     /** @var array<array|Schema> */
     protected $schemas = [];
+
     /**
      * Maps GraphQL type names to their class name.
      *
      * @var array<string,object|string>
      */
     protected $types = [];
+
     /** @var Type[] */
     protected $typesInstances = [];
 
