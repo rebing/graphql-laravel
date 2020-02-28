@@ -12,6 +12,8 @@ CHANGELOG
 - Fix the infinite loop as well as sending the correct matching input data to the rule-callback [\#579 / crissi](https://github.com/rebing/graphql-laravel/pull/579)
 ### Changed
 - Refactor route files with the goal of making adding subscription support easier [\#575 / crissi](https://github.com/rebing/graphql-laravel/pull/575)
+### Removed
+- Official support for Laravel 5.8 has been removed [\596 / mfn](https://github.com/rebing/graphql-laravel/pull/596)
 
 2019-12-09, 4.0.0
 -----------------
