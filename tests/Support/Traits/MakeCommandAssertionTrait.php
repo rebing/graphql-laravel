@@ -19,7 +19,7 @@ trait MakeCommandAssertionTrait
         string $expectedFilename,
         string $expectedNamespace,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName = null
     ): void {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)
@@ -41,7 +41,10 @@ trait MakeCommandAssertionTrait
                 $this->callback(function (string $contents) use ($expectedClassDefinition, $expectedGraphqlName, $expectedNamespace): bool {
                     $this->assertRegExp("/namespace $expectedNamespace;/", $contents);
                     $this->assertRegExp("/class $expectedClassDefinition/", $contents);
-                    $this->assertRegExp("/$expectedGraphqlName/", $contents);
+
+                    if ($expectedGraphqlName) {
+                        $this->assertRegExp("/$expectedGraphqlName/", $contents);
+                    }
 
                     return true;
                 })
