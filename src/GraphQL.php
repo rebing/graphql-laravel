@@ -416,6 +416,13 @@ class GraphQL
                 continue;
             }
 
+            if (! $error instanceof Exception) {
+                $error = new \Exception(
+                    $error->getMessage(),
+                    $error->getCode(),
+                    $error);
+            }
+
             $handler->report($error);
         }
 
