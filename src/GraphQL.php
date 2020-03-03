@@ -420,7 +420,8 @@ class GraphQL
                 $error = new \Exception(
                     $error->getMessage(),
                     $error->getCode(),
-                    $error);
+                    $error
+                );
             }
 
             $handler->report($error);
