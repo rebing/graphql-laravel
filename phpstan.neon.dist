@@ -45,5 +45,5 @@ parameters:
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
-        - '/Method Illuminate\\Foundation\\Testing\\TestResponse\:\:assertSee\(\) invoked with 2 parameters, 1 required'
+        - '/Method Illuminate\\Foundation\\Testing\\TestResponse\:\:assertSee\(\) invoked with 2 parameters, 1 required/'
     reportUnmatchedIgnoredErrors: true
