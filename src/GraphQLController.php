@@ -29,7 +29,7 @@ class GraphQLController extends Controller
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
         $routeParameters = $this->getRouteParameters($request);
-        if (count($routeParameters) > 1) {
+        if (count($routeParameters) > 0) {
             $schema = implode('/', $routeParameters);
         }
 
