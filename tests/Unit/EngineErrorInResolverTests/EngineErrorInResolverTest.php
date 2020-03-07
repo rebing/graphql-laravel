@@ -7,7 +7,7 @@ namespace Rebing\GraphQL\Tests\Unit\EngineErrorInResolverTests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Mockery;
 use Rebing\GraphQL\Tests\TestCase;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Throwable;
 
 class EngineErrorInResolverTest extends TestCase
 {
@@ -29,7 +29,7 @@ class EngineErrorInResolverTest extends TestCase
         $handlerMock
             ->shouldReceive('report')
             ->with(Mockery::on(
-                function (FatalThrowableError $error) {
+                function (Throwable $error) {
                     // Using a regex here because in some cases the message gets prefixed with "Type error:"
                     $this->assertRegExp('/Simulating a TypeError/', $error->getMessage());
 
