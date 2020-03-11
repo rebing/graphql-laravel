@@ -771,7 +771,7 @@ To create a new middleware, use the `make:graphql:middleware` Artisan command
 php artisan make:graphql:middleware ResolvePage
 ```
 
-This command will place a new ResolvePage class within your app/Http/Middleware directory.
+This command will place a new ResolvePage class within your app/GraphQL/Middleware directory.
 In this middleware, we will set the Paginator current page to the argument we accept via our `PaginationType`:
 
 ```php
