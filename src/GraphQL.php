@@ -23,7 +23,6 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\PaginationType;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class GraphQL
 {
@@ -418,7 +417,11 @@ class GraphQL
             }
 
             if (! $error instanceof Exception) {
-                $error = new FatalThrowableError($error);
+                $error = new \Exception(
+                    $error->getMessage(),
+                    $error->getCode(),
+                    $error
+                );
             }
 
             $handler->report($error);
