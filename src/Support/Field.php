@@ -121,7 +121,7 @@ abstract class Field
         return Validator::make($args, $rules, $messages);
     }
 
-    protected function getResolver() : ?Closure
+    protected function getResolver(): ?Closure
     {
         $resolver = $this->originalResolver();
 
