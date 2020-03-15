@@ -14,6 +14,9 @@ abstract class Middleware
         return $next($root, $args, $context, $info);
     }
 
+    /**
+     * @see Field::getResolver()  Middleware is resolved in the field resolver pipeline
+     */
     public function resolve(array $arguments, Closure $next)
     {
         return $this->handle(...$arguments, ...[
