@@ -180,6 +180,87 @@ SQL
         $this->assertSame($expectedResult, $result);
     }
 
+    public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
+    {
+        $post = factory(Post::class)
+            ->create([
+                'title' => 'Title of the post',
+            ]);
+        factory(Comment::class)
+            ->create([
+                'title' => 'Title of the comment',
+                'post_id' => $post->id,
+            ]);
+
+        $user = factory(User::class)->create();
+        Like::create([
+            'likable_id' => $post->id,
+            'likable_type' => Post::class,
+            'user_id' => $user->id,
+        ]);
+
+        $graphql = <<<'GRAPHQL'
+{
+  userQuery {
+    id
+    likes{
+      likable{
+        id
+        title
+        ...on Post {
+          created_at
+          alias_updated_at
+        }
+      }
+    }
+  }
+}
+GRAPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($graphql);
+
+        if (Application::VERSION < '5.6') {
+            $this->assertSqlQueries(
+                <<<'SQL'
+select "users"."id" from "users";
+select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
+select * from "posts" where "posts"."id" in (?);
+SQL
+            );
+        } else {
+            $this->assertSqlQueries(
+                <<<'SQL'
+select "users"."id" from "users";
+select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
+select * from "posts" where "posts"."id" in (?);
+SQL
+            );
+        }
+
+        $expectedResult = [
+            'data' => [
+                'userQuery' => [
+                    [
+                        'id' => (string) $user->id,
+                        'likes' => [
+                            [
+                                'likable' => [
+                                    'id' => (string) $post->id,
+                                    'title' => $post->title,
+                                    'created_at' => $post->created_at->toDateTimeString(),
+                                    'alias_updated_at' => $post->updated_at->toDateTimeString(),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertSame($expectedResult, $result);
+    }
+
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
     {
         $post = factory(Post::class)
