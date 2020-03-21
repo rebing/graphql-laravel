@@ -36,7 +36,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "title" from "posts";
+select * from "posts";
 SQL
         );
 
@@ -82,7 +82,7 @@ GRAPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "id", "title" from "posts";
+select * from "posts";
 select "comments"."title", "comments"."post_id", "comments"."id" from "comments" where "comments"."post_id" in (?) and "id" >= ? order by "comments"."id" asc;
 SQL
         );
@@ -155,7 +155,7 @@ SQL
                 <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select "id", "title" from "posts" where "posts"."id" in (?);
+select * from "posts" where "posts"."id" in (?);
 SQL
             );
         }
@@ -240,7 +240,7 @@ SQL
                 <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select "id", "title" from "posts" where "posts"."id" in (?);
+select * from "posts" where "posts"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
 SQL
             );
@@ -353,7 +353,7 @@ SQL
                 <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select "id", "title" from "comments" where "comments"."id" in (?);
+select * from "comments" where "comments"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 1=1;
 SQL
             );
