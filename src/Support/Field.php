@@ -86,6 +86,18 @@ abstract class Field
         return array_merge($argsRules, $rules);
     }
 
+    public function validateFieldArguments(ResolveInfo $resolveInfo): void
+    {
+        [$argumentValues, $argsRules] = (new RulesInFields($this->type(), $resolveInfo))->get();
+
+        if (count($argsRules)) {
+            $validator = $this->getValidator($argumentValues, $argsRules);
+            if ($validator->fails()) {
+                throw new ValidationError('validation', $validator);
+            }
+        }
+    }
+
     public function getValidator(array $args, array $rules): ValidatorContract
     {
         // allow our error messages to be customised
@@ -110,6 +122,9 @@ abstract class Field
             // 3 - \GraphQL\Type\Definition\ResolveInfo as provided by the underlying GraphQL PHP library
             // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
             $arguments = func_get_args();
+
+            // Validate arguments in fields
+            $this->validateFieldArguments($arguments[3]);
 
             // Validate mutation arguments
             $args = $arguments[1];
