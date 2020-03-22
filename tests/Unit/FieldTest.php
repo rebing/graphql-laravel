@@ -6,9 +6,9 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class FieldTest extends TestCase
 {

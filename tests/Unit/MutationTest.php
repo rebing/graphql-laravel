@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\Validator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleRuleTestingInputObject;
@@ -13,7 +14,6 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationForRuleTesting;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class MutationTest extends FieldTest
 {
