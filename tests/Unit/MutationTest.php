@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
+use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\Validator;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
@@ -12,7 +13,6 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationForRuleTesting;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
-use GraphQL\Type\Definition\ResolveInfo;
 
 class MutationTest extends FieldTest
 {
@@ -89,8 +89,6 @@ class MutationTest extends FieldTest
         $this->expectException(ValidationError::class);
         $attributes['resolve'](null, [], [], $this->resolveInfoMock());
     }
-
-
 
     /**
      * Test validation error.

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
-use GraphQL\Type\Definition\ResolveInfo;
 
 class FieldTest extends TestCase
 {

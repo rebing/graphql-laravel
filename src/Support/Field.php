@@ -131,7 +131,6 @@ abstract class Field
             if (count($rules)) {
                 $validator = $this->getValidator($args, $rules);
                 if ($validator->fails()) {
-
                     throw new ValidationError('validation', $validator);
                 }
             }
