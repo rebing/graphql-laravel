@@ -13,6 +13,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationForRuleTesting;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MutationTest extends FieldTest
 {
@@ -33,7 +34,7 @@ class MutationTest extends FieldTest
         ]);
     }
 
-    protected function resolveInfoMock()
+    protected function resolveInfoMock(): MockObject
     {
         return $this->getMockBuilder(ResolveInfo::class)
             ->disableOriginalConstructor()

@@ -8,6 +8,7 @@ use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class FieldTest extends TestCase
 {
@@ -16,7 +17,7 @@ class FieldTest extends TestCase
         return ExampleField::class;
     }
 
-    protected function resolveInfoMock()
+    protected function resolveInfoMock(): MockObject
     {
         return $this->getMockBuilder(ResolveInfo::class)
             ->disableOriginalConstructor()
