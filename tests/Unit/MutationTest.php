@@ -12,6 +12,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationForRuleTesting;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
+use GraphQL\Type\Definition\ResolveInfo;
 
 class MutationTest extends FieldTest
 {
@@ -30,6 +31,13 @@ class MutationTest extends FieldTest
             'ExampleRuleTestingInputObject' => ExampleRuleTestingInputObject::class,
             'ExampleNestedValidationInputObject' => ExampleNestedValidationInputObject::class,
         ]);
+    }
+
+    protected function resolveInfoMock()
+    {
+        return $this->getMockBuilder(ResolveInfo::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -66,7 +74,7 @@ class MutationTest extends FieldTest
                     ['email' => 'test@test.com'],
                 ],
             ],
-        ], [], null);
+        ], [], $this->resolveInfoMock());
     }
 
     /**
@@ -79,8 +87,10 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
         $this->expectException(ValidationError::class);
-        $attributes['resolve'](null, [], [], null);
+        $attributes['resolve'](null, [], [], $this->resolveInfoMock());
     }
+
+
 
     /**
      * Test validation error.
@@ -98,7 +108,7 @@ class MutationTest extends FieldTest
                 'test_with_rules_non_nullable_input_object' => [
                     'val' => 4,
                 ],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -131,7 +141,7 @@ class MutationTest extends FieldTest
                 'test_with_rules_non_nullable_input_object' => [
                     'val' => 4,
                 ],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $e) {
             $validator = $e->getValidator();
 
@@ -160,7 +170,7 @@ class MutationTest extends FieldTest
         $exception = null;
 
         try {
-            $attributes['resolve'](null, [], [], null);
+            $attributes['resolve'](null, [], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -190,7 +200,7 @@ class MutationTest extends FieldTest
         try {
             $attributes['resolve'](null, [
                 'test_with_rules' => 'test',
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -220,7 +230,7 @@ class MutationTest extends FieldTest
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_input_object' => [],
                 'test_with_rules_nullable_input_object' => [],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -259,7 +269,7 @@ class MutationTest extends FieldTest
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -291,7 +301,7 @@ class MutationTest extends FieldTest
                         'val' => 1245,
                     ],
                 ],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -330,7 +340,7 @@ class MutationTest extends FieldTest
                 'test_with_rules_non_nullable_input_object' => [
                     'nest' => ['email' => 'invalidTestEmail.com'],
                 ],
-            ], [], null);
+            ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
 
@@ -352,6 +362,6 @@ class MutationTest extends FieldTest
             'test_with_rules_callback_params' => [
                 'otherValue' => 1337,
             ],
-        ], [], null);
+        ], [], $this->resolveInfoMock());
     }
 }

@@ -123,9 +123,6 @@ abstract class Field
             // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
             $arguments = func_get_args();
 
-            // Validate arguments in fields
-            $this->validateFieldArguments($arguments[3]);
-
             // Validate mutation arguments
             $args = $arguments[1];
 
@@ -134,9 +131,13 @@ abstract class Field
             if (count($rules)) {
                 $validator = $this->getValidator($args, $rules);
                 if ($validator->fails()) {
+
                     throw new ValidationError('validation', $validator);
                 }
             }
+
+            // Validate arguments in fields
+            $this->validateFieldArguments($arguments[3]);
 
             $arguments[1] = $this->getArgs($arguments);
 
