@@ -828,7 +828,7 @@ parameters:
 
 		-
 			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 14
+			count: 17
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
 
 		-
