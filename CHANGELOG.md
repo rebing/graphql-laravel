@@ -7,6 +7,7 @@ CHANGELOG
 2019-04-03, 5.0.0
 -----------------
 ### Added
+- Add support for validation in field arguments [\#608 / crissi](https://github.com/rebing/graphql-laravel/pull/608)
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
 - Add support for macros on the GraphQL service/facade [\#592 / stevelacey](https://github.com/rebing/graphql-laravel/pull/592)
