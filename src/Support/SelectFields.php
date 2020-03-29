@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -24,7 +25,6 @@ use Rebing\GraphQL\Support\AliasedRelationships\GenerateRelationshipKey;
 use Rebing\GraphQL\Support\AliasedRelationships\ModelRelationshipAdder;
 use Rebing\GraphQL\Support\AliasedRelationships\Resolver as AliasedRelationshipsResolver;
 use RuntimeException;
-use Illuminate\Database\Eloquent\Model;
 
 class SelectFields
 {
