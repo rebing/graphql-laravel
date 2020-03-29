@@ -226,13 +226,13 @@ class SelectFields
                         // Check if an graphql alias is being used
                         // and add the relationship to the model
                         // so it can be eager loaded.
-                        $isGraphqlAlias = $key !== $field['name'];
+                        $isGraphqlAlias = (bool) $field['alias'];
 
                         if ($isGraphqlAlias) {
-                            $generatedRelationshipName = GenerateRelationshipKey::generate($key);
+                            $generatedRelationshipName = GenerateRelationshipKey::generate($field['alias']);
                             $fieldObject->resolveFn = new AliasedRelationshipsResolver;
 
-                            self::collectModelRelationshipsForAlias($parentType->config['model'], GenerateRelationshipKey::generate($key), $relationsKey);
+                            self::collectModelRelationshipsForAlias($parentType->config['model'], GenerateRelationshipKey::generate($field['alias']), $relationsKey);
                             $relationsKey = $generatedRelationshipName;
                         }
 
