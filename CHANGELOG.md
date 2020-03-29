@@ -5,6 +5,7 @@ CHANGELOG
 --------------
 
 ### Added
+- Fix aliased relationships not fetching the correct data [\#604 / crissi](https://github.com/rebing/graphql-laravel/pull/604)
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
 - Add support for macros on the GraphQL service/facade [\#592 / stevelacey](https://github.com/rebing/graphql-laravel/pull/592)
