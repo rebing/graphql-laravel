@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsTest;
 
+use Rebing\GraphQL\GraphQLController;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
-use Rebing\GraphQL\GraphQLController;
 
 class QueryArgsTest extends TestCaseDatabase
 {
@@ -20,11 +20,11 @@ class QueryArgsTest extends TestCaseDatabase
         /** @var User[] $johns */
         $johns = factory(User::class, 2)
             ->create([
-                'name' => 'John'
+                'name' => 'John',
             ]);
         $brian = factory(User::class)
             ->create([
-                'name' => 'Brian'
+                'name' => 'Brian',
             ]);
 
         $graphql = <<<'GRAQPHQL'
@@ -88,7 +88,7 @@ SQL
                         'title' => 'First post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2010-02-15"
+                        'published_at' => '2010-02-15',
                     ]);
 
                 factory(Post::class)
@@ -96,16 +96,15 @@ SQL
                         'title' => 'Second post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2030-05-19"
+                        'published_at' => '2030-05-19',
                     ]);
                 factory(Post::class)
                     ->create([
                         'title' => 'Third post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2000-05-19"
+                        'published_at' => '2000-05-19',
                     ]);
-
             });
 
         $graphql = <<<'GRAQPHQL'
@@ -150,29 +149,28 @@ SQL
                     [
                         'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
-                        'posts' => 
-                            $users[0]->posts->only([1,2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray(), 
-                        'alias1' => $users[0]->posts->only([2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray(),
-                        'alias2' => $users[0]->posts->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray()
-                    ]
+                        'posts' => $users[0]->posts->only([1, 2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                        'alias1' => $users[0]->posts->only([2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                        'alias2' => $users[0]->posts->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                    ],
                 ],
             ],
         ];
@@ -190,7 +188,7 @@ SQL
                         'title' => 'First post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2010-02-15"
+                        'published_at' => '2010-02-15',
                     ]);
                 factory(Comment::class)
                     ->create([
@@ -207,7 +205,7 @@ SQL
                         'title' => 'Second post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2030-05-19"
+                        'published_at' => '2030-05-19',
                     ]);
                 factory(Comment::class)
                     ->create([
@@ -223,9 +221,8 @@ SQL
                         'title' => 'Third post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2000-05-19"
+                        'published_at' => '2000-05-19',
                     ]);
-
             });
 
         $graphql = <<<'GRAQPHQL'
@@ -282,62 +279,62 @@ SQL
                         'name' => $users[0]->name,
                         'posts' => [
                             [
-                                    'title' => $post1->title,
-                                    'cmts1' => [
-                                        [
-                                            'title' =>$post1->comments[0]->title
-                                        ],
-                                        [
-                                            'title' => $post1->comments[1]->title
-                                        ]
-                                    ]
+                                'title' => $post1->title,
+                                'cmts1' => [
+                                    [
+                                        'title' =>$post1->comments[0]->title,
+                                    ],
+                                    [
+                                        'title' => $post1->comments[1]->title,
+                                    ],
+                                ],
                             ],
                             [
-                                    'title' => $post2->title,
-                                    'cmts1' => [
-                                        [
-                                            'title' =>$post2->comments[0]->title
-                                        ],
-                                        [
-                                            'title' => $post2->comments[1]->title
-                                        ]
-                                    ]
+                                'title' => $post2->title,
+                                'cmts1' => [
+                                    [
+                                        'title' =>$post2->comments[0]->title,
+                                    ],
+                                    [
+                                        'title' => $post2->comments[1]->title,
+                                    ],
+                                ],
                             ],
-                        ], 
-                        'alias1' => [  
+                        ],
+                        'alias1' => [
                             [
-                                    'title' => $post2->title,
-                                    'cmts2' => [
-                                        [
-                                            'title' => $post2->comments[0]->title
-                                        ]
-                                    ]
+                                'title' => $post2->title,
+                                'cmts2' => [
+                                    [
+                                        'title' => $post2->comments[0]->title,
+                                    ],
+                                ],
                             ],
                         ],
                         'alias2' => [
                             [
-                                    'title' => $post1->title,
-                                    'comments' => [
-                                        [
-                                            'title' =>$post1->comments[0]->title
-                                        ]
-                                    ]
+                                'title' => $post1->title,
+                                'comments' => [
+                                    [
+                                        'title' =>$post1->comments[0]->title,
+                                    ],
+                                ],
                             ],
                             [
-                                    'title' => $post2->title,
-                                    'comments' => [
-                                        [
-                                            'title' =>$post2->comments[0]->title
-                                        ]
-                                    ]
+                                'title' => $post2->title,
+                                'comments' => [
+                                    [
+                                        'title' =>$post2->comments[0]->title,
+                                    ],
+                                ],
                             ],
                             [
-                                    'title' => $post3->title,
-                                    'comments' => [
-                                    ]
+                                'title' => $post3->title,
+                                'comments' => [
+                                ],
                             ],
                         ],
-                    ]
+                    ],
                 ],
             ],
         ];
@@ -345,10 +342,9 @@ SQL
         $this->assertSame($expectedResult, $result);
     }
 
-
     public function testAliasingWithSameNameAsModelMethod(): void
     {
-/** @var User[] $users */
+        /** @var User[] $users */
         $users = factory(User::class, 1)
             ->create()
             ->each(function (User $user): void {
@@ -357,7 +353,7 @@ SQL
                         'title' => 'First post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2010-02-15"
+                        'published_at' => '2010-02-15',
                     ]);
 
                 factory(Post::class)
@@ -365,16 +361,15 @@ SQL
                         'title' => 'Second post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2030-05-19"
+                        'published_at' => '2030-05-19',
                     ]);
                 factory(Post::class)
                     ->create([
                         'title' => 'Third post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2000-05-19"
+                        'published_at' => '2000-05-19',
                     ]);
-
             });
 
         $graphql = <<<'GRAQPHQL'
@@ -414,22 +409,21 @@ SQL
                     [
                         'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
-                        'posts' => 
-                            $users[0]->posts->only([1,2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray(), 
-                        'find' => $users[0]->posts->only([2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray()
-                    ]
+                        'posts' => $users[0]->posts->only([1, 2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                        'find' => $users[0]->posts->only([2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                    ],
                 ],
             ],
         ];
@@ -438,7 +432,7 @@ SQL
 
     public function testCamelCaseAlias(): void
     {
-/** @var User[] $users */
+        /** @var User[] $users */
         $users = factory(User::class, 1)
             ->create()
             ->each(function (User $user): void {
@@ -447,7 +441,7 @@ SQL
                         'title' => 'First post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2010-02-15"
+                        'published_at' => '2010-02-15',
                     ]);
 
                 factory(Post::class)
@@ -455,16 +449,15 @@ SQL
                         'title' => 'Second post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2030-05-19"
+                        'published_at' => '2030-05-19',
                     ]);
                 factory(Post::class)
                     ->create([
                         'title' => 'Third post',
                         'flag' => true,
                         'user_id' => $user->id,
-                        'published_at' => "2000-05-19"
+                        'published_at' => '2000-05-19',
                     ]);
-
             });
 
         $graphql = <<<'GRAQPHQL'
@@ -504,28 +497,26 @@ SQL
                     [
                         'id' => (string) $users[0]->id,
                         'name' => $users[0]->name,
-                        'posts' => 
-                            $users[0]->posts->only([1,2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray(), 
-                        'mightyAlias' => $users[0]->posts->only([2])->map(function($post) {
-                                return [
-                                    'id' => "$post->id",
-                                    'body' => $post->body,
-                                    'title' => $post->title,
-                                ];
-                            })->toArray()
-                    ]
+                        'posts' => $users[0]->posts->only([1, 2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                        'mightyAlias' => $users[0]->posts->only([2])->map(function ($post) {
+                            return [
+                                'id' => "$post->id",
+                                'body' => $post->body,
+                                'title' => $post->title,
+                            ];
+                        })->toArray(),
+                    ],
                 ],
             ],
         ];
         $this->assertSame($expectedResult, $result);
     }
-
 
     protected function getEnvironmentSetUp($app)
     {

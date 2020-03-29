@@ -1,12 +1,13 @@
 <?php
-namespace Rebing\GraphQL\Support\AliasedRelationships;
 
-use Rebing\GraphQL\Support\AliasedRelationships\AddModelRelationshipScope;
+declare(strict_types=1);
+
+namespace Rebing\GraphQL\Support\AliasedRelationships;
 
 class ModelRelationshipAdder
 {
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @param string $model
      * @param array<string,string> $relationships

@@ -20,11 +20,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
-use RuntimeException;
+use Rebing\GraphQL\Support\AliasedRelationships\GenerateRelationshipKey;
 use Rebing\GraphQL\Support\AliasedRelationships\ModelRelationshipAdder;
 use Rebing\GraphQL\Support\AliasedRelationships\Resolver as AliasedRelationshipsResolver;
-use Rebing\GraphQL\Support\AliasedRelationships\GeneratedRelationshipKey;
-use Rebing\GraphQL\Support\AliasedRelationships\GenerateRelationshipKey;
+use RuntimeException;
 
 class SelectFields
 {
@@ -229,7 +228,6 @@ class SelectFields
                         // so it can be eager loaded.
                         $isGraphqlAlias = $key !== $field['name'];
 
-                        
                         if ($isGraphqlAlias) {
                             $generatedRelationshipName = GenerateRelationshipKey::generate($key);
                             $fieldObject->resolveFn = new AliasedRelationshipsResolver;
@@ -299,7 +297,7 @@ class SelectFields
 
     public function createModelRelationshipsForAlias(): void
     {
-        foreach(self::$modelRelationshipsForAlias as $model => $list) {
+        foreach (self::$modelRelationshipsForAlias as $model => $list) {
             ModelRelationshipAdder::add($model, $list);
         }
         self::$modelRelationshipsForAlias = [];

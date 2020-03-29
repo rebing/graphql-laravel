@@ -115,7 +115,7 @@ class ResolveInfoFieldsAndArguments
         foreach ($selectionSet->selections as $selectionNode) {
             if ($selectionNode instanceof FieldNode) {
                 $name = $selectionNode->name->value;
-                $alias =  $selectionNode->alias->value ?? null;
+                $alias = $selectionNode->alias->value ?? null;
 
                 $fields[$alias ?? $name] = [
                     'name' => $name,

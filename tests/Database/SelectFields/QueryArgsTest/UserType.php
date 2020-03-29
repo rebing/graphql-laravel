@@ -31,7 +31,7 @@ class UserType extends GraphQLType
             ],
             'posts' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
-               
+
                 'args' => [
                     'flag' => [
                         Type::boolean(),
@@ -47,6 +47,7 @@ class UserType extends GraphQLType
                     if (isset($args['publishedAfter'])) {
                         $query->where('posts.published_at', '>', $args['publishedAfter']);
                     }
+
                     return $query;
                 },
             ],

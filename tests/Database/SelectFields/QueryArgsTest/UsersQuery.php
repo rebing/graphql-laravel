@@ -7,16 +7,15 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsTest;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Database\Eloquent\Collection;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Tests\Support\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 
 class UsersQuery extends Query
 {
     /**
-
      * @var array<string,mixed>
      */
     protected $attributes = [
@@ -70,7 +69,7 @@ class UsersQuery extends Query
             $users->where('name', $args['name']);
         }
 
-        $res =  $users->orderBy('users.id')->get();
+        $res = $users->orderBy('users.id')->get();
 
         return $res;
     }

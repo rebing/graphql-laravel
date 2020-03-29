@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Rebing\GraphQL\Support\AliasedRelationships;
 
 use GraphQL\Type\Definition\ResolveInfo;
 
 class Resolver
-{    
-
+{
     /**
      * @param mixed $type
      * @param array<string,mixed> $args
@@ -13,7 +15,8 @@ class Resolver
      * @param ResolveInfo $resolveInfo
      * @return mixed
      */
-    public function __invoke($type, $args, $context, ResolveInfo $resolveInfo) {
+    public function __invoke($type, $args, $context, ResolveInfo $resolveInfo)
+    {
         $name = $resolveInfo->fieldName;
         $alias = null;
         if (isset($resolveInfo->fieldNodes[0]->alias)) {
