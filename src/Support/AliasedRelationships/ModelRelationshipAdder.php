@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support\AliasedRelationships;
 
+use Illuminate\Database\Eloquent\Model;
+
 class ModelRelationshipAdder
 {
     /**
-     * Undocumented function.
-     *
-     * @param string $model
+     * @param class-string<Model> $model
      * @param array<string,string> $relationships
      * @return void
      */

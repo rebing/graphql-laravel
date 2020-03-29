@@ -33,7 +33,7 @@ class SelectFields
     /** @var array */
     private $relations = [];
     /**
-     * @var array<string,array<string,string>>
+     * @var array<class-string<Model>,array<string,string>>
      */
     private static $modelRelationshipsForAlias = [];
     const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
