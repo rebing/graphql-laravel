@@ -17,6 +17,7 @@ parameters:
         - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
         - '/Strict comparison using === between null and array will always evaluate to false/'
         - '/Cannot access offset . on array\|Closure/'
+        - '/Function factory invoked with [0-9]+ parameter[s]?, 0 required/'
         # \Rebing\GraphQL\Support\SelectFields::handleFields
         - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, mixed\) given/'
         - '/Binary operation "." between string and array\|string\|null results in an error/'

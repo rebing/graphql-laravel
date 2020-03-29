@@ -21,6 +21,10 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use RuntimeException;
+use Rebing\GraphQL\Support\AliasedRelationships\ModelRelationshipAdder;
+use Rebing\GraphQL\Support\AliasedRelationships\Resolver as AliasedRelationshipsResolver;
+use Rebing\GraphQL\Support\AliasedRelationships\GeneratedRelationshipKey;
+use Rebing\GraphQL\Support\AliasedRelationships\GenerateRelationshipKey;
 
 class SelectFields
 {
@@ -28,7 +32,10 @@ class SelectFields
     private $select = [];
     /** @var array */
     private $relations = [];
-
+    /**
+     * @var array<string,array<string,string>>
+     */
+    private static $modelRelationshipsForAlias = [];
     const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
@@ -49,6 +56,8 @@ class SelectFields
         $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
+
+        $this->createModelRelationshipsForAlias();
     }
 
     private function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
@@ -148,6 +157,7 @@ class SelectFields
         $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
 
         foreach ($requestedFields['fields'] as $key => $field) {
+
             // Ignore __typename, as it's a special case
             if ($key === '__typename') {
                 continue;
@@ -163,7 +173,7 @@ class SelectFields
             // If field doesn't exist on definition we don't select it
             try {
                 if (method_exists($parentType, 'getField')) {
-                    $fieldObject = $parentType->getField($key);
+                    $fieldObject = $parentType->getField($field['name'] ?? $key);
                 } else {
                     continue;
                 }
@@ -204,15 +214,29 @@ class SelectFields
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                        $relationsKey = $fieldObject->config['alias'] ?? $key;
+                        $relationsKey = $fieldObject->config['alias'] ?? $field['name'];
                         $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
 
                         self::handleRelation($select, $relation, $parentTable, $field);
 
                         // New parent type, which is the relation
-                        $newParentType = $parentType->getField($key)->config['type'];
+                        $newParentType = $parentType->getField($field['name'])->config['type'];
 
                         self::addAlwaysFields($fieldObject, $field, $parentTable, true);
+
+                        // Check if an graphql alias is being used
+                        // and add the relationship to the model
+                        // so it can be eager loaded.
+                        $isGraphqlAlias = $key !== $field['name'];
+
+                        
+                        if ($isGraphqlAlias) {
+                            $generatedRelationshipName = GenerateRelationshipKey::generate($key);
+                            $fieldObject->resolveFn = new AliasedRelationshipsResolver;
+
+                            self::collectModelRelationshipsForAlias($parentType->config['model'], GenerateRelationshipKey::generate($key), $relationsKey);
+                            $relationsKey = $generatedRelationshipName;
+                        }
 
                         $with[$relationsKey] = self::getSelectableFieldsAndRelations(
                             $queryArgs,
@@ -266,6 +290,19 @@ class SelectFields
         if (is_a($parentType, UnionType::class)) {
             $select = ['*'];
         }
+    }
+
+    public static function collectModelRelationshipsForAlias(string $modelName, string $graphqlAlias, string $relationsKey): void
+    {
+        self::$modelRelationshipsForAlias[$modelName][] = [$graphqlAlias, $relationsKey];
+    }
+
+    public function createModelRelationshipsForAlias(): void
+    {
+        foreach(self::$modelRelationshipsForAlias as $model => $list) {
+            ModelRelationshipAdder::add($model, $list);
+        }
+        self::$modelRelationshipsForAlias = [];
     }
 
     private static function isMongodbInstance(GraphqlType $parentType): bool

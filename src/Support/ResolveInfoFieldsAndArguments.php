@@ -115,8 +115,10 @@ class ResolveInfoFieldsAndArguments
         foreach ($selectionSet->selections as $selectionNode) {
             if ($selectionNode instanceof FieldNode) {
                 $name = $selectionNode->name->value;
+                $alias =  $selectionNode->alias->value ?? null;
 
-                $fields[$name] = [
+                $fields[$alias ?? $name] = [
+                    'name' => $name,
                     'args' => [],
                     'fields' => $descend > 0 && ! empty($selectionNode->selectionSet)
                         ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
@@ -124,7 +126,7 @@ class ResolveInfoFieldsAndArguments
                 ];
 
                 foreach ($selectionNode->arguments ?? [] as $argumentNode) {
-                    $fields[$name]['args'][$argumentNode->name->value] = $this->getValue($argumentNode->value);
+                    $fields[$alias ?? $name]['args'][$argumentNode->name->value] = $this->getValue($argumentNode->value);
                 }
             } elseif ($selectionNode instanceof FragmentSpreadNode) {
                 $spreadName = $selectionNode->name->value;
