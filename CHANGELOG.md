@@ -11,6 +11,7 @@ CHANGELOG
 - Add support for macros on the GraphQL service/facade [\#592 / stevelacey](https://github.com/rebing/graphql-laravel/pull/592)
 ### Fixed
 - Fix the infinite loop as well as sending the correct matching input data to the rule-callback [\#579 / crissi](https://github.com/rebing/graphql-laravel/pull/579)
+- Fix selecting not the correct columns for interface fields [\#607 / illambo](https://github.com/rebing/graphql-laravel/pull/607)
 ### Changed
 - Refactor route files with the goal of making adding subscription support easier [\#575 / crissi](https://github.com/rebing/graphql-laravel/pull/575)
 ### Removed
