@@ -24,6 +24,7 @@ use Rebing\GraphQL\Support\AliasedRelationships\GenerateRelationshipKey;
 use Rebing\GraphQL\Support\AliasedRelationships\ModelRelationshipAdder;
 use Rebing\GraphQL\Support\AliasedRelationships\Resolver as AliasedRelationshipsResolver;
 use RuntimeException;
+use Illuminate\Database\Eloquent\Model;
 
 class SelectFields
 {
@@ -290,6 +291,12 @@ class SelectFields
         }
     }
 
+    /**
+     * @param class-string<Model> $modelName
+     * @param string $graphqlAlias
+     * @param string $relationsKey
+     * @return void
+     */
     public static function collectModelRelationshipsForAlias(string $modelName, string $graphqlAlias, string $relationsKey): void
     {
         self::$modelRelationshipsForAlias[$modelName][] = [$graphqlAlias, $relationsKey];
