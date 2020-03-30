@@ -98,6 +98,9 @@ To work this around:
 - Point to your local GraphiQL view: change `graphql.view` to `'vendor/graphql/graphiql'`
 - Modify your file `resources/views/vendor/graphql/graphiql.php` and remove the call
 
+In the `graphql.php` file, you may want to change the 'routes' key value from `{graphql_schema?}` to `{schema}`.
+By doing this, you will pass the correct schema value into the GraphQLController.
+
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
@@ -148,7 +151,7 @@ Schemas are required for defining GraphQL endpoints. You can define multiple sch
 in addition to the global middleware. For example:
 
 ```php
-'schema' => 'default_schema',
+'default_schema' => 'default',
 
 'schemas' => [
     'default' => [
