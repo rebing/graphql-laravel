@@ -23,6 +23,13 @@ class PostType extends GraphQLType
 
         return
             [
+                'created_at' => [
+                    'type' => Type::string(),
+                ],
+                'alias_updated_at' => [
+                    'type'  => Type::string(),
+                    'alias' => 'updated_at',
+                ],
                 'likes' => [
                     'type' => Type::listOf(GraphQL::type('Like')),
                     'query' => function (array $args, MorphMany $query) {
