@@ -1,9 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/4.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/5.0.0...master)
 --------------
 
+2019-04-03, 5.0.0
+-----------------
 ### Added
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
