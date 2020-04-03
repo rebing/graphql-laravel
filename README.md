@@ -1992,3 +1992,7 @@ public function resolve($root, $args)
     ];
 }
 ```
+
+### GraphQL testing clients
+ - [Firecamp](https://firecamp.io/graphql)
+ - [GraphiQL](https://github.com/graphql/graphiql)
