@@ -141,6 +141,7 @@ To work this around:
     - [Lazy loading of types](#lazy-loading-of-types)
       - [Example of aliasing **not** supported by lazy loading](#example-of-aliasing-not-supported-by-lazy-loading)
     - [Wrap Types](#wrap-types)
+  - [GraphQL testing clients](#graphql-testing-clients)
 
 ### Schemas
 
@@ -1992,3 +1993,7 @@ public function resolve($root, $args)
     ];
 }
 ```
+
+## GraphQL testing clients
+ - [Firecamp](https://firecamp.io/graphql)
+ - [GraphiQL](https://github.com/graphql/graphiql)
