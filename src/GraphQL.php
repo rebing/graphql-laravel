@@ -175,6 +175,37 @@ class GraphQL
 
     public function type(string $name, bool $fresh = false): Type
     {
+        $modifiers = [];
+
+        while (true) {
+            if (preg_match('/^(.+)!$/', $name, $matches)) {
+                $name = $matches[1];
+                array_unshift($modifiers, 'nonNull');
+            } elseif (preg_match('/^\[(.+)]$/', $name, $matches)) {
+                $name = $matches[1];
+                array_unshift($modifiers, 'listOf');
+            } else {
+                break;
+            }
+        }
+
+        $type = $this->getType($name, $fresh);
+
+        foreach ($modifiers as $modifier) {
+            $type = Type::$modifier($type);
+        }
+
+        return $type;
+    }
+
+    public function getType(string $name, bool $fresh = false): Type
+    {
+        $standardTypes = Type::getStandardTypes();
+
+        if (in_array($name, $standardTypes)) {
+            return $standardTypes[$name];
+        }
+
         if (! isset($this->types[$name])) {
             $error = "Type $name not found.";
 

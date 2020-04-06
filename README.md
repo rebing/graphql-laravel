@@ -129,6 +129,7 @@ To work this around:
     - [Interfaces](#interfaces)
       - [Sharing interface fields](#sharing-interface-fields)
     - [Input Object](#input-object)
+    - [Type modifiers](#type-modifiers)
     - [Field and input alias](#field-and-input-alias)
     - [JSON columns](#json-columns)
     - [Field deprecation](#field-deprecation)
@@ -1654,6 +1655,24 @@ class TestMutation extends GraphQLType {
     }
 
 }
+```
+
+### Type modifiers
+
+Type modifiers can be applied by wrapping your chosen type in `Type::nonNull` or `Type::listOf` calls
+or alternatively you can use the shorthand syntax available via `GraphQL::type` to build up more complex
+types.
+
+```php
+GraphQL::type('MyInput!');
+GraphQL::type('[MyInput]');
+GraphQL::type('[MyInput]!');
+GraphQL::type('[MyInput!]!');
+
+GraphQL::type('String!');
+GraphQL::type('[String]');
+GraphQL::type('[String]!');
+GraphQL::type('[String!]!');
 ```
 
 ### Field and input alias

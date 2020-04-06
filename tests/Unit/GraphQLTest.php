@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Error\Error;
+use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -121,6 +123,192 @@ class GraphQLTest extends TestCase
     {
         $this->expectException(TypeNotFound::class);
         GraphQL::type('ExampleWrong');
+    }
+
+    /**
+     * Test nonNull type.
+     */
+    public function testNonNullType(): void
+    {
+        /** @var NonNull */
+        $type = GraphQL::type('Example!');
+        $this->assertInstanceOf(NonNull::class, $type);
+
+        /** @var NonNull */
+        $typeOther = GraphQL::type('Example!');
+        $this->assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+
+        /** @var NonNull */
+        $typeOther = GraphQL::type('Example!', true);
+        $this->assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+    }
+
+    /**
+     * Test listOf type.
+     */
+    public function testListOfType(): void
+    {
+        /** @var ListOfType */
+        $type = GraphQL::type('[Example]');
+        $this->assertInstanceOf(ListOfType::class, $type);
+
+        /** @var ListOfType */
+        $typeOther = GraphQL::type('[Example]');
+        $this->assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+
+        /** @var ListOfType */
+        $typeOther = GraphQL::type('[Example]', true);
+        $this->assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+    }
+
+    /**
+     * Test listOf nonNull type.
+     */
+    public function testListOfNonNullType(): void
+    {
+        /** @var ListOfType */
+        $type = GraphQL::type('[Example!]');
+        $this->assertInstanceOf(ListOfType::class, $type);
+        $this->assertInstanceOf(NonNull::class, $type->getWrappedType());
+
+        /** @var ListOfType */
+        $typeOther = GraphQL::type('[Example!]');
+        $this->assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+
+        /** @var ListOfType */
+        $typeOther = GraphQL::type('[Example!]', true);
+        $this->assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+    }
+
+    /**
+     * Test nonNull listOf nonNull type.
+     */
+    public function testNonNullListOfNonNullType(): void
+    {
+        /** @var NonNull */
+        $type = GraphQL::type('[Example!]!');
+        /** @var ListOfType */
+        $wrappedType = $type->getWrappedType();
+
+        $this->assertInstanceOf(NonNull::class, $type);
+        $this->assertInstanceOf(ListOfType::class, $wrappedType);
+        $this->assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
+
+        /** @var NonNull */
+        $typeOther = GraphQL::type('[Example!]!');
+        $this->assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+
+        /** @var NonNull */
+        $typeOther = GraphQL::type('[Example!]!', true);
+        $this->assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+    }
+
+    /**
+     * Test malformed listOf with no leading bracket.
+     */
+    public function testMalformedListOfWithNoLeadingBracket(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Type Example] not found.');
+        GraphQL::type('Example]');
+    }
+
+    /**
+     * Test malformed listOf with no trailing bracket.
+     */
+    public function testMalformedListOfWithNoTrailingBracket(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Type [Example not found.');
+        GraphQL::type('[Example');
+    }
+
+    /**
+     * Test malformed nonNull listOf with no trailing bracket.
+     */
+    public function testMalformedNonNullListOfWithNoTrailingBracket(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Type [Example not found.');
+        GraphQL::type('[Example!');
+    }
+
+    /**
+     * Test empty listOfType.
+     */
+    public function testEmptyListOfType(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Type [] not found.');
+        GraphQL::type('[]');
+    }
+
+    /**
+     * Test empty nonNull.
+     */
+    public function testEmptyNonNull(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Type ! not found.');
+        GraphQL::type('!');
+    }
+
+    /**
+     * Test standard types.
+     */
+    public function testStandardTypes(): void
+    {
+        $standardTypes = Type::getStandardTypes();
+
+        foreach ($standardTypes as $standardType) {
+            $type = GraphQL::type($standardType->name);
+            $this->assertTrue($standardType === $type);
+
+            $typeOther = GraphQL::type($type->name);
+            $this->assertTrue($type === $typeOther);
+
+            $typeOther = GraphQL::type($type->name, true);
+            $this->assertTrue($type === $typeOther);
+        }
+    }
+
+    /**
+     * Test standard type modifiers.
+     */
+    public function testStandardTypeModifiers(): void
+    {
+        $standardTypes = Type::getStandardTypes();
+
+        foreach ($standardTypes as $standardType) {
+            /** @var NonNull */
+            $type = GraphQL::type("$standardType->name!");
+
+            $this->assertInstanceOf(NonNull::class, $type);
+            $this->assertTrue($type->getWrappedType() === $standardType);
+
+            /** @var ListOfType */
+            $type = GraphQL::type("[$standardType->name]");
+
+            $this->assertInstanceOf(ListOfType::class, $type);
+            $this->assertTrue($type->getWrappedType() === $standardType);
+
+            /** @var ListOfType */
+            $type = GraphQL::type("[$standardType->name!]");
+
+            $this->assertInstanceOf(ListOfType::class, $type);
+            $this->assertInstanceOf(NonNull::class, $type->getWrappedType());
+            $this->assertTrue($type->getWrappedType(true) === $standardType);
+
+            /** @var NonNull */
+            $type = GraphQL::type("[$standardType->name!]!");
+            /** @var ListOfType */
+            $wrappedType = $type->getWrappedType();
+
+            $this->assertInstanceOf(NonNull::class, $type);
+            $this->assertInstanceOf(ListOfType::class, $wrappedType);
+            $this->assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
+            $this->assertTrue($type->getWrappedType(true) === $standardType);
+        }
     }
 
     /**
