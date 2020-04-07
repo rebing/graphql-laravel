@@ -132,6 +132,7 @@ By doing this, you will pass the correct schema value into the GraphQLController
     - [Interfaces](#interfaces)
       - [Sharing interface fields](#sharing-interface-fields)
     - [Input Object](#input-object)
+    - [Type modifiers](#type-modifiers)
     - [Field and input alias](#field-and-input-alias)
     - [JSON columns](#json-columns)
     - [Field deprecation](#field-deprecation)
@@ -144,6 +145,7 @@ By doing this, you will pass the correct schema value into the GraphQLController
     - [Lazy loading of types](#lazy-loading-of-types)
       - [Example of aliasing **not** supported by lazy loading](#example-of-aliasing-not-supported-by-lazy-loading)
     - [Wrap Types](#wrap-types)
+  - [GraphQL testing clients](#graphql-testing-clients)
 
 ### Schemas
 
@@ -1658,6 +1660,24 @@ class TestMutation extends GraphQLType {
 }
 ```
 
+### Type modifiers
+
+Type modifiers can be applied by wrapping your chosen type in `Type::nonNull` or `Type::listOf` calls
+or alternatively you can use the shorthand syntax available via `GraphQL::type` to build up more complex
+types.
+
+```php
+GraphQL::type('MyInput!');
+GraphQL::type('[MyInput]');
+GraphQL::type('[MyInput]!');
+GraphQL::type('[MyInput!]!');
+
+GraphQL::type('String!');
+GraphQL::type('[String]');
+GraphQL::type('[String]!');
+GraphQL::type('[String!]!');
+```
+
 ### Field and input alias
 
 It is possible to alias query and mutation arguments as well as input object fields.
@@ -1995,3 +2015,7 @@ public function resolve($root, $args)
     ];
 }
 ```
+
+## GraphQL testing clients
+ - [Firecamp](https://firecamp.io/graphql)
+ - [GraphiQL](https://github.com/graphql/graphiql)
