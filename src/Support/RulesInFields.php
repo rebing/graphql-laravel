@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
-use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
 

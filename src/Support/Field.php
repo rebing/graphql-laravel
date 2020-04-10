@@ -21,9 +21,9 @@ use ReflectionMethod;
 abstract class Field
 {
     /**
-     * The depth the SelectField and ResolveInfoFieldsAndArguments classes traverse
+     * The depth the SelectField and ResolveInfoFieldsAndArguments classes traverse.
      *
-     * @var integer
+     * @var int
      */
     protected $depth = 5;
 
@@ -99,7 +99,6 @@ abstract class Field
      */
     public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
     {
-
         $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
         if (count($argsRules)) {
             $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
@@ -194,9 +193,8 @@ abstract class Field
     }
 
     /**
-
      * @param array<int,mixed> $arguments
-     * @param integer $depth
+     * @param int $depth
      * @param array<string,mixed> $fieldsAndArguments
      * @return SelectFields
      */

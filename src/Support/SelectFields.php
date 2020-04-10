@@ -7,7 +7,6 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
@@ -51,7 +50,7 @@ class SelectFields
     }
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @param array<string,mixed> $fieldsAndArguments
      * @param array<string,mixed> $args
