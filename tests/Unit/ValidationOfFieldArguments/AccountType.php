@@ -31,7 +31,7 @@ class AccountType extends GraphQLType
                 'args' => [
                     'profileId' => [
                         'type' => Type::int(),
-                        'rules' => function ($args, $fullQueryArgs) {
+                        'rules' => function ($args) {
                             Assert::assertSame([
                                 'profileId' => 100,
                             ], $args);
@@ -46,7 +46,7 @@ class AccountType extends GraphQLType
                 'args' => [
                     'type' => [
                         'type' => Type::string(),
-                        'rules' => function ($args, $fullQueryArgs) {
+                        'rules' => function ($args) {
                             return ['regex:/^l33t|normal$/i'];
                         },
                     ],

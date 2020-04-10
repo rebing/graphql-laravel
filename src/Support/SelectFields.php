@@ -32,32 +32,36 @@ class SelectFields
     const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
-     * @param  ResolveInfo  $info
      * @param  GraphqlType  $parentType
      * @param  array  $queryArgs  Arguments given with the query/mutation
-     * @param  int  $depth The depth to walk the AST and introspect for nested relations
      * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
      *   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
+     * @param  array<string,mixed>  $fieldsAndArguments Field and argument tree
      */
-    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs, int $depth, $ctx)
+    public function __construct(GraphqlType $parentType, array $queryArgs, $ctx, array $fieldsAndArguments)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $requestedFields = $this->getFieldSelection($info, $queryArgs, $depth);
+        $requestedFields = $this->getFieldSelection($fieldsAndArguments, $queryArgs);
         $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
     }
 
-    private function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
+    /**
+     * Undocumented function
+     *
+     * @param array<string,mixed> $fieldsAndArguments
+     * @param array<string,mixed> $args
+     * @return array<string,mixed>
+     */
+    private function getFieldSelection(array $fieldsAndArguments, array $args): array
     {
-        $resolveInfoFieldsAndArguments = new ResolveInfoFieldsAndArguments($resolveInfo);
-
         return [
             'args' => $args,
-            'fields' => $resolveInfoFieldsAndArguments->getFieldsAndArgumentsSelection($depth),
+            'fields' => $fieldsAndArguments,
         ];
     }
 

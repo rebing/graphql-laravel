@@ -14,26 +14,23 @@ class RulesInFields
     /**
      * @var  Type
      */
-    private $parentType;
-    /**
-     * @var ResolveInfo
-     */
-    private $resolveInfo;
+    protected $parentType;
 
     /**
      * @var array<mixed,mixed>
      */
-    private $fieldsAndArguments;
+    protected $fieldsAndArguments;
 
     /**
      * @param Type $parentType
-     * @param ResolveInfo $resolveInfo
+     * @param array<string,mixed> $fieldsAndArgumentsSelection
      */
-    public function __construct(Type $parentType, ResolveInfo $resolveInfo)
+    public function __construct(Type $parentType, array $fieldsAndArgumentsSelection)
     {
-        $this->parentType = $parentType;
-        $this->resolveInfo = $resolveInfo;
-        $this->fieldsAndArguments = (new ResolveInfoFieldsAndArguments($this->resolveInfo))->getFieldsAndArgumentsSelection(5);
+        $this->parentType = $parentType instanceof WrappingType
+            ? $parentType->getWrappedType(true)
+            : $parentType;
+        $this->fieldsAndArguments = $fieldsAndArgumentsSelection;
     }
 
     /**
@@ -41,11 +38,7 @@ class RulesInFields
      */
     public function get(): array
     {
-        if ($this->parentType instanceof WrappingType) {
-            $this->parentType = $this->parentType->getWrappedType(true);
-        }
-
-        return [$this->fieldsAndArguments, $this->getRules($this->fieldsAndArguments, null, $this->parentType)];
+        return $this->getRules($this->fieldsAndArguments, null, $this->parentType);
     }
 
     /**
@@ -56,7 +49,7 @@ class RulesInFields
     protected function resolveRules($rules, array $arguments)
     {
         if (is_callable($rules)) {
-            return call_user_func($rules, $arguments, $this->fieldsAndArguments);
+            return call_user_func($rules, $arguments);
         }
 
         return $rules;
@@ -67,6 +60,7 @@ class RulesInFields
      *
      * @param array<string,mixed> $fields
      * @param string|null $prefix
+     * @param Type $parentType
      * @return array<string,mixed>
      */
     protected function getRules(array $fields, ?string $prefix, Type $parentType): array
@@ -77,13 +71,9 @@ class RulesInFields
             $key = $prefix === null ? $name : "{$prefix}.{$name}";
 
             //If field doesn't exist on definition we don't select it
-            try {
-                if (method_exists($parentType, 'getField')) {
-                    $fieldObject = $parentType->getField($name);
-                } else {
-                    continue;
-                }
-            } catch (InvariantViolation $e) {
+            if (method_exists($parentType, 'getField')) {
+                $fieldObject = $parentType->getField($name);
+            } else {
                 continue;
             }
 
