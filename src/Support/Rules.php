@@ -44,10 +44,32 @@ class Rules
      * @param  array<string,mixed>  $arguments
      * @return array<string,mixed>|string
      */
-    protected function resolveRules($rules, array $arguments)
+    protected function resolveRules($rules, ?string $prefix, array $arguments)
     {
         if (is_callable($rules)) {
             return call_user_func($rules, $arguments, $this->requestArguments);
+        }
+
+        if ($prefix && is_array($rules)) {
+            $rules = array_map(
+                function ($rule) use ($prefix) {
+                    if (is_string($rule) && preg_match('/^(required_with(?:out)?(?:_all)?):(.*)$/', $rule, $matches)) {
+                        [$rule, $name, $parameters] = $matches;
+
+                        $parameters = implode(',', array_map(
+                            function ($param) use ($prefix) {
+                                return "{$prefix}.{$param}";
+                            },
+                            explode(',', $parameters)
+                        ));
+
+                        $rule = "{$name}:{$parameters}";
+                    }
+
+                    return $rule;
+                },
+                $rules
+            );
         }
 
         return $rules;
@@ -135,7 +157,7 @@ class Rules
 
             // get any explicitly set rules
             if (isset($field->rules)) {
-                $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
+                $rules[$key] = $this->resolveRules($field->rules, $prefix, $resolutionArguments);
             }
 
             if (property_exists($field, 'type') && array_key_exists($name, $resolutionArguments) && is_array($resolutionArguments[$name])) {
