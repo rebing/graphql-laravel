@@ -600,6 +600,104 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
 
+##### Vue.js and Axios example
+
+```vue
+<template>
+  <div class="input-group">
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="uploadFile" ref="uploadFile" @change="handleUploadChange">
+      <label class="custom-file-label" for="uploadFile">
+        Drop Files Here to upload
+      </label>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" type="button" @click="upload">Upload</button>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'FileUploadExample',
+    data() {
+      return {
+        file: null,
+      };
+    },
+    methods: {
+      handleUploadChange() {
+        this.file = this.$refs.uploadFile.files[0];
+      },
+      async upload() {
+        if (!this.file) {
+          return;
+        }
+        // Creating form data object
+        let bodyFormData = new FormData();
+        bodyFormData.set('operations', JSON.stringify({
+                   // Mutation string
+            'query': `mutation uploadSingleFile($file: Upload!) {
+                        upload_single_file  (attachment: $file)
+                      }`,
+            'variables': {"attachment": this.file}
+        }));
+        bodyFormData.set('operationName', null);
+        bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
+        bodyFormData.append('file', this.file);
+        
+        // Post the request to GraphQL controller
+        let res = await axios.post('/graphql', bodyFormData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+        
+        if (res.data.status.code == 200) {
+          // On success file upload
+          this.file = null;
+        }
+      }
+    }
+  }
+</script>
+
+<style scoped>
+</style>
+```
+
+##### jQuery or vanilla javascript
+```html
+<input type="file" id="fileUpload">
+```
+```javascript
+// Get the file from input element
+// In jQuery:
+let file = $('#fileUpload').prop('files')[0];
+// Vanilla JS:
+let file = document.getElementById("fileUpload").files[0];
+
+// Create a FormData object
+let bodyFormData = new FormData();
+bodyFormData.set('operations', JSON.stringify({
+         // Mutation string
+  'query': `mutation uploadSingleFile($file: Upload!) {
+              upload_single_file  (attachment: $file)
+            }`,
+  'variables': {"attachment": this.file}
+}));
+bodyFormData.set('operationName', null);
+bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
+bodyFormData.append('file', this.file);
+
+// Post the request to GraphQL controller via Axios, jQuery.ajax, or vanilla XMLHttpRequest
+let res = await axios.post('/graphql', bodyFormData, {
+  headers: {
+    "Content-Type": "multipart/form-data"
+  }
+});
+```
+
 ### Resolve method
 
 The resolve method is used in both queries and mutations and it's here that responses are created.
