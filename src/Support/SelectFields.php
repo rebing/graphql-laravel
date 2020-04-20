@@ -45,7 +45,7 @@ class SelectFields
 
         $requestedFields = [
             'args' => $queryArgs,
-            'fields' => $fieldsAndArguments
+            'fields' => $fieldsAndArguments,
         ];
 
         $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);

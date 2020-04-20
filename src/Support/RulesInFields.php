@@ -69,7 +69,7 @@ class RulesInFields
             $key = $prefix === null ? $name : "{$prefix}.{$name}";
 
             //If field doesn't exist on definition we don't select it
-            if (!method_exists($parentType, 'getField')) {
+            if (! method_exists($parentType, 'getField')) {
                 continue;
             }
 
