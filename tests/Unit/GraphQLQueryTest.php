@@ -182,7 +182,7 @@ It is required when 'lazyload_types' is enabled";
         $this->assertArrayHasKey('errors', $result);
         $this->assertArrayHasKey('extensions', $result['errors'][0]);
         $this->assertArrayHasKey('validation', $result['errors'][0]['extensions']);
-        $this->assertTrue($result['errors'][0]['extensions']['validation']->has('index'));
+        $this->assertTrue($result['errors'][0]['extensions']['validation']->has('test_validation.args.index'));
     }
 
     /**
