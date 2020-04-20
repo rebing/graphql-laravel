@@ -45,7 +45,7 @@ before_script:
   - phpenv config-rm xdebug.ini || true
 
 install:
-  - composer self-update
+  - composer self-update --snapshot
   - |
     # Due to version incompatiblity with older Laravels we test, we remove it
     composer remove --dev matt-allan/laravel-code-style --no-interaction --no-update
