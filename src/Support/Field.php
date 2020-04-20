@@ -170,12 +170,12 @@ abstract class Field
 
                 if (Closure::class === $param->getType()->getName()) {
                     return function (int $depth = null) use ($arguments, $fieldsAndArguments): SelectFields {
-                        return $this->instanciateSelectFields($arguments, $depth, $fieldsAndArguments);
+                        return $this->instanciateSelectFields($arguments, $fieldsAndArguments, $depth);
                     };
                 }
 
                 if (SelectFields::class === $className) {
-                    return $this->instanciateSelectFields($arguments, null, $fieldsAndArguments);
+                    return $this->instanciateSelectFields($arguments, $fieldsAndArguments, null);
                 }
 
                 if (ResolveInfo::class === $className) {
@@ -198,7 +198,7 @@ abstract class Field
      * @param array<string,mixed> $fieldsAndArguments
      * @return SelectFields
      */
-    private function instanciateSelectFields(array $arguments, int $depth = null, array $fieldsAndArguments): SelectFields
+    private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 

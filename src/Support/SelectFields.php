@@ -43,25 +43,14 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $requestedFields = $this->getFieldSelection($fieldsAndArguments, $queryArgs);
+        $requestedFields = [
+            'args' => $queryArgs,
+            'fields' => $fieldsAndArguments
+        ];
+
         $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
-    }
-
-    /**
-     * Undocumented function.
-     *
-     * @param array<string,mixed> $fieldsAndArguments
-     * @param array<string,mixed> $args
-     * @return array<string,mixed>
-     */
-    private function getFieldSelection(array $fieldsAndArguments, array $args): array
-    {
-        return [
-            'args' => $args,
-            'fields' => $fieldsAndArguments,
-        ];
     }
 
     /**
