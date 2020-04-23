@@ -12,7 +12,7 @@ $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
 $router->group(array_merge([
     'prefix' => config('graphql.prefix'),
     'middleware' => config('graphql.middleware', []),
-    'domain' => config('graphql.domain', config('app.url')),
+    'domain' => config('graphql.domain'),
 ], config('graphql.route_group_attributes', [])), function ($router) use ($schemaParameterPattern): void {
     /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
 
