@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/5.1.0...master)
 --------------
+### Changed
+- Add support for running graphql on a custom domain
 
 2019-04-22, 5.1.0
 -----------------
