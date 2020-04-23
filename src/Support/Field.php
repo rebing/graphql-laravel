@@ -20,13 +20,6 @@ use ReflectionMethod;
  */
 abstract class Field
 {
-    /**
-     * The depth the SelectField and ResolveInfoFieldsAndArguments classes traverse.
-     *
-     * @var int
-     */
-    protected $depth = 5;
-
     protected $attributes = [];
 
     /**
@@ -93,21 +86,6 @@ abstract class Field
         return array_merge($argsRules, $rules);
     }
 
-    /**
-     * @param array<string,mixed> $fieldsAndArgumentsSelection
-     * @return void
-     */
-    public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
-    {
-        $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
-        if (count($argsRules)) {
-            $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
-            if ($validator->fails()) {
-                throw new ValidationError('validation', $validator);
-            }
-        }
-    }
-
     public function getValidator(array $args, array $rules): ValidatorContract
     {
         // allow our error messages to be customised
@@ -145,11 +123,6 @@ abstract class Field
                 }
             }
 
-            $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))->getFieldsAndArgumentsSelection($this->depth);
-
-            // Validate arguments in fields
-            $this->validateFieldArguments($fieldsAndArguments);
-
             $arguments[1] = $this->getArgs($arguments);
 
             // Authorize
@@ -161,7 +134,7 @@ abstract class Field
 
             $additionalParams = array_slice($method->getParameters(), 3);
 
-            $additionalArguments = array_map(function ($param) use ($arguments, $fieldsAndArguments) {
+            $additionalArguments = array_map(function ($param) use ($arguments) {
                 $className = null !== $param->getClass() ? $param->getClass()->getName() : null;
 
                 if (null === $className) {
@@ -169,13 +142,13 @@ abstract class Field
                 }
 
                 if (Closure::class === $param->getType()->getName()) {
-                    return function (int $depth = null) use ($arguments, $fieldsAndArguments): SelectFields {
-                        return $this->instanciateSelectFields($arguments, $fieldsAndArguments, $depth);
+                    return function (int $depth = null) use ($arguments): SelectFields {
+                        return $this->instanciateSelectFields($arguments, $depth);
                     };
                 }
 
                 if (SelectFields::class === $className) {
-                    return $this->instanciateSelectFields($arguments, $fieldsAndArguments, null);
+                    return $this->instanciateSelectFields($arguments);
                 }
 
                 if (ResolveInfo::class === $className) {
@@ -192,22 +165,11 @@ abstract class Field
         };
     }
 
-    /**
-     * @param array<int,mixed> $arguments
-     * @param int $depth
-     * @param array<string,mixed> $fieldsAndArguments
-     * @return SelectFields
-     */
-    private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
+    private function instanciateSelectFields(array $arguments, int $depth = null): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 
-        if ($depth !== null && $depth !== $this->depth) {
-            $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))
-                ->getFieldsAndArgumentsSelection($depth);
-        }
-
-        return new SelectFields($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
+        return new SelectFields($arguments[3], $this->type(), $arguments[1], $depth ?? 5, $ctx);
     }
 
     protected function aliasArgs(array $arguments): array

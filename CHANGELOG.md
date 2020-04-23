@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/5.0.0...master)
 --------------
 
 2019-04-22, 5.1.0
