@@ -207,6 +207,11 @@ parameters:
 			path: src/Support/Field.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:instanciateSelectFields\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:aliasArgs\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
@@ -298,6 +303,16 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:__construct\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getFieldSelection\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getFieldSelection\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
