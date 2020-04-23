@@ -10,12 +10,15 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class CustomDomainTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private $domain = 'http://exampleDomain.tld';
 
     public function testCustomDomain(): void
     {
         $response = $this->call('GET', '/graphiql');
-        $response->assertViewHas('graphqlPath', $this->domain . '/' . config('graphql.prefix'));
+        $response->assertViewHas('graphqlPath', $this->domain.'/'.config('graphql.prefix'));
     }
 
     protected function getEnvironmentSetUp($app)
