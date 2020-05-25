@@ -25,9 +25,9 @@ use RuntimeException;
 class SelectFields
 {
     /** @var array */
-    private $select = [];
+    protected $select = [];
     /** @var array */
-    private $relations = [];
+    protected $relations = [];
 
     const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
@@ -46,12 +46,12 @@ class SelectFields
         }
 
         $requestedFields = $this->getFieldSelection($info, $queryArgs, $depth);
-        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        $fields = static::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
     }
 
-    private function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
+    protected function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
     {
         $resolveInfoFieldsAndArguments = new ResolveInfoFieldsAndArguments($resolveInfo);
 
@@ -89,10 +89,10 @@ class SelectFields
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
-        $parentTable = self::getTableNameFromParentType($parentType);
-        $primaryKey = self::getPrimaryKeyFromParentType($parentType);
+        $parentTable = static::getTableNameFromParentType($parentType);
+        $primaryKey = static::getPrimaryKeyFromParentType($parentType);
 
-        self::handleFields($queryArgs, $requestedFields, $parentType, $select, $with, $ctx);
+        static::handleFields($queryArgs, $requestedFields, $parentType, $select, $with, $ctx);
 
         // If a primary key is given, but not in the selects, add it
         if (null !== $primaryKey) {
@@ -116,12 +116,12 @@ class SelectFields
         };
     }
 
-    private static function getTableNameFromParentType(GraphqlType $parentType): ?string
+    protected static function getTableNameFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
     }
 
-    private static function getPrimaryKeyFromParentType(GraphqlType $parentType): ?string
+    protected static function getPrimaryKeyFromParentType(GraphqlType $parentType): ?string
     {
         return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
     }
@@ -145,7 +145,7 @@ class SelectFields
         array &$with,
         $ctx
     ): void {
-        $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
+        $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
         foreach ($requestedFields['fields'] as $key => $field) {
             // Ignore __typename, as it's a special case
@@ -154,8 +154,8 @@ class SelectFields
             }
 
             // Always select foreign key
-            if ($field === self::ALWAYS_RELATION_KEY) {
-                self::addFieldToSelect($key, $select, $parentTable, false);
+            if ($field === static::ALWAYS_RELATION_KEY) {
+                static::addFieldToSelect($key, $select, $parentTable, false);
 
                 continue;
             }
@@ -178,19 +178,19 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = self::validateField($fieldObject, $queryArgs);
+            $canSelect = static::validateField($fieldObject, $queryArgs);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = $fieldObject->config['query'] ?? null;
 
                 // Check if the field is a relation that needs to be requested from the DB
-                $queryable = self::isQueryable($fieldObject->config);
+                $queryable = static::isQueryable($fieldObject->config);
 
                 // Pagination
                 if (is_a($parentType, config('graphql.pagination_type', PaginationType::class))) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
-                    self::handleFields(
+                    static::handleFields(
                         $queryArgs,
                         $field,
                         $fieldType->getWrappedType(),
@@ -207,14 +207,14 @@ class SelectFields
                         $relationsKey = $fieldObject->config['alias'] ?? $key;
                         $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
 
-                        self::handleRelation($select, $relation, $parentTable, $field);
+                        static::handleRelation($select, $relation, $parentTable, $field);
 
                         // New parent type, which is the relation
                         $newParentType = $parentType->getField($key)->config['type'];
 
-                        self::addAlwaysFields($fieldObject, $field, $parentTable, true);
+                        static::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$relationsKey] = self::getSelectableFieldsAndRelations(
+                        $with[$relationsKey] = static::getSelectableFieldsAndRelations(
                             $queryArgs,
                             $field,
                             $newParentType,
@@ -223,7 +223,7 @@ class SelectFields
                             $ctx
                         );
                     } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
-                        self::handleInterfaceFields(
+                        static::handleInterfaceFields(
                             $queryArgs,
                             $field,
                             $parentTypeUnwrapped,
@@ -235,7 +235,7 @@ class SelectFields
                             $customQuery
                         );
                     } else {
-                        self::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
+                        static::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
                     }
                 }
                 // Select
@@ -245,9 +245,9 @@ class SelectFields
                         : $key;
                     $key = $key instanceof Closure ? $key() : $key;
 
-                    self::addFieldToSelect($key, $select, $parentTable, false);
+                    static::addFieldToSelect($key, $select, $parentTable, false);
 
-                    self::addAlwaysFields($fieldObject, $select, $parentTable);
+                    static::addAlwaysFields($fieldObject, $select, $parentTable);
                 }
             }
             // If privacy does not allow the field, return it as null
@@ -257,7 +257,7 @@ class SelectFields
             }
             // If allowed field, but not selectable
             elseif ($canSelect === false) {
-                self::addAlwaysFields($fieldObject, $select, $parentTable);
+                static::addAlwaysFields($fieldObject, $select, $parentTable);
             }
         }
 
@@ -268,7 +268,7 @@ class SelectFields
         }
     }
 
-    private static function isMongodbInstance(GraphqlType $parentType): bool
+    protected static function isMongodbInstance(GraphqlType $parentType): bool
     {
         $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
 
@@ -361,7 +361,7 @@ class SelectFields
      *
      * @return bool
      */
-    private static function isQueryable(array $fieldObject): bool
+    protected static function isQueryable(array $fieldObject): bool
     {
         return ($fieldObject['is_relation'] ?? true) === true;
     }
@@ -372,7 +372,7 @@ class SelectFields
      * @param  string|null  $parentTable
      * @param  array  $field
      */
-    private static function handleRelation(array &$select, $relation, ?string $parentTable, &$field): void
+    protected static function handleRelation(array &$select, $relation, ?string $parentTable, &$field): void
     {
         // Add the foreign key here, if it's a 'belongsTo'/'belongsToMany' relation
         if (method_exists($relation, 'getForeignKey')) {
@@ -409,10 +409,10 @@ class SelectFields
             $segments = explode('.', $foreignKey);
             $foreignKey = end($segments);
             if (! array_key_exists($foreignKey, $field)) {
-                $field['fields'][$foreignKey] = self::ALWAYS_RELATION_KEY;
+                $field['fields'][$foreignKey] = static::ALWAYS_RELATION_KEY;
             }
             if (is_a($relation, MorphMany::class) || is_a($relation, MorphOne::class)) {
-                $field['fields'][$relation->getMorphType()] = self::ALWAYS_RELATION_KEY;
+                $field['fields'][$relation->getMorphType()] = static::ALWAYS_RELATION_KEY;
             }
         }
     }
@@ -440,7 +440,7 @@ class SelectFields
 
             // Get as 'field' => true
             foreach ($always as $field) {
-                self::addFieldToSelect($field, $select, $parentTable, $forRelation);
+                static::addFieldToSelect($field, $select, $parentTable, $forRelation);
             }
         }
     }
@@ -479,9 +479,9 @@ class SelectFields
             $key,
             $fieldObject
         ) {
-            $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
+            $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
-            self::handleRelation($select, $query, $parentTable, $field);
+            static::handleRelation($select, $query, $parentTable, $field);
 
             // New parent type, which is the relation
             try {
@@ -495,7 +495,7 @@ class SelectFields
                 return $query;
             }
 
-            self::addAlwaysFields($fieldObject, $field, $parentTable, true);
+            static::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
             // Find the type of the current relation by comparing table names
             if (isset($parentType->config['types'])) {
@@ -523,7 +523,7 @@ class SelectFields
             }
 
             /** @var callable $callable */
-            $callable = self::getSelectableFieldsAndRelations(
+            $callable = static::getSelectableFieldsAndRelations(
                 $queryArgs,
                 $field,
                 $newParentType,

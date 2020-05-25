@@ -165,7 +165,7 @@ abstract class Field
         };
     }
 
-    private function instanciateSelectFields(array $arguments, int $depth = null): SelectFields
+    protected function instanciateSelectFields(array $arguments, int $depth = null): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 
