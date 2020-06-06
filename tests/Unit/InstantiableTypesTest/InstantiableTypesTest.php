@@ -9,8 +9,10 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class InstantiableTypesTest extends TestCase
 {
-    public function testSomething(): void
+    public function testDateFunctions(): void
     {
+        Carbon::setTestNow('2020-06-05 12:34:56');
+
         $query = <<<'GRAQPHQL'
 {
     user {
@@ -24,8 +26,8 @@ GRAQPHQL;
 
         $result = $this->graphql($query);
 
-        $dateOfBirth = Carbon::now()->addMonth()->startOfDay();
-        $createdAt = Carbon::now()->startOfDay();
+        $dateOfBirth = Carbon::today()->addMonth();
+        $createdAt = Carbon::today();
 
         $expectedResult = [
             'data' => [
