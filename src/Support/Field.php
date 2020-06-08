@@ -125,11 +125,6 @@ abstract class Field
 
             $arguments[1] = $this->getArgs($arguments);
 
-            // Authorize
-            if (true != call_user_func_array($authorize, $arguments)) {
-                throw new AuthorizationError($this->getAuthorizationMessage());
-            }
-
             $method = new ReflectionMethod($this, 'resolve');
 
             $additionalParams = array_slice($method->getParameters(), 3);
@@ -157,6 +152,14 @@ abstract class Field
 
                 return app()->make($className);
             }, $additionalParams);
+
+            // Authorize
+            if (true != call_user_func_array($authorize, array_merge(
+                [$arguments[0], $arguments[1], $arguments[2]],
+                $additionalArguments
+            ))) {
+                throw new AuthorizationError($this->getAuthorizationMessage());
+            }
 
             return call_user_func_array($resolver, array_merge(
                 [$arguments[0], $arguments[1], $arguments[2]],
