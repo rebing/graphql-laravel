@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Support;
 
+use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
 
@@ -68,12 +69,14 @@ class RulesInFields
         foreach ($fields as $name => $field) {
             $key = $prefix === null ? $name : "{$prefix}.{$name}";
 
-            //If field doesn't exist on definition we don't select it
-            if (! method_exists($parentType, 'getField')) {
+            try {
+                if (! method_exists($parentType, 'getField')) {
+                    continue;
+                }
+                $fieldObject = $parentType->getField($name);
+            } catch (InvariantViolation $e) {
                 continue;
             }
-
-            $fieldObject = $parentType->getField($name);
 
             if (is_array($field['fields'])) {
                 $rules = $rules + $this->getRules($field['fields'], $key.'.fields', $fieldObject->getType());

@@ -29,6 +29,7 @@ class ValidationOfFieldArgumentsTest extends TestCase
 query ($profileId: Int, $height: String) {
   test {
     id
+    __typename
     profile(profileId: $profileId) {
       name(includeMiddleNames: "maybe")
       height(unit: $height)
