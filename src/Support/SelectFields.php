@@ -7,7 +7,6 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
@@ -32,33 +31,26 @@ class SelectFields
     const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
-     * @param  ResolveInfo  $info
      * @param  GraphqlType  $parentType
      * @param  array  $queryArgs  Arguments given with the query/mutation
-     * @param  int  $depth The depth to walk the AST and introspect for nested relations
      * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
      *   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
+     * @param  array<string,mixed>  $fieldsAndArguments Field and argument tree
      */
-    public function __construct(ResolveInfo $info, GraphqlType $parentType, array $queryArgs, int $depth, $ctx)
+    public function __construct(GraphqlType $parentType, array $queryArgs, $ctx, array $fieldsAndArguments)
     {
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $requestedFields = $this->getFieldSelection($info, $queryArgs, $depth);
-        $fields = static::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        $requestedFields = [
+            'args' => $queryArgs,
+            'fields' => $fieldsAndArguments,
+        ];
+
+        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
         $this->select = $fields[0];
         $this->relations = $fields[1];
-    }
-
-    protected function getFieldSelection(ResolveInfo $resolveInfo, array $args, int $depth): array
-    {
-        $resolveInfoFieldsAndArguments = new ResolveInfoFieldsAndArguments($resolveInfo);
-
-        return [
-            'args' => $args,
-            'fields' => $resolveInfoFieldsAndArguments->getFieldsAndArgumentsSelection($depth),
-        ];
     }
 
     /**
