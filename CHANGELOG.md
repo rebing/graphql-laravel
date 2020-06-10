@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/5.1.1...master)
 --------------
+### Fixed
+- Fixed an issue where $getSelectFields doesn't work in Authorize function for queries and mutations. [\#639 / adamlc](https://github.com/rebing/graphql-laravel/pull/639)
 
 2019-04-23, 5.1.1
 -----------------

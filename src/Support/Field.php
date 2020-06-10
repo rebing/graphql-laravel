@@ -153,18 +153,17 @@ abstract class Field
                 return app()->make($className);
             }, $additionalParams);
 
-            // Authorize
-            if (true != call_user_func_array($authorize, array_merge(
+            $functionArguments = array_merge(
                 [$arguments[0], $arguments[1], $arguments[2]],
                 $additionalArguments
-            ))) {
+            );
+
+            // Authorize
+            if (true != call_user_func_array($authorize, $functionArguments)) {
                 throw new AuthorizationError($this->getAuthorizationMessage());
             }
 
-            return call_user_func_array($resolver, array_merge(
-                [$arguments[0], $arguments[1], $arguments[2]],
-                $additionalArguments
-            ));
+            return call_user_func_array($resolver, $functionArguments);
         };
     }
 
