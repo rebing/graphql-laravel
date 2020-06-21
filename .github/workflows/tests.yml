@@ -17,6 +17,8 @@ jobs:
             laravel: 5.5.*
     name: PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-18.04
+    env:
+      COMPOSER_NO_INTERACTION: 1
 
     steps:
       - uses: actions/checkout@v2
@@ -27,11 +29,11 @@ jobs:
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev matt-allan/laravel-code-style --no-interaction --no-update
-      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-interaction --no-update
-      - run: composer require orchestra/testbench:${{ matrix.laravel }} --no-interaction --no-update
+      - run: composer remove --dev matt-allan/laravel-code-style --no-update
+      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
+      - run: composer require orchestra/testbench:${{ matrix.laravel }} --no-update
         if: matrix.laravel == 'dev-master'
-      - run: composer remove --dev nunomaduro/larastan --no-interaction --no-update
+      - run: composer remove --dev nunomaduro/larastan --no-update
 
       - name: Get composer cache directory
         id: composercache
@@ -44,9 +46,9 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
 
-      - run: composer install --prefer-dist --no-interaction --no-suggest
+      - run: composer install --prefer-dist --no-suggest
 
-      - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-interaction --no-suggest
+      - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-suggest
         if: matrix.laravel == '5.5.*'
 
       - name: Run tests (without lazyload types)
