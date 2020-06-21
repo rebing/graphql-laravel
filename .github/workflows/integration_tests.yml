@@ -1,0 +1,39 @@
+name: Integration tests
+
+on: [push, pull_request]
+
+jobs:
+  integration:
+    strategy:
+      matrix:
+        integration: [laravel, lumen]
+    name: ${{ matrix.integration }}
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      # Due to version incompatibility with older Laravels we test, we remove it
+      - run: composer remove --dev matt-allan/laravel-code-style --no-interaction --no-update
+      - run: composer require illuminate/contracts:7.0 --no-interaction --no-update
+      - run: composer remove --dev nunomaduro/larastan --no-interaction --no-update
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - run: composer install --prefer-dist --no-interaction --no-suggest
+
+      - run: tests/integration-${{ matrix.integration }}.sh
