@@ -31,8 +31,6 @@ jobs:
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
-      - run: composer require orchestra/testbench:${{ matrix.laravel }} --no-update
-        if: matrix.laravel == 'dev-master'
       - run: composer remove --dev nunomaduro/larastan --no-update
 
       - name: Get composer cache directory
