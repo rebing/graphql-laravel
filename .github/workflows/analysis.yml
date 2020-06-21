@@ -1,4 +1,4 @@
-name: graphql-laravel CI
+name: Code Analysis
 
 on: [push, pull_request]
 
