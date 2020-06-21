@@ -8,12 +8,12 @@
 # This script is meant to be run on CI environments
 
 echo "Install Laravel"
-travis_retry composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel
+composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel
 cd ../laravel
 
 echo "Add package from source"
 sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json
-travis_retry composer require --dev "rebing/graphql-laravel:*"
+composer require --dev "rebing/graphql-laravel:*"
 
 echo "Publish vendor files"
 php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
