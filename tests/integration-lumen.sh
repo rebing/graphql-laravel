@@ -2,10 +2,10 @@
 
 # Inspired by https://github.com/nunomaduro/larastan/blob/669b489e10558bd45fafc2429068fd4a73843802/tests/laravel-test.sh
 #
-# Create a fresh Kumen installation, install our package in it and run some
+# Create a fresh Lumen installation, install our package in it and run some
 # basic tests to ensure everything works.
 #
-# This script is meant to be run on Travis CI
+# This script is meant to be run on CI environments
 
 echo "Install Lumen"
 travis_retry composer create-project --quiet --prefer-dist "laravel/lumen" ../lumen

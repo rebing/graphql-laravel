@@ -5,7 +5,7 @@
 # Create a fresh Laravel installation, install our package in it and run some
 # basic tests to ensure everything works.
 #
-# This script is meant to be run on Travis CI
+# This script is meant to be run on CI environments
 
 echo "Install Laravel"
 travis_retry composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel
