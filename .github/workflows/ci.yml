@@ -13,7 +13,7 @@ jobs:
       - name: Setup PHP
         run: sudo phpdismod xdebug
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ~/.composer/cache/files
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -35,7 +35,7 @@ jobs:
       - name: Setup PHP
         run: sudo phpdismod xdebug
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ~/.composer/cache/files
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
