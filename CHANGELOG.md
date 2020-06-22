@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/5.1.2...master)
 --------------
 
+## Breaking changes
+- Upgrade to webonxy/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
+
 2019-07-02, 5.1.2
 -----------------
 ### Added
