@@ -26,6 +26,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          tools: composer:v2
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
@@ -44,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
 
-      - run: composer install --prefer-dist --no-suggest
+      - run: composer update --prefer-dist --no-progress
 
       - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-suggest
         if: matrix.laravel == '5.5.*'
