@@ -22,12 +22,9 @@ parameters:
         - '/Parameter #1 \$key of function array_key_exists expects int\|string, string\|false given/'
         - "/Parameter #1 \\$function of function call_user_func expects callable\\(\\): mixed, array\\(mixed, 'fire'\\) given/"
         - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
-        - '/Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind/'
-        - '/Parameter #2 \$nodes of class GraphQL\\Error\\Error constructor expects GraphQL\\Language\\AST\\Node\|\(iterable<GraphQL\\Language\\AST\\Node>&Traversable\)\|null, array<int, GraphQL\\Language\\AST\\Node> given/'
         - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
-        - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
@@ -45,4 +42,5 @@ parameters:
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
         - '/Method Illuminate\\Foundation\\Testing\\TestResponse\:\:assertSee\(\) invoked with 2 parameters, 1 required/'
+        - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
     reportUnmatchedIgnoredErrors: true

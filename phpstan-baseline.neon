@@ -110,7 +110,6 @@ parameters:
 			count: 1
 			path: src/GraphQLServiceProvider.php
 
-
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
@@ -440,6 +439,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\UnionType\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/UnionType.php
+
+		-
+			message: "#^Parameter \\#2 \\$nodes of class GraphQL\\\\Error\\\\Error constructor expects GraphQL\\\\Language\\\\AST\\\\Node\\|\\(iterable\\<GraphQL\\\\Language\\\\AST\\\\Node\\>&Traversable\\)\\|null, array\\<int, GraphQL\\\\Language\\\\AST\\\\BooleanValueNode\\|GraphQL\\\\Language\\\\AST\\\\FloatValueNode\\|GraphQL\\\\Language\\\\AST\\\\IntValueNode\\|GraphQL\\\\Language\\\\AST\\\\NullValueNode\\|GraphQL\\\\Language\\\\AST\\\\StringValueNode\\> given\\.$#"
+			count: 1
+			path: src/Support/UploadType.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -1322,6 +1326,11 @@ parameters:
 			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) should return GraphQL\\\\Type\\\\Definition\\\\StringType but returns GraphQL\\\\Type\\\\Definition\\\\ScalarType\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleInterfaceType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
@@ -2170,7 +2179,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\MutationWithCustomRuleWithRuleObject\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/MutationValidationInWithCustomRulesTests/MutationWithCustomRuleWithRuleObject.php
-
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationValidationInWithCustomRulesTests\\\\RuleObjectFail\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"

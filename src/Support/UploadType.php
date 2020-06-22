@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
 use GraphQL\Error\InvariantViolation;
+use GraphQL\Language\AST\Node;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
@@ -49,7 +50,7 @@ class UploadType extends ScalarType implements TypeConvertible
     /**
      * {@inheritdoc}
      */
-    public function parseLiteral($valueNode, ?array $variables = null)
+    public function parseLiteral(Node $valueNode, ?array $variables = null)
     {
         throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: '.$valueNode->kind, [$valueNode]);
     }
