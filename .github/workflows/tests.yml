@@ -50,10 +50,5 @@ jobs:
       - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-suggest
         if: matrix.laravel == '5.5.*'
 
-      - name: Run tests (without lazyload types)
-        run: vendor/bin/phpunit --colors=always --verbose
-
-      - name: Run tests (with lazyload types)
-        run: vendor/bin/phpunit --colors=always --verbose
-        env:
-          TESTS_ENABLE_LAZYLOAD_TYPES: 1
+      - name: Run tests
+        run: composer tests
