@@ -60,6 +60,7 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
+        "phpstan-baseline": "phpstan analyse --memory-limit=512M --error-format=baselineNeon > phpstan-baseline.neon",
         "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
         "fix-style": "php-cs-fixer fix"
     },
