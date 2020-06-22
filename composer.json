@@ -60,6 +60,10 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
+        "tests": [
+          "phpunit --colors=always --verbose",
+          "TESTS_ENABLE_LAZYLOAD_TYPES=1 phpunit --colors=always --verbose"
+        ],
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --error-format=baselineNeon > phpstan-baseline.neon",
         "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
         "fix-style": "php-cs-fixer fix"
