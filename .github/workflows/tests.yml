@@ -1,0 +1,59 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  integration:
+    strategy:
+      matrix:
+        php: [7.1, 7.2, 7.3, 7.4]
+        laravel: [5.5.*, ^6.0, ^7.0]
+        exclude:
+          - php: 7.1
+            laravel: ^6.0
+          - php: 7.1
+            laravel: ^7.0
+          - php: 7.4
+            laravel: 5.5.*
+    name: PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }}
+    runs-on: ubuntu-18.04
+    env:
+      COMPOSER_NO_INTERACTION: 1
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      # Due to version incompatibility with older Laravels we test, we remove it
+      - run: composer remove --dev matt-allan/laravel-code-style --no-update
+      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
+      - run: composer remove --dev nunomaduro/larastan --no-update
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
+
+      - run: composer update --prefer-dist --no-progress
+
+      - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-suggest
+        if: matrix.laravel == '5.5.*'
+
+      - name: Run tests (without lazyload types)
+        run: vendor/bin/phpunit --colors=always --verbose
+
+      - name: Run tests (with lazyload types)
+        run: vendor/bin/phpunit --colors=always --verbose
+        env:
+          TESTS_ENABLE_LAZYLOAD_TYPES: 1
