@@ -48,9 +48,7 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        $fields = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
-        $this->select = $fields[0];
-        $this->relations = $fields[1];
+        [$this->select, $this->relations] = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
     }
 
     /**
