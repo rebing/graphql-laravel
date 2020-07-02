@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.2...master)
 --------------
+
+2019-07-02, 5.1.2
+-----------------
 ### Added
 - Readded support for validation in field arguments (with breaking change fix) [\#630 / crissi](https://github.com/rebing/graphql-laravel/pull/630)
 
