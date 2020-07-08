@@ -25,9 +25,10 @@
             "role": "Developer"
         },
         {
-            "name": "Markus Fischer",
+            "name": "Markus Podar",
             "email": "markus@fischer.name",
-            "role": "Developer"
+            "role": "Developer",
+            "homepage": "https://github.com/mfn"
         }
     ],
     "license": "MIT",
