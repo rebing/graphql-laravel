@@ -16,17 +16,13 @@ parameters:
         - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
         - '/Strict comparison using === between null and array will always evaluate to false/'
         # \Rebing\GraphQL\Support\SelectFields::handleFields
-        - '/Parameter #1 \$function of function call_user_func expects callable\(\): mixed, array\(mixed, mixed\) given/'
         - '/Binary operation "." between string and array\|string\|null results in an error/'
         - '/Parameter #1 \$key of function array_key_exists expects int\|string, string\|false given/'
-        - "/Parameter #1 \\$function of function call_user_func expects callable\\(\\): mixed, array\\(mixed, 'fire'\\) given/"
         - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
-        - '/Access to an undefined property Illuminate\\Testing\\TestResponse::\$headers/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
-        - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
-        - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection::slice\(\) expects int, float\|int given/'
+        - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection<mixed,mixed>::slice\(\) expects int, float\|int given/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'

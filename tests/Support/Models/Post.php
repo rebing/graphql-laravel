@@ -23,10 +23,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class Post extends Model
 {
+    /** @var string[] */
     protected $dates = [
         'published_at',
     ];
 
+    /** @var array<string,string> */
     protected $casts = [
         'properties' => 'array',
     ];
