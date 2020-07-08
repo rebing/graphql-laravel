@@ -47,7 +47,8 @@
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
         "matt-allan/laravel-code-style": "0.5.0",
-        "phpstan/phpstan": "0.12.8"
+        "phpstan/phpstan": "0.12.8",
+        "ext-pdo_sqlite": "*"
     },
     "autoload": {
         "psr-4": {
