@@ -1936,16 +1936,6 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:__call\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:__call\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCase.php
