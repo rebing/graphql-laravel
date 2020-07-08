@@ -1,6 +1,6 @@
 includes:
-    - larastan.neon
-    - phpstan-baseline.neon
+    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./phpstan-baseline.neon
 parameters:
     level: max
     paths:
