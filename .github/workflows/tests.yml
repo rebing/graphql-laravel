@@ -6,15 +6,8 @@ jobs:
   integration:
     strategy:
       matrix:
-        php: [7.1, 7.2, 7.3, 7.4]
-        laravel: [5.5.*, ^6.0, ^7.0]
-        exclude:
-          - php: 7.1
-            laravel: ^6.0
-          - php: 7.1
-            laravel: ^7.0
-          - php: 7.4
-            laravel: 5.5.*
+        php: [7.2, 7.3, 7.4]
+        laravel: [^6.0, ^7.0]
     name: PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-18.04
     env:
@@ -46,9 +39,6 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
 
       - run: composer update --prefer-dist --no-progress
-
-      - run: composer require --dev orchestra/database:3.5 --prefer-dist --no-suggest
-        if: matrix.laravel == '5.5.*'
 
       - name: Run tests
         run: composer tests

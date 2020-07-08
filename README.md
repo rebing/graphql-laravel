@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Uses Facebook GraphQL with Laravel 5.5+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
+Uses Facebook GraphQL with Laravel 6.0+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
 
 This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
@@ -26,7 +26,7 @@ It offers following features and improvements over the original package by
 
 #### Dependencies:
 
-* [Laravel 5.5+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
+* [Laravel 6.0+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
@@ -37,9 +37,9 @@ It offers following features and improvements over the original package by
 composer require rebing/graphql-laravel
 ```
 
-##### Laravel 5.5+
+##### Laravel 6.0+
 
-**1.** Laravel 5.5+ will autodiscover the package, for older versions add the
+**1.** Laravel 6.0+ will autodiscover the package, for older versions add the
 following service provider
 ```php
 Rebing\GraphQL\GraphQLServiceProvider::class,
@@ -100,7 +100,7 @@ To work this around:
   - [Installation](#installation)
       - [Dependencies:](#dependencies)
       - [Installation:](#installation)
-        - [Laravel 5.5+](#laravel-55)
+        - [Laravel 6.0+](#laravel-60)
         - [Lumen (experimental!)](#lumen-experimental)
   - [Usage](#usage)
     - [Schemas](#schemas)
