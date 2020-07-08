@@ -69,6 +69,9 @@
         "fix-style": "php-cs-fixer fix"
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "6.0.x-dev"
+        },
         "laravel": {
             "providers": [
                 "Rebing\\GraphQL\\GraphQLServiceProvider"
