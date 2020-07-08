@@ -506,11 +506,6 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 5
-			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/MutationValidationUniqueWithCustomRulesTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\RuleObjectFail\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectFail.php
@@ -519,11 +514,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\MutationValidationUniqueWithCustomRulesTests\\\\RuleObjectPass\\:\\:message\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectPass.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 6
-			path: tests/Database/SelectFields/AlwaysRelationTests/AlwaysRelationTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -621,11 +611,6 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 8
-			path: tests/Database/SelectFields/AlwaysTests/AlwaysTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/CommentType.php
@@ -661,11 +646,6 @@ parameters:
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ArrayTests/ArrayTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/PostType.php
@@ -674,11 +654,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\PropertyType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/PropertyType.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: tests/Database/SelectFields/ComputedPropertiesTests/ComputedPropertiesTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -714,11 +689,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 4
-			path: tests/Database/SelectFields/DepthTests/DepthTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -816,11 +786,6 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 17
-			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
@@ -916,11 +881,6 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikeType.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 4
-			path: tests/Database/SelectFields/MorphRelationshipTests/MorphRelationshipTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/PostType.php
@@ -966,16 +926,6 @@ parameters:
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/CommentType.php
 
 		-
-			message: "#^Function factory invoked with 2 parameters, 0 required\\.$#"
-			count: 17
-			path: tests/Database/SelectFields/NestedRelationLoadingTests/NestedRelationLoadingTest.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 9
-			path: tests/Database/SelectFields/NestedRelationLoadingTests/NestedRelationLoadingTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/PostType.php
@@ -1014,11 +964,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/CommentType.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 4
-			path: tests/Database/SelectFields/PrimaryKeyTests/PaginationTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1076,11 +1021,6 @@ parameters:
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 6
-			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/CommentType.php
@@ -1099,16 +1039,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
-
-		-
-			message: "#^Function factory invoked with 2 parameters, 0 required\\.$#"
-			count: 18
-			path: tests/Database/SelectFields/QueryArgsAndContextTests/NestedRelationLoadingTest.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 15
-			path: tests/Database/SelectFields/QueryArgsAndContextTests/NestedRelationLoadingTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1186,16 +1116,6 @@ parameters:
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
-			message: "#^Function factory invoked with 2 parameters, 0 required\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateDiffNodeTests/ValidateDiffNodeTests.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: tests/Database/SelectFields/ValidateDiffNodeTests/ValidateDiffNodeTests.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/CommentType.php
@@ -1221,11 +1141,6 @@ parameters:
 			path: tests/Database/SelectFields/ValidateFieldTests/PrivacyDenied.php
 
 		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 14
-			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
@@ -1249,11 +1164,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
-
-		-
-			message: "#^Function factory invoked with 1 parameter, 0 required\\.$#"
-			count: 15
-			path: tests/Database/SelectFieldsTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Like\\:\\:\\$guarded has no typehint specified\\.$#"

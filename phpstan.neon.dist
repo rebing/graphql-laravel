@@ -21,8 +21,8 @@ parameters:
         - '/Parameter #1 \$key of function array_key_exists expects int\|string, string\|false given/'
         - "/Parameter #1 \\$function of function call_user_func expects callable\\(\\): mixed, array\\(mixed, 'fire'\\) given/"
         - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
-        - '/Call to an undefined method Illuminate\\Foundation\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
-        - '/Access to an undefined property Illuminate\\Foundation\\Testing\\TestResponse::\$headers/'
+        - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
+        - '/Access to an undefined property Illuminate\\Testing\\TestResponse::\$headers/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         - '/Cannot call method set\(\) on Illuminate\\Config\\Repository\|null/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
@@ -40,6 +40,5 @@ parameters:
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
-        - '/Method Illuminate\\Foundation\\Testing\\TestResponse\:\:assertSee\(\) invoked with 2 parameters, 1 required/'
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
     reportUnmatchedIgnoredErrors: true
