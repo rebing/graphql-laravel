@@ -139,7 +139,10 @@ class Rules
             }
 
             if (property_exists($field, 'type') && array_key_exists($name, $resolutionArguments) && is_array($resolutionArguments[$name])) {
-                $rules = $rules + $this->inferRulesFromType($field->type, $key, $resolutionArguments[$name]);
+                $type = $field instanceof InputObjectField
+                    ? $field->getType()
+                    : $field->type;
+                $rules = $rules + $this->inferRulesFromType($type, $key, $resolutionArguments[$name]);
             }
         }
 

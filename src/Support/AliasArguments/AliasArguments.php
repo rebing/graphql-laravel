@@ -70,10 +70,15 @@ class AliasArguments
         }
         $pathAndAlias = [];
         foreach ($fields as $name => $arg) {
-            // $arg is either an array DSL notation or an InputObjectField
-            $arg = $arg instanceof InputObjectField ? $arg : (object) $arg;
+            $type = null;
 
-            $type = $arg->type ?? null;
+            // $arg is either an array DSL notation or an InputObjectField
+            if ($arg instanceof InputObjectField) {
+                $type = $arg->getType();
+            } else {
+                $arg = (object) $arg;
+                $type = $arg->type ?? null;
+            }
 
             if (null === $type) {
                 continue;
