@@ -61,8 +61,9 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
-        "tests": [
-          "phpunit --colors=always --verbose",
+        "tests": "phpunit --colors=always --verbose",
+        "all-tests": [
+          "TESTS_ENABLE_LAZYLOAD_TYPES=0 phpunit --colors=always --verbose",
           "TESTS_ENABLE_LAZYLOAD_TYPES=1 phpunit --colors=always --verbose"
         ],
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
