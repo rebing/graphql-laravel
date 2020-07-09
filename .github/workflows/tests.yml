@@ -8,7 +8,8 @@ jobs:
       matrix:
         php: [7.2, 7.3, 7.4]
         laravel: [^6.0, ^7.0]
-    name: PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }}
+        lazy_types: ['false', 'true']
+    name: P=${{ matrix.php }} L=${{ matrix.laravel }} Lazy types=${{ matrix.lazy_types }}
     runs-on: ubuntu-18.04
     env:
       COMPOSER_NO_INTERACTION: 1
@@ -39,6 +40,10 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
 
       - run: composer update --prefer-dist --no-progress
+
+      - name: Enable lazy types conditionally
+        run: echo "::set-env name=TESTS_ENABLE_LAZYLOAD_TYPES::1"
+        if: matrix.lazy_types == 'true'
 
       - name: Run tests
         run: composer tests
