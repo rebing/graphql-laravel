@@ -30,7 +30,7 @@ class UserType extends GraphQLType
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
                 'args' => [
                     'flag' => [
-                        Type::boolean(),
+                        'type' => Type::boolean(),
                     ],
                 ],
                 'query' => function (array $args, HasMany $query, GraphQLContext $ctx): HasMany {
