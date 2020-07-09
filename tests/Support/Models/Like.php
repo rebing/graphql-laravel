@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Like extends Model
 {
+    /** @var string[] */
     protected $guarded = [];
 
     public function user(): BelongsTo

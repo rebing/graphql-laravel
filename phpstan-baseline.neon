@@ -331,12 +331,27 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addFieldToSelect\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:validateField\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, 'fire'\\) given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -451,23 +466,23 @@ parameters:
 			path: src/Support/UploadType.php
 
 		-
+			message: "#^PHPDoc tag @var for variable \\$router contains unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
+			count: 2
+			path: src/routes.php
+
+		-
 			message: "#^PHPDoc tag @var for variable \\$queryTypesMap has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/routes.php
 
 		-
-			message: "#^PHPDoc tag @var for variable \\$router contains unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 1
-			path: src/routes.php
-
-		-
 			message: "#^Call to method get\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 2
+			count: 3
 			path: src/routes.php
 
 		-
 			message: "#^Call to method post\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 2
+			count: 3
 			path: src/routes.php
 
 		-
@@ -1164,21 +1179,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Like\\:\\:\\$guarded has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Models/Like.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$dates has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Models/Post.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$casts has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Models/Post.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExampleType\\:\\:\\$attributes has no typehint specified\\.$#"
