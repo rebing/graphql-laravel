@@ -32,7 +32,7 @@
         }
     ],
     "license": "MIT",
-    "type": "project",
+    "type": "library",
     "require": {
         "php": ">= 7.2",
         "illuminate/contracts": "^6.0|^7.0",
