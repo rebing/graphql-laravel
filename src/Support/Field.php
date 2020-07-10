@@ -121,6 +121,14 @@ abstract class Field
         return Validator::make($args, $rules, $messages);
     }
 
+    /**
+     * @return array<string>
+     */
+    protected function getMiddleware(): array
+    {
+        return $this->middleware;
+    }
+
     protected function getResolver(): ?Closure
     {
         $resolver = $this->originalResolver();
@@ -130,19 +138,21 @@ abstract class Field
         }
 
         return function ($root, ...$arguments) use ($resolver) {
+            $middleware = $this->getMiddleware();
+
             return App::make(Pipeline::class)
                 ->send(array_merge([$this], $arguments))
-                ->through($this->middleware)
+                ->through($middleware)
                 ->via('resolve')
-                ->then(function ($arguments) use ($resolver, $root) {
+                ->then(function ($arguments) use ($middleware, $resolver, $root) {
                     $result = $resolver($root, ...array_slice($arguments, 1));
 
-                    foreach ($this->middleware as $name) {
-                        $middleware = App::make($name);
+                    foreach ($middleware as $name) {
+                        $instance = App::make($name);
 
-                        if (method_exists($middleware, 'terminate')) {
-                            App::terminating(function () use ($arguments, $middleware, $result) {
-                                $middleware->terminate($this, ...array_slice($arguments, 1), ...[$result]);
+                        if (method_exists($instance, 'terminate')) {
+                            App::terminating(function () use ($arguments, $instance, $result) {
+                                $instance->terminate($this, ...array_slice($arguments, 1), ...[$result]);
                             });
                         }
                     }

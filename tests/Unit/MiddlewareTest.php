@@ -55,7 +55,7 @@ class MiddlewareTest extends TestCase
         ]);
 
         $this->assertObjectHasAttribute('errors', $result);
-        $this->assertSame('Index 5 is not allowed', $result->errors[0]->message);
+        $this->assertSame('Index 5 is not allowed', $result->errors[0]->getMessage());
     }
 
     public function testMiddlewareCanThrowExceptionsAfterResolution(): void
@@ -65,7 +65,7 @@ class MiddlewareTest extends TestCase
         ]);
 
         $this->assertObjectHasAttribute('errors', $result);
-        $this->assertSame('Example 3 is not allowed', $result->errors[0]->message);
+        $this->assertSame('Example 3 is not allowed', $result->errors[0]->getMessage());
     }
 
     public function testMiddlewareTerimateHappensAfterResponseIsSent(): void
@@ -75,6 +75,6 @@ class MiddlewareTest extends TestCase
         ]);
 
         $this->assertObjectHasAttribute('errors', $result);
-        $this->assertSame('Undefined offset: 6', $result->errors[0]->message);
+        $this->assertSame('Undefined offset: 6', $result->errors[0]->getMessage());
     }
 }

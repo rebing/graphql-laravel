@@ -644,14 +644,14 @@ Note: You can test your file upload implementation using [Altair](https://altair
         bodyFormData.set('operationName', null);
         bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
         bodyFormData.append('file', this.file);
-        
+
         // Post the request to GraphQL controller
         let res = await axios.post('/graphql', bodyFormData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         });
-        
+
         if (res.data.status.code == 200) {
           // On success file upload
           this.file = null;
@@ -832,6 +832,15 @@ abstract class Query extends BaseQuery
         Middleware\ResolvePage::class,
     ];
 }
+```
+
+Alternatively, you can override `getMiddleware` to supply your own logic:
+
+```php
+    protected function getMiddleware(): array
+    {
+        return array_merge([...], $this->middleware);
+    }
 ```
 
 #### Terminable middleware
