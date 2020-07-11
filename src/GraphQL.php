@@ -11,6 +11,8 @@ use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
+use GraphQL\Language\AST\OperationDefinitionNode;
+use GraphQL\Language\Parser;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -144,6 +146,26 @@ class GraphQL
         $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
         $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
+        $detectUnusedVariables = config('graphql.detect_unused_variables', false);
+
+        if ($params && $detectUnusedVariables) {
+            $unusedVariables = $params;
+            $query = Parser::parse($query);
+            foreach ($query->definitions as $definition) {
+                if ($definition instanceof OperationDefinitionNode) {
+                    foreach ($definition->variableDefinitions as $variableDefinition) {
+                        unset($unusedVariables[$variableDefinition->variable->name->value]);
+                    }
+                }
+            }
+
+            if ($unusedVariables) {
+                $msg = sprintf('The following variables were provided but not consumed: %s',
+                    implode(', ', array_keys($unusedVariables))
+                );
+                return new ExecutionResult(null, [new Error($msg)]);
+            }
+        }
 
         $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $params, $operationName, $defaultFieldResolver)
             ->setErrorsHandler($errorsHandler)
