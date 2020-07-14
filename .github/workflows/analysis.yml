@@ -60,3 +60,15 @@ jobs:
       - run: composer update --prefer-dist --no-progress
 
       - run: composer lint
+
+  roave-bc-check:
+    name: Roave BC Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: Roave BC Check
+        uses: docker://nyholm/roave-bc-check-ga
