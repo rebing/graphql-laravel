@@ -131,6 +131,11 @@ parameters:
 			path: src/Support/AliasArguments/AliasArguments.php
 
 		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
+			count: 1
+			path: src/Support/AliasArguments/AliasArguments.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:modify\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
@@ -284,6 +289,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getInputListObjectValue\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$rules\\.$#"
+			count: 1
+			path: src/Support/Rules.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$select type has no value type specified in iterable type array\\.$#"
