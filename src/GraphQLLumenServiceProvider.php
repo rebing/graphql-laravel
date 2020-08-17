@@ -6,10 +6,6 @@ namespace Rebing\GraphQL;
 
 use Rebing\GraphQL\Console\PublishCommand;
 
-if (class_exists('Laravel\Lumen\Routing\Controller')) {
-    class_alias('Laravel\Lumen\Routing\Controller', 'Illuminate\Routing\Controller');
-}
-
 class GraphQLLumenServiceProvider extends GraphQLServiceProvider
 {
     protected function bootPublishes(): void
