@@ -9,9 +9,8 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
-class GraphQLController extends Controller
+class GraphQLController
 {
     /** @var Container */
     protected $app;
