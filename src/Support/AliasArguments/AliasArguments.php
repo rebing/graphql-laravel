@@ -86,8 +86,9 @@ class AliasArguments
 
             $newPrefix = $prefix ? $prefix.'.'.$name : $name;
 
-            if (isset($arg->alias)) {
-                $pathAndAlias[$newPrefix] = $arg->alias;
+            $alias = $arg->config['alias'] ?? $arg->alias ?? null;
+            if ($alias) {
+                $pathAndAlias[$newPrefix] = $alias;
             }
 
             if ($this->isWrappedInList($type)) {
