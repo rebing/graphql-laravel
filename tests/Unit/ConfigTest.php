@@ -126,7 +126,7 @@ class ConfigTest extends TestCase
     {
         $response = $this->call('GET', '/graphql_test/query/default', [
             'query' => $this->queries['examplesWithVariables'],
-            'params' => [
+            'variables' => [
                 'index' => 0,
             ],
         ]);
@@ -135,11 +135,13 @@ class ConfigTest extends TestCase
 
         $content = $response->getData(true);
         $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+
+        $expected = [
             'examples' => [
                 $this->data[0],
             ],
-        ]);
+        ];
+        $this->assertEquals($expected, $content['data']);
     }
 
     public function testSecurity(): void

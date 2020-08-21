@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL;
 
+use Closure;
 use Exception;
+use GraphQL\Server\OperationParams;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Laragraph\LaravelGraphQLUtils\RequestParser;
 
 class GraphQLController extends Controller
 {
@@ -23,8 +26,9 @@ class GraphQLController extends Controller
 
     public function query(Request $request, string $schema = null): JsonResponse
     {
-        $middleware = new GraphQLUploadMiddleware();
-        $request = $middleware->processRequest($request);
+        /** @var RequestParser $parser */
+        $parser = $this->app->make(RequestParser::class);
+        $operations = $parser->parseRequest($request);
 
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
@@ -37,18 +41,12 @@ class GraphQLController extends Controller
             $schema = config('graphql.default_schema');
         }
 
-        // If a singular query was not found, it means the queries are in batch
-        $isBatch = ! $request->has('query');
-        $inputs = $isBatch ? $request->input() : [$request->input()];
-
-        $completedQueries = [];
-
-        // Complete each query in order
-        foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery($schema, $input);
-        }
-
-        $data = $isBatch ? $completedQueries : $completedQueries[0];
+        $data = static::applyEach(
+            function (OperationParams $operation) use ($schema): array {
+                return $this->executeOperation($schema, $operation);
+            },
+            $operations
+        );
 
         $headers = config('graphql.headers', []);
         $jsonOptions = config('graphql.json_encoding_options', 0);
@@ -56,15 +54,10 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function executeQuery(string $schema, array $input): array
+    protected function executeOperation(string $schema, OperationParams $operation): array
     {
-        $query = $input['query'];
-
-        $paramsKey = config('graphql.params_key', 'variables');
-        $params = $input[$paramsKey] ?? null;
-        if (is_string($params)) {
-            $params = json_decode($params, true);
-        }
+        $query = $operation->query;
+        $params = $operation->variables;
 
         return $this->app->make('graphql')->query(
             $query,
@@ -72,7 +65,7 @@ class GraphQLController extends Controller
             [
                 'context' => $this->queryContext($query, $params, $schema),
                 'schema' => $schema,
-                'operationName' => $input['operationName'] ?? null,
+                'operationName' => $operation->operation,
             ]
         );
     }
@@ -115,5 +108,22 @@ class GraphQLController extends Controller
         }
 
         return $request->route()->parameters;
+    }
+
+    /**
+     * Originally from \Nuwave\Lighthouse\Support\Utils::applyEach.
+     *
+     * Apply a callback to a value or each value in an array.
+     *
+     * @param  mixed|array<mixed>  $valueOrValues
+     * @return mixed|array<mixed>
+     */
+    public static function applyEach(Closure $callback, $valueOrValues)
+    {
+        if (! is_array($valueOrValues)) {
+            return $callback($valueOrValues);
+        }
+
+        return array_map($callback, $valueOrValues);
     }
 }

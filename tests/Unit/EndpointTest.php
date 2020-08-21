@@ -126,7 +126,7 @@ class EndpointTest extends TestCase
      */
     public function testBatchedQueries(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             [
                 'query' => $this->queries['examplesWithVariables'],
                 'variables' => [
