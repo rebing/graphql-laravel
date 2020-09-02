@@ -30,6 +30,8 @@ jobs:
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev laravel/legacy-factories --no-update
+        if: (matrix.laravel == '^6.0' || matrix.laravel == '^7.0')
 
       - name: Get composer cache directory
         id: composercache
