@@ -7,8 +7,11 @@ jobs:
     strategy:
       matrix:
         php: [7.2, 7.3, 7.4]
-        laravel: [^6.0, ^7.0]
+        laravel: [^6.0, ^7.0, ^8.0]
         lazy_types: ['false', 'true']
+        exclude:
+          - php: 7.2
+            laravel: ^8.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} Lazy types=${{ matrix.lazy_types }}
     runs-on: ubuntu-18.04
     env:
