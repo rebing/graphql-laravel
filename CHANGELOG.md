@@ -9,23 +9,23 @@ CHANGELOG
 - Remove support for Laravel < 6.0 [\#651 / mfn](https://github.com/rebing/graphql-laravel/pull/651)
   This also bumps the minimum required version to PHP 7.2
 
-2019-07-02, 5.1.2
+2020-07-02, 5.1.2
 -----------------
 ### Added
 - Readded support for validation in field arguments (with breaking change fix) [\#630 / crissi](https://github.com/rebing/graphql-laravel/pull/630)
 
-2019-04-23, 5.1.1
+2020-04-23, 5.1.1
 -----------------
 ### Fixed
 - Reverted "Add support for validation in field arguments" due to [breaking changes reported](https://github.com/rebing/graphql-laravel/issues/627)
 
-2019-04-22, 5.1.0
+2020-04-22, 5.1.0
 -----------------
 ### Added
 - Add support for validation in field arguments [\#608 / crissi](https://github.com/rebing/graphql-laravel/pull/608)
 - Add support for modifiers to `GraphQL::type` [\#621 / stevelacey](https://github.com/rebing/graphql-laravel/pull/621)
 
-2019-04-03, 5.0.0
+2020-04-03, 5.0.0
 -----------------
 ### Added
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
