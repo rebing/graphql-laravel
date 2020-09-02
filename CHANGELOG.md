@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.2...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.3...master)
 --------------
 
 ## Breaking changes
@@ -11,6 +11,11 @@ CHANGELOG
   
 ### Added
 - Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
+
+2020-09-02, 5.1.3
+-----------------
+### Added
+- Support Laravel 8 [\#671 / mfn](https://github.com/rebing/graphql-laravel/pull/671)
 
 2020-07-02, 5.1.2
 -----------------
