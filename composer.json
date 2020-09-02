@@ -35,19 +35,20 @@
     "type": "library",
     "require": {
         "php": ">= 7.2",
-        "illuminate/contracts": "^6.0|^7.0",
-        "illuminate/support": "^6.0|^7.0",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
         "webonyx/graphql-php": "^14.0",
         "ext-json": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "4.0.*|5.0.*",
+        "orchestra/testbench": "4.0.*|5.0.*|^6.0",
         "phpunit/phpunit": "~7.0|~8.0",
-        "nunomaduro/larastan": "0.6.1",
+        "nunomaduro/larastan": "0.6.4",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
         "matt-allan/laravel-code-style": "0.5.1",
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "laravel/legacy-factories": "^1.0"
     },
     "autoload": {
         "psr-4": {
