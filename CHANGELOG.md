@@ -8,6 +8,9 @@ CHANGELOG
 - Upgrade to webonxy/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
 - Remove support for Laravel < 6.0 [\#651 / mfn](https://github.com/rebing/graphql-laravel/pull/651)
   This also bumps the minimum required version to PHP 7.2
+  
+### Added
+- Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
 
 2020-07-02, 5.1.2
 -----------------
