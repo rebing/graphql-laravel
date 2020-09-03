@@ -4,6 +4,17 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/5.1.3...master)
 --------------
 
+2020-09-03, 5.1.4
+-----------------
+Hotfix release to replace 5.1.3
+
+Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from the wrong branch and it the current state for the upcoming 6.x series 😬
+
+5.1.4 intends to correct this.
+
+### Added
+- Support Laravel 8 [\#671 / mfn](https://github.com/rebing/graphql-laravel/pull/671)
+
 2020-09-02, 5.1.3
 -----------------
 ### Added
