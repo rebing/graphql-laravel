@@ -8,6 +8,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="referrer" content="origin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><?php echo $schema ? "$schema | " : ""; ?>GraphiQL</title>
     <style>
       body {
         height: 100%;
@@ -28,17 +33,16 @@
       include them directly in your favored resource bunder.
     -->
     <script src="//cdn.jsdelivr.net/es6-promise/4.0.5/es6-promise.auto.min.js"></script>
-    <script src="//cdn.jsdelivr.net/fetch/0.9.0/fetch.min.js"></script>
-    <script src="//cdn.jsdelivr.net/react/15.4.2/react.min.js"></script>
-    <script src="//cdn.jsdelivr.net/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"></script>
+    <script src="//unpkg.com/graphiql/graphiql.min.js"></script>
 
     <!--
-      These two files can be found in the npm module, however you may wish to
+      This file can be found in the npm module, however you may wish to
       copy them directly into your environment, or perhaps include them in your
       favored resource bundler.
      -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/graphiql/0.13.0/graphiql.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/graphiql/0.13.0/graphiql.min.js" charset="utf-8"></script>
+     <link type="text/css" href="//unpkg.com/graphiql/graphiql.min.css" rel="stylesheet" />
 
   </head>
   <body>
