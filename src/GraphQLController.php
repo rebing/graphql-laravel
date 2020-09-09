@@ -98,6 +98,7 @@ class GraphQLController extends Controller
         return view($view, [
             'graphql_schema' => 'graphql_schema',
             'graphqlPath' => $graphqlPath,
+            'schema' => $schema,
         ]);
     }
 
