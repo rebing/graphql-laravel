@@ -12,12 +12,12 @@ class EmptyQueryTest extends TestCaseDatabase
     use SqlAssertionTrait;
 
     /**
-     * @param $query
+     * @param string $query
      * @testWith    [""]
      *              [" "]
      *              ["#"]
      */
-    public function testEmptyQuery($query): void
+    public function testEmptyQuery(string $query): void
     {
         $this->sqlCounterReset();
 
