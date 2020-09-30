@@ -45,7 +45,10 @@ class GraphQLController extends Controller
 
         // Complete each query in order
         foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery($schema, $input);
+            $completedQueries[] = $this->executeQuery(
+                $schema,
+                ($input['query'] ?? null) ? $input : ['query' => '']
+            );
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
