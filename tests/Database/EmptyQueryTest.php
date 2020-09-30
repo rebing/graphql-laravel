@@ -27,5 +27,4 @@ class EmptyQueryTest extends TestCaseDatabase
         $this->assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
         $this->assertSame('graphql', $result['errors'][0]['extensions']['category']);
     }
-
 }
