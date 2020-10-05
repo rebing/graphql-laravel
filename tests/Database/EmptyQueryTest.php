@@ -11,7 +11,7 @@ class EmptyQueryTest extends TestCaseDatabase
     /**
      * @dataProvider dataForEmptyQuery
      * @param bool $isBatchRequest
-     * @param array $parameters
+     * @param array<mixed> $parameters
      */
     public function testEmptyQuery(bool $isBatchRequest, array $parameters): void
     {
@@ -34,7 +34,7 @@ class EmptyQueryTest extends TestCaseDatabase
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function dataForEmptyQuery(): array
     {
