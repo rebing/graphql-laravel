@@ -37,18 +37,25 @@ class GraphQLController extends Controller
             $schema = config('graphql.default_schema');
         }
 
-        // If a singular query was not found, it means the queries are in batch
-        $isBatch = ! $request->has('query');
-        $inputs = $isBatch ? $request->input() : [$request->input()];
+        // If a singular query parameter is not found, assume a batch request
+        $isBatch = false;
+        if ($request->input()) {
+            if ($request->has('query')) {
+                $inputs = [$request->input()];
+            } else {
+                $isBatch = true;
+                $inputs = $request->input();
+            }
+        } else {
+            // The request input is completely empty, assemble inputs accordingly
+            $inputs = [[]];
+        }
 
         $completedQueries = [];
 
         // Complete each query in order
         foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery(
-                $schema,
-                ($input['query'] ?? null) ? $input : ['query' => '']
-            );
+            $completedQueries[] = $this->executeQuery($schema, $input);
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
@@ -61,7 +68,7 @@ class GraphQLController extends Controller
 
     protected function executeQuery(string $schema, array $input): array
     {
-        $query = $input['query'];
+        $query = $input['query'] ?? '';
 
         $paramsKey = config('graphql.params_key', 'variables');
         $params = $input[$paramsKey] ?? null;

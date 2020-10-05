@@ -4,27 +4,62 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Database;
 
-use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class EmptyQueryTest extends TestCaseDatabase
 {
-    use SqlAssertionTrait;
+    /**
+     * @dataProvider dataForEmptyQuery
+     * @param bool $isBatchRequest
+     * @param array $parameters
+     */
+    public function testEmptyQuery(bool $isBatchRequest, array $parameters): void
+    {
+        $response = $this->call('GET', '/graphql', $parameters);
+
+        $this->assertSame(200, $response->getStatusCode());
+        $results = $response->getData(true);
+
+        if (false === $isBatchRequest) {
+            $results = [$results];
+        }
+
+        $this->assertTrue(count($results) > 0);
+
+        foreach ($results as $result) {
+            $this->assertCount(1, $result['errors']);
+            $this->assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
+            $this->assertSame('graphql', $result['errors'][0]['extensions']['category']);
+        }
+    }
 
     /**
-     * @param string $query
-     * @testWith    [""]
-     *              [" "]
-     *              ["#"]
+     * @return array
      */
-    public function testEmptyQuery(string $query): void
+    public function dataForEmptyQuery(): array
     {
-        $this->sqlCounterReset();
-
-        $result = $this->httpGraphql($query);
-
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
-        $this->assertSame('graphql', $result['errors'][0]['extensions']['category']);
+        return [
+            // single request which is completely empty
+            [
+                false, [],
+            ],
+            // single request with an empty query parameter
+            [
+                false, ['query' => null],
+            ],
+            [
+                false, ['query' => ''],
+            ],
+            [
+                false, ['query' => ' '],
+            ],
+            [
+                false, ['query' => '#'],
+            ],
+            // batch request with one completely empty batch, and batches with an empty query parameter
+            [
+                true, [[], ['query' => null], ['query' => ''], ['query' => ' '], ['query' => '#']],
+            ],
+        ];
     }
 }
