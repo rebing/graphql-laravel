@@ -4,6 +4,11 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/5.1.4...master)
 --------------
 
+2020-10-12, 5.x
+-----------------
+### Fixed
+- Implemented generation of a SyntaxError instead of an hard Exception for empty single/batch queries
+
 2020-09-03, 5.1.4
 -----------------
 Hotfix release to replace 5.1.3
