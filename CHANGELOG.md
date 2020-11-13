@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.3...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.0.0-rc1...master)
 --------------
+
+2020-11-13, 6.0.0-rc1
+---------------------
 
 ## Breaking changes
 - Upgrade to webonxy/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
