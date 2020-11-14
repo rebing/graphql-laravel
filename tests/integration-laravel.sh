@@ -13,7 +13,17 @@ cd ../laravel
 
 echo "Add package from source"
 sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json
+
+echo "composer.json"
+cat composer.json
+
 composer require --dev "rebing/graphql-laravel:*"
+
+echo "composer diagnose"
+composer diagnose
+
+echo "composer version"
+composer version
 
 echo "Publish vendor files"
 php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
