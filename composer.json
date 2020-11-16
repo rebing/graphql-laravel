@@ -25,26 +25,30 @@
             "role": "Developer"
         },
         {
-            "name": "Markus Fischer",
+            "name": "Markus Podar",
             "email": "markus@fischer.name",
-            "role": "Developer"
+            "role": "Developer",
+            "homepage": "https://github.com/mfn"
         }
     ],
     "license": "MIT",
-    "type": "project",
+    "type": "library",
     "require": {
-        "php": ">= 7.1",
-        "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
-        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
-        "webonyx/graphql-php": "^0.13",
+        "php": ">= 7.2",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "webonyx/graphql-php": "^14.0",
         "ext-json": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "3.5.*|3.6.*|3.7.*|3.8.*|3.9.*|4.0.*|5.0.*|^6.0",
-        "phpunit/phpunit": "^5.5|~6.0|~7.0|~8.0",
+        "orchestra/testbench": "4.0.*|5.0.*|^6.0",
+        "phpunit/phpunit": "~7.0|~8.0|^9",
+        "nunomaduro/larastan": "0.6.4",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "matt-allan/laravel-code-style": "0.5.0"
+        "matt-allan/laravel-code-style": "0.5.1",
+        "ext-pdo_sqlite": "*",
+        "laravel/legacy-factories": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -58,10 +62,19 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
+        "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
-        "fix-style": "php-cs-fixer fix"
+        "fix-style": "php-cs-fixer fix",
+        "tests": "phpunit --colors=always --verbose",
+        "tests-all": [
+            "TESTS_ENABLE_LAZYLOAD_TYPES=0 phpunit --colors=always --verbose",
+            "TESTS_ENABLE_LAZYLOAD_TYPES=1 phpunit --colors=always --verbose"
+        ]
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "6.0.x-dev"
+        },
         "laravel": {
             "providers": [
                 "Rebing\\GraphQL\\GraphQLServiceProvider"

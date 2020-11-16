@@ -57,7 +57,7 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @throws Exception
      */
-    public function parseLiteral($valueNode, ?array $variables = null)
+    public function parseLiteral(Node $valueNode, ?array $variables = null)
     {
         if (! $valueNode instanceof StringValueNode) {
             throw new InvariantViolation('Expected node of type '.StringValueNode::class.' , got '.get_class($valueNode));

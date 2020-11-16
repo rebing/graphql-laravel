@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title><?php echo $schema ? "$schema | " : ''; ?>GraphiQL</title>
     <style>
       body {
         height: 100%;

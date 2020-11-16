@@ -1,8 +1,25 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.4...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.0.0-rc1...master)
 --------------
+
+2020-11-13, 6.0.0-rc1
+---------------------
+
+## Breaking changes
+- Upgrade to webonyx/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
+- Remove support for Laravel < 6.0 [\#651 / mfn](https://github.com/rebing/graphql-laravel/pull/651)
+  This also bumps the minimum required version to PHP 7.2
+  
+### Added
+- Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
+
+2020-11-16, 5.1.5-rc1
+---------------------
+
+### Added
+- Support for PHP 8 [\#686 / mfn](https://github.com/rebing/graphql-laravel/pull/686)
 
 2020-09-03, 5.1.4
 -----------------

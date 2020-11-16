@@ -20,7 +20,7 @@ class GraphQLLumenServiceProvider extends GraphQLServiceProvider
 
     public function register()
     {
-        if (class_exists('Laravel\Lumen\Routing\Controller')) {
+        if (class_exists('Laravel\Lumen\Routing\Controller') && ! class_exists('Illuminate\Routing\Controller')) {
             class_alias('Laravel\Lumen\Routing\Controller', 'Illuminate\Routing\Controller');
         }
 

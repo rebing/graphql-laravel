@@ -29,6 +29,7 @@ class UsersQuery extends Query
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();
 
+        /** @var User[] $users */
         $users = User
             ::query()
             ->select($selectFields->getSelect())

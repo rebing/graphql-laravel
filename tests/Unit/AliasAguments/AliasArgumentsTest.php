@@ -32,8 +32,23 @@ class AliasArgumentsTest extends TestCase
     public function testMutationAlias(): void
     {
         $query = '
-            mutation ($exampleValidationInputObject: ExampleValidationInputObject, $aList: [ExampleNestedValidationInputObject], $aListNonNull: [ExampleNestedValidationInputObject]!, $a_list_non_null_and_type_nonNull: [ExampleNestedValidationInputObject!]!, $a_list_type_nonNull: [ExampleNestedValidationInputObject!]) {
-                updateExample(test_type_duplicates: null, test: "HELLO", test_with_alias_and_null: null, test_type: $exampleValidationInputObject, a_list: $aList, a_list_non_null: $aListNonNull, a_list_non_null_and_type_nonNull: $a_list_non_null_and_type_nonNull, a_list_type_nonNull: $a_list_type_nonNull) {
+            mutation (
+                $exampleValidationInputObject: ExampleValidationInputObject,
+                $aList: [ExampleNestedValidationInputObject],
+                $aListNonNull: [ExampleNestedValidationInputObject]!,
+                $a_list_non_null_and_type_nonNull: [ExampleNestedValidationInputObject!]!,
+                $a_list_type_nonNull: [ExampleNestedValidationInputObject!]
+            ) {
+                updateExample(
+                    test_type_duplicates: null,
+                    test: "HELLO",
+                    test_with_alias_and_null: null,
+                    test_type: $exampleValidationInputObject,
+                    a_list: $aList,
+                    a_list_non_null: $aListNonNull,
+                    a_list_non_null_and_type_nonNull: $a_list_non_null_and_type_nonNull,
+                    a_list_type_nonNull: $a_list_type_nonNull
+                ) {
                     test
                 }
             }

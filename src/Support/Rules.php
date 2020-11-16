@@ -134,12 +134,16 @@ class Rules
             $key = $prefix === null ? $name : "{$prefix}.{$name}";
 
             // get any explicitly set rules
-            if (isset($field->rules)) {
-                $rules[$key] = $this->resolveRules($field->rules, $resolutionArguments);
+            $fieldRules = $field->config['rules'] ?? $field->rules ?? null;
+            if ($fieldRules) {
+                $rules[$key] = $this->resolveRules($fieldRules, $resolutionArguments);
             }
 
             if (property_exists($field, 'type') && array_key_exists($name, $resolutionArguments) && is_array($resolutionArguments[$name])) {
-                $rules = $rules + $this->inferRulesFromType($field->type, $key, $resolutionArguments[$name]);
+                $type = $field instanceof InputObjectField
+                    ? $field->getType()
+                    : $field->type;
+                $rules = $rules + $this->inferRulesFromType($type, $key, $resolutionArguments[$name]);
             }
         }
 
