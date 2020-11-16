@@ -162,13 +162,15 @@ abstract class Field
             $additionalParams = array_slice($method->getParameters(), 3);
 
             $additionalArguments = array_map(function ($param) use ($arguments, $fieldsAndArguments) {
-                $className = null !== $param->getClass() ? $param->getClass()->getName() : null;
+                $paramType = $param->getType();
 
-                if (null === $className) {
+                if ($paramType->isBuiltin()) {
                     throw new InvalidArgumentException("'{$param->name}' could not be injected");
                 }
 
-                if (Closure::class === $param->getType()->getName()) {
+                $className = $param->getType()->getName();
+
+                if (Closure::class === $className) {
                     return function (int $depth = null) use ($arguments, $fieldsAndArguments): SelectFields {
                         return $this->instanciateSelectFields($arguments, $fieldsAndArguments, $depth);
                     };

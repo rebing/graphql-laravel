@@ -85,8 +85,6 @@ class PublishCommand extends Command
      */
     protected function status(string $from, string $to): void
     {
-        $from = str_replace(base_path(), '', realpath($from));
-        $to = str_replace(base_path(), '', realpath($to));
         $this->line("<info>Copied File</info> <comment>[{$from}]</comment> <info>To</info> <comment>[{$to}]</comment>");
     }
 }

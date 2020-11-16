@@ -206,6 +206,11 @@ parameters:
 			path: src/Support/Field.php
 
 		-
+			message: "#^Cannot call method isBuiltin\\(\\) on ReflectionType\\|null\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
 			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
 			count: 1
 			path: src/Support/Field.php
