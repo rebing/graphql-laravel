@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   integration:
     strategy:
+      fail-fast: false
       matrix:
         integration: [laravel, lumen]
     name: ${{ matrix.integration }}
