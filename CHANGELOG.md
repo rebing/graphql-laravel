@@ -15,6 +15,12 @@ CHANGELOG
 ### Added
 - Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
 
+2020-11-16, 5.1.5-rc1
+---------------------
+
+### Added
+- Support for PHP 8 [\#686 / mfn](https://github.com/rebing/graphql-laravel/pull/686)
+
 2020-09-03, 5.1.4
 -----------------
 Hotfix release to replace 5.1.3
