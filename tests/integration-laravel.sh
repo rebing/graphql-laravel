@@ -17,7 +17,8 @@ sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../g
 echo "composer.json"
 cat composer.json
 
-composer require --dev "rebing/graphql-laravel:*"
+composer require --dev "rebing/graphql-laravel:*" --no-update
+composer update illuminate/contracts rebing/graphql-laravel
 
 echo "composer diagnose"
 composer diagnose
