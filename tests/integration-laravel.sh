@@ -18,7 +18,7 @@ echo "composer.json"
 cat composer.json
 
 composer require --dev "rebing/graphql-laravel:*" --no-update
-composer update illuminate/contracts rebing/graphql-laravel
+composer update
 
 echo "composer diagnose"
 composer diagnose
