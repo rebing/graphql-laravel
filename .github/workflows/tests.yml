@@ -50,7 +50,7 @@ jobs:
       - run: composer update --prefer-dist --no-progress
 
       - name: Enable lazy types conditionally
-        run: echo "::set-env name=TESTS_ENABLE_LAZYLOAD_TYPES::1"
+        run: echo "TESTS_ENABLE_LAZYLOAD_TYPES=1" >> $GITHUB_ENV
         if: matrix.lazy_types == 'true'
 
       - name: Run tests
