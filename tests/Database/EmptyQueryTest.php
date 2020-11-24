@@ -12,9 +12,9 @@ class EmptyQueryTest extends TestCaseDatabase
      * @dataProvider dataForEmptyQuery
      * @param array<mixed> $parameters
      * @param bool $isBatchRequest
-     * @param bool $isExpectedCleanResult
+     * @param bool $expectErrors
      */
-    public function testEmptyQuery(array $parameters, bool $isBatchRequest, bool $isExpectedCleanResult): void
+    public function testEmptyQuery(array $parameters, bool $isBatchRequest, bool $expectErrors): void
     {
         $response = $this->call('GET', '/graphql', $parameters);
 
@@ -22,12 +22,12 @@ class EmptyQueryTest extends TestCaseDatabase
         $results = $isBatchRequest ? $response->getData(true) : [$response->getData(true)];
 
         foreach ($results as $result) {
-            if ($isExpectedCleanResult) {
-                $this->assertArrayNotHasKey('errors', $result);
-            } else {
+            if ($expectErrors) {
                 $this->assertCount(1, $result['errors']);
                 $this->assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
                 $this->assertSame('graphql', $result['errors'][0]['extensions']['category']);
+            } else {
+                $this->assertArrayNotHasKey('errors', $result);
             }
         }
     }
@@ -40,24 +40,36 @@ class EmptyQueryTest extends TestCaseDatabase
         return [
             // completely empty request
             [
-                [], false, true,
+                'parameters' => [],
+                'isBatchRequest' => false,
+                'expectErrors' => false,
             ],
             // single request with an empty query parameter
             [
-                ['query' => null], false, false,
+                'parameters' => ['query' => null],
+                'isBatchRequest' => false,
+                'expectErrors' => true,
             ],
             [
-                ['query' => ''], false, false,
+                'parameters' => ['query' => ''],
+                'isBatchRequest' => false,
+                'expectErrors' => true,
             ],
             [
-                ['query' => ' '], false, false,
+                'parameters' => ['query' => ' '],
+                'isBatchRequest' => false,
+                'expectErrors' => true,
             ],
             [
-                ['query' => '#'], false, false,
+                'parameters' => ['query' => '#'],
+                'isBatchRequest' => false,
+                'expectErrors' => true,
             ],
             // batch request with one completely empty batch, and batches with an empty query parameter
             [
-                [[], ['query' => null], ['query' => ''], ['query' => ' '], ['query' => '#']], true, false,
+                'parameters' => [[], ['query' => null], ['query' => ''], ['query' => ' '], ['query' => '#']],
+                'isBatchRequest' => true,
+                'expectErrors' => true,
             ],
         ];
     }
