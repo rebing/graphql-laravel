@@ -26,7 +26,7 @@ class TestAuthorizationArgsQuery extends Query
     {
         return [
             'id' => [
-                Type::nonNull(Type::ID()),
+                'type' => Type::nonNull(Type::ID()),
             ],
         ];
     }

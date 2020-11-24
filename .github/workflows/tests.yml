@@ -6,7 +6,7 @@ jobs:
   integration:
     strategy:
       matrix:
-        php: [7.1, 7.2, 7.3, 7.4]
+        php: [7.1, 7.2, 7.3, 7.4, 8.0]
         laravel: [5.5.*, ^6.0, ^7.0, ^8.0]
         exclude:
           - php: 7.1
@@ -19,6 +19,10 @@ jobs:
             laravel: ^8.0
           - php: 7.4
             laravel: 5.5.*
+          - php: 8.0
+            laravel: 5.5.*
+          - php: 8.0
+            laravel: ^6.0
     name: PHP ${{ matrix.php }} Laravel ${{ matrix.laravel }}
     runs-on: ubuntu-18.04
     env:
@@ -37,6 +41,7 @@ jobs:
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer require --dev laravel/legacy-factories --no-update
         if: matrix.laravel == '^8.0'
 

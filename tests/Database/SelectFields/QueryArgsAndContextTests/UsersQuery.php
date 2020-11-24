@@ -22,7 +22,7 @@ class UsersQuery extends Query
     {
         return [
             'flag' => [
-                Type::boolean(),
+                'type' => Type::boolean(),
             ],
             'select' => [
                 'type' => Type::boolean(),
