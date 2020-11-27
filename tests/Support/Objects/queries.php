@@ -90,6 +90,14 @@ return [
         }
     ',
 
+    'exampleMiddleware' => '
+        query examplesMiddleware($index: Int) {
+            examplesMiddleware(index: $index) {
+                test
+            }
+        }
+    ',
+
     'examplePagination' => '
         query Items($take: Int!, $page: Int!) {
             examplesPagination(take: $take, page: $page) {

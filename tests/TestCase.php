@@ -18,6 +18,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -52,6 +53,7 @@ class TestCase extends BaseTestCase
                 'examples' => ExamplesQuery::class,
                 'examplesAuthorize' => ExamplesAuthorizeQuery::class,
                 'examplesAuthorizeMessage' => ExamplesAuthorizeMessageQuery::class,
+                'examplesMiddleware' => ExamplesMiddlewareQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
                 'examplesFiltered' => ExamplesFilteredQuery::class,
                 'examplesConfigAlias' => ExamplesConfigAliasQuery::class,

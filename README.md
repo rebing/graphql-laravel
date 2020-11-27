@@ -111,6 +111,10 @@ To work this around:
       - [Adding validation to a mutation](#adding-validation-to-a-mutation)
       - [File uploads](#file-uploads)
     - [Resolve method](#resolve-method)
+    - [Resolver middleware](#resolver-middleware)
+      - [Defining middleware](#defining-middleware)
+      - [Registering middleware](#registering-middleware)
+      - [Terminable middleware](#terminable-middleware)
     - [Authorization](#authorization)
     - [Privacy](#privacy)
     - [Query variables](#query-variables)
@@ -648,14 +652,14 @@ Note: You can test your file upload implementation using [Altair](https://altair
         bodyFormData.set('operationName', null);
         bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
         bodyFormData.append('file', this.file);
-        
+
         // Post the request to GraphQL controller
         let res = await axios.post('/graphql', bodyFormData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         });
-        
+
         if (res.data.status.code == 200) {
           // On success file upload
           this.file = null;
@@ -764,6 +768,159 @@ class UsersQuery extends Query
     }
 }
 ```
+
+### Resolver middleware
+
+#### Defining middleware
+
+To create a new middleware, use the `make:graphql:middleware` Artisan command
+
+```sh
+php artisan make:graphql:middleware ResolvePage
+```
+
+This command will place a new ResolvePage class within your app/GraphQL/Middleware directory.
+In this middleware, we will set the Paginator current page to the argument we accept via our `PaginationType`:
+
+```php
+namespace App\GraphQL\Middleware;
+
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Pagination\Paginator;
+use Rebing\GraphQL\Support\Middleware;
+
+class ResolvePage extends Middleware
+{
+    public function handle($root, $args, $context, ResolveInfo $info, Closure $next)
+    {
+        Paginator::currentPageResolver(function () use ($args) {
+            return $args['pagination']['page'] ?? 1;
+        });
+
+        return $next($root, $args, $context, $info);
+    }
+}
+```
+
+#### Registering middleware
+
+If you would like to assign middleware to specific queries/mutations,
+list the middleware class in the `$middleware` property of your query class.
+
+```php
+namespace App\GraphQL\Queries;
+
+use App\GraphQL\Middleware;
+use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\Query;
+
+class UsersQuery extends Query
+{
+    protected $middleware = [
+        Middleware\Logstash::class,
+        Middleware\ResolvePage::class,
+    ];
+}
+```
+
+If you want a middleware to run during every GraphQL query/mutation to your application,
+list the middleware class in the `$middleware` property of your base query class.
+
+```php
+namespace App\GraphQL\Queries;
+
+use App\GraphQL\Middleware;
+use Rebing\GraphQL\Support\Query as BaseQuery;
+
+abstract class Query extends BaseQuery
+{
+    protected $middleware = [
+        Middleware\Logstash::class,
+        Middleware\ResolvePage::class,
+    ];
+}
+```
+
+Alternatively, you can override `getMiddleware` to supply your own logic:
+
+```php
+    protected function getMiddleware(): array
+    {
+        return array_merge([...], $this->middleware);
+    }
+```
+
+#### Terminable middleware
+
+Sometimes a middleware may need to do some work after the response has been sent to the browser.
+If you define a terminate method on your middleware and your web server is using FastCGI,
+the terminate method will automatically be called after the response is sent to the browser:
+
+```php
+namespace App\GraphQL\Middleware;
+
+use Countable;
+use GraphQL\Language\Printer;
+use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Rebing\GraphQL\Support\Middleware;
+
+class Logstash extends Middleware
+{
+    public function terminate($root, $args, $context, ResolveInfo $info, $result): void
+    {
+        Log::channel('logstash')->info('', (
+            collect([
+                'query' => $info->fieldName,
+                'operation' => $info->operation->name->value ?? null,
+                'type' => $info->operation->operation,
+                'fields' => array_keys(Arr::dot($info->getFieldSelection($depth = PHP_INT_MAX))),
+                'schema' => Arr::first(Route::current()->parameters()) ?? config('graphql.default_schema'),
+                'vars' => $this->formatVariableDefinitions($info->operation->variableDefinitions),
+            ])
+                ->when($result instanceof Countable, function ($metadata) use ($result) {
+                    return $metadata->put('count', $result->count());
+                })
+                ->when($result instanceof AbstractPaginator, function ($metadata) use ($result) {
+                    return $metadata->put('per_page', $result->perPage());
+                })
+                ->when($result instanceof LengthAwarePaginator, function ($metadata) use ($result) {
+                    return $metadata->put('total', $result->total());
+                })
+                ->merge($this->formatArguments($args))
+                ->toArray()
+        ));
+    }
+
+    private function formatArguments(array $args): array
+    {
+        return collect(Arr::sanitize($args))
+            ->mapWithKeys(function ($value, $key) {
+                return ["\${$key}" => $value];
+            })
+            ->toArray();
+    }
+
+    private function formatVariableDefinitions(?iterable $variableDefinitions = []): array
+    {
+        return collect($variableDefinitions)
+            ->map(function ($def) {
+                return Printer::doPrint($def);
+            })
+            ->toArray();
+    }
+}
+```
+
+The terminate method receives both the resolver arguments and the query result.
+
+Once you have defined a terminable middleware, you should add it to the list of
+middleware in your queries and mutations.
 
 ### Authorization
 
@@ -1338,7 +1495,9 @@ class UserType extends GraphQLType
 ### Pagination
 
 Pagination will be used, if a query or mutation returns a `PaginationType`.
-Note that you have to manually handle the limit and page values:
+
+Note that unless you use [resolver middleware](#defining-middleware),
+you will have to manually supply both the limit and page values:
 
 ```php
 namespace App\GraphQL\Queries;

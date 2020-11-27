@@ -1956,6 +1956,11 @@ parameters:
 			path: tests/Unit/Console/InterfaceMakeCommandTest.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MiddlewareMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MutationMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/MutationMakeCommandTest.php

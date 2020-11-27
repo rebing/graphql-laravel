@@ -14,6 +14,7 @@ use Rebing\GraphQL\Console\EnumMakeCommand;
 use Rebing\GraphQL\Console\FieldMakeCommand;
 use Rebing\GraphQL\Console\InputMakeCommand;
 use Rebing\GraphQL\Console\InterfaceMakeCommand;
+use Rebing\GraphQL\Console\MiddlewareMakeCommand;
 use Rebing\GraphQL\Console\MutationMakeCommand;
 use Rebing\GraphQL\Console\QueryMakeCommand;
 use Rebing\GraphQL\Console\ScalarMakeCommand;
@@ -163,6 +164,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->commands(InputMakeCommand::class);
         $this->commands(InterfaceMakeCommand::class);
         $this->commands(InterfaceMakeCommand::class);
+        $this->commands(MiddlewareMakeCommand::class);
         $this->commands(MutationMakeCommand::class);
         $this->commands(QueryMakeCommand::class);
         $this->commands(ScalarMakeCommand::class);
