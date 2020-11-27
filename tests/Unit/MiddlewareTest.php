@@ -75,6 +75,6 @@ class MiddlewareTest extends TestCase
         ]);
 
         $this->assertObjectHasAttribute('errors', $result);
-        $this->assertSame('Undefined offset: 6', $result->errors[0]->getMessage());
+        $this->assertRegExp('/^Undefined .* 6$/', $result->errors[0]->getMessage());
     }
 }
