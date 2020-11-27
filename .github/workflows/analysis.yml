@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   static-analysis:
     name: Static Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       COMPOSER_NO_INTERACTION: 1
 
@@ -14,7 +14,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
           tools: composer:v2
           coverage: none
 
