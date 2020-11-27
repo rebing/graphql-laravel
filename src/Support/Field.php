@@ -140,7 +140,7 @@ abstract class Field
         return function ($root, ...$arguments) use ($resolver) {
             $middleware = $this->getMiddleware();
 
-            return App::make(Pipeline::class)
+            return app()->make(Pipeline::class)
                 ->send(array_merge([$this], $arguments))
                 ->through($middleware)
                 ->via('resolve')
@@ -148,10 +148,10 @@ abstract class Field
                     $result = $resolver($root, ...array_slice($arguments, 1));
 
                     foreach ($middleware as $name) {
-                        $instance = App::make($name);
+                        $instance = app()->make($name);
 
                         if (method_exists($instance, 'terminate')) {
-                            App::terminating(function () use ($arguments, $instance, $result) {
+                            app()->terminating(function () use ($arguments, $instance, $result) {
                                 $instance->terminate($this, ...array_slice($arguments, 1), ...[$result]);
                             });
                         }
@@ -230,7 +230,7 @@ abstract class Field
                     return $arguments[3];
                 }
 
-                return App::make($className);
+                return app()->make($className);
             }, $additionalParams);
 
             return call_user_func_array($resolver, array_merge(
