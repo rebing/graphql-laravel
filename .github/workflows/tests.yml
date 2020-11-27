@@ -15,7 +15,7 @@ jobs:
           - php: 8.0
             laravel: ^6.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} Lazy types=${{ matrix.lazy_types }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       COMPOSER_NO_INTERACTION: 1
 

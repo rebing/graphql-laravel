@@ -8,7 +8,7 @@ jobs:
       matrix:
         integration: [laravel, lumen]
     name: ${{ matrix.integration }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       COMPOSER_NO_INTERACTION: 1
 
