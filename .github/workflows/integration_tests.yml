@@ -17,13 +17,14 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
-      - run: composer require illuminate/contracts:^8.0 --no-update
+      - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer require illuminate/contracts:^8.0 --no-update
 
       - name: Get composer cache directory
         id: composercache
