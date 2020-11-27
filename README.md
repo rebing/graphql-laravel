@@ -2,6 +2,8 @@
 
 [![Latest Stable Version](https://poser.pugx.org/rebing/graphql-laravel/v/stable)](https://packagist.org/packages/rebing/graphql-laravel)
 [![License](https://poser.pugx.org/rebing/graphql-laravel/license)](https://packagist.org/packages/rebing/graphql-laravel)
+[![Tests](https://github.com/rebing/graphql-laravel/workflows/Tests/badge.svg)](https://github.com/rebing/graphql-laravel/actions?query=workflow%3ATests)
+[![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
 Uses Facebook GraphQL with Laravel 6.0+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
@@ -154,15 +156,21 @@ in addition to the global middleware. For example:
 'schemas' => [
     'default' => [
         'query' => [
-            'example_query' => ExampleQuery::class,
+            ExampleQuery::class,
+            // It's possible to specify a name/alias with the key
+            // but this is discouraged as it prevents things
+            // like improving performance with e.g. `lazyload_types=true`
+            // It's recommended to specifcy just the class here and
+            // rely on the `'name'` attribute in the query / type.
+            'someQuery' => AnotherExampleQuery::class,
         ],
         'mutation' => [
-            'example_mutation'  => ExampleMutation::class,
+            ExampleMutation::class,
         ],
     ],
     'user' => [
         'query' => [
-            'profile' => App\GraphQL\Queries\ProfileQuery::class
+            App\GraphQL\Queries\ProfileQuery::class
         ],
         'mutation' => [
 
@@ -260,7 +268,7 @@ use Rebing\GraphQL\Support\Query;
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name' => 'Users query'
+        'name' => 'users',
     ];
 
     public function type(): Type
@@ -297,7 +305,7 @@ Add the query to the `config/graphql.php` configuration file
 'schemas' => [
     'default' => [
         'query' => [
-            'users' => App\GraphQL\Queries\UsersQuery::class
+            App\GraphQL\Queries\UsersQuery::class
         ],
         // ...
     ]
@@ -339,7 +347,7 @@ use Rebing\GraphQL\Support\Mutation;
 class UpdateUserPasswordMutation extends Mutation
 {
     protected $attributes = [
-        'name' => 'UpdateUserPassword'
+        'name' => 'updateUserPassword'
     ];
 
     public function type(): Type
@@ -420,7 +428,7 @@ use Rebing\GraphQL\Support\Mutation;
 class UpdateUserEmailMutation extends Mutation
 {
     protected $attributes = [
-        'name' => 'UpdateUserEmail'
+        'name' => 'updateUserEmail'
     ];
 
     public function type(): Type
@@ -569,7 +577,7 @@ use Rebing\GraphQL\Support\Mutation;
 class UserProfilePhotoMutation extends Mutation
 {
     protected $attributes = [
-        'name' => 'UpdateUserProfilePhoto'
+        'name' => 'userProfilePhoto',
     ];
 
     public function type(): Type
@@ -732,7 +740,7 @@ use SomeClassNamespace\SomeClassThatDoLogging;
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name' => 'User query'
+        'name' => 'users',
     ];
 
     public function type(): Type
@@ -1309,7 +1317,7 @@ use Rebing\GraphQL\Support\Query;
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name' => 'Users query'
+        'name' => 'users',
     ];
 
     public function type(): Type
@@ -1612,7 +1620,7 @@ use Rebing\GraphQL\Support\EnumType;
 class EpisodeEnum extends EnumType
 {
     protected $attributes = [
-        'name' => 'Episode',
+        'name' => 'episode',
         'description' => 'The types of demographic elements',
         'values' => [
             'NEWHOPE' => 'NEWHOPE',
@@ -1673,7 +1681,7 @@ use Rebing\GraphQL\Support\UnionType;
 class SearchResultUnion extends UnionType
 {
     protected $attributes = [
-        'name' => 'SearchResult',
+        'name' => 'searchResult',
     ];
 
     public function types(): array
@@ -1712,7 +1720,7 @@ use Rebing\GraphQL\Support\InterfaceType;
 class CharacterInterface extends InterfaceType
 {
     protected $attributes = [
-        'name' => 'Character',
+        'name' => 'character',
         'description' => 'Character interface.',
     ];
 
@@ -1756,7 +1764,7 @@ use GraphQL\Type\Definition\Type;
 class HumanType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Human',
+        'name' => 'human',
         'description' => 'A human.'
     ];
 
@@ -1860,7 +1868,7 @@ use Rebing\GraphQL\Support\InputType;
 class ReviewInput extends InputType
 {
     protected $attributes = [
-        'name' => 'ReviewInput',
+        'name' => 'reviewInput',
         'description' => 'A review with a comment and a score (0 to 5)'
     ];
 
@@ -1946,7 +1954,7 @@ use Rebing\GraphQL\Support\InputType;
 class UserInput extends InputType
 {
     protected $attributes = [
-        'name' => 'UserInput',
+        'name' => 'userInput',
         'description' => 'A review with a comment and a score (0 to 5)'
     ];
 
@@ -1983,7 +1991,7 @@ use Rebing\GraphQL\Support\Mutation;
 class UpdateUserMutation extends Mutation
 {
     protected $attributes = [
-        'name' => 'UpdateUser'
+        'name' => 'updateUser'
     ];
 
     public function type(): Type

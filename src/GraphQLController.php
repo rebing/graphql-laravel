@@ -45,7 +45,7 @@ class GraphQLController extends Controller
 
         // Complete each query in order
         foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery($schema, $input);
+            $completedQueries[] = $this->executeQuery($schema, $input ?: []);
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
@@ -58,7 +58,7 @@ class GraphQLController extends Controller
 
     protected function executeQuery(string $schema, array $input): array
     {
-        $query = $input['query'];
+        $query = $input['query'] ?? '';
 
         $paramsKey = config('graphql.params_key', 'variables');
         $params = $input[$paramsKey] ?? null;
@@ -98,6 +98,7 @@ class GraphQLController extends Controller
         return view($view, [
             'graphql_schema' => 'graphql_schema',
             'graphqlPath' => $graphqlPath,
+            'schema' => $schema,
         ]);
     }
 

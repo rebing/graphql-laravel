@@ -1,31 +1,68 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/5.1.2...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.0.0...master)
 --------------
 
+2020-11-26, 6.0.0
+-----------------
+### Fixed
+- Implemented generation of a SyntaxError instead of an hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
+
+2020-11-13, 6.0.0-rc1
+---------------------
 ## Breaking changes
-- Upgrade to webonxy/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
+- Upgrade to webonyx/graphql-php 14.0.0 [\#645 / mfn](https://github.com/rebing/graphql-laravel/pull/645)
+  Be sure to read up on breaking changes in graphql-php => https://github.com/webonyx/graphql-php/releases/tag/v14.0.0
 - Remove support for Laravel < 6.0 [\#651 / mfn](https://github.com/rebing/graphql-laravel/pull/651)
   This also bumps the minimum required version to PHP 7.2
+  
+### Added
+- Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
 
-2019-07-02, 5.1.2
+2020-11-26, 5.1.5
+-----------------
+### Fixed
+- Implemented generation of a SyntaxError instead of an hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
+
+2020-11-16, 5.1.5-rc1
+---------------------
+### Added
+- Support for PHP 8 [\#686 / mfn](https://github.com/rebing/graphql-laravel/pull/686)
+
+2020-09-03, 5.1.4
+-----------------
+Hotfix release to replace 5.1.3
+
+Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from the wrong branch and it the current state for the upcoming 6.x series 😬
+
+5.1.4 intends to correct this.
+
+### Added
+- Support Laravel 8 [\#671 / mfn](https://github.com/rebing/graphql-laravel/pull/671)
+
+2020-09-02, 5.1.3
+-----------------
+### Added
+- Support Laravel 8 [\#671 / mfn](https://github.com/rebing/graphql-laravel/pull/671)
+
+2020-07-02, 5.1.2
 -----------------
 ### Added
 - Readded support for validation in field arguments (with breaking change fix) [\#630 / crissi](https://github.com/rebing/graphql-laravel/pull/630)
 
-2019-04-23, 5.1.1
+2020-04-23, 5.1.1
 -----------------
 ### Fixed
 - Reverted "Add support for validation in field arguments" due to [breaking changes reported](https://github.com/rebing/graphql-laravel/issues/627)
 
-2019-04-22, 5.1.0
+2020-04-22, 5.1.0
 -----------------
 ### Added
 - Add support for validation in field arguments [\#608 / crissi](https://github.com/rebing/graphql-laravel/pull/608)
 - Add support for modifiers to `GraphQL::type` [\#621 / stevelacey](https://github.com/rebing/graphql-laravel/pull/621)
 
-2019-04-03, 5.0.0
+2020-04-03, 5.0.0
 -----------------
 ### Added
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)

@@ -6,11 +6,16 @@ jobs:
   integration:
     strategy:
       matrix:
-        php: [7.2, 7.3, 7.4]
-        laravel: [^6.0, ^7.0]
+        php: [7.2, 7.3, 7.4, 8.0]
+        laravel: [^6.0, ^7.0, ^8.0]
         lazy_types: ['false', 'true']
+        exclude:
+          - php: 7.2
+            laravel: ^8.0
+          - php: 8.0
+            laravel: ^6.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} Lazy types=${{ matrix.lazy_types }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       COMPOSER_NO_INTERACTION: 1
 
@@ -20,13 +25,16 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: composer:v2
           coverage: none
+          extensions: pdo_sqlite
 
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
-      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
+      - run: composer remove --dev laravel/legacy-factories --no-update
+        if: (matrix.laravel == '^6.0' || matrix.laravel == '^7.0')
+      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
         id: composercache
@@ -36,13 +44,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composercache.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
       - run: composer update --prefer-dist --no-progress
 
       - name: Enable lazy types conditionally
-        run: echo "::set-env name=TESTS_ENABLE_LAZYLOAD_TYPES::1"
+        run: echo "TESTS_ENABLE_LAZYLOAD_TYPES=1" >> $GITHUB_ENV
         if: matrix.lazy_types == 'true'
 
       - name: Run tests
