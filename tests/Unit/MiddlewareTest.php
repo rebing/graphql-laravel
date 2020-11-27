@@ -68,7 +68,7 @@ class MiddlewareTest extends TestCase
         $this->assertSame('Example 3 is not allowed', $result->errors[0]->getMessage());
     }
 
-    public function testMiddlewareTerimateHappensAfterResponseIsSent(): void
+    public function testMiddlewareTerminateHappensAfterResponseIsSent(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['exampleMiddleware'], [
             'index' => 6,
