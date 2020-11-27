@@ -15,7 +15,6 @@ parameters:
         - '/Strict comparison using === between null and array will always evaluate to false/'
         # \Rebing\GraphQL\Support\SelectFields::handleFields
         - '/Binary operation "." between string and array\|string\|null results in an error/'
-        - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
