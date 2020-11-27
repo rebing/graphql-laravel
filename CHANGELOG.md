@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.0.0...master)
 --------------
+### Added
+- Support for resolver middleware [\#594 / stevelacey](https://github.com/rebing/graphql-laravel/pull/594)
 
 2020-11-26, 6.0.0
 -----------------
@@ -68,7 +70,6 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 - Support Laravel 7 [\#597 / exodusanto](https://github.com/rebing/graphql-laravel/pull/597)
 - Add support for custom authorization message [\#578 / Sh1d0w](https://github.com/rebing/graphql-laravel/pull/578)
 - Add support for macros on the GraphQL service/facade [\#592 / stevelacey](https://github.com/rebing/graphql-laravel/pull/592)
-- Add support for resolver middleware [\#594 / stevelacey](https://github.com/rebing/graphql-laravel/pull/594)
 ### Fixed
 - Fix the infinite loop as well as sending the correct matching input data to the rule-callback [\#579 / crissi](https://github.com/rebing/graphql-laravel/pull/579)
 - Fix selecting not the correct columns for interface fields [\#607 / illambo](https://github.com/rebing/graphql-laravel/pull/607)
