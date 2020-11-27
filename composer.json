@@ -43,7 +43,7 @@
     "require-dev": {
         "orchestra/testbench": "4.0.*|5.0.*|^6.0",
         "phpunit/phpunit": "~7.0|~8.0|^9",
-        "nunomaduro/larastan": "0.6.4",
+        "nunomaduro/larastan": "0.6.10",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
         "matt-allan/laravel-code-style": "0.5.1",
