@@ -26,6 +26,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
+          extensions: pdo_sqlite
 
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev matt-allan/laravel-code-style --no-update
