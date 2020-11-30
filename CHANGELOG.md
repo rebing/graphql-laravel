@@ -1,8 +1,15 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/6.1.0-rc1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.1.0...master)
 --------------
+
+2020-11-30, 6.1.0
+-----------------
+Same as 6.1.0-rc1!
+
+### Added
+- Support for resolver middleware [\#594 / stevelacey](https://github.com/rebing/graphql-laravel/pull/594)
 
 2020-11-27, 6.1.0-rc1
 ---------------------
