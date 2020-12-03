@@ -1,6 +1,6 @@
 name: Code Analysis
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   static-analysis:
