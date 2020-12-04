@@ -207,4 +207,24 @@ return [
      * See http://php.net/manual/function.json-encode.php for the full list of options
      */
     'json_encoding_options' => 0,
+
+    /*
+     * Automatic Persisted Queries (APQ)
+     * See https://www.apollographql.com/docs/apollo-server/performance/apq/
+     */
+    'apq' => [
+
+        // See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
+        'enable' => env('GRAPHQL_APQ_ENABLE', true),
+
+        //
+        'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', config('cache.default')),
+
+        // See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
+        // TODO: maybe tap function ?
+        'cache_ttl' => 300,
+
+        //
+        'cache_prefix' => 'graphql.pq',
+    ],
 ];

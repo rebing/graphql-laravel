@@ -136,6 +136,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
+    - [Automatic Persisted Queries - APQ](#apq)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2151,6 +2152,51 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
+
+### Automatic Persisted Queries - APQ
+
+Ref: 
+ - https://www.apollographql.com/docs/apollo-server/performance/apq/
+ - https://github.com/apollographql/apollo-link-persisted-queries#protocol
+
+```js
+// [example app.js]
+
+require('./bootstrap');
+
+window.Vue = require('vue');
+
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
+import { createHttpLink } from 'apollo-link-http';
+import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import VueApollo from 'vue-apollo';
+
+const httpLinkWithPersistedQuery = createPersistedQueryLink().concat(createHttpLink({
+    uri: '/graphql',
+}));
+
+// Create the apollo client
+const apolloClient = new ApolloClient({
+    link: ApolloLink.from([httpLinkWithPersistedQuery]),
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
+})
+
+const apolloProvider = new VueApollo({
+    defaultClient: apolloClient,
+});
+
+Vue.use(VueApollo);
+
+const app = new Vue({
+    el: '#app',
+    apolloProvider,
+});
+```
 
 ## Guides
 

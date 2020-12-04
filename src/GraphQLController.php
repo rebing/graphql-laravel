@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 class GraphQLController extends Controller
 {
@@ -37,8 +38,8 @@ class GraphQLController extends Controller
             $schema = config('graphql.default_schema');
         }
 
-        // If a singular query was not found, it means the queries are in batch
-        $isBatch = ! $request->has('query');
+        // check if is batch (check if the array is associative)
+        $isBatch = ! Arr::isAssoc($request->input());
         $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
@@ -59,6 +60,29 @@ class GraphQLController extends Controller
     protected function executeQuery(string $schema, array $input): array
     {
         $query = $input['query'] ?? '';
+
+        $pq = data_get($input, 'extensions.persistedQuery');
+        if ($pq && (! config('graphql.apq.enable'))) {
+            // TODO: ask better way to "throw error" (with status 200..)
+            return ['errors' => [(object) ['message' => 'PersistedQueryNotSupported', 'extensions' => (object) ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']]]];
+        }
+
+        if (null !== ($pqHash = data_get($pq, 'sha256Hash'))) {
+            $apqCacheDriver = config('graphql.apq.cache_driver');
+            $apqCachePrefix = config('graphql.apq.cache_prefix');
+            $apqCacheIdentifier = implode('.', [$apqCachePrefix, $schema, $pqHash]);
+
+            if (! array_key_exists('query', $input)) {
+                if (! cache()->has($apqCacheIdentifier)) {
+                    // TODO: ask better way to "throw error" (with status 200..)
+                    return ['errors' => [(object) ['message' => 'PersistedQueryNotFound', 'extensions' => (object) ['code' => 'PERSISTED_QUERY_NOT_FOUND']]]];
+                }
+                $query = cache()->driver($apqCacheDriver)->get($apqCacheIdentifier);
+            } else {
+                // TODO: maybe ttl can be a function
+                cache()->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, config('graphql.apq.ttl'));
+            }
+        }
 
         $paramsKey = config('graphql.params_key', 'variables');
         $params = $input[$paramsKey] ?? null;
