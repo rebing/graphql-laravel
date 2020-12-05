@@ -225,6 +225,6 @@ return [
         'cache_ttl' => 300,
 
         //
-        'cache_prefix' => 'graphql.pq',
+        'cache_prefix' => 'graphql.apq',
     ],
 ];
