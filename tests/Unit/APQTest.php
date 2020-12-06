@@ -13,7 +13,26 @@ class APQTest extends TestCase
      */
     public function testPersistedQueryNotSupported(): void
     {
-        $this->markTestIncomplete();
+        config(['graphql.apq.enable' => false]);
+
+        $response = $this->call('GET', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertEquals([
+            'errors' => [
+                ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+            ],
+        ], $content);
     }
 
     /**
@@ -21,23 +40,65 @@ class APQTest extends TestCase
      */
     public function testPersistedQueryNotFound(): void
     {
-        $this->markTestIncomplete();
+        $response = $this->call('GET', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertEquals([
+            'errors' => [
+                ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND']],
+            ],
+        ], $content);
     }
 
     /**
-     * Test persisted query happy path.
+     * Test persisted query found.
      */
-    public function testPersistedQueryHappyPath(): void
+    public function testPersistedQueryFound(): void
     {
-        $this->markTestIncomplete();
-    }
+        // run query and persist
 
-    /**
-     * Test persisted query missing hash path.
-     */
-    public function testPersistedQueryMissingHashPath(): void
-    {
-        $this->markTestIncomplete();
+        $response = $this->call('GET', '/graphql', [
+            'query' => trim($this->queries['examples']),
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['examples' => $this->data], $content['data']);
+
+        // run persisted query
+
+        $response = $this->call('GET', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['examples' => $this->data], $content['data']);
     }
 
     /**
@@ -45,7 +106,25 @@ class APQTest extends TestCase
      */
     public function testPersistedQueryInvalidHash(): void
     {
-        $this->markTestIncomplete();
+        $response = $this->call('GET', '/graphql', [
+            'query' => trim($this->queries['examples']),
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', 'foo'),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertEquals([
+            'errors' => [
+                ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR']],
+            ],
+        ], $content);
     }
 
     /**
@@ -53,38 +132,124 @@ class APQTest extends TestCase
      */
     public function testPersistedQueryBatchingNotSupported(): void
     {
-        $this->markTestIncomplete();
+        config(['graphql.apq.enable' => false]);
+
+        $response = $this->call('GET', '/graphql', [
+            [
+                'variables' => [
+                    'index' => 0,
+                ],
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', trim($this->queries['examplesWithVariables'])),
+                    ],
+                ],
+            ],
+            [
+                'query' => trim($this->queries['examples']),
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertArrayHasKey(0, $content);
+        $this->assertArrayHasKey(1, $content);
+
+        $this->assertEquals([
+            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+        ], $content[0]['errors']);
+
+        $this->assertEquals([
+            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+        ], $content[1]['errors']);
     }
 
     /**
-     * Test persisted query batching not found.
+     * Test persisted query batching found, not found and invalid hash.
      */
-    public function testPersistedQueryBatchingNotFound(): void
+    public function testPersistedQueryBatchingFoundNotFoundAndInvalidHash(): void
     {
-        $this->markTestIncomplete();
-    }
+        // run query and persist
 
-    /**
-     * Test persisted query batching happy path.
-     */
-    public function testPersistedQueryBatchingHappyPath(): void
-    {
-        $this->markTestIncomplete();
-    }
+        $response = $this->call('GET', '/graphql', [
+            'query' => trim($this->queries['examples']),
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
 
-    /**
-     * Test persisted query batching missing hash path.
-     */
-    public function testPersistedQueryBatchingMissingHashPath(): void
-    {
-        $this->markTestIncomplete();
-    }
+        $this->assertEquals(200, $response->getStatusCode());
 
-    /**
-     * Test persisted query batching invalid hash.
-     */
-    public function testPersistedQueryBatchingInvalidHash(): void
-    {
-        $this->markTestIncomplete();
+        $content = $response->json();
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['examples' => $this->data], $content['data']);
+
+        // run query persisted and not
+
+        $response = $this->call('GET', '/graphql', [
+            [
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    ],
+                ],
+            ],
+            [
+                'variables' => [
+                    'index' => 0,
+                ],
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', trim($this->queries['examplesWithVariables'])),
+                    ],
+                ],
+            ],
+            [
+                'query' => trim($this->queries['examplesWithVariables']),
+                'variables' => [
+                    'index' => 0,
+                ],
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', 'foo'),
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertArrayHasKey(0, $content);
+        $this->assertArrayHasKey(1, $content);
+        $this->assertArrayHasKey(2, $content);
+
+        $this->assertArrayHasKey('data', $content[0]);
+        $this->assertEquals(['examples' => $this->data], $content[0]['data']);
+
+        $this->assertEquals([
+            ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND']],
+        ], $content[1]['errors']);
+
+        $this->assertEquals([
+            ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR']],
+        ], $content[2]['errors']);
     }
 }
