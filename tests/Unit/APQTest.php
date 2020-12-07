@@ -30,7 +30,7 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+                ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
             ],
         ], $content);
     }
@@ -55,7 +55,7 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND']],
+                ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND', 'category' => 'apq']],
             ],
         ], $content);
     }
@@ -122,7 +122,7 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR']],
+                ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR', 'category' => 'apq']],
             ],
         ], $content);
     }
@@ -165,11 +165,11 @@ class APQTest extends TestCase
         $this->assertArrayHasKey(1, $content);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
         ], $content[0]['errors']);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED']],
+            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
         ], $content[1]['errors']);
     }
 
@@ -245,11 +245,11 @@ class APQTest extends TestCase
         $this->assertEquals(['examples' => $this->data], $content[0]['data']);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND']],
+            ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND', 'category' => 'apq']],
         ], $content[1]['errors']);
 
         $this->assertEquals([
-            ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR']],
+            ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR', 'category' => 'apq']],
         ], $content[2]['errors']);
     }
 }

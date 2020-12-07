@@ -213,18 +213,16 @@ return [
      * See https://www.apollographql.com/docs/apollo-server/performance/apq/
      */
     'apq' => [
-
-        // See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
+        // Enable/Disable APQ - See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
         'enable' => env('GRAPHQL_APQ_ENABLE', true),
 
-        //
+        // The cache driver used for APQ
         'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', config('cache.default')),
 
-        // See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
-        // TODO: maybe tap function ?
-        'cache_ttl' => 300,
-
-        //
+        // The cache prefix
         'cache_prefix' => 'graphql.apq',
+
+        // The cache ttl - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
+        'cache_ttl' => 300,
     ],
 ];
