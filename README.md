@@ -136,6 +136,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
+    - [Directives](#directives)  
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2151,6 +2152,104 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
+
+### Directives
+
+Place directives in your graphql config file, example:
+```
+// [...]
+    'schemas' => [
+        'default' => [
+            'query' => [],
+            'mutation' => [],
+            'directive' => [
+                \App\GraphQL\Directives\CapitalizeDirective::newInstance(),
+            ],
+            'middleware' => [],
+            'method' => ['get', 'post'],
+        ],
+    ],
+// [...]    
+```
+
+```php
+<?php
+
+namespace App\GraphQL\Directives;
+
+use GraphQL\Language\DirectiveLocation;
+
+class CapitalizeDirective extends \GraphQL\Type\Definition\Directive
+{
+    /** @var string */
+    const NAME = 'capitalize';
+
+    /**
+     * @return CapitalizeDirective
+     */
+    public static function newInstance()
+    {
+        return new self();
+    }
+
+    /**
+     * CacheDirective constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct([
+            'name'        => self::NAME,
+            'description' => 'The capitalize directive.',
+            'locations'   => [
+                DirectiveLocation::FIELD,
+            ],
+            'args'        => [],
+        ]);
+    }
+}
+```
+
+```php
+<?php
+
+namespace App\GraphQL\Types;
+
+use App\GraphQL\Directives\CapitalizeDirective;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Helpers;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class ExampleType extends GraphQLType
+{
+    /** @var string */
+    public const NAME = 'Example';
+
+    protected $attributes = [
+        'name'          => self::NAME,
+        'description'   => 'A example',
+    ];
+
+    public function fields(): array
+    {
+         return [
+            'name' => [
+                'type'              => Type::nonNull(Type::string()),
+                'description'       => 'The name',
+                'resolve'           => function ($root, $args, $context, ResolveInfo $resolveInfo) {
+                    $capitalizeDirective = Helpers::getDirectiveByName($resolveInfo, CapitalizeDirective::NAME);
+                    return $capitalizeDirective ? ucfirst($root['name']) : $root['name'];
+                }
+            ],
+            'title' => [
+                'type'              => Type::string(),
+                'description'       => 'The title',
+                'deprecationReason' => 'Deprecated due foo'
+            ],
+        ];
+    }
+}
+```
 
 ## Guides
 

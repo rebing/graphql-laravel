@@ -106,6 +106,9 @@ return [
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
+            'directive' => [
+                //
+            ],
             'middleware' => [],
             'method' => ['get', 'post'],
         ],
