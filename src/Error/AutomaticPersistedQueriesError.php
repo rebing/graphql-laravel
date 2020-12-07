@@ -14,28 +14,30 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
     const CODE_INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR';
 
     /**
-     * @return static
+     * @return self
      */
     public static function persistedQueriesNotSupported(): self
     {
-        return new static('PersistedQueryNotSupported',
+        return new self(
+            'PersistedQueryNotSupported',
             $nodes = null,
             $source = null,
             $positions = [],
             $path = null,
             $previous = null,
             $extensions = [
-                'code' => static::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
+                'code' => self::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
             ]
         );
     }
 
     /**
-     * @return static
+     * @return self
      */
     public static function persistedQueriesNotFound(): self
     {
-        return new static('PersistedQueryNotFound',
+        return new self(
+            'PersistedQueryNotFound',
             $nodes = null,
             $source = null,
             $positions = [],
@@ -49,11 +51,12 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
 
     /**
      * @param  null|string  $message
-     * @return static
+     * @return self
      */
     public static function internalServerError($message = null): self
     {
-        return new static($message,
+        return new self(
+            $message ?? '',
             $nodes = null,
             $source = null,
             $positions = [],
