@@ -2155,9 +2155,19 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 ### Automatic Persisted Queries - APQ
 
-Ref: 
- - https://www.apollographql.com/docs/apollo-server/performance/apq/
- - https://github.com/apollographql/apollo-link-persisted-queries#protocol
+
+Automatic Persisted Queries (APQ), improve network performance by sending smaller requests, with zero build-time configuration.
+
+A persisted query is an ID or hash that can be sent to the server instead of the entire GraphQL query string. 
+This smaller signature reduces bandwidth utilization and speeds up client loading times. 
+Persisted queries are especially nice paired with GET requests, enabling the browser cache and integration with a CDN.
+
+For more informations see: 
+ - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
+ - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
+
+Below a simple integration example with Vue/Apollo, the `createPersistedQueryLink`
+automatically manages the apq flow.
 
 ```js
 // [example app.js]
@@ -2196,6 +2206,28 @@ const app = new Vue({
     el: '#app',
     apolloProvider,
 });
+```
+```vue 
+<!-- [example TestComponent.vue] -->
+
+<template>
+    <div>
+        <p>Test APQ</p>
+        <p>-> <span v-if="$apollo.queries.hello.loading">Loading...</span>{{ hello }}</p>
+    </div>
+</template>
+
+<script>
+    import gql from 'graphql-tag';
+    export default {
+        apollo: {
+            hello: gql`query{hello}`,
+        },
+        mounted() {
+            console.log('Component mounted.')
+        }
+    }
+</script>
 ```
 
 ## Guides

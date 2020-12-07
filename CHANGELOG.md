@@ -4,6 +4,11 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.1.0...master)
 --------------
 
+2020-xx-xx, 6.2.0-rc1
+---------------------
+### Added
+- Support for Automatic Persisted Queries - APQ [\#701 / illambo](https://github.com/rebing/graphql-laravel/pull/701)
+
 2020-11-30, 6.1.0
 -----------------
 Same as 6.1.0-rc1!
