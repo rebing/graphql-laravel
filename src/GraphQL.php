@@ -84,20 +84,11 @@ class GraphQL
             'name' => 'Subscription',
         ]);
 
-        /* TODO: understand its functionality, it's not working at the moment
-        $directive = $this->objectType($schemaDirective, [
-            'name' => 'Directive',
-        ]);
-        */
-
-        // temp workaround
-        $directive = $schemaDirective;
-
         return new Schema([
             'query' => $query,
             'mutation' => ! empty($schemaMutation) ? $mutation : null,
             'subscription' => ! empty($schemaSubscription) ? $subscription : null,
-            'directives' => ! empty($schemaDirective) ? $directive : null,
+            'directives' => ! empty($schemaDirective) ? $schemaDirective : null,
             'types' => function () use ($schema) {
                 $types = [];
                 $schemaTypes = $schema['types'] ?? [];

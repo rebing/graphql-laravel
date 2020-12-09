@@ -107,7 +107,7 @@ return [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
             'directive' => [
-                //
+                // ExampleDirective::getInstance(),
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
@@ -196,6 +196,7 @@ return [
      * or
      * ```php
      * 'defaultFieldResolver' => [SomeKlass::class, 'someMethod'],
+     * 'defaultFieldResolver' => [\Rebing\GraphQL\Helpers::class, 'defaultFieldResolverWithDirectives'],
      * ```
      */
     'defaultFieldResolver' => null,

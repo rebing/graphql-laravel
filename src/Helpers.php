@@ -49,4 +49,45 @@ class Helpers
 
         return $args;
     }
+
+    /**
+     * @param $objectValue
+     * @param $args
+     * @param $context
+     * @param  ResolveInfo  $info
+     * @return mixed|null
+     */
+    public static function defaultFieldResolverWithDirectives($objectValue, $args, $context, \GraphQL\Type\Definition\ResolveInfo $info)
+    {
+        $fieldName = $info->fieldName;
+        $property = null;
+
+        if (is_array($objectValue) || $objectValue instanceof \ArrayAccess) {
+            if (isset($objectValue[$fieldName])) {
+                $property = $objectValue[$fieldName];
+            }
+        } elseif (is_object($objectValue)) {
+            if (isset($objectValue->{$fieldName})) {
+                $property = $objectValue->{$fieldName};
+            }
+        }
+
+        if ($property instanceof \Closure) {
+            $property = $property($objectValue, $args, $context, $info);
+        }
+
+        $fieldNode = $info->fieldNodes[0];
+        if (property_exists($fieldNode, 'directives') && count($fieldNode->directives)) {
+            foreach ($fieldNode->directives as $directive) {
+                /** @var \Rebing\GraphQL\Support\Directive $d */
+                foreach ($info->schema->getDirectives() as $d) {
+                    if ($d->name == $directive->name->value) {
+                        $property = $d->handle($property, static::getDirectiveArguments($directive));
+                    }
+                }
+            }
+        }
+
+        return $property;
+    }
 }

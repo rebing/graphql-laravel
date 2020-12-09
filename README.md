@@ -2155,9 +2155,14 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 ### Directives
 
-Place directives in your graphql config file, example:
+Using schema directives to transform schema types, fields, and arguments.
+See [Using schema directives](https://www.apollographql.com/docs/apollo-server/schema/directives/) for more informations
+
+Create and place directives in your graphql config file, example and setup your _defaultFieldResolver_ in order to execute the directives:
+
 ```
 // [...]
+
     'schemas' => [
         'default' => [
             'query' => [],
@@ -2169,7 +2174,12 @@ Place directives in your graphql config file, example:
             'method' => ['get', 'post'],
         ],
     ],
+    
 // [...]    
+
+    'defaultFieldResolver' => [\Rebing\GraphQL\Helpers::class, 'defaultFieldResolverWithDirectives'],
+    
+// [...]      
 ```
 
 ```php
@@ -2179,74 +2189,61 @@ namespace App\GraphQL\Directives;
 
 use GraphQL\Language\DirectiveLocation;
 
-class CapitalizeDirective extends \GraphQL\Type\Definition\Directive
+/**
+ * Class UpperCaseDirective
+ * @package App\GraphQL\Directives
+ */
+class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
 {
     /** @var string */
-    const NAME = 'capitalize';
+    const NAME = 'upper';
+
+    /** @var UpperCaseDirective|null */
+    private static $instance = null;
 
     /**
-     * @return CapitalizeDirective
+     * UpperCaseDirective constructor.
      */
-    public static function newInstance()
+    protected function __construct()
     {
-        return new self();
+        parent::__construct([
+            'name' => static::NAME,
+            'description' => 'The upper directive.',
+            'locations' => [
+                DirectiveLocation::FIELD,
+            ],
+            'args' => [],
+        ]);
     }
 
     /**
-     * CacheDirective constructor.
+     * @return UpperCaseDirective
      */
-    public function __construct()
+    public static function getInstance(): UpperCaseDirective
     {
-        parent::__construct([
-            'name'        => self::NAME,
-            'description' => 'The capitalize directive.',
-            'locations'   => [
-                DirectiveLocation::FIELD,
-            ],
-            'args'        => [],
-        ]);
+        if (self::$instance == null) self::$instance = new static();
+        return self::$instance;
+    }
+
+    /**
+     * @param $value
+     * @param  array  $args
+     * @return string|null
+     */
+    public function handle($value, array $args = []): ?string
+    {
+        if (! empty($value)) $value = strtoupper($value);
+        return $value;
     }
 }
 ```
 
-```php
-<?php
+Tests with example query:
 
-namespace App\GraphQL\Types;
-
-use App\GraphQL\Directives\CapitalizeDirective;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Helpers;
-use Rebing\GraphQL\Support\Type as GraphQLType;
-
-class ExampleType extends GraphQLType
-{
-    /** @var string */
-    public const NAME = 'Example';
-
-    protected $attributes = [
-        'name'          => self::NAME,
-        'description'   => 'A example',
-    ];
-
-    public function fields(): array
-    {
-         return [
-            'name' => [
-                'type'              => Type::nonNull(Type::string()),
-                'description'       => 'The name',
-                'resolve'           => function ($root, $args, $context, ResolveInfo $resolveInfo) {
-                    $capitalizeDirective = Helpers::getDirectiveByName($resolveInfo, CapitalizeDirective::NAME);
-                    return $capitalizeDirective ? ucfirst($root['name']) : $root['name'];
-                }
-            ],
-            'title' => [
-                'type'              => Type::string(),
-                'description'       => 'The title',
-                'deprecationReason' => 'Deprecated due foo'
-            ],
-        ];
+```graphql
+query Example {
+    example {
+        name @upper
     }
 }
 ```
