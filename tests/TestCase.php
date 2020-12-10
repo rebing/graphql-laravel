@@ -64,8 +64,8 @@ class TestCase extends BaseTestCase
                 'updateExample' => UpdateExampleMutation::class,
             ],
             'directive' => [
-                UpperCaseDirective::getInstance(),
-                LowerCaseDirective::getInstance(),
+                UpperCaseDirective::class,
+                LowerCaseDirective::class,
             ],
         ]);
 

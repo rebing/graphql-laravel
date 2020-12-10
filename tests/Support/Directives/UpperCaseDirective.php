@@ -14,13 +14,10 @@ class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
     /** @var string */
     const NAME = 'upper';
 
-    /** @var UpperCaseDirective|null */
-    private static $instance = null;
-
     /**
      * UpperCaseDirective constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct([
             'name' => static::NAME,
@@ -30,18 +27,6 @@ class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
             ],
             'args' => [],
         ]);
-    }
-
-    /**
-     * @return UpperCaseDirective
-     */
-    public static function getInstance(): self
-    {
-        if (self::$instance == null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
     }
 
     /**

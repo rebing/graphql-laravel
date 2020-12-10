@@ -2168,7 +2168,7 @@ Create and place directives in your graphql config file, example and setup your 
             'query' => [],
             'mutation' => [],
             'directive' => [
-                \App\GraphQL\Directives\CapitalizeDirective::newInstance(),
+                \App\GraphQL\Directives\CapitalizeDirective::class,
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
@@ -2198,13 +2198,10 @@ class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
     /** @var string */
     const NAME = 'upper';
 
-    /** @var UpperCaseDirective|null */
-    private static $instance = null;
-
     /**
      * UpperCaseDirective constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct([
             'name' => static::NAME,
@@ -2214,15 +2211,6 @@ class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
             ],
             'args' => [],
         ]);
-    }
-
-    /**
-     * @return UpperCaseDirective
-     */
-    public static function getInstance(): UpperCaseDirective
-    {
-        if (self::$instance == null) self::$instance = new self();
-        return self::$instance;
     }
 
     /**

@@ -107,7 +107,7 @@ return [
                 // 'example_mutation'  => ExampleMutation::class,
             ],
             'directive' => [
-                // ExampleDirective::getInstance(),
+                // ExampleDirective::class,
             ],
             'middleware' => [],
             'method' => ['get', 'post'],

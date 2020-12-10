@@ -84,11 +84,18 @@ class GraphQL
             'name' => 'Subscription',
         ]);
 
+        $directives = [];
+        foreach ($schemaDirective as $directive) {
+            if (is_string($directive)) {
+                $directives[] = new $directive();
+            }
+        }
+
         return new Schema([
             'query' => $query,
             'mutation' => ! empty($schemaMutation) ? $mutation : null,
             'subscription' => ! empty($schemaSubscription) ? $subscription : null,
-            'directives' => ! empty($schemaDirective) ? $schemaDirective : null,
+            'directives' => ! empty($directives) ? $directives : null,
             'types' => function () use ($schema) {
                 $types = [];
                 $schemaTypes = $schema['types'] ?? [];

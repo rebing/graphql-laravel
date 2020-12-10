@@ -14,13 +14,10 @@ class LowerCaseDirective extends \Rebing\GraphQL\Support\Directive
     /** @var string */
     const NAME = 'lower';
 
-    /** @var LowerCaseDirective|null */
-    private static $instance = null;
-
     /**
-     * UpperCaseDirective constructor.
+     * LowerCaseDirective constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct([
             'name' => static::NAME,
@@ -30,18 +27,6 @@ class LowerCaseDirective extends \Rebing\GraphQL\Support\Directive
             ],
             'args' => [],
         ]);
-    }
-
-    /**
-     * @return LowerCaseDirective
-     */
-    public static function getInstance(): self
-    {
-        if (self::$instance == null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
     }
 
     /**

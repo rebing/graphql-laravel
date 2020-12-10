@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use GraphQL\Language\AST\DirectiveNode;
-use GraphQL\Language\AST\NodeList;
 use GraphQL\Language\AST\ValueNode;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -21,7 +20,7 @@ class Helpers
      * @param string $name
      * @return DirectiveNode|null
      */
-    public static function getDirectiveByName(ResolveInfo $info, string $name)
+    public static function getDirectiveByName(ResolveInfo $info, string $name): ?DirectiveNode
     {
         $fieldNode = $info->fieldNodes[0];
         $directives = $fieldNode->directives;
@@ -40,7 +39,7 @@ class Helpers
      * @param DirectiveNode $directive
      * @return ValueNode[]
      */
-    public static function getDirectiveArguments(DirectiveNode $directive)
+    public static function getDirectiveArguments(DirectiveNode $directive): array
     {
         $args = [];
         foreach ($directive->arguments as $arg) {
@@ -78,12 +77,13 @@ class Helpers
 
         $fieldNode = $info->fieldNodes[0];
         $fieldNodeDirectives = $fieldNode->directives ?? [];
-        if (count($fieldNodeDirectives ?? [])) {
+        if (count($fieldNodeDirectives)) {
             foreach ($fieldNodeDirectives as $directive) {
-                /** @var \Rebing\GraphQL\Support\Directive $d */
                 foreach ($info->schema->getDirectives() as $d) {
                     if ($d->name == $directive->name->value) {
-                        $property = $d->handle($property, static::getDirectiveArguments($directive));
+                        if ($d instanceof \Rebing\GraphQL\Support\Directive) {
+                            $property = $d->handle($property, static::getDirectiveArguments($directive));
+                        }
                     }
                 }
             }
