@@ -13,6 +13,8 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Directives\LowerCaseDirective;
+use Rebing\GraphQL\Tests\Support\Directives\UpperCaseDirective;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
@@ -60,6 +62,10 @@ class TestCase extends BaseTestCase
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class,
+            ],
+            'directive' => [
+                UpperCaseDirective::getInstance(),
+                LowerCaseDirective::getInstance(),
             ],
         ]);
 

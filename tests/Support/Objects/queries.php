@@ -114,4 +114,20 @@ return [
         }
     ',
 
+    'examplesWithDirective' => '
+        query ExamplesWithDirective {
+            examples {
+                test @upper
+            }
+        }
+    ',
+
+    'examplesWithConsecutiveDirectives' => '
+        query ExamplesWithConsecutiveDirectives {
+            examples {
+                test @upper @lower
+            }
+        }
+    ',
+
 ];

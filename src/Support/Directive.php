@@ -13,7 +13,7 @@ abstract class Directive extends \GraphQL\Type\Definition\Directive
 
     /**
      * @param mixed $value
-     * @param array $args
+     * @param array<mixed> $args
      * @return mixed
      */
     abstract public function handle($value, array $args = []);

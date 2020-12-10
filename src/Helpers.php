@@ -24,16 +24,16 @@ class Helpers
     public static function getDirectiveByName(ResolveInfo $info, string $name)
     {
         $fieldNode = $info->fieldNodes[0];
-        /** @var NodeList $directives */
         $directives = $fieldNode->directives;
-        if ($directives) {
-            /** @var DirectiveNode[] $directives */
+        if ((null !== $directives) && is_array($directives)) {
             foreach ($directives as $directive) {
                 if ($directive->name->value === $name) {
                     return $directive;
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -51,10 +51,10 @@ class Helpers
     }
 
     /**
-     * @param $objectValue
-     * @param $args
-     * @param $context
-     * @param  ResolveInfo  $info
+     * @param mixed $objectValue
+     * @param mixed[] $args
+     * @param mixed|null $context
+     * @param ResolveInfo $info
      * @return mixed|null
      */
     public static function defaultFieldResolverWithDirectives($objectValue, $args, $context, \GraphQL\Type\Definition\ResolveInfo $info)
@@ -77,8 +77,9 @@ class Helpers
         }
 
         $fieldNode = $info->fieldNodes[0];
-        if (property_exists($fieldNode, 'directives') && count($fieldNode->directives)) {
-            foreach ($fieldNode->directives as $directive) {
+        $fieldNodeDirectives = $fieldNode->directives ?? [];
+        if (count($fieldNodeDirectives ?? [])) {
+            foreach ($fieldNodeDirectives as $directive) {
                 /** @var \Rebing\GraphQL\Support\Directive $d */
                 foreach ($info->schema->getDirectives() as $d) {
                     if ($d->name == $directive->name->value) {
