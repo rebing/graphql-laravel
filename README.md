@@ -2221,7 +2221,7 @@ class UpperCaseDirective extends \Rebing\GraphQL\Support\Directive
      */
     public static function getInstance(): UpperCaseDirective
     {
-        if (self::$instance == null) self::$instance = new static();
+        if (self::$instance == null) self::$instance = new self();
         return self::$instance;
     }
 

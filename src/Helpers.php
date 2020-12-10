@@ -25,7 +25,7 @@ class Helpers
     {
         $fieldNode = $info->fieldNodes[0];
         $directives = $fieldNode->directives;
-        if ((null !== $directives) && is_array($directives)) {
+        if ((null !== $directives)) {
             foreach ($directives as $directive) {
                 if ($directive->name->value === $name) {
                     return $directive;
