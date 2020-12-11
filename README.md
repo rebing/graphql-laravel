@@ -136,7 +136,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
-    - [Automatic Persisted Queries - APQ](#apq)
+    - [Automatic Persisted Queries](#automatic-persisted-queries)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2153,7 +2153,7 @@ class AppServiceProvider extends ServiceProvider
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
-### Automatic Persisted Queries - APQ
+### Automatic Persisted Queries
 
 
 Automatic Persisted Queries (APQ), improve network performance by sending smaller requests, with zero build-time configuration.
