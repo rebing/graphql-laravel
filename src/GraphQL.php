@@ -21,6 +21,7 @@ use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
+use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\PaginationType;
 
@@ -65,6 +66,10 @@ class GraphQL
 
         if ($schema instanceof Schema) {
             return $schema;
+        }
+
+        if (is_string($schema) && ($instance = app()->make($schema)) instanceof ConfigConvertible) {
+            $schema = $instance->toConfig();
         }
 
         $schemaQuery = $schema['query'] ?? [];
