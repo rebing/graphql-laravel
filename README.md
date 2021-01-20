@@ -180,6 +180,39 @@ in addition to the global middleware. For example:
 ],
 ```
 
+#### Schema classes
+
+You may alternatively define the configuration of a schema in a class that implements `ConfigConvertible`.
+
+In your config, you can reference the name of the class, rather than an array.
+
+```php
+'schemas' => [
+    'default' => DefaultSchema::class
+]
+```
+
+```php
+namespace App\GraphQL\Schemas;
+
+use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
+
+class DefaultSchema implements ConfigConvertible
+{
+    public function toConfig(): array
+    {
+        return [
+            'query' => [
+                ExampleQuery::class,
+            ],
+            'mutation' => [
+                ExampleMutation::class,
+            ]
+        ]
+    }
+}
+```
+
 ### Creating a query
 
 First you need to create a type. The Eloquent Model is only required, if specifying relations.
