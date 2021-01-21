@@ -6,5 +6,8 @@ namespace Rebing\GraphQL\Support\Contracts;
 
 interface ConfigConvertible
 {
+    /**
+     * @return array<array>
+     */
     public function toConfig(): array;
 }

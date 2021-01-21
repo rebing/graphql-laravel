@@ -32,7 +32,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
-    /** @var array<array|Schema> */
+    /** @var array<array|string|Schema> */
     protected $schemas = [];
 
     /**
@@ -66,10 +66,6 @@ class GraphQL
 
         if ($schema instanceof Schema) {
             return $schema;
-        }
-
-        if (is_string($schema) && ($instance = app()->make($schema)) instanceof ConfigConvertible) {
-            $schema = $instance->toConfig();
         }
 
         $schemaQuery = $schema['query'] ?? [];
@@ -512,6 +508,15 @@ class GraphQL
             throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
 
-        return is_array($schema) ? $schema : $this->schemas[$schemaName];
+        $schema = is_array($schema) ? $schema : $this->schemas[$schemaName];
+
+        if (! is_string($schema)) {
+            return $schema;
+        }
+
+        /** @var ConfigConvertible $instance */
+        $instance = app()->make($schema);
+
+        return $instance->toConfig();
     }
 }
