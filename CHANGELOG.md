@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.1.0...master)
 --------------
 
+### Added
+- Support for class based schemas [\#706 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/706)
+
 2020-11-30, 6.1.0
 -----------------
 Same as 6.1.0-rc1!
