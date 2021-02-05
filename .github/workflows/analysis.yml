@@ -1,6 +1,12 @@
 name: Code Analysis
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+  push:
+  schedule:
+    # Run Monday morning at 3 o'clock
+    - cron: 0 3 * * 0
+  workflow_dispatch:
 
 jobs:
   static-analysis:
