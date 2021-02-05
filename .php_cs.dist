@@ -15,5 +15,6 @@ return (new MattAllan\LaravelCodeStyle\Config())
             'method_argument_space' => [
                 'on_multiline' => 'ensure_fully_multiline',
             ],
+            'psr4' => false, // Doesn't play well with migrations
         ])
         ->setRiskyAllowed(true);
