@@ -170,6 +170,12 @@ return [
     'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
 
     /*
+     * You can define your own simple pagination type.
+     * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
+     */
+    'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
+
+    /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [

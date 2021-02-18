@@ -23,6 +23,7 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\PaginationType;
+use Rebing\GraphQL\Support\SimplePaginationType;
 
 class GraphQL
 {
@@ -380,6 +381,18 @@ class GraphQL
 
         if (! isset($this->typesInstances[$name])) {
             $paginationType = config('graphql.pagination_type', PaginationType::class);
+            $this->wrapType($typeName, $name, $paginationType);
+        }
+
+        return $this->typesInstances[$name];
+    }
+
+    public function simplePaginate(string $typeName, string $customName = null): Type
+    {
+        $name = $customName ?: $typeName.'SimplePagination';
+
+        if (! isset($this->typesInstances[$name])) {
+            $paginationType = config('graphql.simple_pagination_type', SimplePaginationType::class);
             $this->wrapType($typeName, $name, $paginationType);
         }
 
