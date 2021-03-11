@@ -27,6 +27,7 @@ sed -e 's|\$app->register(Rebing\\\GraphQL\\\GraphQLLumenServiceProvider::class)
 
 echo "Make GraphQL queries"
 php artisan make:graphql:query ExampleQuery
+php artisan make:graphql:query ExampleNonDefaultQuery
 php artisan make:graphql:query ExampleMultiLevelQuery
 
 echo "Add ExampleQuery to config"
@@ -34,6 +35,9 @@ sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\
 
 echo "Add ExampleMultiLevelQuery in a multi path level schema to the config"
 sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Queries\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php
+
+echo "Add ExampleNonDefaultQuery in a single path non-default schema to the config"
+sed -e "s|^        'default' => \[|'single' => ['query' => [ \\\App\\\GraphQL\\\Queries\\\ExampleNonDefaultQuery::class]],\n&|" -i config/graphql.php
 
 echo "Use local copy of GraphiQL view"
 sed -e "s|'view' => 'graphql::graphiql'|'view' => 'vendor/graphql/graphiql'|" -i config/graphql.php
@@ -57,6 +61,17 @@ else
   exit 1
 fi
 
+echo "Send GraphQL HTTP request to fetch ExampleNonDefaultQuery"
+curl 'http://127.0.0.1:8002/graphql/single?query=%7BexampleNonDefault%7D' -sSfLv | grep 'The exampleNonDefault works'
+
+if [[ $? = 0 ]]; then
+  echo "GraphQL ExampleNonDefaultQuery works 👍"
+else
+  echo "GraphQL ExampleNonDefaultQuery DID NOT work 🚨"
+  curl 'http://127.0.0.1:8002/graphql?query=%7BexampleNonDefault%7D' -sSfLv
+  cat storage/logs/*
+  exit 1
+fi
 
 echo "Test accessing GraphiQL"
 curl 'http://127.0.0.1:8002/graphiql' -sSfLv | grep '<div id="graphiql">Loading...</div>'
