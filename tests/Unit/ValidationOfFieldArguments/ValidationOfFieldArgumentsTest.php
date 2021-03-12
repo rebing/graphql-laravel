@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
 use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
+use RuntimeException;
 
 class ValidationOfFieldArgumentsTest extends TestCase
 {
@@ -52,8 +53,15 @@ GRAPHQL;
         $expectedMessages = [
             'The profile.fields.name.args.include middle names format is invalid.',
             'The profile.fields.height.args.unit format is invalid.',
-            'The profile.args.profile id may not be greater than 10.',
         ];
+
+        // See https://github.com/orchestral/testbench-core/commit/6c9c77b2e978890cb6a2712251ddab5eb1b79049
+        if ($this->orchestraTestbenchCoreVersionBelow('6.17.1.0')) {
+            $expectedMessages[] = 'The profile.args.profile id may not be greater than 10.';
+        } else {
+            $expectedMessages[] = 'The profile.args.profile id must not be greater than 10.';
+        }
+
         $this->assertSame($expectedMessages, $messageBag->all());
     }
 
@@ -79,5 +87,21 @@ GRAPHQL;
             'The alias.args.type format is invalid.',
         ];
         $this->assertSame($expectedMessages, $messageBag->all());
+    }
+
+    private function orchestraTestbenchCoreVersionBelow(string $versionString): bool
+    {
+        $composerInstalledJson = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'installed.json';
+        $composerInstalled = json_decode(file_get_contents($composerInstalledJson), true);
+
+        foreach ($composerInstalled['packages'] as $package) {
+            if ($package['name'] !== 'orchestra/testbench-core') {
+                continue;
+            }
+
+            return $package['version_normalized'] < $versionString;
+        }
+
+        throw new RuntimeException('Unable to extract installed versio of orchestra/testbench-core at runtime');
     }
 }

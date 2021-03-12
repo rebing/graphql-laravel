@@ -12,7 +12,9 @@ use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -28,7 +30,7 @@ class SelectFields
     /** @var array */
     protected $relations = [];
 
-    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
+    public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
      * @param  GraphqlType  $parentType
@@ -48,7 +50,10 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        [$this->select, $this->relations] = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        /** @var array<int,array> $result */
+        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+
+        [$this->select, $this->relations] = $result;
     }
 
     /**
@@ -358,7 +363,7 @@ class SelectFields
 
     /**
      * @param  array  $select
-     * @param  mixed  $relation
+     * @param  Relation  $relation
      * @param  string|null  $parentTable
      * @param  array  $field
      */
@@ -370,6 +375,7 @@ class SelectFields
         } elseif (method_exists($relation, 'getQualifiedForeignPivotKeyName')) {
             $foreignKey = $relation->getQualifiedForeignPivotKeyName();
         } else {
+            /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
         $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace(

@@ -354,7 +354,7 @@ class MutationTest extends FieldTest
     {
         $this->expectException(ValidationError::class);
 
-        $field = new UpdateExampleMutationForRuleTesting;
+        $field = new UpdateExampleMutationForRuleTesting();
         $attributes = $field->getAttributes();
 
         $attributes['resolve'](null, [

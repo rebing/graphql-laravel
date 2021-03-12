@@ -18,7 +18,7 @@ class EngineErrorInResolverTest extends TestCase
         ]);
 
         // Using a regex here because in some cases the message gets prefixed with "Type error:"
-        $this->assertRegExp('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
+        $this->assertMatchesRegularExpression('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
     }
 
     protected function resolveApplicationExceptionHandler($app)
@@ -31,7 +31,7 @@ class EngineErrorInResolverTest extends TestCase
             ->with(Mockery::on(
                 function (Throwable $error) {
                     // Using a regex here because in some cases the message gets prefixed with "Type error:"
-                    $this->assertRegExp('/Simulating a TypeError/', $error->getMessage());
+                    $this->assertMatchesRegularExpression('/Simulating a TypeError/', $error->getMessage());
 
                     return true;
                 }

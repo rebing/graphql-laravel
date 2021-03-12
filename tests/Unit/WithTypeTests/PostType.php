@@ -14,7 +14,7 @@ class PostType extends GraphQLType
         'description' => 'Post type',
     ];
 
-    public function fields() : array
+    public function fields(): array
     {
         return [
             'post_id' => [

@@ -14,7 +14,7 @@ class SimpleMessageType extends GraphQLType
         'description' => 'A type of a simple message',
     ];
 
-    public function fields() : array
+    public function fields(): array
     {
         return [
             'message' => [
