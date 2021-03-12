@@ -493,7 +493,7 @@ class GraphQL
             }
         }
 
-        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "$name:$name" : $name).'}', $queryRoute);
+        return $routeName ?: preg_replace($schemaParameterPattern, '{'.(Helpers::isLumen() ? "schema:$name" : $name).'}', $queryRoute);
     }
 
     /**

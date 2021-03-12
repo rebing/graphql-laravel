@@ -281,6 +281,11 @@ parameters:
 			path: src/Support/ResolveInfoFieldsAndArguments.php
 
 		-
+			message: "#^Property GraphQL\\\\Language\\\\AST\\\\FieldNode\\:\\:\\$arguments \\(GraphQL\\\\Language\\\\AST\\\\NodeList\\<GraphQL\\\\Language\\\\AST\\\\ArgumentNode\\>\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getValue\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
@@ -492,6 +497,11 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @var for variable \\$queryTypesMap has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/routes.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed, mixed\\)\\: bool\\)\\|null, Closure\\(array, string\\)\\: bool\\|null given\\.$#"
 			count: 1
 			path: src/routes.php
 
@@ -1471,11 +1481,6 @@ parameters:
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) return type has no value type specified in iterable type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesPaginationQuery.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
@@ -2164,6 +2169,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: tests/Unit/ValidationOfFieldArguments/ValidationOfFieldArgumentsTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:\\$attributes has no typehint specified\\.$#"

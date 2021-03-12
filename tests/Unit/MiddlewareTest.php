@@ -75,6 +75,6 @@ class MiddlewareTest extends TestCase
         ]);
 
         $this->assertObjectHasAttribute('errors', $result);
-        $this->assertRegExp('/^Undefined .* 6$/', $result->errors[0]->getMessage());
+        $this->assertMatchesRegularExpression('/^Undefined .* 6$/', $result->errors[0]->getMessage());
     }
 }
