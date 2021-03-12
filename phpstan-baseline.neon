@@ -2171,11 +2171,6 @@ parameters:
 			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
 
 		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
-			count: 1
-			path: tests/Unit/ValidationOfFieldArguments/ValidationOfFieldArgumentsTest.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
