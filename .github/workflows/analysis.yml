@@ -33,7 +33,6 @@ jobs:
 
       # Remove unnecessary dependencies not needed in this context
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
-      - run: composer remove --dev matt-allan/laravel-code-style --no-update
 
       - name: Get composer cache directory
         id: composercache
