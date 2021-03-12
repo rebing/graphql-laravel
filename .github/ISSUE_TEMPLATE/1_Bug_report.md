@@ -7,8 +7,7 @@ labels: bug
 
 ### Versions:
 - graphql-laravel Version: #.#.#
-- Laravel Version: #.#.# <!-- remove if not applicable -->
-- Lumen Version: #.#.# <!-- remove if not applicable -->
+- Laravel Version: #.#.# <!-- Lumen is NOT supported! -->
 - PHP Version: #.#.#
 
 ### Description:

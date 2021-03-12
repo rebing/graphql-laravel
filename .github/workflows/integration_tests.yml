@@ -18,11 +18,7 @@ on:
 
 jobs:
   integration:
-    strategy:
-      fail-fast: false
-      matrix:
-        integration: [laravel, lumen]
-    name: ${{ matrix.integration }}
+    name: laravel
     runs-on: ubuntu-20.04
     env:
       COMPOSER_NO_INTERACTION: 1
@@ -53,4 +49,4 @@ jobs:
 
       - run: composer install --prefer-dist --no-suggest
 
-      - run: tests/integration-${{ matrix.integration }}.sh
+      - run: tests/integration-laravel.sh

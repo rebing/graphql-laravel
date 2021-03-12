@@ -5,6 +5,7 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- Support for Lumen has been removed
 - Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
   - batched queries will only work with `POST` requests
     This is due to `RequestParser` using `\GraphQL\Server\Helper::parseRequestParams` which includes this check

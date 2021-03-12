@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\GraphQLController;
-use Rebing\GraphQL\Helpers;
 
 $router = app('router');
 $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
@@ -13,7 +12,7 @@ $router->group(array_merge([
     'prefix' => config('graphql.prefix'),
     'middleware' => config('graphql.middleware', []),
 ], config('graphql.route_group_attributes', [])), function ($router) use ($schemaParameterPattern): void {
-    /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
+    /** @var \Illuminate\Routing\Router $router */
 
     // Routes and controllers
     $routes = config('graphql.routes');
@@ -86,9 +85,7 @@ $router->group(array_merge([
                             ]
                         );
 
-                        if (!Helpers::isLumen()) {
-                            $route->where($name, $name);
-                        }
+                        $route->where($name, $name);
                     }
                 }
             } else {
@@ -110,7 +107,7 @@ if (config('graphql.graphiql.display', true)) {
         'prefix' => config('graphql.graphiql.prefix', 'graphiql'),
         'middleware' => config('graphql.graphiql.middleware', []),
     ], function ($router) use ($schemaParameterPattern): void {
-        /** @var \Illuminate\Routing\Router|\Laravel\Lumen\Routing\Router $router */
+        /** @var \Illuminate\Routing\Router $router */
         $graphiqlController = config('graphql.graphiql.controller', GraphQLController::class . '@graphiql');
 
         $graphiqlAction = ['uses' => $graphiqlController];
@@ -120,19 +117,13 @@ if (config('graphql.graphiql.display', true)) {
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphql.graphiql.$name"]
             );
-
-            if (!Helpers::isLumen()) {
-                $route->where($name, $name);
-            }
+            $route->where($name, $name);
 
             $route = $router->post(
                 Rebing\GraphQL\GraphQL::routeNameTransformer($name, $schemaParameterPattern, '{graphql_schema?}'),
                 $graphiqlAction + ['as' => "graphql.graphiql.$name.post"]
             );
-
-            if (!Helpers::isLumen()) {
-                $route->where($name, $name);
-            }
+            $route->where($name, $name);
         }
 
         $router->get('/', $graphiqlAction + ['as' => 'graphql.graphiql']);

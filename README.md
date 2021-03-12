@@ -32,7 +32,7 @@ It offers following features and improvements over the original package by
 
 ### Dependencies:
 
-* [Laravel 6.0+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
+* [Laravel 6.0+](https://github.com/laravel/laravel)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
@@ -55,37 +55,7 @@ Review the configuration file:
 config/graphql.php
 ```
 
-#### Lumen (experimental!)
-
-**1.** Add the following service provider to the `bootstrap/app.php` file
-```php
-$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
-```
-
-**2.** Publish the configuration file
-```bash
-$ php artisan graphql:publish
-```
-
-**3.** Add the configuration to the `bootstrap/app.php` file
-    *Important:* this needs to be before the registration of the service provider
-```php
-$app->configure('graphql');
-...
-$app->register(Rebing\GraphQL\GraphQLLumenServiceProvider::class);
-```
-
-**4.** Review the configuration file
-```php
-config/graphql.php
-```
-
 The default GraphiQL view makes use of the global `csrf_token()` helper function.
-Out of the box, this function is not available in Lumen.
-
-To work this around:
-- Point to your local GraphiQL view: change `graphql.view` to `'vendor/graphql/graphiql'`
-- Modify your file `resources/views/vendor/graphql/graphiql.php` and remove the call
 
 ## Usage
 
@@ -94,7 +64,6 @@ To work this around:
       - [Dependencies:](#dependencies)
       - [Installation:](#installation)
         - [Laravel 6.0+](#laravel)
-        - [Lumen (experimental!)](#lumen-experimental)
   - [Usage](#usage)
     - [Concepts](#concepts)
     - [Data loading](#data-loading)
