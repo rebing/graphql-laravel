@@ -10,6 +10,7 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -70,6 +71,19 @@ class GraphQLTest extends TestCase
     }
 
     /**
+     * Test schema with name referencing a class.
+     */
+    public function testSchemaWithNameReferencingClass(): void
+    {
+        $schema = GraphQL::schema('class_based');
+
+        $this->assertGraphQLSchema($schema);
+        $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
+        $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
+        $this->assertArrayHasKey('Example', $schema->getTypeMap());
+    }
+
+    /**
      * Test schema custom.
      */
     public function testSchemaWithArray(): void
@@ -99,6 +113,16 @@ class GraphQLTest extends TestCase
     {
         $this->expectException(SchemaNotFound::class);
         GraphQL::schema('wrong');
+    }
+
+    /**
+     * Test schema with invalid class name.
+     */
+    public function testSchemaWithInvalidClassName(): void
+    {
+        $this->expectException(BindingResolutionException::class);
+        $this->expectExceptionMessage('Target class [ThisClassDoesntExist] does not exist.');
+        GraphQL::schema('invalid_class_based');
     }
 
     /**

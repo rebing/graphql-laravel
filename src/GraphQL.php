@@ -21,6 +21,7 @@ use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
+use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\PaginationType;
 
@@ -31,7 +32,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
-    /** @var array<array|Schema> */
+    /** @var array<array|string|Schema> */
     protected $schemas = [];
 
     /**
@@ -507,6 +508,15 @@ class GraphQL
             throw new SchemaNotFound('Type '.$schemaName.' not found.');
         }
 
-        return is_array($schema) ? $schema : $this->schemas[$schemaName];
+        $schema = is_array($schema) ? $schema : $this->schemas[$schemaName];
+
+        if (! is_string($schema)) {
+            return $schema;
+        }
+
+        /** @var ConfigConvertible $instance */
+        $instance = app()->make($schema);
+
+        return $instance->toConfig();
     }
 }

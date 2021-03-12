@@ -17,6 +17,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery;
@@ -72,6 +73,9 @@ class TestCase extends BaseTestCase
                 'updateExampleCustom' => UpdateExampleMutation::class,
             ],
         ]);
+
+        $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
+        $app['config']->set('graphql.schemas.invalid_class_based', 'ThisClassDoesntExist');
 
         $app['config']->set('graphql.types', [
             'Example' => ExampleType::class,
