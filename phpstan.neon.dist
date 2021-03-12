@@ -6,7 +6,7 @@ parameters:
     paths:
         - %currentWorkingDirectory%/src/
         - %currentWorkingDirectory%/tests/
-    excludes_analyse:
+    excludePaths:
         - %currentWorkingDirectory%/tests/Support/database/
     ignoreErrors:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
