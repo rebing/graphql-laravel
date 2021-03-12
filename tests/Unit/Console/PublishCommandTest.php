@@ -21,38 +21,45 @@ class PublishCommandTest extends TestCase
             ])
             ->getMock();
         $filesystemMock
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('copy')
-            ->with(
-                $this->callback(function (string $from): bool {
-                    $this->assertMatchesRegularExpression('|/config/config.php|', $from, '1st call to copy, $from');
+            ->withConsecutive(
+                [
+                    $this->callback(function (string $from): bool {
+                        $this->assertMatchesRegularExpression('|/config/config.php|', $from, '1st call to copy, $from');
 
-                    return true;
-                }),
-                $this->callback(function (string $to): bool {
-                    $this->assertMatchesRegularExpression('|laravel[/\\\\]config/graphql.php|', $to, '1st call to copy, $to');
+                        return true;
+                    }),
+                    $this->callback(function (string $to): bool {
+                        $this->assertMatchesRegularExpression(
+                            '|laravel[/\\\\]config/graphql.php|',
+                            $to,
+                            '1st call to copy, $to'
+                        );
 
-                    return true;
-                })
-            );
-        $filesystemMock
-            ->expects($this->at(5))
-            ->method('copy')
-            ->with(
-                $this->callback(function (string $from): bool {
-                    $this->assertMatchesRegularExpression('|/resources/views/graphiql.php|', $from, '2nd call to copy, $from');
+                        return true;
+                    }),
+                ],
+                [
+                    $this->callback(function (string $from): bool {
+                        $this->assertMatchesRegularExpression(
+                            '|/resources/views/graphiql.php|',
+                            $from,
+                            '2nd call to copy, $from'
+                        );
 
-                    return true;
-                }),
-                $this->callback(function (string $to): bool {
-                    $this->assertMatchesRegularExpression(
-                        '|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|',
-                        $to,
-                        '2nd call to copy, $to'
-                    );
+                        return true;
+                    }),
+                    $this->callback(function (string $to): bool {
+                        $this->assertMatchesRegularExpression(
+                            '|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|',
+                            $to,
+                            '2nd call to copy, $to'
+                        );
 
-                    return true;
-                })
+                        return true;
+                    }),
+                ]
             );
         $this->instance(Filesystem::class, $filesystemMock);
 
