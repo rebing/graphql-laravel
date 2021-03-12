@@ -50,7 +50,10 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        [$this->select, $this->relations] = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        /** @var array<int,array> $result */
+        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+
+        [$this->select, $this->relations] = $result;
     }
 
     /**
