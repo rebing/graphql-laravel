@@ -1,6 +1,7 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
     - ./phpstan-baseline.neon
+    - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
     level: max
     paths:
