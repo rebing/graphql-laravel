@@ -281,6 +281,11 @@ parameters:
 			path: src/Support/ResolveInfoFieldsAndArguments.php
 
 		-
+			message: "#^Property GraphQL\\\\Language\\\\AST\\\\FieldNode\\:\\:\\$arguments \\(GraphQL\\\\Language\\\\AST\\\\NodeList\\<GraphQL\\\\Language\\\\AST\\\\ArgumentNode\\>\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getValue\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
