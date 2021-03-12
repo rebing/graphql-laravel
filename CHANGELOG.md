@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/6.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.2.0...master)
 --------------
+
+2021-03-12, 6.2.0
+-----------------
 ### Fixed
 - Lumen routing with regular expression constraints [\#719 / sglitowitzsoci](https://github.com/rebing/graphql-laravel/pull/719)
 
