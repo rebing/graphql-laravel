@@ -1801,51 +1801,6 @@ parameters:
 			path: tests/Support/Queries/ReturnScalarQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\EnumMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/EnumMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InputMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/InputMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InterfaceMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/InterfaceMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MiddlewareMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MutationMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/MutationMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\QueryMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/QueryMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\ScalarMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/ScalarMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\TypeMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/TypeMakeCommandTest.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\UnionMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Unit/Console/UnionMakeCommandTest.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: tests/Support/Types/MyCustomScalarString.php
@@ -1989,6 +1944,51 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\EnumMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/EnumMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InputMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/InputMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InterfaceMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/InterfaceMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MiddlewareMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MutationMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/MutationMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\QueryMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/QueryMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\ScalarMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/ScalarMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\TypeMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/TypeMakeCommandTest.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\UnionMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/Console/UnionMakeCommandTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -2169,6 +2169,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: tests/Unit/ValidationOfFieldArguments/ValidationOfFieldArgumentsTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
