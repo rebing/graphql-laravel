@@ -1476,11 +1476,6 @@ parameters:
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) return type has no value type specified in iterable type Illuminate\\\\Pagination\\\\LengthAwarePaginator\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesPaginationQuery.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
