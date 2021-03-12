@@ -30,7 +30,7 @@ class SelectFields
     /** @var array */
     protected $relations = [];
 
-    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
+    public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
      * @param  GraphqlType  $parentType
