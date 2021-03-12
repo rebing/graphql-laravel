@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
+use Composer\InstalledVersions;
 use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
-use RuntimeException;
 
 class ValidationOfFieldArgumentsTest extends TestCase
 {
@@ -91,17 +91,6 @@ GRAPHQL;
 
     private function orchestraTestbenchCoreVersionBelow(string $versionString): bool
     {
-        $composerInstalledJson = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'composer'.DIRECTORY_SEPARATOR.'installed.json';
-        $composerInstalled = json_decode(file_get_contents($composerInstalledJson), true);
-
-        foreach ($composerInstalled['packages'] as $package) {
-            if ($package['name'] !== 'orchestra/testbench-core') {
-                continue;
-            }
-
-            return $package['version_normalized'] < $versionString;
-        }
-
-        throw new RuntimeException('Unable to extract installed versio of orchestra/testbench-core at runtime');
+        return InstalledVersions::getVersion('orchestra/testbench-core') < $versionString;
     }
 }
