@@ -46,7 +46,6 @@
         "nunomaduro/larastan": "0.6.10",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "matt-allan/laravel-code-style": "0.5.1",
         "ext-pdo_sqlite": "*",
         "laravel/legacy-factories": "^1.0"
     },
