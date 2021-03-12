@@ -8,6 +8,9 @@ parameters:
         - tests/
     excludePaths:
         - tests/Support/database/
+    inferPrivatePropertyTypeFromConstructor: true
+    checkUninitializedProperties: true
+    checkModelProperties: true
     ignoreErrors:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
