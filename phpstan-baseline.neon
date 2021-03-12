@@ -1801,19 +1801,9 @@ parameters:
 			path: tests/Support/Queries/ReturnScalarQuery.php
 
 		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/EnumMakeCommandTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\EnumMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/EnumMakeCommandTest.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/InputMakeCommandTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InputMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1821,19 +1811,9 @@ parameters:
 			path: tests/Unit/Console/InputMakeCommandTest.php
 
 		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/InterfaceMakeCommandTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\InterfaceMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/InterfaceMakeCommandTest.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MiddlewareMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1841,19 +1821,9 @@ parameters:
 			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
 
 		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/MutationMakeCommandTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\MutationMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/MutationMakeCommandTest.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/QueryMakeCommandTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\QueryMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1861,29 +1831,14 @@ parameters:
 			path: tests/Unit/Console/QueryMakeCommandTest.php
 
 		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/ScalarMakeCommandTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\ScalarMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/ScalarMakeCommandTest.php
 
 		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/TypeMakeCommandTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\TypeMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/TypeMakeCommandTest.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/UnionMakeCommandTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\UnionMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -2034,16 +1989,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 2
-			path: tests/Unit/Console/FieldMakeCommandTest.php
-
-		-
-			message: "#^Unable to resolve the template type CallbackInput in call to method PHPUnit\\\\Framework\\\\Assert\\:\\:callback\\(\\)$#"
-			count: 4
-			path: tests/Unit/Console/PublishCommandTest.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
