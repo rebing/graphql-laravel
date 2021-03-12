@@ -358,7 +358,7 @@ class SelectFields
 
     /**
      * @param  array  $select
-     * @param  mixed  $relation
+     * @param  Relation  $relation
      * @param  string|null  $parentTable
      * @param  array  $field
      */
