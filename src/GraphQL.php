@@ -510,12 +510,32 @@ class GraphQL
 
         $schema = is_array($schema) ? $schema : $this->schemas[$schemaName];
 
+        return static::getNormalizedSchemaConfiguration($schema);
+    }
+
+    public static function getNormalizedSchemasConfiguration()
+    {
+        return array_filter(array_map(function ($schema) {
+            try {
+                return static::getNormalizedSchemaConfiguration($schema);
+            } catch (SchemaNotFound $e) {
+                return null;
+            }
+        }, config('graphql.schemas')));
+    }
+
+    protected static function getNormalizedSchemaConfiguration($schema)
+    {
         if (! is_string($schema)) {
             return $schema;
         }
 
+        if (! class_exists($schema)) {
+            throw new SchemaNotFound('Schema class '.$schema.' not found.');
+        }
+
         /** @var ConfigConvertible $instance */
-        $instance = app()->make($schema);
+        $instance = new $schema();
 
         return $instance->toConfig();
     }

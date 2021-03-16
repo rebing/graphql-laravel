@@ -120,8 +120,8 @@ class GraphQLTest extends TestCase
      */
     public function testSchemaWithInvalidClassName(): void
     {
-        $this->expectException(BindingResolutionException::class);
-        $this->expectExceptionMessage('Target class [ThisClassDoesntExist] does not exist.');
+        $this->expectException(SchemaNotFound::class);
+        $this->expectExceptionMessage('Schema class ThisClassDoesntExist not found.');
         GraphQL::schema('invalid_class_based');
     }
 
