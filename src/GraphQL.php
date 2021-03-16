@@ -513,7 +513,10 @@ class GraphQL
         return static::getNormalizedSchemaConfiguration($schema);
     }
 
-    public static function getNormalizedSchemasConfiguration()
+    /**
+     * @return array<array>
+     */
+    public static function getNormalizedSchemasConfiguration(): array
     {
         return array_filter(array_map(function ($schema) {
             try {
@@ -524,7 +527,11 @@ class GraphQL
         }, config('graphql.schemas')));
     }
 
-    protected static function getNormalizedSchemaConfiguration($schema)
+    /**
+     * @param  mixed  $schema
+     * @return array<array>
+     */
+    protected static function getNormalizedSchemaConfiguration($schema): array
     {
         if (! is_string($schema)) {
             return $schema;
