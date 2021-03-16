@@ -500,7 +500,7 @@ class GraphQL
      * @param  array|string|null  $schema
      * @return array|Schema
      */
-    protected function getSchemaConfiguration($schema)
+    public function getSchemaConfiguration($schema)
     {
         $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Arr;
 use Rebing\GraphQL\GraphQLController;
 use Rebing\GraphQL\Helpers;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 $router = app('router');
 $schemaParameterPattern = '/\{\s*graphql\_schema\s*\?\s*\}/';
@@ -46,8 +47,9 @@ $router->group(array_merge([
     }, ARRAY_FILTER_USE_BOTH);
 
     if ($queryTypesMapWithRoutes) {
-        $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
-        $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
+        $defaultConfig = GraphQL::getSchemaConfiguration(config('graphql.default_schema'));
+        $defaultMiddleware = $defaultConfig['middleware'] ?? [];
+        $defaultMethod = $defaultConfig['method'] ?? ['get', 'post'];
 
         foreach ($queryTypesMapWithRoutes as $type => $info) {
             if (preg_match($schemaParameterPattern, $info['route'])) {
@@ -67,6 +69,12 @@ $router->group(array_merge([
                 }
 
                 foreach (config('graphql.schemas') as $name => $schema) {
+                    try {
+                        $schema = GraphQL::getSchemaConfiguration($name);
+                    } catch (Exception $e) {
+                        continue;
+                    }
+
                     foreach (Arr::get($schema, 'method', ['get', 'post']) as $method) {
                         $routeName = "graphql.$name";
                         if ($method !== 'get') {
