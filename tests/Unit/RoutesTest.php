@@ -9,6 +9,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleSchemaWithMethod;
 use Rebing\GraphQL\Tests\TestCase;
 
 class RoutesTest extends TestCase
@@ -35,6 +36,7 @@ class RoutesTest extends TestCase
                     'middleware' => [ExampleMiddleware::class]
                 ],
                 'class_based' => ExampleSchema::class,
+                'class_based_with_methods' => ExampleSchemaWithMethod::class,
                 'shorthand' => BuildSchema::build('
                     schema {
                         query: ShorthandExample
@@ -95,6 +97,11 @@ class RoutesTest extends TestCase
             'graphql.class_based.post' => [
                 'methods' => ['POST'],
                 'uri' => 'graphql_test/{class_based}',
+                'middleware' => [ExampleMiddleware::class],
+            ],
+            'graphql.class_based_with_methods.post' => [
+                'methods' => ['POST'],
+                'uri' => 'graphql_test/{class_based_with_methods}',
                 'middleware' => [ExampleMiddleware::class],
             ],
             'graphql.shorthand' => [
