@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.3.0...master)
 --------------
 
+### Fixed
+- Middleware and methods can be used in class based schemas. [\#724 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/724)
+
 2021-03-12, 6.3.0
 -----------------
 
