@@ -514,7 +514,7 @@ class GraphQL
     }
 
     /**
-     * @return array<array|Schema>
+     * @return array<string, array|Schema>
      */
     public static function getNormalizedSchemasConfiguration(): array
     {
