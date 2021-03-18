@@ -546,7 +546,7 @@ class GraphQL
         }
 
         /** @var ConfigConvertible $instance */
-        $instance = new $schema();
+        $instance = app()->make($schema);
 
         return $instance->toConfig();
     }
