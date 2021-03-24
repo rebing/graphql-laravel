@@ -173,7 +173,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = static::validateField($fieldObject, $queryArgs);
+            $canSelect = static::validateField($fieldObject, $queryArgs, $ctx);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = $fieldObject->config['query'] ?? null;
@@ -300,13 +300,15 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @param  FieldDefinition  $fieldObject
-     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @param FieldDefinition $fieldObject Validated field
+     * @param array           $queryArgs   Arguments given with the query/mutation
+     * @param mixed           $ctx         Query/mutation context
+     *
      * @return bool|null `true`  if selectable
      *                   `false` if not selectable, but allowed
      *                   `null`  if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs, $ctx): ?bool
     {
         $selectable = true;
 
@@ -321,7 +323,7 @@ class SelectFields
             switch ($privacyClass) {
                 // If privacy given as a closure
                 case is_callable($privacyClass):
-                    if (false === call_user_func($privacyClass, $queryArgs)) {
+                    if (false === call_user_func($privacyClass, $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
@@ -330,7 +332,7 @@ class SelectFields
                 // If Privacy class given
                 case is_string($privacyClass):
                     $instance = app($privacyClass);
-                    if (false === call_user_func([$instance, 'fire'], $queryArgs)) {
+                    if (false === call_user_func([$instance, 'fire'], $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
