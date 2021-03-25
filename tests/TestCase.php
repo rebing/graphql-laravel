@@ -169,14 +169,17 @@ class TestCase extends BaseTestCase
      *   Supports the following options:
      *   - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
      *   - `variables` (default: null): GraphQL variables for the query
+     *   - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
+     *
      * @return array GraphQL result
      */
     protected function graphql(string $query, array $options = []): array
     {
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
+        $opts = $options['opts'] ?? [];
 
-        $result = GraphQL::query($query, $variables);
+        $result = GraphQL::query($query, $variables, $opts);
 
         $assertMessage = null;
 

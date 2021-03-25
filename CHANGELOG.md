@@ -4,6 +4,17 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.3.0...master)
 --------------
 
+## Breaking changes
+- Signtature of `\Rebing\GraphQL\Support\Privacy::validate` changed, now it accepts both query/mutation arguments and the query/mutation context.
+  Update your existing privacy policies this way:
+  ```diff
+  -public function validate(array $queryArgs): bool
+  +public function validate(array $queryArgs, $queryContext = null): bool
+  ```
+
+### Added
+- Ability to pass query/mutation context to the field privacy handler (both closure and class) [\#727 / torunar](https://github.com/rebing/graphql-laravel/pull/727)
+
 2021-03-12, 6.3.0
 -----------------
 
@@ -39,7 +50,7 @@ Same as 6.1.0-rc1!
   Be sure to read up on breaking changes in graphql-php => https://github.com/webonyx/graphql-php/releases/tag/v14.0.0
 - Remove support for Laravel < 6.0 [\#651 / mfn](https://github.com/rebing/graphql-laravel/pull/651)
   This also bumps the minimum required version to PHP 7.2
-  
+
 ### Added
 - Support for Laravel 8 [\#672 / mfn](https://github.com/rebing/graphql-laravel/pull/672)
 

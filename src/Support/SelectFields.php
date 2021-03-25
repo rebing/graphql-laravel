@@ -331,6 +331,7 @@ class SelectFields
 
                 // If Privacy class given
                 case is_string($privacyClass):
+                    /** @var \Rebing\GraphQL\Support\Privacy $instance */
                     $instance = app($privacyClass);
                     if (false === call_user_func([$instance, 'fire'], $queryArgs, $ctx)) {
                         $selectable = null;

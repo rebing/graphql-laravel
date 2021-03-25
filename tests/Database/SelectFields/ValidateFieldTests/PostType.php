@@ -104,6 +104,24 @@ class PostType extends GraphQLType
                 'type' => Type::string(),
                 'privacy' => true,
             ],
+            'title_privacy_closure_query_context' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => static function (array $queryArgs, $queryContext): bool {
+                    $expectedQueryContext = [
+                        'arg_from_context_true' => true,
+                        'arg_from_context_false' => false,
+                    ];
+                    Assert::assertSame($expectedQueryContext, $queryContext);
+
+                    return true;
+                },
+            ],
+            'title_privacy_class_query_context' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => PrivacyQueryContext::class,
+            ],
         ];
     }
 }

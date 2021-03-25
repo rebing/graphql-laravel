@@ -526,4 +526,103 @@ GRAQPHQL;
             PostType::class,
         ]);
     }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PostType::fields
+     * within the closure for the field `title_privacy_closure_context`.
+     */
+    public function testPrivacyClosureReceivesContext(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_query_context
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $options = [
+            'opts' => [
+                'context' => [
+                    'arg_from_context_true' => true,
+                    'arg_from_context_false' => false,
+                ]
+            ]
+        ];
+
+        $result = $this->graphql($query, $options);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_query_context' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PrivacyQueryContext::validate.
+     */
+    public function testPrivacyClassReceivesQueryContext(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_query_context
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $options = [
+            'opts' => [
+                'context' => [
+                    'arg_from_context_true' => true,
+                    'arg_from_context_false' => false,
+                ]
+            ]
+        ];
+
+        $result = $this->graphql($query, $options);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_query_context' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
 }
