@@ -175,8 +175,15 @@ class TestCase extends BaseTestCase
     {
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
+        $schema = $options['schema'] ?? null;
 
-        $result = GraphQL::query($query, $variables);
+        $graphqlOptions = [];
+
+        if ($schema) {
+            $graphqlOptions['schema'] = $schema;
+        }
+
+        $result = GraphQL::query($query, $variables, $graphqlOptions);
 
         $assertMessage = null;
 
