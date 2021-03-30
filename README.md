@@ -151,7 +151,7 @@ Schemas are required for defining GraphQL endpoints. You can define multiple sch
 in addition to the global middleware. For example:
 
 ```php
-'schema' => 'default_schema',
+'schema' => 'default',
 
 'schemas' => [
     'default' => [
@@ -167,6 +167,9 @@ in addition to the global middleware. For example:
         'mutation' => [
             ExampleMutation::class,
         ],
+        'types' => [
+        ],
+]
     ],
     'user' => [
         'query' => [
@@ -174,6 +177,8 @@ in addition to the global middleware. For example:
         ],
         'mutation' => [
 
+        ],
+        'types' => [
         ],
         'middleware' => ['auth'],
     ],
@@ -207,7 +212,9 @@ class DefaultSchema implements ConfigConvertible
             ],
             'mutation' => [
                 ExampleMutation::class,
-            ]
+            ],
+            'types' => [
+            ],
         ]
     }
 }
@@ -273,19 +280,32 @@ class UserType extends GraphQLType
 }
 ```
 
-Add the type to the `config/graphql.php` configuration file
+The best practice is to start with your schema in `config/graphql.php` and add types directly to your schema (e.g. `default`):
 
 ```php
-'types' => [
-    'user' => App\GraphQL\Types\UserType::class
-]
+'schemas' => [
+    'default' => [
+        // ...
+        
+        'types' => [
+            'user' => App\GraphQL\Types\UserType::class
+        ],
 ```
 
-You could also add the type with the `GraphQL` Facade, in a service provider for example.
+Alternatively you can:
 
-```php
-GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
-```
+- add the type on the "global" level, e.g. directly in the root config:
+  ```php
+  'types' => [
+      'user' => App\GraphQL\Types\UserType::class
+  ],
+  ```
+  Adding them on the global level allows to share them between different schemas.
+
+- or add the type with the `GraphQL` Facade, in a service provider for example.
+  ```php
+  GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
+  ```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
@@ -1668,12 +1688,14 @@ class EpisodeEnum extends EnumType
 > will be able to choose from, while the value is what will your server receive (what will enum
 > be resolved to).
 
-Register the Enum in the `types` array of the `graphql.php` config file:
+The Enum will be registered like any other type in your schema in `config/graphq.php`:
 
 ```php
-'types' => [
-    'EpisodeEnum' => EpisodeEnum::class
-];
+'schemas' => [
+    'default' => [
+        'types' => [
+            EpisodeEnum::class,
+        ],
 ```
 
 Then use it like:
@@ -1925,12 +1947,15 @@ class ReviewInput extends InputType
     }
 }
 ```
-Register the Input Object in the `types` array of the `graphql.php` config file:
+
+The Input Object will be registered like any other type in your schema in `config/graphq.php`:
 
 ```php
-'types' => [
-    'ReviewInput' => ReviewInput::class
-];
+'schemas' => [
+    'default' => [
+        'types' => [
+            'ReviewInput' => ReviewInput::class
+        ],
 ```
 
 Then use it in a mutation, like:
