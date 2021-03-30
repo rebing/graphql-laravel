@@ -2146,6 +2146,36 @@ parameters:
 			path: tests/Unit/QueryTest.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaOne/Type.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaTwo/Type.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
