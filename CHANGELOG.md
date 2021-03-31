@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/6.3.0...master)
 --------------
 
+### Added
+- Support for per-schema types [\#658 / stevelacey](https://github.com/rebing/graphql-laravel/pull/658)
+
 2021-03-12, 6.3.0
 -----------------
 
