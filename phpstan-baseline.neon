@@ -266,11 +266,6 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Privacy\\:\\:validate\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Privacy.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getFieldsAndArgumentsSelection\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
@@ -367,11 +362,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:validateField\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, 'fire'\\) given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -1169,21 +1159,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/PostType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PrivacyAllowed\\:\\:validate\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateFieldTests/PrivacyAllowed.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PrivacyArgs\\:\\:validate\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateFieldTests/PrivacyArgs.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PrivacyDenied\\:\\:validate\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateFieldTests/PrivacyDenied.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:\\$attributes has no typehint specified\\.$#"

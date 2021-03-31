@@ -15,8 +15,8 @@ abstract class Privacy
     }
 
     /**
-     * @param array $queryArgs    Arguments given with the query/mutation
-     * @param mixed $queryContext Context of the query/mutation
+     * @param array<string, mixed> $queryArgs    Arguments given with the query/mutation
+     * @param mixed                $queryContext Context of the query/mutation
      *
      * @return bool Return `true` to allow access to the field in question,
      *   `false otherwise
