@@ -531,7 +531,7 @@ class GraphQL
      * @param  Schema|array<array>|string|null  $schema
      * @return Schema|array<array>
      */
-    protected static function getNormalizedSchemaConfiguration($schema)
+    public static function getNormalizedSchemaConfiguration($schema)
     {
         if (is_array($schema) || $schema instanceof Schema) {
             return $schema;
