@@ -132,7 +132,9 @@ GRAPHQL;
 GRAPHQL;
 
         $actual = $this->graphql($query, [
-            'schema' => 'custom',
+            'opts' => [
+                'schema' => 'custom',
+            ],
         ]);
 
         $expected = [
@@ -165,7 +167,9 @@ GRAPHQL;
 GRAPHQL;
 
         $actual = $this->graphql($query, [
-            'schema' => 'custom',
+            'opts' => [
+                'schema' => 'custom',
+            ],
         ]);
 
         $expected = [
@@ -223,7 +227,9 @@ GRAPHQL;
 }
 GRAPHQL;
         $actual = $this->graphql($query, [
-            'schema' => 'custom',
+            'opts' => [
+                'schema' => 'custom',
+            ],
         ]);
         $expected = [
             'data' => [
