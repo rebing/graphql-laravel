@@ -71,6 +71,9 @@ class GraphQL
         $schemaQuery = $schema['query'] ?? [];
         $schemaMutation = $schema['mutation'] ?? [];
         $schemaSubscription = $schema['subscription'] ?? [];
+        $schemaTypes = $schema['types'] ?? [];
+
+        $this->addTypes($schemaTypes);
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -88,21 +91,11 @@ class GraphQL
             'query' => $query,
             'mutation' => ! empty($schemaMutation) ? $mutation : null,
             'subscription' => ! empty($schemaSubscription) ? $subscription : null,
-            'types' => function () use ($schema) {
+            'types' => function () {
                 $types = [];
-                $schemaTypes = $schema['types'] ?? [];
 
-                if ($schemaTypes) {
-                    foreach ($schemaTypes as $name => $type) {
-                        $opts = is_numeric($name) ? [] : ['name' => $name];
-                        $objectType = $this->objectType($type, $opts);
-                        $this->typesInstances[$name] = $objectType;
-                        $types[] = $objectType;
-                    }
-                } else {
-                    foreach ($this->getTypes() as $name => $type) {
-                        $types[] = $this->type($name);
-                    }
+                foreach ($this->getTypes() as $name => $type) {
+                    $types[] = $this->type($name);
                 }
 
                 return $types;
