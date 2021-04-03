@@ -5,7 +5,8 @@ CHANGELOG
 --------------
 
 ### Fixed
-- Middleware and methods can be used in class based schemas. [\#724 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/724)
+- Middleware and methods can be used in class based schemas. [\#724 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/724)\
+  This is a follow-up fix for [Support for class based schemas](https://github.com/rebing/graphql-laravel/pull/706)
 
 2021-03-31, 6.4.0
 -----------------
