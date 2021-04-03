@@ -300,9 +300,9 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @param FieldDefinition $fieldObject Validated field
-     * @param array           $queryArgs   Arguments given with the query/mutation
-     * @param mixed           $ctx         Query/mutation context
+     * @param FieldDefinition       $fieldObject Validated field
+     * @param array<string, mixed>  $queryArgs   Arguments given with the query/mutation
+     * @param mixed                 $ctx         Query/mutation context
      *
      * @return bool|null `true`  if selectable
      *                   `false` if not selectable, but allowed
