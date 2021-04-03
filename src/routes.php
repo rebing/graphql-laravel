@@ -46,8 +46,11 @@ $router->group(array_merge([
     }, ARRAY_FILTER_USE_BOTH);
 
     if ($queryTypesMapWithRoutes) {
-        $defaultMiddleware = config('graphql.schemas.'.config('graphql.default_schema').'.middleware', []);
-        $defaultMethod = config('graphql.schemas.'.config('graphql.default_schema').'.method', ['get', 'post']);
+        $schemaConfig = Rebing\GraphQL\GraphQL::getNormalizedSchemasConfiguration();
+
+        $defaultConfig = Arr::get($schemaConfig, config('graphql.default_schema'), []);
+        $defaultMiddleware = $defaultConfig['middleware'] ?? [];
+        $defaultMethod = $defaultConfig['method'] ?? ['get', 'post'];
 
         foreach ($queryTypesMapWithRoutes as $type => $info) {
             if (preg_match($schemaParameterPattern, $info['route'])) {
@@ -66,7 +69,7 @@ $router->group(array_merge([
                     );
                 }
 
-                foreach (config('graphql.schemas') as $name => $schema) {
+                foreach ($schemaConfig as $name => $schema) {
                     foreach (Arr::get($schema, 'method', ['get', 'post']) as $method) {
                         $routeName = "graphql.$name";
                         if ($method !== 'get') {

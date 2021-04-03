@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/6.3.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/6.5.0...master)
 --------------
 
 ## Breaking changes
@@ -15,9 +15,19 @@ CHANGELOG
 ### Added
 - Ability to pass query/mutation context to the field privacy handler (both closure and class) [\#727 / torunar](https://github.com/rebing/graphql-laravel/pull/727)
 
+2021-04-03, 6.5.0
+-----------------
+### Fixed
+- Middleware and methods can be used in class based schemas. [\#724 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/724)\
+  This is a follow-up fix for [Support for class based schemas](https://github.com/rebing/graphql-laravel/pull/706)
+
+2021-03-31, 6.4.0
+-----------------
+### Added
+- Support for per-schema types [\#658 / stevelacey](https://github.com/rebing/graphql-laravel/pull/658)
+
 2021-03-12, 6.3.0
 -----------------
-
 ### Added
 - Support for class based schemas [\#706 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/706)
 
@@ -41,7 +51,7 @@ Same as 6.1.0-rc1!
 2020-11-26, 6.0.0
 -----------------
 ### Fixed
-- Implemented generation of a SyntaxError instead of an hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
+- Implemented generation of a SyntaxError instead of a hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
 
 2020-11-13, 6.0.0-rc1
 ---------------------
@@ -57,7 +67,7 @@ Same as 6.1.0-rc1!
 2020-11-26, 5.1.5
 -----------------
 ### Fixed
-- Implemented generation of a SyntaxError instead of an hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
+- Implemented generation of a SyntaxError instead of a hard Exception for empty single/batch queries [\#685 / plivius](https://github.com/rebing/graphql-laravel/pull/685)
 
 2020-11-16, 5.1.5-rc1
 ---------------------
@@ -68,7 +78,7 @@ Same as 6.1.0-rc1!
 -----------------
 Hotfix release to replace 5.1.3
 
-Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from the wrong branch and it the current state for the upcoming 6.x series 😬
+Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from the wrong branch and it was current state for the upcoming 6.x series 😬
 
 5.1.4 intends to correct this.
 
@@ -83,7 +93,7 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 2020-07-02, 5.1.2
 -----------------
 ### Added
-- Readded support for validation in field arguments (with breaking change fix) [\#630 / crissi](https://github.com/rebing/graphql-laravel/pull/630)
+- Re-added support for validation in field arguments (with breaking change fix) [\#630 / crissi](https://github.com/rebing/graphql-laravel/pull/630)
 
 2020-04-23, 5.1.1
 -----------------
@@ -170,12 +180,12 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
   - after: `resolve($root, $array, $context, ResolveInfo $info, Closure $getSelectFields)`
 - Added PHP types / phpdoc to all methods / properties [\#331](https://github.com/rebing/graphql-laravel/pull/331)
   - Changes in method signatures will require small adaptions.
-- Validation errors are moved from error.validation to error.extensions.validation as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)
+- Validation errors are moved from `error.validation` to `error.extensions.validation` as per GraphQL spec recommendation [\#294](https://github.com/rebing/graphql-laravel/pull/294)
 - SelectFields on interface types now only selects specific fields instead of all [\#294](https://github.com/rebing/graphql-laravel/pull/294)
-  - Although this could be consider a bug fix, it changes what columns are selected and if your code as a side-effect dependent on all columns being selected, it will break
+  - Although this could be considered a bug fix, it changes what columns are selected and if your code as a side effect dependent on all columns being selected, it will break
 
 ### Added
-- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405) but doens't work together with type aliases or `paginate()`.
+- Added support for lazy loading types (config `lazyload_types`), improve performance on large type systems [\#405](https://github.com/rebing/graphql-laravel/pull/405) but doesn't work together with type aliases or `paginate()`.
 - A migration guide for the Folklore library as part of the readme
 - New `make:graphql:input` command
 - New `make:graphql:union` command
@@ -195,7 +205,7 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 
 ### Changed
 - Types and Schemas are now only booted when the `graphql` service is requested, improving performance when having this library installed but not using it in certain workloads (pure artisan commands, non-GraphQL web requests, etc.) [\#427](https://github.com/rebing/graphql-laravel/pull/427)
-- Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
+- Follow Laravel convention and use plural for namespaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); make commands have been adjusted
 - Made the following classes _abstract_: `Support\Field`, `Support\InterfaceType`, `Support\Mutation`, `Support\Query`, `Support\Type`, `Support\UnionType` [\#357](https://github.com/rebing/graphql-laravel/pull/357)
 - Updated GraphiQL to 0.13.0 [\#335](https://github.com/rebing/graphql-laravel/pull/335)
   - If you're using CSP, be sure to allow `cdn.jsdelivr.net` and `cdnjs.cloudflare.com`
@@ -239,7 +249,7 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 -------------------
 
 - Allow configuring a custom default field resolver [\#266](https://github.com/rebing/graphql-laravel/pull/266)
-- Routes have now given names so they can be referenced [\#264](https://github.com/rebing/graphql-laravel/pull/264)
+- Routes have now given names, so they can be referenced [\#264](https://github.com/rebing/graphql-laravel/pull/264)
 - Expose more fields on the default pagination type [\#262](https://github.com/rebing/graphql-laravel/pull/262)
 - Mongodb support [\#257](https://github.com/rebing/graphql-laravel/pull/257)
 - Add support for MorphOne relationships [\#238](https://github.com/rebing/graphql-laravel/pull/238)
@@ -322,7 +332,6 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 ------------------
 
 - Updating route and controller to give us the ability to create multilevel URI names [\#69](https://github.com/rebing/graphql-laravel/pull/69)
-- Updating route and controller so it give us the ability to create multi level URI names
 
 2017-10-31, v1.7.3
 ------------------
@@ -347,7 +356,7 @@ Apologies for the rushed 5.1.3 release causing trouble, it was in fact cut from 
 2017-08-20, v1.4.9
 ------------------
 
-- Privacy validation optimizied
+- Privacy validation optimized
 
 2017-03-27, v1.4
 ------------------

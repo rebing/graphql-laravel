@@ -17,6 +17,9 @@ class ExampleSchema implements ConfigConvertible
             'mutation' => [
                 'updateExampleCustom' => UpdateExampleMutation::class,
             ],
+            'middleware' => [
+                ExampleMiddleware::class,
+            ]
         ];
     }
 }

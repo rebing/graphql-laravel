@@ -71,6 +71,9 @@ class GraphQL
         $schemaQuery = $schema['query'] ?? [];
         $schemaMutation = $schema['mutation'] ?? [];
         $schemaSubscription = $schema['subscription'] ?? [];
+        $schemaTypes = $schema['types'] ?? [];
+
+        $this->addTypes($schemaTypes);
 
         $query = $this->objectType($schemaQuery, [
             'name' => 'Query',
@@ -88,21 +91,11 @@ class GraphQL
             'query' => $query,
             'mutation' => ! empty($schemaMutation) ? $mutation : null,
             'subscription' => ! empty($schemaSubscription) ? $subscription : null,
-            'types' => function () use ($schema) {
+            'types' => function () {
                 $types = [];
-                $schemaTypes = $schema['types'] ?? [];
 
-                if ($schemaTypes) {
-                    foreach ($schemaTypes as $name => $type) {
-                        $opts = is_numeric($name) ? [] : ['name' => $name];
-                        $objectType = $this->objectType($type, $opts);
-                        $this->typesInstances[$name] = $objectType;
-                        $types[] = $objectType;
-                    }
-                } else {
-                    foreach ($this->getTypes() as $name => $type) {
-                        $types[] = $this->type($name);
-                    }
+                foreach ($this->getTypes() as $name => $type) {
+                    $types[] = $this->type($name);
                 }
 
                 return $types;
@@ -510,8 +503,39 @@ class GraphQL
 
         $schema = is_array($schema) ? $schema : $this->schemas[$schemaName];
 
-        if (! is_string($schema)) {
+        return static::getNormalizedSchemaConfiguration($schema);
+    }
+
+    /**
+     * @return array<string, array|Schema>
+     */
+    public static function getNormalizedSchemasConfiguration(): array
+    {
+        return array_filter(array_map(function ($schema) {
+            try {
+                return static::getNormalizedSchemaConfiguration($schema);
+            } catch (SchemaNotFound $e) {
+                return null;
+            }
+        }, config('graphql.schemas')));
+    }
+
+    /**
+     * @param  Schema|array<array>|string|null  $schema
+     * @return Schema|array<array>
+     */
+    public static function getNormalizedSchemaConfiguration($schema)
+    {
+        if (is_array($schema) || $schema instanceof Schema) {
             return $schema;
+        }
+
+        if (is_null($schema)) {
+            return [];
+        }
+
+        if (! class_exists($schema)) {
+            throw new SchemaNotFound('Schema class '.$schema.' not found.');
         }
 
         /** @var ConfigConvertible $instance */
