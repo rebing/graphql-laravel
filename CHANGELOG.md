@@ -1,11 +1,13 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/6.5.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/7.0.0...master)
 --------------
 
+2021-04-03, 7.0.0
+-----------------
 ## Breaking changes
-- Signtature of `\Rebing\GraphQL\Support\Privacy::validate` changed, now it accepts both query/mutation arguments and the query/mutation context.
+- Signature of `\Rebing\GraphQL\Support\Privacy::validate` changed, now it accepts both query/mutation arguments and the query/mutation context.
   Update your existing privacy policies this way:
   ```diff
   -public function validate(array $queryArgs): bool
