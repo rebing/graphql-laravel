@@ -1191,6 +1191,26 @@ parameters:
 			path: tests/Support/Objects/CustomExampleType.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/CustomExamplesQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/CustomExamplesQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/CustomExamplesQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/CustomExamplesQuery.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ErrorFormatter\\:\\:formatError\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Support/Objects/ErrorFormatter.php
@@ -1474,26 +1494,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/CustomExamplesQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/CustomExamplesQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/CustomExamplesQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
