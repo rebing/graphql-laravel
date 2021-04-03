@@ -266,6 +266,11 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Privacy\\:\\:fire\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: src/Support/Privacy.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getFieldsAndArgumentsSelection\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
@@ -357,11 +362,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addFieldToSelect\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:validateField\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
