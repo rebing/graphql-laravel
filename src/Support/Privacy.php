@@ -6,12 +6,9 @@ namespace Rebing\GraphQL\Support;
 
 abstract class Privacy
 {
-    public function fire(): bool
+    public function fire(...$args): bool
     {
-        $queryArgs = func_get_arg(0);
-        $queryContext = func_get_arg(1);
-
-        return $this->validate($queryArgs, $queryContext);
+        return $this->validate(...$args);
     }
 
     /**
