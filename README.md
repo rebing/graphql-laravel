@@ -1095,7 +1095,7 @@ class MePrivacy extends Privacy
 {
     public function validate(array $queryArgs, $queryContext = null): bool
     {
-        return $args['id'] == Auth::id();
+        return $queryArgs['id'] == Auth::id();
     }
 }
 ```
