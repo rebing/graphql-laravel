@@ -1549,7 +1549,7 @@ Query `posts(limit:10,page:1){data{id},total,per_page}` might return
 Note that you need to add in the extra 'data' object when you request paginated resources as the returned data gives you
 the paginated resources in a data object at the same level as the returned pagination metadata.
 
-Simple Pagination will be used, if a query or mutation returns a `SimplePaginationType`.
+[Simple Pagination](https://laravel.com/docs/pagination#simple-pagination) will be used, if a query or mutation returns a `SimplePaginationType`.
 
 ```php
 namespace App\GraphQL\Queries;
