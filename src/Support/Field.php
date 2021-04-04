@@ -148,6 +148,7 @@ abstract class Field
                     $result = $resolver($root, ...array_slice($arguments, 1));
 
                     foreach ($middleware as $name) {
+                        /** @var Middleware $instance */
                         $instance = app()->make($name);
 
                         if (method_exists($instance, 'terminate')) {

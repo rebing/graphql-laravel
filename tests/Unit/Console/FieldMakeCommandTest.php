@@ -25,13 +25,13 @@ class FieldMakeCommandTest extends TestCase
             ->method('put')
             ->with(
                 $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Fields/ExampleField.php|', $path);
+                    $this->assertMatchesRegularExpression('|laravel[/\\\\]app/GraphQL/Fields/ExampleField.php|', $path);
 
                     return true;
                 }),
                 $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleField extends Field/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleField',/", $contents);
+                    $this->assertMatchesRegularExpression('/class ExampleField extends Field/', $contents);
+                    $this->assertMatchesRegularExpression("/'name' => 'ExampleField',/", $contents);
 
                     return true;
                 })
@@ -45,6 +45,6 @@ class FieldMakeCommandTest extends TestCase
         ]);
 
         $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Field created successfully/', $tester->getDisplay());
+        $this->assertMatchesRegularExpression('/Field created successfully/', $tester->getDisplay());
     }
 }

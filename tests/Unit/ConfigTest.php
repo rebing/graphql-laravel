@@ -9,6 +9,7 @@ use GraphQL\Validator\DocumentValidator;
 use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Objects\CustomExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
@@ -44,10 +45,13 @@ class ConfigTest extends TestCase
                 ],
                 'custom' => [
                     'query' => [
-                        'examplesCustom' => ExamplesQuery::class,
+                        'examplesCustom' => CustomExamplesQuery::class,
                     ],
                     'mutation' => [
                         'updateExampleCustom' => UpdateExampleMutation::class,
+                    ],
+                    'types' => [
+                        CustomExampleType::class,
                     ],
                 ],
                 'shorthand' => BuildSchema::build('
@@ -63,7 +67,6 @@ class ConfigTest extends TestCase
 
             'types' => [
                 'Example' => ExampleType::class,
-                CustomExampleType::class,
             ],
 
             'security' => [
@@ -102,7 +105,6 @@ class ConfigTest extends TestCase
     {
         $types = GraphQL::getTypes();
         $this->assertArrayHasKey('Example', $types);
-        $this->assertArrayHasKey('CustomExample', $types);
     }
 
     public function testSchema(): void

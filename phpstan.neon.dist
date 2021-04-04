@@ -1,13 +1,17 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
     - ./phpstan-baseline.neon
+    - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
     level: max
     paths:
-        - %currentWorkingDirectory%/src/
-        - %currentWorkingDirectory%/tests/
-    excludes_analyse:
-        - %currentWorkingDirectory%/tests/Support/database/
+        - src/
+        - tests/
+    excludePaths:
+        - tests/Support/database/
+    inferPrivatePropertyTypeFromConstructor: true
+    checkUninitializedProperties: true
+    checkModelProperties: true
     ignoreErrors:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
@@ -54,6 +58,7 @@ parameters:
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
+        - '/Parameter #1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess/'
         # Rebing/GraphQL/GraphQLController.php
         - '/Method Rebing\\GraphQL\\GraphQLController::getQueryFromAPQIfNeeded\(\) has parameter \$input with no value type specified in iterable type array./'
         - '/PHPDoc tag @throws with type Psr\\SimpleCache\\InvalidArgumentException|Rebing\\GraphQL\\Error\\AutomaticPersistedQueriesError is not subtype of Throwable/'

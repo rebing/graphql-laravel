@@ -1,6 +1,20 @@
 name: Integration tests
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  pull_request:
+  push:
+  schedule:
+    # Run Monday morning at 3 o'clock
+    #       ┌───────────── minute (0 - 59)
+    #       │ ┌───────────── hour (0 - 23)
+    #       │ │ ┌───────────── day of the month (1 - 31)
+    #       │ │ │ ┌───────────── month (1 - 12)
+    #       │ │ │ │ ┌───────────── day of the week (0 - 6)
+    #       │ │ │ │ │
+    #       │ │ │ │ │
+    #       │ │ │ │ │
+    - cron: 0 3 * * 1
+  workflow_dispatch:
 
 jobs:
   integration:
@@ -21,7 +35,6 @@ jobs:
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev matt-allan/laravel-code-style --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
       - run: composer require illuminate/contracts:^8.0 --no-update
