@@ -71,7 +71,7 @@ class SimplePaginationType extends ObjectType
             'to'             => [
                 'type'        => GraphQLType::int(),
                 'description' => 'Number of the last item returned',
-                'resolve'     => function (Paginator $data): int {
+                'resolve'     => function (Paginator $data): ?int {
                     return $data->lastItem();
                 },
                 'selectable'  => false,
