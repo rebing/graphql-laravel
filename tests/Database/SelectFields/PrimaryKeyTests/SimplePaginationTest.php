@@ -148,6 +148,51 @@ SQL
         $this->assertEquals($expectedResult, $result);
     }
 
+    public function testSimplePaginationReturnEmptyList(): void
+    {
+        $query = <<<'GRAQPHQL'
+{
+  primaryKeySimplePaginationQuery {
+    current_page
+    data {
+      title
+      comments {
+        title
+      }
+    }
+    from
+    has_more_pages
+    per_page
+    to
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->graphql($query);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts" limit 2 offset 0;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'primaryKeySimplePaginationQuery' => [
+                    'current_page'   => 1,
+                    'data'           => [],
+                    'from'           => null,
+                    'has_more_pages' => false,
+                    'per_page'       => 1,
+                    'to'             => null,
+                ],
+            ],
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
