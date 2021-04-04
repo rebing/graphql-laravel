@@ -252,4 +252,12 @@ class APQTest extends TestCase
             ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR', 'category' => 'apq']],
         ], $content[2]['errors']);
     }
+
+    /**
+     * Test persisted query batching with uploads.
+     */
+    public function testPersistedQueryBatchingFoundWithUploads(): void
+    {
+        $this->markTestIncomplete();
+    }
 }

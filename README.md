@@ -2213,7 +2213,6 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 ### Automatic Persisted Queries
 
-
 Automatic Persisted Queries (APQ), improve network performance by sending smaller requests, with zero build-time configuration.
 
 A persisted query is an ID or hash that can be sent to the server instead of the entire GraphQL query string. 
