@@ -12,7 +12,9 @@ use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -28,7 +30,7 @@ class SelectFields
     /** @var array */
     protected $relations = [];
 
-    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
+    public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
      * @param  GraphqlType  $parentType
@@ -48,7 +50,10 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        [$this->select, $this->relations] = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        /** @var array<int,array> $result */
+        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+
+        [$this->select, $this->relations] = $result;
     }
 
     /**
@@ -168,7 +173,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = static::validateField($fieldObject, $queryArgs);
+            $canSelect = static::validateField($fieldObject, $queryArgs, $ctx);
             if ($canSelect === true) {
                 // Add a query, if it exists
                 $customQuery = $fieldObject->config['query'] ?? null;
@@ -296,13 +301,15 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @param  FieldDefinition  $fieldObject
-     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @param FieldDefinition       $fieldObject Validated field
+     * @param array<string, mixed>  $queryArgs   Arguments given with the query/mutation
+     * @param mixed                 $ctx         Query/mutation context
+     *
      * @return bool|null `true`  if selectable
      *                   `false` if not selectable, but allowed
      *                   `null`  if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs, $ctx): ?bool
     {
         $selectable = true;
 
@@ -317,7 +324,7 @@ class SelectFields
             switch ($privacyClass) {
                 // If privacy given as a closure
                 case is_callable($privacyClass):
-                    if (false === call_user_func($privacyClass, $queryArgs)) {
+                    if (false === call_user_func($privacyClass, $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
@@ -325,8 +332,9 @@ class SelectFields
 
                 // If Privacy class given
                 case is_string($privacyClass):
+                    /** @var \Rebing\GraphQL\Support\Privacy $instance */
                     $instance = app($privacyClass);
-                    if (false === call_user_func([$instance, 'fire'], $queryArgs)) {
+                    if (false === call_user_func([$instance, 'fire'], $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
@@ -359,7 +367,7 @@ class SelectFields
 
     /**
      * @param  array  $select
-     * @param  mixed  $relation
+     * @param  Relation  $relation
      * @param  string|null  $parentTable
      * @param  array  $field
      */
@@ -371,6 +379,7 @@ class SelectFields
         } elseif (method_exists($relation, 'getQualifiedForeignPivotKeyName')) {
             $foreignKey = $relation->getQualifiedForeignPivotKeyName();
         } else {
+            /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
         $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace(

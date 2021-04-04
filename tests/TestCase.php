@@ -10,12 +10,14 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery;
@@ -71,6 +73,9 @@ class TestCase extends BaseTestCase
                 'updateExampleCustom' => UpdateExampleMutation::class,
             ],
         ]);
+
+        $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
+        $app['config']->set('graphql.schemas.invalid_class_based', 'ThisClassDoesntExist');
 
         $app['config']->set('graphql.types', [
             'Example' => ExampleType::class,
@@ -164,14 +169,17 @@ class TestCase extends BaseTestCase
      *   Supports the following options:
      *   - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
      *   - `variables` (default: null): GraphQL variables for the query
+     *   - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
+     *
      * @return array GraphQL result
      */
     protected function graphql(string $query, array $options = []): array
     {
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
+        $opts = $options['opts'] ?? [];
 
-        $result = GraphQL::query($query, $variables);
+        $result = GraphQL::query($query, $variables, $opts);
 
         $assertMessage = null;
 
@@ -249,5 +257,13 @@ class TestCase extends BaseTestCase
                 return $line;
             }, $trace, array_keys($trace))
         );
+    }
+
+    /**
+     * Remove this method once we're PHPUnit 9+ only.
+     */
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
+    {
+        static::assertThat($string, new RegularExpression($pattern), $message);
     }
 }

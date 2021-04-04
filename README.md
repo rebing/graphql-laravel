@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Uses Facebook GraphQL with Laravel 6.0+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/). This is a work in progress.
+Uses Facebook GraphQL with Laravel 6.0+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/).
 
 This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
@@ -151,7 +151,7 @@ Schemas are required for defining GraphQL endpoints. You can define multiple sch
 in addition to the global middleware. For example:
 
 ```php
-'schema' => 'default_schema',
+'schema' => 'default',
 
 'schemas' => [
     'default' => [
@@ -167,6 +167,9 @@ in addition to the global middleware. For example:
         'mutation' => [
             ExampleMutation::class,
         ],
+        'types' => [
+        ],
+]
     ],
     'user' => [
         'query' => [
@@ -175,9 +178,46 @@ in addition to the global middleware. For example:
         'mutation' => [
 
         ],
+        'types' => [
+        ],
         'middleware' => ['auth'],
     ],
 ],
+```
+
+#### Schema classes
+
+You may alternatively define the configuration of a schema in a class that implements `ConfigConvertible`.
+
+In your config, you can reference the name of the class, rather than an array.
+
+```php
+'schemas' => [
+    'default' => DefaultSchema::class
+]
+```
+
+```php
+namespace App\GraphQL\Schemas;
+
+use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
+
+class DefaultSchema implements ConfigConvertible
+{
+    public function toConfig(): array
+    {
+        return [
+            'query' => [
+                ExampleQuery::class,
+            ],
+            'mutation' => [
+                ExampleMutation::class,
+            ],
+            'types' => [
+            ],
+        ]
+    }
+}
 ```
 
 ### Creating a query
@@ -240,19 +280,32 @@ class UserType extends GraphQLType
 }
 ```
 
-Add the type to the `config/graphql.php` configuration file
+The best practice is to start with your schema in `config/graphql.php` and add types directly to your schema (e.g. `default`):
 
 ```php
-'types' => [
-    'user' => App\GraphQL\Types\UserType::class
-]
+'schemas' => [
+    'default' => [
+        // ...
+        
+        'types' => [
+            'user' => App\GraphQL\Types\UserType::class
+        ],
 ```
 
-You could also add the type with the `GraphQL` Facade, in a service provider for example.
+Alternatively you can:
 
-```php
-GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
-```
+- add the type on the "global" level, e.g. directly in the root config:
+  ```php
+  'types' => [
+      'user' => App\GraphQL\Types\UserType::class
+  ],
+  ```
+  Adding them on the global level allows to share them between different schemas.
+
+- or add the type with the `GraphQL` Facade, in a service provider for example.
+  ```php
+  GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
+  ```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
@@ -1020,7 +1073,7 @@ class UserType extends GraphQLType
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
-                'privacy'       => function(array $args): bool {
+                'privacy'       => function(array $args, $ctx): bool {
                     return $args['id'] == Auth::id();
                 }
             ]
@@ -1040,9 +1093,9 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $queryArgs): bool
+    public function validate(array $queryArgs, $queryContext = null): bool
     {
-        return $args['id'] == Auth::id();
+        return $queryArgs['id'] == Auth::id();
     }
 }
 ```
@@ -1666,12 +1719,14 @@ class EpisodeEnum extends EnumType
 > will be able to choose from, while the value is what will your server receive (what will enum
 > be resolved to).
 
-Register the Enum in the `types` array of the `graphql.php` config file:
+The Enum will be registered like any other type in your schema in `config/graphq.php`:
 
 ```php
-'types' => [
-    'EpisodeEnum' => EpisodeEnum::class
-];
+'schemas' => [
+    'default' => [
+        'types' => [
+            EpisodeEnum::class,
+        ],
 ```
 
 Then use it like:
@@ -1923,12 +1978,15 @@ class ReviewInput extends InputType
     }
 }
 ```
-Register the Input Object in the `types` array of the `graphql.php` config file:
+
+The Input Object will be registered like any other type in your schema in `config/graphq.php`:
 
 ```php
-'types' => [
-    'ReviewInput' => ReviewInput::class
-];
+'schemas' => [
+    'default' => [
+        'types' => [
+            'ReviewInput' => ReviewInput::class
+        ],
 ```
 
 Then use it in a mutation, like:
