@@ -63,7 +63,7 @@ class SimplePaginationType extends ObjectType
             'from'           => [
                 'type'        => GraphQLType::int(),
                 'description' => 'Number of the first item returned',
-                'resolve'     => function (Paginator $data): int {
+                'resolve'     => function (Paginator $data): ?int {
                     return $data->firstItem();
                 },
                 'selectable'  => false,
