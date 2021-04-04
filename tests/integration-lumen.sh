@@ -31,7 +31,7 @@ php artisan make:graphql:query ExampleNonDefaultQuery
 php artisan make:graphql:query ExampleMultiLevelQuery
 
 echo "Add ExampleQuery to config"
-sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
+sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
 
 echo "Add ExampleMultiLevelQuery in a multi path level schema to the config"
 sed -e "s|^        'default' => \[|'multi/level' => ['query' => [ \\\App\\\GraphQL\\\Queries\\\ExampleMultiLevelQuery::class]],\n&|" -i config/graphql.php

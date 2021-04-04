@@ -6,65 +6,56 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Uses Facebook GraphQL with Laravel 6.0+. It is based on the PHP implementation [here](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](http://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html) on the [React](http://facebook.github.io/react) blog or you can read the [GraphQL specifications](https://facebook.github.io/graphql/).
+Use Facebook's GraphQL with Laravel 6.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
-This package is compatible with Eloquent models or any other data source.
 * Allows creating **queries** and **mutations** as request endpoints
-* Custom **middleware** can be defined for each query/mutation
+* Supports multiple schemas
+  * per schema queries/mutations/types 
+  * per schema HTTP middlewares
+* Custom GraphQL **resolver middleware** (_not_ HTTP middleware) can be defined for each query/mutation
+  
+When using the `SelectFields` class for Eloquent support, additional features are available:
 * Queries return **types**, which can have custom **privacy** settings.
-* The queried fields will have the option to be retrieved **dynamically** from the database with the help of the `SelectFields` class.
+* The queried fields will have the option to be retrieved **dynamically** from the database.
 
 It offers following features and improvements over the original package by
-[Folklore](https://github.com/Folkloreatelier/laravel-graphql):
+[Folklore](https://github.com/folkloreinc/laravel-graphql):
 * Per-operation authorization
 * Per-field callback defining its visibility (e.g. hiding from unauthenticated users)
 * `SelectFields` abstraction available in `resolve()`, allowing for advanced eager loading
   and thus dealing with n+1 problems
 * Pagination support
-* Server-side support for [query batching](https://blog.apollographql.com/batching-client-graphql-queries-a685f5bcd41b)
+* Server-side support for [query batching](https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/)
 * Support for file uploads
 
 ## Installation
 
-#### Dependencies:
+### Dependencies:
 
 * [Laravel 6.0+](https://github.com/laravel/laravel) or [Lumen](https://github.com/laravel/lumen)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
-#### Installation:
+### Installation:
 
-**-** Require the package via Composer
+Require the package via Composer:
 ```bash
 composer require rebing/graphql-laravel
 ```
 
-##### Laravel 6.0+
+#### Laravel
 
-**1.** Laravel 6.0+ will autodiscover the package, for older versions add the
-following service provider
-```php
-Rebing\GraphQL\GraphQLServiceProvider::class,
-```
-
-and alias
-```php
-'GraphQL' => 'Rebing\GraphQL\Support\Facades\GraphQL',
-```
-
-in your `config/app.php` file.
-
-**2.** Publish the configuration file
+Publish the configuration file:
 ```bash
 $ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```
 
-**3.** Review the configuration file
-```php
+Review the configuration file:
+```
 config/graphql.php
 ```
 
-##### Lumen (experimental!)
+#### Lumen (experimental!)
 
 **1.** Add the following service provider to the `bootstrap/app.php` file
 ```php
@@ -102,9 +93,12 @@ To work this around:
   - [Installation](#installation)
       - [Dependencies:](#dependencies)
       - [Installation:](#installation)
-        - [Laravel 6.0+](#laravel-60)
+        - [Laravel 6.0+](#laravel)
         - [Lumen (experimental!)](#lumen-experimental)
   - [Usage](#usage)
+    - [Concepts](#concepts)
+    - [Data loading](#data-loading)
+    - [GraphiQL](#graphiql)
     - [Schemas](#schemas)
     - [Creating a query](#creating-a-query)
     - [Creating a mutation](#creating-a-mutation)
@@ -145,9 +139,76 @@ To work this around:
     - [Wrap Types](#wrap-types)
   - [GraphQL testing clients](#graphql-testing-clients)
 
+### Concepts
+
+Before diving head first into code, it's good to familiarize yourself with the
+concepts surrounding GraphQL. If you've already experience with GraphQL, feel
+free to skip this part.
+
+- "schema"  
+  A GraphQL schema defines all the queries, mutations and types
+  associated with it.
+- "queries" and "mutations"  
+  The "methods" you call in your GraphQL request (think about your REST endpoint)
+- "types"  
+  Besides the primitive scalars like int and string, custom "shapes" can be
+  defined and returned via custom types. They can map to your database models or
+  basically any data you want to return.
+- "resolver"  
+  Any time data is returned, it is "resolved". Usually in query/mutations this
+  specified the primary way to retrieve your data (e.g. using `SelectFields` or
+  [dataloaders](https://github.com/overblog/dataloader-php))
+
+Typically, all queries/mutations/types are defined using the `$attributes`
+property and the `args()` / `fields()` methods as well as the `resolve()` method.
+
+args/fields again return a configuration array for each field they supported.
+Those fields usually support these shapes
+- the "key" is the name of the field
+- `type` (required): a GraphQL specifier for the type supported here
+  
+Optional keys are:
+- `description`: made available when introspecting the GraphQL schema
+- `resolve`: override the default field resolver
+- `deprecationReason`: document why something is deprecated
+
+### Data loading
+
+The act of loading/retrieving your data is called "resolving" in GraphQL. GraphQL
+itself does **not** define the "how" and leaves it up to the implementor.
+
+In the context of Laravel it's natural to assume the primary source of data will
+be Eloquent. This library therefore provides a convenient helper called
+`SelectFields` which tries its best to
+[eager load relations](#eager-loading-relationships) and to
+[avoid n+1 problems](https://www.google.com/search?hl=en&q=n%2B1%20problem).
+
+Be aware that this is not the only way and it's also common to use _concepts_
+called "dataloaders". They usually take advantage of "deferred" executions of
+resolved fields, as explained in [graphql-php solving n+1 problem](https://github.com/webonyx/graphql-php/blob/master/docs/data-fetching.md#solving-n1-problem).
+
+The gist is that you can use any kind of data source you like (Eloquent,
+static data, ElasticSearch results, caching, etc.) in your resolvers but you've
+to be mindful of the execution model to avoid repetitive fetches and perform
+smart pre-fetching of your data.
+
+### GraphiQL
+
+GraphiQL is lightweight "GraphQL IDE" in your browser. It takes advantage of the
+GraphQL type system and allows autocompletion of all queries/mutations/types and
+fields.
+
+GraphiQL in the meantime evolved in terms of features and complexity, thus for
+convenience an older version is directly included with this library.
+
+As enabled by the default configuration, it's available under the `/graphiql`
+route.
+
+If you are using multiple schemas, you can access them via `/graphiql/<schema name>`.
+
 ### Schemas
 
-Schemas are required for defining GraphQL endpoints. You can define multiple schemas and assign different **middleware** to them,
+Schemas are required for defining GraphQL endpoints. You can define multiple schemas and assign different **HTTP middleware** to them,
 in addition to the global middleware. For example:
 
 ```php
@@ -168,8 +229,8 @@ in addition to the global middleware. For example:
             ExampleMutation::class,
         ],
         'types' => [
+        
         ],
-]
     ],
     'user' => [
         'query' => [
@@ -179,11 +240,19 @@ in addition to the global middleware. For example:
 
         ],
         'types' => [
+        
         ],
         'middleware' => ['auth'],
     ],
 ],
 ```
+
+Together with the configuration, in a way the schema defines also the route by
+which it is accessible. Per the default configuration of `prefix = graphql`, the
+_default_ schema is accessible via `/graphql`.
+
+
+
 
 #### Schema classes
 
@@ -214,15 +283,16 @@ class DefaultSchema implements ConfigConvertible
                 ExampleMutation::class,
             ],
             'types' => [
+            
             ],
-        ]
+        ];
     }
 }
 ```
 
 ### Creating a query
 
-First you need to create a type. The Eloquent Model is only required, if specifying relations.
+First you usually create a type you want to return from the query. The Eloquent `'model'` is only required if specifying relations.
 
 > **Note:** The `selectable` key is required, if it's a non-database field or not a relation
 
@@ -238,6 +308,7 @@ class UserType extends GraphQLType
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
+        // Note: only necessary if you use `SelectFields`
         'model'         => User::class,
     ];
 
@@ -288,7 +359,7 @@ The best practice is to start with your schema in `config/graphql.php` and add t
         // ...
         
         'types' => [
-            'user' => App\GraphQL\Types\UserType::class
+            App\GraphQL\Types\UserType::class,
         ],
 ```
 
@@ -297,15 +368,29 @@ Alternatively you can:
 - add the type on the "global" level, e.g. directly in the root config:
   ```php
   'types' => [
-      'user' => App\GraphQL\Types\UserType::class
+      App\GraphQL\Types\UserType::class,
   ],
   ```
-  Adding them on the global level allows to share them between different schemas.
+  Adding them on the global level allows to share them between different schemas
+  but be aware this might make it harder to undertand which types/fields are used
+  where.
 
 - or add the type with the `GraphQL` Facade, in a service provider for example.
   ```php
-  GraphQL::addType(\App\GraphQL\Types\UserType::class, 'user');
+  GraphQL::addType(\App\GraphQL\Types\UserType::class);
   ```
+
+As with queries/mutations, you can use an alias name (though again this prevents
+it from taking advantage of lazy type loading):
+```php
+'schemas' => [
+    'default' => [
+        // ...
+        
+        'types' => [
+            'Useralias' => App\GraphQL\Types\UserType::class,
+        ],
+```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
@@ -326,14 +411,20 @@ class UsersQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('user'));
+        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }
 
     public function args(): array
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'id' => [
+                'name' => 'id', 
+                'type' => Type::string(),
+            ],
+            'email' => [
+                'name' => 'email', 
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -383,7 +474,9 @@ http://homestead.app/graphql?query=query+FetchUsers{users{id,email}}
 
 ### Creating a mutation
 
-A mutation is like any other query. It accepts arguments (which will be used to do the mutation) and returns an object of a certain type.
+A mutation is like any other query. It accepts arguments and returns an object of a certain type. Mutations are meant to be used for operations **modifying** (mutating) the state on the server (which queries are not supposed to perform).
+
+This is conventional abstraction, technically you can do anything you want in a query resolve, including mutating state.
 
 For example, a mutation to update the password of a user. First you need to define the Mutation:
 
@@ -405,14 +498,20 @@ class UpdateUserPasswordMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type('user');
+        return Type::nonNull(GraphQL::type('User'));
     }
 
     public function args(): array
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::nonNull(Type::string())],
-            'password' => ['name' => 'password', 'type' => Type::nonNull(Type::string())]
+            'id' => ['
+                name' => 'id', 
+                'type' => Type::nonNull(Type::string()),
+            ],
+            'password' => [
+                'name' => 'password', 
+                'type' => Type::nonNull(Type::string()),
+            ]
         ];
     }
 
@@ -439,14 +538,14 @@ You should then add the mutation to the `config/graphql.php` configuration file:
 'schemas' => [
     'default' => [
         'mutation' => [
-            'updateUserPassword' => App\GraphQL\Mutations\UpdateUserPasswordMutation::class
+            App\GraphQL\Mutations\UpdateUserPasswordMutation::class,
         ],
         // ...
     ]
 ]
 ```
 
-You should then be able to use the following query on your endpoint to do the mutation:
+You can then use the following query on your endpoint to do the mutation:
 
 ```graphql
 mutation users {
@@ -464,9 +563,37 @@ http://homestead.app/graphql?query=mutation+users{updateUserPassword(id: "1", pa
 
 #### Adding validation to a mutation
 
-It is possible to add validation rules to a mutation. It uses the Laravel `Validator` to perform validation against the `$args`.
+It is possible to add validation rules to arguments of any query or mutation. It uses the Laravel `Validator` to perform validation against the `$args`.
 
-When creating a mutation, you can add a method to define the validation rules that apply by doing the following:
+You can define rules on each argument:
+
+```php
+class UpdateUserEmailMutation extends Mutation
+{
+    //...
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'name' => 'id',
+                'type' => Type::string(),
+                'rules' => ['required']
+            ],
+            'email' => [
+                'name' => 'email',
+                'type' => Type::string(),
+                'rules' => ['required', 'email']
+            ]
+        ];
+    }
+
+    //...
+}
+```
+
+Alternatively, uou can add a method to define the validation rules that apply,
+giving you more freedom on composing the rules (e.g. multi-field validations).
 
 ```php
 namespace App\GraphQL\Mutations;
@@ -486,14 +613,20 @@ class UpdateUserEmailMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type('user');
+        return GraphQL::type('User');
     }
 
     public function args(): array
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'id' => [
+                'name' => 'id', 
+                'type' => Type::string(),
+            ],
+            'email' => [
+                'name' => 'email', 
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -526,34 +659,9 @@ class UpdateUserEmailMutation extends Mutation
 }
 ```
 
-Alternatively, you can define rules on each argument:
+> **Note:** the following is a non-standard extension to the GraphQL error response!
 
-```php
-class UpdateUserEmailMutation extends Mutation
-{
-    //...
-
-    public function args(): array
-    {
-        return [
-            'id' => [
-                'name' => 'id',
-                'type' => Type::string(),
-                'rules' => ['required']
-            ],
-            'email' => [
-                'name' => 'email',
-                'type' => Type::string(),
-                'rules' => ['required', 'email']
-            ]
-        ];
-    }
-
-    //...
-}
-```
-
-When you execute a mutation, it will return any validation errors that occur. Since the GraphQL specification defines a certain format for errors, the validation errors are added to the error object as a extra `validation` attribute. To find the validation error, you should check for the error with a `message` equals to `'validation'`, then the `validation` attribute will contain the normal errors messages returned by the Laravel Validator:
+When you execute a mutation, it will return any validation errors that occur. Since the GraphQL specification defines a certain format for errors, the validation errors are added to the error object as an extra `validation` attribute. To find the validation error, you should check for the error with a `message` equals to `'validation'`, then the `validation` attribute will contain the normal errors messages returned by the Laravel Validator:
 
 ```json
 {
@@ -580,7 +688,7 @@ When you execute a mutation, it will return any validation errors that occur. Si
 ```
 
 The validation errors returned can be customised by overriding the `validationErrorMessages`
-method on the mutation. This method should return an array of custom validation messages
+method. This method should return an array of custom validation messages
 in the same way documented by Laravel's validation. For example, to check an `email`
 argument doesn't conflict with any existing data, you could perform the following:
 
@@ -605,7 +713,7 @@ public function validationErrorMessages(array $args = []): array
 
 This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
-You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition:
+You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition (either gloval or in your schema):
 
 ```php
 'types' => [
@@ -613,7 +721,7 @@ You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/g
 ],
 ```
 
-It is relevant that you send the request as `multipart/form-data`:
+It is important that you send the request as `multipart/form-data`:
 
 > **WARNING:** when you are uploading files, Laravel will use FormRequest - it means
 > that middlewares which are changing request, will not have any effect.
@@ -658,7 +766,7 @@ class UserProfilePhotoMutation extends Mutation
 }
 ```
 
-Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://sirmuel.design/working-with-file-uploads-using-altair-graphql-d2f86dc8261f).
+Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/).
 
 ##### Vue.js and Axios example
 
@@ -760,7 +868,7 @@ let res = await axios.post('/graphql', bodyFormData, {
 
 ### Resolve method
 
-The resolve method is used in both queries and mutations and it's here that responses are created.
+The resolve method is used in both queries and mutations, and it's here that responses are created.
 
 The first three parameters to the resolve method are hard-coded:
 
@@ -774,7 +882,7 @@ You can typehint any class that you will need an instance of.
 
 There are two hardcoded classes which depend on the local data for the query:
 - `GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
-- `Rebing\GraphQL\Support\SelectFields` allows eager loading of related models, see [Eager loading relationships](#eager-loading-relationships).
+- `Rebing\GraphQL\Support\SelectFields` allows eager loading of related Eloquent models, see [Eager loading relationships](#eager-loading-relationships).
 
 Example:
 
@@ -798,13 +906,16 @@ class UsersQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('user'));
+        return Type::listOf(GraphQL::type('User'));
     }
 
     public function args(): array
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::string()]
+            'id' => [
+                'name' => 'id', 
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -823,6 +934,20 @@ class UsersQuery extends Query
 ```
 
 ### Resolver middleware
+
+These are **GraphQL specific resolver middlewares** and are only
+conceptually related to Laravels "HTTP middleware". The main difference:
+
+- Laravels HTTP middleware:
+  - works on the schema / route level
+  - is compatible with any regular Laravel HTTP middleware
+  - is the same for all queries/mutations in a schema
+- Resolver middleware
+  - Works similar in concept
+  - But applies on the query/mutation level, i.e. can be different for every
+    query/mutation
+  - Is technically not compatible with HTTP middleware
+  - Takes different arguments
 
 #### Defining middleware
 
@@ -1054,6 +1179,8 @@ class UsersQuery extends Query
 
 ### Privacy
 
+> **Note:** this only applies when making use of the `SelectFields` class to query Eloquent models!
+
 You can set custom privacy attributes for every Type's Field. If a field is not
 allowed, `null` will be returned. For example, if you want the user's email to
 only be accessible to themselves:
@@ -1142,13 +1269,13 @@ query FetchUserByID($id: String)
 }
 ```
 
-When you query the GraphQL endpoint, you can pass a `params` (or whatever you define in the config) parameter.
+When you query the GraphQL endpoint, you can pass a JSON encoded `variables` parameter.
 
 ```
 http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&params={"id":123}
 ```
 
-Notice that your client side framework might use another parameter name than `params`.
+Notice that your client side framework might use another parameter name than `variables`.
 You can customize the parameter name to anything your client is using by adjusting
 the `params_key` in the `graphql.php` configuration file.
 
@@ -1345,11 +1472,10 @@ class UserType extends GraphQLType
 
 ### Eager loading relationships
 
-The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models.
-
+The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models. 
 Only the required fields will be queried from the database.
 
-The class can be instanciated by typehinting `SelectFields $selectField` in your resolve method.
+The class can be instantiated by **typehinting** `SelectFields $selectField` in your resolve method.
 
 You can also construct the class by typehinting a `Closure`.
 The Closure accepts an optional parameter for the depth of the query to analyse.
@@ -1375,14 +1501,20 @@ class UsersQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('user'));
+        return Type::listOf(GraphQL::type('User'));
     }
 
     public function args(): array
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'id' => [
+                'name' => 'id', 
+                'type' => Type::string(),
+            ],
+            'email' => [
+                'name' => 'email', 
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -1410,7 +1542,7 @@ relations must also exist in the UserModel's relations. If some fields are
 required for the relation to load or validation etc, then you can define an
 `always` attribute that will add the given attributes to select.
 
-The attribute can be a comma separted string or an array of attribues to
+The attribute can be a comma separated string or an array of attributes to
 always include.
 
 ```php
@@ -1510,6 +1642,8 @@ class PostType extends GraphQLType
 ```
 
 ### Type relationship query
+
+> **Note:** this only applies when making use of the `SelectFields` class to query Eloquent models!
 
 You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
 
@@ -1634,10 +1768,25 @@ POST
 ]
 ```
 
-For systems sending multiple requests at once, this can really help performance by batching together queries that will be made
-within a certain interval of time.
+For systems sending multiple requests at once, this can help performance by batching together queries that will be made within a certain interval of time.
 
-There are tools that help with this and can handle the batching for you, e.g [Apollo](http://www.apollodata.com/)
+There are tools that help with this and can handle the batching for you, e.g. [Apollo](https://www.apollographql.com/)
+
+> **A note on query batching:** whilst it may look like an "only win" situations,
+> there are possible downsides using batching:
+> 
+> - All queries/mutations are executed in the same "process execution context".  
+>   If your code has side-effects which might not show up in the usual FastCGI
+>   environment (single request/response), it may cause issues here.
+> 
+> - The "HTTP middleware" is only executed for the whole batch _once_  
+>   In case you would expect it being triggered for each query/mutation included.
+>   This may be especially relevant for logging or rate limiting.  
+>   OTOH with "resolver middleware" this will work as expected (though the solve
+>   different problems).
+> 
+> - No limitations on the number of queries/mutations  
+>   Currently there's no way to limit this.
 
 ### Scalar types
 
@@ -1648,7 +1797,7 @@ An example could be a link: instead of using `Type::string()` you could create a
 The benefits would be:
 
 - a dedicated description so you can give more meaning/purpose to a field than just call it a string type
-- explicit conversion logic for the followig steps:
+- explicit conversion logic for the following steps:
   - converting from the internal logic to the serialized GraphQL output (`serialize`)
   - query/field input argument conversion (`parseLiteral`)
   - when passed as variables to your query (`parseValue`)
@@ -1659,10 +1808,15 @@ A scalar type has to implement all the methods; you can quick start this with `a
 
 For more advanced use, please [refer to the official documentation regarding scalar types](https://webonyx.github.io/graphql-php/type-system/scalar-types).
 
+> **A note on performance:** be mindful of the code you include in your scalar
+> types methods. If you return a large number of fields making use of custom
+> scalars which includes complex logic to validate field, it might impact your
+> response times.
+
 ### Enums
 
 Enumeration types are a special kind of scalar that is restricted to a particular set of allowed values.
-Read more about Enums [here](http://graphql.org/learn/schema/#enumeration-types)
+Read more about Enums [here](https://graphql.org/learn/schema/#enumeration-types)
 
 First create an Enum as an extension of the GraphQLType class:
 ```php
@@ -1717,7 +1871,6 @@ class TestType extends GraphQLType
 }
 ```
 
-
 ### Unions
 
 A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
@@ -1761,7 +1914,7 @@ class SearchResultUnion extends UnionType
 
 ### Interfaces
 
-You can use interfaces to abstract a set of fields. Read more about Interfaces [here](http://graphql.org/learn/schema/#interfaces)
+You can use interfaces to abstract a set of fields. Read more about Interfaces [here](https://graphql.org/learn/schema/#interfaces)
 
 An implementation of an interface:
 
@@ -1910,7 +2063,7 @@ public function fields(): array
 
 ### Input Object
 
-Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be input type. You can add rules option if you want to validate input data.
+Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be `InputType`. You can add rules option if you want to validate input data.
 Read more about Input Object [here](https://graphql.org/learn/schema/#input-types)
 
 First create an InputObjectType as an extension of the GraphQLType class:
@@ -2054,7 +2207,7 @@ class UpdateUserMutation extends Mutation
 
     public function type(): Type
     {
-        return GraphQL::type('user');
+        return GraphQL::type('User');
     }
 
     public function args(): array
@@ -2116,9 +2269,9 @@ class UserType extends GraphQLType
 
 Sometimes you would want to deprecate a field but still have to maintain backward compatibility
 until clients completely stop using that field. You can deprecate a field using
-[directive](https://www.apollographql.com/docs/graphql-tools/schema-directives.html). If you add `deprecationReason`
+[directive](https://www.graphql-tools.com/docs/generate-schema/#descriptions--deprecations). If you add `deprecationReason`
 to field attributes it will become marked as deprecated in GraphQL documentation. You can validate schema on client
-using [Apollo Engine](https://blog.apollographql.com/schema-validation-with-apollo-engine-4032456425ba).
+using [Apollo Engine](https://www.apollographql.com/blog/schema-validation-with-apollo-engine-4032456425ba/).
 
 
 ```php
