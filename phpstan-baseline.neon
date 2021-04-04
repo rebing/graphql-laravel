@@ -421,6 +421,11 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
+			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
+			count: 2
+			path: src/Support/SimplePaginationType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Type.php
