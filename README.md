@@ -713,7 +713,7 @@ public function validationErrorMessages(array $args = []): array
 
 This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
-You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition (either gloval or in your schema):
+You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition (either global or in your schema):
 
 ```php
 'types' => [
@@ -1660,7 +1660,7 @@ class UserType extends GraphQLType
 
             // Relation
             'posts' => [
-                'type'          => Type::listOf(GraphQL::type('post')),
+                'type'          => Type::listOf(GraphQL::type('Post')),
                 'description'   => 'A list of posts written by the user',
                 'args'          => [
                     'date_from' => [
@@ -2251,7 +2251,7 @@ class UserType extends GraphQLType
 
             // JSON column containing all posts made by this user
             'posts' => [
-                'type'          => Type::listOf(GraphQL::type('post')),
+                'type'          => Type::listOf(GraphQL::type('Post')),
                 'description'   => 'A list of posts written by the user',
                 // Now this will simply request the "posts" column, and it won't
                 // query for all the underlying columns in the "post" object
