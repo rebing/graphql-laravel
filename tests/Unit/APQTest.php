@@ -4,10 +4,32 @@ declare(strict_types=1);
 
 namespace Rebing\GraphQL\Tests\Unit;
 
+use Illuminate\Http\UploadedFile;
+use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Tests\TestCase;
+use Rebing\GraphQL\Tests\Unit\UploadTests\UploadMultipleFilesMutation;
+use Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation;
 
 class APQTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $graphqlSchemasDefault = $app['config']->get('graphql.schemas.default');
+        $app['config']->set('graphql.schemas.default', array_merge_recursive($graphqlSchemasDefault, [
+            'mutation' => [
+                UploadMultipleFilesMutation::class,
+                UploadSingleFileMutation::class,
+            ],
+        ]));
+
+        $graphqlTypes = $app['config']->get('graphql.types');
+        $app['config']->set('graphql.types', array_merge_recursive($graphqlTypes, [
+            UploadType::class
+        ]));
+    }
+
     /**
      * Test persisted query not supported.
      */
@@ -254,10 +276,84 @@ class APQTest extends TestCase
     }
 
     /**
-     * Test persisted query batching with uploads.
+     * Test persisted query found with upload.
      */
-    public function testPersistedQueryBatchingFoundWithUploads(): void
+    public function testPersistedQueryFoundWithUpload(): void
     {
-        $this->markTestIncomplete();
+        $query = 'mutation($file: Upload!) { uploadSingleFile(file: $file) }';
+        $fileToUpload = UploadedFile::fake()->create('file.txt');
+        $fileContent = "This is the\nuploaded\ndata";
+        fwrite($fileToUpload->tempFile, $fileContent);
+
+        // run query and persist
+
+        $response = $this->call(
+            'POST',
+            '/graphql',
+            [
+                'operations' => json_encode([
+                    'query' => $query,
+                    'variables' => [
+                        'file' => null,
+                    ],
+                    'extensions' => [
+                        'persistedQuery' => [
+                            'version' => 1,
+                            'sha256Hash' => hash('sha256', trim($query)),
+                        ],
+                    ],
+                ]),
+                'map' => json_encode([
+                    '0' => ['variables.file'],
+                ]),
+            ],
+            [],
+            ['0' => $fileToUpload],
+            ['CONTENT_TYPE' => 'multipart/form-data']
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
+
+        // run persisted query
+
+        $response = $this->call(
+            'POST',
+            '/graphql',
+            [
+                'operations' => json_encode([
+                    'variables' => [
+                        'file' => null,
+                    ],
+                    'extensions' => [
+                        'persistedQuery' => [
+                            'version' => 1,
+                            'sha256Hash' => hash('sha256', trim($query)),
+                        ],
+                    ],
+                ]),
+                'map' => json_encode([
+                    '0' => ['variables.file'],
+                ]),
+                'extensions' => [
+                    'persistedQuery' => [
+                        'version' => 1,
+                        'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    ],
+                ],
+            ],
+            [],
+            ['0' => $fileToUpload],
+            ['CONTENT_TYPE' => 'multipart/form-data']
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
     }
 }
