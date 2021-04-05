@@ -1275,10 +1275,6 @@ When you query the GraphQL endpoint, you can pass a JSON encoded `variables` par
 http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&params={"id":123}
 ```
 
-Notice that your client side framework might use another parameter name than `variables`.
-You can customize the parameter name to anything your client is using by adjusting
-the `params_key` in the `graphql.php` configuration file.
-
 ### Custom field
 
 You can also define a field as a class if you want to reuse it in multiple types.

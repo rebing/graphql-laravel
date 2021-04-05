@@ -4,6 +4,12 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/7.0.1...master)
 --------------
 
+## Breaking changes
+- Removed support for `params_key` [\# / mfn]()\
+  It's not possible anymore to configure the name of the variable by which to
+  expect the variables for the GraphQL query to be passed and it's now always
+  `variables` as per https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#request-parameters
+
 2021-04-03, 7.0.1
 -----------------
 ### Added

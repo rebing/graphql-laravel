@@ -60,8 +60,7 @@ class GraphQLController extends Controller
     {
         $query = $input['query'] ?? '';
 
-        $paramsKey = config('graphql.params_key', 'variables');
-        $params = $input[$paramsKey] ?? null;
+        $params = $input['variables'] ?? null;
         if (is_string($params)) {
             $params = json_decode($params, true);
         }

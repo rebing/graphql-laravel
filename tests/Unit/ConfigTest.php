@@ -30,8 +30,6 @@ class ConfigTest extends TestCase
                 'mutation' => 'mutation/{graphql_schema?}',
             ],
 
-            'params_key' => 'params',
-
             'default_schema' => 'custom',
 
             'schemas' => [
@@ -122,26 +120,6 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('default', $schemas);
         $this->assertArrayHasKey('custom', $schemas);
         $this->assertArrayHasKey('shorthand', $schemas);
-    }
-
-    public function testVariablesInputName(): void
-    {
-        $response = $this->call('GET', '/graphql_test/query/default', [
-            'query' => $this->queries['examplesWithVariables'],
-            'params' => [
-                'index' => 0,
-            ],
-        ]);
-
-        $this->assertEquals($response->getStatusCode(), 200);
-
-        $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
-            'examples' => [
-                $this->data[0],
-            ],
-        ]);
     }
 
     public function testSecurity(): void
