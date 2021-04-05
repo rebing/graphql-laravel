@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-use example\Mutation\ExampleMutation;
-use example\Query\ExampleQuery;
-use example\Type\ExampleRelationType;
-use example\Type\ExampleType;
-
 return [
 
     // The prefix for routes
@@ -72,7 +67,7 @@ return [
     //  'schemas' => [
     //      'default' => [
     //          'query' => [
-    //              'users' => 'App\GraphQL\Query\UsersQuery'
+    //              'users' => App\GraphQL\Query\UsersQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -80,7 +75,7 @@ return [
     //      ],
     //      'user' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\ProfileQuery'
+    //              'profile' => App\GraphQL\Query\ProfileQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -89,7 +84,7 @@ return [
     //      ],
     //      'user/me' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\MyProfileQuery'
+    //              'profile' => App\GraphQL\Query\MyProfileQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -101,10 +96,13 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                // 'example_query' => ExampleQuery::class,
+                // ExampleQuery::class,
             ],
             'mutation' => [
-                // 'example_mutation'  => ExampleMutation::class,
+                // ExampleMutation::class,
+            ],
+            'types' => [
+                // ExampleType::class,
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
@@ -117,12 +115,12 @@ return [
     // Example:
     //
     // 'types' => [
-    //     'user' => 'App\GraphQL\Type\UserType'
+    //     App\GraphQL\Type\UserType::class
     // ]
     //
     'types' => [
-        // 'example'           => ExampleType::class,
-        // 'relation_example'  => ExampleRelationType::class,
+        // ExampleType::class,
+        // ExampleRelationType::class,
         // \Rebing\GraphQL\Support\UploadType::class,
     ],
 
@@ -138,7 +136,7 @@ return [
     //     'message' => '',
     //     'locations' => []
     // ]
-    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
+    'error_formatter' => [\Rebing\GraphQL\GraphQL::class, 'formatError'],
 
     /*
      * Custom Error Handling
@@ -147,7 +145,7 @@ return [
      *
      * The default handler will pass exceptions to laravel Error Handling mechanism
      */
-    'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
+    'errors_handler' => [\Rebing\GraphQL\GraphQL::class, 'handleErrors'],
 
     // You can set the key, which will be used to retrieve the dynamic variables
     'params_key' => 'variables',
@@ -168,6 +166,12 @@ return [
      * Reference \Rebing\GraphQL\Support\PaginationType::class
      */
     'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
+
+    /*
+     * You can define your own simple pagination type.
+     * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
+     */
+    'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
