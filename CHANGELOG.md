@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/7.0.0...master)
 --------------
 
+### Added
+- Support Laravels simple pagination [\#715 / lamtranb](https://github.com/rebing/graphql-laravel/pull/715)
+
 2021-04-03, 7.0.0
 -----------------
 ## Breaking changes
