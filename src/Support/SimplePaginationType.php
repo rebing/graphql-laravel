@@ -38,7 +38,7 @@ class SimplePaginationType extends ObjectType
     {
         return [
             'data'           => [
-                'type'        => GraphQLType::nonNull(GraphQLType::listOf(GraphQL::type($typeName))),
+                'type'        => GraphQLType::listOf(GraphQL::type($typeName)),
                 'description' => 'List of items on the current page',
                 'resolve'     => function (Paginator $data): Collection {
                     return $data->getCollection();
