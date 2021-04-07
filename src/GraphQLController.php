@@ -59,7 +59,7 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function executeQuery(string $schemaName, array $input): array
+    protected function executeQuery(string $schema, array $input): array
     {
         $query = $input['query'] ?? '';
 
@@ -103,8 +103,8 @@ class GraphQLController extends Controller
             $query,
             $params,
             [
-                'context' => $this->queryContext($query, $params, $schemaName),
-                'schema' => $schemaName,
+                'context' => $this->queryContext($query, $params, $schema),
+                'schema' => $schema,
                 'operationName' => $input['operationName'] ?? null,
             ]
         );
