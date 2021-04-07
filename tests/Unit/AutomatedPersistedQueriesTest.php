@@ -380,4 +380,37 @@ class AutomatedPersistedQueriesTest extends TestCase
         $this->assertArrayHasKey('data', $content);
         $this->assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
     }
+
+    public function testPersistedQueryNotAnArray(): void
+    {
+        config(['graphql.apq.enable' => true]);
+
+        $response = $this->call('GET', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => 'invalid',
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'Syntax Error: Unexpected <EOF>',
+                    'extensions' => [
+                        'category' => 'graphql',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 1,
+                            'column' => 1,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $this->assertEquals($expected, $content);
+    }
 }
