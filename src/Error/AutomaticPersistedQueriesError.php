@@ -12,14 +12,15 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
     public const CODE_PERSISTED_QUERY_NOT_SUPPORTED = 'PERSISTED_QUERY_NOT_SUPPORTED';
     public const CODE_PERSISTED_QUERY_NOT_FOUND = 'PERSISTED_QUERY_NOT_FOUND';
     public const CODE_INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR';
+    public const MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED = 'PersistedQueryNotSupported';
+    public const MESSAGE_PERSISTED_QUERY_NOT_FOUND = 'PersistedQueryNotFound';
+    public const MESSAGE_INVALID_HASH = 'provided sha does not match query';
+    public const CATEGORY_APQ = 'apq';
 
-    /**
-     * @return self
-     */
     public static function persistedQueriesNotSupported(): self
     {
         return new self(
-            'PersistedQueryNotSupported',
+            self::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
             $nodes = null,
             $source = null,
             $positions = [],
@@ -31,27 +32,23 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
         );
     }
 
-    /**
-     * @return self
-     */
     public static function persistedQueriesNotFound(): self
     {
         return new self(
-            'PersistedQueryNotFound',
+            self::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
             $nodes = null,
             $source = null,
             $positions = [],
             $path = null,
             $previous = null,
             $extensions = [
-                'code' => static::CODE_PERSISTED_QUERY_NOT_FOUND,
+                'code' => self::CODE_PERSISTED_QUERY_NOT_FOUND,
             ]
         );
     }
 
     /**
-     * @param  null|string  $message
-     * @return self
+     * @param  null  $message
      */
     public static function internalServerError($message = null): self
     {
@@ -63,9 +60,14 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
             $path = null,
             $previous = null,
             $extensions = [
-                'code' => static::CODE_INTERNAL_SERVER_ERROR,
+                'code' => self::CODE_INTERNAL_SERVER_ERROR,
             ]
         );
+    }
+
+    public static function invalidHash(): self
+    {
+        return self::internalServerError(self::MESSAGE_INVALID_HASH);
     }
 
     public function isClientSafe(): bool
@@ -75,6 +77,6 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
 
     public function getCategory(): string
     {
-        return 'apq';
+        return self::CATEGORY_APQ;
     }
 }

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Illuminate\Http\UploadedFile;
+use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Unit\UploadTests\UploadMultipleFilesMutation;
 use Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation;
 
-class APQTest extends TestCase
+class AutomatedPersistedQueriesTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
@@ -28,11 +29,10 @@ class APQTest extends TestCase
         $app['config']->set('graphql.types', array_merge_recursive($graphqlTypes, [
             UploadType::class
         ]));
+
+        config(['graphql.apq.enable' => true]);
     }
 
-    /**
-     * Test persisted query not supported.
-     */
     public function testPersistedQueryNotSupported(): void
     {
         config(['graphql.apq.enable' => false]);
@@ -52,14 +52,17 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
+                [
+                    'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
+                    'extensions' => [
+                        'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
+                        'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                    ]
+                ],
             ],
         ], $content);
     }
 
-    /**
-     * Test persisted query not found.
-     */
     public function testPersistedQueryNotFound(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -77,14 +80,17 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND', 'category' => 'apq']],
+                [
+                    'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
+                    'extensions' => [
+                        'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_FOUND,
+                        'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                    ]
+                ],
             ],
         ], $content);
     }
 
-    /**
-     * Test persisted query found.
-     */
     public function testPersistedQueryFound(): void
     {
         // run query and persist
@@ -112,7 +118,7 @@ class APQTest extends TestCase
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
-                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    'sha256Hash' => hash('sha256', $this->queries['examples']),
                 ],
             ],
         ]);
@@ -123,9 +129,6 @@ class APQTest extends TestCase
         $this->assertEquals(['examples' => $this->data], $content['data']);
     }
 
-    /**
-     * Test persisted query invalid hash.
-     */
     public function testPersistedQueryInvalidHash(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -144,14 +147,17 @@ class APQTest extends TestCase
 
         $this->assertEquals([
             'errors' => [
-                ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR', 'category' => 'apq']],
+                [
+                    'message' => AutomaticPersistedQueriesError::MESSAGE_INVALID_HASH,
+                    'extensions' => [
+                        'code' => AutomaticPersistedQueriesError::CODE_INTERNAL_SERVER_ERROR,
+                        'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
+                    ]
+                ],
             ],
         ], $content);
     }
 
-    /**
-     * Test persisted query batching not supported.
-     */
     public function testPersistedQueryBatchingNotSupported(): void
     {
         config(['graphql.apq.enable' => false]);
@@ -187,17 +193,26 @@ class APQTest extends TestCase
         $this->assertArrayHasKey(1, $content);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
+            [
+                'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
+                'extensions' => [
+                    'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
+                ]
+            ],
         ], $content[0]['errors']);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotSupported', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_SUPPORTED', 'category' => 'apq']],
+            [
+                'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
+                'extensions' => [
+                    'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
+                ]
+            ],
         ], $content[1]['errors']);
     }
 
-    /**
-     * Test persisted query batching found, not found and invalid hash.
-     */
     public function testPersistedQueryBatchingFoundNotFoundAndInvalidHash(): void
     {
         // run query and persist
@@ -267,17 +282,26 @@ class APQTest extends TestCase
         $this->assertEquals(['examples' => $this->data], $content[0]['data']);
 
         $this->assertEquals([
-            ['message' => 'PersistedQueryNotFound', 'extensions' => ['code' => 'PERSISTED_QUERY_NOT_FOUND', 'category' => 'apq']],
+            [
+                'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
+                'extensions' => [
+                    'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_FOUND,
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                ]
+            ],
         ], $content[1]['errors']);
 
         $this->assertEquals([
-            ['message' => 'provided sha does not match query', 'extensions' => ['code' => 'INTERNAL_SERVER_ERROR', 'category' => 'apq']],
+            [
+                'message' => AutomaticPersistedQueriesError::MESSAGE_INVALID_HASH,
+                'extensions' => [
+                    'code' => AutomaticPersistedQueriesError::CODE_INTERNAL_SERVER_ERROR,
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                ]
+            ],
         ], $content[2]['errors']);
     }
 
-    /**
-     * Test persisted query found with upload.
-     */
     public function testPersistedQueryFoundWithUpload(): void
     {
         $query = 'mutation($file: Upload!) { uploadSingleFile(file: $file) }';

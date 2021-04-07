@@ -130,7 +130,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
-    - [Automatic Persisted Queries](#automatic-persisted-queries)
+    - [Basic Automatic Persisted Queries support](#basic-automatic-persisted-queries-support) 
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2395,7 +2395,7 @@ class AppServiceProvider extends ServiceProvider
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
-### Automatic Persisted Queries
+### Basic Automatic Persisted Queries support
 
 Automatic Persisted Queries (APQ), improve network performance by sending smaller requests, with zero build-time configuration.
 
@@ -2406,6 +2406,16 @@ Persisted queries are especially nice paired with GET requests, enabling the bro
 For more informations see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
  - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
+
+**Why "basic support" ?**
+
+Actually will only cache the string representation of the query.
+
+**Notes:**
+ - Disabled by default, it can be enabled in configurations.
+ - The errors descriptions is currently aligned with [apollo-server](https://github.com/apollographql/apollo-server).
+
+**Client example**
 
 Below a simple integration example with Vue/Apollo, the `createPersistedQueryLink`
 automatically manages the apq flow.

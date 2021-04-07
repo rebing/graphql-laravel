@@ -218,7 +218,7 @@ return [
      */
     'apq' => [
         // Enable/Disable APQ - See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
-        'enable' => env('GRAPHQL_APQ_ENABLE', true),
+        'enable' => env('GRAPHQL_APQ_ENABLE', false),
 
         // The cache driver used for APQ
         'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', config('cache.default')),

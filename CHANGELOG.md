@@ -5,7 +5,7 @@ CHANGELOG
 --------------
 
 ### Added
-- Support for Automatic Persisted Queries - APQ [\#701 / illambo](https://github.com/rebing/graphql-laravel/pull/701)
+- Basic Automatic Persisted Queries (APQ) support [\#701 / illambo](https://github.com/rebing/graphql-laravel/pull/701)
 
 2021-04-03, 7.0.1
 -----------------
