@@ -2402,8 +2402,8 @@ Automatic Persisted Queries (APQ), improve network performance by sending smalle
 APQ is disabled by default and can be enabled in the config via `apc.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
 
 A persisted query is an ID or hash that can be sent to the server instead of the entire GraphQL query string. 
-This smaller signature reduces bandwidth utilization and speeds up client loading times. 
-Persisted queries are especially nice paired with GET requests, enabling the browser cache and integration with a CDN.
+This smaller signature reduces bandwidth utilization and speeds up client loading times.
+Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
 For more informations see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
