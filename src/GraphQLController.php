@@ -61,35 +61,14 @@ class GraphQLController extends Controller
 
     protected function executeQuery(string $schema, array $input): array
     {
-        $query = $input['query'] ?? '';
+        /** @var GraphQL $graphql */
+        $graphql = $this->app->make('graphql');
 
         try {
-            $persistedQueryInput = data_get($input, 'extensions.persistedQuery');
-            if ($persistedQueryInput && (! config('graphql.apq.enable', false))) {
-                throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
-            }
-
-            if (null !== ($hash = data_get($persistedQueryInput, 'sha256Hash'))) {
-                $apqCacheDriver = config('graphql.apq.cache_driver');
-                $apqCachePrefix = config('graphql.apq.cache_prefix');
-                $apqCacheIdentifier = implode(':', [$apqCachePrefix, $schemaName, $hash]);
-
-                if (! array_key_exists('query', $input)) {
-                    if (! cache()->has($apqCacheIdentifier)) {
-                        throw AutomaticPersistedQueriesError::persistedQueriesNotFound();
-                    }
-                    $query = cache()->driver($apqCacheDriver)->get($apqCacheIdentifier);
-                } else {
-                    if ($hash !== hash('sha256', $query)) {
-                        throw AutomaticPersistedQueriesError::invalidHash();
-                    }
-                    cache()->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, config('graphql.apq.ttl'));
-                }
-            }
+            $query = $this->handleAutomaticPersistQueries($schema, $input);
         } catch (AutomaticPersistedQueriesError $e) {
-            return (new ExecutionResult(null, [$e]))
-                ->setErrorFormatter(config('graphql.error_formatter', [GraphQL::class, 'formatError']))
-                ->setErrorsHandler(config('graphql.errors_handler', [GraphQL::class, 'handleErrors']))
+            return $graphql
+                ->decorateExecutionResult(new ExecutionResult(null, [$e]))
                 ->toArray();
         }
 
@@ -99,7 +78,7 @@ class GraphQLController extends Controller
             $params = json_decode($params, true);
         }
 
-        return $this->app->make('graphql')->query(
+        return $graphql->query(
             $query,
             $params,
             [
@@ -117,6 +96,61 @@ class GraphQLController extends Controller
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * Note: it's expected this is called even when APQ is disabled to adhere
+     *       to the negotiation protocol.
+     *
+     * @param  string  $schemaName
+     * @param  array<string,mixed>  $input
+     * @return string
+     */
+    protected function handleAutomaticPersistQueries(string $schemaName, array $input): string
+    {
+        $query = $input['query'] ?? '';
+        $apqEnabled = config('graphql.apq.enable', false);
+
+        // Even if APQ is disabled, we keep this logic for the negotiation protocol
+        $persistedQuery = $input['extensions']['persistedQuery'] ?? null;
+        if ($persistedQuery && !$apqEnabled) {
+            throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
+        }
+
+        // APQ disabled? Nothing to be done
+        if (!$apqEnabled) {
+            return $query;
+        }
+
+        // No hash? Noting to be done
+        $hash = $persistedQuery['sha256Hash'] ?? null;
+        if (null === $hash) {
+            return $query;
+        }
+
+        $apqCacheDriver = config('graphql.apq.cache_driver');
+        $apqCachePrefix = config('graphql.apq.cache_prefix');
+        $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
+
+        $cache = cache();
+
+        // store in cache
+        if ($query) {
+            if ($hash !== hash('sha256', $query)) {
+                throw AutomaticPersistedQueriesError::invalidHash();
+            }
+            $ttl = config('graphql.apq.cache_ttl', 300);
+            $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, $ttl);
+
+            return $query;
+        }
+
+        // retrieve from cache
+        if (!$cache->has($apqCacheIdentifier)) {
+            throw AutomaticPersistedQueriesError::persistedQueriesNotFound();
+        }
+
+        return $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
     }
 
     public function graphiql(Request $request, string $schema = null): View
