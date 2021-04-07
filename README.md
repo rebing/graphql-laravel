@@ -2405,7 +2405,7 @@ A persisted query is an ID or hash that can be sent to the server instead of the
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
-For more informations see: 
+For more information see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
  - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
 

@@ -59,7 +59,6 @@ parameters:
         # tests/Unit/EndpointTest.php
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
         - '/Parameter #1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess/'
-        # Rebing/GraphQL/GraphQLController.php
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/nunomaduro/larastan/issues/611
         -

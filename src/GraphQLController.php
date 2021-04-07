@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
-use Psr\SimpleCache\InvalidArgumentException;
+use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
 {
@@ -66,33 +66,31 @@ class GraphQLController extends Controller
         try {
             $persistedQueryInput = data_get($input, 'extensions.persistedQuery');
             if ($persistedQueryInput && (! config('graphql.apq.enable', false))) {
-                throw Error\AutomaticPersistedQueriesError::persistedQueriesNotSupported();
+                throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
             }
 
             if (null !== ($hash = data_get($persistedQueryInput, 'sha256Hash'))) {
                 $apqCacheDriver = config('graphql.apq.cache_driver');
                 $apqCachePrefix = config('graphql.apq.cache_prefix');
-                $apqCacheIdentifier = implode('.', [$apqCachePrefix, $schemaName, $hash]);
+                $apqCacheIdentifier = implode(':', [$apqCachePrefix, $schemaName, $hash]);
 
                 if (! array_key_exists('query', $input)) {
                     if (! cache()->has($apqCacheIdentifier)) {
-                        throw Error\AutomaticPersistedQueriesError::persistedQueriesNotFound();
+                        throw AutomaticPersistedQueriesError::persistedQueriesNotFound();
                     }
                     $query = cache()->driver($apqCacheDriver)->get($apqCacheIdentifier);
                 } else {
                     if ($hash !== hash('sha256', $query)) {
-                        throw Error\AutomaticPersistedQueriesError::invalidHash();
+                        throw AutomaticPersistedQueriesError::invalidHash();
                     }
                     cache()->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, config('graphql.apq.ttl'));
                 }
             }
-        } catch (Error\AutomaticPersistedQueriesError $e) {
+        } catch (AutomaticPersistedQueriesError $e) {
             return (new ExecutionResult(null, [$e]))
                 ->setErrorFormatter(config('graphql.error_formatter', [GraphQL::class, 'formatError']))
                 ->setErrorsHandler(config('graphql.errors_handler', [GraphQL::class, 'handleErrors']))
                 ->toArray();
-        } catch (InvalidArgumentException $e) {
-            throw $e;
         }
 
         $paramsKey = config('graphql.params_key', 'variables');
