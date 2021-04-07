@@ -136,15 +136,11 @@ class GraphQL
 
         $schema = $this->schema($schemaName);
 
-        $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
-        $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
 
-        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $params, $operationName, $defaultFieldResolver)
-            ->setErrorsHandler($errorsHandler)
-            ->setErrorFormatter($errorFormatter);
+        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $params, $operationName, $defaultFieldResolver);
 
-        return $result;
+        return $this->decorateExecutionResult($result);
     }
 
     public function addTypes(array $types): void
@@ -555,5 +551,15 @@ class GraphQL
         $instance = app()->make($schema);
 
         return $instance->toConfig();
+    }
+
+    public function decorateExecutionResult(ExecutionResult $executionResult): ExecutionResult
+    {
+        $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
+        $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
+
+        return $executionResult
+            ->setErrorsHandler($errorsHandler)
+            ->setErrorFormatter($errorFormatter);
     }
 }
