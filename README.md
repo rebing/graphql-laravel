@@ -2397,11 +2397,11 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 ### Basic Automatic Persisted Queries support
 
-Automatic Persisted Queries (APQ), improve network performance by sending smaller requests, with zero build-time configuration.
+Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
 
 APQ is disabled by default and can be enabled in the config via `apc.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
 
-A persisted query is an ID or hash that can be sent to the server instead of the entire GraphQL query string. 
+A persisted query is an ID or hash that can be generated on the client sent to the server instead of the entire GraphQL query string. 
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
@@ -2411,15 +2411,16 @@ For more information see:
 
 #### Why "basic support" ?
 
-Actually will only cache the string representation of the query.
+Currently, only the GraphQL query string representation will be cached and still
+needs to be re-parsed after retrieving form the cache.
 
 #### Notes
- - The errors descriptions is currently aligned with [apollo-server](https://github.com/apollographql/apollo-server).
+ - The error descriptions are aligned with [apollo-server](https://github.com/apollographql/apollo-server).
 
 #### Client example
 
 Below a simple integration example with Vue/Apollo, the `createPersistedQueryLink`
-automatically manages the apq flow.
+automatically manages the APQ flow.
 
 ```js
 // [example app.js]
