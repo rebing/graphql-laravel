@@ -48,7 +48,7 @@ class AutomaticPersistedQueriesError extends Error implements ClientAware
     }
 
     /**
-     * @param  null  $message
+     * @param  string|null  $message
      */
     public static function internalServerError($message = null): self
     {

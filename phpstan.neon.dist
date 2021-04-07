@@ -60,8 +60,6 @@ parameters:
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
         - '/Parameter #1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess/'
         # Rebing/GraphQL/GraphQLController.php
-        - '/Method Rebing\\GraphQL\\GraphQLController::getQueryFromAPQIfNeeded\(\) has parameter \$input with no value type specified in iterable type array./'
-        - '/PHPDoc tag @throws with type Psr\\SimpleCache\\InvalidArgumentException|Rebing\\GraphQL\\Error\\AutomaticPersistedQueriesError is not subtype of Throwable/'
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/nunomaduro/larastan/issues/611
         -
