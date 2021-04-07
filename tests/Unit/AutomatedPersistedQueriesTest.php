@@ -129,6 +129,45 @@ class AutomatedPersistedQueriesTest extends TestCase
         $this->assertEquals(['examples' => $this->data], $content['data']);
     }
 
+    // This test demonstrates we don't actually check the 'version'
+    public function testPersistedQueryFoundApqVersionIsNotChecked(): void
+    {
+        // run query and persist
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => trim($this->queries['examples']),
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 3,
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['examples' => $this->data], $content['data']);
+
+        // run persisted query
+
+        $response = $this->call('GET', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 9,
+                    'sha256Hash' => hash('sha256', $this->queries['examples']),
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals(['examples' => $this->data], $content['data']);
+    }
+
     public function testPersistedQueryInvalidHash(): void
     {
         $response = $this->call('GET', '/graphql', [
