@@ -122,7 +122,7 @@ class GraphQLController extends Controller
             return $query;
         }
 
-        // No hash? Noting to be done
+        // No hash? Nothing to be done
         $hash = $persistedQuery['sha256Hash'] ?? null;
         if (null === $hash) {
             return $query;
