@@ -1,9 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/7.0.1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/7.1.0...master)
 --------------
 
+2021-04-08, 7.1.0
+-----------------
 ### Added
 - Basic Automatic Persisted Queries (APQ) support [\#701 / illambo](https://github.com/rebing/graphql-laravel/pull/701)
 
