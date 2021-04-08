@@ -2405,9 +2405,20 @@ A persisted query is an ID or hash that can be generated on the client sent to t
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
+Behind the scenes, APQ uses Laravels cache for storing / retrieving queries.
+Please see the various options there for which cache, prefix, TTL, etc. to use.
+
 For more information see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
  - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
+
+> Note: the APQ protocol requires the hash sent by the client being compared
+> with the computed hash on the server. In case a mutating middleware like
+> `TrimStrings` is active and the query sent contains leading/trailing
+> whitespaces, these hashes can never match resulting in an error.
+> 
+> In such case either disable the middleware or trim the query on the client
+> before hashing.
 
 #### Why "basic support" ?
 
