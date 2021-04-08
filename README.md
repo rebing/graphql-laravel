@@ -130,6 +130,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
+    - [Basic Automatic Persisted Queries support](#basic-automatic-persisted-queries-support) 
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2393,6 +2394,105 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
+
+### Basic Automatic Persisted Queries support
+
+Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
+
+APQ is disabled by default and can be enabled in the config via `apc.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
+
+A persisted query is an ID or hash that can be generated on the client sent to the server instead of the entire GraphQL query string. 
+This smaller signature reduces bandwidth utilization and speeds up client loading times.
+Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
+
+Behind the scenes, APQ uses Laravels cache for storing / retrieving queries.
+Please see the various options there for which cache, prefix, TTL, etc. to use.
+
+For more information see: 
+ - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
+ - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
+
+> Note: the APQ protocol requires the hash sent by the client being compared
+> with the computed hash on the server. In case a mutating middleware like
+> `TrimStrings` is active and the query sent contains leading/trailing
+> whitespaces, these hashes can never match resulting in an error.
+> 
+> In such case either disable the middleware or trim the query on the client
+> before hashing.
+
+#### Why "basic support" ?
+
+Currently, only the GraphQL query string representation will be cached and still
+needs to be re-parsed after retrieving form the cache.
+
+#### Notes
+ - The error descriptions are aligned with [apollo-server](https://github.com/apollographql/apollo-server).
+
+#### Client example
+
+Below a simple integration example with Vue/Apollo, the `createPersistedQueryLink`
+automatically manages the APQ flow.
+
+```js
+// [example app.js]
+
+require('./bootstrap');
+
+window.Vue = require('vue');
+
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
+import { createHttpLink } from 'apollo-link-http';
+import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import VueApollo from 'vue-apollo';
+
+const httpLinkWithPersistedQuery = createPersistedQueryLink().concat(createHttpLink({
+    uri: '/graphql',
+}));
+
+// Create the apollo client
+const apolloClient = new ApolloClient({
+    link: ApolloLink.from([httpLinkWithPersistedQuery]),
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
+})
+
+const apolloProvider = new VueApollo({
+    defaultClient: apolloClient,
+});
+
+Vue.use(VueApollo);
+
+const app = new Vue({
+    el: '#app',
+    apolloProvider,
+});
+```
+```vue 
+<!-- [example TestComponent.vue] -->
+
+<template>
+    <div>
+        <p>Test APQ</p>
+        <p>-> <span v-if="$apollo.queries.hello.loading">Loading...</span>{{ hello }}</p>
+    </div>
+</template>
+
+<script>
+    import gql from 'graphql-tag';
+    export default {
+        apollo: {
+            hello: gql`query{hello}`,
+        },
+        mounted() {
+            console.log('Component mounted.')
+        }
+    }
+</script>
+```
 
 ## Guides
 

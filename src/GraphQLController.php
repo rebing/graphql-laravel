@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Rebing\GraphQL;
 
 use Exception;
+use GraphQL\Executor\ExecutionResult;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
+use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
 {
@@ -37,8 +40,8 @@ class GraphQLController extends Controller
             $schema = config('graphql.default_schema');
         }
 
-        // If a singular query was not found, it means the queries are in batch
-        $isBatch = ! $request->has('query');
+        // check if is batch (check if the array is associative)
+        $isBatch = ! Arr::isAssoc($request->input());
         $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
@@ -58,7 +61,16 @@ class GraphQLController extends Controller
 
     protected function executeQuery(string $schema, array $input): array
     {
-        $query = $input['query'] ?? '';
+        /** @var GraphQL $graphql */
+        $graphql = $this->app->make('graphql');
+
+        try {
+            $query = $this->handleAutomaticPersistQueries($schema, $input);
+        } catch (AutomaticPersistedQueriesError $e) {
+            return $graphql
+                ->decorateExecutionResult(new ExecutionResult(null, [$e]))
+                ->toArray();
+        }
 
         $paramsKey = config('graphql.params_key', 'variables');
         $params = $input[$paramsKey] ?? null;
@@ -66,7 +78,7 @@ class GraphQLController extends Controller
             $params = json_decode($params, true);
         }
 
-        return $this->app->make('graphql')->query(
+        return $graphql->query(
             $query,
             $params,
             [
@@ -84,6 +96,61 @@ class GraphQLController extends Controller
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * Note: it's expected this is called even when APQ is disabled to adhere
+     *       to the negotiation protocol.
+     *
+     * @param  string  $schemaName
+     * @param  array<string,mixed>  $input
+     * @return string
+     */
+    protected function handleAutomaticPersistQueries(string $schemaName, array $input): string
+    {
+        $query = $input['query'] ?? '';
+        $apqEnabled = config('graphql.apq.enable', false);
+
+        // Even if APQ is disabled, we keep this logic for the negotiation protocol
+        $persistedQuery = $input['extensions']['persistedQuery'] ?? null;
+        if ($persistedQuery && !$apqEnabled) {
+            throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
+        }
+
+        // APQ disabled? Nothing to be done
+        if (!$apqEnabled) {
+            return $query;
+        }
+
+        // No hash? Nothing to be done
+        $hash = $persistedQuery['sha256Hash'] ?? null;
+        if (null === $hash) {
+            return $query;
+        }
+
+        $apqCacheDriver = config('graphql.apq.cache_driver');
+        $apqCachePrefix = config('graphql.apq.cache_prefix');
+        $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
+
+        $cache = cache();
+
+        // store in cache
+        if ($query) {
+            if ($hash !== hash('sha256', $query)) {
+                throw AutomaticPersistedQueriesError::invalidHash();
+            }
+            $ttl = config('graphql.apq.cache_ttl', 300);
+            $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, $ttl);
+
+            return $query;
+        }
+
+        // retrieve from cache
+        if (!$cache->has($apqCacheIdentifier)) {
+            throw AutomaticPersistedQueriesError::persistedQueriesNotFound();
+        }
+
+        return $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
     }
 
     public function graphiql(Request $request, string $schema = null): View
