@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
 use Composer\InstalledVersions;
@@ -10,7 +9,7 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationOfFieldArgumentsTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql.types', [
             'AccountType' => AccountType::class,
@@ -62,7 +61,7 @@ GRAPHQL;
             $expectedMessages[] = 'The profile.args.profile id must not be greater than 10.';
         }
 
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testOnlyApplicableRulesTakesEffect(): void
@@ -86,7 +85,7 @@ GRAPHQL;
         $expectedMessages = [
             'The alias.args.type format is invalid.',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     private function orchestraTestbenchCoreVersionBelow(string $versionString): bool

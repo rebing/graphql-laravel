@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests;
 
 use GraphQL\Type\Definition\Type;
@@ -29,7 +28,9 @@ class LikableInterfaceType extends InterfaceType
     {
         if ($root instanceof Post) {
             return GraphQL::type('Post');
-        } elseif ($root instanceof Comment) {
+        }
+
+        if ($root instanceof Comment) {
             return GraphQL::type('Comment');
         }
     }

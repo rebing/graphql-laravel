@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
 use DB;
@@ -42,7 +41,6 @@ class PostWithModelAndAliasType extends GraphQLType
                     return DB::raw("(SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '$day') AS commentsLastMonth");
                 },
             ],
-
         ];
     }
 }

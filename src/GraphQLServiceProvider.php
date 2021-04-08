@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use GraphQL\Validator\DocumentValidator;
@@ -25,8 +24,6 @@ class GraphQLServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -37,40 +34,33 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap router.
-     *
-     * @return void
      */
     protected function bootRouter(): void
     {
         if (config('graphql.routes')) {
-            include __DIR__.'/routes.php';
+            include __DIR__ . '/routes.php';
         }
     }
 
     /**
      * Bootstrap publishes.
-     *
-     * @return void
      */
     protected function bootPublishes(): void
     {
-        $configPath = __DIR__.'/../config';
+        $configPath = __DIR__ . '/../config';
 
-        $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
+        $this->mergeConfigFrom($configPath . '/config.php', 'graphql');
 
         $this->publishes([
-            $configPath.'/config.php' => config_path('graphql.php'),
+            $configPath . '/config.php' => config_path('graphql.php'),
         ], 'config');
 
-        $viewsPath = __DIR__.'/../resources/views';
+        $viewsPath = __DIR__ . '/../resources/views';
         $this->loadViewsFrom($viewsPath, 'graphql');
     }
 
     /**
      * Add types from config.
-     *
-     * @param  GraphQL  $graphQL
-     * @return void
      */
     protected function bootTypes(GraphQL $graphQL): void
     {
@@ -80,13 +70,11 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Add schemas from config.
-     *
-     * @param  GraphQL  $graphQL
-     * @return void
      */
     protected function bootSchemas(GraphQL $graphQL): void
     {
         $configSchemas = config('graphql.schemas');
+
         foreach ($configSchemas as $name => $schema) {
             $graphQL->addSchema($name, $schema);
         }
@@ -94,27 +82,28 @@ class GraphQLServiceProvider extends ServiceProvider
 
     /**
      * Configure security from config.
-     *
-     * @return void
      */
     protected function applySecurityRules(): void
     {
         $maxQueryComplexity = config('graphql.security.query_max_complexity');
-        if ($maxQueryComplexity !== null) {
+
+        if (null !== $maxQueryComplexity) {
             /** @var QueryComplexity $queryComplexity */
             $queryComplexity = DocumentValidator::getRule('QueryComplexity');
             $queryComplexity->setMaxQueryComplexity($maxQueryComplexity);
         }
 
         $maxQueryDepth = config('graphql.security.query_max_depth');
-        if ($maxQueryDepth !== null) {
+
+        if (null !== $maxQueryDepth) {
             /** @var QueryDepth $queryDepth */
             $queryDepth = DocumentValidator::getRule('QueryDepth');
             $queryDepth->setMaxQueryDepth($maxQueryDepth);
         }
 
         $disableIntrospection = config('graphql.security.disable_introspection');
-        if ($disableIntrospection === true) {
+
+        if (true === $disableIntrospection) {
             /** @var DisableIntrospection $disableIntrospection */
             $disableIntrospection = DocumentValidator::getRule('DisableIntrospection');
             $disableIntrospection->setEnabled(DisableIntrospection::ENABLED);
@@ -126,7 +115,7 @@ class GraphQLServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerGraphQL();
 
@@ -147,15 +136,13 @@ class GraphQLServiceProvider extends ServiceProvider
             return $graphql;
         });
 
-        $this->app->afterResolving('graphql', function (GraphQL $graphQL) {
+        $this->app->afterResolving('graphql', function (GraphQL $graphQL): void {
             $this->bootTypes($graphQL);
         });
     }
 
     /**
      * Register console commands.
-     *
-     * @return void
      */
     public function registerConsole(): void
     {

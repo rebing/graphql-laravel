@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -52,6 +51,6 @@ class Post extends Model
     {
         $publishedAt = $this->published_at;
 
-        return $publishedAt !== null;
+        return null !== $publishedAt;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests;
 
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
@@ -12,8 +11,8 @@ abstract class TestCaseDatabase extends TestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__.'/Support/database/migrations');
-        $this->withFactories(__DIR__.'/Support/database/factories');
+        $this->loadMigrationsFrom(__DIR__ . '/Support/database/migrations');
+        $this->withFactories(__DIR__ . '/Support/database/factories');
 
         // This takes care of refreshing the database between tests
         // as we are using the in-memory SQLite db we do not need RefreshDatabase
@@ -31,7 +30,7 @@ abstract class TestCaseDatabase extends TestCase
         return $uses;
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs;
 
 use GraphQL\Type\Definition\Type;
@@ -56,7 +55,6 @@ class UpdateExampleMutation extends Mutation
                     Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE))
                 ),
             ],
-
         ];
     }
 

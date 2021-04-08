@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
@@ -14,10 +13,9 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class RoutesTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
-
             'prefix' => 'graphql_test',
 
             'graphiql' => [
@@ -26,14 +24,14 @@ class RoutesTest extends TestCase
 
             'schemas' => [
                 'default' => [
-                    'middleware' => [ExampleMiddleware::class]
+                    'middleware' => [ExampleMiddleware::class],
                 ],
                 'custom' => [
-                    'middleware' => [ExampleMiddleware::class]
+                    'middleware' => [ExampleMiddleware::class],
                 ],
                 'with_methods' => [
                     'method' => ['post'],
-                    'middleware' => [ExampleMiddleware::class]
+                    'middleware' => [ExampleMiddleware::class],
                 ],
                 'class_based' => ExampleSchema::class,
                 'class_based_with_methods' => ExampleSchemaWithMethod::class,
@@ -46,8 +44,7 @@ class RoutesTest extends TestCase
                         echo(message: String!): String!
                     }
                 '),
-            ]
-
+            ],
         ]);
     }
 
@@ -116,7 +113,7 @@ class RoutesTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, Collection::make(
+        self::assertEquals($expected, Collection::make(
             app('router')->getRoutes()->getRoutesByName()
         )->map(function (Route $route) {
             return [

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\AliasAguments;
 
 use Rebing\GraphQL\Tests\TestCase;
@@ -12,7 +11,7 @@ use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\UpdateExampleMutation;
 
 class AliasArgumentsTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
@@ -94,7 +93,7 @@ class AliasArgumentsTest extends TestCase
 
         $arguments = json_decode($response['data']['updateExample']['test'], true);
 
-        $this->assertEquals([
+        self::assertEquals([
             'test_with_alias_and_null' => null,
             'test_has_default_value' => 'DefaultValue123',
             'a_list' => [

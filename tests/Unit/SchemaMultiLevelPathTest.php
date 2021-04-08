@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
@@ -38,10 +37,10 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $response->json());
+        self::assertSame($expectedResult, $response->json());
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Like;
@@ -32,7 +31,7 @@ class MorphRelationshipTest extends TestCaseDatabase
 
         $post->likes()->save($like);
 
-        $this->assertNotNull($user->posts[0]->likes[0]->user);
+        self::assertNotNull($user->posts[0]->likes[0]->user);
 
         $query = <<<'GRAQPHQL'
 {
@@ -93,10 +92,10 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

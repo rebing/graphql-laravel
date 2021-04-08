@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database;
 
 use Illuminate\Support\Carbon;
@@ -66,8 +65,8 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsClassInjection(): void
@@ -100,14 +99,14 @@ SQL
         $expectedResult = [
             'data' => [
                 'postWithSelectFieldClassInjection' => [
-                    'id'    => "$post->id",
+                    'id' => "$post->id",
                     'title' => 'Title of the post',
                 ],
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNonInjectableTypehints(): void
@@ -137,13 +136,13 @@ GRAQPHQL;
             'errors' => [
                 [
                     'debugMessage' => "'coolNumber' could not be injected",
-                    'message'      => 'Internal server error',
-                    'extensions'   => [
+                    'message' => 'Internal server error',
+                    'extensions' => [
                         'category' => 'internal',
                     ],
                     'locations' => [
                         [
-                            'line'   => 2,
+                            'line' => 2,
                             'column' => 3,
                         ],
                     ],
@@ -156,7 +155,7 @@ GRAQPHQL;
                 'postQueryWithNonInjectableTypehints' => null,
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testWithSelectFieldsAndModel(): void
@@ -195,8 +194,8 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithNonNullSelectFieldsAndModel(): void
@@ -229,8 +228,8 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithListOfSelectFieldsAndModel(): void
@@ -267,8 +266,8 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithListOfSelectFieldsAndModelWithSameFieldsInFragment(): void
@@ -314,7 +313,7 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($expectedResult, $response);
+        self::assertEquals($expectedResult, $response);
     }
 
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
@@ -349,8 +348,8 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithNonNullAndListOfAndNonNullSelectFieldsAndModel(): void
@@ -385,8 +384,8 @@ GRAQPHQL;
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndAlias(): void
@@ -416,7 +415,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $expectedResult = [
             'data' => [
@@ -427,8 +426,8 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndCallbackSqlAlias(): void
@@ -473,7 +472,7 @@ select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts
 SQL
         );
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $expectedResult = [
             'data' => [
@@ -485,8 +484,8 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
@@ -516,7 +515,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $expectedResult = [
             'data' => [
@@ -527,8 +526,8 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNoModel(): void
@@ -567,11 +566,11 @@ SQL
             ],
         ];
 
-        $this->assertEquals($response->getStatusCode(), 200);
-        $this->assertEquals($expectedResult, $response->json());
+        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($expectedResult, $response->json());
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

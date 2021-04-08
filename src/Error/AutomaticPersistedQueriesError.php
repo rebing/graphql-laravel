@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Error;
 
 use GraphQL\Error\Error;
@@ -47,7 +46,7 @@ class AutomaticPersistedQueriesError extends Error
     }
 
     /**
-     * @param  string|null  $message
+     * @param string|null $message
      */
     public static function internalServerError($message = null): self
     {

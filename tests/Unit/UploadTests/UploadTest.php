@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
 use Illuminate\Http\UploadedFile;
@@ -36,7 +35,6 @@ class UploadTest extends TestCase
                 // $files
                 [
                     '0' => $fileToUpload,
-
                 ],
                 // $server
                 [
@@ -50,7 +48,7 @@ class UploadTest extends TestCase
                 'uploadSingleFile' => "This is the\nuploaded\ndata",
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testMultipleFiles(): void
@@ -84,7 +82,6 @@ class UploadTest extends TestCase
                 [
                     '0' => $file1ToUpload,
                     '1' => $file2ToUpload,
-
                 ],
                 // $server
                 [
@@ -101,7 +98,7 @@ class UploadTest extends TestCase
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testBatchUploads(): void
@@ -148,7 +145,6 @@ class UploadTest extends TestCase
                     '0' => $file1ToUpload,
                     '1' => $file2ToUpload,
                     '2' => $file3ToUpload,
-
                 ],
                 // $server
                 [
@@ -172,10 +168,10 @@ class UploadTest extends TestCase
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

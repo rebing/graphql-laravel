@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -17,9 +16,9 @@ class GraphQLQueryTest extends TestCase
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        $this->assertObjectHasAttribute('data', $result);
+        self::assertObjectHasAttribute('data', $result);
 
-        $this->assertEquals($result->data, [
+        self::assertEquals($result->data, [
             'examples' => $this->data,
         ]);
     }
@@ -27,14 +26,14 @@ class GraphQLQueryTest extends TestCase
     public function testConfigKeysIsDifferentFromTypeClassNameQuery(): void
     {
         if (app('config')->get('graphql.lazyload_types')) {
-            $this->markTestSkipped('Skipping test when lazyload_types=true');
+            self::markTestSkipped('Skipping test when lazyload_types=true');
         }
 
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
 
-        $this->assertObjectHasAttribute('data', $result);
+        self::assertObjectHasAttribute('data', $result);
 
-        $this->assertEquals($result->data, [
+        self::assertEquals($result->data, [
             'examplesConfigAlias' => $this->data,
         ]);
     }
@@ -42,16 +41,16 @@ class GraphQLQueryTest extends TestCase
     public function testConfigKeyIsDifferentFromTypeClassNameNotSupportedInLazyLoadingOfTypes(): void
     {
         if (false === app('config')->get('graphql.lazyload_types')) {
-            $this->markTestSkipped('Skipping test when lazyload_types=false');
+            self::markTestSkipped('Skipping test when lazyload_types=false');
         }
 
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
-        $this->assertObjectHasAttribute('errors', $result);
+        self::assertObjectHasAttribute('errors', $result);
 
         $expected = "Type Example2 not found.
 Check that the config array key for the type matches the name attribute in the type's class.
 It is required when 'lazyload_types' is enabled";
-        $this->assertSame($expected, $result->errors[0]->getMessage());
+        self::assertSame($expected, $result->errors[0]->getMessage());
     }
 
     /**
@@ -62,9 +61,9 @@ It is required when 'lazyload_types' is enabled";
         $resultArray = GraphQL::query($this->queries['examples']);
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        $this->assertIsArray($resultArray);
-        $this->assertArrayHasKey('data', $resultArray);
-        $this->assertEquals($resultArray['data'], $result->data);
+        self::assertIsArray($resultArray);
+        self::assertArrayHasKey('data', $resultArray);
+        self::assertEquals($resultArray['data'], $result->data);
     }
 
     /**
@@ -76,9 +75,9 @@ It is required when 'lazyload_types' is enabled";
             'index' => 0,
         ]);
 
-        $this->assertObjectHasAttribute('data', $result);
-        $this->assertCount(0, $result->errors);
-        $this->assertEquals($result->data, [
+        self::assertObjectHasAttribute('data', $result);
+        self::assertCount(0, $result->errors);
+        self::assertEquals($result->data, [
             'examples' => [
                 $this->data[0],
             ],
@@ -96,12 +95,12 @@ It is required when 'lazyload_types' is enabled";
             ],
         ]);
 
-        $this->assertObjectHasAttribute('data', $result);
+        self::assertObjectHasAttribute('data', $result);
         // When XDebug is used with breaking on exceptions the real error will
         // be visible in case the recursion for getInputTypeRules runs away.
         // GraphQL\Error\Error: Maximum function nesting level of '256' reached, aborting!
-        $this->assertCount(0, $result->errors);
-        $this->assertEquals($result->data, [
+        self::assertCount(0, $result->errors);
+        self::assertEquals($result->data, [
             'examplesFiltered' => [
                 $this->data[0],
             ],
@@ -116,8 +115,8 @@ It is required when 'lazyload_types' is enabled";
         $result = $this->graphql($this->queries['examplesWithAuthorize'], [
             'expectErrors' => true,
         ]);
-        $this->assertNull($result['data']['examplesAuthorize']);
-        $this->assertEquals('Unauthorized', $result['errors'][0]['message']);
+        self::assertNull($result['data']['examplesAuthorize']);
+        self::assertEquals('Unauthorized', $result['errors'][0]['message']);
     }
 
     /**
@@ -128,8 +127,8 @@ It is required when 'lazyload_types' is enabled";
         $result = $this->graphql($this->queries['examplesWithAuthorizeMessage'], [
             'expectErrors' => true,
         ]);
-        $this->assertNull($result['data']['examplesAuthorizeMessage']);
-        $this->assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
+        self::assertNull($result['data']['examplesAuthorizeMessage']);
+        self::assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
     }
 
     /**
@@ -145,9 +144,9 @@ It is required when 'lazyload_types' is enabled";
             ],
         ]);
 
-        $this->assertObjectHasAttribute('data', $result);
-        $this->assertCount(0, $result->errors);
-        $this->assertEquals($result->data, [
+        self::assertObjectHasAttribute('data', $result);
+        self::assertCount(0, $result->errors);
+        self::assertEquals($result->data, [
             'examplesCustom' => $this->data,
         ]);
     }
@@ -163,10 +162,10 @@ It is required when 'lazyload_types' is enabled";
             'expectErrors' => true,
         ]);
 
-        $this->assertArrayHasKey('errors', $result);
-        $this->assertCount(1, $result['errors']);
-        $this->assertArrayHasKey('message', $result['errors'][0]);
-        $this->assertArrayHasKey('locations', $result['errors'][0]);
+        self::assertArrayHasKey('errors', $result);
+        self::assertCount(1, $result['errors']);
+        self::assertArrayHasKey('message', $result['errors'][0]);
+        self::assertArrayHasKey('locations', $result['errors'][0]);
     }
 
     /**
@@ -178,11 +177,11 @@ It is required when 'lazyload_types' is enabled";
             'expectErrors' => true,
         ]);
 
-        $this->assertArrayHasKey('data', $result);
-        $this->assertArrayHasKey('errors', $result);
-        $this->assertArrayHasKey('extensions', $result['errors'][0]);
-        $this->assertArrayHasKey('validation', $result['errors'][0]['extensions']);
-        $this->assertTrue($result['errors'][0]['extensions']['validation']->has('test_validation.args.index'));
+        self::assertArrayHasKey('data', $result);
+        self::assertArrayHasKey('errors', $result);
+        self::assertArrayHasKey('extensions', $result['errors'][0]);
+        self::assertArrayHasKey('validation', $result['errors'][0]['extensions']);
+        self::assertTrue($result['errors'][0]['extensions']['validation']->has('test_validation.args.index'));
     }
 
     /**
@@ -196,8 +195,8 @@ It is required when 'lazyload_types' is enabled";
             ],
         ]);
 
-        $this->assertArrayHasKey('data', $result);
-        $this->assertArrayNotHasKey('errors', $result);
+        self::assertArrayHasKey('data', $result);
+        self::assertArrayNotHasKey('errors', $result);
     }
 
     /**
@@ -232,8 +231,8 @@ It is required when 'lazyload_types' is enabled";
                 ],
             ],
         ];
-        $this->assertSame($expectedDataResult, $result->data);
-        $this->assertCount(0, $result->errors);
+        self::assertSame($expectedDataResult, $result->data);
+        self::assertCount(0, $result->errors);
     }
 
     public static function exampleDefaultFieldResolverForTest(): string
@@ -275,7 +274,7 @@ It is required when 'lazyload_types' is enabled";
                 ],
             ],
         ];
-        $this->assertSame($expectedDataResult, $result->data);
-        $this->assertCount(0, $result->errors);
+        self::assertSame($expectedDataResult, $result->data);
+        self::assertCount(0, $result->errors);
     }
 }

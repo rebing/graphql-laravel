@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Closure;
@@ -15,27 +14,20 @@ use Rebing\GraphQL\Tests\Support\Models\Post;
 
 class PrimaryKeySimplePaginationQuery extends Query
 {
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'primaryKeySimplePaginationQuery',
     ];
 
-    /**
-     * @return Type
-     */
     public function type(): Type
     {
         return GraphQL::simplePaginate('Post');
     }
 
     /**
-     * @param mixed       $root
-     * @param mixed       $args
-     * @param mixed       $ctx
-     * @param ResolveInfo $info
-     * @param Closure     $getSelectFields
+     * @param mixed $root
+     * @param mixed $args
+     * @param mixed $ctx
      *
      * @return Paginator
      */

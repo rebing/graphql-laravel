@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Config;
 
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
@@ -16,11 +15,11 @@ class HeadersTest extends TestCase
             'query' => $this->queries['examples'],
         ]);
 
-        $this->assertTrue($response->headers->has('x-custom'));
-        $this->assertSame('Header Value', $response->headers->get('x-custom'));
+        self::assertTrue($response->headers->has('x-custom'));
+        self::assertSame('Header Value', $response->headers->get('x-custom'));
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
             'headers' => [

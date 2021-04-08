@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
@@ -33,13 +32,13 @@ class FieldTest extends TestCase
         $field = new $class();
         $attributes = $field->getAttributes();
 
-        $this->assertArrayHasKey('name', $attributes);
-        $this->assertArrayHasKey('type', $attributes);
-        $this->assertArrayHasKey('args', $attributes);
-        $this->assertArrayHasKey('resolve', $attributes);
-        $this->assertIsArray($attributes['args']);
-        $this->assertInstanceOf(Closure::class, $attributes['resolve']);
-        $this->assertInstanceOf(get_class($field->type()), $attributes['type']);
+        self::assertArrayHasKey('name', $attributes);
+        self::assertArrayHasKey('type', $attributes);
+        self::assertArrayHasKey('args', $attributes);
+        self::assertArrayHasKey('resolve', $attributes);
+        self::assertIsArray($attributes['args']);
+        self::assertInstanceOf(Closure::class, $attributes['resolve']);
+        self::assertInstanceOf(get_class($field->type()), $attributes['type']);
     }
 
     /**
@@ -52,7 +51,7 @@ class FieldTest extends TestCase
                     ->setMethods(['resolve'])
                     ->getMock();
 
-        $field->expects($this->once())
+        $field->expects(self::once())
             ->method('resolve');
 
         $attributes = $field->getAttributes();
@@ -68,9 +67,9 @@ class FieldTest extends TestCase
         $field = new $class();
         $array = $field->toArray();
 
-        $this->assertIsArray($array);
+        self::assertIsArray($array);
 
         $attributes = $field->getAttributes();
-        $this->assertEquals($attributes, $array);
+        self::assertEquals($attributes, $array);
     }
 }

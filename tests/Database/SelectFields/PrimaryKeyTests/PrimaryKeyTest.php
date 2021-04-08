@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -54,7 +53,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrimaryKeyRetrievedWhenSelectingRelationsAndResultPaginated(): void
@@ -131,10 +130,10 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

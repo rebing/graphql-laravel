@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use Closure;
@@ -12,9 +11,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class UpdateExampleMutation extends Mutation
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'updateExample',
     ];
@@ -59,8 +56,6 @@ class UpdateExampleMutation extends Mutation
      * @param mixed $root
      * @param array<string,mixed> $args
      * @param mixed $context
-     * @param ResolveInfo $resolveInfo
-     * @param Closure $getSelectFields
      * @return array<string,mixed>
      */
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array

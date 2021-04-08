@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\EngineErrorInResolverTests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -18,10 +17,10 @@ class EngineErrorInResolverTest extends TestCase
         ]);
 
         // Using a regex here because in some cases the message gets prefixed with "Type error:"
-        $this->assertMatchesRegularExpression('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
+        self::assertMatchesRegularExpression('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
     }
 
-    protected function resolveApplicationExceptionHandler($app)
+    protected function resolveApplicationExceptionHandler($app): void
     {
         // We expect the error in QueryWithEngineErrorInCodeQuery  to trigger
         // reporting to the handler (as opposed to swallowing it silently).
@@ -41,7 +40,7 @@ class EngineErrorInResolverTest extends TestCase
         $app->instance(ExceptionHandler::class, $handlerMock);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

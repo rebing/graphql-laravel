@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\Type as GraphqlType;
@@ -16,14 +15,13 @@ abstract class UnionType extends Type
 
     /**
      * Get the attributes from the container.
-     *
-     * @return array
      */
     public function getAttributes(): array
     {
         $attributes = parent::getAttributes();
 
         $types = $this->types();
+
         if ($types) {
             $attributes['types'] = $types;
         }

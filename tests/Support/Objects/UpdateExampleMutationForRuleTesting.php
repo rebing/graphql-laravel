@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
@@ -11,9 +10,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class UpdateExampleMutationForRuleTesting extends Mutation
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'updateExampleMutationForRuleTesting',
     ];
@@ -68,9 +65,7 @@ class UpdateExampleMutationForRuleTesting extends Mutation
 
                     return ['required'];
                 },
-
             ],
-
         ];
     }
 

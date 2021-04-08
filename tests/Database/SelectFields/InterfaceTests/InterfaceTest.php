@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use Illuminate\Foundation\Application;
@@ -49,7 +48,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedRelationSqlQuery(): void
@@ -102,7 +101,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldSqlQuery(): void
@@ -167,7 +166,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
@@ -238,7 +237,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
@@ -351,7 +350,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
@@ -453,10 +452,10 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

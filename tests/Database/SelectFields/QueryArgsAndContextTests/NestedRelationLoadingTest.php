@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -97,7 +96,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQueryNoSelectFields(): void
@@ -239,7 +238,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQuerySelect(): void
@@ -381,7 +380,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQueryWith(): void
@@ -519,7 +518,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQuerySelectAndWith(): void
@@ -657,7 +656,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQuerySelectAndWithAndSubArgs(): void
@@ -769,7 +768,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testQuerySelectAndWithAndNestedSubArgs(): void
@@ -881,7 +880,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testRelationshipAlias(): void
@@ -940,14 +939,14 @@ SQL
             ],
         ];
 
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('graphql.controllers', GraphQLController::class.'@query');
+        $app['config']->set('graphql.controllers', GraphQLController::class . '@query');
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [

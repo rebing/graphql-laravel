@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -153,7 +152,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testQuerySelect(): void
@@ -295,7 +294,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testQueryWith(): void
@@ -433,7 +432,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testQuerySelectAndWith(): void
@@ -571,7 +570,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
@@ -688,7 +687,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
@@ -805,7 +804,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testRelationshipAlias(): void
@@ -864,10 +863,10 @@ SQL
             ],
         ];
 
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

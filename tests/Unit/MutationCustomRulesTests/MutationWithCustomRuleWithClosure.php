@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests;
 
 use GraphQL\Type\Definition\Type;
@@ -23,8 +22,8 @@ class MutationWithCustomRuleWithClosure extends Mutation
         return [
             'arg1' => [
                 'required',
-                function (string $attribute, $value, $fail) {
-                    $fail($attribute.' is invalid');
+                function (string $attribute, $value, $fail): void {
+                    $fail($attribute . ' is invalid');
                 },
             ],
         ];

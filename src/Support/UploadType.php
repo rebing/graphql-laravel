@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Error\Error;
@@ -13,13 +12,9 @@ use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 class UploadType extends ScalarType implements TypeConvertible
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $name = 'Upload';
-    /**
-     * @var string
-     */
+    /** @var string */
     public $description =
         'The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
  [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).';
@@ -34,7 +29,7 @@ class UploadType extends ScalarType implements TypeConvertible
     /**
      * {@inheritdoc}
      */
-    public function serialize($value)
+    public function serialize($value): void
     {
         throw new InvariantViolation('`Upload` cannot be serialized');
     }
@@ -50,9 +45,9 @@ class UploadType extends ScalarType implements TypeConvertible
     /**
      * {@inheritdoc}
      */
-    public function parseLiteral(Node $valueNode, ?array $variables = null)
+    public function parseLiteral(Node $valueNode, ?array $variables = null): void
     {
-        throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: '.$valueNode->kind, [$valueNode]);
+        throw new Error('`Upload` cannot be hardcoded in query, be sure to conform to GraphQL multipart request specification. Instead got: ' . $valueNode->kind, [$valueNode]);
     }
 
     public function toType(): Type

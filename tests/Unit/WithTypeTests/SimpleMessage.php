@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 class SimpleMessage
@@ -13,8 +12,8 @@ class SimpleMessage
     /**
      * Create a message to return to the users in frontend.
      *
-     * @param string  $message message to show
-     * @param string  $type    MessageType enum value
+     * @param string $message message to show
+     * @param string $type MessageType enum value
      */
     public function __construct(
         string $message,

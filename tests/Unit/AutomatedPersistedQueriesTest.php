@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Illuminate\Http\UploadedFile;
@@ -13,7 +12,7 @@ use Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation;
 
 class AutomatedPersistedQueriesTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
@@ -27,7 +26,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $graphqlTypes = $app['config']->get('graphql.types');
         $app['config']->set('graphql.types', array_merge_recursive($graphqlTypes, [
-            UploadType::class
+            UploadType::class,
         ]));
 
         config(['graphql.apq.enable' => true]);
@@ -46,18 +45,18 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertEquals([
+        self::assertEquals([
             'errors' => [
                 [
                     'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
                     'extensions' => [
                         'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
                         'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
-                    ]
+                    ],
                 ],
             ],
         ], $content);
@@ -74,18 +73,18 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertEquals([
+        self::assertEquals([
             'errors' => [
                 [
                     'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
                     'extensions' => [
                         'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_FOUND,
                         'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
-                    ]
+                    ],
                 ],
             ],
         ], $content);
@@ -105,12 +104,12 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['examples' => $this->data], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
 
         // run persisted query
 
@@ -123,10 +122,10 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['examples' => $this->data], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
     }
 
     // This test demonstrates we don't actually check the 'version'
@@ -144,12 +143,12 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['examples' => $this->data], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
 
         // run persisted query
 
@@ -162,10 +161,10 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['examples' => $this->data], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
     }
 
     public function testPersistedQueryInvalidHash(): void
@@ -180,18 +179,18 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertEquals([
+        self::assertEquals([
             'errors' => [
                 [
                     'message' => AutomaticPersistedQueriesError::MESSAGE_INVALID_HASH,
                     'extensions' => [
                         'code' => AutomaticPersistedQueriesError::CODE_INTERNAL_SERVER_ERROR,
-                        'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
-                    ]
+                        'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                    ],
                 ],
             ],
         ], $content);
@@ -224,30 +223,30 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey(0, $content);
-        $this->assertArrayHasKey(1, $content);
+        self::assertArrayHasKey(0, $content);
+        self::assertArrayHasKey(1, $content);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
                 'extensions' => [
                     'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
-                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
-                ]
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                ],
             ],
         ], $content[0]['errors']);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
                 'extensions' => [
                     'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
-                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ
-                ]
+                    'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
+                ],
             ],
         ], $content[1]['errors']);
     }
@@ -266,12 +265,12 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['examples' => $this->data], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
 
         // run query persisted and not
 
@@ -309,34 +308,34 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey(0, $content);
-        $this->assertArrayHasKey(1, $content);
-        $this->assertArrayHasKey(2, $content);
+        self::assertArrayHasKey(0, $content);
+        self::assertArrayHasKey(1, $content);
+        self::assertArrayHasKey(2, $content);
 
-        $this->assertArrayHasKey('data', $content[0]);
-        $this->assertEquals(['examples' => $this->data], $content[0]['data']);
+        self::assertArrayHasKey('data', $content[0]);
+        self::assertEquals(['examples' => $this->data], $content[0]['data']);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'message' => AutomaticPersistedQueriesError::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
                 'extensions' => [
                     'code' => AutomaticPersistedQueriesError::CODE_PERSISTED_QUERY_NOT_FOUND,
                     'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
-                ]
+                ],
             ],
         ], $content[1]['errors']);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'message' => AutomaticPersistedQueriesError::MESSAGE_INVALID_HASH,
                 'extensions' => [
                     'code' => AutomaticPersistedQueriesError::CODE_INTERNAL_SERVER_ERROR,
                     'category' => AutomaticPersistedQueriesError::CATEGORY_APQ,
-                ]
+                ],
             ],
         ], $content[2]['errors']);
     }
@@ -375,12 +374,12 @@ class AutomatedPersistedQueriesTest extends TestCase
             ['CONTENT_TYPE' => 'multipart/form-data']
         );
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
 
         // run persisted query
 
@@ -414,10 +413,10 @@ class AutomatedPersistedQueriesTest extends TestCase
             ['CONTENT_TYPE' => 'multipart/form-data']
         );
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
     }
 
     public function testPersistedQueryNotAnArray(): void
@@ -430,7 +429,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
 
@@ -450,6 +449,6 @@ class AutomatedPersistedQueriesTest extends TestCase
                 ],
             ],
         ];
-        $this->assertEquals($expected, $content);
+        self::assertEquals($expected, $content);
     }
 }
