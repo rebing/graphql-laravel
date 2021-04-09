@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/7.1.0...master)
 --------------
 
+### Added
+- Allow disabling batched requests [\#738 / mfn](https://github.com/rebing/graphql-laravel/pull/738)
+
 2021-04-08, 7.1.0
 -----------------
 ### Added

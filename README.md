@@ -1820,6 +1820,8 @@ There are tools that help with this and can handle the batching for you, e.g. [A
 > - No limitations on the number of queries/mutations  
 >   Currently there's no way to limit this.
 
+Support for batching can be disabled by setting the config `batching` to `false`.
+
 ### Scalar types
 
 GraphQL comes with built-in scalar types for string, int, boolean, etc. It's possible to create custom scalar types to special purpose fields.

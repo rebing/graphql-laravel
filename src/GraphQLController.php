@@ -40,8 +40,20 @@ class GraphQLController extends Controller
             $schema = config('graphql.default_schema');
         }
 
+        $headers = config('graphql.headers', []);
+        $jsonOptions = config('graphql.json_encoding_options', 0);
+
         // check if is batch (check if the array is associative)
         $isBatch = !Arr::isAssoc($request->input());
+
+        $supportsBatching = config('graphql.batching', true);
+
+        if ($isBatch && !$supportsBatching) {
+            $data = $this->createBatchingNotSupportedResponse($request->input());
+
+            return response()->json($data, 200, $headers, $jsonOptions);
+        }
+
         $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
@@ -52,9 +64,6 @@ class GraphQLController extends Controller
         }
 
         $data = $isBatch ? $completedQueries : $completedQueries[0];
-
-        $headers = config('graphql.headers', []);
-        $jsonOptions = config('graphql.json_encoding_options', 0);
 
         return response()->json($data, 200, $headers, $jsonOptions);
     }
@@ -184,5 +193,33 @@ class GraphQLController extends Controller
         }
 
         return $request->route()->parameters;
+    }
+
+    /**
+     * In case batching is not supported, send an error back for each batch
+     * (with a hardcoded limit of 100).
+     *
+     * The returned format still matches the GraphQL specs
+     *
+     * @param array<string,mixed> $input
+     * @return array<array{errors:array<array{message:string}>}>
+     */
+    protected function createBatchingNotSupportedResponse(array $input): array
+    {
+        $count = min(count($input), 100);
+
+        $data = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $data[] = [
+                'errors' => [
+                    [
+                        'message' => 'Batch request received but batching is not supported',
+                    ],
+                ],
+            ];
+        }
+
+        return $data;
     }
 }
