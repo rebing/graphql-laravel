@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\LaravelValidatorTests;
 
 use Illuminate\Validation\Validator;
@@ -25,7 +24,7 @@ class LaravelValidatorTest extends TestCase
         /** @var Validator $validator */
         $validator = \Validator::make($data, $rules);
 
-        $this->assertSame([], $validator->errors()->all());
+        self::assertSame([], $validator->errors()->all());
     }
 
     public function testInPassRuleFail(): void
@@ -47,7 +46,7 @@ class LaravelValidatorTest extends TestCase
         $expectedMessages = [
             'rule object validation fails',
         ];
-        $this->assertSame($expectedMessages, $validator->errors()->all());
+        self::assertSame($expectedMessages, $validator->errors()->all());
     }
 
     public function testInFailRulePass(): void
@@ -69,7 +68,7 @@ class LaravelValidatorTest extends TestCase
         $expectedMessages = [
             'The selected arg is invalid.',
         ];
-        $this->assertSame($expectedMessages, $validator->errors()->all());
+        self::assertSame($expectedMessages, $validator->errors()->all());
     }
 
     public function testInFailRuleFail(): void
@@ -89,6 +88,6 @@ class LaravelValidatorTest extends TestCase
         /** @var Validator $validator */
         $validator = \Validator::make($data, $rules);
 
-        $this->assertSame([], $validator->errors()->all());
+        self::assertSame([], $validator->errors()->all());
     }
 }

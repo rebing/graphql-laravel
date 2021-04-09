@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use Closure;
@@ -15,9 +14,6 @@ class GraphQLUploadMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -29,16 +25,12 @@ class GraphQLUploadMiddleware
 
     /**
      * Process the request and return either a modified request or the original one.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Request
      */
     public function processRequest(Request $request): Request
     {
         $contentType = $request->headers->get('content-type') ?: '';
 
-        if (mb_stripos($contentType, 'multipart/form-data') !== false) {
+        if (false !== mb_stripos($contentType, 'multipart/form-data')) {
             $this->validateParsedBody($request);
             $request = $this->parseUploadedFiles($request);
         }
@@ -48,20 +40,18 @@ class GraphQLUploadMiddleware
 
     /**
      * Inject uploaded files defined in the 'map' key into the 'variables' key.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Request
      */
     private function parseUploadedFiles(Request $request): Request
     {
         $bodyParams = $request->all();
-        if (! isset($bodyParams['map'])) {
+
+        if (!isset($bodyParams['map'])) {
             throw new RequestError('The request must define a `map`');
         }
 
         $map = json_decode($bodyParams['map'], true);
         $result = json_decode($bodyParams['operations'], true);
+
         if (isset($result['operationName'])) {
             $result['operation'] = $result['operationName'];
             unset($result['operationName']);
@@ -70,8 +60,9 @@ class GraphQLUploadMiddleware
         foreach ($map as $fileKey => $locations) {
             foreach ($locations as $location) {
                 $items = &$result;
+
                 foreach (explode('.', $location) as $key) {
-                    if (! isset($items[$key]) || ! is_array($items[$key])) {
+                    if (!isset($items[$key]) || !is_array($items[$key])) {
                         $items[$key] = [];
                     }
                     $items = &$items[$key];
@@ -88,9 +79,6 @@ class GraphQLUploadMiddleware
 
     /**
      * Validates that the request meet our expectations.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return void
      */
     private function validateParsedBody(Request $request): void
     {
@@ -102,9 +90,9 @@ class GraphQLUploadMiddleware
             );
         }
 
-        if (! is_array($bodyParams)) {
+        if (!is_array($bodyParams)) {
             throw new RequestError(
-                'GraphQL Server expects JSON object or array, but got '.Utils::printSafeJson($bodyParams)
+                'GraphQL Server expects JSON object or array, but got ' . Utils::printSafeJson($bodyParams)
             );
         }
 

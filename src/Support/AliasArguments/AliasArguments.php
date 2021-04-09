@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\AliasArguments;
 
 use GraphQL\Type\Definition\InputObjectField;
@@ -42,7 +41,6 @@ class AliasArguments
      * c/p from https://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is/262944#262944.
      *
      * @param array<string,mixed> $array
-     * @return int
      */
     protected function getArrayDepth(array $array): int
     {
@@ -69,6 +67,7 @@ class AliasArguments
             return [];
         }
         $pathAndAlias = [];
+
         foreach ($fields as $name => $arg) {
             $type = null;
 
@@ -84,9 +83,10 @@ class AliasArguments
                 continue;
             }
 
-            $newPrefix = $prefix ? $prefix.'.'.$name : $name;
+            $newPrefix = $prefix ? $prefix . '.' . $name : $name;
 
             $alias = $arg->config['alias'] ?? $arg->alias ?? null;
+
             if ($alias) {
                 $pathAndAlias[$newPrefix] = $alias;
             }
@@ -97,7 +97,7 @@ class AliasArguments
 
             $type = $this->getWrappedType($type);
 
-            if (! ($type instanceof InputObjectType)) {
+            if (!($type instanceof InputObjectType)) {
                 continue;
             }
 

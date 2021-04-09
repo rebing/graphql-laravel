@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
 use GraphQL\Type\Definition\Type;
@@ -9,9 +8,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class MutationWithCustomRuleWithRuleObject extends Mutation
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'mutationWithCustomRuleWithRuleObject',
     ];
@@ -50,7 +47,6 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
     /**
      * @param mixed $root
      * @param array<string,mixed> $args
-     * @return string
      */
     public function resolve($root, array $args): string
     {

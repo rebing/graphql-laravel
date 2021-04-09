@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\TypesInSchemas\SchemaTwo;
 
 use GraphQL\Type\Definition\Type as BaseType;

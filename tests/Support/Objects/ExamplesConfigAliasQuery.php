@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
@@ -28,7 +27,7 @@ class ExamplesConfigAliasQuery extends Query
 
     public function resolve($root, $args)
     {
-        $data = include __DIR__.'/data.php';
+        $data = include __DIR__ . '/data.php';
 
         if (isset($args['index'])) {
             return [

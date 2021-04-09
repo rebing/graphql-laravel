@@ -7,7 +7,5 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__);
 return (new Config())
         ->setFinder($finder)
-        ->setRules([
-            '@PSR12' => true,
-        ])
+        ->setRules(\Mfn\PhpCsFixer\Config::getRules())
         ->setRiskyAllowed(true);

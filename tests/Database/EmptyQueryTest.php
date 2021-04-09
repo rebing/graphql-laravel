@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
@@ -11,23 +10,21 @@ class EmptyQueryTest extends TestCaseDatabase
     /**
      * @dataProvider dataForEmptyQuery
      * @param array<mixed> $parameters
-     * @param bool $isBatchRequest
-     * @param bool $expectErrors
      */
     public function testEmptyQuery(array $parameters, bool $isBatchRequest, bool $expectErrors): void
     {
         $response = $this->call('GET', '/graphql', $parameters);
 
-        $this->assertSame(200, $response->getStatusCode());
+        self::assertSame(200, $response->getStatusCode());
         $results = $isBatchRequest ? $response->getData(true) : [$response->getData(true)];
 
         foreach ($results as $result) {
             if ($expectErrors) {
-                $this->assertCount(1, $result['errors']);
-                $this->assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
-                $this->assertSame('graphql', $result['errors'][0]['extensions']['category']);
+                self::assertCount(1, $result['errors']);
+                self::assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
+                self::assertSame('graphql', $result['errors'][0]['extensions']['category']);
             } else {
-                $this->assertArrayNotHasKey('errors', $result);
+                self::assertArrayNotHasKey('errors', $result);
             }
         }
     }

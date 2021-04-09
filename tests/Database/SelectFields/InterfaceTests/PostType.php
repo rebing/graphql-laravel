@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use GraphQL\Type\Definition\Type;
@@ -27,7 +26,7 @@ class PostType extends GraphQLType
                     'type' => Type::string(),
                 ],
                 'alias_updated_at' => [
-                    'type'  => Type::string(),
+                    'type' => Type::string(),
                     'alias' => 'updated_at',
                 ],
                 'likes' => [

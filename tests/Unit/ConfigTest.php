@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\BuildSchema;
@@ -19,10 +18,9 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
-
             'prefix' => 'graphql_test',
 
             'routes' => [
@@ -73,7 +71,6 @@ class ConfigTest extends TestCase
                 'query_max_complexity' => 1000,
                 'query_max_depth' => 10,
             ],
-
         ]);
     }
 
@@ -83,10 +80,10 @@ class ConfigTest extends TestCase
             'query' => $this->queries['examplesCustom'],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('data', $content);
     }
 
     public function testRouteMutation(): void
@@ -95,16 +92,16 @@ class ConfigTest extends TestCase
             'query' => $this->queries['updateExampleCustom'],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('data', $content);
     }
 
     public function testTypes(): void
     {
         $types = GraphQL::getTypes();
-        $this->assertArrayHasKey('Example', $types);
+        self::assertArrayHasKey('Example', $types);
     }
 
     public function testSchema(): void
@@ -112,16 +109,16 @@ class ConfigTest extends TestCase
         $schema = GraphQL::schema();
         $schemaCustom = GraphQL::schema('custom');
 
-        $this->assertEquals($schema, $schemaCustom);
+        self::assertEquals($schema, $schemaCustom);
     }
 
     public function testSchemas(): void
     {
         $schemas = GraphQL::getSchemas();
 
-        $this->assertArrayHasKey('default', $schemas);
-        $this->assertArrayHasKey('custom', $schemas);
-        $this->assertArrayHasKey('shorthand', $schemas);
+        self::assertArrayHasKey('default', $schemas);
+        self::assertArrayHasKey('custom', $schemas);
+        self::assertArrayHasKey('shorthand', $schemas);
     }
 
     public function testVariablesInputName(): void
@@ -133,11 +130,11 @@ class ConfigTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals($content['data'], [
             'examples' => [
                 $this->data[0],
             ],
@@ -148,11 +145,11 @@ class ConfigTest extends TestCase
     {
         /** @var QueryComplexity $queryComplexity */
         $queryComplexity = DocumentValidator::getRule('QueryComplexity');
-        $this->assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
+        self::assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
 
         /** @var QueryDepth $queryDepth */
         $queryDepth = DocumentValidator::getRule('QueryDepth');
-        $this->assertEquals(10, $queryDepth->getMaxQueryDepth());
+        self::assertEquals(10, $queryDepth->getMaxQueryDepth());
     }
 
     public function testErrorFormatter(): void
@@ -161,7 +158,7 @@ class ConfigTest extends TestCase
                     ->setMethods(['formatError'])
                     ->getMock();
 
-        $error->expects($this->once())
+        $error->expects(self::once())
             ->method('formatError');
 
         config([

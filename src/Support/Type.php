@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\EnumType;
@@ -57,7 +56,7 @@ abstract class Type implements TypeConvertible
             return $field['resolve'];
         }
 
-        $resolveMethod = 'resolve'.Str::studly($name).'Field';
+        $resolveMethod = 'resolve' . Str::studly($name) . 'Field';
 
         if (method_exists($this, $resolveMethod)) {
             $resolver = [$this, $resolveMethod];
@@ -84,6 +83,7 @@ abstract class Type implements TypeConvertible
     {
         $fields = $this->fields();
         $allFields = [];
+
         foreach ($fields as $name => $field) {
             if (is_string($field)) {
                 $field = app($field);
@@ -96,6 +96,7 @@ abstract class Type implements TypeConvertible
                 $allFields[$field->name] = $field;
             } else {
                 $resolver = $this->getFieldResolver($name, $field);
+
                 if ($resolver) {
                     $field['resolve'] = $resolver;
                 }
@@ -108,8 +109,6 @@ abstract class Type implements TypeConvertible
 
     /**
      * Get the attributes from the container.
-     *
-     * @return array
      */
     public function getAttributes(): array
     {
@@ -131,8 +130,6 @@ abstract class Type implements TypeConvertible
 
     /**
      * Convert the Fluent instance to an array.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -144,6 +141,7 @@ abstract class Type implements TypeConvertible
         if ($this->inputObject) {
             return new InputObjectType($this->toArray());
         }
+
         if ($this->enumObject) {
             return new EnumType($this->toArray());
         }

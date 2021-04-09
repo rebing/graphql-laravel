@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\RecursionTest;
 
 use Rebing\GraphQL\Tests\TestCase;
@@ -13,7 +12,7 @@ use Rebing\GraphQL\Tests\Unit\RecursionTest\Mutations\SavePublisher;
 
 class RecursionTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
@@ -30,7 +29,9 @@ class RecursionTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function infiniteLoopDirectToOne(): void
     {
         $post = [
@@ -51,7 +52,9 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SaveAuthor' => true]]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function infiniteLoopDirectToMany(): void
     {
         $post = [
@@ -72,7 +75,9 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SaveAuthor' => true]]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function infiniteLoopIndirectToOne(): void
     {
         $post = [
@@ -96,7 +101,9 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SavePublisher' => true]]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function infiniteLoopIndirectToMany(): void
     {
         $post = [

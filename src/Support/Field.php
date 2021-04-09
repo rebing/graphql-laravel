@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
@@ -38,12 +37,8 @@ abstract class Field
      * Override this in your queries or mutations
      * to provide custom authorization.
      *
-     * @param  mixed  $root
-     * @param  array  $args
-     * @param  mixed  $ctx
-     * @param  ResolveInfo|null  $resolveInfo
-     * @param  Closure|null  $getSelectFields
-     * @return bool
+     * @param mixed $root
+     * @param mixed $ctx
      */
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
@@ -69,8 +64,6 @@ abstract class Field
      * Define custom Laravel Validator messages as per Laravel 'custom error messages'.
      *
      * @param array $args submitted arguments
-     *
-     * @return array
      */
     public function validationErrorMessages(array $args = []): array
     {
@@ -100,13 +93,14 @@ abstract class Field
 
     /**
      * @param array<string,mixed> $fieldsAndArgumentsSelection
-     * @return void
      */
     public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
     {
         $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
+
         if (count($argsRules)) {
             $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
+
             if ($validator->fails()) {
                 throw new ValidationError('validation', $validator);
             }
@@ -133,7 +127,7 @@ abstract class Field
     {
         $resolver = $this->originalResolver();
 
-        if (! $resolver) {
+        if (!$resolver) {
             return null;
         }
 
@@ -152,7 +146,7 @@ abstract class Field
                         $instance = app()->make($name);
 
                         if (method_exists($instance, 'terminate')) {
-                            app()->terminating(function () use ($arguments, $instance, $result) {
+                            app()->terminating(function () use ($arguments, $instance, $result): void {
                                 $instance->terminate($this, ...array_slice($arguments, 1), ...[$result]);
                             });
                         }
@@ -165,7 +159,7 @@ abstract class Field
 
     protected function originalResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolve')) {
+        if (!method_exists($this, 'resolve')) {
             return null;
         }
 
@@ -187,6 +181,7 @@ abstract class Field
 
             if (count($rules)) {
                 $validator = $this->getValidator($args, $rules);
+
                 if ($validator->fails()) {
                     throw new ValidationError('validation', $validator);
                 }
@@ -245,13 +240,12 @@ abstract class Field
      * @param array<int,mixed> $arguments
      * @param int $depth
      * @param array<string,mixed> $fieldsAndArguments
-     * @return SelectFields
      */
     private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 
-        if ($depth !== null && $depth !== $this->depth) {
+        if (null !== $depth && $depth !== $this->depth) {
             $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))
                 ->getFieldsAndArgumentsSelection($depth);
         }
@@ -271,8 +265,6 @@ abstract class Field
 
     /**
      * Get the attributes from the container.
-     *
-     * @return array
      */
     public function getAttributes(): array
     {
@@ -287,6 +279,7 @@ abstract class Field
         $attributes['type'] = $this->type();
 
         $resolver = $this->getResolver();
+
         if (isset($resolver)) {
             $attributes['resolve'] = $resolver;
         }
@@ -301,8 +294,6 @@ abstract class Field
 
     /**
      * Convert the Fluent instance to an array.
-     *
-     * @return array
      */
     public function toArray(): array
     {

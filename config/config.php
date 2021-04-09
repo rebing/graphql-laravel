@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 return [
-
     // The prefix for routes
     'prefix' => 'graphql',
 
@@ -37,7 +36,7 @@ return [
     //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => \Rebing\GraphQL\GraphQLController::class.'@query',
+    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
@@ -178,7 +177,7 @@ return [
      */
     'graphiql' => [
         'prefix' => '/graphiql',
-        'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
+        'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
         'middleware' => [],
         'view' => 'graphql::graphiql',
         'display' => env('ENABLE_GRAPHIQL', true),

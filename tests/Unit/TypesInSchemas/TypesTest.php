@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\TypesInSchemas;
 
 use Rebing\GraphQL\Tests\TestCase;
@@ -36,7 +35,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testQueryInDefaultSchemaAndTypeGlobal(): void
@@ -67,7 +66,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testQueryAndTypeInCustomSchemaQueryingDefaultSchema(): void
@@ -109,7 +108,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testQueryAndTypeInCustomSchemaQueryingCustomSchema(): void
@@ -144,7 +143,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testQueryInCustomSchemaAndTypeGlobalQueryingNonDefualtSchema(): void
@@ -179,7 +178,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testQueriesAndTypesEachInTheirOwnSchema(): void
@@ -217,7 +216,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $query = <<<'GRAPHQL'
 {
@@ -238,7 +237,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testSameQueryInDifferentSchemasAndTypeGlobal(): void
@@ -273,7 +272,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $query = <<<'GRAPHQL'
 {
@@ -292,7 +291,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testDifferentQueriesInDifferentSchemasAndTypeGlobal(): void
@@ -327,7 +326,7 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $query = <<<'GRAPHQL'
 {
@@ -356,15 +355,15 @@ GRAPHQL;
                 ],
             ],
         ];
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         // Note: deliberately not calling parent to start with a clean config
 
         // To still properly support dual tests, we thus have to add this
-        if (env('TESTS_ENABLE_LAZYLOAD_TYPES') === '1') {
+        if ('1' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
             $app['config']->set('graphql.lazyload_types', true);
         }
     }

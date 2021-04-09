@@ -47,7 +47,8 @@
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
         "ext-pdo_sqlite": "*",
-        "laravel/legacy-factories": "^1.0"
+        "laravel/legacy-factories": "^1.0",
+        "mfn/php-cs-fixer-config": "^1"
     },
     "autoload": {
         "psr-4": {

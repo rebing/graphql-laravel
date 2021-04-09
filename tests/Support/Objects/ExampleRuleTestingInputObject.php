@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\ListOfType;
@@ -12,9 +11,7 @@ use Rebing\GraphQL\Support\InputType;
 
 class ExampleRuleTestingInputObject extends InputType
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'ExampleRuleTestingInputObject',
     ];

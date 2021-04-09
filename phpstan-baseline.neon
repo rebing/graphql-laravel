@@ -1,7 +1,57 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addSchema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addTypes\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromClass\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:formatError\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemas\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:mergeSchemas\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:objectType\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
@@ -31,57 +81,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addTypes\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:objectType\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromClass\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addSchema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:mergeSchemas\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemas\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:formatError\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
@@ -111,6 +111,11 @@ parameters:
 			path: src/GraphQLServiceProvider.php
 
 		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
+			count: 1
+			path: src/Support/AliasArguments/AliasArguments.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
@@ -131,9 +136,19 @@ parameters:
 			path: src/Support/AliasArguments/AliasArguments.php
 
 		-
-			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) has parameter \\$segments with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
+			path: src/Support/AliasArguments/ArrayKeyChange.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) has parameter \\$target with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/AliasArguments/ArrayKeyChange.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:modify\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
@@ -156,52 +171,7 @@ parameters:
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) has parameter \\$segments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) has parameter \\$target with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:changeKey\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:attributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getValidator\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getValidator\\(\\) has parameter \\$rules with no value type specified in iterable type array\\.$#"
+			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
@@ -211,7 +181,7 @@ parameters:
 			path: src/Support/Field.php
 
 		-
-			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:__set\\(\\) has parameter \\$value with no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
@@ -222,6 +192,16 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:aliasArgs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:attributes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
@@ -241,12 +221,32 @@ parameters:
 			path: src/Support/Field.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getValidator\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:getValidator\\(\\) has parameter \\$rules with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:__set\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
@@ -256,13 +256,13 @@ parameters:
 			path: src/Support/InterfaceType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\PaginationType\\:\\:getPaginationFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
+			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
+			count: 2
 			path: src/Support/PaginationType.php
 
 		-
-			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
-			count: 2
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\PaginationType\\:\\:getPaginationFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
 			path: src/Support/PaginationType.php
 
 		-
@@ -271,27 +271,12 @@ parameters:
 			path: src/Support/Privacy.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getFieldsAndArgumentsSelection\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/ResolveInfoFieldsAndArguments.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:foldSelectionSet\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
 
 		-
-			message: "#^Property GraphQL\\\\Language\\\\AST\\\\FieldNode\\:\\:\\$arguments \\(GraphQL\\\\Language\\\\AST\\\\NodeList\\<GraphQL\\\\Language\\\\AST\\\\ArgumentNode\\>\\) on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: src/Support/ResolveInfoFieldsAndArguments.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getValue\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: src/Support/ResolveInfoFieldsAndArguments.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getInputObjectValue\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getFieldsAndArgumentsSelection\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/ResolveInfoFieldsAndArguments.php
 
@@ -301,22 +286,52 @@ parameters:
 			path: src/Support/ResolveInfoFieldsAndArguments.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getInputObjectValue\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\ResolveInfoFieldsAndArguments\\:\\:getValue\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
+			message: "#^Property GraphQL\\\\Language\\\\AST\\\\FieldNode\\:\\:\\$arguments \\(GraphQL\\\\Language\\\\AST\\\\NodeList\\<GraphQL\\\\Language\\\\AST\\\\ArgumentNode\\>\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/Support/ResolveInfoFieldsAndArguments.php
+
+		-
 			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$rules\\.$#"
 			count: 1
 			path: src/Support/Rules.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$select type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$relations type has no value type specified in iterable type array\\.$#"
+			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:__construct\\(\\) has parameter \\$queryArgs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addAlwaysFields\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addFieldToSelect\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getSelect\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -351,46 +366,6 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addFieldToSelect\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:isQueryable\\(\\) has parameter \\$fieldObject with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleRelation\\(\\) has parameter \\$field with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleRelation\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:addAlwaysFields\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleInterfaceFields\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleInterfaceFields\\(\\) has parameter \\$field with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
@@ -411,12 +386,32 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getSelect\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleRelation\\(\\) has parameter \\$field with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:handleRelation\\(\\) has parameter \\$select with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:isQueryable\\(\\) has parameter \\$fieldObject with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$relations type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$select type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -426,7 +421,7 @@ parameters:
 			path: src/Support/SimplePaginationType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:__set\\(\\) has parameter \\$value with no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -436,7 +431,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -446,17 +441,12 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), string\\) given\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getFields\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -466,7 +456,12 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:__set\\(\\) has parameter \\$value with no typehint specified\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), string\\) given\\.$#"
+			count: 1
+			path: src/Support/Type.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -486,8 +481,13 @@ parameters:
 			path: src/Support/UploadType.php
 
 		-
-			message: "#^PHPDoc tag @var for variable \\$router contains unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 2
+			message: "#^Call to method get\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
+			count: 3
+			path: src/routes.php
+
+		-
+			message: "#^Call to method post\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
+			count: 3
 			path: src/routes.php
 
 		-
@@ -496,18 +496,13 @@ parameters:
 			path: src/routes.php
 
 		-
+			message: "#^PHPDoc tag @var for variable \\$router contains unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
+			count: 2
+			path: src/routes.php
+
+		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed, mixed\\)\\: bool\\)\\|null, Closure\\(array, string\\)\\: bool\\|null given\\.$#"
 			count: 1
-			path: src/routes.php
-
-		-
-			message: "#^Call to method get\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 3
-			path: src/routes.php
-
-		-
-			message: "#^Call to method post\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 3
 			path: src/routes.php
 
 		-
@@ -526,11 +521,6 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
@@ -541,7 +531,7 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
@@ -556,19 +546,14 @@ parameters:
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectPass.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
+			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
@@ -581,14 +566,14 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikeType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikeType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -596,14 +581,14 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysRelationTests/PostType.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/AlwaysRelationTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UserType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -626,9 +611,9 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\AlwaysQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
+			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\AlwaysQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -651,6 +636,11 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\AlwaysQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/CommentType.php
@@ -659,11 +649,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/PostType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\ArrayQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\ArrayQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -682,6 +667,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\ArrayQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ArrayTests\\\\ArrayQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
@@ -706,11 +696,6 @@ parameters:
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UserType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
@@ -731,6 +716,11 @@ parameters:
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/PostType.php
@@ -739,11 +729,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UserType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -766,9 +751,9 @@ parameters:
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/CommentType.php
+			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -776,9 +761,9 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/CommentType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
+			path: tests/Database/SelectFields/InterfaceTests/CommentType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -801,12 +786,17 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
 
@@ -816,24 +806,14 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/ExampleRelationType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\InterfaceImpl1Type\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\InterfaceImpl1Type\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\InterfaceImpl1Type\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:types\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
+			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
@@ -846,14 +826,19 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:types\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikeType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikeType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -861,9 +846,9 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/PostType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
+			path: tests/Database/SelectFields/InterfaceTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -886,14 +871,14 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -901,9 +886,9 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
+			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
@@ -916,14 +901,14 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikeType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikeType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -931,14 +916,14 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/PostType.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/MorphRelationshipTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UserType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -961,6 +946,11 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/CommentType.php
@@ -974,11 +964,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UserType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1001,6 +986,11 @@ parameters:
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/CommentType.php
@@ -1009,11 +999,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PostType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyPaginationQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyPaginationQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1036,9 +1021,9 @@ parameters:
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyPaginationQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
+			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1057,6 +1042,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PrimaryKeyQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
@@ -1091,11 +1081,6 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UserType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
@@ -1107,6 +1092,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
@@ -1131,11 +1121,6 @@ parameters:
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UserType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
@@ -1156,6 +1141,11 @@ parameters:
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/CommentType.php
@@ -1164,11 +1154,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/PostType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1191,14 +1176,14 @@ parameters:
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExampleType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/CustomExampleType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1216,6 +1201,11 @@ parameters:
 			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/CustomExamplesQuery.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ErrorFormatter\\:\\:formatError\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Support/Objects/ErrorFormatter.php
@@ -1224,11 +1214,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleEnumType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleEnumType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleField\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExampleField.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleField\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1246,6 +1231,11 @@ parameters:
 			path: tests/Support/Objects/ExampleField.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleField\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleField.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleFilterInputType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleFilterInputType.php
@@ -1254,11 +1244,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInputType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleInputType.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) has parameter \\$root with no typehint specified\\.$#"
@@ -1271,9 +1256,9 @@ parameters:
 			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
+			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1291,6 +1276,11 @@ parameters:
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleType.php
@@ -1299,11 +1289,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleType2\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleType2.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleUnionType\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExampleUnionType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleUnionType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
@@ -1316,9 +1301,9 @@ parameters:
 			path: tests/Support/Objects/ExampleUnionType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationField\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleUnionType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExampleValidationField.php
+			path: tests/Support/Objects/ExampleUnionType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationField\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1336,9 +1321,9 @@ parameters:
 			path: tests/Support/Objects/ExampleValidationField.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationField\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExampleValidationInputObject.php
+			path: tests/Support/Objects/ExampleValidationField.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationInputObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1356,9 +1341,9 @@ parameters:
 			path: tests/Support/Objects/ExampleValidationInputObject.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeMessageQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
+			path: tests/Support/Objects/ExampleValidationInputObject.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeMessageQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -1386,9 +1371,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeMessageQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
+			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -1416,9 +1401,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
+			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1436,9 +1421,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesFilteredQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesFilteredQuery.php
+			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesFilteredQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1461,9 +1446,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesFilteredQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesPaginationQuery.php
+			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1481,9 +1466,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Objects/ExamplesQuery.php
+			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1501,9 +1486,9 @@ parameters:
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
+			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1526,9 +1511,9 @@ parameters:
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostQuery.php
+			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1546,9 +1531,9 @@ parameters:
 			path: tests/Support/Queries/PostQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithNonInjectableTypehintsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
+			path: tests/Support/Queries/PostQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithNonInjectableTypehintsQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1571,9 +1556,9 @@ parameters:
 			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithSelectFieldsClassInjectionQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithNonInjectableTypehintsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
+			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithSelectFieldsClassInjectionQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1596,9 +1581,9 @@ parameters:
 			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostQueryWithSelectFieldsClassInjectionQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
+			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1621,9 +1606,9 @@ parameters:
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
+			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1646,9 +1631,9 @@ parameters:
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
+			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1671,9 +1656,9 @@ parameters:
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelAndAliasQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
+			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1696,9 +1681,9 @@ parameters:
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsNoModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
+			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsNoModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1721,9 +1706,9 @@ parameters:
 			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsListOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostWithSelectFieldsNoModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
+			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsListOfWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1746,9 +1731,9 @@ parameters:
 			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsListOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
+			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1771,9 +1756,9 @@ parameters:
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
+			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -1792,6 +1777,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
 
@@ -1826,27 +1816,7 @@ parameters:
 			path: tests/Support/Types/PostWithModelType.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$queries has no typehint specified\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$data has no typehint specified\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:assertGraphQLSchema\\(\\) has parameter \\$schema with no typehint specified\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:assertGraphQLSchemaHasQuery\\(\\) has parameter \\$key with no typehint specified\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:assertGraphQLSchemaHasQuery\\(\\) has parameter \\$schema with no typehint specified\\.$#"
 			count: 1
 			path: tests/TestCase.php
 
@@ -1861,7 +1831,17 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:getPackageProviders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:assertGraphQLSchemaHasQuery\\(\\) has parameter \\$key with no typehint specified\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:assertGraphQLSchemaHasQuery\\(\\) has parameter \\$schema with no typehint specified\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:formatSafeTrace\\(\\) has parameter \\$trace with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCase.php
 
@@ -1871,12 +1851,7 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$interactiveInput with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:getPackageProviders\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCase.php
 
@@ -1901,7 +1876,22 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:formatSafeTrace\\(\\) has parameter \\$trace with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$interactiveInput with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$data has no typehint specified\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$queries has no typehint specified\\.$#"
 			count: 1
 			path: tests/TestCase.php
 
@@ -1926,11 +1916,6 @@ parameters:
 			path: tests/Unit/AliasAguments/Stubs/ExampleValidationInputObject.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
@@ -1942,6 +1927,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
 
@@ -1991,17 +1981,17 @@ parameters:
 			path: tests/Unit/Console/UnionMakeCommandTest.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\EngineErrorInResolverTests\\\\QueryWithEngineErrorInCodeQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
@@ -2014,16 +2004,6 @@ parameters:
 			message: "#^Unable to resolve the template type RealInstanceType in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
 			count: 1
 			path: tests/Unit/FieldTest.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:\\$defaultFormat has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
@@ -2041,9 +2021,14 @@ parameters:
 			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\UserQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Unit/InstantiableTypesTest/UserQuery.php
+			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:\\$defaultFormat has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\UserQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -2057,6 +2042,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\UserQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/InstantiableTypesTest/UserQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\UserQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/UserQuery.php
 
@@ -2076,17 +2066,17 @@ parameters:
 			path: tests/Unit/LaravelValidatorTests/RuleObjectPass.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationCustomRulesTests\\\\MutationWithCustomRuleWithClosure\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
 
@@ -2126,12 +2116,12 @@ parameters:
 			path: tests/Unit/QueryTest.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
 
@@ -2141,12 +2131,12 @@ parameters:
 			path: tests/Unit/TypesInSchemas/SchemaOne/Type.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
 
@@ -2154,11 +2144,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Type.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:\\$attributes has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -2176,9 +2161,9 @@ parameters:
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
+			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -2191,9 +2176,9 @@ parameters:
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
+			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -2201,9 +2186,9 @@ parameters:
 			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
 
 		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
-			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
+			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -2221,9 +2206,19 @@ parameters:
 			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
 
 		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostMessagesQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/WithTypeTests/PostType.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\SimpleMessage\\:\\:\\$code has no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/WithTypeTests/SimpleMessage.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\SimpleMessage\\:\\:\\$message has no typehint specified\\.$#"
@@ -2232,11 +2227,6 @@ parameters:
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\SimpleMessage\\:\\:\\$type has no typehint specified\\.$#"
-			count: 1
-			path: tests/Unit/WithTypeTests/SimpleMessage.php
-
-		-
-			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\SimpleMessage\\:\\:\\$code has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/WithTypeTests/SimpleMessage.php
 

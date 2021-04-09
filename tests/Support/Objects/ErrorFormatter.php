@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Error\Error;
@@ -16,13 +15,15 @@ class ErrorFormatter
         ];
 
         $locations = $e->getLocations();
-        if (! empty($locations)) {
+
+        if (!empty($locations)) {
             $error['locations'] = array_map(function ($loc) {
                 return $loc->toArray();
             }, $locations);
         }
 
         $previous = $e->getPrevious();
+
         if ($previous && $previous instanceof ValidationError) {
             $error['validation'] = $previous->getValidatorMessages();
         }

@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests;
 
+use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use PHPUnit\Framework\Assert;
@@ -56,7 +56,7 @@ class UsersQuery extends Query
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, \Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         /** @var SelectFields $fields */
         $fields = $getSelectFields();

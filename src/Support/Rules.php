@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\InputObjectField;
@@ -12,13 +11,9 @@ use GraphQL\Type\Definition\Type as GraphqlType;
 
 class Rules
 {
-    /**
-     * @var  array<string,mixed>
-     */
+    /** @var array<string,mixed> */
     private $queryArguments;
-    /**
-     * @var array<string,mixed>
-     */
+    /** @var array<string,mixed> */
     private $requestArguments;
 
     /**
@@ -40,8 +35,8 @@ class Rules
     }
 
     /**
-     * @param  array<string,mixed>|string|callable  $rules
-     * @param  array<string,mixed>  $arguments
+     * @param array<string,mixed>|string|callable $rules
+     * @param array<string,mixed> $arguments
      * @return array<string,mixed>|string
      */
     protected function resolveRules($rules, array $arguments)
@@ -54,8 +49,6 @@ class Rules
     }
 
     /**
-     * @param GraphqlType $type
-     * @param string $prefix
      * @param array<string,mixed> $resolutionArguments
      * @return array<string,mixed>
      */
@@ -91,7 +84,8 @@ class Rules
 
                 foreach ($resolutionArguments as $index => $input) {
                     $key = "{$prefix}.{$index}";
-                    if ($input !== null) {
+
+                    if (null !== $input) {
                         $rules = $rules + $this->getInputTypeRules($type, $key, $input);
                     }
                 }
@@ -106,8 +100,6 @@ class Rules
     }
 
     /**
-     * @param InputObjectType $input
-     * @param string $prefix
      * @param array<string,mixed> $resolutionArguments
      * @return array<string,mixed>
      */
@@ -120,7 +112,6 @@ class Rules
      * Get rules from fields.
      *
      * @param array<string,mixed> $fields
-     * @param string|null $prefix
      * @param array<string,mixed> $resolutionArguments
      * @return array<string,mixed>
      */
@@ -131,10 +122,11 @@ class Rules
         foreach ($fields as $name => $field) {
             $field = $field instanceof InputObjectField ? $field : (object) $field;
 
-            $key = $prefix === null ? $name : "{$prefix}.{$name}";
+            $key = null === $prefix ? $name : "{$prefix}.{$name}";
 
             // get any explicitly set rules
             $fieldRules = $field->config['rules'] ?? $field->rules ?? null;
+
             if ($fieldRules) {
                 $rules[$key] = $this->resolveRules($fieldRules, $resolutionArguments);
             }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
 use DB;
@@ -29,7 +28,7 @@ trait SqlAssertionTrait
     {
         $this->sqlCounterReset();
 
-        DB::listen(function (QueryExecuted $event) {
+        DB::listen(function (QueryExecuted $event): void {
             $this->sqlQueryEvents[] = $event;
         });
     }
@@ -39,7 +38,6 @@ trait SqlAssertionTrait
      *
      * After "reading" this value, the counters are reset.
      *
-     * @param int $expectedCount
      * @param string $msg Will only be displayed if the assertion fails
      */
     protected function assertSqlCount(int $expectedCount, string $msg = ''): void
@@ -82,7 +80,6 @@ trait SqlAssertionTrait
      *
      * After "reading" this value, the counters are reset.
      *
-     * @param string $expectedQueries
      * @param string $msg Will only be displayed if the assertion fails
      */
     protected function assertSqlQueries(string $expectedQueries, string $msg = ''): void
@@ -111,7 +108,7 @@ trait SqlAssertionTrait
                                 '= ?',
                             ],
                             $query->sql
-                        ).';';
+                        ) . ';';
                     },
                     $this->sqlQueryEvents
                 )
@@ -120,7 +117,7 @@ trait SqlAssertionTrait
 
         $this->sqlCounterReset();
 
-        if (! $msg) {
+        if (!$msg) {
             $msg = 'SQL queries mismatch';
         }
 

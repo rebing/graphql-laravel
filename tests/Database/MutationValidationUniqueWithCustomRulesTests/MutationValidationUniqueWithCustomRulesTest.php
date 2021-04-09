@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
 use Illuminate\Contracts\Support\MessageBag;
@@ -47,7 +46,7 @@ SQL
                 'mutationWithCustomRuleWithRuleObject' => 'mutation result',
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testUniqueFailRulePass(): void
@@ -79,14 +78,14 @@ select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'The arg unique rule pass has already been taken.',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testUniquePassRuleFail(): void
@@ -112,14 +111,14 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'rule object validation fails',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testUniqueFailRuleFail(): void
@@ -151,15 +150,15 @@ select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'The arg unique rule fail has already been taken.',
             'rule object validation fails',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testErrorExtension(): void
@@ -185,10 +184,10 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSame('validation', $result['errors'][0]['extensions']['category']);
+        self::assertSame('validation', $result['errors'][0]['extensions']['category']);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

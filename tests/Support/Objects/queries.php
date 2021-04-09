@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 return [
-
     'examples' => '
         query QueryExamples {
             examples {
@@ -113,5 +112,4 @@ return [
             }
         }
     ',
-
 ];

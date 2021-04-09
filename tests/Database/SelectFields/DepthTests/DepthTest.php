@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\DepthTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -53,9 +52,9 @@ GRAQPHQL;
             'expectErrors' => true,
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('Internal server error', $result['errors'][0]['message']);
-        $this->assertSame('SQLSTATE[HY000]: General error: 1 no such column: posts.user (SQL: select "posts"."id", "posts"."user", "posts"."user_id" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)', $result['errors'][0]['debugMessage']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('Internal server error', $result['errors'][0]['message']);
+        self::assertSame('SQLSTATE[HY000]: General error: 1 no such column: posts.user (SQL: select "posts"."id", "posts"."user", "posts"."user_id" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)', $result['errors'][0]['debugMessage']);
     }
 
     public function testDefaultDepthAdjusted(): void
@@ -141,10 +140,10 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

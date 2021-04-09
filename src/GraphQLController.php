@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use Exception;
@@ -32,16 +31,17 @@ class GraphQLController extends Controller
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
         $routeParameters = $this->getRouteParameters($request);
+
         if (count($routeParameters) > 1) {
             $schema = implode('/', $routeParameters);
         }
 
-        if (! $schema) {
+        if (!$schema) {
             $schema = config('graphql.default_schema');
         }
 
         // check if is batch (check if the array is associative)
-        $isBatch = ! Arr::isAssoc($request->input());
+        $isBatch = !Arr::isAssoc($request->input());
         $inputs = $isBatch ? $request->input() : [$request->input()];
 
         $completedQueries = [];
@@ -74,6 +74,7 @@ class GraphQLController extends Controller
 
         $paramsKey = config('graphql.params_key', 'variables');
         $params = $input[$paramsKey] ?? null;
+
         if (is_string($params)) {
             $params = json_decode($params, true);
         }
@@ -102,9 +103,7 @@ class GraphQLController extends Controller
      * Note: it's expected this is called even when APQ is disabled to adhere
      *       to the negotiation protocol.
      *
-     * @param  string  $schemaName
-     * @param  array<string,mixed>  $input
-     * @return string
+     * @param array<string,mixed> $input
      */
     protected function handleAutomaticPersistQueries(string $schemaName, array $input): string
     {
@@ -113,6 +112,7 @@ class GraphQLController extends Controller
 
         // Even if APQ is disabled, we keep this logic for the negotiation protocol
         $persistedQuery = $input['extensions']['persistedQuery'] ?? null;
+
         if ($persistedQuery && !$apqEnabled) {
             throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
         }
@@ -124,6 +124,7 @@ class GraphQLController extends Controller
 
         // No hash? Nothing to be done
         $hash = $persistedQuery['sha256Hash'] ?? null;
+
         if (null === $hash) {
             return $query;
         }
@@ -155,9 +156,10 @@ class GraphQLController extends Controller
 
     public function graphiql(Request $request, string $schema = null): View
     {
-        $graphqlPath = '/'.config('graphql.prefix');
+        $graphqlPath = '/' . config('graphql.prefix');
+
         if ($schema) {
-            $graphqlPath .= '/'.$schema;
+            $graphqlPath .= '/' . $schema;
         }
 
         $view = config('graphql.graphiql.view', 'graphql::graphiql');
@@ -170,7 +172,6 @@ class GraphQLController extends Controller
     }
 
     /**
-     * @param  Request  $request
      * @return array<string,string>
      */
     protected function getRouteParameters(Request $request): array

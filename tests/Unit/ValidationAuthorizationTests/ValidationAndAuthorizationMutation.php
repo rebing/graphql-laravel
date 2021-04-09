@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
 use Closure;
@@ -17,7 +16,7 @@ class ValidationAndAuthorizationMutation extends Mutation
 
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
-        return $args['arg1'] === 'value1';
+        return 'value1' === $args['arg1'];
     }
 
     public function type(): Type

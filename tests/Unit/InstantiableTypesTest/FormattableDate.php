@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\InstantiableTypesTest;
 
 use Carbon\Carbon;
@@ -18,7 +17,7 @@ class FormattableDate extends Field
 
     public function __construct(array $settings = [], string $defaultFormat = 'Y-m-d H:i')
     {
-        $this->attributes = \array_merge($this->attributes, $settings);
+        $this->attributes = array_merge($this->attributes, $settings);
 
         $this->defaultFormat = $defaultFormat;
     }
@@ -29,7 +28,7 @@ class FormattableDate extends Field
             'format' => [
                 'type' => Type::string(),
                 'defaultValue' => $this->defaultFormat,
-                'description' => \sprintf('Defaults to %s', $this->defaultFormat),
+                'description' => sprintf('Defaults to %s', $this->defaultFormat),
             ],
             'relative' => [
                 'type' => Type::boolean(),
@@ -47,7 +46,7 @@ class FormattableDate extends Field
     {
         $date = $root->{$this->getProperty()};
 
-        if (! $date instanceof Carbon) {
+        if (!$date instanceof Carbon) {
             return null;
         }
 

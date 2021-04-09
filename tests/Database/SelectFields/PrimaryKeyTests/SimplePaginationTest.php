@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -20,7 +19,7 @@ class SimplePaginationTest extends TestCaseDatabase
             'title' => 'post 1',
         ]);
         factory(Comment::class)->create([
-            'title'   => 'post 1 comment 1',
+            'title' => 'post 1 comment 1',
             'post_id' => $post->id,
         ]);
         /** @var Post $post */
@@ -28,7 +27,7 @@ class SimplePaginationTest extends TestCaseDatabase
             'title' => 'post 2',
         ]);
         factory(Comment::class)->create([
-            'title'   => 'post 2 comment 1',
+            'title' => 'post 2 comment 1',
             'post_id' => $post->id,
         ]);
 
@@ -64,10 +63,10 @@ SQL
         $expectedResult = [
             'data' => [
                 'primaryKeySimplePaginationQuery' => [
-                    'current_page'   => 1,
-                    'data'           => [
+                    'current_page' => 1,
+                    'data' => [
                         [
-                            'title'    => 'post 1',
+                            'title' => 'post 1',
                             'comments' => [
                                 [
                                     'title' => 'post 1 comment 1',
@@ -75,14 +74,14 @@ SQL
                             ],
                         ],
                     ],
-                    'from'           => 1,
+                    'from' => 1,
                     'has_more_pages' => true,
-                    'per_page'       => 1,
-                    'to'             => 1,
+                    'per_page' => 1,
+                    'to' => 1,
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testSimplePaginationHasNoMorePage(): void
@@ -92,7 +91,7 @@ SQL
             'title' => 'post 1',
         ]);
         factory(Comment::class)->create([
-            'title'   => 'post 1 comment 1',
+            'title' => 'post 1 comment 1',
             'post_id' => $post->id,
         ]);
         $query = <<<'GRAQPHQL'
@@ -127,10 +126,10 @@ SQL
         $expectedResult = [
             'data' => [
                 'primaryKeySimplePaginationQuery' => [
-                    'current_page'   => 1,
-                    'data'           => [
+                    'current_page' => 1,
+                    'data' => [
                         [
-                            'title'    => 'post 1',
+                            'title' => 'post 1',
                             'comments' => [
                                 [
                                     'title' => 'post 1 comment 1',
@@ -138,14 +137,14 @@ SQL
                             ],
                         ],
                     ],
-                    'from'           => 1,
+                    'from' => 1,
                     'has_more_pages' => false,
-                    'per_page'       => 1,
-                    'to'             => 1,
+                    'per_page' => 1,
+                    'to' => 1,
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testSimplePaginationReturnEmptyList(): void
@@ -181,19 +180,19 @@ SQL
         $expectedResult = [
             'data' => [
                 'primaryKeySimplePaginationQuery' => [
-                    'current_page'   => 1,
-                    'data'           => [],
-                    'from'           => null,
+                    'current_page' => 1,
+                    'data' => [],
+                    'from' => null,
                     'has_more_pages' => false,
-                    'per_page'       => 1,
-                    'to'             => null,
+                    'per_page' => 1,
+                    'to' => null,
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

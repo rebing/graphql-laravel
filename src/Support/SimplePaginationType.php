@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\ObjectType;
@@ -14,14 +13,15 @@ class SimplePaginationType extends ObjectType
 {
     public function __construct(string $typeName, string $customName = null)
     {
-        $name = $customName ?: $typeName.'SimplePagination';
+        $name = $customName ?: $typeName . 'SimplePagination';
 
         $config = [
-            'name'   => $name,
+            'name' => $name,
             'fields' => $this->getPaginationFields($typeName),
         ];
 
         $underlyingType = GraphQL::type($typeName);
+
         if (isset($underlyingType->config['model'])) {
             $config['model'] = $underlyingType->config['model'];
         }
@@ -30,59 +30,57 @@ class SimplePaginationType extends ObjectType
     }
 
     /**
-     * @param string $typeName
-     *
      * @return array<string, array<string,mixed>>
      */
     protected function getPaginationFields(string $typeName): array
     {
         return [
-            'data'           => [
-                'type'        => GraphQLType::listOf(GraphQL::type($typeName)),
+            'data' => [
+                'type' => GraphQLType::listOf(GraphQL::type($typeName)),
                 'description' => 'List of items on the current page',
-                'resolve'     => function (Paginator $data): Collection {
+                'resolve' => function (Paginator $data): Collection {
                     return $data->getCollection();
                 },
             ],
-            'per_page'       => [
-                'type'        => GraphQLType::nonNull(GraphQLType::int()),
+            'per_page' => [
+                'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Number of items returned per page',
-                'resolve'     => function (Paginator $data): int {
+                'resolve' => function (Paginator $data): int {
                     return $data->perPage();
                 },
-                'selectable'  => false,
+                'selectable' => false,
             ],
-            'current_page'   => [
-                'type'        => GraphQLType::nonNull(GraphQLType::int()),
+            'current_page' => [
+                'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Current page of the cursor',
-                'resolve'     => function (Paginator $data): int {
+                'resolve' => function (Paginator $data): int {
                     return $data->currentPage();
                 },
-                'selectable'  => false,
+                'selectable' => false,
             ],
-            'from'           => [
-                'type'        => GraphQLType::int(),
+            'from' => [
+                'type' => GraphQLType::int(),
                 'description' => 'Number of the first item returned',
-                'resolve'     => function (Paginator $data): ?int {
+                'resolve' => function (Paginator $data): ?int {
                     return $data->firstItem();
                 },
-                'selectable'  => false,
+                'selectable' => false,
             ],
-            'to'             => [
-                'type'        => GraphQLType::int(),
+            'to' => [
+                'type' => GraphQLType::int(),
                 'description' => 'Number of the last item returned',
-                'resolve'     => function (Paginator $data): ?int {
+                'resolve' => function (Paginator $data): ?int {
                     return $data->lastItem();
                 },
-                'selectable'  => false,
+                'selectable' => false,
             ],
             'has_more_pages' => [
-                'type'        => GraphQLType::nonNull(GraphQLType::boolean()),
+                'type' => GraphQLType::nonNull(GraphQLType::boolean()),
                 'description' => 'Determines if cursor has more pages after the current page',
-                'resolve'     => function (Paginator $data): bool {
+                'resolve' => function (Paginator $data): bool {
                     return $data->hasMorePages();
                 },
-                'selectable'  => false,
+                'selectable' => false,
             ],
         ];
     }

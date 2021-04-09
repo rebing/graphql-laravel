@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use GraphQL\Type\Definition\Type;
@@ -10,9 +9,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class UpdateExampleMutationWithInputType extends Mutation
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'updateExample',
     ];
@@ -62,8 +59,8 @@ class UpdateExampleMutationWithInputType extends Mutation
             ],
 
             'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [
-                'name'  => 'test',
-                'type'  => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
+                'name' => 'test',
+                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
             ],
         ];
     }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Rebing\GraphQL\Console\MiddlewareMakeCommand;
@@ -14,9 +13,6 @@ class MiddlewareMakeCommandTest extends TestCase
 
     /**
      * @dataProvider dataForMakeCommand
-     * @param  string  $inputName
-     * @param  string  $expectedFilename
-     * @param  string  $expectedClassDefinition
      */
     public function testCommand(
         string $inputName,

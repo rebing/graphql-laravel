@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 use Rebing\GraphQL\GraphQLController as BaseGraphQLController;

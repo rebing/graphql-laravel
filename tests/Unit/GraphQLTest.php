@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Error\Error;
@@ -10,7 +9,6 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -35,7 +33,7 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchema($schema);
         $this->assertGraphQLSchemaHasQuery($schema, 'examples');
         $this->assertGraphQLSchemaHasMutation($schema, 'updateExample');
-        $this->assertArrayHasKey('Example', $schema->getTypeMap());
+        self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
     /**
@@ -67,7 +65,7 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchema($schema);
         $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
         $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
-        $this->assertArrayHasKey('Example', $schema->getTypeMap());
+        self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
     /**
@@ -80,7 +78,7 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchema($schema);
         $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
         $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
-        $this->assertArrayHasKey('Example', $schema->getTypeMap());
+        self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
     /**
@@ -103,7 +101,7 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchema($schema);
         $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
         $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
-        $this->assertArrayHasKey('CustomExample', $schema->getTypeMap());
+        self::assertArrayHasKey('CustomExample', $schema->getTypeMap());
     }
 
     /**
@@ -131,13 +129,13 @@ class GraphQLTest extends TestCase
     public function testType(): void
     {
         $type = GraphQL::type('Example');
-        $this->assertInstanceOf(ObjectType::class, $type);
+        self::assertInstanceOf(ObjectType::class, $type);
 
         $typeOther = GraphQL::type('Example');
-        $this->assertTrue($type === $typeOther);
+        self::assertTrue($type === $typeOther);
 
         $typeOther = GraphQL::type('Example', true);
-        $this->assertFalse($type === $typeOther);
+        self::assertFalse($type === $typeOther);
     }
 
     /**
@@ -156,15 +154,15 @@ class GraphQLTest extends TestCase
     {
         /** @var NonNull */
         $type = GraphQL::type('Example!');
-        $this->assertInstanceOf(NonNull::class, $type);
+        self::assertInstanceOf(NonNull::class, $type);
 
         /** @var NonNull */
         $typeOther = GraphQL::type('Example!');
-        $this->assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
 
         /** @var NonNull */
         $typeOther = GraphQL::type('Example!', true);
-        $this->assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
     }
 
     /**
@@ -174,15 +172,15 @@ class GraphQLTest extends TestCase
     {
         /** @var ListOfType */
         $type = GraphQL::type('[Example]');
-        $this->assertInstanceOf(ListOfType::class, $type);
+        self::assertInstanceOf(ListOfType::class, $type);
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example]');
-        $this->assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example]', true);
-        $this->assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
     }
 
     /**
@@ -192,16 +190,16 @@ class GraphQLTest extends TestCase
     {
         /** @var ListOfType */
         $type = GraphQL::type('[Example!]');
-        $this->assertInstanceOf(ListOfType::class, $type);
-        $this->assertInstanceOf(NonNull::class, $type->getWrappedType());
+        self::assertInstanceOf(ListOfType::class, $type);
+        self::assertInstanceOf(NonNull::class, $type->getWrappedType());
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]');
-        $this->assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]', true);
-        $this->assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
     }
 
     /**
@@ -214,17 +212,17 @@ class GraphQLTest extends TestCase
         /** @var ListOfType */
         $wrappedType = $type->getWrappedType();
 
-        $this->assertInstanceOf(NonNull::class, $type);
-        $this->assertInstanceOf(ListOfType::class, $wrappedType);
-        $this->assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
+        self::assertInstanceOf(NonNull::class, $type);
+        self::assertInstanceOf(ListOfType::class, $wrappedType);
+        self::assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!');
-        $this->assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!', true);
-        $this->assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
     }
 
     /**
@@ -286,13 +284,13 @@ class GraphQLTest extends TestCase
 
         foreach ($standardTypes as $standardType) {
             $type = GraphQL::type($standardType->name);
-            $this->assertTrue($standardType === $type);
+            self::assertTrue($standardType === $type);
 
             $typeOther = GraphQL::type($type->name);
-            $this->assertTrue($type === $typeOther);
+            self::assertTrue($type === $typeOther);
 
             $typeOther = GraphQL::type($type->name, true);
-            $this->assertTrue($type === $typeOther);
+            self::assertTrue($type === $typeOther);
         }
     }
 
@@ -307,31 +305,31 @@ class GraphQLTest extends TestCase
             /** @var NonNull */
             $type = GraphQL::type("$standardType->name!");
 
-            $this->assertInstanceOf(NonNull::class, $type);
-            $this->assertTrue($type->getWrappedType() === $standardType);
+            self::assertInstanceOf(NonNull::class, $type);
+            self::assertTrue($type->getWrappedType() === $standardType);
 
             /** @var ListOfType */
             $type = GraphQL::type("[$standardType->name]");
 
-            $this->assertInstanceOf(ListOfType::class, $type);
-            $this->assertTrue($type->getWrappedType() === $standardType);
+            self::assertInstanceOf(ListOfType::class, $type);
+            self::assertTrue($type->getWrappedType() === $standardType);
 
             /** @var ListOfType */
             $type = GraphQL::type("[$standardType->name!]");
 
-            $this->assertInstanceOf(ListOfType::class, $type);
-            $this->assertInstanceOf(NonNull::class, $type->getWrappedType());
-            $this->assertTrue($type->getWrappedType(true) === $standardType);
+            self::assertInstanceOf(ListOfType::class, $type);
+            self::assertInstanceOf(NonNull::class, $type->getWrappedType());
+            self::assertTrue($type->getWrappedType(true) === $standardType);
 
             /** @var NonNull */
             $type = GraphQL::type("[$standardType->name!]!");
             /** @var ListOfType */
             $wrappedType = $type->getWrappedType();
 
-            $this->assertInstanceOf(NonNull::class, $type);
-            $this->assertInstanceOf(ListOfType::class, $wrappedType);
-            $this->assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
-            $this->assertTrue($type->getWrappedType(true) === $standardType);
+            self::assertInstanceOf(NonNull::class, $type);
+            self::assertInstanceOf(ListOfType::class, $wrappedType);
+            self::assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
+            self::assertTrue($type->getWrappedType(true) === $standardType);
         }
     }
 
@@ -347,9 +345,9 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(ObjectType::class, $type);
-        $this->assertEquals($objectType, $type);
-        $this->assertEquals($type->name, 'ExampleType');
+        self::assertInstanceOf(ObjectType::class, $type);
+        self::assertEquals($objectType, $type);
+        self::assertEquals($type->name, 'ExampleType');
     }
 
     public function testObjectTypeFromFields(): void
@@ -363,10 +361,10 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(ObjectType::class, $type);
-        $this->assertEquals($type->name, 'ExampleType');
+        self::assertInstanceOf(ObjectType::class, $type);
+        self::assertEquals($type->name, 'ExampleType');
         $fields = $type->getFields();
-        $this->assertArrayHasKey('test', $fields);
+        self::assertArrayHasKey('test', $fields);
     }
 
     public function testObjectTypeClass(): void
@@ -375,10 +373,10 @@ class GraphQLTest extends TestCase
             'name' => 'ExampleType',
         ]);
 
-        $this->assertInstanceOf(ObjectType::class, $type);
-        $this->assertEquals($type->name, 'ExampleType');
+        self::assertInstanceOf(ObjectType::class, $type);
+        self::assertEquals($type->name, 'ExampleType');
         $fields = $type->getFields();
-        $this->assertArrayHasKey('test', $fields);
+        self::assertArrayHasKey('test', $fields);
     }
 
     public function testFormatError(): void
@@ -386,9 +384,9 @@ class GraphQLTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
 
-        $this->assertIsArray($error);
-        $this->assertArrayHasKey('message', $error);
-        $this->assertArrayHasKey('locations', $error);
+        self::assertIsArray($error);
+        self::assertArrayHasKey('message', $error);
+        self::assertArrayHasKey('locations', $error);
         $expectedError = [
             'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
             'extensions' => [
@@ -401,7 +399,7 @@ class GraphQLTest extends TestCase
                 ],
             ],
         ];
-        $this->assertEquals($expectedError, $error);
+        self::assertEquals($expectedError, $error);
     }
 
     public function testFormatValidationError(): void
@@ -414,10 +412,10 @@ class GraphQLTest extends TestCase
         $error = new Error('error', null, null, [], null, $validationError);
         $error = GraphQL::formatError($error);
 
-        $this->assertIsArray($error);
-        $this->assertArrayHasKey('extensions', $error);
-        $this->assertArrayHasKey('validation', $error['extensions']);
-        $this->assertTrue($error['extensions']['validation']->has('test'));
+        self::assertIsArray($error);
+        self::assertArrayHasKey('extensions', $error);
+        self::assertArrayHasKey('validation', $error['extensions']);
+        self::assertTrue($error['extensions']['validation']->has('test'));
     }
 
     /**
@@ -428,13 +426,13 @@ class GraphQLTest extends TestCase
         GraphQL::addType(CustomExampleType::class);
 
         $types = GraphQL::getTypes();
-        $this->assertArrayHasKey('CustomExample', $types);
+        self::assertArrayHasKey('CustomExample', $types);
 
         $type = app($types['CustomExample']);
-        $this->assertInstanceOf(CustomExampleType::class, $type);
+        self::assertInstanceOf(CustomExampleType::class, $type);
 
         $type = GraphQL::type('CustomExample');
-        $this->assertInstanceOf(ObjectType::class, $type);
+        self::assertInstanceOf(ObjectType::class, $type);
     }
 
     /**
@@ -445,13 +443,13 @@ class GraphQLTest extends TestCase
         GraphQL::addType(ExampleType::class, 'CustomExample');
 
         $types = GraphQL::getTypes();
-        $this->assertArrayHasKey('CustomExample', $types);
+        self::assertArrayHasKey('CustomExample', $types);
 
         $type = app($types['CustomExample']);
-        $this->assertInstanceOf(ExampleType::class, $type);
+        self::assertInstanceOf(ExampleType::class, $type);
 
         $type = GraphQL::type('CustomExample');
-        $this->assertInstanceOf(ObjectType::class, $type);
+        self::assertInstanceOf(ObjectType::class, $type);
     }
 
     /**
@@ -460,10 +458,10 @@ class GraphQLTest extends TestCase
     public function testGetTypes(): void
     {
         $types = GraphQL::getTypes();
-        $this->assertArrayHasKey('Example', $types);
+        self::assertArrayHasKey('Example', $types);
 
         $type = app($types['Example']);
-        $this->assertInstanceOf(ExampleType::class, $type);
+        self::assertInstanceOf(ExampleType::class, $type);
     }
 
     /**
@@ -484,7 +482,7 @@ class GraphQLTest extends TestCase
         ]);
 
         $schemas = GraphQL::getSchemas();
-        $this->assertArrayHasKey('custom_add', $schemas);
+        self::assertArrayHasKey('custom_add', $schemas);
     }
 
     /**
@@ -517,8 +515,8 @@ class GraphQLTest extends TestCase
         ]);
 
         $schemas = GraphQL::getSchemas();
-        $this->assertArrayHasKey('custom_add', $schemas);
-        $this->assertArrayHasKey('custom_add_another', $schemas);
+        self::assertArrayHasKey('custom_add', $schemas);
+        self::assertArrayHasKey('custom_add_another', $schemas);
 
         GraphQL::addSchema('custom_add_another', [
             'query' => [
@@ -527,11 +525,11 @@ class GraphQLTest extends TestCase
         ]);
 
         $schemas = GraphQL::getSchemas();
-        $this->assertArrayHasKey('custom_add_another', $schemas);
+        self::assertArrayHasKey('custom_add_another', $schemas);
 
         $querys = $schemas['custom_add_another']['query'];
-        $this->assertArrayHasKey('examplesCustom', $querys);
-        $this->assertArrayHasKey('examplesCustomAnother', $querys);
+        self::assertArrayHasKey('examplesCustom', $querys);
+        self::assertArrayHasKey('examplesCustomAnother', $querys);
     }
 
     /**
@@ -540,9 +538,9 @@ class GraphQLTest extends TestCase
     public function testGetSchemas(): void
     {
         $schemas = GraphQL::getSchemas();
-        $this->assertArrayHasKey('default', $schemas);
-        $this->assertArrayHasKey('custom', $schemas);
-        $this->assertIsArray($schemas['default']);
+        self::assertArrayHasKey('default', $schemas);
+        self::assertArrayHasKey('custom', $schemas);
+        self::assertIsArray($schemas['default']);
     }
 
     public function testAddSchemaObjectAndExecuteQuery(): void
@@ -572,7 +570,7 @@ class GraphQLTest extends TestCase
                 'testQuery' => 'Returning test data',
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testAddSchemaObjectAndExecuteQueryWithRootValue(): void
@@ -606,11 +604,11 @@ class GraphQLTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testIsMacroable(): void
     {
-        $this->assertContains(Macroable::class, class_uses_recursive(GraphQL::getFacadeRoot()));
+        self::assertContains(Macroable::class, class_uses_recursive(GraphQL::getFacadeRoot()));
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
@@ -19,7 +18,7 @@ class ExampleSchema implements ConfigConvertible
             ],
             'middleware' => [
                 ExampleMiddleware::class,
-            ]
+            ],
         ];
     }
 }

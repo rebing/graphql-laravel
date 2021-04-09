@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Illuminate\Filesystem\Filesystem;
@@ -21,16 +20,16 @@ class PublishCommandTest extends TestCase
             ])
             ->getMock();
         $filesystemMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('copy')
             ->withConsecutive(
                 [
-                    $this->callback(function (string $from): bool {
+                    self::callback(function (string $from): bool {
                         $this->assertMatchesRegularExpression('|/config/config.php|', $from, '1st call to copy, $from');
 
                         return true;
                     }),
-                    $this->callback(function (string $to): bool {
+                    self::callback(function (string $to): bool {
                         $this->assertMatchesRegularExpression(
                             '|laravel[/\\\\]config/graphql.php|',
                             $to,
@@ -41,7 +40,7 @@ class PublishCommandTest extends TestCase
                     }),
                 ],
                 [
-                    $this->callback(function (string $from): bool {
+                    self::callback(function (string $from): bool {
                         $this->assertMatchesRegularExpression(
                             '|/resources/views/graphiql.php|',
                             $from,
@@ -50,7 +49,7 @@ class PublishCommandTest extends TestCase
 
                         return true;
                     }),
-                    $this->callback(function (string $to): bool {
+                    self::callback(function (string $to): bool {
                         $this->assertMatchesRegularExpression(
                             '|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|',
                             $to,
@@ -67,9 +66,9 @@ class PublishCommandTest extends TestCase
 
         $tester = $this->runCommand($command);
 
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertMatchesRegularExpression('|Copied File.*[/\\\\]config[/\\\\]config.php.* To|', $tester->getDisplay());
-        $this->assertMatchesRegularExpression(
+        self::assertSame(0, $tester->getStatusCode());
+        self::assertMatchesRegularExpression('|Copied File.*[/\\\\]config[/\\\\]config.php.* To|', $tester->getDisplay());
+        self::assertMatchesRegularExpression(
             '|Copied File.*[/\\\\]resources[/\\\\]views[/\\\\]graphiql.php.* To|',
             $tester->getDisplay()
         );
