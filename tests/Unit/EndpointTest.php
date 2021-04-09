@@ -157,6 +157,48 @@ class EndpointTest extends TestCase
         ]);
     }
 
+    public function testBatchedQueriesButBatchingDisabled(): void
+    {
+        config(['graphql.batching' => false]);
+
+        $response = $this->call('GET', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $actual = $response->getData(true);
+
+        $expected = [
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch request received but batching is not supported',
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch request received but batching is not supported',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $actual);
+    }
+
     public function testGetGraphqiQL(): void
     {
         $response = $this->call('GET', '/graphiql');
