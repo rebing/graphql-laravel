@@ -86,11 +86,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:executeQuery\\(\\) has parameter \\$input with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQLController.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:executeQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQLController.php
@@ -101,7 +96,7 @@ parameters:
 			path: src/GraphQLController.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQLController.php
 
