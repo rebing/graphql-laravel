@@ -1,4 +1,4 @@
 phpstan:
-	docker-compose run php composer phpstan
+	docker-compose run --rm php composer phpstan
 phpstan-baseline:
-	docker-compose run php composer phpstan-baseline
+	docker-compose run --rm php composer phpstan-baseline
