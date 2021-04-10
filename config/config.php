@@ -112,9 +112,6 @@ return [
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
-            'batching' => [
-                // 'enable' => false,
-            ],
         ],
     ],
 
