@@ -4,13 +4,18 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use Exception;
+use GraphQL\Error\DebugFlag;
+use GraphQL\Error\Error;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\Server\Helper;
+use GraphQL\Server\OperationParams;
+use GraphQL\Server\RequestError;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Arr;
+use Laragraph\Utils\RequestParser;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
@@ -25,8 +30,9 @@ class GraphQLController extends Controller
 
     public function query(Request $request, string $schema = null): JsonResponse
     {
-        $middleware = new GraphQLUploadMiddleware();
-        $request = $middleware->processRequest($request);
+        /** @var RequestParser $parser */
+        $parser = $this->app->make(RequestParser::class);
+        $operations = $parser->parseRequest($request);
 
         // If there are multiple route params we can expect that there
         // will be a schema name that has to be built
@@ -43,8 +49,7 @@ class GraphQLController extends Controller
         $headers = config('graphql.headers', []);
         $jsonOptions = config('graphql.json_encoding_options', 0);
 
-        // check if is batch (check if the array is associative)
-        $isBatch = !Arr::isAssoc($request->input());
+        $isBatch = is_array($operations);
 
         $supportsBatching = config('graphql.batching.enable', true);
 
@@ -54,45 +59,62 @@ class GraphQLController extends Controller
             return response()->json($data, 200, $headers, $jsonOptions);
         }
 
-        $inputs = $isBatch ? $request->input() : [$request->input()];
-
-        $completedQueries = [];
-
-        // Complete each query in order
-        foreach ($inputs as $input) {
-            $completedQueries[] = $this->executeQuery($schema, $input ?: []);
-        }
-
-        $data = $isBatch ? $completedQueries : $completedQueries[0];
+        $data = Helpers::applyEach(
+            function (OperationParams $operation) use ($schema): array {
+                return $this->executeQuery($schema, $operation);
+            },
+            $operations
+        );
 
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function executeQuery(string $schema, array $input): array
+    protected function executeQuery(string $schema, OperationParams $params): array
     {
+        $debug = config('app.debug')
+            ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE)
+            : DebugFlag::NONE;
+
         /** @var GraphQL $graphql */
         $graphql = $this->app->make('graphql');
 
+        /** @var Helper $helper */
+        $helper = $this->app->make(Helper::class);
+        $errors = $helper->validateOperationParams($params);
+
+        if ($errors) {
+            $errors = array_map(
+                static function (RequestError $err): Error {
+                    return Error::createLocatedError($err);
+                },
+                $errors
+            );
+
+            return $graphql
+                ->decorateExecutionResult(new ExecutionResult(null, $errors))
+                ->toArray($debug);
+        }
+
         try {
-            $query = $this->handleAutomaticPersistQueries($schema, $input);
+            $query = $this->handleAutomaticPersistQueries($schema, $params);
         } catch (AutomaticPersistedQueriesError $e) {
             return $graphql
                 ->decorateExecutionResult(new ExecutionResult(null, [$e]))
-                ->toArray();
+                ->toArray($debug);
         }
 
         return $graphql->query(
             $query,
-            $params,
+            $params->variables,
             [
-                'context' => $this->queryContext($query, $params, $schema),
+                'context' => $this->queryContext($query, $params->variables, $schema),
                 'schema' => $schema,
-                'operationName' => $input['operationName'] ?? null,
+                'operationName' => $params->operation,
             ]
         );
     }
 
-    protected function queryContext(string $query, ?array $params, string $schema)
+    protected function queryContext(string $query, ?array $variables, string $schema)
     {
         try {
             return $this->app->make('auth')->user();
@@ -104,16 +126,15 @@ class GraphQLController extends Controller
     /**
      * Note: it's expected this is called even when APQ is disabled to adhere
      *       to the negotiation protocol.
-     *
-     * @param array<string,mixed> $input
      */
-    protected function handleAutomaticPersistQueries(string $schemaName, array $input): string
+    protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string
     {
-        $query = $input['query'] ?? '';
+        $query = $operation->query;
+
         $apqEnabled = config('graphql.apq.enable', false);
 
         // Even if APQ is disabled, we keep this logic for the negotiation protocol
-        $persistedQuery = $input['extensions']['persistedQuery'] ?? null;
+        $persistedQuery = $operation->extensions['persistedQuery'] ?? null;
 
         if ($persistedQuery && !$apqEnabled) {
             throw AutomaticPersistedQueriesError::persistedQueriesNotSupported();
