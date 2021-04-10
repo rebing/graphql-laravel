@@ -46,7 +46,7 @@ class GraphQLController extends Controller
         // check if is batch (check if the array is associative)
         $isBatch = !Arr::isAssoc($request->input());
 
-        $supportsBatching = config('graphql.batching', true);
+        $supportsBatching = config('graphql.batching.enable', true);
 
         if ($isBatch && !$supportsBatching) {
             $data = $this->createBatchingNotSupportedResponse($request->input());

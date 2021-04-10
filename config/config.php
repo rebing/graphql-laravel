@@ -54,10 +54,12 @@ return [
     // parameter.
     'default_schema' => 'default',
 
-    // Whether to support GraphQL batching or not.
-    // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
-    // for pro and con
-    'batching' => true,
+    'batching' => [
+        // Whether to support GraphQL batching or not.
+        // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
+        // for pro and con
+        'enable' => true,
+    ],
 
     // The schemas for query and/or mutation. It expects an array of schemas to provide
     // both the 'query' fields and the 'mutation' fields.
@@ -110,6 +112,9 @@ return [
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
+            'batching' => [
+                // 'enable' => false,
+            ],
         ],
     ],
 

@@ -159,7 +159,7 @@ class EndpointTest extends TestCase
 
     public function testBatchedQueriesButBatchingDisabled(): void
     {
-        config(['graphql.batching' => false]);
+        config(['graphql.batching.enable' => false]);
 
         $response = $this->call('GET', '/graphql', [
             [
