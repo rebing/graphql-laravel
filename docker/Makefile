@@ -1,2 +1,2 @@
-phptstan-baseline:
+phpstan-baseline:
 	docker-compose run php composer phpstan-baseline
