@@ -1766,6 +1766,8 @@ class PostsQuery extends Query
 
 ### Batching
 
+Batched requests are required to be sent via a POST request.
+
 You can send multiple queries (or mutations) at once by grouping them together. Therefore, instead of creating two HTTP requests:
 
 ```
