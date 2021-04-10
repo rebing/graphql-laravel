@@ -200,7 +200,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         config(['graphql.apq.enable' => false]);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             [
                 'variables' => [
                     'index' => 0,
@@ -274,7 +274,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         // run query persisted and not
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             [
                 'extensions' => [
                     'persistedQuery' => [
