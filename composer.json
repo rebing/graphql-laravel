@@ -38,7 +38,8 @@
         "illuminate/contracts": "^6.0|^7.0|^8.0",
         "illuminate/support": "^6.0|^7.0|^8.0",
         "webonyx/graphql-php": "^14.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "laragraph/utils": "^1"
     },
     "require-dev": {
         "orchestra/testbench": "4.0.*|5.0.*|^6.0",
