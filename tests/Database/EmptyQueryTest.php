@@ -11,22 +11,98 @@ class EmptyQueryTest extends TestCaseDatabase
      * @dataProvider dataForEmptyQuery
      * @param array<mixed> $parameters
      */
-    public function testEmptyQuery(array $parameters, bool $isBatchRequest, bool $expectErrors): void
+    public function testEmptyQuery(array $parameters, bool $isBatchRequest, string $expectedError): void
     {
         $response = $this->call('GET', '/graphql', $parameters);
 
         self::assertSame(200, $response->getStatusCode());
-        $results = $isBatchRequest ? $response->getData(true) : [$response->getData(true)];
+        $result = $response->getData(true);
 
-        foreach ($results as $result) {
-            if ($expectErrors) {
-                self::assertCount(1, $result['errors']);
-                self::assertSame('Syntax Error: Unexpected <EOF>', $result['errors'][0]['message']);
-                self::assertSame('graphql', $result['errors'][0]['extensions']['category']);
-            } else {
-                self::assertArrayNotHasKey('errors', $result);
-            }
-        }
+        self::assertCount(1, $result['errors']);
+        self::assertSame($expectedError, $result['errors'][0]['message']);
+    }
+
+    public function testEmptyBatchedQuery(): void
+    {
+        $response = $this->call('POST', '/graphql', [
+            [],
+            ['query' => null],
+            ['query' => ''],
+            ['query' => ' '],
+            ['query' => '#'],
+        ]);
+
+        self::assertSame(200, $response->getStatusCode());
+        $results = $response->getData(true);
+
+        $results = array_map(
+            function (array $result): array {
+                unset($result['errors'][0]['trace']);
+
+                return $result;
+            },
+            $results
+        );
+
+        $expected = [
+            [
+                'errors' => [
+                    [
+                        'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                        'extensions' => [
+                            'category' => 'request',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                        'extensions' => [
+                            'category' => 'request',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                        'extensions' => [
+                            'category' => 'request',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                        'extensions' => [
+                            'category' => 'request',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'Syntax Error: Unexpected <EOF>',
+                        'extensions' => [
+                            'category' => 'graphql',
+                        ],
+                        'locations' => [
+                            [
+                                'line' => 1,
+                                'column' => 2,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $results);
     }
 
     /**
@@ -39,34 +115,28 @@ class EmptyQueryTest extends TestCaseDatabase
             [
                 'parameters' => [],
                 'isBatchRequest' => false,
-                'expectErrors' => false,
+                'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             // single request with an empty query parameter
             [
                 'parameters' => ['query' => null],
                 'isBatchRequest' => false,
-                'expectErrors' => true,
+                'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => ''],
                 'isBatchRequest' => false,
-                'expectErrors' => true,
+                'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => ' '],
                 'isBatchRequest' => false,
-                'expectErrors' => true,
+                'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => '#'],
                 'isBatchRequest' => false,
-                'expectErrors' => true,
-            ],
-            // batch request with one completely empty batch, and batches with an empty query parameter
-            [
-                'parameters' => [[], ['query' => null], ['query' => ''], ['query' => ' '], ['query' => '#']],
-                'isBatchRequest' => true,
-                'expectErrors' => true,
+                'expectedError' => 'Syntax Error: Unexpected <EOF>',
             ],
         ];
     }

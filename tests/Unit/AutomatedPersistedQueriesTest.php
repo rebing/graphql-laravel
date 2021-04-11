@@ -200,7 +200,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         config(['graphql.apq.enable' => false]);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             [
                 'variables' => [
                     'index' => 0,
@@ -274,7 +274,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         // run query persisted and not
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             [
                 'extensions' => [
                     'persistedQuery' => [
@@ -433,18 +433,14 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
+        unset($content['errors'][0]['trace']);
+
         $expected = [
             'errors' => [
                 [
-                    'message' => 'Syntax Error: Unexpected <EOF>',
+                    'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                     'extensions' => [
-                        'category' => 'graphql',
-                    ],
-                    'locations' => [
-                        [
-                            'line' => 1,
-                            'column' => 1,
-                        ],
+                        'category' => 'request',
                     ],
                 ],
             ],

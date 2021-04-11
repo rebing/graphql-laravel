@@ -402,7 +402,7 @@ class GraphQL
      */
     public static function formatError(Error $e): array
     {
-        $debug = config('app.debug') ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : 0;
+        $debug = config('app.debug') ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE;
         $formatter = FormattedError::prepareFormatter(null, $debug);
         $error = $formatter($e);
 

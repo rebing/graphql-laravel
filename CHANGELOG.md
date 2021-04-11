@@ -4,6 +4,21 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/7.2.0...master)
 --------------
 
+## Breaking changes
+- Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
+  - batched queries will only work with `POST` requests
+    This is due to `RequestParser` using `\GraphQL\Server\Helper::parseRequestParams` which includes this check
+  - Drop support for configuration the name of the variable for the variables
+  - `GraphQLUploadMiddleware` has been removed (`RequestParser` includes this functionality)
+  - Empty GraphQL queries now return a proper validated GraphQL error
+  - Signature changes In `\Rebing\GraphQL\GraphQLController`:
+    - old: `protected function executeQuery(string $schema, array $input): array`
+      new: `protected function executeQuery(string $schema, OperationParams $params): array`
+    - old: `protected function queryContext(string $query, ?array $params, string $schema)`
+      new: `protected function queryContext(string $query, ?array $variables, string $schema)`
+    - old: `protected function handleAutomaticPersistQueries(string $schemaName, array $input): string`
+      new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
+
 2021-04-10, 7.2.0
 -----------------
 ### Added

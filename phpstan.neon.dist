@@ -16,7 +16,6 @@ parameters:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
         - '/Cannot access property \$parameters on mixed/'
-        - '/Strict comparison using === between null and array will always evaluate to false/'
         # \Rebing\GraphQL\Support\SelectFields::handleFields
         - '/Binary operation "." between string and array\|string\|null results in an error/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
