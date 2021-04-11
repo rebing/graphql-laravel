@@ -156,7 +156,7 @@ class GraphQLController extends Controller
         $apqCachePrefix = config('graphql.apq.cache_prefix');
         $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
 
-        $cache = cache();
+        $cache = $this->app->make('cache');
 
         // store in cache
         if ($query) {
