@@ -18,6 +18,18 @@ CHANGELOG
       new: `protected function queryContext(string $query, ?array $variables, string $schema)`
     - old: `protected function handleAutomaticPersistQueries(string $schemaName, array $input): string`
       new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
+- In `\Rebing\GraphQL\GraphQLController`, renamed all occurrences of `$schema` to `$schemaName`
+  This is to reduce the confusion as the code in some other places uses `$schema`
+  for the actual schema itself (either as an object or array form).
+  This changes the signature on the following methods:
+  - old: `public function query(Request $request, string $schema = null): JsonResponse`
+    new: `public function query(Request $request, string $schemaName = null): JsonResponse`
+  - old: `protected function executeQuery(string $schema, OperationParams $params): array`
+    new: `protected function executeQuery(string $schemaName, OperationParams $params): array`
+  - old: `protected function queryContext(string $query, ?array $variables, string $schema)`
+    new: `protected function queryContext(string $query, ?array $variables, string $schemaName)`
+  - old: `public function graphiql(Request $request, string $schema = null): View`
+    new: `public function graphiql(Request $request, string $schemaName = null): View`
 
 2021-04-10, 7.2.0
 -----------------

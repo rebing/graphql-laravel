@@ -28,7 +28,7 @@ class GraphQLController extends Controller
         $this->app = $app;
     }
 
-    public function query(Request $request, string $schema = null): JsonResponse
+    public function query(Request $request, string $schemaName = null): JsonResponse
     {
         /** @var RequestParser $parser */
         $parser = $this->app->make(RequestParser::class);
@@ -39,11 +39,11 @@ class GraphQLController extends Controller
         $routeParameters = $this->getRouteParameters($request);
 
         if (count($routeParameters) > 1) {
-            $schema = implode('/', $routeParameters);
+            $schemaName = implode('/', $routeParameters);
         }
 
-        if (!$schema) {
-            $schema = config('graphql.default_schema');
+        if (!$schemaName) {
+            $schemaName = config('graphql.default_schema');
         }
 
         $headers = config('graphql.headers', []);
@@ -60,8 +60,8 @@ class GraphQLController extends Controller
         }
 
         $data = Helpers::applyEach(
-            function (OperationParams $operation) use ($schema): array {
-                return $this->executeQuery($schema, $operation);
+            function (OperationParams $operation) use ($schemaName): array {
+                return $this->executeQuery($schemaName, $operation);
             },
             $operations
         );
@@ -69,7 +69,7 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    protected function executeQuery(string $schema, OperationParams $params): array
+    protected function executeQuery(string $schemaName, OperationParams $params): array
     {
         $debug = config('app.debug')
             ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE)
@@ -96,7 +96,7 @@ class GraphQLController extends Controller
         }
 
         try {
-            $query = $this->handleAutomaticPersistQueries($schema, $params);
+            $query = $this->handleAutomaticPersistQueries($schemaName, $params);
         } catch (AutomaticPersistedQueriesError $e) {
             return $graphql
                 ->decorateExecutionResult(new ExecutionResult(null, [$e]))
@@ -107,14 +107,14 @@ class GraphQLController extends Controller
             $query,
             $params->variables,
             [
-                'context' => $this->queryContext($query, $params->variables, $schema),
-                'schema' => $schema,
+                'context' => $this->queryContext($query, $params->variables, $schemaName),
+                'schema' => $schemaName,
                 'operationName' => $params->operation,
             ]
         );
     }
 
-    protected function queryContext(string $query, ?array $variables, string $schema)
+    protected function queryContext(string $query, ?array $variables, string $schemaName)
     {
         try {
             return $this->app->make('auth')->user();
@@ -177,12 +177,12 @@ class GraphQLController extends Controller
         return $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
     }
 
-    public function graphiql(Request $request, string $schema = null): View
+    public function graphiql(Request $request, string $schemaName = null): View
     {
         $graphqlPath = '/' . config('graphql.prefix');
 
-        if ($schema) {
-            $graphqlPath .= '/' . $schema;
+        if ($schemaName) {
+            $graphqlPath .= '/' . $schemaName;
         }
 
         $view = config('graphql.graphiql.view', 'graphql::graphiql');
@@ -190,7 +190,7 @@ class GraphQLController extends Controller
         return view($view, [
             'graphql_schema' => 'graphql_schema',
             'graphqlPath' => $graphqlPath,
-            'schema' => $schema,
+            'schema' => $schemaName,
         ]);
     }
 
