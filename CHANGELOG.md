@@ -30,6 +30,13 @@ CHANGELOG
     new: `protected function queryContext(string $query, ?array $variables, string $schemaName)`
   - old: `public function graphiql(Request $request, string $schema = null): View`
     new: `public function graphiql(Request $request, string $schemaName = null): View`
+- In `\Rebing\GraphQL\GraphQL`, renamed remaining instances of `$params` to `$variables`    
+  After switching to `RequestParser`, the support for changing the variable name
+  what was supposed to `params_key` has gone and thus the name isn't fitting anymore
+  - old: `public function query(string $query, ?array $params = [], array $opts = []): array`
+    new: `public function query(string $query, ?array $variables = [], array $opts = []): array`
+  - old: `public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult`
+    new: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
 
 2021-04-10, 7.2.0
 -----------------

@@ -56,27 +56,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:queryAndReturnResult\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:queryAndReturnResult\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 

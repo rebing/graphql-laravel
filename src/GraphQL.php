@@ -108,17 +108,19 @@ class GraphQL
     }
 
     /**
-     * @param array $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
+     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function query(string $query, ?array $params = [], array $opts = []): array
+    public function query(string $query, ?array $variables = [], array $opts = []): array
     {
-        return $this->queryAndReturnResult($query, $params, $opts)->toArray();
+        return $this->queryAndReturnResult($query, $variables, $opts)->toArray();
     }
 
     /**
-     * @param array $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
+     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult
+    public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
         $schemaName = $opts['schema'] ?? null;
@@ -129,7 +131,7 @@ class GraphQL
 
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
 
-        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $params, $operationName, $defaultFieldResolver);
+        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
 
         return $this->decorateExecutionResult($result);
     }
