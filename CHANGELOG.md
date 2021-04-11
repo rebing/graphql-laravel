@@ -33,6 +33,19 @@ CHANGELOG
     new: `public function query(string $query, ?array $variables = [], array $opts = []): array`
   - old: `public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult`
     new: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
+- As part of APQ parsed query support [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740):
+  - In `\Rebing\GraphQL\GraphQLController`, the following signature changed:
+    - old: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
+      new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): array`
+  - In `\Rebing\GraphQL\GraphQL`, the following signature changed:
+    - old: `public function query(string $query, ?array $variables = [], array $opts = []): array`
+      new: `public function query($query, ?array $variables = [], array $opts = []): array`
+    - old: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
+      new: `public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult`
+
+### Added
+- Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
+  This avoids having to re-parse the same queries over and over again.
 
 2021-04-10, 7.2.0
 -----------------

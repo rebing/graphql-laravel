@@ -130,7 +130,7 @@ To work this around:
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
-    - [Basic Automatic Persisted Queries support](#basic-automatic-persisted-queries-support) 
+    - [Automatic Persisted Queries support](#automatic-persisted-queries-support) 
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2395,7 +2395,7 @@ class AppServiceProvider extends ServiceProvider
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
-### Basic Automatic Persisted Queries support
+### Automatic Persisted Queries support
 
 Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
 
@@ -2405,8 +2405,11 @@ A persisted query is an ID or hash that can be generated on the client sent to t
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
-Behind the scenes, APQ uses Laravels cache for storing / retrieving queries.
+Behind the scenes, APQ uses Laravels cache for storing / retrieving the queries.
+They are parsed by GraphQL before storing, so re-parsing them again is not necessary.
 Please see the various options there for which cache, prefix, TTL, etc. to use.
+
+> Note: it is advised to clear the cache after a deployment to accomodate for changes in your schema!
 
 For more information see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
@@ -2419,11 +2422,6 @@ For more information see:
 > 
 > In such case either disable the middleware or trim the query on the client
 > before hashing.
-
-#### Why "basic support" ?
-
-Currently, only the GraphQL query string representation will be cached and still
-needs to be re-parsed after retrieving form the cache.
 
 #### Notes
  - The error descriptions are aligned with [apollo-server](https://github.com/apollographql/apollo-server).
