@@ -157,6 +157,41 @@ class EndpointTest extends TestCase
         ]);
     }
 
+    public function testBatchedQueriesDontWorkWithGet(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        unset($content['errors'][0]['trace']);
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                    'extensions' => [
+                        'category' => 'request',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $content);
+    }
+
     public function testBatchedQueriesButBatchingDisabled(): void
     {
         config(['graphql.batching.enable' => false]);
