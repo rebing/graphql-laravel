@@ -19,6 +19,7 @@ on:
 jobs:
   integration:
     strategy:
+      fail-fast: false
       matrix:
         integration: [laravel, lumen]
     name: ${{ matrix.integration }}
