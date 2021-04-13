@@ -105,7 +105,7 @@ class GraphQLController extends Controller
                 'query' => $query,
                 'parsedQuery' => $parsedQuery,
             ] = $this->handleAutomaticPersistQueries($schemaName, $params);
-        } catch (AutomaticPersistedQueriesError $e) {
+        } catch (AutomaticPersistedQueriesError | Error $e) {
             return $graphql
                 ->decorateExecutionResult(new ExecutionResult(null, [$e]))
                 ->toArray($debug);
