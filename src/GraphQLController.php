@@ -28,8 +28,10 @@ class GraphQLController extends Controller
         $this->app = $app;
     }
 
-    public function query(Request $request, string $schemaName = null): JsonResponse
+    public function query(Request $request, string $schema = null): JsonResponse
     {
+        $schemaName = $schema;
+
         /** @var RequestParser $parser */
         $parser = $this->app->make(RequestParser::class);
         $operations = $parser->parseRequest($request);
@@ -177,8 +179,10 @@ class GraphQLController extends Controller
         return $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
     }
 
-    public function graphiql(Request $request, string $schemaName = null): View
+    public function graphiql(Request $request, string $schema = null): View
     {
+        $schemaName = $schema;
+
         $graphqlPath = '/' . config('graphql.prefix');
 
         if ($schemaName) {

@@ -22,14 +22,10 @@ CHANGELOG
   This is to reduce the confusion as the code in some other places uses `$schema`
   for the actual schema itself (either as an object or array form).
   This changes the signature on the following methods:
-  - old: `public function query(Request $request, string $schema = null): JsonResponse`
-    new: `public function query(Request $request, string $schemaName = null): JsonResponse`
   - old: `protected function executeQuery(string $schema, OperationParams $params): array`
     new: `protected function executeQuery(string $schemaName, OperationParams $params): array`
   - old: `protected function queryContext(string $query, ?array $variables, string $schema)`
     new: `protected function queryContext(string $query, ?array $variables, string $schemaName)`
-  - old: `public function graphiql(Request $request, string $schema = null): View`
-    new: `public function graphiql(Request $request, string $schemaName = null): View`
 - In `\Rebing\GraphQL\GraphQL`, renamed remaining instances of `$params` to `$variables`    
   After switching to `RequestParser`, the support for changing the variable name
   what was supposed to `params_key` has gone and thus the name isn't fitting anymore
