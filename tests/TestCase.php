@@ -253,7 +253,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Remove this method once we're PHPUnit 9+ only.
+     * @todo Remove this method once we're PHPUnit 9+ only.
      */
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
     {
