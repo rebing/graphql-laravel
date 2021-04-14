@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
-use Illuminate\Foundation\Application;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -286,25 +285,14 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(
-                <<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select * from "posts" where "posts"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
 SQL
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-select "users"."id" from "users";
-select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select * from "posts" where "posts"."id" in (?);
-select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
-SQL
-            );
-        }
+        );
 
         $expectedResult = [
             'data' => [

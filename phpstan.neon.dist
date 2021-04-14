@@ -64,7 +64,4 @@ parameters:
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
-        -
-            message: '/Comparison operation.*between.*and.*is always false./'
-            path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
     reportUnmatchedIgnoredErrors: true
