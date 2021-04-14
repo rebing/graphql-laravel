@@ -491,7 +491,7 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
@@ -1041,7 +1041,7 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
