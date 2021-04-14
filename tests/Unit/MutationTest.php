@@ -133,21 +133,25 @@ class MutationTest extends FieldTest
                     'val' => 4,
                 ],
             ], [], $this->resolveInfoMock());
-        } catch (ValidationError $e) {
-            $validator = $e->getValidator();
-
-            self::assertInstanceOf(Validator::class, $validator);
-
-            $messages = $e->getValidatorMessages();
-
-            self::assertTrue($messages->has('test'));
-            self::assertTrue($messages->has('test_with_rules'));
-            self::assertTrue($messages->has('test_with_rules_closure'));
-            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
-            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
-            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-            self::assertCount(6, $messages->all());
+        } catch (ValidationError $exception) {
+            // Deliberately empty
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
+
+        $validator = $exception->getValidator();
+
+        self::assertInstanceOf(Validator::class, $validator);
+
+        $messages = $exception->getValidatorMessages();
+
+        self::assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
+        self::assertCount(6, $messages->all());
     }
 
     public function testWithEmptyInput(): void
