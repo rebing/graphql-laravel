@@ -139,7 +139,14 @@ class GraphQL
 
         if ($variables && $detectUnusedVariables) {
             $unusedVariables = $variables;
-            $query = Parser::parse($query);
+
+            if (is_string($query)) {
+                try {
+                    $query = Parser::parse($query);
+                } catch (Error $error) {
+                    return $this->decorateExecutionResult(new ExecutionResult(null, [$error]));
+                }
+            }
 
             foreach ($query->definitions as $definition) {
                 if ($definition instanceof OperationDefinitionNode) {
