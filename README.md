@@ -131,6 +131,7 @@ To work this around:
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
     - [Automatic Persisted Queries support](#automatic-persisted-queries-support) 
+    - [Misc features](#misc-features)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2491,6 +2492,36 @@ const app = new Vue({
     }
 </script>
 ```
+
+## Misc features
+
+### Detecting unused variables
+
+By default, `'variables'` provided alongside the GraphQL query which are **not**
+consumed, are silently ignored.
+
+If you consider the hypothetical case you have an optional (nullable) argument
+in your query, and you provide a variable argument for it but you make a typo,
+this can go unnoticed.
+
+Example:
+```graphql
+mutation test($value:ID) {
+  someMutation(type:"falbala", optional_id: $value)
+}
+```
+Variables provided:
+```json5
+{
+  // Ops! typo in `values`
+  "values": "138"
+}
+```
+
+In this case, nothing happens and `optional_id` will be treated as not being provided.
+
+To prevent such scenarios, you can enable the config option `detect_unused_variables`
+and set it to `true`.
 
 ## Guides
 

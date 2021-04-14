@@ -235,4 +235,9 @@ return [
         // The cache ttl in minutes - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
         'cache_ttl' => 300,
     ],
+
+    /*
+     * If enabled, variables provided but not consumed by the query will throw an error
+     */
+    'detect_unused_variables' => false,
 ];

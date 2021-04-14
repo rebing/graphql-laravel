@@ -11,6 +11,8 @@ use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Language\AST\DocumentNode;
+use GraphQL\Language\AST\OperationDefinitionNode;
+use GraphQL\Language\Parser;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -115,7 +117,9 @@ class GraphQL
      */
     public function query($query, ?array $variables = [], array $opts = []): array
     {
-        return $this->queryAndReturnResult($query, $variables, $opts)->toArray();
+        $result = $this->queryAndReturnResult($query, $variables, $opts);
+
+        return $this->decorateExecutionResult($result)->toArray();
     }
 
     /**
@@ -133,10 +137,17 @@ class GraphQL
         $schema = $this->schema($schemaName);
 
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
+        $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
-        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
+        if ($variables && $detectUnusedVariables) {
+            $result = $this->detectUnusedVariables($query, $variables);
 
-        return $this->decorateExecutionResult($result);
+            if ($result) {
+                return $result;
+            }
+        }
+
+        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
     }
 
     public function addTypes(array $types): void
@@ -549,5 +560,46 @@ class GraphQL
         return $executionResult
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
+    }
+
+    /**
+     * Returning an ExecutionResult here is an indicator of an error
+     * (either due to parsing the query or because unused variables were detected).
+     *
+     * Otherwise "all is good" and `null` is an indicator to carry on.
+     *
+     * @param string|DocumentNode $query
+     * @param array<string,mixed> $variables
+     */
+    protected function detectUnusedVariables($query, array $variables): ?ExecutionResult
+    {
+        if (is_string($query)) {
+            try {
+                $query = Parser::parse($query);
+            } catch (Error $error) {
+                return new ExecutionResult(null, [$error]);
+            }
+        }
+
+        $unusedVariables = $variables;
+
+        foreach ($query->definitions as $definition) {
+            if ($definition instanceof OperationDefinitionNode) {
+                foreach ($definition->variableDefinitions as $variableDefinition) {
+                    unset($unusedVariables[$variableDefinition->variable->name->value]);
+                }
+            }
+        }
+
+        if (!$unusedVariables) {
+            return null;
+        }
+
+        $msg = sprintf(
+            'The following variables were provided but not consumed: %s',
+            implode(', ', array_keys($unusedVariables))
+        );
+
+        return new ExecutionResult(null, [new Error($msg)]);
     }
 }
