@@ -61,7 +61,7 @@ trait SqlAssertionTrait
             implode(
                 "\n",
                 array_map(
-                    function (QueryExecuted $query) {
+                    static function (QueryExecuted $query) {
                         return sprintf(
                             '[%s] %s',
                             $query->connectionName,
@@ -89,7 +89,7 @@ trait SqlAssertionTrait
             implode(
                 "\n",
                 array_map(
-                    function (QueryExecuted $query): string {
+                    static function (QueryExecuted $query): string {
                         // Replace any numeric literals with "fake" bind
                         // placeholders. The framework recently optimized
                         // whereIn queries to contain all-only integer

@@ -36,7 +36,7 @@ class EmptyQueryTest extends TestCaseDatabase
         $results = $response->getData(true);
 
         $results = array_map(
-            function (array $result): array {
+            static function (array $result): array {
                 unset($result['errors'][0]['trace']);
 
                 return $result;

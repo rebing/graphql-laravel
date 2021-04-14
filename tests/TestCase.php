@@ -228,7 +228,7 @@ class TestCase extends BaseTestCase
     {
         return implode(
             "\n",
-            array_map(function (array $row, int $index): string {
+            array_map(static function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
 
