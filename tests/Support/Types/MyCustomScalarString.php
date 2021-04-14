@@ -3,8 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
-use Exception;
-use GraphQL\Error\Error;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
