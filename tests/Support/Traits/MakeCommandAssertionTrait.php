@@ -22,7 +22,7 @@ trait MakeCommandAssertionTrait
     ): void {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)
-            ->setMethods([
+            ->onlyMethods([
                 'isDirectory',
                 'makeDirectory',
                 'put',

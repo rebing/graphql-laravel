@@ -22,7 +22,7 @@ class InterfaceTypeTest extends TestCase
     public function testGetAttributesResolveType(): void
     {
         $type = $this->getMockBuilder(ExampleInterfaceType::class)
-                    ->setMethods(['resolveType'])
+                    ->onlyMethods(['resolveType'])
                     ->getMock();
 
         $type->expects(self::once())

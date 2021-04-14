@@ -44,7 +44,7 @@ class MutationTest extends FieldTest
     {
         $class = $this->getFieldClass();
         $field = $this->getMockBuilder($class)
-                    ->setMethods(['resolve'])
+                    ->onlyMethods(['resolve'])
                     ->getMock();
 
         $field->expects(self::once())

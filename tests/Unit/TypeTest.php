@@ -37,7 +37,7 @@ class TypeTest extends TestCase
     public function testGetAttributesFieldsClosure(): void
     {
         $type = $this->getMockBuilder(ExampleType::class)
-                    ->setMethods(['getFields'])
+                    ->onlyMethods(['getFields'])
                     ->getMock();
 
         $type->expects(self::once())
