@@ -338,9 +338,15 @@ class MutationTest extends FieldTest
 
         $messages = $exception->getValidatorMessages();
 
-        self::assertEquals($messages->first('test'), 'The test field is required.');
-        self::assertEquals($messages->first('test_with_rules_nullable_input_object.nest.email'), 'The test with rules nullable input object.nest.email must be a valid email address.');
-        self::assertEquals($messages->first('test_with_rules_non_nullable_input_object.nest.email'), 'The test with rules non nullable input object.nest.email must be a valid email address.');
+        self::assertEquals('The test field is required.', $messages->first('test'));
+        self::assertEquals(
+            'The test with rules nullable input object.nest.email must be a valid email address.',
+            $messages->first('test_with_rules_nullable_input_object.nest.email')
+        );
+        self::assertEquals(
+            'The test with rules non nullable input object.nest.email must be a valid email address.',
+            $messages->first('test_with_rules_non_nullable_input_object.nest.email')
+        );
     }
 
     public function testRuleCallbackArgumentsMatchesTheInput(): void

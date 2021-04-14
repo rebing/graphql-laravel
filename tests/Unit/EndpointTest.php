@@ -13,7 +13,7 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examples'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -44,7 +44,7 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -64,7 +64,7 @@ class EndpointTest extends TestCase
             ]),
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -81,12 +81,12 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examplesWithAuthorize'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
         self::assertArrayHasKey('errors', $content);
-        self::assertEquals($content['errors'][0]['message'], 'Unauthorized');
+        self::assertEquals('Unauthorized', $content['errors'][0]['message']);
         self::assertNull($content['data']['examplesAuthorize']);
     }
 
@@ -96,12 +96,12 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examplesWithAuthorizeMessage'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
         self::assertArrayHasKey('errors', $content);
-        self::assertEquals($content['errors'][0]['message'], 'You are not authorized to perform this action');
+        self::assertEquals('You are not authorized to perform this action', $content['errors'][0]['message']);
         self::assertNull($content['data']['examplesAuthorizeMessage']);
     }
 
@@ -122,7 +122,7 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey(0, $content);

@@ -78,7 +78,7 @@ class ConfigTest extends TestCase
             'query' => $this->queries['examplesCustom'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -90,7 +90,7 @@ class ConfigTest extends TestCase
             'query' => $this->queries['updateExampleCustom'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);

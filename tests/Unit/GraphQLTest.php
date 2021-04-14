@@ -284,7 +284,7 @@ class GraphQLTest extends TestCase
 
         self::assertInstanceOf(ObjectType::class, $type);
         self::assertEquals($objectType, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
     }
 
     public function testObjectTypeFromFields(): void
@@ -299,7 +299,7 @@ class GraphQLTest extends TestCase
         ]);
 
         self::assertInstanceOf(ObjectType::class, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
         $fields = $type->getFields();
         self::assertArrayHasKey('test', $fields);
     }
@@ -311,7 +311,7 @@ class GraphQLTest extends TestCase
         ]);
 
         self::assertInstanceOf(ObjectType::class, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
         $fields = $type->getFields();
         self::assertArrayHasKey('test', $fields);
     }

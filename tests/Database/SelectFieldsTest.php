@@ -65,7 +65,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -105,7 +105,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -194,7 +194,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -228,7 +228,7 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -266,7 +266,7 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -348,7 +348,7 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -384,7 +384,7 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -415,7 +415,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -426,7 +426,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -472,7 +472,7 @@ select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -484,7 +484,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -515,7 +515,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -526,7 +526,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -566,7 +566,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
