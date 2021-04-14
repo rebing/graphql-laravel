@@ -137,8 +137,8 @@ class GraphQL
         $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
         $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
-        if ($params && $detectUnusedVariables) {
-            $unusedVariables = $params;
+        if ($variables && $detectUnusedVariables) {
+            $unusedVariables = $variables;
             $query = Parser::parse($query);
 
             foreach ($query->definitions as $definition) {
