@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Type\Definition\ObjectType;
@@ -14,7 +13,7 @@ class PaginationType extends ObjectType
 {
     public function __construct(string $typeName, string $customName = null)
     {
-        $name = $customName ?: $typeName.'Pagination';
+        $name = $customName ?: $typeName . 'Pagination';
 
         $config = [
             'name' => $name,
@@ -22,6 +21,7 @@ class PaginationType extends ObjectType
         ];
 
         $underlyingType = GraphQL::type($typeName);
+
         if (isset($underlyingType->config['model'])) {
             $config['model'] = $underlyingType->config['model'];
         }

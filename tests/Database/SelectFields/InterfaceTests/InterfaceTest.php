@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
 use Illuminate\Foundation\Application;
@@ -49,7 +48,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedRelationSqlQuery(): void
@@ -102,7 +101,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldSqlQuery(): void
@@ -142,23 +141,13 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(
-                <<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
 select * from "posts" where "posts"."id" in (?);
 SQL
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-select "users"."id" from "users";
-select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select * from "posts" where "posts"."id" in (?);
-SQL
-            );
-        }
+        );
 
         $expectedResult = [
             'data' => [
@@ -177,7 +166,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
@@ -221,23 +210,13 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(
-                <<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
 select * from "posts" where "posts"."id" in (?);
 SQL
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-select "users"."id" from "users";
-select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select * from "posts" where "posts"."id" in (?);
-SQL
-            );
-        }
+        );
 
         $expectedResult = [
             'data' => [
@@ -258,7 +237,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
@@ -371,7 +350,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
@@ -420,25 +399,14 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(
-                <<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select * from "comments" where "comments"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 1=1;
 SQL
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-select "users"."id" from "users";
-select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select * from "comments" where "comments"."id" in (?);
-select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 1=1;
-SQL
-            );
-        }
+        );
 
         $expectedResult = [
             'data' => [
@@ -484,10 +452,10 @@ SQL
                 ],
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

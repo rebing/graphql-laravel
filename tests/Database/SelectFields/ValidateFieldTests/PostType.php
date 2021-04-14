@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use GraphQL\Type\Definition\Type;
@@ -103,6 +102,24 @@ class PostType extends GraphQLType
             'title_privacy_wrong_type' => [
                 'type' => Type::string(),
                 'privacy' => true,
+            ],
+            'title_privacy_closure_query_context' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => static function (array $queryArgs, $queryContext): bool {
+                    $expectedQueryContext = [
+                        'arg_from_context_true' => true,
+                        'arg_from_context_false' => false,
+                    ];
+                    Assert::assertSame($expectedQueryContext, $queryContext);
+
+                    return true;
+                },
+            ],
+            'title_privacy_class_query_context' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => PrivacyQueryContext::class,
             ],
         ];
     }

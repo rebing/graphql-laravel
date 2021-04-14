@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
@@ -20,8 +19,8 @@ class TypeTest extends TestCase
         $type = new ExampleType();
         $fields = $type->getFields();
 
-        $this->assertArrayHasKey('test', $fields);
-        $this->assertEquals($fields['test'], [
+        self::assertArrayHasKey('test', $fields);
+        self::assertEquals($fields['test'], [
             'type' => Type::string(),
             'description' => 'A test field',
         ]);
@@ -35,10 +34,10 @@ class TypeTest extends TestCase
         $type = new ExampleType();
         $attributes = $type->getAttributes();
 
-        $this->assertArrayHasKey('name', $attributes);
-        $this->assertArrayHasKey('fields', $attributes);
-        $this->assertInstanceOf(Closure::class, $attributes['fields']);
-        $this->assertIsArray($attributes['fields']());
+        self::assertArrayHasKey('name', $attributes);
+        self::assertArrayHasKey('fields', $attributes);
+        self::assertInstanceOf(Closure::class, $attributes['fields']);
+        self::assertIsArray($attributes['fields']());
     }
 
     /**
@@ -50,7 +49,7 @@ class TypeTest extends TestCase
                     ->setMethods(['getFields'])
                     ->getMock();
 
-        $type->expects($this->once())
+        $type->expects(self::once())
             ->method('getFields');
 
         $attributes = $type->getAttributes();
@@ -65,10 +64,10 @@ class TypeTest extends TestCase
         $type = new ExampleType();
         $array = $type->toArray();
 
-        $this->assertIsArray($array);
+        self::assertIsArray($array);
 
         $attributes = $type->getAttributes();
-        $this->assertEquals($attributes, $array);
+        self::assertEquals($attributes, $array);
     }
 
     /**
@@ -80,11 +79,11 @@ class TypeTest extends TestCase
         /** @var ObjectType $objectType */
         $objectType = $type->toType();
 
-        $this->assertInstanceOf(ObjectType::class, $objectType);
+        self::assertInstanceOf(ObjectType::class, $objectType);
 
-        $this->assertEquals($objectType->name, $type->name);
+        self::assertEquals($objectType->name, $type->name);
 
         $fields = $objectType->getFields();
-        $this->assertArrayHasKey('test', $fields);
+        self::assertArrayHasKey('test', $fields);
     }
 }

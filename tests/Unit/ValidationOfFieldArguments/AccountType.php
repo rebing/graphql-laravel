@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
 use GraphQL\Type\Definition\Type;
@@ -11,9 +10,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class AccountType extends GraphQLType
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'AccountType',
         'description' => 'An example',
@@ -52,7 +49,6 @@ class AccountType extends GraphQLType
                     ],
                 ],
             ],
-
         ];
     }
 }

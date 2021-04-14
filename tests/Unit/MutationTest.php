@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Type\Definition\ResolveInfo;
@@ -22,7 +21,7 @@ class MutationTest extends FieldTest
         return UpdateExampleMutationWithInputType::class;
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
@@ -51,7 +50,7 @@ class MutationTest extends FieldTest
                     ->setMethods(['resolve'])
                     ->getMock();
 
-        $field->expects($this->once())
+        $field->expects(self::once())
             ->method('resolve');
 
         $attributes = $field->getAttributes();
@@ -61,7 +60,7 @@ class MutationTest extends FieldTest
             'test_with_rules_closure' => 'test',
             'test_with_rules_nullable_input_object' => [
                 'val' => 'test',
-                'otherValue' =>'134',
+                'otherValue' => '134',
                 'nest' => ['email' => 'test@test.com'],
                 'list' => [
                     ['email' => 'test@test.com'],
@@ -69,7 +68,7 @@ class MutationTest extends FieldTest
             ],
             'test_with_rules_non_nullable_input_object' => [
                 'val' => 'test',
-                'otherValue' =>'134',
+                'otherValue' => '134',
                 'nest' => ['email' => 'test@test.com'],
                 'list' => [
                     ['email' => 'test@test.com'],
@@ -102,6 +101,7 @@ class MutationTest extends FieldTest
         $attributes = $field->getAttributes();
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_input_object' => [
@@ -113,17 +113,17 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertTrue($messages->has('test'));
-        $this->assertTrue($messages->has('test_with_rules'));
-        $this->assertTrue($messages->has('test_with_rules_closure'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-        $this->assertCount(6, $messages->all());
+        self::assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
+        self::assertCount(6, $messages->all());
     }
 
     public function testWithInput(): void
@@ -135,6 +135,7 @@ class MutationTest extends FieldTest
 
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_input_object' => [
@@ -144,17 +145,17 @@ class MutationTest extends FieldTest
         } catch (ValidationError $e) {
             $validator = $e->getValidator();
 
-            $this->assertInstanceOf(Validator::class, $validator);
+            self::assertInstanceOf(Validator::class, $validator);
 
             $messages = $e->getValidatorMessages();
 
-            $this->assertTrue($messages->has('test'));
-            $this->assertTrue($messages->has('test_with_rules'));
-            $this->assertTrue($messages->has('test_with_rules_closure'));
-            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
-            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
-            $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-            $this->assertCount(6, $messages->all());
+            self::assertTrue($messages->has('test'));
+            self::assertTrue($messages->has('test_with_rules'));
+            self::assertTrue($messages->has('test_with_rules_closure'));
+            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
+            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
+            self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
+            self::assertCount(6, $messages->all());
         }
     }
 
@@ -175,15 +176,15 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertTrue($messages->has('test'));
-        $this->assertTrue($messages->has('test_with_rules'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
-        $this->assertTrue($messages->has('test_with_rules_closure'));
-        $this->assertCount(4, $messages->all());
+        self::assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertCount(4, $messages->all());
     }
 
     public function testWithInputDepthOne(): void
@@ -205,15 +206,15 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test'));
 
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
-        $this->assertTrue($messages->has('test_with_rules_closure'));
-        $this->assertCount(3, $messages->all());
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertCount(3, $messages->all());
     }
 
     public function testWithInputWithEmptyInputObjects(): void
@@ -225,6 +226,7 @@ class MutationTest extends FieldTest
 
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_input_object' => [],
@@ -235,25 +237,25 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test'));
 
-        $this->assertTrue($messages->has('test_with_rules_closure'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
 
-        $this->assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules'));
 
-        $this->assertTrue($messages->has('test_with_rules_nullable_input_object.otherValue'));
-        $this->assertTrue($messages->has('test_with_rules_nullable_input_object.val'));
-        $this->assertTrue($messages->has('test_with_rules_nullable_input_object.nest'));
-        $this->assertTrue($messages->has('test_with_rules_nullable_input_object.list'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.val'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-        $this->assertCount(12, $messages->all());
+        self::assertTrue($messages->has('test_with_rules_nullable_input_object.otherValue'));
+        self::assertTrue($messages->has('test_with_rules_nullable_input_object.val'));
+        self::assertTrue($messages->has('test_with_rules_nullable_input_object.nest'));
+        self::assertTrue($messages->has('test_with_rules_nullable_input_object.list'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.val'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
+        self::assertCount(12, $messages->all());
     }
 
     public function testWithEmptyArrayOfInputsObjects(): void
@@ -265,6 +267,7 @@ class MutationTest extends FieldTest
 
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [],
@@ -274,14 +277,14 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
-        $this->assertTrue($messages->has('test'));
-        $this->assertTrue($messages->has('test_with_rules'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
-        $this->assertTrue($messages->has('test_with_rules_closure'));
-        $this->assertCount(4, $messages->all());
+        self::assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertCount(4, $messages->all());
     }
 
     public function testWithArrayOfInputsObjects(): void
@@ -293,6 +296,7 @@ class MutationTest extends FieldTest
 
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_non_nullable_list_of_non_nullable_input_object' => [
@@ -306,18 +310,18 @@ class MutationTest extends FieldTest
 
         $validator = $exception->getValidator();
 
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertTrue($messages->has('test'));
-        $this->assertTrue($messages->has('test_with_rules'));
-        $this->assertTrue($messages->has('test_with_rules_closure'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.otherValue'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.nest'));
-        $this->assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.list'));
-        $this->assertCount(7, $messages->all());
+        self::assertTrue($messages->has('test'));
+        self::assertTrue($messages->has('test_with_rules'));
+        self::assertTrue($messages->has('test_with_rules_closure'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.otherValue'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.nest'));
+        self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.list'));
+        self::assertCount(7, $messages->all());
     }
 
     /**
@@ -331,6 +335,7 @@ class MutationTest extends FieldTest
 
         /** @var ValidationError $exception */
         $exception = null;
+
         try {
             $attributes['resolve'](null, [
                 'test_with_rules_nullable_input_object' => [
@@ -345,16 +350,16 @@ class MutationTest extends FieldTest
 
         $messages = $exception->getValidatorMessages();
 
-        $this->assertEquals($messages->first('test'), 'The test field is required.');
-        $this->assertEquals($messages->first('test_with_rules_nullable_input_object.nest.email'), 'The test with rules nullable input object.nest.email must be a valid email address.');
-        $this->assertEquals($messages->first('test_with_rules_non_nullable_input_object.nest.email'), 'The test with rules non nullable input object.nest.email must be a valid email address.');
+        self::assertEquals($messages->first('test'), 'The test field is required.');
+        self::assertEquals($messages->first('test_with_rules_nullable_input_object.nest.email'), 'The test with rules nullable input object.nest.email must be a valid email address.');
+        self::assertEquals($messages->first('test_with_rules_non_nullable_input_object.nest.email'), 'The test with rules non nullable input object.nest.email must be a valid email address.');
     }
 
     public function testRuleCallbackArgumentsMatchesTheInput(): void
     {
         $this->expectException(ValidationError::class);
 
-        $field = new UpdateExampleMutationForRuleTesting;
+        $field = new UpdateExampleMutationForRuleTesting();
         $attributes = $field->getAttributes();
 
         $attributes['resolve'](null, [

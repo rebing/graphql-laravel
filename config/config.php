@@ -1,14 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
-use example\Mutation\ExampleMutation;
-use example\Query\ExampleQuery;
-use example\Type\ExampleRelationType;
-use example\Type\ExampleType;
+declare(strict_types = 1);
 
 return [
-
     // The prefix for routes
     'prefix' => 'graphql',
 
@@ -42,7 +36,7 @@ return [
     //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
     // ]
     //
-    'controllers' => \Rebing\GraphQL\GraphQLController::class.'@query',
+    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
 
     // Any middleware for the graphql route group
     'middleware' => [],
@@ -60,6 +54,13 @@ return [
     // parameter.
     'default_schema' => 'default',
 
+    'batching' => [
+        // Whether to support GraphQL batching or not.
+        // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
+        // for pro and con
+        'enable' => true,
+    ],
+
     // The schemas for query and/or mutation. It expects an array of schemas to provide
     // both the 'query' fields and the 'mutation' fields.
     //
@@ -72,7 +73,7 @@ return [
     //  'schemas' => [
     //      'default' => [
     //          'query' => [
-    //              'users' => 'App\GraphQL\Query\UsersQuery'
+    //              'users' => App\GraphQL\Query\UsersQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -80,7 +81,7 @@ return [
     //      ],
     //      'user' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\ProfileQuery'
+    //              'profile' => App\GraphQL\Query\ProfileQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -89,7 +90,7 @@ return [
     //      ],
     //      'user/me' => [
     //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\MyProfileQuery'
+    //              'profile' => App\GraphQL\Query\MyProfileQuery::class
     //          ],
     //          'mutation' => [
     //
@@ -101,10 +102,13 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                // 'example_query' => ExampleQuery::class,
+                // ExampleQuery::class,
             ],
             'mutation' => [
-                // 'example_mutation'  => ExampleMutation::class,
+                // ExampleMutation::class,
+            ],
+            'types' => [
+                // ExampleType::class,
             ],
             'middleware' => [],
             'method' => ['get', 'post'],
@@ -117,12 +121,12 @@ return [
     // Example:
     //
     // 'types' => [
-    //     'user' => 'App\GraphQL\Type\UserType'
+    //     App\GraphQL\Type\UserType::class
     // ]
     //
     'types' => [
-        // 'example'           => ExampleType::class,
-        // 'relation_example'  => ExampleRelationType::class,
+        // ExampleType::class,
+        // ExampleRelationType::class,
         // \Rebing\GraphQL\Support\UploadType::class,
     ],
 
@@ -138,7 +142,7 @@ return [
     //     'message' => '',
     //     'locations' => []
     // ]
-    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
+    'error_formatter' => [\Rebing\GraphQL\GraphQL::class, 'formatError'],
 
     /*
      * Custom Error Handling
@@ -147,7 +151,7 @@ return [
      *
      * The default handler will pass exceptions to laravel Error Handling mechanism
      */
-    'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
+    'errors_handler' => [\Rebing\GraphQL\GraphQL::class, 'handleErrors'],
 
     // You can set the key, which will be used to retrieve the dynamic variables
     'params_key' => 'variables',
@@ -170,11 +174,17 @@ return [
     'pagination_type' => \Rebing\GraphQL\Support\PaginationType::class,
 
     /*
+     * You can define your own simple pagination type.
+     * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
+     */
+    'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
+
+    /*
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
         'prefix' => '/graphiql',
-        'controller' => \Rebing\GraphQL\GraphQLController::class.'@graphiql',
+        'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
         'middleware' => [],
         'view' => 'graphql::graphiql',
         'display' => env('ENABLE_GRAPHIQL', true),
@@ -207,4 +217,22 @@ return [
      * See http://php.net/manual/function.json-encode.php for the full list of options
      */
     'json_encoding_options' => 0,
+
+    /*
+     * Automatic Persisted Queries (APQ)
+     * See https://www.apollographql.com/docs/apollo-server/performance/apq/
+     */
+    'apq' => [
+        // Enable/Disable APQ - See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
+        'enable' => env('GRAPHQL_APQ_ENABLE', false),
+
+        // The cache driver used for APQ
+        'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', config('cache.default')),
+
+        // The cache prefix
+        'cache_prefix' => config('cache.prefix') . ':graphql.apq',
+
+        // The cache ttl in minutes - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
+        'cache_ttl' => 300,
+    ],
 ];

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use Rebing\GraphQL\Console\PublishCommand;
@@ -10,17 +9,17 @@ class GraphQLLumenServiceProvider extends GraphQLServiceProvider
 {
     protected function bootPublishes(): void
     {
-        $configPath = __DIR__.'/../config';
+        $configPath = __DIR__ . '/../config';
 
-        $this->mergeConfigFrom($configPath.'/config.php', 'graphql');
+        $this->mergeConfigFrom($configPath . '/config.php', 'graphql');
 
-        $viewsPath = __DIR__.'/../resources/views';
+        $viewsPath = __DIR__ . '/../resources/views';
         $this->loadViewsFrom($viewsPath, 'graphql');
     }
 
-    public function register()
+    public function register(): void
     {
-        if (class_exists('Laravel\Lumen\Routing\Controller')) {
+        if (class_exists('Laravel\Lumen\Routing\Controller') && !class_exists('Illuminate\Routing\Controller')) {
             class_alias('Laravel\Lumen\Routing\Controller', 'Illuminate\Routing\Controller');
         }
 

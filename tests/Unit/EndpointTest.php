@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Rebing\GraphQL\Tests\TestCase;
@@ -17,11 +16,11 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examples'],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals($content['data'], [
             'examples' => $this->data,
         ]);
     }
@@ -36,8 +35,8 @@ class EndpointTest extends TestCase
         ]);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals($content['data'], [
             'examplesCustom' => $this->data,
         ]);
     }
@@ -54,11 +53,11 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals($content['data'], [
             'examples' => [
                 $this->data[0],
             ],
@@ -74,11 +73,11 @@ class EndpointTest extends TestCase
             ]),
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertEquals($content['data'], [
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals($content['data'], [
             'examples' => [
                 $this->data[0],
             ],
@@ -94,13 +93,13 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examplesWithAuthorize'],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertArrayHasKey('errors', $content);
-        $this->assertEquals($content['errors'][0]['message'], 'Unauthorized');
-        $this->assertNull($content['data']['examplesAuthorize']);
+        self::assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('errors', $content);
+        self::assertEquals($content['errors'][0]['message'], 'Unauthorized');
+        self::assertNull($content['data']['examplesAuthorize']);
     }
 
     /**
@@ -112,19 +111,53 @@ class EndpointTest extends TestCase
             'query' => $this->queries['examplesWithAuthorizeMessage'],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals($response->getStatusCode(), 200);
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey('data', $content);
-        $this->assertArrayHasKey('errors', $content);
-        $this->assertEquals($content['errors'][0]['message'], 'You are not authorized to perform this action');
-        $this->assertNull($content['data']['examplesAuthorizeMessage']);
+        self::assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('errors', $content);
+        self::assertEquals($content['errors'][0]['message'], 'You are not authorized to perform this action');
+        self::assertNull($content['data']['examplesAuthorizeMessage']);
     }
 
     /**
      * Test support batched queries.
      */
     public function testBatchedQueries(): void
+    {
+        $response = $this->call('POST', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals($response->getStatusCode(), 200);
+
+        $content = $response->getData(true);
+        self::assertArrayHasKey(0, $content);
+        self::assertArrayHasKey(1, $content);
+        self::assertEquals($content[0]['data'], [
+            'examples' => [
+                $this->data[0],
+            ],
+        ]);
+        self::assertEquals($content[1]['data'], [
+            'examples' => [
+                $this->data[0],
+            ],
+        ]);
+    }
+
+    public function testBatchedQueriesDontWorkWithGet(): void
     {
         $response = $this->call('GET', '/graphql', [
             [
@@ -141,21 +174,64 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        $this->assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
-        $this->assertArrayHasKey(0, $content);
-        $this->assertArrayHasKey(1, $content);
-        $this->assertEquals($content[0]['data'], [
-            'examples' => [
-                $this->data[0],
+        unset($content['errors'][0]['trace']);
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
+                    'extensions' => [
+                        'category' => 'request',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $content);
+    }
+
+    public function testBatchedQueriesButBatchingDisabled(): void
+    {
+        config(['graphql.batching.enable' => false]);
+
+        $response = $this->call('POST', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
             ],
         ]);
-        $this->assertEquals($content[1]['data'], [
-            'examples' => [
-                $this->data[0],
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $actual = $response->getData(true);
+
+        $expected = [
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch request received but batching is not supported',
+                    ],
+                ],
             ],
-        ]);
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch request received but batching is not supported',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $actual);
     }
 
     public function testGetGraphqiQL(): void

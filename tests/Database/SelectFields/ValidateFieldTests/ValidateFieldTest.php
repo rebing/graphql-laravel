@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use Mockery;
@@ -68,7 +67,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testSelectableNull(): void
@@ -124,7 +123,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testSelectableTrue(): void
@@ -180,7 +179,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyClosureAllowed(): void
@@ -217,7 +216,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyClosureDenied(): void
@@ -254,7 +253,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyClassAllowed(): void
@@ -291,7 +290,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyClassDenied(): void
@@ -328,7 +327,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyClassMultipleTimesIsCalledMultipleTimes(): void
@@ -376,7 +375,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
@@ -417,7 +416,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
@@ -457,7 +456,7 @@ SQL
                 ],
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     public function testPrivacyWrongType(): void
@@ -506,10 +505,10 @@ GRAQPHQL;
                 'validateFields' => null,
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
@@ -525,5 +524,104 @@ GRAQPHQL;
             CommentType::class,
             PostType::class,
         ]);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PostType::fields
+     * within the closure for the field `title_privacy_closure_context`.
+     */
+    public function testPrivacyClosureReceivesContext(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_query_context
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $options = [
+            'opts' => [
+                'context' => [
+                    'arg_from_context_true' => true,
+                    'arg_from_context_false' => false,
+                ],
+            ],
+        ];
+
+        $result = $this->graphql($query, $options);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_query_context' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Note: actual assertion happens in \Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\PrivacyQueryContext::validate.
+     */
+    public function testPrivacyClassReceivesQueryContext(): void
+    {
+        factory(Post::class)
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_class_query_context
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $options = [
+            'opts' => [
+                'context' => [
+                    'arg_from_context_true' => true,
+                    'arg_from_context_false' => false,
+                ],
+            ],
+        ];
+
+        $result = $this->graphql($query, $options);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_class_query_context' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expectedResult, $result);
     }
 }

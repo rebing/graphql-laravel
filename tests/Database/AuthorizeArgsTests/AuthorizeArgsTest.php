@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\AuthorizeArgsTests;
 
 use Rebing\GraphQL\Tests\TestCaseDatabase;
@@ -20,11 +19,11 @@ GRAPHQL;
         $this->httpGraphql($graphql);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('graphql.controllers', GraphQLController::class.'@query');
+        $app['config']->set('graphql.controllers', GraphQLController::class . '@query');
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\AuthorizeArgsTests;
 
 use Closure;
@@ -53,7 +52,7 @@ class TestAuthorizationArgsQuery extends Query
         Assert::assertInstanceOf(SelectFields::class, $selectFields);
     }
 
-    public function resolve()
+    public function resolve(): void
     {
     }
 }

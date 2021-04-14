@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -88,7 +87,7 @@ SQL
                 'users' => null,
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
@@ -108,12 +107,12 @@ SQL
                 'post_id' => $post->id,
             ]);
 
-        $postLike = new Like;
+        $postLike = new Like();
         $postLike->likable()->associate($post);
         $postLike->user()->associate($user);
         $postLike->save();
 
-        $commentLike = new Like;
+        $commentLike = new Like();
         $commentLike->likable()->associate($comment);
         $commentLike->user()->associate($user);
         $commentLike->save();
@@ -167,10 +166,10 @@ SQL
                 'users' => null,
             ],
         ];
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

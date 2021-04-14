@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\RecursionTest\Inputs;
 
 use GraphQL\Type\Definition\Type;
@@ -10,9 +9,7 @@ use Rebing\GraphQL\Support\InputType;
 
 class BookInput extends InputType
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'BookInput',
         'description' => 'An example input',

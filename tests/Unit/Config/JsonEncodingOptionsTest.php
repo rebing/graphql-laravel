@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Config;
 
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
@@ -33,10 +32,10 @@ class JsonEncodingOptionsTest extends TestCase
     }
 }
 JSON;
-        $this->assertSame($json, $response->content());
+        self::assertSame($json, $response->content());
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
             'json_encoding_options' => JSON_PRETTY_PRINT,

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\RecursionTest\Mutations;
 
 use GraphQL\Type\Definition\Type;
@@ -10,9 +9,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class SaveAuthor extends Mutation
 {
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     protected $attributes = [
         'name' => 'SaveAuthor',
     ];
@@ -49,7 +46,6 @@ class SaveAuthor extends Mutation
     /**
      * @param mixed $root
      * @param array<string,mixed> $args
-     * @return bool
      */
     public function resolve($root, $args): bool
     {

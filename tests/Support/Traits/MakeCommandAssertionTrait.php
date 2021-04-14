@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
 use Illuminate\Filesystem\Filesystem;
@@ -19,7 +18,7 @@ trait MakeCommandAssertionTrait
         string $expectedFilename,
         string $expectedNamespace,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName = null
     ): void {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)
@@ -34,14 +33,17 @@ trait MakeCommandAssertionTrait
             ->method('put')
             ->with(
                 $this->callback(function (string $path) use ($expectedFilename): bool {
-                    $this->assertRegExp("|laravel[/\\\\]app/$expectedFilename|", $path);
+                    $this->assertMatchesRegularExpression("|laravel[/\\\\]app/$expectedFilename|", $path);
 
                     return true;
                 }),
                 $this->callback(function (string $contents) use ($expectedClassDefinition, $expectedGraphqlName, $expectedNamespace): bool {
-                    $this->assertRegExp("/namespace $expectedNamespace;/", $contents);
-                    $this->assertRegExp("/class $expectedClassDefinition/", $contents);
-                    $this->assertRegExp("/$expectedGraphqlName/", $contents);
+                    $this->assertMatchesRegularExpression("/namespace $expectedNamespace;/", $contents);
+                    $this->assertMatchesRegularExpression("/class $expectedClassDefinition/", $contents);
+
+                    if ($expectedGraphqlName) {
+                        $this->assertMatchesRegularExpression("/$expectedGraphqlName/", $contents);
+                    }
 
                     return true;
                 })
@@ -55,6 +57,6 @@ trait MakeCommandAssertionTrait
         ]);
 
         $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp("/$graphqlKind created successfully/", $tester->getDisplay());
+        $this->assertMatchesRegularExpression("/$graphqlKind created successfully/", $tester->getDisplay());
     }
 }

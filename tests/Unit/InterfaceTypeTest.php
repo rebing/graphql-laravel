@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
@@ -19,8 +18,8 @@ class InterfaceTypeTest extends TestCase
         $type = new ExampleInterfaceType();
         $attributes = $type->getAttributes();
 
-        $this->assertArrayHasKey('resolveType', $attributes);
-        $this->assertInstanceOf(Closure::class, $attributes['resolveType']);
+        self::assertArrayHasKey('resolveType', $attributes);
+        self::assertInstanceOf(Closure::class, $attributes['resolveType']);
     }
 
     /**
@@ -32,7 +31,7 @@ class InterfaceTypeTest extends TestCase
                     ->setMethods(['resolveType'])
                     ->getMock();
 
-        $type->expects($this->once())
+        $type->expects(self::once())
             ->method('resolveType');
 
         $attributes = $type->getAttributes();
@@ -48,11 +47,11 @@ class InterfaceTypeTest extends TestCase
         /** @var InterfaceType $interfaceType */
         $interfaceType = $type->toType();
 
-        $this->assertInstanceOf(InterfaceType::class, $interfaceType);
+        self::assertInstanceOf(InterfaceType::class, $interfaceType);
 
-        $this->assertEquals($interfaceType->name, $type->name);
+        self::assertEquals($interfaceType->name, $type->name);
 
         $fields = $interfaceType->getFields();
-        $this->assertArrayHasKey('test', $fields);
+        self::assertArrayHasKey('test', $fields);
     }
 }

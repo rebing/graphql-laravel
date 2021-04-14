@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
+use Composer\InstalledVersions;
 use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationOfFieldArgumentsTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql.types', [
             'AccountType' => AccountType::class,
@@ -52,9 +52,16 @@ GRAPHQL;
         $expectedMessages = [
             'The profile.fields.name.args.include middle names format is invalid.',
             'The profile.fields.height.args.unit format is invalid.',
-            'The profile.args.profile id may not be greater than 10.',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+
+        // See https://github.com/orchestral/testbench-core/commit/6c9c77b2e978890cb6a2712251ddab5eb1b79049
+        if ($this->orchestraTestbenchCoreVersionBelow('6.17.1.0')) {
+            $expectedMessages[] = 'The profile.args.profile id may not be greater than 10.';
+        } else {
+            $expectedMessages[] = 'The profile.args.profile id must not be greater than 10.';
+        }
+
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testOnlyApplicableRulesTakesEffect(): void
@@ -78,6 +85,11 @@ GRAPHQL;
         $expectedMessages = [
             'The alias.args.type format is invalid.',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
+    }
+
+    private function orchestraTestbenchCoreVersionBelow(string $versionString): bool
+    {
+        return InstalledVersions::getVersion('orchestra/testbench-core') < $versionString;
     }
 }

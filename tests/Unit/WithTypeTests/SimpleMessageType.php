@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use GraphQL\Type\Definition\Type;
@@ -14,7 +13,7 @@ class SimpleMessageType extends GraphQLType
         'description' => 'A type of a simple message',
     ];
 
-    public function fields() : array
+    public function fields(): array
     {
         return [
             'message' => [

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\Facades;
 
 use GraphQL\Error\Error;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static ExecutionResult queryAndReturnResult(string $query, ?array $params = [], array $opts = [])
  * @method static Type type(string $name, bool $fresh = false)
  * @method static Type paginate(string $typeName, string $customName = null)
+ * @method static Type simplePaginate(string $typeName, string $customName = null)
  * @method static array<string,object|string> getTypes()
  * @method static Schema schema(Schema|array|string $schema = null)
  * @method static array getSchemas()

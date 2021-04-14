@@ -35,19 +35,21 @@
     "type": "library",
     "require": {
         "php": ">= 7.2",
-        "illuminate/contracts": "^6.0|^7.0",
-        "illuminate/support": "^6.0|^7.0",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
         "webonyx/graphql-php": "^14.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "laragraph/utils": "^1"
     },
     "require-dev": {
-        "orchestra/testbench": "4.0.*|5.0.*",
-        "phpunit/phpunit": "~7.0|~8.0",
-        "nunomaduro/larastan": "0.6.1",
+        "orchestra/testbench": "4.0.*|5.0.*|^6.0",
+        "phpunit/phpunit": "~7.0|~8.0|^9",
+        "nunomaduro/larastan": "0.7.0",
         "mockery/mockery": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15",
-        "matt-allan/laravel-code-style": "0.5.1",
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "laravel/legacy-factories": "^1.0",
+        "mfn/php-cs-fixer-config": "^1"
     },
     "autoload": {
         "psr-4": {
@@ -72,7 +74,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.0.x-dev"
+            "dev-master": "7.x-dev"
         },
         "laravel": {
             "providers": [

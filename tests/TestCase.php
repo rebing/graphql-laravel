@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests;
 
 use GraphQL\Type\Definition\FieldDefinition;
@@ -10,14 +9,17 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -37,13 +39,13 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->queries = include __DIR__.'/Support/Objects/queries.php';
-        $this->data = include __DIR__.'/Support/Objects/data.php';
+        $this->queries = include __DIR__ . '/Support/Objects/queries.php';
+        $this->data = include __DIR__ . '/Support/Objects/data.php';
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
-        if (env('TESTS_ENABLE_LAZYLOAD_TYPES') === '1') {
+        if ('1' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
             $app['config']->set('graphql.lazyload_types', true);
         }
 
@@ -52,6 +54,7 @@ class TestCase extends BaseTestCase
                 'examples' => ExamplesQuery::class,
                 'examplesAuthorize' => ExamplesAuthorizeQuery::class,
                 'examplesAuthorizeMessage' => ExamplesAuthorizeMessageQuery::class,
+                'examplesMiddleware' => ExamplesMiddlewareQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
                 'examplesFiltered' => ExamplesFilteredQuery::class,
                 'examplesConfigAlias' => ExamplesConfigAliasQuery::class,
@@ -70,6 +73,9 @@ class TestCase extends BaseTestCase
             ],
         ]);
 
+        $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
+        $app['config']->set('graphql.schemas.invalid_class_based', 'ThisClassDoesntExist');
+
         $app['config']->set('graphql.types', [
             'Example' => ExampleType::class,
             'ExampleConfigAlias' => ExampleType2::class,
@@ -81,7 +87,7 @@ class TestCase extends BaseTestCase
 
     protected function assertGraphQLSchema($schema): void
     {
-        $this->assertInstanceOf(Schema::class, $schema);
+        self::assertInstanceOf(Schema::class, $schema);
     }
 
     protected function assertGraphQLSchemaHasQuery($schema, $key): void
@@ -89,14 +95,14 @@ class TestCase extends BaseTestCase
         // Query
         $query = $schema->getQueryType();
         $queryFields = $query->getFields();
-        $this->assertArrayHasKey($key, $queryFields);
+        self::assertArrayHasKey($key, $queryFields);
 
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf(FieldDefinition::class, $queryField);
-        $this->assertInstanceOf(ListOfType::class, $queryListType);
-        $this->assertInstanceOf(ObjectType::class, $queryType);
+        self::assertInstanceOf(FieldDefinition::class, $queryField);
+        self::assertInstanceOf(ListOfType::class, $queryListType);
+        self::assertInstanceOf(ObjectType::class, $queryType);
     }
 
     protected function assertGraphQLSchemaHasMutation($schema, $key): void
@@ -104,12 +110,12 @@ class TestCase extends BaseTestCase
         // Mutation
         $mutation = $schema->getMutationType();
         $mutationFields = $mutation->getFields();
-        $this->assertArrayHasKey($key, $mutationFields);
+        self::assertArrayHasKey($key, $mutationFields);
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf(FieldDefinition::class, $mutationField);
-        $this->assertInstanceOf(ObjectType::class, $mutationType);
+        self::assertInstanceOf(FieldDefinition::class, $mutationField);
+        self::assertInstanceOf(ObjectType::class, $mutationType);
     }
 
     protected function getPackageProviders($app): array
@@ -132,15 +138,13 @@ class TestCase extends BaseTestCase
      * The `CommandTester` is directly returned, use methods like
      * `->getDisplay()` or `->getStatusCode()` on it.
      *
-     * @param Command $command
      * @param array $arguments The command line arguments, array of key=>value
-     *   Examples:
-     *   - named  arguments: ['model' => 'Post']
-     *   - boolean flags: ['--all' => true]
-     *   - arguments with values: ['--arg' => 'value']
+     *                         Examples:
+     *                         - named  arguments: ['model' => 'Post']
+     *                         - boolean flags: ['--all' => true]
+     *                         - arguments with values: ['--arg' => 'value']
      * @param array $interactiveInput Interactive responses to the command
-     *   I.e. anything the command `->ask()` or `->confirm()`, etc.
-     * @return CommandTester
+     *                                I.e. anything the command `->ask()` or `->confirm()`, etc.
      */
     protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
     {
@@ -157,31 +161,34 @@ class TestCase extends BaseTestCase
     /**
      * Helper to dispatch an internal GraphQL requests.
      *
-     * @param  string  $query
-     * @param  array  $options
-     *   Supports the following options:
-     *   - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
-     *   - `variables` (default: null): GraphQL variables for the query
+     * @param array $options
+     *                       Supports the following options:
+     *                       - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
+     *                       - `variables` (default: null): GraphQL variables for the query
+     *                       - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
+     *
      * @return array GraphQL result
      */
     protected function graphql(string $query, array $options = []): array
     {
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
+        $opts = $options['opts'] ?? [];
 
-        $result = GraphQL::query($query, $variables);
+        $result = GraphQL::query($query, $variables, $opts);
 
         $assertMessage = null;
 
-        if (! $expectErrors && isset($result['errors'])) {
+        if (!$expectErrors && isset($result['errors'])) {
             $appendErrors = '';
+
             if (isset($result['errors'][0]['trace'])) {
-                $appendErrors = "\n\n".$this->formatSafeTrace($result['errors'][0]['trace']);
+                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['trace']);
             }
 
             $assertMessage = "Probably unexpected error in GraphQL response:\n"
-                .var_export($result, true)
-                .$appendErrors;
+                . var_export($result, true)
+                . $appendErrors;
         }
         unset($result['errors'][0]['trace']);
 
@@ -195,10 +202,9 @@ class TestCase extends BaseTestCase
     /**
      * Helper to dispatch an HTTP GraphQL requests.
      *
-     * @param  string  $query
-     * @param  array  $options
-     *   Supports the following options:
-     *   - `httpStatusCode` (default: 200): the HTTP status code to expect
+     * @param array $options
+     *                       Supports the following options:
+     *                       - `httpStatusCode` (default: 200): the HTTP status code to expect
      * @return array GraphQL result
      */
     protected function httpGraphql(string $query, array $options = []): array
@@ -213,8 +219,8 @@ class TestCase extends BaseTestCase
 
         if ($expectedHttpStatusCode !== $httpStatusCode) {
             $result = $response->getData(true);
-            $msg = var_export($result, true)."\n";
-            $this->assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
+            $msg = var_export($result, true) . "\n";
+            self::assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
         }
 
         return $response->getData(true);
@@ -223,9 +229,6 @@ class TestCase extends BaseTestCase
     /**
      * Converts the trace as generated from \GraphQL\Error\FormattedError::toSafeTrace
      * to a more human-readable string for a failed test.
-     *
-     * @param array $trace
-     * @return string
      */
     private function formatSafeTrace(array $trace): string
     {
@@ -234,18 +237,29 @@ class TestCase extends BaseTestCase
             array_map(function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
+
                 if (isset($row['line'])) {
                     $line .= "({$row['line']}) :";
                 }
+
                 if (isset($row['call'])) {
-                    $line .= ' '.$row['call'];
+                    $line .= ' ' . $row['call'];
                 }
+
                 if (isset($row['function'])) {
-                    $line .= ' '.$row['function'];
+                    $line .= ' ' . $row['function'];
                 }
 
                 return $line;
             }, $trace, array_keys($trace))
         );
+    }
+
+    /**
+     * Remove this method once we're PHPUnit 9+ only.
+     */
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
+    {
+        self::assertThat($string, new RegularExpression($pattern), $message);
     }
 }

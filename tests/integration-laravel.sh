@@ -22,7 +22,7 @@ echo "Make GraphQL ExampleQuery"
 php artisan make:graphql:query ExampleQuery
 
 echo "Add ExampleQuery to config"
-sed -e "s|// 'example_query' => ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
+sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
 
 echo "Start Webserver"
 php -S 127.0.0.1:8001 -t public >/dev/null 2>&1 &

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
 use Illuminate\Filesystem\Filesystem;
@@ -21,17 +20,17 @@ class FieldMakeCommandTest extends TestCase
             ])
             ->getMock();
         $filesystemMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('put')
             ->with(
-                $this->callback(function (string $path): bool {
-                    $this->assertRegExp('|laravel[/\\\\]app/GraphQL/Fields/ExampleField.php|', $path);
+                self::callback(function (string $path): bool {
+                    $this->assertMatchesRegularExpression('|laravel[/\\\\]app/GraphQL/Fields/ExampleField.php|', $path);
 
                     return true;
                 }),
-                $this->callback(function (string $contents): bool {
-                    $this->assertRegExp('/class ExampleField extends Field/', $contents);
-                    $this->assertRegExp("/'name' => 'ExampleField',/", $contents);
+                self::callback(function (string $contents): bool {
+                    $this->assertMatchesRegularExpression('/class ExampleField extends Field/', $contents);
+                    $this->assertMatchesRegularExpression("/'name' => 'ExampleField',/", $contents);
 
                     return true;
                 })
@@ -44,7 +43,7 @@ class FieldMakeCommandTest extends TestCase
             'name' => 'ExampleField',
         ]);
 
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertRegExp('/Field created successfully/', $tester->getDisplay());
+        self::assertSame(0, $tester->getStatusCode());
+        self::assertMatchesRegularExpression('/Field created successfully/', $tester->getDisplay());
     }
 }

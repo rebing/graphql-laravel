@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests;
 
 use Illuminate\Contracts\Support\MessageBag;
@@ -24,11 +23,11 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
-        $this->assertSame(['arg1 is invalid'], $messageBag->all());
+        self::assertSame(['arg1 is invalid'], $messageBag->all());
     }
 
     public function testMutationWithCustomRuleWithRuleObject(): void
@@ -46,14 +45,14 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
-        $this->assertSame(['arg1 is invalid'], $messageBag->all());
+        self::assertSame(['arg1 is invalid'], $messageBag->all());
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Type\Definition\InputObjectType;
@@ -19,11 +18,11 @@ class InputTypeTest extends TestCase
         /** @var InputObjectType $objectType */
         $objectType = $type->toType();
 
-        $this->assertInstanceOf(InputObjectType::class, $objectType);
+        self::assertInstanceOf(InputObjectType::class, $objectType);
 
-        $this->assertEquals($objectType->name, $type->name);
+        self::assertEquals($objectType->name, $type->name);
 
         $fields = $objectType->getFields();
-        $this->assertArrayHasKey('test', $fields);
+        self::assertArrayHasKey('test', $fields);
     }
 }

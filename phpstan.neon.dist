@@ -1,28 +1,48 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
     - ./phpstan-baseline.neon
+    - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
     level: max
     paths:
-        - %currentWorkingDirectory%/src/
-        - %currentWorkingDirectory%/tests/
-    excludes_analyse:
-        - %currentWorkingDirectory%/tests/Support/database/
+        - src/
+        - tests/
+    excludePaths:
+        - tests/Support/database/
+    inferPrivatePropertyTypeFromConstructor: true
+    checkUninitializedProperties: true
+    checkModelProperties: true
     ignoreErrors:
         - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
-        - '/Parameter #3 \$subject of function str_replace expects array\|string, string\|false given/'
         - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
         - '/Cannot access property \$parameters on mixed/'
-        - '/Parameter #1 \$haystack of function mb_stripos expects string, \(array\)\|string given/'
-        - '/Strict comparison using === between null and array will always evaluate to false/'
         # \Rebing\GraphQL\Support\SelectFields::handleFields
         - '/Binary operation "." between string and array\|string\|null results in an error/'
-        - '/Parameter #1 \$key of function array_key_exists expects int\|string, string\|false given/'
-        - '/Parameter #1 \$function of function call_user_func_array expects callable\(\): mixed, array\(\$this\(Rebing\\GraphQL\\Support\\Type\), string\) given/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
         - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection<mixed,mixed>::slice\(\) expects int, float\|int given/'
+        # \Rebing\GraphQL\Support\Middleware
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has no return typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$args with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$context with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$root with no typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has no return typehint specified/'
+        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has parameter \$arguments with no value type specified in iterable type array/'
+        # \Rebing\GraphQL\Support\Objects\ExampleMiddleware
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has no return typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$args with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$context with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$root with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$args with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$context with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$result with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$root with no typehint specified/'
+        # \Rebing\GraphQL\Support\Objects\ExamplesMiddlewareQuery
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::\$attributes has no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has no return typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has parameter \$args with no typehint specified/'
+        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has parameter \$root with no typehint specified/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'
@@ -37,9 +57,13 @@ parameters:
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
+        - '/Parameter #1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess/'
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/nunomaduro/larastan/issues/611
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
+        -
+            message: '/Comparison operation.*between.*and.*is always false./'
+            path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
     reportUnmatchedIgnoredErrors: true

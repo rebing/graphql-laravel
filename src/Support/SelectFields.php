@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
@@ -12,7 +11,9 @@ use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -28,14 +29,13 @@ class SelectFields
     /** @var array */
     protected $relations = [];
 
-    const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
+    public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
-     * @param  GraphqlType  $parentType
-     * @param  array  $queryArgs  Arguments given with the query/mutation
-     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
-     *   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
-     * @param  array<string,mixed>  $fieldsAndArguments Field and argument tree
+     * @param array $queryArgs Arguments given with the query/mutation
+     * @param mixed $ctx The GraphQL context; can be anything and is only passed through
+     *                   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
+     * @param array<string,mixed> $fieldsAndArguments Field and argument tree
      */
     public function __construct(GraphqlType $parentType, array $queryArgs, $ctx, array $fieldsAndArguments)
     {
@@ -48,22 +48,21 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        [$this->select, $this->relations] = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        /** @var array<int,array> $result */
+        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+
+        [$this->select, $this->relations] = $result;
     }
 
     /**
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @param  array  $queryArgs  Arguments given with the query/mutation
-     * @param  array  $requestedFields
-     * @param  GraphqlType  $parentType
-     * @param  Closure|null  $customQuery
-     * @param  bool  $topLevel
-     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
+     * @param array $queryArgs Arguments given with the query/mutation
+     * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      * @return array|Closure - if first recursion, return an array,
-     *               where the first key is 'select' array and second is 'with' array.
-     *               On other recursions return a closure that will be used in with
+     *                       where the first key is 'select' array and second is 'with' array.
+     *                       On other recursions return a closure that will be used in with
      */
     public static function getSelectableFieldsAndRelations(
         array $queryArgs,
@@ -86,8 +85,9 @@ class SelectFields
 
         // If a primary key is given, but not in the selects, add it
         if (null !== $primaryKey) {
-            $primaryKey = $parentTable ? ($parentTable.'.'.$primaryKey) : $primaryKey;
-            if (! in_array($primaryKey, $select)) {
+            $primaryKey = $parentTable ? ($parentTable . '.' . $primaryKey) : $primaryKey;
+
+            if (!in_array($primaryKey, $select)) {
                 $select[] = $primaryKey;
             }
         }
@@ -96,7 +96,7 @@ class SelectFields
             return [$select, $with];
         }
 
-        return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx) {
+        return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx): void {
             if ($customQuery) {
                 $query = $customQuery($requestedFields['args'], $query, $ctx);
             }
@@ -120,12 +120,11 @@ class SelectFields
      * Get the selects and withs from the given fields
      * and recurse if necessary.
      *
-     * @param  array  $queryArgs Arguments given with the query/mutation
-     * @param  array<string,mixed>  $requestedFields
-     * @param  GraphqlType  $parentType
-     * @param  array  $select Passed by reference, adds further fields to select
-     * @param  array  $with Passed by reference, adds further relations
-     * @param  mixed  $ctx The GraphQL context; can be anything and is only passed through
+     * @param array $queryArgs Arguments given with the query/mutation
+     * @param array<string,mixed> $requestedFields
+     * @param array $select Passed by reference, adds further fields to select
+     * @param array $with Passed by reference, adds further relations
+     * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      */
     protected static function handleFields(
         array $queryArgs,
@@ -139,7 +138,7 @@ class SelectFields
 
         foreach ($requestedFields['fields'] as $key => $field) {
             // Ignore __typename, as it's a special case
-            if ($key === '__typename') {
+            if ('__typename' === $key) {
                 continue;
             }
 
@@ -168,8 +167,9 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = static::validateField($fieldObject, $queryArgs);
-            if ($canSelect === true) {
+            $canSelect = static::validateField($fieldObject, $queryArgs, $ctx);
+
+            if (true === $canSelect) {
                 // Add a query, if it exists
                 $customQuery = $fieldObject->config['query'] ?? null;
 
@@ -177,7 +177,8 @@ class SelectFields
                 $queryable = static::isQueryable($fieldObject->config);
 
                 // Pagination
-                if (is_a($parentType, config('graphql.pagination_type', PaginationType::class))) {
+                if (is_a($parentType, config('graphql.pagination_type', PaginationType::class)) ||
+                    is_a($parentType, config('graphql.simple_pagination_type', SimplePaginationType::class))) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     static::handleFields(
@@ -230,9 +231,8 @@ class SelectFields
                 }
                 // Select
                 else {
-                    $key = isset($fieldObject->config['alias'])
-                        ? $fieldObject->config['alias']
-                        : $key;
+                    $key = $fieldObject->config['alias']
+                        ?? $key;
                     $key = $key instanceof Closure ? $key() : $key;
 
                     static::addFieldToSelect($key, $select, $parentTable, false);
@@ -241,12 +241,12 @@ class SelectFields
                 }
             }
             // If privacy does not allow the field, return it as null
-            elseif ($canSelect === null) {
-                $fieldObject->resolveFn = function () {
+            elseif (null === $canSelect) {
+                $fieldObject->resolveFn = function (): void {
                 };
             }
             // If allowed field, but not selectable
-            elseif ($canSelect === false) {
+            elseif (false === $canSelect) {
                 static::addAlwaysFields($fieldObject, $select, $parentTable);
             }
         }
@@ -266,10 +266,8 @@ class SelectFields
     }
 
     /**
-     * @param  string|Expression  $field
-     * @param  array $select  Passed by reference, adds further fields to select
-     * @param  string|null  $parentTable
-     * @param  bool  $forRelation
+     * @param string|Expression $field
+     * @param array $select Passed by reference, adds further fields to select
      */
     protected static function addFieldToSelect($field, array &$select, ?string $parentTable, bool $forRelation): void
     {
@@ -279,14 +277,15 @@ class SelectFields
             return;
         }
 
-        if ($forRelation && ! array_key_exists($field, $select['fields'])) {
+        if ($forRelation && !array_key_exists($field, $select['fields'])) {
             $select['fields'][$field] = [
                 'args' => [],
                 'fields' => true,
             ];
-        } elseif (! $forRelation && ! in_array($field, $select)) {
-            $field = $parentTable ? ($parentTable.'.'.$field) : $field;
-            if (! in_array($field, $select)) {
+        } elseif (!$forRelation && !in_array($field, $select)) {
+            $field = $parentTable ? ($parentTable . '.' . $field) : $field;
+
+            if (!in_array($field, $select)) {
                 $select[] = $field;
             }
         }
@@ -295,18 +294,20 @@ class SelectFields
     /**
      * Check the privacy status, if it's given.
      *
-     * @param  FieldDefinition  $fieldObject
-     * @param  array  $queryArgs  Arguments given with the query/mutation
+     * @param FieldDefinition $fieldObject Validated field
+     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
+     * @param mixed $ctx Query/mutation context
+     *
      * @return bool|null `true`  if selectable
      *                   `false` if not selectable, but allowed
      *                   `null`  if not allowed
      */
-    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs): ?bool
+    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs, $ctx): ?bool
     {
         $selectable = true;
 
         // If not a selectable field
-        if (isset($fieldObject->config['selectable']) && $fieldObject->config['selectable'] === false) {
+        if (isset($fieldObject->config['selectable']) && false === $fieldObject->config['selectable']) {
             $selectable = false;
         }
 
@@ -316,16 +317,17 @@ class SelectFields
             switch ($privacyClass) {
                 // If privacy given as a closure
                 case is_callable($privacyClass):
-                    if (false === call_user_func($privacyClass, $queryArgs)) {
+                    if (false === call_user_func($privacyClass, $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
                     break;
-
                 // If Privacy class given
                 case is_string($privacyClass):
+                    /** @var \Rebing\GraphQL\Support\Privacy $instance */
                     $instance = app($privacyClass);
-                    if (false === call_user_func([$instance, 'fire'], $queryArgs)) {
+
+                    if (false === call_user_func([$instance, 'fire'], $queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
@@ -346,10 +348,6 @@ class SelectFields
 
     /**
      * Determines whether the fieldObject is queryable.
-     *
-     * @param array $fieldObject
-     *
-     * @return bool
      */
     protected static function isQueryable(array $fieldObject): bool
     {
@@ -357,10 +355,8 @@ class SelectFields
     }
 
     /**
-     * @param  array  $select
-     * @param  mixed  $relation
-     * @param  string|null  $parentTable
-     * @param  array  $field
+     * @param Relation $relation
+     * @param array $field
      */
     protected static function handleRelation(array &$select, $relation, ?string $parentTable, &$field): void
     {
@@ -370,37 +366,43 @@ class SelectFields
         } elseif (method_exists($relation, 'getQualifiedForeignPivotKeyName')) {
             $foreignKey = $relation->getQualifiedForeignPivotKeyName();
         } else {
+            /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
-        $foreignKey = $parentTable ? ($parentTable.'.'.preg_replace(
-            '/^'.preg_quote($parentTable, '/').'\./',
+        $foreignKey = $parentTable ? ($parentTable . '.' . preg_replace(
+            '/^' . preg_quote($parentTable, '/') . '\./',
             '',
             $foreignKey
         )) : $foreignKey;
+
         if (is_a($relation, MorphTo::class)) {
             $foreignKeyType = $relation->getMorphType();
-            $foreignKeyType = $parentTable ? ($parentTable.'.'.$foreignKeyType) : $foreignKeyType;
-            if (! in_array($foreignKey, $select)) {
+            $foreignKeyType = $parentTable ? ($parentTable . '.' . $foreignKeyType) : $foreignKeyType;
+
+            if (!in_array($foreignKey, $select)) {
                 $select[] = $foreignKey;
             }
-            if (! in_array($foreignKeyType, $select)) {
+
+            if (!in_array($foreignKeyType, $select)) {
                 $select[] = $foreignKeyType;
             }
         } elseif (is_a($relation, BelongsTo::class)) {
-            if (! in_array($foreignKey, $select)) {
+            if (!in_array($foreignKey, $select)) {
                 $select[] = $foreignKey;
             }
         } // If 'HasMany', then add it in the 'with'
         elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a(
             $relation,
             HasOne::class
-        ) || is_a($relation, MorphOne::class))
-            && ! array_key_exists($foreignKey, $field)) {
+        ) || is_a($relation, MorphOne::class)) &&
+            !array_key_exists($foreignKey, $field)) {
             $segments = explode('.', $foreignKey);
             $foreignKey = end($segments);
-            if (! array_key_exists($foreignKey, $field)) {
+
+            if (!array_key_exists($foreignKey, $field)) {
                 $field['fields'][$foreignKey] = static::ALWAYS_RELATION_KEY;
             }
+
             if (is_a($relation, MorphMany::class) || is_a($relation, MorphOne::class)) {
                 $field['fields'][$relation->getMorphType()] = static::ALWAYS_RELATION_KEY;
             }
@@ -410,10 +412,7 @@ class SelectFields
     /**
      * Add selects that are given by the 'always' attribute.
      *
-     * @param  FieldDefinition  $fieldObject
-     * @param  array  $select Passed by reference, adds further fields to select
-     * @param  string|null  $parentTable
-     * @param  bool  $forRelation
+     * @param array $select Passed by reference, adds further fields to select
      */
     protected static function addAlwaysFields(
         FieldDefinition $fieldObject,
@@ -436,15 +435,7 @@ class SelectFields
     }
 
     /**
-     * @param  array  $queryArgs
-     * @param  array  $field
-     * @param  GraphqlType  $parentType
-     * @param  array  $select
-     * @param  array  $with
-     * @param  mixed  $ctx
-     * @param  FieldDefinition  $fieldObject
-     * @param  string  $key
-     * @param  Closure|null  $customQuery
+     * @param mixed $ctx
      */
     protected static function handleInterfaceFields(
         array $queryArgs,
@@ -456,7 +447,7 @@ class SelectFields
         FieldDefinition $fieldObject,
         string $key,
         ?Closure $customQuery
-    ) {
+    ): void {
         $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
 
         $with[$relationsKey] = function ($query) use (
@@ -498,7 +489,7 @@ class SelectFields
                 );
                 $typesFiltered = array_values($typesFiltered ?? []);
 
-                if (count($typesFiltered) === 1) {
+                if (1 === count($typesFiltered)) {
                     /* @var GraphqlType $type */
                     $type = $typesFiltered[0];
                     $relationField = $type->getField($key);

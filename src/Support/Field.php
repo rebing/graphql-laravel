@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type as GraphqlType;
+use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -29,16 +30,15 @@ abstract class Field
 
     protected $attributes = [];
 
+    /** @var string[] */
+    protected $middleware = [];
+
     /**
      * Override this in your queries or mutations
      * to provide custom authorization.
      *
-     * @param  mixed  $root
-     * @param  array  $args
-     * @param  mixed  $ctx
-     * @param  ResolveInfo|null  $resolveInfo
-     * @param  Closure|null  $getSelectFields
-     * @return bool
+     * @param mixed $root
+     * @param mixed $ctx
      */
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
@@ -50,7 +50,7 @@ abstract class Field
         return [];
     }
 
-    abstract public function type(): GraphqlType;
+    abstract public function type(): GraphQLType;
 
     /**
      * @return array<string,array>
@@ -64,8 +64,6 @@ abstract class Field
      * Define custom Laravel Validator messages as per Laravel 'custom error messages'.
      *
      * @param array $args submitted arguments
-     *
-     * @return array
      */
     public function validationErrorMessages(array $args = []): array
     {
@@ -95,13 +93,14 @@ abstract class Field
 
     /**
      * @param array<string,mixed> $fieldsAndArgumentsSelection
-     * @return void
      */
     public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
     {
         $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
+
         if (count($argsRules)) {
             $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
+
             if ($validator->fails()) {
                 throw new ValidationError('validation', $validator);
             }
@@ -116,9 +115,51 @@ abstract class Field
         return Validator::make($args, $rules, $messages);
     }
 
+    /**
+     * @return array<string>
+     */
+    protected function getMiddleware(): array
+    {
+        return $this->middleware;
+    }
+
     protected function getResolver(): ?Closure
     {
-        if (! method_exists($this, 'resolve')) {
+        $resolver = $this->originalResolver();
+
+        if (!$resolver) {
+            return null;
+        }
+
+        return function ($root, ...$arguments) use ($resolver) {
+            $middleware = $this->getMiddleware();
+
+            return app()->make(Pipeline::class)
+                ->send(array_merge([$this], $arguments))
+                ->through($middleware)
+                ->via('resolve')
+                ->then(function ($arguments) use ($middleware, $resolver, $root) {
+                    $result = $resolver($root, ...array_slice($arguments, 1));
+
+                    foreach ($middleware as $name) {
+                        /** @var Middleware $instance */
+                        $instance = app()->make($name);
+
+                        if (method_exists($instance, 'terminate')) {
+                            app()->terminating(function () use ($arguments, $instance, $result): void {
+                                $instance->terminate($this, ...array_slice($arguments, 1), ...[$result]);
+                            });
+                        }
+                    }
+
+                    return $result;
+                });
+        };
+    }
+
+    protected function originalResolver(): ?Closure
+    {
+        if (!method_exists($this, 'resolve')) {
             return null;
         }
 
@@ -140,6 +181,7 @@ abstract class Field
 
             if (count($rules)) {
                 $validator = $this->getValidator($args, $rules);
+
                 if ($validator->fails()) {
                     throw new ValidationError('validation', $validator);
                 }
@@ -162,13 +204,15 @@ abstract class Field
             $additionalParams = array_slice($method->getParameters(), 3);
 
             $additionalArguments = array_map(function ($param) use ($arguments, $fieldsAndArguments) {
-                $className = null !== $param->getClass() ? $param->getClass()->getName() : null;
+                $paramType = $param->getType();
 
-                if (null === $className) {
+                if ($paramType->isBuiltin()) {
                     throw new InvalidArgumentException("'{$param->name}' could not be injected");
                 }
 
-                if (Closure::class === $param->getType()->getName()) {
+                $className = $param->getType()->getName();
+
+                if (Closure::class === $className) {
                     return function (int $depth = null) use ($arguments, $fieldsAndArguments): SelectFields {
                         return $this->instanciateSelectFields($arguments, $fieldsAndArguments, $depth);
                     };
@@ -196,13 +240,12 @@ abstract class Field
      * @param array<int,mixed> $arguments
      * @param int $depth
      * @param array<string,mixed> $fieldsAndArguments
-     * @return SelectFields
      */
     private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 
-        if ($depth !== null && $depth !== $this->depth) {
+        if (null !== $depth && $depth !== $this->depth) {
             $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))
                 ->getFieldsAndArgumentsSelection($depth);
         }
@@ -222,8 +265,6 @@ abstract class Field
 
     /**
      * Get the attributes from the container.
-     *
-     * @return array
      */
     public function getAttributes(): array
     {
@@ -238,6 +279,7 @@ abstract class Field
         $attributes['type'] = $this->type();
 
         $resolver = $this->getResolver();
+
         if (isset($resolver)) {
             $attributes['resolve'] = $resolver;
         }
@@ -252,8 +294,6 @@ abstract class Field
 
     /**
      * Convert the Fluent instance to an array.
-     *
-     * @return array
      */
     public function toArray(): array
     {

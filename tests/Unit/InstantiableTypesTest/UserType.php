@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\InstantiableTypesTest;
 
 use GraphQL\Type\Definition\Type;
@@ -14,13 +13,13 @@ class UserType extends GraphQLType
         'description' => 'User type',
     ];
 
-    public function fields() : array
+    public function fields(): array
     {
         return [
             'id' => [
                 'type' => Type::id(),
             ],
-            'dateOfBirth' => new FormattableDate,
+            'dateOfBirth' => new FormattableDate(),
             'createdAt' => new FormattableDate([
                 'alias' => 'created_at',
             ]),

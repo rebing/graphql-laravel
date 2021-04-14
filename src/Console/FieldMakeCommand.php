@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
@@ -14,11 +13,11 @@ class FieldMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/field.stub';
+        return __DIR__ . '/stubs/field.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Fields';
+        return $rootNamespace . '\GraphQL\Fields';
     }
 }

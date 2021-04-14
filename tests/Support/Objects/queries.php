@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 return [
-
     'examples' => '
         query QueryExamples {
             examples {
@@ -90,6 +89,14 @@ return [
         }
     ',
 
+    'exampleMiddleware' => '
+        query examplesMiddleware($index: Int) {
+            examplesMiddleware(index: $index) {
+                test
+            }
+        }
+    ',
+
     'examplePagination' => '
         query Items($take: Int!, $page: Int!) {
             examplesPagination(take: $take, page: $page) {
@@ -105,5 +112,4 @@ return [
             }
         }
     ',
-
 ];

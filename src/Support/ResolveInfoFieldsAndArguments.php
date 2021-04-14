@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use GraphQL\Language\AST\BooleanValueNode;
@@ -83,8 +82,7 @@ class ResolveInfoFieldsAndArguments
      * Warning: this method it is a naive implementation which does not take into account
      * conditional typed fragments. So use it with care for fields of interface and union types.
      *
-     * @param  int  $depth  How many levels to include in output
-     * @return array
+     * @param int $depth How many levels to include in output
      * @see \GraphQL\Type\Definition\ResolveInfo::getFieldSelection
      */
     public function getFieldsAndArgumentsSelection(int $depth = 0): array
@@ -92,7 +90,7 @@ class ResolveInfoFieldsAndArguments
         $fields = [];
 
         foreach ($this->info->fieldNodes as $fieldNode) {
-            if (! $fieldNode->selectionSet) {
+            if (!$fieldNode->selectionSet) {
                 continue;
             }
 
@@ -103,9 +101,6 @@ class ResolveInfoFieldsAndArguments
     }
 
     /**
-     * @param  SelectionSetNode  $selectionSet
-     * @param  int  $descend
-     * @return array
      * @see \GraphQL\Type\Definition\ResolveInfo::foldSelectionSet
      */
     private function foldSelectionSet(SelectionSetNode $selectionSet, int $descend): array
@@ -118,7 +113,7 @@ class ResolveInfoFieldsAndArguments
 
                 $fields[$name] = [
                     'args' => [],
-                    'fields' => $descend > 0 && ! empty($selectionNode->selectionSet)
+                    'fields' => $descend > 0 && !empty($selectionNode->selectionSet)
                         ? $this->foldSelectionSet($selectionNode->selectionSet, $descend - 1)
                         : true,
                 ];
@@ -128,6 +123,7 @@ class ResolveInfoFieldsAndArguments
                 }
             } elseif ($selectionNode instanceof FragmentSpreadNode) {
                 $spreadName = $selectionNode->name->value;
+
                 if (isset($this->info->fragments[$spreadName])) {
                     $fragment = $this->info->fragments[$spreadName];
                     $fields = (array) array_replace_recursive(
@@ -192,6 +188,7 @@ class ResolveInfoFieldsAndArguments
     private function getInputObjectValue(ObjectValueNode $objectValueNode): array
     {
         $value = [];
+
         foreach ($objectValueNode->fields->getIterator() as $item) {
             if ($item instanceof ObjectFieldNode) {
                 $value[$item->name->value] = $this->getValue($item->value);
@@ -204,6 +201,7 @@ class ResolveInfoFieldsAndArguments
     private function getInputListObjectValue(ListValueNode $listValueNode): array
     {
         $value = [];
+
         foreach ($listValueNode->values as $valueNode) {
             $value[] = $this->getValue($valueNode);
         }

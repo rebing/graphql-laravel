@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
 use Illuminate\Support\MessageBag;
@@ -24,7 +23,7 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertSame('validation', $result['errors'][0]['message']);
 
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
@@ -33,7 +32,7 @@ GRAPHQL;
                 'The selected arg1 is invalid.',
             ],
         ];
-        $this->assertSame($expectedErrors, $messageBag->messages());
+        self::assertSame($expectedErrors, $messageBag->messages());
     }
 
     public function testAuthorizeArgumentsValid(): void
@@ -55,10 +54,10 @@ GRAPHQL;
                 'validationAndAuthorization' => 'value',
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

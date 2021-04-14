@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
 use Illuminate\Contracts\Support\MessageBag;
@@ -26,7 +25,7 @@ GRAPHQL;
                 'mutationWithCustomRuleWithRuleObject' => 'mutation result',
             ],
         ];
-        $this->assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     public function testInPassRuleFail(): void
@@ -44,14 +43,14 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'rule object validation fails',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testInFailRulePass(): void
@@ -69,14 +68,14 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'The selected arg in rule pass is invalid.',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
     public function testInFailRuleFail(): void
@@ -94,18 +93,18 @@ GRAPHQL;
             ],
         ]);
 
-        $this->assertCount(1, $result['errors']);
-        $this->assertSame('validation', $result['errors'][0]['message']);
+        self::assertCount(1, $result['errors']);
+        self::assertSame('validation', $result['errors'][0]['message']);
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         $expectedMessages = [
             'The selected arg in rule fail is invalid.',
             'rule object validation fails',
         ];
-        $this->assertSame($expectedMessages, $messageBag->all());
+        self::assertSame($expectedMessages, $messageBag->all());
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
 

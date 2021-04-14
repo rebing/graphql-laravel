@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
@@ -14,12 +13,12 @@ class InterfaceMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/interface.stub';
+        return __DIR__ . '/stubs/interface.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\GraphQL\Interfaces';
+        return $rootNamespace . '\GraphQL\Interfaces';
     }
 
     protected function buildClass($name)

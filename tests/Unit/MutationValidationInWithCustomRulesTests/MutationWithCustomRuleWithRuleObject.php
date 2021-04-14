@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
 use GraphQL\Type\Definition\Type;
@@ -47,7 +46,6 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
     /**
      * @param mixed $root
      * @param array<string,mixed> $args
-     * @return string
      */
     public function resolve($root, array $args): string
     {
