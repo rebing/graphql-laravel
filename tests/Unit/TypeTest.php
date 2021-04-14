@@ -11,9 +11,6 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class TypeTest extends TestCase
 {
-    /**
-     * Test getFields.
-     */
     public function testGetFields(): void
     {
         $type = new ExampleType();
@@ -26,9 +23,6 @@ class TypeTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get attributes.
-     */
     public function testGetAttributes(): void
     {
         $type = new ExampleType();
@@ -40,13 +34,10 @@ class TypeTest extends TestCase
         self::assertIsArray($attributes['fields']());
     }
 
-    /**
-     * Test get attributes fields closure.
-     */
-    public function testGetAttributesFields(): void
+    public function testGetAttributesFieldsClosure(): void
     {
         $type = $this->getMockBuilder(ExampleType::class)
-                    ->setMethods(['getFields'])
+                    ->onlyMethods(['getFields'])
                     ->getMock();
 
         $type->expects(self::once())
@@ -56,9 +47,6 @@ class TypeTest extends TestCase
         $attributes['fields']();
     }
 
-    /**
-     * Test to array.
-     */
     public function testToArray(): void
     {
         $type = new ExampleType();
@@ -70,9 +58,6 @@ class TypeTest extends TestCase
         self::assertEquals($attributes, $array);
     }
 
-    /**
-     * Test to type.
-     */
     public function testToType(): void
     {
         $type = new ExampleType();

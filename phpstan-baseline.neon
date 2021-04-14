@@ -491,7 +491,7 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
@@ -791,6 +791,16 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
+			message: "#^Access to an undefined property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$created_at\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
+
+		-
+			message: "#^Access to an undefined property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$updated_at\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
@@ -1041,7 +1051,7 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
@@ -1827,36 +1837,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:getPackageProviders\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:graphql\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:graphql\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:httpGraphql\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:httpGraphql\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$interactiveInput with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCase.php
 

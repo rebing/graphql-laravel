@@ -20,6 +20,7 @@ class AlwaysTest extends TestCaseDatabase
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'body' => 'comment body',
@@ -76,6 +77,7 @@ SQL
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'body' => 'comment body',
@@ -132,6 +134,7 @@ SQL
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'body' => 'comment body',
@@ -188,6 +191,7 @@ SQL
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'body' => 'comment body',

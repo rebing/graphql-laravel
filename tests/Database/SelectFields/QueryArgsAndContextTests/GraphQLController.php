@@ -7,7 +7,7 @@ use Rebing\GraphQL\GraphQLController as BaseGraphQLController;
 
 class GraphQLController extends BaseGraphQLController
 {
-    protected function queryContext(string $query, ?array $params, string $schema)
+    protected function queryContext(string $query, ?array $variables, string $schemaName)
     {
         return new GraphQLContext();
     }

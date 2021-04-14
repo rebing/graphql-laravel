@@ -13,7 +13,7 @@ class PublishCommandTest extends TestCase
     {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)
-            ->setMethods([
+            ->onlyMethods([
                 'copy',
                 'isDirectory',
                 'makeDirectory',

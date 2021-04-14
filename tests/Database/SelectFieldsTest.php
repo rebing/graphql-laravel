@@ -31,6 +31,7 @@ class SelectFieldsTest extends TestCaseDatabase
 
     public function testWithoutSelectFields(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -65,12 +66,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsClassInjection(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -105,12 +107,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNonInjectableTypehints(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -160,6 +163,7 @@ GRAQPHQL;
 
     public function testWithSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -194,12 +198,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithNonNullSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -228,12 +233,13 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithListOfSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -266,12 +272,13 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithListOfSelectFieldsAndModelWithSameFieldsInFragment(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -318,6 +325,7 @@ GRAQPHQL;
 
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -348,12 +356,13 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithNonNullAndListOfAndNonNullSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -384,12 +393,13 @@ GRAQPHQL;
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -415,7 +425,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -426,12 +436,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndCallbackSqlAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -472,7 +483,7 @@ select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -484,12 +495,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -515,7 +527,7 @@ select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1
 SQL
         );
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $expectedResult = [
             'data' => [
@@ -526,12 +538,13 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNoModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -566,7 +579,7 @@ SQL
             ],
         ];
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 

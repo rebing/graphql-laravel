@@ -32,9 +32,6 @@ class TestCase extends BaseTestCase
     protected $queries;
     protected $data;
 
-    /**
-     * Setup the test environment.
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -120,11 +117,9 @@ class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app): array
     {
-        $providers = [
+        return [
             GraphQLServiceProvider::class,
         ];
-
-        return $providers;
     }
 
     protected function getPackageAliases($app): array
@@ -138,13 +133,13 @@ class TestCase extends BaseTestCase
      * The `CommandTester` is directly returned, use methods like
      * `->getDisplay()` or `->getStatusCode()` on it.
      *
-     * @param array $arguments The command line arguments, array of key=>value
-     *                         Examples:
-     *                         - named  arguments: ['model' => 'Post']
-     *                         - boolean flags: ['--all' => true]
-     *                         - arguments with values: ['--arg' => 'value']
-     * @param array $interactiveInput Interactive responses to the command
-     *                                I.e. anything the command `->ask()` or `->confirm()`, etc.
+     * @param array<string,mixed> $arguments The command line arguments, array of key=>value
+     *                                       Examples:
+     *                                       - named  arguments: ['model' => 'Post']
+     *                                       - boolean flags: ['--all' => true]
+     *                                       - arguments with values: ['--arg' => 'value']
+     * @param array<string,mixed> $interactiveInput Interactive responses to the command
+     *                                              I.e. anything the command `->ask()` or `->confirm()`, etc.
      */
     protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
     {
@@ -161,13 +156,12 @@ class TestCase extends BaseTestCase
     /**
      * Helper to dispatch an internal GraphQL requests.
      *
-     * @param array $options
-     *                       Supports the following options:
-     *                       - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
-     *                       - `variables` (default: null): GraphQL variables for the query
-     *                       - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
+     * @param array<string,mixed> $options Supports the following options:
+     *                                     - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
+     *                                     - `variables` (default: null): GraphQL variables for the query
+     *                                     - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
      *
-     * @return array GraphQL result
+     * @return array<string,mixed> GraphQL result
      */
     protected function graphql(string $query, array $options = []): array
     {
@@ -202,10 +196,10 @@ class TestCase extends BaseTestCase
     /**
      * Helper to dispatch an HTTP GraphQL requests.
      *
-     * @param array $options
-     *                       Supports the following options:
-     *                       - `httpStatusCode` (default: 200): the HTTP status code to expect
-     * @return array GraphQL result
+     * @param array<string,mixed> $options
+     *                                     Supports the following options:
+     *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
+     * @return array<string,mixed> GraphQL result
      */
     protected function httpGraphql(string $query, array $options = []): array
     {
@@ -234,7 +228,7 @@ class TestCase extends BaseTestCase
     {
         return implode(
             "\n",
-            array_map(function (array $row, int $index): string {
+            array_map(static function (array $row, int $index): string {
                 $line = "#$index ";
                 $line .= $row['file'] ?? '';
 
@@ -256,7 +250,7 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Remove this method once we're PHPUnit 9+ only.
+     * @todo Remove this method once we're PHPUnit 9+ only.
      */
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
     {

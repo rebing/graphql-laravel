@@ -42,9 +42,12 @@ class MiddlewareTest extends TestCase
 
         self::assertObjectHasAttribute('data', $result);
 
-        self::assertEquals($result->data, [
-            'examplesMiddleware' => [['test' => 'ExampleMiddleware changed me!']],
-        ]);
+        self::assertEquals(
+            [
+                'examplesMiddleware' => [['test' => 'ExampleMiddleware changed me!']],
+            ],
+            $result->data
+        );
     }
 
     public function testMiddlewareCanThrowExceptionsBeforeResolution(): void

@@ -23,9 +23,6 @@ class FieldTest extends TestCase
             ->getMock();
     }
 
-    /**
-     * Test get attributes.
-     */
     public function testGetAttributes(): void
     {
         $class = $this->getFieldClass();
@@ -41,14 +38,11 @@ class FieldTest extends TestCase
         self::assertInstanceOf(get_class($field->type()), $attributes['type']);
     }
 
-    /**
-     * Test resolve closure.
-     */
     public function testResolve(): void
     {
         $class = $this->getFieldClass();
         $field = $this->getMockBuilder($class)
-                    ->setMethods(['resolve'])
+                    ->onlyMethods(['resolve'])
                     ->getMock();
 
         $field->expects(self::once())
@@ -58,9 +52,6 @@ class FieldTest extends TestCase
         $attributes['resolve'](null, [], [], $this->resolveInfoMock());
     }
 
-    /**
-     * Test to array.
-     */
     public function testToArray(): void
     {
         $class = $this->getFieldClass();

@@ -3,10 +3,12 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -15,10 +17,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property int|null $user_id
  * @property array|null $properties
  * @property bool $flag
- * @property Illuminate\Support\Carbon|null $published_at
+ * @property Carbon|null $published_at
  * @property bool $is_published
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
+ * @property-read Collection|Comment[] $comments
+ * @property-read Collection|Like[] $likes
  */
 class Post extends Model
 {

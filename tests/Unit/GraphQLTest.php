@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Traits\Macroable;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -19,14 +20,10 @@ use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\TestCase;
-use Validator;
 
 class GraphQLTest extends TestCase
 {
-    /**
-     * Test schema default.
-     */
-    public function testSchema(): void
+    public function testDefaultSchema(): void
     {
         $schema = GraphQL::schema();
 
@@ -36,9 +33,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    /**
-     * Test schema with object.
-     */
     public function testSchemaWithSchemaObject(): void
     {
         $schemaObject = new Schema([
@@ -55,9 +49,6 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchema($schema);
     }
 
-    /**
-     * Test schema with name.
-     */
     public function testSchemaWithName(): void
     {
         $schema = GraphQL::schema('custom');
@@ -68,9 +59,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    /**
-     * Test schema with name referencing a class.
-     */
     public function testSchemaWithNameReferencingClass(): void
     {
         $schema = GraphQL::schema('class_based');
@@ -81,9 +69,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    /**
-     * Test schema custom.
-     */
     public function testSchemaWithArray(): void
     {
         $schema = GraphQL::schema([
@@ -104,18 +89,12 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('CustomExample', $schema->getTypeMap());
     }
 
-    /**
-     * Test schema with wrong name.
-     */
     public function testSchemaWithWrongName(): void
     {
         $this->expectException(SchemaNotFound::class);
         GraphQL::schema('wrong');
     }
 
-    /**
-     * Test schema with invalid class name.
-     */
     public function testSchemaWithInvalidClassName(): void
     {
         $this->expectException(SchemaNotFound::class);
@@ -123,33 +102,24 @@ class GraphQLTest extends TestCase
         GraphQL::schema('invalid_class_based');
     }
 
-    /**
-     * Test type.
-     */
     public function testType(): void
     {
         $type = GraphQL::type('Example');
         self::assertInstanceOf(ObjectType::class, $type);
 
         $typeOther = GraphQL::type('Example');
-        self::assertTrue($type === $typeOther);
+        self::assertSame($type, $typeOther);
 
         $typeOther = GraphQL::type('Example', true);
-        self::assertFalse($type === $typeOther);
+        self::assertNotSame($type, $typeOther);
     }
 
-    /**
-     * Test wrong type.
-     */
     public function testWrongType(): void
     {
         $this->expectException(TypeNotFound::class);
         GraphQL::type('ExampleWrong');
     }
 
-    /**
-     * Test nonNull type.
-     */
     public function testNonNullType(): void
     {
         /** @var NonNull */
@@ -158,16 +128,13 @@ class GraphQLTest extends TestCase
 
         /** @var NonNull */
         $typeOther = GraphQL::type('Example!');
-        self::assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertSame($type->getWrappedType(), $typeOther->getWrappedType());
 
         /** @var NonNull */
         $typeOther = GraphQL::type('Example!', true);
-        self::assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertNotSame($type->getWrappedType(), $typeOther->getWrappedType());
     }
 
-    /**
-     * Test listOf type.
-     */
     public function testListOfType(): void
     {
         /** @var ListOfType */
@@ -176,16 +143,13 @@ class GraphQLTest extends TestCase
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example]');
-        self::assertTrue($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertSame($type->getWrappedType(), $typeOther->getWrappedType());
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example]', true);
-        self::assertFalse($type->getWrappedType() === $typeOther->getWrappedType());
+        self::assertNotSame($type->getWrappedType(), $typeOther->getWrappedType());
     }
 
-    /**
-     * Test listOf nonNull type.
-     */
     public function testListOfNonNullType(): void
     {
         /** @var ListOfType */
@@ -195,16 +159,13 @@ class GraphQLTest extends TestCase
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]');
-        self::assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]', true);
-        self::assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
     }
 
-    /**
-     * Test nonNull listOf nonNull type.
-     */
     public function testNonNullListOfNonNullType(): void
     {
         /** @var NonNull */
@@ -218,16 +179,13 @@ class GraphQLTest extends TestCase
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!');
-        self::assertTrue($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!', true);
-        self::assertFalse($type->getWrappedType(true) === $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
     }
 
-    /**
-     * Test malformed listOf with no leading bracket.
-     */
     public function testMalformedListOfWithNoLeadingBracket(): void
     {
         $this->expectException(TypeNotFound::class);
@@ -235,9 +193,6 @@ class GraphQLTest extends TestCase
         GraphQL::type('Example]');
     }
 
-    /**
-     * Test malformed listOf with no trailing bracket.
-     */
     public function testMalformedListOfWithNoTrailingBracket(): void
     {
         $this->expectException(TypeNotFound::class);
@@ -245,9 +200,6 @@ class GraphQLTest extends TestCase
         GraphQL::type('[Example');
     }
 
-    /**
-     * Test malformed nonNull listOf with no trailing bracket.
-     */
     public function testMalformedNonNullListOfWithNoTrailingBracket(): void
     {
         $this->expectException(TypeNotFound::class);
@@ -255,9 +207,6 @@ class GraphQLTest extends TestCase
         GraphQL::type('[Example!');
     }
 
-    /**
-     * Test empty listOfType.
-     */
     public function testEmptyListOfType(): void
     {
         $this->expectException(TypeNotFound::class);
@@ -265,9 +214,6 @@ class GraphQLTest extends TestCase
         GraphQL::type('[]');
     }
 
-    /**
-     * Test empty nonNull.
-     */
     public function testEmptyNonNull(): void
     {
         $this->expectException(TypeNotFound::class);
@@ -275,28 +221,22 @@ class GraphQLTest extends TestCase
         GraphQL::type('!');
     }
 
-    /**
-     * Test standard types.
-     */
     public function testStandardTypes(): void
     {
         $standardTypes = Type::getStandardTypes();
 
         foreach ($standardTypes as $standardType) {
             $type = GraphQL::type($standardType->name);
-            self::assertTrue($standardType === $type);
+            self::assertSame($standardType, $type);
 
             $typeOther = GraphQL::type($type->name);
-            self::assertTrue($type === $typeOther);
+            self::assertSame($type, $typeOther);
 
             $typeOther = GraphQL::type($type->name, true);
-            self::assertTrue($type === $typeOther);
+            self::assertSame($type, $typeOther);
         }
     }
 
-    /**
-     * Test standard type modifiers.
-     */
     public function testStandardTypeModifiers(): void
     {
         $standardTypes = Type::getStandardTypes();
@@ -306,20 +246,20 @@ class GraphQLTest extends TestCase
             $type = GraphQL::type("$standardType->name!");
 
             self::assertInstanceOf(NonNull::class, $type);
-            self::assertTrue($type->getWrappedType() === $standardType);
+            self::assertSame($type->getWrappedType(), $standardType);
 
             /** @var ListOfType */
             $type = GraphQL::type("[$standardType->name]");
 
             self::assertInstanceOf(ListOfType::class, $type);
-            self::assertTrue($type->getWrappedType() === $standardType);
+            self::assertSame($type->getWrappedType(), $standardType);
 
             /** @var ListOfType */
             $type = GraphQL::type("[$standardType->name!]");
 
             self::assertInstanceOf(ListOfType::class, $type);
             self::assertInstanceOf(NonNull::class, $type->getWrappedType());
-            self::assertTrue($type->getWrappedType(true) === $standardType);
+            self::assertSame($type->getWrappedType(true), $standardType);
 
             /** @var NonNull */
             $type = GraphQL::type("[$standardType->name!]!");
@@ -329,13 +269,10 @@ class GraphQLTest extends TestCase
             self::assertInstanceOf(NonNull::class, $type);
             self::assertInstanceOf(ListOfType::class, $wrappedType);
             self::assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
-            self::assertTrue($type->getWrappedType(true) === $standardType);
+            self::assertSame($type->getWrappedType(true), $standardType);
         }
     }
 
-    /**
-     * Test objectType.
-     */
     public function testObjectType(): void
     {
         $objectType = new ObjectType([
@@ -347,7 +284,7 @@ class GraphQLTest extends TestCase
 
         self::assertInstanceOf(ObjectType::class, $type);
         self::assertEquals($objectType, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
     }
 
     public function testObjectTypeFromFields(): void
@@ -362,7 +299,7 @@ class GraphQLTest extends TestCase
         ]);
 
         self::assertInstanceOf(ObjectType::class, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
         $fields = $type->getFields();
         self::assertArrayHasKey('test', $fields);
     }
@@ -374,7 +311,7 @@ class GraphQLTest extends TestCase
         ]);
 
         self::assertInstanceOf(ObjectType::class, $type);
-        self::assertEquals($type->name, 'ExampleType');
+        self::assertEquals('ExampleType', $type->name);
         $fields = $type->getFields();
         self::assertArrayHasKey('test', $fields);
     }
@@ -418,9 +355,6 @@ class GraphQLTest extends TestCase
         self::assertTrue($error['extensions']['validation']->has('test'));
     }
 
-    /**
-     * Test add type.
-     */
     public function testAddType(): void
     {
         GraphQL::addType(CustomExampleType::class);
@@ -435,9 +369,6 @@ class GraphQLTest extends TestCase
         self::assertInstanceOf(ObjectType::class, $type);
     }
 
-    /**
-     * Test add type with a name.
-     */
     public function testAddTypeWithName(): void
     {
         GraphQL::addType(ExampleType::class, 'CustomExample');
@@ -452,9 +383,6 @@ class GraphQLTest extends TestCase
         self::assertInstanceOf(ObjectType::class, $type);
     }
 
-    /**
-     * Test get types.
-     */
     public function testGetTypes(): void
     {
         $types = GraphQL::getTypes();
@@ -464,9 +392,6 @@ class GraphQLTest extends TestCase
         self::assertInstanceOf(ExampleType::class, $type);
     }
 
-    /**
-     * Test add schema.
-     */
     public function testAddSchema(): void
     {
         GraphQL::addSchema('custom_add', [
@@ -485,9 +410,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('custom_add', $schemas);
     }
 
-    /**
-     * Test merge schema.
-     */
     public function testMergeSchema(): void
     {
         GraphQL::addSchema('custom_add', [
@@ -532,9 +454,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('examplesCustomAnother', $querys);
     }
 
-    /**
-     * Test get schemas.
-     */
     public function testGetSchemas(): void
     {
         $schemas = GraphQL::getSchemas();

@@ -7,16 +7,13 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class EndpointTest extends TestCase
 {
-    /**
-     * Test get with default schema.
-     */
-    public function testGetDefault(): void
+    public function testGetDefaultSchema(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examples'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -25,10 +22,7 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with custom schema.
-     */
-    public function testGetCustom(): void
+    public function testGetCustomSchema(): void
     {
         $response = $this->call('GET', '/graphql/custom', [
             'query' => $this->queries['examplesCustom'],
@@ -41,9 +35,6 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with variables.
-     */
     public function testGetWithVariables(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -53,7 +44,7 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -73,7 +64,7 @@ class EndpointTest extends TestCase
             ]),
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -84,45 +75,36 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with unauthorized query.
-     */
     public function testGetUnauthorized(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithAuthorize'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
         self::assertArrayHasKey('errors', $content);
-        self::assertEquals($content['errors'][0]['message'], 'Unauthorized');
+        self::assertEquals('Unauthorized', $content['errors'][0]['message']);
         self::assertNull($content['data']['examplesAuthorize']);
     }
 
-    /**
-     * Test get with unauthorized query and custom error message.
-     */
     public function testGetUnauthorizedWithCustomError(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithAuthorizeMessage'],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
         self::assertArrayHasKey('errors', $content);
-        self::assertEquals($content['errors'][0]['message'], 'You are not authorized to perform this action');
+        self::assertEquals('You are not authorized to perform this action', $content['errors'][0]['message']);
         self::assertNull($content['data']['examplesAuthorizeMessage']);
     }
 
-    /**
-     * Test support batched queries.
-     */
     public function testBatchedQueries(): void
     {
         $response = $this->call('POST', '/graphql', [
@@ -140,7 +122,7 @@ class EndpointTest extends TestCase
             ],
         ]);
 
-        self::assertEquals($response->getStatusCode(), 200);
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey(0, $content);

@@ -3,8 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
-use Exception;
-use GraphQL\Error\Error;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
@@ -19,7 +17,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @throws Error
      * @return mixed
      */
     public function serialize($value)
@@ -34,7 +31,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @throws Error
      * @return mixed
      */
     public function parseValue($value)
@@ -49,7 +45,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed[]|null $variables
      *
-     * @throws Exception
      * @return mixed
      */
     public function parseLiteral(Node $valueNode, ?array $variables = null)

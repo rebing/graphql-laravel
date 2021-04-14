@@ -14,9 +14,11 @@ class ComputedPropertiesTest extends TestCaseDatabase
 
     public function testComputedProperty(): void
     {
+        /** @var User $user */
         $user = factory(User::class)->create([
         ]);
 
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'user_id' => $user->id,
         ]);

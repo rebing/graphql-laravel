@@ -9,3 +9,4 @@
 /phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
 /tests export-ignore
+/tmp export-ignore

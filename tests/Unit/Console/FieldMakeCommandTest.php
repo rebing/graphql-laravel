@@ -13,7 +13,7 @@ class FieldMakeCommandTest extends TestCase
     {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)
-            ->setMethods([
+            ->onlyMethods([
                 'isDirectory',
                 'makeDirectory',
                 'put',

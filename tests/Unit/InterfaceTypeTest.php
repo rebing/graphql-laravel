@@ -10,9 +10,6 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class InterfaceTypeTest extends TestCase
 {
-    /**
-     * Test get attributes.
-     */
     public function testGetAttributes(): void
     {
         $type = new ExampleInterfaceType();
@@ -22,13 +19,10 @@ class InterfaceTypeTest extends TestCase
         self::assertInstanceOf(Closure::class, $attributes['resolveType']);
     }
 
-    /**
-     * Test get attributes resolve type.
-     */
     public function testGetAttributesResolveType(): void
     {
         $type = $this->getMockBuilder(ExampleInterfaceType::class)
-                    ->setMethods(['resolveType'])
+                    ->onlyMethods(['resolveType'])
                     ->getMock();
 
         $type->expects(self::once())
@@ -38,9 +32,6 @@ class InterfaceTypeTest extends TestCase
         $attributes['resolveType'](null);
     }
 
-    /**
-     * Test to type.
-     */
     public function testToType(): void
     {
         $type = new ExampleInterfaceType();

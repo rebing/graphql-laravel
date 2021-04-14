@@ -3,8 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
-use DB;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Tests\TestCase;
 
 /**
@@ -61,7 +61,7 @@ trait SqlAssertionTrait
             implode(
                 "\n",
                 array_map(
-                    function (QueryExecuted $query) {
+                    static function (QueryExecuted $query) {
                         return sprintf(
                             '[%s] %s',
                             $query->connectionName,
@@ -72,7 +72,7 @@ trait SqlAssertionTrait
                 )
             )
         );
-        $this->assertSame($expectedCount, $numSqlQueries, $msg);
+        self::assertSame($expectedCount, $numSqlQueries, $msg);
     }
 
     /**
@@ -89,7 +89,7 @@ trait SqlAssertionTrait
             implode(
                 "\n",
                 array_map(
-                    function (QueryExecuted $query): string {
+                    static function (QueryExecuted $query): string {
                         // Replace any numeric literals with "fake" bind
                         // placeholders. The framework recently optimized
                         // whereIn queries to contain all-only integer
@@ -121,7 +121,7 @@ trait SqlAssertionTrait
             $msg = 'SQL queries mismatch';
         }
 
-        $this->assertSame($expectedQueries, $actualQueries, $msg);
+        self::assertSame($expectedQueries, $actualQueries, $msg);
     }
 
     protected function sqlCounterReset(): void

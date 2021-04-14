@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests;
 
-use Illuminate\Foundation\Application;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -53,6 +52,7 @@ SQL
 
     public function testGeneratedRelationSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -106,6 +106,7 @@ SQL
 
     public function testGeneratedInterfaceFieldSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -116,6 +117,7 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
         Like::create([
             'likable_id' => $post->id,
@@ -171,6 +173,7 @@ SQL
 
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -181,6 +184,7 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
         Like::create([
             'likable_id' => $post->id,
@@ -242,6 +246,7 @@ SQL
 
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -252,7 +257,9 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
+        /** @var User $user2 */
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
             'likable_id' => $post->id,
@@ -286,25 +293,14 @@ GRAPHQL;
 
         $result = $this->graphql($graphql);
 
-        if (Application::VERSION < '5.6') {
-            $this->assertSqlQueries(
-                <<<'SQL'
+        $this->assertSqlQueries(
+            <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
 select * from "posts" where "posts"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
 SQL
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-select "users"."id" from "users";
-select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select * from "posts" where "posts"."id" in (?);
-select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
-SQL
-            );
-        }
+        );
 
         $expectedResult = [
             'data' => [
@@ -355,17 +351,21 @@ SQL
 
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
+        /** @var User $user2 */
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
             'likable_id' => $comment->id,
