@@ -29,15 +29,15 @@ trait MakeCommandAssertionTrait
             ])
             ->getMock();
         $filesystemMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('put')
             ->with(
-                $this->callback(function (string $path) use ($expectedFilename): bool {
+                self::callback(function (string $path) use ($expectedFilename): bool {
                     $this->assertMatchesRegularExpression("|laravel[/\\\\]app/$expectedFilename|", $path);
 
                     return true;
                 }),
-                $this->callback(function (string $contents) use ($expectedClassDefinition, $expectedGraphqlName, $expectedNamespace): bool {
+                self::callback(function (string $contents) use ($expectedClassDefinition, $expectedGraphqlName, $expectedNamespace): bool {
                     $this->assertMatchesRegularExpression("/namespace $expectedNamespace;/", $contents);
                     $this->assertMatchesRegularExpression("/class $expectedClassDefinition/", $contents);
 
@@ -56,7 +56,7 @@ trait MakeCommandAssertionTrait
             'name' => $inputName,
         ]);
 
-        $this->assertSame(0, $tester->getStatusCode());
-        $this->assertMatchesRegularExpression("/$graphqlKind created successfully/", $tester->getDisplay());
+        self::assertSame(0, $tester->getStatusCode());
+        self::assertMatchesRegularExpression("/$graphqlKind created successfully/", $tester->getDisplay());
     }
 }

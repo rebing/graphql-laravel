@@ -88,7 +88,7 @@ SQL
             ],
         ];
 
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     protected function getEnvironmentSetUp($app): void

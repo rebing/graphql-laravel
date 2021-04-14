@@ -72,7 +72,7 @@ trait SqlAssertionTrait
                 )
             )
         );
-        $this->assertSame($expectedCount, $numSqlQueries, $msg);
+        self::assertSame($expectedCount, $numSqlQueries, $msg);
     }
 
     /**
@@ -121,7 +121,7 @@ trait SqlAssertionTrait
             $msg = 'SQL queries mismatch';
         }
 
-        $this->assertSame($expectedQueries, $actualQueries, $msg);
+        self::assertSame($expectedQueries, $actualQueries, $msg);
     }
 
     protected function sqlCounterReset(): void
