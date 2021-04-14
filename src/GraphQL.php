@@ -140,6 +140,7 @@ class GraphQL
         if ($params && $detectUnusedVariables) {
             $unusedVariables = $params;
             $query = Parser::parse($query);
+
             foreach ($query->definitions as $definition) {
                 if ($definition instanceof OperationDefinitionNode) {
                     foreach ($definition->variableDefinitions as $variableDefinition) {
@@ -152,6 +153,7 @@ class GraphQL
                 $msg = sprintf('The following variables were provided but not consumed: %s',
                     implode(', ', array_keys($unusedVariables))
                 );
+
                 return new ExecutionResult(null, [new Error($msg)]);
             }
         }
