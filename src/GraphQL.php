@@ -117,7 +117,9 @@ class GraphQL
      */
     public function query($query, ?array $variables = [], array $opts = []): array
     {
-        return $this->queryAndReturnResult($query, $variables, $opts)->toArray();
+        $result = $this->queryAndReturnResult($query, $variables, $opts);
+
+        return $this->decorateExecutionResult($result)->toArray();
     }
 
     /**
@@ -145,9 +147,7 @@ class GraphQL
             }
         }
 
-        $result = GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
-
-        return $this->decorateExecutionResult($result);
+        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
     }
 
     public function addTypes(array $types): void
