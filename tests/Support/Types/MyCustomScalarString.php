@@ -19,7 +19,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @throws Error
      * @return mixed
      */
     public function serialize($value)
@@ -34,7 +33,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed $value
      *
-     * @throws Error
      * @return mixed
      */
     public function parseValue($value)
@@ -49,7 +47,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
      *
      * @param mixed[]|null $variables
      *
-     * @throws Exception
      * @return mixed
      */
     public function parseLiteral(Node $valueNode, ?array $variables = null)
