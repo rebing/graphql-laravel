@@ -11,7 +11,7 @@ class EmptyQueryTest extends TestCaseDatabase
      * @dataProvider dataForEmptyQuery
      * @param array<mixed> $parameters
      */
-    public function testEmptyQuery(array $parameters, bool $isBatchRequest, string $expectedError): void
+    public function testEmptyQuery(array $parameters, string $expectedError): void
     {
         $response = $this->call('GET', '/graphql', $parameters);
 
@@ -114,28 +114,23 @@ class EmptyQueryTest extends TestCaseDatabase
             // completely empty request
             [
                 'parameters' => [],
-                'isBatchRequest' => false,
                 'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             // single request with an empty query parameter
             [
                 'parameters' => ['query' => null],
-                'isBatchRequest' => false,
                 'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => ''],
-                'isBatchRequest' => false,
                 'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => ' '],
-                'isBatchRequest' => false,
                 'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
             ],
             [
                 'parameters' => ['query' => '#'],
-                'isBatchRequest' => false,
                 'expectedError' => 'Syntax Error: Unexpected <EOF>',
             ],
         ];
