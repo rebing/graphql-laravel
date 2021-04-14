@@ -15,16 +15,20 @@ class MorphRelationshipTest extends TestCaseDatabase
 
     public function testMorphRelationship(): void
     {
+        /** @var User $user */
         $user = factory(User::class)->create([
             'name' => 'User Name',
         ]);
 
+        /** @var User $otherUser */
         $otherUser = factory(User::class)->create();
 
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'user_id' => $user->id,
         ]);
 
+        /** @var Like $like */
         $like = factory(Like::class)->make([
             'user_id' => $otherUser->id,
         ]);

@@ -791,6 +791,16 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
+			message: "#^Access to an undefined property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$created_at\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
+
+		-
+			message: "#^Access to an undefined property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$updated_at\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php

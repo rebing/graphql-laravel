@@ -19,6 +19,7 @@ class NestedRelationLoadingTest extends TestCaseDatabase
         $users = factory(User::class, 2)
             ->create()
             ->each(function (User $user): void {
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'flag' => true,
@@ -34,6 +35,7 @@ class NestedRelationLoadingTest extends TestCaseDatabase
                         'post_id' => $post->id,
                     ]);
 
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'user_id' => $user->id,
@@ -665,6 +667,7 @@ SQL
         $users = factory(User::class, 2)
             ->create()
             ->each(function (User $user): void {
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'flag' => true,
@@ -675,6 +678,7 @@ SQL
                         'post_id' => $post->id,
                     ]);
 
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'user_id' => $user->id,
@@ -777,6 +781,7 @@ SQL
         $users = factory(User::class, 2)
             ->create()
             ->each(function (User $user): void {
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'flag' => true,
@@ -792,6 +797,7 @@ SQL
                         'post_id' => $post->id,
                     ]);
 
+                /** @var Post $post */
                 $post = factory(Post::class)
                     ->create([
                         'user_id' => $user->id,

@@ -52,6 +52,7 @@ SQL
 
     public function testGeneratedRelationSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -105,6 +106,7 @@ SQL
 
     public function testGeneratedInterfaceFieldSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -115,6 +117,7 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
         Like::create([
             'likable_id' => $post->id,
@@ -170,6 +173,7 @@ SQL
 
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -180,6 +184,7 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
         Like::create([
             'likable_id' => $post->id,
@@ -241,6 +246,7 @@ SQL
 
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
@@ -251,7 +257,9 @@ SQL
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
+        /** @var User $user2 */
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
             'likable_id' => $post->id,
@@ -343,17 +351,21 @@ SQL
 
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)
             ->create([
                 'title' => 'Title of the post',
             ]);
+        /** @var Comment $comment */
         $comment = factory(Comment::class)
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
+        /** @var User $user */
         $user = factory(User::class)->create();
+        /** @var User $user2 */
         $user2 = factory(User::class)->create();
         $like1 = Like::create([
             'likable_id' => $comment->id,

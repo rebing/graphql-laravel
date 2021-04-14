@@ -61,6 +61,7 @@ GRAQPHQL;
     {
         /** @var User $user */
         $user = factory(User::class)->create();
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'user_id' => $user->id,
         ]);

@@ -31,6 +31,7 @@ class SelectFieldsTest extends TestCaseDatabase
 
     public function testWithoutSelectFields(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -71,6 +72,7 @@ SQL
 
     public function testWithSelectFieldsClassInjection(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -111,6 +113,7 @@ SQL
 
     public function testWithSelectFieldsNonInjectableTypehints(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -160,6 +163,7 @@ GRAQPHQL;
 
     public function testWithSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -200,6 +204,7 @@ SQL
 
     public function testWithNonNullSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -234,6 +239,7 @@ GRAQPHQL;
 
     public function testWithListOfSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -272,6 +278,7 @@ GRAQPHQL;
 
     public function testWithListOfSelectFieldsAndModelWithSameFieldsInFragment(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -318,6 +325,7 @@ GRAQPHQL;
 
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -354,6 +362,7 @@ GRAQPHQL;
 
     public function testWithNonNullAndListOfAndNonNullSelectFieldsAndModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
@@ -390,6 +399,7 @@ GRAQPHQL;
 
     public function testWithSelectFieldsAndModelAndAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -432,6 +442,7 @@ SQL
 
     public function testWithSelectFieldsAndModelAndCallbackSqlAlias(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -490,6 +501,7 @@ SQL
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Description of the post',
         ]);
@@ -532,6 +544,7 @@ SQL
 
     public function testWithSelectFieldsNoModel(): void
     {
+        /** @var Post $post */
         $post = factory(Post::class)->create([
             'title' => 'Title of the post',
         ]);
