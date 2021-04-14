@@ -1831,36 +1831,6 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:graphql\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:graphql\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:httpGraphql\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:httpGraphql\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:runCommand\\(\\) has parameter \\$interactiveInput with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$data has no typehint specified\\.$#"
 			count: 1
 			path: tests/TestCase.php
