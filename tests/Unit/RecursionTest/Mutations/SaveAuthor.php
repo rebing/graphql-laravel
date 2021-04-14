@@ -47,7 +47,7 @@ class SaveAuthor extends Mutation
      * @param mixed $root
      * @param array<string,mixed> $args
      */
-    public function resolve($root, $args): bool
+    public function resolve($root, array $args): bool
     {
         return true;
     }
