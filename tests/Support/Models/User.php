@@ -3,14 +3,15 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|Post[] $posts
- * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
+ * @property-read Collection|Post[] $posts
+ * @property-read Collection|Like[] $likes
  */
 class User extends Model
 {

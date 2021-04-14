@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property string|null $body
  * @property bool $flag
  * @property-read Post $post
- * @property-read \Illuminate\Database\Eloquent\Collection|Like[] $likes
+ * @property-read Collection|Like[] $likes
  */
 class Comment extends Model
 {
