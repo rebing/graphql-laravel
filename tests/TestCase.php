@@ -117,11 +117,9 @@ class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app): array
     {
-        $providers = [
+        return [
             GraphQLServiceProvider::class,
         ];
-
-        return $providers;
     }
 
     protected function getPackageAliases($app): array
