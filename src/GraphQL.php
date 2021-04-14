@@ -140,10 +140,10 @@ class GraphQL
         $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
         if ($variables && $detectUnusedVariables) {
-            $unusedVariablesResult = $this->detectUnusedVariables($query, $variables);
+            $result = $this->detectUnusedVariables($query, $variables);
 
-            if ($unusedVariablesResult) {
-                return $unusedVariablesResult;
+            if ($result) {
+                return $result;
             }
         }
 
