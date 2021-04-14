@@ -161,7 +161,7 @@ class GraphQL
                     implode(', ', array_keys($unusedVariables))
                 );
 
-                return new ExecutionResult(null, [new Error($msg)]);
+                return $this->decorateExecutionResult(new ExecutionResult(null, [new Error($msg)]));
             }
         }
 
