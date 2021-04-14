@@ -3,8 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Traits;
 
-use DB;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Tests\TestCase;
 
 /**

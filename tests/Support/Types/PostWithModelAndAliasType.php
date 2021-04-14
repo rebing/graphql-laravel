@@ -3,9 +3,9 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
-use DB;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
