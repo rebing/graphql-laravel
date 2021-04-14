@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\LaravelValidatorTests;
 
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Rebing\GraphQL\Tests\TestCase;
 
 class LaravelValidatorTest extends TestCase
@@ -21,8 +21,7 @@ class LaravelValidatorTest extends TestCase
             'arg' => 'valid_name',
         ];
 
-        /** @var Validator $validator */
-        $validator = \Validator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
         self::assertSame([], $validator->errors()->all());
     }
@@ -40,8 +39,7 @@ class LaravelValidatorTest extends TestCase
             'arg' => 'valid_name',
         ];
 
-        /** @var Validator $validator */
-        $validator = \Validator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
         $expectedMessages = [
             'rule object validation fails',
@@ -62,8 +60,7 @@ class LaravelValidatorTest extends TestCase
             'arg' => 'invalid_name',
         ];
 
-        /** @var Validator $validator */
-        $validator = \Validator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
         $expectedMessages = [
             'The selected arg is invalid.',
@@ -85,8 +82,7 @@ class LaravelValidatorTest extends TestCase
             'rule object validation fails',
         ];
 
-        /** @var Validator $validator */
-        $validator = \Validator::make($data, $rules);
+        $validator = Validator::make($data, $rules);
 
         self::assertSame([], $validator->errors()->all());
     }
