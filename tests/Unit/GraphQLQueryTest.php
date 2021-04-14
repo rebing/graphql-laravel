@@ -9,9 +9,6 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class GraphQLQueryTest extends TestCase
 {
-    /**
-     * Test query.
-     */
     public function testQueryAndReturnResult(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
@@ -53,9 +50,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertSame($expected, $result->errors[0]->getMessage());
     }
 
-    /**
-     * Test query methods.
-     */
     public function testQuery(): void
     {
         $resultArray = GraphQL::query($this->queries['examples']);
@@ -66,9 +60,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertEquals($resultArray['data'], $result->data);
     }
 
-    /**
-     * Test query with variables.
-     */
     public function testQueryAndReturnResultWithVariables(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithVariables'], [
@@ -84,9 +75,6 @@ It is required when 'lazyload_types' is enabled";
         ]);
     }
 
-    /**
-     * Test query with complex variables.
-     */
     public function testQueryAndReturnResultWithFilterVariables(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithFilterVariables'], [
@@ -107,9 +95,6 @@ It is required when 'lazyload_types' is enabled";
         ]);
     }
 
-    /**
-     * Test query with authorize.
-     */
     public function testQueryAndReturnResultWithAuthorize(): void
     {
         $result = $this->graphql($this->queries['examplesWithAuthorize'], [
@@ -119,9 +104,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertEquals('Unauthorized', $result['errors'][0]['message']);
     }
 
-    /**
-     * Test query with authorize.
-     */
     public function testQueryAndReturnResultWithCustomAuthorizeMessage(): void
     {
         $result = $this->graphql($this->queries['examplesWithAuthorizeMessage'], [
@@ -131,9 +113,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
     }
 
-    /**
-     * Test query with schema.
-     */
     public function testQueryAndReturnResultWithSchema(): void
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'], null, [
@@ -152,8 +131,6 @@ It is required when 'lazyload_types' is enabled";
     }
 
     /**
-     * Test query with error.
-     *
      * If an error was encountered before execution begins, the data entry should not be present in the result.
      */
     public function testQueryWithError(): void
@@ -168,9 +145,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertArrayHasKey('locations', $result['errors'][0]);
     }
 
-    /**
-     * Test query with validation error.
-     */
     public function testQueryWithValidationError(): void
     {
         $result = $this->graphql($this->queries['examplesWithValidation'], [
@@ -184,9 +158,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertTrue($result['errors'][0]['extensions']['validation']->has('test_validation.args.index'));
     }
 
-    /**
-     * Test query with validation without error.
-     */
     public function testQueryWithValidation(): void
     {
         $result = $this->graphql($this->queries['examplesWithValidation'], [
@@ -199,9 +170,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertArrayNotHasKey('errors', $result);
     }
 
-    /**
-     * Tests that the custom default field resolver from the static method is invoked.
-     */
     public function testCustomDefaultFieldResolverStaticClass(): void
     {
         $this->app['config']->set('graphql.defaultFieldResolver', [static::class, 'exampleDefaultFieldResolverForTest']);
@@ -240,9 +208,6 @@ It is required when 'lazyload_types' is enabled";
         return 'defaultFieldResolver static method value';
     }
 
-    /**
-     * Tests that the custom default field resolver from the closure is invoked.
-     */
     public function testCustomDefaultFieldResolverClosure(): void
     {
         $this->app['config']->set('graphql.defaultFieldResolver', function () {

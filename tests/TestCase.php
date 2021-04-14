@@ -32,9 +32,6 @@ class TestCase extends BaseTestCase
     protected $queries;
     protected $data;
 
-    /**
-     * Setup the test environment.
-     */
     protected function setUp(): void
     {
         parent::setUp();

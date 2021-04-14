@@ -9,9 +9,6 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class InputTypeTest extends TestCase
 {
-    /**
-     * Test to type.
-     */
     public function testToType(): void
     {
         $type = new ExampleInputType();

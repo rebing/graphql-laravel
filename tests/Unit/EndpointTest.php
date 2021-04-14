@@ -7,10 +7,7 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class EndpointTest extends TestCase
 {
-    /**
-     * Test get with default schema.
-     */
-    public function testGetDefault(): void
+    public function testGetDefaultSchema(): void
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examples'],
@@ -25,10 +22,7 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with custom schema.
-     */
-    public function testGetCustom(): void
+    public function testGetCustomSchema(): void
     {
         $response = $this->call('GET', '/graphql/custom', [
             'query' => $this->queries['examplesCustom'],
@@ -41,9 +35,6 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with variables.
-     */
     public function testGetWithVariables(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -84,9 +75,6 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    /**
-     * Test get with unauthorized query.
-     */
     public function testGetUnauthorized(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -102,9 +90,6 @@ class EndpointTest extends TestCase
         self::assertNull($content['data']['examplesAuthorize']);
     }
 
-    /**
-     * Test get with unauthorized query and custom error message.
-     */
     public function testGetUnauthorizedWithCustomError(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -120,9 +105,6 @@ class EndpointTest extends TestCase
         self::assertNull($content['data']['examplesAuthorizeMessage']);
     }
 
-    /**
-     * Test support batched queries.
-     */
     public function testBatchedQueries(): void
     {
         $response = $this->call('POST', '/graphql', [

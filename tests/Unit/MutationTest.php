@@ -40,9 +40,6 @@ class MutationTest extends FieldTest
             ->getMock();
     }
 
-    /**
-     * Test resolve.
-     */
     public function testResolve(): void
     {
         $class = $this->getFieldClass();
@@ -77,9 +74,6 @@ class MutationTest extends FieldTest
         ], [], $this->resolveInfoMock());
     }
 
-    /**
-     * Test resolve throw validation error.
-     */
     public function testResolveThrowValidationError(): void
     {
         $class = $this->getFieldClass();
@@ -90,9 +84,6 @@ class MutationTest extends FieldTest
         $attributes['resolve'](null, [], [], $this->resolveInfoMock());
     }
 
-    /**
-     * Test validation error.
-     */
     public function testValidationError(): void
     {
         $class = $this->getFieldClass();
@@ -324,9 +315,6 @@ class MutationTest extends FieldTest
         self::assertCount(7, $messages->all());
     }
 
-    /**
-     * Test custom validation error messages.
-     */
     public function testCustomValidationErrorMessages(): void
     {
         $class = $this->getFieldClass();
