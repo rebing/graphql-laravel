@@ -10,6 +10,7 @@ use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
+use GraphQL\Language\AST\DocumentNode;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -108,19 +109,21 @@ class GraphQL
     }
 
     /**
+     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function query(string $query, ?array $variables = [], array $opts = []): array
+    public function query($query, ?array $variables = [], array $opts = []): array
     {
         return $this->queryAndReturnResult($query, $variables, $opts)->toArray();
     }
 
     /**
+     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult
+    public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
         $schemaName = $opts['schema'] ?? null;

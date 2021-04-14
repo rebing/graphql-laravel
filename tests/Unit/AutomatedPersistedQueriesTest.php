@@ -447,4 +447,41 @@ class AutomatedPersistedQueriesTest extends TestCase
         ];
         self::assertEquals($expected, $content);
     }
+
+    public function testPersistedQueryParseError(): void
+    {
+        $query = '{ parse(error) }';
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $query,
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => hash('sha256', $query),
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'Syntax Error: Expected :, found )',
+                    'extensions' => [
+                        'category' => 'graphql',
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 1,
+                            'column' => 14,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $content);
+    }
 }

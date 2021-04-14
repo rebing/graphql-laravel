@@ -7,6 +7,7 @@ use Exception;
 use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\Language\Parser;
 use GraphQL\Server\Helper;
 use GraphQL\Server\OperationParams;
 use GraphQL\Server\RequestError;
@@ -98,15 +99,20 @@ class GraphQLController extends Controller
         }
 
         try {
-            $query = $this->handleAutomaticPersistQueries($schemaName, $params);
-        } catch (AutomaticPersistedQueriesError $e) {
+            // In case of an APQ cache hit, parsedQuery contains the AST of the provided query
+            // and is subsequently used to speed up the execution.
+            [
+                'query' => $query,
+                'parsedQuery' => $parsedQuery,
+            ] = $this->handleAutomaticPersistQueries($schemaName, $params);
+        } catch (AutomaticPersistedQueriesError | Error $e) {
             return $graphql
                 ->decorateExecutionResult(new ExecutionResult(null, [$e]))
                 ->toArray($debug);
         }
 
         return $graphql->query(
-            $query,
+            $parsedQuery ?? $query,
             $params->variables,
             [
                 'context' => $this->queryContext($query, $params->variables, $schemaName),
@@ -128,10 +134,16 @@ class GraphQLController extends Controller
     /**
      * Note: it's expected this is called even when APQ is disabled to adhere
      *       to the negotiation protocol.
+     * @return array{query:string,parsedQuery:?\GraphQL\Language\AST\DocumentNode}
      */
-    protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string
+    protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): array
     {
         $query = $operation->query;
+
+        $datum = [
+            'query' => $query,
+            'parsedQuery' => null,
+        ];
 
         $apqEnabled = config('graphql.apq.enable', false);
 
@@ -144,14 +156,14 @@ class GraphQLController extends Controller
 
         // APQ disabled? Nothing to be done
         if (!$apqEnabled) {
-            return $query;
+            return $datum;
         }
 
         // No hash? Nothing to be done
         $hash = $persistedQuery['sha256Hash'] ?? null;
 
         if (null === $hash) {
-            return $query;
+            return $datum;
         }
 
         $apqCacheDriver = config('graphql.apq.cache_driver');
@@ -165,10 +177,13 @@ class GraphQLController extends Controller
             if ($hash !== hash('sha256', $query)) {
                 throw AutomaticPersistedQueriesError::invalidHash();
             }
-            $ttl = config('graphql.apq.cache_ttl', 300);
-            $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $query, $ttl);
 
-            return $query;
+            $datum['parsedQuery'] = Parser::parse($query);
+
+            $ttl = config('graphql.apq.cache_ttl', 300);
+            $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $datum, $ttl);
+
+            return $datum;
         }
 
         // retrieve from cache
