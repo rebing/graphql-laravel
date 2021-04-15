@@ -456,23 +456,8 @@ parameters:
 			path: src/Support/UploadType.php
 
 		-
-			message: "#^Call to method get\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 3
-			path: src/routes.php
-
-		-
-			message: "#^Call to method post\\(\\) on an unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 3
-			path: src/routes.php
-
-		-
 			message: "#^PHPDoc tag @var for variable \\$queryTypesMap has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/routes.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$router contains unknown class Laravel\\\\Lumen\\\\Routing\\\\Router\\.$#"
-			count: 2
 			path: src/routes.php
 
 		-

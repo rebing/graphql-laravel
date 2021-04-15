@@ -7,11 +7,6 @@ use Closure;
 
 class Helpers
 {
-    public static function isLumen(): bool
-    {
-        return class_exists('Laravel\Lumen\Application');
-    }
-
     /**
      * Originally from \Nuwave\Lighthouse\Support\Utils::applyEach
      *

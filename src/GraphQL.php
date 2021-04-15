@@ -480,12 +480,6 @@ class GraphQL
         $routeName = null;
 
         if (count($multiLevelPath) > 1) {
-            if (Helpers::isLumen()) {
-                array_walk($multiLevelPath, function (string &$multiName): void {
-                    $multiName = "$multiName:$multiName";
-                });
-            }
-
             foreach ($multiLevelPath as $multiName) {
                 $routeName = !$routeName ? null : $routeName . '/';
                 $routeName =
@@ -494,7 +488,7 @@ class GraphQL
             }
         }
 
-        return $routeName ?: preg_replace($schemaParameterPattern, '{' . (Helpers::isLumen() ? "schema:$name" : $name) . '}', $queryRoute);
+        return $routeName ?: preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute);
     }
 
     /**
