@@ -98,12 +98,14 @@ abstract class Field
     {
         $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
 
-        if (count($argsRules)) {
-            $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
+        if (!$argsRules) {
+            return;
+        }
 
-            if ($validator->fails()) {
-                throw new ValidationError('validation', $validator);
-            }
+        $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
+
+        if ($validator->fails()) {
+            throw new ValidationError('validation', $validator);
         }
     }
 
@@ -179,7 +181,7 @@ abstract class Field
 
             $rules = $this->getRules($args);
 
-            if (count($rules)) {
+            if ($rules) {
                 $validator = $this->getValidator($args, $rules);
 
                 if ($validator->fails()) {
