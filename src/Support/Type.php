@@ -121,7 +121,7 @@ abstract class Type implements TypeConvertible
             },
         ], $attributes);
 
-        if (count($interfaces)) {
+        if ($interfaces) {
             $attributes['interfaces'] = $interfaces;
         }
 
