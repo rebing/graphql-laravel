@@ -682,7 +682,7 @@ public function validationErrorMessages(array $args = []): array
 
 #### File uploads
 
-This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
+This library uses https://github.com/laragraph/utils which is compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
 You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition (either global or in your schema):
 
