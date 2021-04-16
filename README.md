@@ -563,7 +563,7 @@ class UpdateUserEmailMutation extends Mutation
 }
 ```
 
-Alternatively, uou can add a method to define the validation rules that apply,
+Alternatively, you can add a method to define the validation rules that apply,
 giving you more freedom on composing the rules (e.g. multi-field validations).
 
 ```php
