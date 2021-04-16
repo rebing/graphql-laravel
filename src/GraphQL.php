@@ -19,6 +19,7 @@ use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -424,8 +425,18 @@ class GraphQL
 
         $previous = $e->getPrevious();
 
-        if ($previous && $previous instanceof ValidationError) {
-            $error['extensions']['validation'] = $previous->getValidatorMessages();
+        if ($previous) {
+            if ($previous instanceof ValidationException) {
+                $error['message'] = 'validation';
+                $error['extensions'] = [
+                    'category' => 'validation',
+                    'validation' => $previous->validator->errors()->getMessages(),
+                ];
+            }
+
+            if ($previous instanceof ValidationError) {
+                $error['extensions']['validation'] = $previous->getValidatorMessages();
+            }
         }
 
         return $error;
