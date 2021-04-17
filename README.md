@@ -105,6 +105,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Macros](#macros)
     - [Automatic Persisted Queries support](#automatic-persisted-queries-support) 
     - [Misc features](#misc-features)
+  - [Configuration options](#configuration-options)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -2592,6 +2593,80 @@ In this case, nothing happens and `optional_id` will be treated as not being pro
 
 To prevent such scenarios, you can enable the config option `detect_unused_variables`
 and set it to `true`.
+
+## Configuration options
+
+- `prefix`\
+  The route prefix to your GraphQL endpoint without the leading `/`.\
+  The default makes the API available via `/graphql`
+- `routes`\
+  The route itself. The default `{graphql_schema?}` is a place holder which gets
+  dynamically resolved whether you request a specific or the default schema
+  - Default schema: `/graphql`
+  - Specific schema: `/gaphql/specificschema`
+- `controllers`\
+  Allows overriding the default controller class, in case you want to extend or
+  replace the existing one.
+- `middleware`\
+  Global GraphQL middleware applying in case no schema-specific middleware was
+  provided
+- `route_group_attributes`\
+  Additional route group attributes
+- `default_schema`\
+  The name of the default schema used, when none is provided via the route
+- `batching`\
+  - 'enable'\
+    Whether to support GraphQL batching or not
+- `lazyload_types`\
+  The types will be loaded on demand. Recommended being enabled as it improves
+  performance. Cannot be used with type aliasing.
+- `error_formatter`\
+  This callable will be passed the Error object for each errors GraphQL catch.
+  The method should return an array representing the error.
+- `errors_handler`\
+  Custom Error Handling. The default handler will pass exceptions to laravel
+  Error Handling mechanism.
+- `security`\
+  Various options to limit the query complexity and depth, see docs at
+  https://webonyx.github.io/graphql-php/security/
+  - `query_max_complexity`
+  - `query_max_depth`
+  - `disable_introspection`
+- `pagination_type`\
+  You can define your own pagination type.
+- `simple_pagination_type`\
+  You can define your own simple pagination type.
+- `graphiql`\
+  Config for GraphiQL (see (https://github.com/graphql/graphiql)
+  - `prefix`\
+    The route prefix
+  - `controller`\
+    The controller / method to handle the route
+  - `middleware`\
+    Any middleware to be run before invoking the controller
+  - `view`\
+    Which view to use
+  - `display`\
+    Whether to enable it or not.\
+    **Note:** it's recommended to disable this in production!
+- `defaultFieldResolver`\
+  Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
+- `headers`\
+  Any headers that will be added to the response returned by the default controller
+- `json_encoding_options`\
+  Any JSON encoding options when returning a response from the default controller
+- `apq`\
+  Automatic Persisted Queries (APQ)
+  - `enable`\
+    It's disabled by default.
+  - `cache_driver`\
+    Which cache driver to use.
+  - `cache_prefix`\
+    The cache prefix to use.
+  - `cache_ttl`\
+    How long to cache the queries.
+- `detect_unused_variables`\
+  If enabled, variables provided but not consumed by the query will throw an error
 
 ## Guides
 
