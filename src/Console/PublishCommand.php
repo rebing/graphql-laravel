@@ -75,6 +75,6 @@ class PublishCommand extends Command
      */
     protected function status(string $from, string $to): void
     {
-        $this->line("<info>Copied File</info> <comment>[{$from}]</comment> <info>To</info> <comment>[{$to}]</comment>");
+        $this->line("<info>Copied File</info> <comment>[$from]</comment> <info>To</info> <comment>[$to]</comment>");
     }
 }

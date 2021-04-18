@@ -209,7 +209,7 @@ abstract class Field
                 $paramType = $param->getType();
 
                 if ($paramType->isBuiltin()) {
-                    throw new InvalidArgumentException("'{$param->name}' could not be injected");
+                    throw new InvalidArgumentException("'$param->name' could not be injected");
                 }
 
                 $className = $param->getType()->getName();

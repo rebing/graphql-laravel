@@ -54,7 +54,7 @@ $router->group(array_merge([
         foreach ($queryTypesMapWithRoutes as $type => $info) {
             if (preg_match($schemaParameterPattern, $info['route'])) {
                 foreach ($defaultMethod as $method) {
-                    $routeName = "graphql.{$type}";
+                    $routeName = "graphql.$type";
 
                     if ('get' !== $method) {
                         $routeName .= ".$method";
@@ -91,11 +91,11 @@ $router->group(array_merge([
             } else {
                 $router->get($info['route'], [
                     'uses' => $info['controller'],
-                    'as' => "graphql.{$type}",
+                    'as' => "graphql.$type",
                 ]);
                 $router->post($info['route'], [
                     'uses' => $info['controller'],
-                    'as' => "graphql.{$type}.post",
+                    'as' => "graphql.$type.post",
                 ]);
             }
         }
