@@ -61,6 +61,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:routeNameTransformer\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -231,6 +236,36 @@ parameters:
 			path: src/Support/InterfaceType.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has parameter \\$context with no typehint specified\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:resolve\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
 			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
 			count: 2
 			path: src/Support/PaginationType.php
@@ -279,6 +314,11 @@ parameters:
 			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$rules\\.$#"
 			count: 1
 			path: src/Support/Rules.php
+
+		-
+			message: "#^Binary operation \"\\.\" between string and array\\|string\\|null results in an error\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
 
 		-
 			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
@@ -511,6 +551,11 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
@@ -529,6 +574,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
+			path: tests/Database/SelectFields/AlwaysRelationTests/LikeType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikeType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -606,6 +656,11 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysTests/CommentType.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 4
+			path: tests/Database/SelectFields/AlwaysTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/PostType.php
@@ -681,9 +736,19 @@ parameters:
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/DepthTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/PostType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/DepthTests/UserType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -707,6 +772,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\DepthTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
@@ -752,6 +822,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
 
@@ -856,6 +931,11 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
@@ -874,6 +954,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
+			path: tests/Database/SelectFields/MorphRelationshipTests/LikeType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikeType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -926,9 +1011,19 @@ parameters:
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/CommentType.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/NestedRelationLoadingTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/PostType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
+			path: tests/Database/SelectFields/NestedRelationLoadingTests/UserType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -956,6 +1051,11 @@ parameters:
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\NestedRelationLoadingTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
@@ -964,6 +1064,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/CommentType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/PrimaryKeyTests/PostType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\PrimaryKeyTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1041,9 +1146,19 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/QueryArgsAndContextTests/PostType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/PostType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
+			path: tests/Database/SelectFields/QueryArgsAndContextTests/UserType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1066,6 +1181,11 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
@@ -1084,6 +1204,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/PostType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ValidateDiffNodeTests/UserType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UserType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1111,6 +1236,11 @@ parameters:
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UsersQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
@@ -1119,6 +1249,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\CommentType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/CommentType.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/ValidateFieldTests/PostType.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -1206,6 +1341,11 @@ parameters:
 			path: tests/Support/Objects/ExampleField.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleFilterInputType.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleFilterInputType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleFilterInputType.php
@@ -1229,6 +1369,46 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleInterfaceType\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleInterfaceType.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has parameter \\$context with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:terminate\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:terminate\\(\\) has parameter \\$context with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:terminate\\(\\) has parameter \\$result with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:terminate\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -1421,6 +1601,26 @@ parameters:
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesMiddlewareQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesMiddlewareQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesMiddlewareQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesMiddlewareQuery\\:\\:\\$attributes has no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
@@ -1432,6 +1632,16 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesPaginationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$offset of method Illuminate\\\\Support\\\\Collection\\<mixed,mixed\\>\\:\\:slice\\(\\) expects int, float\\|int given\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesPaginationQuery.php
+
+		-
+			message: "#^Parameter \\#4 \\$currentPage of class Illuminate\\\\Pagination\\\\LengthAwarePaginator constructor expects int\\|null, float\\|int given\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
@@ -1461,6 +1671,11 @@ parameters:
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
+			path: tests/Support/Objects/UpdateExampleMutationWithInputType.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
@@ -1477,6 +1692,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
@@ -1726,6 +1946,11 @@ parameters:
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
@@ -1836,6 +2061,11 @@ parameters:
 			path: tests/TestCase.php
 
 		-
+			message: "#^Call to an undefined method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setupSqlAssertionTrait\\(\\)\\.$#"
+			count: 1
+			path: tests/TestCaseDatabase.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setUpTraits\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCaseDatabase.php
@@ -1868,6 +2098,11 @@ parameters:
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\AliasAguments\\\\Stubs\\\\UpdateExampleMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
+			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
+
+		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 2
 			path: tests/Unit/AliasAguments/Stubs/UpdateExampleMutation.php
 
 		-
@@ -2061,6 +2296,11 @@ parameters:
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
@@ -2076,6 +2316,11 @@ parameters:
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
 
 		-
+			message: "#^Parameter \\#1 \\$wrappedType of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|GraphQL\\\\Type\\\\Definition\\\\NullableType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Query\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
@@ -2084,6 +2329,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaTwo\\\\Type\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Type.php
+
+		-
+			message: "#^Anonymous function should return string but returns string\\|false\\.$#"
+			count: 1
+			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:resolve\\(\\) has parameter \\$args with no typehint specified\\.$#"
@@ -2112,6 +2362,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) has parameter \\$root with no typehint specified\\.$#"
+			count: 1
+			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) should return string but returns string\\|false\\.$#"
 			count: 1
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 

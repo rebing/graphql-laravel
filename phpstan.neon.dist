@@ -14,44 +14,13 @@ parameters:
     checkUninitializedProperties: true
     checkModelProperties: true
     ignoreErrors:
-        - '/Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase::setupSqlAssertionTrait\(\)/'
-        - '/Method Rebing\\GraphQL\\GraphQL::routeNameTransformer\(\) should return string but returns string\|null/'
         - '/Cannot access property \$parameters on mixed/'
-        # \Rebing\GraphQL\Support\SelectFields::handleFields
-        - '/Binary operation "." between string and array\|string\|null results in an error/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
-        - '/Parameter #4 \$currentPage of class Illuminate\\Pagination\\LengthAwarePaginator constructor expects int\|null, float\|int given/'
-        - '/Parameter #1 \$offset of method Illuminate\\Support\\Collection<mixed,mixed>::slice\(\) expects int, float\|int given/'
-        # \Rebing\GraphQL\Support\Middleware
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has no return typehint specified/'
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$args with no typehint specified/'
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$context with no typehint specified/'
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::handle\(\) has parameter \$root with no typehint specified/'
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has no return typehint specified/'
-        - '/Method Rebing\\GraphQL\\Support\\Middleware::resolve\(\) has parameter \$arguments with no value type specified in iterable type array/'
-        # \Rebing\GraphQL\Support\Objects\ExampleMiddleware
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has no return typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$args with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$context with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::handle\(\) has parameter \$root with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$args with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$context with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$result with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware::terminate\(\) has parameter \$root with no typehint specified/'
-        # \Rebing\GraphQL\Support\Objects\ExamplesMiddlewareQuery
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::\$attributes has no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has no return typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has parameter \$args with no typehint specified/'
-        - '/Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery::resolve\(\) has parameter \$root with no typehint specified/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'
         - '/Parameter #2 \$replace of function str_replace expects array\|string, string\|null given/'
-        # tests/Unit/UploadTests/UploadMultipleFilesMutation.php
-        - '/Anonymous function should return string but returns string\|false/'
-        # tests/Unit/UploadTests/UploadSingleFileMutation.php
-        - '/Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation::resolve\(\) should return string but returns string\|false/'
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
         - '/Trying to invoke Closure\|null but it might not be a callable/'
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
