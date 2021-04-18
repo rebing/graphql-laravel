@@ -42,7 +42,7 @@ class Rules
     protected function resolveRules($rules, array $arguments)
     {
         if (is_callable($rules)) {
-            return call_user_func($rules, $arguments, $this->requestArguments);
+            return $rules($arguments, $this->requestArguments);
         }
 
         return $rules;

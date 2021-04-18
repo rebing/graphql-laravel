@@ -317,7 +317,7 @@ class SelectFields
             switch ($privacyClass) {
                 // If privacy given as a closure
                 case is_callable($privacyClass):
-                    if (false === call_user_func($privacyClass, $queryArgs, $ctx)) {
+                    if (false === $privacyClass($queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
@@ -327,7 +327,7 @@ class SelectFields
                     /** @var Privacy $instance */
                     $instance = app($privacyClass);
 
-                    if (false === call_user_func([$instance, 'fire'], $queryArgs, $ctx)) {
+                    if (false === $instance->fire($queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
