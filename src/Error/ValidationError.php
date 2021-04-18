@@ -3,12 +3,11 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Error;
 
-use GraphQL\Error\ClientAware;
 use GraphQL\Error\Error;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\Validation\Validator;
 
-class ValidationError extends Error implements ClientAware
+class ValidationError extends Error
 {
     /** @var Validator */
     private $validator;
