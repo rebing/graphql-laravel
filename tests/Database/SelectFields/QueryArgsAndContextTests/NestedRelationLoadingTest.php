@@ -34,7 +34,7 @@ class NestedRelationLoadingTest extends TestCaseDatabase
         ]);
     }
 
-    public function testGraphqlQueryFlagOverridesCustomQueryThrougContext(): void
+    public function testGraphqlQueryFlagOverridesCustomQueryThroughContext(): void
     {
         /** @var User[] $users */
         $users = factory(User::class, 2)
