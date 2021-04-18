@@ -449,9 +449,9 @@ class GraphQLTest extends TestCase
         $schemas = GraphQL::getSchemas();
         self::assertArrayHasKey('custom_add_another', $schemas);
 
-        $querys = $schemas['custom_add_another']['query'];
-        self::assertArrayHasKey('examplesCustom', $querys);
-        self::assertArrayHasKey('examplesCustomAnother', $querys);
+        $queries = $schemas['custom_add_another']['query'];
+        self::assertArrayHasKey('examplesCustom', $queries);
+        self::assertArrayHasKey('examplesCustomAnother', $queries);
     }
 
     public function testGetSchemas(): void
