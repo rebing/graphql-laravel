@@ -240,7 +240,6 @@ abstract class Field
 
     /**
      * @param array<int,mixed> $arguments
-     * @param int $depth
      * @param array<string,mixed> $fieldsAndArguments
      */
     private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
