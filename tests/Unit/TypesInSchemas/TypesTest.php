@@ -156,7 +156,7 @@ GRAPHQL;
         self::assertSame($expected, $actual);
     }
 
-    public function testQueryInCustomSchemaAndTypeGlobalQueryingNonDefualtSchema(): void
+    public function testQueryInCustomSchemaAndTypeGlobalQueryingNonDefaultSchema(): void
     {
         $this->app['config']->set('graphql.schemas.custom', [
             'query' => [
