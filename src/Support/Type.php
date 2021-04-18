@@ -3,9 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
-use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Support\Str;
@@ -17,20 +15,6 @@ use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 abstract class Type implements TypeConvertible
 {
     protected $attributes = [];
-    /**
-     * Set to `true` in your type when it should reflect an InputObject.
-     * @var bool
-     * @deprecated Use InputType instead
-     * @see InputType
-     */
-    protected $inputObject = false;
-    /**
-     * Set to `true` in your type when it should reflect an Enum.
-     * @var bool
-     * @deprecated Use EnumType instead
-     * @see EnumType
-     */
-    protected $enumObject = false;
 
     public function attributes(): array
     {
@@ -138,14 +122,6 @@ abstract class Type implements TypeConvertible
 
     public function toType(): GraphqlType
     {
-        if ($this->inputObject) {
-            return new InputObjectType($this->toArray());
-        }
-
-        if ($this->enumObject) {
-            return new EnumType($this->toArray());
-        }
-
         return new ObjectType($this->toArray());
     }
 
