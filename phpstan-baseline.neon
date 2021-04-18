@@ -601,7 +601,7 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
@@ -626,7 +626,7 @@ parameters:
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\AlwaysQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysTests\\\\AlwaysQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
@@ -706,7 +706,7 @@ parameters:
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ComputedPropertiesTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
@@ -776,7 +776,7 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
@@ -871,7 +871,7 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
@@ -946,7 +946,7 @@ parameters:
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
@@ -1176,7 +1176,7 @@ parameters:
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has parameter \\$contxt with no typehint specified\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
