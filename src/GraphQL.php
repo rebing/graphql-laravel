@@ -137,7 +137,7 @@ class GraphQL
 
         $schema = $this->schema($schemaName);
 
-        $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
+        $defaultFieldResolver = config('graphql.defaultFieldResolver');
         $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
         if ($variables && $detectUnusedVariables) {

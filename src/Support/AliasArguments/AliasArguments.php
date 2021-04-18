@@ -32,7 +32,7 @@ class AliasArguments
 
     public function get(): array
     {
-        $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, '');
+        $pathsWithAlias = $this->getAliasesInFields($this->queryArguments);
 
         return (new ArrayKeyChange())->modify($this->requestArguments, $pathsWithAlias);
     }

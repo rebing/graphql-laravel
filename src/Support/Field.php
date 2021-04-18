@@ -221,7 +221,7 @@ abstract class Field
                 }
 
                 if (SelectFields::class === $className) {
-                    return $this->instanciateSelectFields($arguments, $fieldsAndArguments, null);
+                    return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
                 }
 
                 if (ResolveInfo::class === $className) {
