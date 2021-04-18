@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types = 1);
-namespace Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs;
+namespace Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs;
 
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InputType;

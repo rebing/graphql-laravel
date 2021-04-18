@@ -1,13 +1,13 @@
 <?php
 
 declare(strict_types = 1);
-namespace Rebing\GraphQL\Tests\Unit\AliasAguments;
+namespace Rebing\GraphQL\Tests\Unit\AliasArguments;
 
 use Rebing\GraphQL\Tests\TestCase;
-use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleNestedValidationInputObject;
-use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleType;
-use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\ExampleValidationInputObject;
-use Rebing\GraphQL\Tests\Unit\AliasAguments\Stubs\UpdateExampleMutation;
+use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleNestedValidationInputObject;
+use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleType;
+use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleValidationInputObject;
+use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\UpdateExampleMutation;
 
 class AliasArgumentsTest extends TestCase
 {
