@@ -171,7 +171,7 @@ class ResolveInfoFieldsAndArguments
         }
 
         if ($value instanceof NullValueNode) {
-            return;
+            return null;
         }
 
         if ($value instanceof ObjectValueNode) {
