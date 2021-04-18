@@ -216,7 +216,7 @@ class EndpointTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testGetGraphqiQL(): void
+    public function testGetGraphiQL(): void
     {
         $response = $this->call('GET', '/graphiql');
 
