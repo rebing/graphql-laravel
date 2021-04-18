@@ -482,8 +482,6 @@ class GraphQL
      * Check if the schema expects a nest URI name and return the formatted version
      * Eg. 'user/me'
      * will open the query path /graphql/user/me.
-     *
-     * @return string mixed
      */
     public static function routeNameTransformer(string $name, string $schemaParameterPattern, string $queryRoute): string
     {
