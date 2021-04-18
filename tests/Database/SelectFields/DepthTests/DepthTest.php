@@ -12,6 +12,24 @@ class DepthTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                UsersQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            PostType::class,
+            UserType::class,
+        ]);
+    }
+
     public function testDefaultDepthExceeded(): void
     {
         /** @var User $user */
@@ -142,23 +160,5 @@ SQL
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                UsersQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            PostType::class,
-            UserType::class,
-        ]);
     }
 }

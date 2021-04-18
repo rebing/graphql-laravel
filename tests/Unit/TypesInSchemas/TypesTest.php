@@ -7,6 +7,16 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class TypesTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        // Note: deliberately not calling parent to start with a clean config
+
+        // To still properly support dual tests, we thus have to add this
+        if ('1' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
+            $app['config']->set('graphql.lazyload_types', true);
+        }
+    }
+
     public function testQueryAndTypeInDefaultSchema(): void
     {
         $this->app['config']->set('graphql.schemas.default', [
@@ -356,15 +366,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expected, $actual);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        // Note: deliberately not calling parent to start with a clean config
-
-        // To still properly support dual tests, we thus have to add this
-        if ('1' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
-            $app['config']->set('graphql.lazyload_types', true);
-        }
     }
 }

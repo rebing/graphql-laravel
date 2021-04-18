@@ -13,6 +13,25 @@ class NestedRelationLoadingTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                UsersQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            CommentType::class,
+            PostType::class,
+            UserType::class,
+        ]);
+    }
+
     public function testQueryNoSelectFields(): void
     {
         /** @var User[] $users */
@@ -868,24 +887,5 @@ SQL
         ];
 
         self::assertEquals($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                UsersQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            CommentType::class,
-            PostType::class,
-            UserType::class,
-        ]);
     }
 }

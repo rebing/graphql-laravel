@@ -7,6 +7,21 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class WithTypeTests extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                PostMessagesQuery::class,
+            ],
+        ]);
+        $app['config']->set('graphql.types', [
+            SimpleMessageType::class,
+            PostType::class,
+        ]);
+    }
+
     public function testPostMessagesQuery(): void
     {
         $query = <<<'GRAQPHQL'
@@ -47,20 +62,5 @@ GRAQPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                PostMessagesQuery::class,
-            ],
-        ]);
-        $app['config']->set('graphql.types', [
-            SimpleMessageType::class,
-            PostType::class,
-        ]);
     }
 }

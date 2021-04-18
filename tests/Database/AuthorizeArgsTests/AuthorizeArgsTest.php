@@ -7,18 +7,6 @@ use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class AuthorizeArgsTest extends TestCaseDatabase
 {
-    public function testAuthorizeArgs(): void
-    {
-        $graphql = <<<'GRAPHQL'
-query {
-  testAuthorizationArgs(id: "foobar")
-}
-GRAPHQL;
-
-        // All relevant test assertions are in \Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\TestAuthorizationArgsQuery::authorize
-        $this->httpGraphql($graphql);
-    }
-
     protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
@@ -30,5 +18,17 @@ GRAPHQL;
                 TestAuthorizationArgsQuery::class,
             ],
         ]);
+    }
+
+    public function testAuthorizeArgs(): void
+    {
+        $graphql = <<<'GRAPHQL'
+query {
+  testAuthorizationArgs(id: "foobar")
+}
+GRAPHQL;
+
+        // All relevant test assertions are in \Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\TestAuthorizationArgsQuery::authorize
+        $this->httpGraphql($graphql);
     }
 }

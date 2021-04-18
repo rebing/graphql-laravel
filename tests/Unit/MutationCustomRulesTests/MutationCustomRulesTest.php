@@ -8,6 +8,18 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class MutationCustomRulesTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                MutationWithCustomRuleWithClosure::class,
+                MutationWithCustomRuleWithRuleObject::class,
+            ],
+        ]);
+    }
+
     public function testMutationWithCustomRuleWithClosure(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -50,17 +62,5 @@ GRAPHQL;
         /** @var MessageBag $messageBag */
         $messageBag = $result['errors'][0]['extensions']['validation'];
         self::assertSame(['arg1 is invalid'], $messageBag->all());
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                MutationWithCustomRuleWithClosure::class,
-                MutationWithCustomRuleWithRuleObject::class,
-            ],
-        ]);
     }
 }

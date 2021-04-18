@@ -12,6 +12,17 @@ class MutationValidationUniqueWithCustomRulesTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                MutationWithCustomRuleWithRuleObject::class,
+            ],
+        ]);
+    }
+
     public function testUniquePassRulePass(): void
     {
         /* @var User $user */
@@ -185,16 +196,5 @@ GRAPHQL;
         ]);
 
         self::assertSame('validation', $result['errors'][0]['extensions']['category']);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                MutationWithCustomRuleWithRuleObject::class,
-            ],
-        ]);
     }
 }

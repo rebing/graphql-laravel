@@ -8,6 +8,17 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class SchemaMultiLevelPathTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.multi/level', [
+            'query' => [
+                'examples' => ExamplesQuery::class,
+            ],
+        ]);
+    }
+
     public function testMultiLevelPath(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -38,16 +49,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expectedResult, $response->json());
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.multi/level', [
-            'query' => [
-                'examples' => ExamplesQuery::class,
-            ],
-        ]);
     }
 }

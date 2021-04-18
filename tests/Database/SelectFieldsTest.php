@@ -29,6 +29,39 @@ class SelectFieldsTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                PostNonNullWithSelectFieldsAndModelQuery::class,
+                PostQuery::class,
+                PostsListOfWithSelectFieldsAndModelQuery::class,
+                PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::class,
+                PostsNonNullAndListOfWithSelectFieldsAndModelQuery::class,
+                PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::class,
+                PostWithSelectFieldsAndModelAndAliasQuery::class,
+                PostWithSelectFieldsAndModelQuery::class,
+                PostWithSelectFieldsNoModelQuery::class,
+                PostWithSelectFieldsAndModelAndAliasCallbackQuery::class,
+                PostQueryWithSelectFieldsClassInjectionQuery::class,
+                PostQueryWithNonInjectableTypehintsQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            PostType::class,
+            PostWithModelAndAliasAndCustomResolverType::class,
+            PostWithModelAndAliasType::class,
+            PostWithModelType::class,
+        ]);
+
+        $app['config']->set('app.debug', true);
+    }
+
     public function testWithoutSelectFields(): void
     {
         /** @var Post $post */
@@ -581,38 +614,5 @@ SQL
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                PostNonNullWithSelectFieldsAndModelQuery::class,
-                PostQuery::class,
-                PostsListOfWithSelectFieldsAndModelQuery::class,
-                PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::class,
-                PostsNonNullAndListOfWithSelectFieldsAndModelQuery::class,
-                PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::class,
-                PostWithSelectFieldsAndModelAndAliasQuery::class,
-                PostWithSelectFieldsAndModelQuery::class,
-                PostWithSelectFieldsNoModelQuery::class,
-                PostWithSelectFieldsAndModelAndAliasCallbackQuery::class,
-                PostQueryWithSelectFieldsClassInjectionQuery::class,
-                PostQueryWithNonInjectableTypehintsQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            PostType::class,
-            PostWithModelAndAliasAndCustomResolverType::class,
-            PostWithModelAndAliasType::class,
-            PostWithModelType::class,
-        ]);
-
-        $app['config']->set('app.debug', true);
     }
 }

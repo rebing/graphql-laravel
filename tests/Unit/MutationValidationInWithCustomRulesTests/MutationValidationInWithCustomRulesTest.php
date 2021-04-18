@@ -8,6 +8,17 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class MutationValidationInWithCustomRulesTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                MutationWithCustomRuleWithRuleObject::class,
+            ],
+        ]);
+    }
+
     public function testInPassRulePass(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -102,16 +113,5 @@ GRAPHQL;
             'rule object validation fails',
         ];
         self::assertSame($expectedMessages, $messageBag->all());
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                MutationWithCustomRuleWithRuleObject::class,
-            ],
-        ]);
     }
 }

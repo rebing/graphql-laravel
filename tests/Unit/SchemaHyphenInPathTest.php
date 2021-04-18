@@ -9,6 +9,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SchemaHyphenInPathTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.with-hyphen', [
+            'query' => [
+                'examples' => ExamplesQuery::class,
+            ],
+        ]);
+    }
+
     public function testWithHyphen(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -43,16 +54,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.with-hyphen', [
-            'query' => [
-                'examples' => ExamplesQuery::class,
-            ],
-        ]);
     }
 }

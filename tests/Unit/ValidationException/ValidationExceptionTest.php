@@ -7,6 +7,15 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationExceptionTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                ThrowsValidationExceptionQuery::class,
+            ],
+        ]);
+    }
+
     public function testLaravelValidationException(): void
     {
         $query = <<<'GRAQPHQL'
@@ -44,14 +53,5 @@ GRAQPHQL;
             ],
         ];
         self::assertEquals($expected, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                ThrowsValidationExceptionQuery::class,
-            ],
-        ]);
     }
 }

@@ -8,6 +8,17 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationAuthorizationTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                ValidationAndAuthorizationMutation::class,
+            ],
+        ]);
+    }
+
     public function testAuthorizeArgumentsInvalid(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -55,16 +66,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                ValidationAndAuthorizationMutation::class,
-            ],
-        ]);
     }
 }

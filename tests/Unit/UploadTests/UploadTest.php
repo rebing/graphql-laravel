@@ -9,6 +9,21 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class UploadTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                UploadMultipleFilesMutation::class,
+                UploadSingleFileMutation::class,
+            ],
+        ]);
+        $app['config']->set('graphql.types', [
+            UploadType::class,
+        ]);
+    }
+
     public function testSingleFile(): void
     {
         $fileToUpload = UploadedFile::fake()->create('file.txt');
@@ -169,20 +184,5 @@ class UploadTest extends TestCase
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                UploadMultipleFilesMutation::class,
-                UploadSingleFileMutation::class,
-            ],
-        ]);
-        $app['config']->set('graphql.types', [
-            UploadType::class,
-        ]);
     }
 }

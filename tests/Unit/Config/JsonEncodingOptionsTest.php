@@ -9,6 +9,25 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class JsonEncodingOptionsTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('graphql', [
+            'json_encoding_options' => JSON_PRETTY_PRINT,
+
+            'schemas' => [
+                'default' => [
+                    'query' => [
+                        'examples' => ExamplesQuery::class,
+                    ],
+                ],
+            ],
+
+            'types' => [
+                'Example' => ExampleType::class,
+            ],
+        ]);
+    }
+
     public function testCustomHeaders(): void
     {
         $response = $this->call('GET', '/graphql', [
@@ -33,24 +52,5 @@ class JsonEncodingOptionsTest extends TestCase
 }
 JSON;
         self::assertSame($json, $response->content());
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        $app['config']->set('graphql', [
-            'json_encoding_options' => JSON_PRETTY_PRINT,
-
-            'schemas' => [
-                'default' => [
-                    'query' => [
-                        'examples' => ExamplesQuery::class,
-                    ],
-                ],
-            ],
-
-            'types' => [
-                'Example' => ExampleType::class,
-            ],
-        ]);
     }
 }
