@@ -349,10 +349,21 @@ class GraphQLTest extends TestCase
         $error = new Error('error', null, null, [], null, $validationError);
         $error = GraphQL::formatError($error);
 
-        self::assertIsArray($error);
-        self::assertArrayHasKey('extensions', $error);
-        self::assertArrayHasKey('validation', $error['extensions']);
-        self::assertTrue($error['extensions']['validation']->has('test'));
+        self::assertArrayHasKey('trace', $error);
+        unset($error['trace']);
+
+        $expected = [
+            'message' => 'error',
+            'extensions' => [
+                'category' => 'validation',
+                'validation' => [
+                    'test' => [
+                        'The test field is required.',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $error);
     }
 
     public function testAddType(): void
@@ -449,9 +460,9 @@ class GraphQLTest extends TestCase
         $schemas = GraphQL::getSchemas();
         self::assertArrayHasKey('custom_add_another', $schemas);
 
-        $querys = $schemas['custom_add_another']['query'];
-        self::assertArrayHasKey('examplesCustom', $querys);
-        self::assertArrayHasKey('examplesCustomAnother', $querys);
+        $queries = $schemas['custom_add_another']['query'];
+        self::assertArrayHasKey('examplesCustom', $queries);
+        self::assertArrayHasKey('examplesCustomAnother', $queries);
     }
 
     public function testGetSchemas(): void

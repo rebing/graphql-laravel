@@ -14,6 +14,24 @@ class ValidateFieldTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                ValidateFieldsQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            CommentType::class,
+            PostType::class,
+        ]);
+    }
+
     public function testSelectableFalse(): void
     {
         /** @var Post $post */
@@ -509,24 +527,6 @@ GRAQPHQL;
             ],
         ];
         self::assertEquals($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                ValidateFieldsQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            CommentType::class,
-            PostType::class,
-        ]);
     }
 
     /**

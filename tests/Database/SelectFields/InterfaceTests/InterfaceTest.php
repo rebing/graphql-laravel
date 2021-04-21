@@ -14,6 +14,31 @@ class InterfaceTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                ExampleInterfaceQuery::class,
+                UserQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            ExampleInterfaceType::class,
+            InterfaceImpl1Type::class,
+            ExampleRelationType::class,
+            LikableInterfaceType::class,
+            PostType::class,
+            CommentType::class,
+            UserType::class,
+            LikeType::class,
+        ]);
+    }
+
     public function testGeneratedSqlQuery(): void
     {
         factory(Post::class)->create([
@@ -453,30 +478,5 @@ SQL
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                ExampleInterfaceQuery::class,
-                UserQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            ExampleInterfaceType::class,
-            InterfaceImpl1Type::class,
-            ExampleRelationType::class,
-            LikableInterfaceType::class,
-            PostType::class,
-            CommentType::class,
-            UserType::class,
-            LikeType::class,
-        ]);
     }
 }

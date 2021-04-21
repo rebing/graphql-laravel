@@ -8,6 +8,22 @@ use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class ArrayTest extends TestCaseDatabase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                ArrayQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.types', [
+            PostType::class,
+            PropertyType::class,
+        ]);
+    }
+
     public function testArrayFieldRetrieved(): void
     {
         $properties = [
@@ -57,21 +73,5 @@ GRAQPHQL;
             ],
         ];
         self::assertEquals($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                ArrayQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.types', [
-            PostType::class,
-            PropertyType::class,
-        ]);
     }
 }

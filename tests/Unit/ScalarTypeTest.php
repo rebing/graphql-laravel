@@ -9,6 +9,23 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class ScalarTypeTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                ReturnScalarQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            MyCustomScalarString::class,
+        ]);
+    }
+
     public function testScalarType(): void
     {
         $query = <<<'GRAPHQL'
@@ -25,22 +42,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                ReturnScalarQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            MyCustomScalarString::class,
-        ]);
     }
 }

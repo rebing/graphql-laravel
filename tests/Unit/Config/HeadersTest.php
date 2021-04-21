@@ -9,16 +9,6 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class HeadersTest extends TestCase
 {
-    public function testCustomHeaders(): void
-    {
-        $response = $this->call('GET', '/graphql', [
-            'query' => $this->queries['examples'],
-        ]);
-
-        self::assertTrue($response->headers->has('x-custom'));
-        self::assertSame('Header Value', $response->headers->get('x-custom'));
-    }
-
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
@@ -38,5 +28,15 @@ class HeadersTest extends TestCase
                 'Example' => ExampleType::class,
             ],
         ]);
+    }
+
+    public function testCustomHeaders(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            'query' => $this->queries['examples'],
+        ]);
+
+        self::assertTrue($response->headers->has('x-custom'));
+        self::assertSame('Header Value', $response->headers->get('x-custom'));
     }
 }

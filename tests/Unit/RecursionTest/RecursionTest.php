@@ -29,10 +29,7 @@ class RecursionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function infiniteLoopDirectToOne(): void
+    public function testInfiniteLoopDirectToOne(): void
     {
         $post = [
             'query' => 'mutation SaveAuthor($author: AuthorInput!) {
@@ -52,10 +49,7 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SaveAuthor' => true]]);
     }
 
-    /**
-     * @test
-     */
-    public function infiniteLoopDirectToMany(): void
+    public function testInfiniteLoopDirectToMany(): void
     {
         $post = [
             'query' => 'mutation SaveAuthor($author: AuthorInput!) {
@@ -75,10 +69,7 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SaveAuthor' => true]]);
     }
 
-    /**
-     * @test
-     */
-    public function infiniteLoopIndirectToOne(): void
+    public function testInfiniteLoopIndirectToOne(): void
     {
         $post = [
             'query' => 'mutation SavePublisher($publisher: PublisherInput!) {
@@ -101,10 +92,7 @@ class RecursionTest extends TestCase
         $response->assertJson(['data' => ['SavePublisher' => true]]);
     }
 
-    /**
-     * @test
-     */
-    public function infiniteLoopIndirectToMany(): void
+    public function testInfiniteLoopIndirectToMany(): void
     {
         $post = [
             'query' => 'mutation SavePublisher($publisher: PublisherInput!) {

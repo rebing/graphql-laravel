@@ -19,6 +19,7 @@ use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
@@ -136,7 +137,7 @@ class GraphQL
 
         $schema = $this->schema($schemaName);
 
-        $defaultFieldResolver = config('graphql.defaultFieldResolver', null);
+        $defaultFieldResolver = config('graphql.defaultFieldResolver');
         $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
         if ($variables && $detectUnusedVariables) {
@@ -424,8 +425,18 @@ class GraphQL
 
         $previous = $e->getPrevious();
 
-        if ($previous && $previous instanceof ValidationError) {
-            $error['extensions']['validation'] = $previous->getValidatorMessages();
+        if ($previous) {
+            if ($previous instanceof ValidationException) {
+                $error['message'] = 'validation';
+                $error['extensions'] = [
+                    'category' => 'validation',
+                    'validation' => $previous->validator->errors()->getMessages(),
+                ];
+            }
+
+            if ($previous instanceof ValidationError) {
+                $error['extensions']['validation'] = $previous->getValidatorMessages()->getMessages();
+            }
         }
 
         return $error;
@@ -471,8 +482,6 @@ class GraphQL
      * Check if the schema expects a nest URI name and return the formatted version
      * Eg. 'user/me'
      * will open the query path /graphql/user/me.
-     *
-     * @return string mixed
      */
     public static function routeNameTransformer(string $name, string $schemaParameterPattern, string $queryRoute): string
     {

@@ -66,6 +66,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
         - [Laravel 6.0+](#laravel)
   - [Usage](#usage)
     - [Concepts](#concepts)
+      - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
     - [Data loading](#data-loading)
     - [GraphiQL](#graphiql)
     - [Schemas](#schemas)
@@ -73,6 +74,9 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Creating a mutation](#creating-a-mutation)
       - [Adding validation to a mutation](#adding-validation-to-a-mutation)
       - [File uploads](#file-uploads)
+    - [Validation](#validation)  
+      - [Handling validation errors](#handling-validation-errors)
+      - [Customizing error messages](#customizing-error-messages)
     - [Resolve method](#resolve-method)
     - [Resolver middleware](#resolver-middleware)
       - [Defining middleware](#defining-middleware)
@@ -101,6 +105,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Macros](#macros)
     - [Automatic Persisted Queries support](#automatic-persisted-queries-support) 
     - [Misc features](#misc-features)
+  - [Configuration options](#configuration-options)
   - [Guides](#guides)
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
@@ -142,6 +147,26 @@ Optional keys are:
 - `description`: made available when introspecting the GraphQL schema
 - `resolve`: override the default field resolver
 - `deprecationReason`: document why something is deprecated
+
+#### A word on declaring a field `nonNull`
+
+It's quite common, and actually good practice, to see the gracious use of
+`Type::nonNull()` on any kind of input and/or output fields.
+
+**The more specific the intent of your type system, the better for the consumer.**
+
+Some examples
+
+- if you require a certain field for a query/mutation argument, declare it non
+  null
+- if you know that your (e.g. model) field can never return null (e.g. users ID,
+  email, etc.), declare it no null
+- if you return a list of something, like e.g. tags, which is a) always an array
+  (even empty) and b) shall not contain `null` values, declare the type like this:\
+  `Type::nonNull(Type::listOf(Type::nonNull(Type::string())))`
+
+There exists a lot of tooling in the GraphQL ecosystem, which benefits the more
+specific your type system is.
 
 ### Data loading
 
@@ -532,157 +557,9 @@ if you use homestead:
 http://homestead.app/graphql?query=mutation+users{updateUserPassword(id: "1", password: "newpassword"){id,email}}
 ```
 
-#### Adding validation to a mutation
-
-It is possible to add validation rules to arguments of any query or mutation. It uses the Laravel `Validator` to perform validation against the `$args`.
-
-You can define rules on each argument:
-
-```php
-class UpdateUserEmailMutation extends Mutation
-{
-    //...
-
-    public function args(): array
-    {
-        return [
-            'id' => [
-                'name' => 'id',
-                'type' => Type::string(),
-                'rules' => ['required']
-            ],
-            'email' => [
-                'name' => 'email',
-                'type' => Type::string(),
-                'rules' => ['required', 'email']
-            ]
-        ];
-    }
-
-    //...
-}
-```
-
-Alternatively, uou can add a method to define the validation rules that apply,
-giving you more freedom on composing the rules (e.g. multi-field validations).
-
-```php
-namespace App\GraphQL\Mutations;
-
-use Closure;
-use App\User;
-use GraphQL;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Mutation;
-
-class UpdateUserEmailMutation extends Mutation
-{
-    protected $attributes = [
-        'name' => 'updateUserEmail'
-    ];
-
-    public function type(): Type
-    {
-        return GraphQL::type('User');
-    }
-
-    public function args(): array
-    {
-        return [
-            'id' => [
-                'name' => 'id', 
-                'type' => Type::string(),
-            ],
-            'email' => [
-                'name' => 'email', 
-                'type' => Type::string(),
-            ]
-        ];
-    }
-
-    protected function rules(array $args = []): array
-    {
-        return [
-            'id' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => function($inputArguments, $mutationArguments) {
-                if ($inputArguments['id'] !== 1337) {
-                    return ['required'];
-                }
-                return [];
-            }
-        ];
-    }
-
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
-    {
-        $user = User::find($args['id']);
-        if (!$user) {
-            return null;
-        }
-
-        $user->email = $args['email'];
-        $user->save();
-
-        return $user;
-    }
-}
-```
-
-> **Note:** the following is a non-standard extension to the GraphQL error response!
-
-When you execute a mutation, it will return any validation errors that occur. Since the GraphQL specification defines a certain format for errors, the validation errors are added to the error object as an extra `validation` attribute. To find the validation error, you should check for the error with a `message` equals to `'validation'`, then the `validation` attribute will contain the normal errors messages returned by the Laravel Validator:
-
-```json
-{
-    "data": {
-        "updateUserEmail": null
-    },
-    "errors": [
-        {
-            "message": "validation",
-            "locations": [
-                {
-                    "line": 1,
-                    "column": 20
-                }
-            ],
-            "validation": {
-                "email": [
-                    "The email is invalid."
-                ]
-            }
-        }
-    ]
-}
-```
-
-The validation errors returned can be customised by overriding the `validationErrorMessages`
-method. This method should return an array of custom validation messages
-in the same way documented by Laravel's validation. For example, to check an `email`
-argument doesn't conflict with any existing data, you could perform the following:
-
-> **Note:** the keys should be in `field_name`.`validator_type` format so you can
-> return specific errors per validation type.
-
-````php
-public function validationErrorMessages(array $args = []): array
-{
-    return [
-        'name.required' => 'Please enter your full name',
-        'name.string' => 'Your name must be a valid string',
-        'email.required' => 'Please enter your email address',
-        'email.email' => 'Please enter a valid email address',
-        'email.exists' => 'Sorry, this email address is already in use',
-    ];
-}
-````
-
-
 #### File uploads
 
-This library provides a middleware compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
+This library uses https://github.com/laragraph/utils which is compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
 You have to add the `\Rebing\GraphQL\Support\UploadType` first to your `config/graphql` schema types definition (either global or in your schema):
 
@@ -836,6 +713,231 @@ let res = await axios.post('/graphql', bodyFormData, {
   }
 });
 ```
+
+### Validation
+
+Laravels validation is supported on queries, mutations, input types and field
+arguments.
+
+> **Note:** The support is "sugar on top" and is provided as a convenience.
+> It may have limitations in certain cases, in which case regular Laravel
+> validation can be used in your respective `resolve()` methods, just like
+> in regular Laravel code.
+
+Adding validation rules is supported in the following ways:
+
+- the field configuration key `'rules'` is supported
+  - in queries/mutations in fields declared in `function args()`
+  - in input types in fields declared in `function fields()`  
+  - `'args'` declared for a field
+- Overriding `\Rebing\GraphQL\Support\Field::rules` on any query/mutation/input type
+- Or directly use Laravels `Validator` in your `resolve()` method
+
+Using the configuration key `'rules'` is very convenient, as it is declared in
+the same location as the GraphQL type itself. However, you may hit certain
+restrictions with this approach (like multi-field validation using `*`), in
+which case you can override the `rules()` method.
+
+#### Example defining rules in each argument
+
+```php
+class UpdateUserEmailMutation extends Mutation
+{
+    //...
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'name' => 'id',
+                'type' => Type::string(),
+                'rules' => ['required']
+            ],
+            'email' => [
+                'name' => 'email',
+                'type' => Type::string(),
+                'rules' => ['required', 'email']
+            ]
+        ];
+    }
+
+    //...
+}
+```
+
+#### Example using the `rules()` method
+
+```php
+namespace App\GraphQL\Mutations;
+
+use Closure;
+use App\User;
+use GraphQL;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Mutation;
+
+class UpdateUserEmailMutation extends Mutation
+{
+    protected $attributes = [
+        'name' => 'updateUserEmail'
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('User');
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'name' => 'id', 
+                'type' => Type::string(),
+            ],
+            'email' => [
+                'name' => 'email', 
+                'type' => Type::string(),
+            ]
+        ];
+    }
+
+    protected function rules(array $args = []): array
+    {
+        return [
+            'id' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => function($inputArguments, $mutationArguments) {
+                if ($inputArguments['id'] !== 1337) {
+                    return ['required'];
+                }
+                return [];
+            }
+        ];
+    }
+
+    public function resolve($root, array $args)
+    {
+        $user = User::find($args['id']);
+        if (!$user) {
+            return null;
+        }
+
+        $user->email = $args['email'];
+        $user->save();
+
+        return $user;
+    }
+}
+```
+
+#### Example using Laravels validator directly
+
+Calling `validate()` in the example below will throw Laravels `ValidationException`
+which is handed by the default `error_formatter` by this library:
+
+```php
+protected function resolve($root, array $args) {
+    \Illuminate\Support\Facades\Validator::make($args, [
+        'data.*.password' => 'string|nullable|same:data.*.password_confirmation',
+    ])->validate();
+}
+```
+
+The format of the `'rules'` configuration key, or the rules returned by the
+`rules()` method, follows the same convention that Laravel supports, e.g.:
+- `'rules' => 'required|string`\
+  or
+- `'rules' => ['required', 'string']`\
+  or
+- `'rules' => function (…) { … }`\
+  etc.
+
+For the `args()` method or the `'args'` definition for a field, the field names
+are directly used for the validation. However, for input types, which can be
+nested and occur multiple times, the field names are mapped as e.g.
+`data.0.fieldname`. This is imported to understand when returning rules from
+the `rules()` method.
+
+#### Handling validation errors
+
+Exceptions are used to communicate back in the GraphQL response that validation
+errors occurred. When using the built-in support, the exception
+`\Rebing\GraphQL\Error\ValidationError` is thrown. In your custom code or when
+directly using the Laravel `Validator`, Laravels built-in
+`\Illuminate\Validation\ValidationException` is supported too. In both cases,
+the GraphQL response is transformed to the error format shown below.
+
+To support returning validation errors in a GraphQL error response, the
+`'extensions'` are used, as there's no proper equivalent.
+
+On the client side, you can check if `message` for a given error matches
+`'validation'`, you can expect the `extensions.validation` key which maps each
+field to their respective errors:
+
+```json
+{
+  "data": {
+    "updateUserEmail": null
+  },
+  "errors": [
+    {
+      "message": "validation",
+      "extensions": {
+        "validation": {
+          "email": [
+            "The email is invalid."
+          ]
+        }
+      },
+      "locations": [
+        {
+          "line": 1,
+          "column": 20
+        }
+      ]
+    }
+  ]
+}
+```
+
+You can customize the way this is handled by providing your own `error_formatter`
+in the configuration, replacing the default one from this library.
+
+#### Customizing error messages
+
+The validation errors returned can be customised by overriding the
+`validationErrorMessages` method. This method should return an array of custom
+validation messages in the same way documented by Laravel's validation. For
+example, to check an `email` argument doesn't conflict with any existing data,
+you could perform the following:
+
+> **Note:** the keys should be in `field_name`.`validator_type` format, so you can
+> return specific errors per validation type.
+
+```php
+public function validationErrorMessages(array $args = []): array
+{
+    return [
+        'name.required' => 'Please enter your full name',
+        'name.string' => 'Your name must be a valid string',
+        'email.required' => 'Please enter your email address',
+        'email.email' => 'Please enter a valid email address',
+        'email.exists' => 'Sorry, this email address is already in use',
+    ];
+}
+```
+
+#### Misc notes
+
+Certain type declarations of GraphQL may cancel our or render certain validations
+unnecessary. A good example is using `Type::nonNull()` to ultimately declare
+that an argument is required. In such a case a `'rules' => 'required'`
+configuration will likely never be triggered, because the GraphQL execution
+engine already prevents this field from being accepted in the first place.
+
+Or to be more clear: if a GraphQL type system violation occurs, then no Laravel
+validation will be even execution, as the code does not get so far.
 
 ### Resolve method
 
@@ -2491,6 +2593,80 @@ In this case, nothing happens and `optional_id` will be treated as not being pro
 
 To prevent such scenarios, you can enable the config option `detect_unused_variables`
 and set it to `true`.
+
+## Configuration options
+
+- `prefix`\
+  The route prefix to your GraphQL endpoint without the leading `/`.\
+  The default makes the API available via `/graphql`
+- `routes`\
+  The route itself. The default `{graphql_schema?}` is a place holder which gets
+  dynamically resolved whether you request a specific or the default schema
+  - Default schema: `/graphql`
+  - Specific schema: `/gaphql/specificschema`
+- `controllers`\
+  Allows overriding the default controller class, in case you want to extend or
+  replace the existing one.
+- `middleware`\
+  Global GraphQL middleware applying in case no schema-specific middleware was
+  provided
+- `route_group_attributes`\
+  Additional route group attributes
+- `default_schema`\
+  The name of the default schema used, when none is provided via the route
+- `batching`\
+  - 'enable'\
+    Whether to support GraphQL batching or not
+- `lazyload_types`\
+  The types will be loaded on demand. Recommended being enabled as it improves
+  performance. Cannot be used with type aliasing.
+- `error_formatter`\
+  This callable will be passed the Error object for each errors GraphQL catch.
+  The method should return an array representing the error.
+- `errors_handler`\
+  Custom Error Handling. The default handler will pass exceptions to laravel
+  Error Handling mechanism.
+- `security`\
+  Various options to limit the query complexity and depth, see docs at
+  https://webonyx.github.io/graphql-php/security/
+  - `query_max_complexity`
+  - `query_max_depth`
+  - `disable_introspection`
+- `pagination_type`\
+  You can define your own pagination type.
+- `simple_pagination_type`\
+  You can define your own simple pagination type.
+- `graphiql`\
+  Config for GraphiQL (see (https://github.com/graphql/graphiql)
+  - `prefix`\
+    The route prefix
+  - `controller`\
+    The controller / method to handle the route
+  - `middleware`\
+    Any middleware to be run before invoking the controller
+  - `view`\
+    Which view to use
+  - `display`\
+    Whether to enable it or not.\
+    **Note:** it's recommended to disable this in production!
+- `defaultFieldResolver`\
+  Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
+- `headers`\
+  Any headers that will be added to the response returned by the default controller
+- `json_encoding_options`\
+  Any JSON encoding options when returning a response from the default controller
+- `apq`\
+  Automatic Persisted Queries (APQ)
+  - `enable`\
+    It's disabled by default.
+  - `cache_driver`\
+    Which cache driver to use.
+  - `cache_prefix`\
+    The cache prefix to use.
+  - `cache_ttl`\
+    How long to cache the queries.
+- `detect_unused_variables`\
+  If enabled, variables provided but not consumed by the query will throw an error
 
 ## Guides
 

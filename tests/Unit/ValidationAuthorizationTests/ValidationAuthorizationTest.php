@@ -3,11 +3,21 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests;
 
-use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationAuthorizationTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                ValidationAndAuthorizationMutation::class,
+            ],
+        ]);
+    }
+
     public function testAuthorizeArgumentsInvalid(): void
     {
         $graphql = <<<'GRAPHQL'
@@ -23,16 +33,31 @@ GRAPHQL;
             ],
         ]);
 
-        self::assertSame('validation', $result['errors'][0]['message']);
-
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedErrors = [
-            'arg1' => [
-                'The selected arg1 is invalid.',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg1' => [
+                                'The selected arg1 is invalid.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'validationAndAuthorization',
+                    ],
+                ],
             ],
         ];
-        self::assertSame($expectedErrors, $messageBag->messages());
+        self::assertEquals($expected, $result);
     }
 
     public function testAuthorizeArgumentsValid(): void
@@ -55,16 +80,5 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                ValidationAndAuthorizationMutation::class,
-            ],
-        ]);
     }
 }

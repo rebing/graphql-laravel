@@ -153,9 +153,6 @@ return [
      */
     'errors_handler' => [\Rebing\GraphQL\GraphQL::class, 'handleErrors'],
 
-    // You can set the key, which will be used to retrieve the dynamic variables
-    'params_key' => 'variables',
-
     /*
      * Options to limit the query complexity and depth. See the doc
      * @ https://webonyx.github.io/graphql-php/security

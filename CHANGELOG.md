@@ -5,6 +5,8 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- Remove deprecated `\Rebing\GraphQL\Support\Type::$inputObject` and `\Rebing\GraphQL\Support\Type::$enumObject` properties [\#752 / mfn](https://github.com/rebing/graphql-laravel/pull/752)\
+  Instead in your code, extend `\Rebing\GraphQL\Support\InputType` and `\Rebing\GraphQL\Support\EnumType` directly 
 - Support for Lumen has been removed
 - Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
   - batched queries will only work with `POST` requests
@@ -48,6 +50,7 @@ CHANGELOG
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
 - Add ability to detect unused GraphQL variables [\#660 / mfn](https://github.com/rebing/graphql-laravel/pull/660)
+- Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 2021-04-10, 7.2.0
 -----------------

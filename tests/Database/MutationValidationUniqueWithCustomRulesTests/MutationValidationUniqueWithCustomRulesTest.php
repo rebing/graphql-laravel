@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests;
 
-use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
@@ -11,6 +10,17 @@ use Rebing\GraphQL\Tests\TestCaseDatabase;
 class MutationValidationUniqueWithCustomRulesTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
+
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'mutation' => [
+                MutationWithCustomRuleWithRuleObject::class,
+            ],
+        ]);
+    }
 
     public function testUniquePassRulePass(): void
     {
@@ -78,14 +88,31 @@ select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The arg unique rule pass has already been taken.',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_unique_rule_pass' => [
+                                'The arg unique rule pass has already been taken.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testUniquePassRuleFail(): void
@@ -111,14 +138,31 @@ GRAPHQL;
             ],
         ]);
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'rule object validation fails',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_unique_rule_fail' => [
+                                'rule object validation fails',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testUniqueFailRuleFail(): void
@@ -150,15 +194,32 @@ select count(*) as aggregate from "users" where "name" = ?;
 SQL
         );
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The arg unique rule fail has already been taken.',
-            'rule object validation fails',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_unique_rule_fail' => [
+                                'The arg unique rule fail has already been taken.',
+                                'rule object validation fails',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testErrorExtension(): void
@@ -185,16 +246,5 @@ GRAPHQL;
         ]);
 
         self::assertSame('validation', $result['errors'][0]['extensions']['category']);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'mutation' => [
-                MutationWithCustomRuleWithRuleObject::class,
-            ],
-        ]);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
 use Composer\InstalledVersions;
-use Illuminate\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationOfFieldArgumentsTest extends TestCase
@@ -47,21 +46,47 @@ GRAPHQL;
             ],
         ]);
 
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The profile.fields.name.args.include middle names format is invalid.',
-            'The profile.fields.height.args.unit format is invalid.',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'profile.fields.name.args.includeMiddleNames' => [
+                                'The profile.fields.name.args.include middle names format is invalid.',
+                            ],
+                            'profile.fields.height.args.unit' => [
+                                'The profile.fields.height.args.unit format is invalid.',
+                            ],
+                            'profile.args.profileId' => [
+                                'The profile.args.profile id must not be greater than 10.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'test',
+                    ],
+                ],
+            ],
+            'data' => [
+                'test' => null,
+            ],
         ];
 
-        // See https://github.com/orchestral/testbench-core/commit/6c9c77b2e978890cb6a2712251ddab5eb1b79049
         if ($this->orchestraTestbenchCoreVersionBelow('6.17.1.0')) {
-            $expectedMessages[] = 'The profile.args.profile id may not be greater than 10.';
-        } else {
-            $expectedMessages[] = 'The profile.args.profile id must not be greater than 10.';
+            $expected['errors'][0]['extensions']['validation']['profile.args.profileId'] = [
+                'The profile.args.profile id may not be greater than 10.',
+            ];
         }
 
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testOnlyApplicableRulesTakesEffect(): void
@@ -80,12 +105,34 @@ GRAPHQL;
             'variables' => [],
         ]);
 
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The alias.args.type format is invalid.',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'alias.args.type' => [
+                                'The alias.args.type format is invalid.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'test',
+                    ],
+                ],
+            ],
+            'data' => [
+                'test' => null,
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     private function orchestraTestbenchCoreVersionBelow(string $versionString): bool

@@ -3,10 +3,9 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Error;
 
-use GraphQL\Error\ClientAware;
 use GraphQL\Error\Error;
 
-class AuthorizationError extends Error implements ClientAware
+class AuthorizationError extends Error
 {
     public function isClientSafe(): bool
     {

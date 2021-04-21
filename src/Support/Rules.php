@@ -42,7 +42,7 @@ class Rules
     protected function resolveRules($rules, array $arguments)
     {
         if (is_callable($rules)) {
-            return call_user_func($rules, $arguments, $this->requestArguments);
+            return $rules($arguments, $this->requestArguments);
         }
 
         return $rules;
@@ -83,7 +83,7 @@ class Rules
                 }
 
                 foreach ($resolutionArguments as $index => $input) {
-                    $key = "{$prefix}.{$index}";
+                    $key = "$prefix.$index";
 
                     if (null !== $input) {
                         $rules = $rules + $this->getInputTypeRules($type, $key, $input);
@@ -122,7 +122,7 @@ class Rules
         foreach ($fields as $name => $field) {
             $field = $field instanceof InputObjectField ? $field : (object) $field;
 
-            $key = null === $prefix ? $name : "{$prefix}.{$name}";
+            $key = null === $prefix ? $name : "$prefix.$name";
 
             // get any explicitly set rules
             $fieldRules = $field->config['rules'] ?? $field->rules ?? null;

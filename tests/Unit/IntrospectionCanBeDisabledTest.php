@@ -8,6 +8,13 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class IntrospectionCanBeDisabledTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('graphql.security.disable_introspection', true);
+        $app['config']->set('graphql.security.query_max_depth', 11);
+        $app['config']->set('app.debug', false);
+    }
+
     public function testIntrospectionCanBeDisabled(): void
     {
         $query = Introspection::getIntrospectionQuery();
@@ -33,12 +40,5 @@ class IntrospectionCanBeDisabledTest extends TestCase
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        $app['config']->set('graphql.security.disable_introspection', true);
-        $app['config']->set('graphql.security.query_max_depth', 11);
-        $app['config']->set('app.debug', false);
     }
 }

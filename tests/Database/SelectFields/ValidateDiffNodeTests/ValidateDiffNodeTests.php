@@ -13,6 +13,27 @@ class ValidateDiffNodeTests extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                UsersQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            UserType::class,
+            FilterInput::class,
+            EpisodeEnum::class,
+            PostType::class,
+            MyCustomScalarString::class,
+        ]);
+    }
+
     public function testDiffValueNodeAndNestedValueNodeArgs(): void
     {
         /** @var User[] $users */
@@ -89,26 +110,5 @@ SQL
         ];
 
         self::assertEquals($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                UsersQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            UserType::class,
-            FilterInput::class,
-            EpisodeEnum::class,
-            PostType::class,
-            MyCustomScalarString::class,
-        ]);
     }
 }

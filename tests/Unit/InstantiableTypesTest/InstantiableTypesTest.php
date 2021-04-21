@@ -8,6 +8,20 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class InstantiableTypesTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                'user' => UserQuery::class,
+            ],
+        ]);
+        $app['config']->set('graphql.types', [
+            'UserType' => UserType::class,
+        ]);
+    }
+
     public function testDateFunctions(): void
     {
         Carbon::setTestNow('2020-06-05 12:34:56');
@@ -39,19 +53,5 @@ GRAQPHQL;
             ],
         ];
         self::assertSame($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                'user' => UserQuery::class,
-            ],
-        ]);
-        $app['config']->set('graphql.types', [
-            'UserType' => UserType::class,
-        ]);
     }
 }

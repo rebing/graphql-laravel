@@ -14,6 +14,27 @@ class AlwaysRelationTest extends TestCaseDatabase
 {
     use SqlAssertionTrait;
 
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                UsersQuery::class,
+            ],
+        ]);
+
+        $app['config']->set('graphql.schemas.custom', null);
+
+        $app['config']->set('graphql.types', [
+            LikableInterfaceType::class,
+            CommentType::class,
+            LikeType::class,
+            PostType::class,
+            UserType::class,
+        ]);
+    }
+
     /**
      * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
      * the test needs to be changed, showing that it works.
@@ -170,26 +191,5 @@ SQL
             ],
         ];
         self::assertEquals($expectedResult, $result);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                UsersQuery::class,
-            ],
-        ]);
-
-        $app['config']->set('graphql.schemas.custom', null);
-
-        $app['config']->set('graphql.types', [
-            LikableInterfaceType::class,
-            CommentType::class,
-            LikeType::class,
-            PostType::class,
-            UserType::class,
-        ]);
     }
 }

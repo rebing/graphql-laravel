@@ -10,6 +10,17 @@ use Throwable;
 
 class EngineErrorInResolverTest extends TestCase
 {
+    protected function getEnvironmentSetUp($app): void
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app['config']->set('graphql.schemas.default', [
+            'query' => [
+                QueryWithEngineErrorInCodeQuery::class,
+            ],
+        ]);
+    }
+
     public function testForEngineError(): void
     {
         $result = $this->graphql('query { queryWithEngineErrorInCode }', [
@@ -38,16 +49,5 @@ class EngineErrorInResolverTest extends TestCase
             ->once();
 
         $app->instance(ExceptionHandler::class, $handlerMock);
-    }
-
-    protected function getEnvironmentSetUp($app): void
-    {
-        parent::getEnvironmentSetUp($app);
-
-        $app['config']->set('graphql.schemas.default', [
-            'query' => [
-                QueryWithEngineErrorInCodeQuery::class,
-            ],
-        ]);
     }
 }
