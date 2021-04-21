@@ -151,11 +151,34 @@ It is required when 'lazyload_types' is enabled";
             'expectErrors' => true,
         ]);
 
-        self::assertArrayHasKey('data', $result);
-        self::assertArrayHasKey('errors', $result);
-        self::assertArrayHasKey('extensions', $result['errors'][0]);
-        self::assertArrayHasKey('validation', $result['errors'][0]['extensions']);
-        self::assertTrue($result['errors'][0]['extensions']['validation']->has('test_validation.args.index'));
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'test_validation.args.index' => [
+                                'The test validation.args.index field is required.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 3,
+                            'column' => 13,
+                        ],
+                    ],
+                    'path' => [
+                        'examples',
+                    ],
+                ],
+            ],
+            'data' => [
+                'examples' => null,
+            ],
+        ];
+        self::assertEquals($expected, $result);
     }
 
     public function testQueryWithValidation(): void

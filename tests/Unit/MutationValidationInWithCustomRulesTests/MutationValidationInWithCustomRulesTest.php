@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
-use Illuminate\Contracts\Support\MessageBag;
 use Rebing\GraphQL\Tests\TestCase;
 
 class MutationValidationInWithCustomRulesTest extends TestCase
@@ -54,14 +53,31 @@ GRAPHQL;
             ],
         ]);
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'rule object validation fails',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_in_rule_fail' => [
+                                'rule object validation fails',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testInFailRulePass(): void
@@ -79,14 +95,31 @@ GRAPHQL;
             ],
         ]);
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The selected arg in rule pass is invalid.',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_in_rule_pass' => [
+                                'The selected arg in rule pass is invalid.',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 
     public function testInFailRuleFail(): void
@@ -104,14 +137,31 @@ GRAPHQL;
             ],
         ]);
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('validation', $result['errors'][0]['message']);
-        /** @var MessageBag $messageBag */
-        $messageBag = $result['errors'][0]['extensions']['validation'];
-        $expectedMessages = [
-            'The selected arg in rule fail is invalid.',
-            'rule object validation fails',
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'validation',
+                    'extensions' => [
+                        'category' => 'validation',
+                        'validation' => [
+                            'arg_in_rule_fail' => [
+                                'The selected arg in rule fail is invalid.',
+                                'rule object validation fails',
+                            ],
+                        ],
+                    ],
+                    'locations' => [
+                        [
+                            'line' => 2,
+                            'column' => 3,
+                        ],
+                    ],
+                    'path' => [
+                        'mutationWithCustomRuleWithRuleObject',
+                    ],
+                ],
+            ],
         ];
-        self::assertSame($expectedMessages, $messageBag->all());
+        self::assertEquals($expected, $result);
     }
 }

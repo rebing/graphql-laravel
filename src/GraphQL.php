@@ -435,7 +435,7 @@ class GraphQL
             }
 
             if ($previous instanceof ValidationError) {
-                $error['extensions']['validation'] = $previous->getValidatorMessages();
+                $error['extensions']['validation'] = $previous->getValidatorMessages()->getMessages();
             }
         }
 
