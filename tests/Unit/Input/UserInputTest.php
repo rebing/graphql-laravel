@@ -29,9 +29,6 @@ GRAQPHQL;
             'expectErrors' => true,
         ]);
 
-        // TODO: otherwise serialized objects appear
-        $result = json_decode((string) json_encode($result), true);
-
         $expected = [
             'errors' => [
                 [
@@ -84,9 +81,6 @@ GRAQPHQL;
         $result = $this->graphql($query, [
             'expectErrors' => true,
         ]);
-
-        // TODO: otherwise serialized objects appear
-        $result = json_decode((string) json_encode($result), true);
 
         $expected = [
             'errors' => [
