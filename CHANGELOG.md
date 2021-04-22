@@ -5,6 +5,13 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- Remove the `\Rebing\GraphQL\GraphQLController::$app`  property [\#755 / mfn](https://github.com/rebing/graphql-laravel/pull/755)\
+  Injecting the application container early is incompatible when running within
+  an application server like laravel/octane, as it's not guaranteed that the
+  container received contains all the bindings. If you relied on this property
+  when extending the classes, invoke the container directly via
+  `Container::getInstance()`.
+  
 - Remove deprecated `\Rebing\GraphQL\Support\Type::$inputObject` and `\Rebing\GraphQL\Support\Type::$enumObject` properties [\#752 / mfn](https://github.com/rebing/graphql-laravel/pull/752)\
   Instead in your code, extend `\Rebing\GraphQL\Support\InputType` and `\Rebing\GraphQL\Support\EnumType` directly 
 - Support for Lumen has been removed

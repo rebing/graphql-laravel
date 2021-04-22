@@ -21,20 +21,12 @@ use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
 {
-    /** @var Container */
-    protected $app;
-
-    public function __construct(Container $app)
-    {
-        $this->app = $app;
-    }
-
     public function query(Request $request, string $schema = null): JsonResponse
     {
         $schemaName = $schema;
 
         /** @var RequestParser $parser */
-        $parser = $this->app->make(RequestParser::class);
+        $parser = Container::getInstance()->make(RequestParser::class);
         $operations = $parser->parseRequest($request);
 
         // If there are multiple route params we can expect that there
@@ -79,10 +71,10 @@ class GraphQLController extends Controller
             : DebugFlag::NONE;
 
         /** @var GraphQL $graphql */
-        $graphql = $this->app->make('graphql');
+        $graphql = Container::getInstance()->make('graphql');
 
         /** @var Helper $helper */
-        $helper = $this->app->make(Helper::class);
+        $helper = Container::getInstance()->make(Helper::class);
         $errors = $helper->validateOperationParams($params);
 
         if ($errors) {
@@ -125,7 +117,7 @@ class GraphQLController extends Controller
     protected function queryContext(string $query, ?array $variables, string $schemaName)
     {
         try {
-            return $this->app->make('auth')->user();
+            return Container::getInstance()->make('auth')->user();
         } catch (Exception $e) {
             return null;
         }
@@ -170,7 +162,7 @@ class GraphQLController extends Controller
         $apqCachePrefix = config('graphql.apq.cache_prefix');
         $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
 
-        $cache = $this->app->make('cache');
+        $cache = Container::getInstance()->make('cache');
 
         // store in cache
         if ($query) {
