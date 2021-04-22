@@ -14,7 +14,9 @@ CHANGELOG
   
 - Remove deprecated `\Rebing\GraphQL\Support\Type::$inputObject` and `\Rebing\GraphQL\Support\Type::$enumObject` properties [\#752 / mfn](https://github.com/rebing/graphql-laravel/pull/752)\
   Instead in your code, extend `\Rebing\GraphQL\Support\InputType` and `\Rebing\GraphQL\Support\EnumType` directly 
+  
 - Support for Lumen has been removed
+  
 - Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
   - batched queries will only work with `POST` requests
     This is due to `RequestParser` using `\GraphQL\Server\Helper::parseRequestParams` which includes this check
@@ -28,6 +30,7 @@ CHANGELOG
       new: `protected function queryContext(string $query, ?array $variables, string $schema)`
     - old: `protected function handleAutomaticPersistQueries(string $schemaName, array $input): string`
       new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
+      
 - In `\Rebing\GraphQL\GraphQLController`, renamed all occurrences of `$schema` to `$schemaName`
   This is to reduce the confusion as the code in some other places uses `$schema`
   for the actual schema itself (either as an object or array form).
@@ -36,6 +39,7 @@ CHANGELOG
     new: `protected function executeQuery(string $schemaName, OperationParams $params): array`
   - old: `protected function queryContext(string $query, ?array $variables, string $schema)`
     new: `protected function queryContext(string $query, ?array $variables, string $schemaName)`
+    
 - In `\Rebing\GraphQL\GraphQL`, renamed remaining instances of `$params` to `$variables`    
   After switching to `RequestParser`, the support for changing the variable name
   what was supposed to `params_key` has gone and thus the name isn't fitting anymore
@@ -43,6 +47,7 @@ CHANGELOG
     new: `public function query(string $query, ?array $variables = [], array $opts = []): array`
   - old: `public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult`
     new: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
+    
 - As part of APQ parsed query support [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740):
   - In `\Rebing\GraphQL\GraphQLController`, the following signature changed:
     - old: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
