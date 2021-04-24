@@ -16,7 +16,9 @@ class RoutesTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
-            'prefix' => 'graphql_test',
+            'route' => [
+                'prefix' => 'graphql_test',
+            ],
 
             'graphiql' => [
                 'display' => false,
@@ -51,69 +53,84 @@ class RoutesTest extends TestCase
     public function testRoutes(): void
     {
         $expected = [
-            'graphql.query' => [
-                'methods' => ['GET', 'HEAD'],
+            'graphql' => [
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
                 'uri' => 'graphql_test',
-                'middleware' => [ExampleMiddleware::class],
-            ],
-            'graphql.query.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test',
-                'middleware' => [ExampleMiddleware::class],
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
             'graphql.default' => [
-                'methods' => ['GET', 'HEAD'],
-                'uri' => 'graphql_test/{default}',
-                'middleware' => [ExampleMiddleware::class],
-            ],
-            'graphql.default.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{default}',
-                'middleware' => [ExampleMiddleware::class],
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/default',
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
             'graphql.custom' => [
-                'methods' => ['GET', 'HEAD'],
-                'uri' => 'graphql_test/{custom}',
-                'middleware' => [ExampleMiddleware::class],
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/custom',
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
-            'graphql.custom.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{custom}',
-                'middleware' => [ExampleMiddleware::class],
-            ],
-            'graphql.with_methods.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{with_methods}',
-                'middleware' => [ExampleMiddleware::class],
+            'graphql.with_methods' => [
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/with_methods',
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
             'graphql.class_based' => [
-                'methods' => ['GET', 'HEAD'],
-                'uri' => 'graphql_test/{class_based}',
-                'middleware' => [ExampleMiddleware::class],
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/class_based',
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
-            'graphql.class_based.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{class_based}',
-                'middleware' => [ExampleMiddleware::class],
-            ],
-            'graphql.class_based_with_methods.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{class_based_with_methods}',
-                'middleware' => [ExampleMiddleware::class],
+            'graphql.class_based_with_methods' => [
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/class_based_with_methods',
+                'middleware' => [
+                    ExampleMiddleware::class,
+                ],
             ],
             'graphql.shorthand' => [
-                'methods' => ['GET', 'HEAD'],
-                'uri' => 'graphql_test/{shorthand}',
-                'middleware' => [],
-            ],
-            'graphql.shorthand.post' => [
-                'methods' => ['POST'],
-                'uri' => 'graphql_test/{shorthand}',
+                'methods' => [
+                    'GET',
+                    'POST',
+                    'HEAD',
+                ],
+                'uri' => 'graphql_test/shorthand',
                 'middleware' => [],
             ],
         ];
 
-        self::assertEquals($expected, Collection::make(
+        $actual = Collection::make(
             app('router')->getRoutes()->getRoutesByName()
         )->map(function (Route $route) {
             return [
@@ -121,6 +138,8 @@ class RoutesTest extends TestCase
                 'uri' => $route->uri(),
                 'middleware' => $route->middleware(),
             ];
-        })->all());
+        })->all();
+
+        self::assertEquals($expected, $actual);
     }
 }

@@ -61,11 +61,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:routeNameTransformer\\(\\) should return string but returns string\\|null\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -494,16 +489,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Support/UploadType.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$queryTypesMap has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/routes.php
-
-		-
-			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed, mixed\\)\\: bool\\)\\|null, Closure\\(array, string\\)\\: bool\\|null given\\.$#"
-			count: 1
-			path: src/routes.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLContext\\:\\:\\$data has no typehint specified\\.$#"

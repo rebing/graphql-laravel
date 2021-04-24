@@ -5,6 +5,34 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- Routing has been rewritten and simplified [\#757 / mfn](https://github.com/rebing/graphql-laravel/pull/757)
+  - All routing related configuration is now within the top level `route`
+    configuration key
+  - The following configuration options have been removed:
+    - `graphql.routes`\
+      It's therefore also not possible anymore to register different routes for
+      queries and mutations within a schema. Each schema gets only one route
+      (except for the default schema, which is registered for the global prefix
+      route as well as under its name).\
+      If necessary, this can be emulated with different schemas and multi-level
+      paths
+  - The following configuration options have been moved/renamed:
+    - `graphql.prefix` => `graphql.route.prefix`
+    - `graphql.controllers` => `graphql.route.controller`\
+      Further, providing a controller action for `query` or `mutation` is not
+      supported anymore.
+    - `graphql.middlware` => `graphql.route.middleware`
+    - `graphql.route_group_attributes` => `graphql.route.group_attributes`
+  - The actual routes defined have changed:
+    - No more separate routes for the HTTP methods
+    - 1 route for each schema + 1 route for the group prefix (default schema)
+    - If GraphiQL is enabled: 1 route graphiql route for each schema + 1 for the
+      graphiql group prefix (default schema)
+  - It's now possible to prevent the registering of any routes by making the top
+    level `route` an empty array or null
+  - `\Rebing\GraphQL\GraphQL::routeNameTransformer` has been removed
+  - It's not possible to register schemas with a `-` in their name
+
 - Remove the `\Rebing\GraphQL\GraphQLController::$app`  property [\#755 / mfn](https://github.com/rebing/graphql-laravel/pull/755)\
   Injecting the application container early is incompatible when running within
   an application server like laravel/octane, as it's not guaranteed that the

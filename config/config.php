@@ -3,55 +3,28 @@
 declare(strict_types = 1);
 
 return [
-    // The prefix for routes
-    'prefix' => 'graphql',
+    'route' => [
+        // The prefix for routes; do NOT use a leading slash!
+        'prefix' => 'graphql',
 
-    // The routes to make GraphQL request. Either a string that will apply
-    // to both query and mutation or an array containing the key 'query' and/or
-    // 'mutation' with the according Route
-    //
-    // Example:
-    //
-    // Same route for both query and mutation
-    //
-    // 'routes' => 'path/to/query/{graphql_schema?}',
-    //
-    // or define each route
-    //
-    // 'routes' => [
-    //     'query' => 'query/{graphql_schema?}',
-    //     'mutation' => 'mutation/{graphql_schema?}',
-    // ]
-    //
-    'routes' => '{graphql_schema?}',
+        // The controller/method to use in GraphQL request.
+        'controller' => \Rebing\GraphQL\GraphQLController::class . '@query',
 
-    // The controller to use in GraphQL request. Either a string that will apply
-    // to both query and mutation or an array containing the key 'query' and/or
-    // 'mutation' with the according Controller and method
-    //
-    // Example:
-    //
-    // 'controllers' => [
-    //     'query' => '\Rebing\GraphQL\GraphQLController@query',
-    //     'mutation' => '\Rebing\GraphQL\GraphQLController@mutation'
-    // ]
-    //
-    'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
+        // Any middleware for the graphql route group
+        // This middleware will apply to all schemas
+        'middleware' => [],
 
-    // Any middleware for the graphql route group
-    'middleware' => [],
+        // Additional route group attributes
+        //
+        // Example:
+        //
+        // 'group_attributes' => ['guard' => 'api']
+        //
+        'group_attributes' => [],
+    ],
 
-    // Additional route group attributes
-    //
-    // Example:
-    //
-    // 'route_group_attributes' => ['guard' => 'api']
-    //
-    'route_group_attributes' => [],
-
-    // The name of the default schema used when no argument is provided
-    // to GraphQL::schema() or when the route is used without the graphql_schema
-    // parameter.
+    // The name of the default schema
+    // Used when the route group is directly accessed
     'default_schema' => 'default',
 
     'batching' => [
@@ -68,12 +41,11 @@ return [
     //
     // Example:
     //
-    //  'schema' => 'default',
-    //
     //  'schemas' => [
     //      'default' => [
+    //          'controller' => MyController::class . '@method',
     //          'query' => [
-    //              'users' => App\GraphQL\Query\UsersQuery::class
+    //              App\GraphQL\Query\UsersQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -81,7 +53,7 @@ return [
     //      ],
     //      'user' => [
     //          'query' => [
-    //              'profile' => App\GraphQL\Query\ProfileQuery::class
+    //              App\GraphQL\Query\ProfileQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -90,7 +62,7 @@ return [
     //      ],
     //      'user/me' => [
     //          'query' => [
-    //              'profile' => App\GraphQL\Query\MyProfileQuery::class
+    //              App\GraphQL\Query\MyProfileQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -107,6 +79,7 @@ return [
             'mutation' => [
                 // ExampleMutation::class,
             ],
+            // The types only available in this schema
             'types' => [
                 // ExampleType::class,
             ],
@@ -115,8 +88,8 @@ return [
         ],
     ],
 
-    // The types available in the application. You can then access it from the
-    // facade like this: GraphQL::type('user')
+    // The global types available to all schemas.
+    // You can then access it from the facade like this: GraphQL::type('user')
     //
     // Example:
     //
@@ -180,7 +153,7 @@ return [
      * Config for GraphiQL (see (https://github.com/graphql/graphiql).
      */
     'graphiql' => [
-        'prefix' => '/graphiql',
+        'prefix' => 'graphiql', // Do NOT use a leading slash
         'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
         'middleware' => [],
         'view' => 'graphql::graphiql',

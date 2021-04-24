@@ -11,8 +11,6 @@ class AuthorizeArgsTest extends TestCaseDatabase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('graphql.controllers', GraphQLController::class . '@query');
-
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 TestAuthorizationArgsQuery::class,

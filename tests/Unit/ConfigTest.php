@@ -21,13 +21,6 @@ class ConfigTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('graphql', [
-            'prefix' => 'graphql_test',
-
-            'routes' => [
-                'query' => 'query/{graphql_schema?}',
-                'mutation' => 'mutation/{graphql_schema?}',
-            ],
-
             'default_schema' => 'custom',
 
             'schemas' => [
@@ -70,30 +63,6 @@ class ConfigTest extends TestCase
                 'query_max_depth' => 10,
             ],
         ]);
-    }
-
-    public function testRouteQuery(): void
-    {
-        $response = $this->call('GET', '/graphql_test/query', [
-            'query' => $this->queries['examplesCustom'],
-        ]);
-
-        self::assertEquals(200, $response->getStatusCode());
-
-        $content = $response->getData(true);
-        self::assertArrayHasKey('data', $content);
-    }
-
-    public function testRouteMutation(): void
-    {
-        $response = $this->call('POST', '/graphql_test/mutation', [
-            'query' => $this->queries['updateExampleCustom'],
-        ]);
-
-        self::assertEquals(200, $response->getStatusCode());
-
-        $content = $response->getData(true);
-        self::assertArrayHasKey('data', $content);
     }
 
     public function testTypes(): void

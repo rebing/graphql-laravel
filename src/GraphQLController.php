@@ -16,30 +16,20 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 use Laragraph\Utils\RequestParser;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
 {
-    public function query(Request $request, string $schema = null): JsonResponse
+    public function query(Request $request): JsonResponse
     {
-        $schemaName = $schema;
+        $routePrefix = config('graphql.route.prefix', 'graphql');
+        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? config('graphql.default_schema', 'default');
 
         /** @var RequestParser $parser */
         $parser = Container::getInstance()->make(RequestParser::class);
         $operations = $parser->parseRequest($request);
-
-        // If there are multiple route params we can expect that there
-        // will be a schema name that has to be built
-        $routeParameters = $request->route()->parameters;
-
-        if (count($routeParameters) > 1) {
-            $schemaName = implode('/', $routeParameters);
-        }
-
-        if (!$schemaName) {
-            $schemaName = config('graphql.default_schema');
-        }
 
         $headers = config('graphql.headers', []);
         $jsonOptions = config('graphql.json_encoding_options', 0);
@@ -186,11 +176,12 @@ class GraphQLController extends Controller
         return $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
     }
 
-    public function graphiql(Request $request, string $schema = null): View
+    public function graphiql(Request $request): View
     {
-        $schemaName = $schema;
+        $routePrefix = config('graphql.graphiql.prefix', 'graphiql');
+        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/");
 
-        $graphqlPath = '/' . config('graphql.prefix');
+        $graphqlPath = '/' . config('graphql.route.prefix');
 
         if ($schemaName) {
             $graphqlPath .= '/' . $schemaName;
@@ -199,7 +190,6 @@ class GraphQLController extends Controller
         $view = config('graphql.graphiql.view', 'graphql::graphiql');
 
         return view($view, [
-            'graphql_schema' => 'graphql_schema',
             'graphqlPath' => $graphqlPath,
             'schema' => $schemaName,
         ]);
@@ -231,5 +221,16 @@ class GraphQLController extends Controller
         }
 
         return $data;
+    }
+
+    protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
+    {
+        $path = $request->path();
+
+        if (!Str::startsWith($path, $routePrefix)) {
+            return null;
+        }
+
+        return Str::after($path, $routePrefix);
     }
 }
