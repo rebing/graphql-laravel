@@ -14,7 +14,6 @@ parameters:
     checkUninitializedProperties: true
     checkModelProperties: true
     ignoreErrors:
-        - '/Cannot access property \$parameters on mixed/'
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         # tests/Unit/GraphQLTest.php
@@ -27,7 +26,6 @@ parameters:
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # tests/Unit/EndpointTest.php
         - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
-        - '/Parameter #1 \$array of static method Illuminate\\Support\\Arr::get\(\) expects array\|ArrayAccess/'
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/nunomaduro/larastan/issues/611
         -

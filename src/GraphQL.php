@@ -479,28 +479,6 @@ class GraphQL
     }
 
     /**
-     * Check if the schema expects a nest URI name and return the formatted version
-     * Eg. 'user/me'
-     * will open the query path /graphql/user/me.
-     */
-    public static function routeNameTransformer(string $name, string $schemaParameterPattern, string $queryRoute): string
-    {
-        $multiLevelPath = explode('/', $name);
-        $routeName = null;
-
-        if (count($multiLevelPath) > 1) {
-            foreach ($multiLevelPath as $multiName) {
-                $routeName = !$routeName ? null : $routeName . '/';
-                $routeName =
-                    $routeName
-                    . preg_replace($schemaParameterPattern, '{' . $multiName . '}', $queryRoute);
-            }
-        }
-
-        return $routeName ?: preg_replace($schemaParameterPattern, '{' . $name . '}', $queryRoute);
-    }
-
-    /**
      * @param array|string|null $schema
      * @return array|Schema
      */

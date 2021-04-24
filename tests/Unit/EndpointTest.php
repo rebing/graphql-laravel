@@ -226,4 +226,15 @@ class EndpointTest extends TestCase
         $response->assertSee('return fetch(\'/graphql\', {', false);
         $response->assertSee("'x-csrf-token': xcsrfToken || ''", false);
     }
+
+    public function testGetGraphiQLCustomSchema(): void
+    {
+        $response = $this->call('GET', '/graphiql/custom');
+
+        // Are we seeing the right template?
+        $response->assertSee('This GraphiQL example illustrates how to use some of GraphiQL\'s props', false);
+        // The argument to fetch is extracted from the configuration
+        $response->assertSee('return fetch(\'/graphql/custom\', {', false);
+        $response->assertSee("'x-csrf-token': xcsrfToken || ''", false);
+    }
 }

@@ -5,7 +5,6 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SchemaHyphenInPathTest extends TestCase
 {
@@ -33,8 +32,6 @@ GRAPHQL;
         $response = $this->call('GET', '/graphql/with-hyphen', [
             'query' => $graphql,
         ]);
-
-        $this->expectException(NotFoundHttpException::class);
 
         $result = $response->json();
 

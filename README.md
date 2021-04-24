@@ -2596,22 +2596,20 @@ and set it to `true`.
 
 ## Configuration options
 
-- `prefix`\
-  The route prefix to your GraphQL endpoint without the leading `/`.\
-  The default makes the API available via `/graphql`
-- `routes`\
-  The route itself. The default `{graphql_schema?}` is a place holder which gets
-  dynamically resolved whether you request a specific or the default schema
-  - Default schema: `/graphql`
-  - Specific schema: `/gaphql/specificschema`
-- `controllers`\
-  Allows overriding the default controller class, in case you want to extend or
-  replace the existing one.
-- `middleware`\
-  Global GraphQL middleware applying in case no schema-specific middleware was
-  provided
-- `route_group_attributes`\
-  Additional route group attributes
+- `route`\
+  Holds all the configuration for the route group. Each schema will be available
+  via its name as a dedicated route.
+  - `prefix`\
+    The route prefix to your GraphQL endpoint without the leading `/`.\
+    The default makes the API available via `/graphql`
+  - `controller`\
+    Allows overriding the default controller class, in case you want to extend or
+    replace the existing one.
+  - `middleware`\
+    Global GraphQL middleware applying in case no schema-specific middleware was
+    provided
+  - `group_attributes`\
+    Additional route group attributes
 - `default_schema`\
   The name of the default schema used, when none is provided via the route
 - `batching`\
