@@ -2616,7 +2616,7 @@ and set it to `true`.
   - 'enable'\
     Whether to support GraphQL batching or not
 - `lazyload_types`\
-  The types will be loaded on demand. Recommended being enabled as it improves
+  The types will be loaded on demand. Enabled by default as it improves
   performance. Cannot be used with type aliasing.
 - `error_formatter`\
   This callable will be passed the Error object for each errors GraphQL catch.
@@ -2747,8 +2747,8 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 
 Lazy loading of types is a way of improving the start up performance.
 
-If you are declaring types using aliases it is not supported.
-If that is not the case, you can enable it with `lazyload_types` set to `true`.
+If you are declaring types using aliases, this is not supported and you need to
+set `lazyload_types` set to `false`.
 
 #### Example of aliasing **not** supported by lazy loading
 
