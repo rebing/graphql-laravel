@@ -1131,7 +1131,7 @@ class Logstash extends Middleware
                 'operation' => $info->operation->name->value ?? null,
                 'type' => $info->operation->operation,
                 'fields' => array_keys(Arr::dot($info->getFieldSelection($depth = PHP_INT_MAX))),
-                'schema' => Arr::first(Route::current()->parameters()) ?? config('graphql.default_schema'),
+                'schema' => Arr::first(Route::current()->parameters()) ?? config('graphql.default_schema', 'default'),
                 'vars' => $this->formatVariableDefinitions($info->operation->variableDefinitions),
             ])
                 ->when($result instanceof Countable, function ($metadata) use ($result) {

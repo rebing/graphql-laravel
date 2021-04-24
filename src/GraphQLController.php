@@ -179,7 +179,7 @@ class GraphQLController extends Controller
         $routePrefix = config('graphql.graphiql.prefix', 'graphiql');
         $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/");
 
-        $graphqlPath = '/' . config('graphql.route.prefix');
+        $graphqlPath = '/' . config('graphql.route.prefix', 'graphql');
 
         if ($schemaName) {
             $graphqlPath .= '/' . $schemaName;

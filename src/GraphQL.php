@@ -506,7 +506,7 @@ class GraphQL
             } catch (SchemaNotFound $e) {
                 return null;
             }
-        }, config('graphql.schemas')));
+        }, config('graphql.schemas', [])));
     }
 
     /**

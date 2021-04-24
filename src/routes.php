@@ -75,7 +75,7 @@ if (config('graphql.graphiql.display', true)) {
 
             // A graphiql route for each schema…
             /** @var string $schemaName */
-            foreach (array_keys(config('graphql.schemas')) as $schemaName) {
+            foreach (array_keys(config('graphql.schemas', [])) as $schemaName) {
                 $router->get(
                     $schemaName,
                     $actions + ['as' => "graphql.graphiql.$schemaName"]
