@@ -48,7 +48,7 @@ CHANGELOG
 - Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
   - batched queries will only work with `POST` requests
     This is due to `RequestParser` using `\GraphQL\Server\Helper::parseRequestParams` which includes this check
-  - Drop support for configuration the name of the variable for the variables
+  - Drop support for configuration the name of the variable for the variables (`params_key`)
   - `GraphQLUploadMiddleware` has been removed (`RequestParser` includes this functionality)
   - Empty GraphQL queries now return a proper validated GraphQL error
   - Signature changes In `\Rebing\GraphQL\GraphQLController`:
