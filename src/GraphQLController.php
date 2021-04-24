@@ -22,13 +22,11 @@ use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 
 class GraphQLController extends Controller
 {
-    public function query(Request $request): JsonResponse
+    public function query(Request $request, RequestParser $parser): JsonResponse
     {
         $routePrefix = config('graphql.route.prefix', 'graphql');
         $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? config('graphql.default_schema', 'default');
 
-        /** @var RequestParser $parser */
-        $parser = Container::getInstance()->make(RequestParser::class);
         $operations = $parser->parseRequest($request);
 
         $headers = config('graphql.headers', []);
