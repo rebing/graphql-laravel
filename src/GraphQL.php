@@ -18,6 +18,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -118,6 +119,17 @@ class GraphQL
      */
     public function query($query, ?array $variables = [], array $opts = []): array
     {
+        $middlewareResponse = app()->make(Pipeline::class)
+            ->send([$query, $variables])
+            ->through($this->executionMiddleware())
+            ->via('resolve')
+            ->thenReturn();
+
+        if (1 === count($middlewareResponse)) {
+            return $middlewareResponse;
+        }
+        [$query, $variables] = $middlewareResponse;
+
         $result = $this->queryAndReturnResult($query, $variables, $opts);
 
         return $this->decorateExecutionResult($result)->toArray();
@@ -149,6 +161,14 @@ class GraphQL
         }
 
         return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function executionMiddleware(): array
+    {
+        return config('graphql.execution_middleware', []);
     }
 
     public function addTypes(array $types): void
