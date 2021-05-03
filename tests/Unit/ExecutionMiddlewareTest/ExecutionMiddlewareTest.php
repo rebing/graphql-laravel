@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\TestCase;
 
-
 class ExecutionMiddlewareTest extends TestCase
 {
     public function testMiddlewareCanReturnResponse(): void
@@ -22,7 +21,7 @@ class ExecutionMiddlewareTest extends TestCase
         self::assertArrayHasKey('data', $result);
 
         self::assertEquals($result['data'], [
-            'examples' => [['test' => 'Cached response']]
+            'examples' => [['test' => 'Cached response']],
         ]);
     }
 

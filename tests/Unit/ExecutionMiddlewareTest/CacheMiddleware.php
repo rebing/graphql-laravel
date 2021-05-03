@@ -11,7 +11,6 @@ class CacheMiddleware extends ExecutionMiddleware
     /**
      * @param string|mixed $query
      * @param array<string,mixed> $args
-     * @param Closure $next
      * @return Closure|array<mixed>
      */
     public function handle($query, $args, Closure $next)
