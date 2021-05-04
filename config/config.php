@@ -210,6 +210,9 @@ return [
      * Execution middlewares
      */
     'execution_middleware' => [
-        //\Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
+        \Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware::class,
+        \Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware::class,
+        \Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware::class,
+        // \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
     ],
 ];
