@@ -157,7 +157,7 @@ class GraphQL
     /**
      * @return array<string>
      */
-    public function executionMiddleware(?string $schemaName): array
+    protected function executionMiddleware(?string $schemaName): array
     {
         $executionMiddleware = $schemaName
             ? config("graphql.$schemaName.execution_middleware")
