@@ -211,5 +211,5 @@ return [
      */
     'execution_middleware' => [
         //\Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
-    ]
+    ],
 ];

@@ -3,8 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware;
+use Rebing\GraphQL\Tests\TestCase;
 
 class UnusedVariablesTest extends TestCase
 {

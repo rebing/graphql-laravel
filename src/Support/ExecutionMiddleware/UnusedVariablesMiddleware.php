@@ -5,10 +5,9 @@ namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
 use GraphQL\Error\Error;
-use GraphQL\Language\Parser;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Language\AST\OperationDefinitionNode;
-use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
+use GraphQL\Language\Parser;
 
 class UnusedVariablesMiddleware extends ExecutionMiddleware
 {
@@ -42,7 +41,7 @@ class UnusedVariablesMiddleware extends ExecutionMiddleware
                 'The following variables were provided but not consumed: %s',
                 implode(', ', array_keys($unusedVariables))
             );
-    
+
             return new ExecutionResult(null, [new Error($msg)]);
         }
 

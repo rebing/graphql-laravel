@@ -11,8 +11,6 @@ use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Language\AST\DocumentNode;
-use GraphQL\Language\AST\OperationDefinitionNode;
-use GraphQL\Language\Parser;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -146,7 +144,7 @@ class GraphQL
             ->via('resolve')
             ->thenReturn();
 
-        if ($middlewareResponse instanceOf ExecutionResult) {
+        if ($middlewareResponse instanceof ExecutionResult) {
             return $middlewareResponse;
         }
 
@@ -554,5 +552,4 @@ class GraphQL
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
     }
-
 }
