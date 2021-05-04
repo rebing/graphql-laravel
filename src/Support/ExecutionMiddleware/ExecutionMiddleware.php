@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types = 1);
-namespace Rebing\GraphQL\Support;
+namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
 

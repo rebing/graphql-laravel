@@ -207,7 +207,11 @@ return [
     ],
 
     /*
-     * If enabled, variables provided but not consumed by the query will throw an error
+     * Execution middlewares
      */
-    'detect_unused_variables' => false,
+    'execution_middleware' => [
+        //\Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
+        //\Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware::class,
+
+    ]
 ];

@@ -4,7 +4,8 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Closure;
-use Rebing\GraphQL\Support\ExecutionMiddleware;
+use GraphQL\Executor\ExecutionResult;
+use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
 
 class CacheMiddleware extends ExecutionMiddleware
 {
@@ -15,10 +16,8 @@ class CacheMiddleware extends ExecutionMiddleware
      */
     public function handle($query, $args, Closure $next)
     {
-        return [
-            'data' => [
+        return new ExecutionResult([
                 'examples' => [['test' => 'Cached response']],
-            ],
-        ];
+        ]);
     }
 }

@@ -119,17 +119,6 @@ class GraphQL
      */
     public function query($query, ?array $variables = [], array $opts = []): array
     {
-        $middlewareResponse = app()->make(Pipeline::class)
-            ->send([$query, $variables])
-            ->through($this->executionMiddleware())
-            ->via('resolve')
-            ->thenReturn();
-
-        if (1 === count($middlewareResponse)) {
-            return $middlewareResponse;
-        }
-        [$query, $variables] = $middlewareResponse;
-
         $result = $this->queryAndReturnResult($query, $variables, $opts);
 
         return $this->decorateExecutionResult($result)->toArray();
@@ -150,15 +139,18 @@ class GraphQL
         $schema = $this->schema($schemaName);
 
         $defaultFieldResolver = config('graphql.defaultFieldResolver');
-        $detectUnusedVariables = config('graphql.detect_unused_variables', false);
 
-        if ($variables && $detectUnusedVariables) {
-            $result = $this->detectUnusedVariables($query, $variables);
+        $middlewareResponse = app()->make(Pipeline::class)
+            ->send([$query, $variables])
+            ->through($this->executionMiddleware())
+            ->via('resolve')
+            ->thenReturn();
 
-            if ($result) {
-                return $result;
-            }
+        if ($middlewareResponse instanceOf ExecutionResult) {
+            return $middlewareResponse;
         }
+
+        [$query, $variables] = $middlewareResponse;
 
         return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
     }
@@ -563,44 +555,4 @@ class GraphQL
             ->setErrorFormatter($errorFormatter);
     }
 
-    /**
-     * Returning an ExecutionResult here is an indicator of an error
-     * (either due to parsing the query or because unused variables were detected).
-     *
-     * Otherwise "all is good" and `null` is an indicator to carry on.
-     *
-     * @param string|DocumentNode $query
-     * @param array<string,mixed> $variables
-     */
-    protected function detectUnusedVariables($query, array $variables): ?ExecutionResult
-    {
-        if (is_string($query)) {
-            try {
-                $query = Parser::parse($query);
-            } catch (Error $error) {
-                return new ExecutionResult(null, [$error]);
-            }
-        }
-
-        $unusedVariables = $variables;
-
-        foreach ($query->definitions as $definition) {
-            if ($definition instanceof OperationDefinitionNode) {
-                foreach ($definition->variableDefinitions as $variableDefinition) {
-                    unset($unusedVariables[$variableDefinition->variable->name->value]);
-                }
-            }
-        }
-
-        if (!$unusedVariables) {
-            return null;
-        }
-
-        $msg = sprintf(
-            'The following variables were provided but not consumed: %s',
-            implode(', ', array_keys($unusedVariables))
-        );
-
-        return new ExecutionResult(null, [new Error($msg)]);
-    }
 }

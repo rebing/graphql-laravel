@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Closure;
-use Rebing\GraphQL\Support\ExecutionMiddleware;
+use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
 
 class ChangeVariableMiddleware extends ExecutionMiddleware
 {

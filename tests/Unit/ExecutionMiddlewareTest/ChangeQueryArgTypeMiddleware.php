@@ -4,10 +4,10 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Closure;
-use GraphQL\Language\AST\NodeKind;
 use GraphQL\Language\Parser;
 use GraphQL\Language\Visitor;
-use Rebing\GraphQL\Support\ExecutionMiddleware;
+use GraphQL\Language\AST\NodeKind;
+use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
 
 class ChangeQueryArgTypeMiddleware extends ExecutionMiddleware
 {
