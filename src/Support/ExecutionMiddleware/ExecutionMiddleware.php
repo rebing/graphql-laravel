@@ -12,7 +12,7 @@ abstract class ExecutionMiddleware
      * @param array<mixed>|mixed $args
      * @return Closure|array<mixed>
      */
-    public function handle($query, $args, array $opts = [], Closure $next)
+    public function handle($query, $args, array $opts, Closure $next)
     {
         return $next($query, $args, $opts);
     }

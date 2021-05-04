@@ -13,7 +13,7 @@ class ChangeVariableMiddleware extends ExecutionMiddleware
      * @param array<string,mixed> $args
      * @return Closure|array<mixed>
      */
-    public function handle($query, $args, array $opts = [], Closure $next)
+    public function handle($query, $args, array $opts, Closure $next)
     {
         $args['index'] = (int) $args['index'];
 
