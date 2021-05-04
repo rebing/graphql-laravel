@@ -5,18 +5,18 @@ namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Closure;
 use GraphQL\Language\AST\NodeKind;
-use GraphQL\Language\Parser;
 use GraphQL\Language\Visitor;
-use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
+use Rebing\GraphQL\Support\ExecutionMiddleware\AbstractExecutionMiddleware;
+use Rebing\GraphQL\Support\OperationParams;
 
-class ChangeQueryArgTypeMiddleware extends ExecutionMiddleware
+class ChangeQueryArgTypeMiddleware extends AbstractExecutionMiddleware
 {
     /**
      * @inheritdoc
      */
-    public function handle($query, $args, array $opts, Closure $next)
+    public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next)
     {
-        $query = Parser::parse($query);
+        $query = $params->getParsedQuery();
 
         Visitor::visit($query, [
             NodeKind::VARIABLE_DEFINITION => function ($node, $key, $parent, $path, $ancestors) {
@@ -26,6 +26,6 @@ class ChangeQueryArgTypeMiddleware extends ExecutionMiddleware
             },
         ]);
 
-        return $next($query, $args, $opts);
+        return $next($schemaName, $params, $rootValue, $contextValue);
     }
 }
