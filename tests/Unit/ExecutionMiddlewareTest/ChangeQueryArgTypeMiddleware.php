@@ -16,7 +16,7 @@ class ChangeQueryArgTypeMiddleware extends ExecutionMiddleware
      * @param array<string,mixed> $args
      * @return Closure|array<mixed>
      */
-    public function handle($query, $args, Closure $next)
+    public function handle($query, $args, array $opts = [], Closure $next)
     {
         $query = Parser::parse($query);
 
@@ -28,6 +28,6 @@ class ChangeQueryArgTypeMiddleware extends ExecutionMiddleware
             },
         ]);
 
-        return $next($query, $args);
+        return $next($query, $args, $opts);
     }
 }

@@ -141,7 +141,7 @@ class GraphQL
         $defaultFieldResolver = config('graphql.defaultFieldResolver');
 
         $middlewareResponse = app()->make(Pipeline::class)
-            ->send([$query, $variables])
+            ->send([$query, $variables, $opts])
             ->through($this->executionMiddleware())
             ->via('resolve')
             ->thenReturn();

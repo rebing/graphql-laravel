@@ -92,7 +92,7 @@ class GraphQLController extends Controller
         }
 
         return $graphql->query(
-            $params->query,
+            $parsedQuery ?? $query,
             $params->variables,
             [
                 'context' => $this->queryContext($query, $params->variables, $schemaName),

@@ -17,7 +17,7 @@ class UnusedVariablesMiddleware extends ExecutionMiddleware
      * @param array<string,mixed> $args
      * @return Closure|array<mixed>
      */
-    public function handle($query, $args, Closure $next)
+    public function handle($query, $args, array $opts = [], Closure $next)
     {
         if (is_string($query)) {
             try {
@@ -46,6 +46,6 @@ class UnusedVariablesMiddleware extends ExecutionMiddleware
             return new ExecutionResult(null, [new Error($msg)]);
         }
 
-        return $next($query, $args);
+        return $next($query, $args, $opts);
     }
 }
