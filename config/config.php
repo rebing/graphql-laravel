@@ -45,7 +45,7 @@ return [
     //      'default' => [
     //          'controller' => MyController::class . '@method',
     //          'query' => [
-    //              App\GraphQL\Query\UsersQuery::class,
+    //              App\GraphQL\Queries\UsersQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -53,7 +53,7 @@ return [
     //      ],
     //      'user' => [
     //          'query' => [
-    //              App\GraphQL\Query\ProfileQuery::class,
+    //              App\GraphQL\Queries\ProfileQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -62,7 +62,7 @@ return [
     //      ],
     //      'user/me' => [
     //          'query' => [
-    //              App\GraphQL\Query\MyProfileQuery::class,
+    //              App\GraphQL\Queries\MyProfileQuery::class,
     //          ],
     //          'mutation' => [
     //
@@ -94,7 +94,7 @@ return [
     // Example:
     //
     // 'types' => [
-    //     App\GraphQL\Type\UserType::class
+    //     App\GraphQL\Types\UserType::class
     // ]
     //
     'types' => [
