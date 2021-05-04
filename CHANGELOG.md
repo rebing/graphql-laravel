@@ -45,9 +45,14 @@ CHANGELOG
   
 - Support for Lumen has been removed
   
-- Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)
+- Integrate laragraph/utils RequestParser [\#739 / mfn](https://github.com/rebing/graphql-laravel/pull/739)\
+  The parsing of GraphQL requests is now more strict:
+  - if you send a `GET` request, the GraphQL query has to be in the query parameters
+  - if you send a `POST` request, the GraphQL query needs to be in the body\
+    Mixing of either isn't possible anymore
   - batched queries will only work with `POST` requests
     This is due to `RequestParser` using `\GraphQL\Server\Helper::parseRequestParams` which includes this check
+  Further:  
   - Drop support for configuration the name of the variable for the variables (`params_key`)
   - `GraphQLUploadMiddleware` has been removed (`RequestParser` includes this functionality)
   - Empty GraphQL queries now return a proper validated GraphQL error
