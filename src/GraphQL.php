@@ -9,8 +9,6 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
-use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Language\AST\DocumentNode;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -25,6 +23,8 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
+use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
 
@@ -111,47 +111,32 @@ class GraphQL
     }
 
     /**
-     * @param string|DocumentNode $query
-     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
-     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @param mixed $rootValue
+     * @param mixed $contextValue
+     * @return array<string,mixed>
      */
-    public function query($query, ?array $variables = [], array $opts = []): array
+    public function query(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
     {
-        $result = $this->queryAndReturnResult($query, $variables, $opts);
+        try {
+            $result = $this->queryAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
+        } catch (Error $error) {
+            $result = new ExecutionResult(null, [$error]);
+        }
 
         return $this->decorateExecutionResult($result)->toArray();
     }
 
     /**
-     * @param string|DocumentNode $query
-     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
-     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @param mixed $rootValue
+     * @param mixed $contextValue
      */
-    public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
+    public function queryAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
-        $context = $opts['context'] ?? null;
-        $schema = $opts['schema'] ?? config('graphql.default_schema');
-        $schemaName = is_string($schema) ? $schema : null;
-        $operationName = $opts['operationName'] ?? null;
-        $rootValue = $opts['rootValue'] ?? null;
-
-        $schema = $this->schema($schema);
-
-        $defaultFieldResolver = config('graphql.defaultFieldResolver');
-
-        $middlewareResponse = $this->app->make(Pipeline::class)
-            ->send([$query, $variables, $opts])
+        return $this->app->make(Pipeline::class)
+            ->send([$schemaName, $params, $rootValue, $contextValue])
             ->through($this->executionMiddleware($schemaName))
             ->via('resolve')
             ->thenReturn();
-
-        if ($middlewareResponse instanceof ExecutionResult) {
-            return $middlewareResponse;
-        }
-
-        [$query, $variables] = $middlewareResponse;
-
-        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
     }
 
     /**
@@ -163,10 +148,22 @@ class GraphQL
             ? config("graphql.$schemaName.execution_middleware")
             : null;
 
-        return
+        return $this->appendGraphqlExecutionMiddleware(
             $executionMiddleware ??
             config('graphql.execution_middleware') ??
-            [];
+            []
+        );
+    }
+
+    /**
+     * @phpstan-param array<class-string> $middlewares
+     * @phpstan-return array<class-string>
+     */
+    protected function appendGraphqlExecutionMiddleware(array $middlewares): array
+    {
+        $middlewares[] = GraphqlExecutionMiddleware::class;
+
+        return $middlewares;
     }
 
     public function addTypes(array $types): void
