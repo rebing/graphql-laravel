@@ -56,29 +56,9 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:executeQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQLController.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:queryContext\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: src/GraphQLController.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQLController.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLServiceProvider\\:\\:provides\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -144,6 +124,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:orderPaths\\(\\) has parameter \\$paths with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
+
+		-
+			message: "#^Parameter \\#2 \\$params of method Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\:\\:handle\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, Closure\\(\\.\\.\\.mixed\\)\\: mixed given\\.$#"
+			count: 1
+			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
 		-
 			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
@@ -259,6 +244,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:resolve\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Middleware.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Support/OperationParams.php
 
 		-
 			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
@@ -494,16 +484,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLContext\\:\\:\\$data has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/GraphQLContext.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/AuthorizeArgsTests/GraphQLController.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -1054,16 +1034,6 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLContext\\:\\:\\$data has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLContext.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\GraphQLController\\:\\:queryContext\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLController.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\QueryArgsAndContextTests\\\\PostType\\:\\:\\$attributes has no typehint specified\\.$#"
@@ -2036,6 +2006,21 @@ parameters:
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
+			message: "#^Offset 'index' does not exist on array\\<string, mixed\\>\\|null\\.$#"
+			count: 1
+			path: tests/Unit/ExecutionMiddlewareTest/ChangeVariableMiddleware.php
+
+		-
+			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, array\\<string, int\\> given\\.$#"
+			count: 2
+			path: tests/Unit/ExecutionMiddlewareTest/ExecutionMiddlewareTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, array\\<string, string\\> given\\.$#"
+			count: 1
+			path: tests/Unit/ExecutionMiddlewareTest/ExecutionMiddlewareTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\FieldTest\\:\\:getFieldClass\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Unit/FieldTest.php
@@ -2044,6 +2029,16 @@ parameters:
 			message: "#^Unable to resolve the template type RealInstanceType in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
 			count: 1
 			path: tests/Unit/FieldTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, null given\\.$#"
+			count: 2
+			path: tests/Unit/GraphQLTest.php
+
+		-
+			message: "#^Static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:queryAndReturnResult\\(\\) invoked with 1 parameter, 2\\-4 required\\.$#"
+			count: 1
+			path: tests/Unit/GraphQLTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
