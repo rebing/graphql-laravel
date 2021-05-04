@@ -10,9 +10,7 @@ use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
 class CacheMiddleware extends ExecutionMiddleware
 {
     /**
-     * @param string|mixed $query
-     * @param array<string,mixed> $args
-     * @return Closure|array<mixed>
+     * @inheritdoc
      */
     public function handle($query, $args, array $opts, Closure $next)
     {

@@ -12,9 +12,7 @@ use GraphQL\Language\Parser;
 class UnusedVariablesMiddleware extends ExecutionMiddleware
 {
     /**
-     * @param string|mixed $query
-     * @param array<string,mixed> $args
-     * @return Closure|array<mixed>
+     * @inheritdoc
      */
     public function handle($query, $args, array $opts, Closure $next)
     {

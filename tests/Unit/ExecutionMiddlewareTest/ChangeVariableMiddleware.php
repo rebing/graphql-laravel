@@ -9,9 +9,7 @@ use Rebing\GraphQL\Support\ExecutionMiddleware\ExecutionMiddleware;
 class ChangeVariableMiddleware extends ExecutionMiddleware
 {
     /**
-     * @param string|mixed $query
-     * @param array<string,mixed> $args
-     * @return Closure|array<mixed>
+     * @inheritdoc
      */
     public function handle($query, $args, array $opts, Closure $next)
     {
