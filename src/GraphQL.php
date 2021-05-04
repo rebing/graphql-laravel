@@ -130,17 +130,18 @@ class GraphQL
     public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
-        $schemaName = $opts['schema'] ?? null;
+        $schema = $opts['schema'] ?? config('graphql.default_schema');
+        $schemaName = is_string($schema) ? $schema : null;
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
-        $schema = $this->schema($schemaName);
+        $schema = $this->schema($schema);
 
         $defaultFieldResolver = config('graphql.defaultFieldResolver');
 
         $middlewareResponse = $this->app->make(Pipeline::class)
             ->send([$query, $variables, $opts])
-            ->through($this->executionMiddleware())
+            ->through($this->executionMiddleware($schemaName))
             ->via('resolve')
             ->thenReturn();
 
@@ -156,9 +157,16 @@ class GraphQL
     /**
      * @return array<string>
      */
-    public function executionMiddleware(): array
+    public function executionMiddleware(?string $schemaName): array
     {
-        return config('graphql.execution_middleware', []);
+        $executionMiddleware = $schemaName
+            ? config("graphql.$schemaName.execution_middleware")
+            : null;
+
+        return
+            $executionMiddleware ??
+            config('graphql.execution_middleware') ??
+            [];
     }
 
     public function addTypes(array $types): void
