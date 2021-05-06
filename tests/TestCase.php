@@ -200,16 +200,24 @@ class TestCase extends BaseTestCase
      * @param array<string,mixed> $options
      *                                     Supports the following options:
      *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
+     *                                     - `variables` (default: null): GraphQL variables for the query
      * @return array<string,mixed> GraphQL result
      */
     protected function httpGraphql(string $query, array $options = []): array
     {
         $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
+        $variables = $options['variables'] ?? null;
+
+        $payload = [
+            'query' => $query,
+        ];
+
+        if ($variables) {
+            $payload['variables'] = $variables;
+        }
 
         /** @var JsonResponse $response */
-        $response = $this->json('POST', '/graphql', [
-            'query' => $query,
-        ]);
+        $response = $this->json('POST', '/graphql', $payload);
 
         $httpStatusCode = $response->getStatusCode();
 
