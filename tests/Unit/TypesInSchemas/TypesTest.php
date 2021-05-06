@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\TypesInSchemas;
 
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\TestCase;
 
 class TypesTest extends TestCase
@@ -36,7 +37,7 @@ class TypesTest extends TestCase
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
 
         $expected = [
             'data' => [
@@ -67,7 +68,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
 
         $expected = [
             'data' => [
@@ -98,7 +99,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query, [
+        $actual = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 
@@ -140,10 +141,8 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query, [
-            'opts' => [
-                'schema' => 'custom',
-            ],
+        $actual = GraphQL::query($query, null, [
+            'schema' => 'custom',
         ]);
 
         $expected = [
@@ -175,10 +174,8 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query, [
-            'opts' => [
-                'schema' => 'custom',
-            ],
+        $actual = GraphQL::query($query, null, [
+            'schema' => 'custom',
         ]);
 
         $expected = [
@@ -218,7 +215,8 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
+
         $expected = [
             'data' => [
                 'query' => [
@@ -235,11 +233,10 @@ GRAPHQL;
     }
 }
 GRAPHQL;
-        $actual = $this->graphql($query, [
-            'opts' => [
-                'schema' => 'custom',
-            ],
+        $actual = GraphQL::query($query, null, [
+            'schema' => 'custom',
         ]);
+
         $expected = [
             'data' => [
                 'query' => [
@@ -274,7 +271,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
         $expected = [
             'data' => [
                 'query' => [
@@ -291,9 +288,10 @@ GRAPHQL;
     }
 }
 GRAPHQL;
-        $actual = $this->graphql($query, [
+        $actual = GraphQL::query($query, null, [
             'schema' => 'custom',
         ]);
+
         $expected = [
             'data' => [
                 'query' => [
@@ -328,7 +326,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
         $expected = [
             'data' => [
                 'query' => [
@@ -345,7 +343,7 @@ GRAPHQL;
     }
 }
 GRAPHQL;
-        $actual = $this->graphql($query, [
+        $actual = $this->httpGraphql($query, [
             'expectErrors' => true,
             'schema' => 'custom',
         ]);

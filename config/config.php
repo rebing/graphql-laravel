@@ -84,7 +84,6 @@ return [
                 // ExampleType::class,
             ],
             'middleware' => [],
-            'method' => ['get', 'post'],
         ],
     ],
 

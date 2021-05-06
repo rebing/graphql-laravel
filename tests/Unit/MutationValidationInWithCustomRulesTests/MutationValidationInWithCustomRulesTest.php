@@ -26,7 +26,7 @@ mutation Mutate($arg_in_rule_pass: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'arg_in_rule_pass' => 'valid_name',
         ]);
 
@@ -46,7 +46,7 @@ mutation Mutate($arg_in_rule_fail: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_in_rule_fail' => 'valid_name',
@@ -88,7 +88,7 @@ mutation Mutate($arg_in_rule_pass: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_in_rule_pass' => 'invalid_name',
@@ -130,7 +130,7 @@ mutation Mutate($arg_in_rule_fail: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_in_rule_fail' => 'invalid_name',

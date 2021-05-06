@@ -34,7 +34,7 @@ class ScalarTypeTest extends TestCase
 }
 GRAPHQL;
 
-        $result = $this->graphql($query);
+        $result = $this->httpGraphql($query);
 
         $expectedResult = [
             'data' => [

@@ -24,7 +24,7 @@ query {
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 

@@ -39,7 +39,7 @@ class WithTypeTests extends TestCase
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query);
+        $result = $this->httpGraphql($query);
 
         $expectedResult = [
             'data' => [

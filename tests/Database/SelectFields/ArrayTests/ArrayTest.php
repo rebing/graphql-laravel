@@ -53,7 +53,7 @@ class ArrayTest extends TestCaseDatabase
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query);
+        $result = $this->httpGraphql($query);
 
         $expectedResult = [
             'data' => [
