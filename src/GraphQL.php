@@ -71,7 +71,7 @@ class GraphQL
             return $schema;
         }
 
-        $schemaQuery = $schema['query'] ?? [];
+        $schemaQuery = $schema['query'];
         $schemaMutation = $schema['mutation'] ?? [];
         $schemaSubscription = $schema['subscription'] ?? [];
         $schemaTypes = $schema['types'] ?? [];
