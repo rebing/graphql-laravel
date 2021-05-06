@@ -28,6 +28,8 @@ CHANGELOG
     - 1 route for each schema + 1 route for the group prefix (default schema)
     - If GraphiQL is enabled: 1 route graphiql route for each schema + 1 for the
       graphiql group prefix (default schema)
+    - This also means that the per schema config key `method` (aka HTTP method)
+      is not supported anymore
   - It's now possible to prevent the registering of any routes by making the top
     level `route` an empty array or null
   - `\Rebing\GraphQL\GraphQL::routeNameTransformer` has been removed
