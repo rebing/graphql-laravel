@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ExecutionMiddlewareTest extends TestCase
@@ -14,8 +13,10 @@ class ExecutionMiddlewareTest extends TestCase
             CacheMiddleware::class,
         ]);
 
-        $result = GraphQL::query($this->queries['examplesWithVariables'], [
-            'index' => 1,
+        $result = $this->httpGraphql($this->queries['examplesWithVariables'], [
+            'variables' => [
+                'index' => 1,
+            ],
         ]);
 
         self::assertArrayHasKey('data', $result);
@@ -31,8 +32,10 @@ class ExecutionMiddlewareTest extends TestCase
             ChangeVariableMiddleware::class,
         ]);
 
-        $result = GraphQL::query($this->queries['examplesWithVariables'], [
-            'index' => '1',
+        $result = $this->httpGraphql($this->queries['examplesWithVariables'], [
+            'variables' => [
+                'index' => '1',
+            ],
         ]);
 
         self::assertArrayHasKey('data', $result);
@@ -47,8 +50,10 @@ class ExecutionMiddlewareTest extends TestCase
             ChangeQueryArgTypeMiddleware::class,
         ]);
 
-        $result = GraphQL::query($this->queries['examplesWithWrongTypeOfArgument'], [
-            'indexVariable' => 1,
+        $result = $this->httpGraphql($this->queries['examplesWithWrongTypeOfArgument'], [
+            'variables' => [
+                'indexVariable' => 1,
+            ],
         ]);
 
         self::assertArrayHasKey('data', $result);
