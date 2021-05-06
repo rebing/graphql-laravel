@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
 use Mockery;
 use Mockery\MockInterface;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
@@ -550,16 +551,14 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $options = [
-            'opts' => [
-                'context' => [
-                    'arg_from_context_true' => true,
-                    'arg_from_context_false' => false,
-                ],
+        $opts = [
+            'context' => [
+                'arg_from_context_true' => true,
+                'arg_from_context_false' => false,
             ],
         ];
 
-        $result = $this->graphql($query, $options);
+        $result = GraphQL::query($query, null, $opts);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -599,16 +598,14 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $options = [
-            'opts' => [
-                'context' => [
-                    'arg_from_context_true' => true,
-                    'arg_from_context_false' => false,
-                ],
+        $opts = [
+            'context' => [
+                'arg_from_context_true' => true,
+                'arg_from_context_false' => false,
             ],
         ];
 
-        $result = $this->graphql($query, $options);
+        $result = GraphQL::query($query, null, $opts);
 
         $this->assertSqlQueries(
             <<<'SQL'

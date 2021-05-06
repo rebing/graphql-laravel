@@ -155,46 +155,6 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Helper to dispatch an internal GraphQL requests.
-     *
-     * @param array<string,mixed> $options Supports the following options:
-     *                                     - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
-     *                                     - `variables` (default: null): GraphQL variables for the query
-     *                                     - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
-     *
-     * @return array<string,mixed> GraphQL result
-     */
-    protected function graphql(string $query, array $options = []): array
-    {
-        $expectErrors = $options['expectErrors'] ?? false;
-        $variables = $options['variables'] ?? null;
-        $opts = $options['opts'] ?? [];
-
-        $result = GraphQL::query($query, $variables, $opts);
-
-        $assertMessage = null;
-
-        if (!$expectErrors && isset($result['errors'])) {
-            $appendErrors = '';
-
-            if (isset($result['errors'][0]['trace'])) {
-                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['trace']);
-            }
-
-            $assertMessage = "Probably unexpected error in GraphQL response:\n"
-                . var_export($result, true)
-                . $appendErrors;
-        }
-        unset($result['errors'][0]['trace']);
-
-        if ($assertMessage) {
-            throw new ExpectationFailedException($assertMessage);
-        }
-
-        return $result;
-    }
-
-    /**
      * Helper to dispatch an HTTP GraphQL requests.
      *
      * @param array<string,mixed> $options
