@@ -183,7 +183,7 @@ It is required when 'lazyload_types' is enabled";
 
     public function testQueryWithValidation(): void
     {
-        $result = $this->graphql($this->queries['examplesWithValidation'], [
+        $result = $this->httpGraphql($this->queries['examplesWithValidation'], [
             'variables' => [
                 'index' => 0,
             ],

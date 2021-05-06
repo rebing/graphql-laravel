@@ -26,7 +26,7 @@ mutation Mutate($arg_in_rule_pass: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'arg_in_rule_pass' => 'valid_name',
         ]);
 

@@ -36,7 +36,7 @@ class TypesTest extends TestCase
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
 
         $expected = [
             'data' => [
@@ -67,7 +67,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
 
         $expected = [
             'data' => [
@@ -274,7 +274,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
         $expected = [
             'data' => [
                 'query' => [
@@ -328,7 +328,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
         $expected = [
             'data' => [
                 'query' => [
@@ -345,7 +345,7 @@ GRAPHQL;
     }
 }
 GRAPHQL;
-        $actual = $this->graphql($query, [
+        $actual = $this->httpGraphql($query, [
             'expectErrors' => true,
             'schema' => 'custom',
         ]);

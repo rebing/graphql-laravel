@@ -37,7 +37,7 @@ class InstantiableTypesTest extends TestCase
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query);
+        $result = $this->httpGraphql($query);
 
         $dateOfBirth = Carbon::today()->addMonth();
         $createdAt = Carbon::today();

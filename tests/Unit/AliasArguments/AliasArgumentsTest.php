@@ -53,7 +53,7 @@ class AliasArgumentsTest extends TestCase
             }
         ';
 
-        $response = $this->graphql($query, [
+        $response = $this->httpGraphql($query, [
             'variables' => [
                 'exampleValidationInputObject' => [
                     'nullValue' => null,
