@@ -117,6 +117,7 @@ class GraphQL
      * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @return array<string,mixed>
      */
     public function query($query, ?array $variables = [], array $opts = []): array
     {
