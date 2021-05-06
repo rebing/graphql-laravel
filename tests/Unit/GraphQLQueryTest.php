@@ -97,7 +97,7 @@ It is required when 'lazyload_types' is enabled";
 
     public function testQueryAndReturnResultWithAuthorize(): void
     {
-        $result = $this->graphql($this->queries['examplesWithAuthorize'], [
+        $result = $this->httpGraphql($this->queries['examplesWithAuthorize'], [
             'expectErrors' => true,
         ]);
         self::assertNull($result['data']['examplesAuthorize']);
@@ -106,7 +106,7 @@ It is required when 'lazyload_types' is enabled";
 
     public function testQueryAndReturnResultWithCustomAuthorizeMessage(): void
     {
-        $result = $this->graphql($this->queries['examplesWithAuthorizeMessage'], [
+        $result = $this->httpGraphql($this->queries['examplesWithAuthorizeMessage'], [
             'expectErrors' => true,
         ]);
         self::assertNull($result['data']['examplesAuthorizeMessage']);
@@ -135,7 +135,7 @@ It is required when 'lazyload_types' is enabled";
      */
     public function testQueryWithError(): void
     {
-        $result = $this->graphql($this->queries['examplesWithError'], [
+        $result = $this->httpGraphql($this->queries['examplesWithError'], [
             'expectErrors' => true,
         ]);
 
@@ -147,7 +147,7 @@ It is required when 'lazyload_types' is enabled";
 
     public function testQueryWithValidationError(): void
     {
-        $result = $this->graphql($this->queries['examplesWithValidation'], [
+        $result = $this->httpGraphql($this->queries['examplesWithValidation'], [
             'expectErrors' => true,
         ]);
 

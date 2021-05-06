@@ -98,7 +98,7 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query, [
+        $actual = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 
@@ -218,7 +218,8 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->graphql($query);
+        $actual = $this->httpGraphql($query);
+
         $expected = [
             'data' => [
                 'query' => [

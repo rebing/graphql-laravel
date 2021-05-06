@@ -23,7 +23,7 @@ class EngineErrorInResolverTest extends TestCase
 
     public function testForEngineError(): void
     {
-        $result = $this->graphql('query { queryWithEngineErrorInCode }', [
+        $result = $this->httpGraphql('query { queryWithEngineErrorInCode }', [
             'expectErrors' => true,
         ]);
 

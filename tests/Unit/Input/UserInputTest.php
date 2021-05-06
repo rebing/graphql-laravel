@@ -25,7 +25,7 @@ mutation {
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 
@@ -78,7 +78,7 @@ mutation {
 }
 GRAQPHQL;
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 

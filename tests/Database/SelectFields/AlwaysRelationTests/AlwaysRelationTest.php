@@ -69,7 +69,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 
@@ -154,7 +154,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 

@@ -27,6 +27,8 @@ query {
 GRAPHQL;
 
         // All relevant test assertions are in \Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\TestAuthorizationArgsQuery::authorize
-        $this->httpGraphql($graphql);
+        $this->httpGraphql($graphql, [
+            'expectErrors' => true,
+        ]);
     }
 }
