@@ -8,6 +8,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
+use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -205,7 +206,8 @@ class TestCase extends BaseTestCase
     {
         $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
 
-        $response = $this->call('GET', '/graphql', [
+        /** @var JsonResponse $response */
+        $response = $this->json('POST', '/graphql', [
             'query' => $query,
         ]);
 
