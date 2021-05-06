@@ -9,6 +9,8 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\GraphQL as GraphQLBase;
+use GraphQL\Language\AST\DocumentNode;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -111,14 +113,47 @@ class GraphQL
     }
 
     /**
+     * @deprecated Use \Rebing\GraphQL\GraphQL::executeQuery instead
+     * @param string|DocumentNode $query
+     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
+     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     */
+    public function query($query, ?array $variables = [], array $opts = []): array
+    {
+        $result = $this->queryAndReturnResult($query, $variables, $opts);
+
+        return $this->decorateExecutionResult($result)->toArray();
+    }
+
+    /**
+     * @deprecated Use \Rebing\GraphQL\GraphQL::executeQueryAndReturnResult instead
+     * @param string|DocumentNode $query
+     * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
+     * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     */
+    public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
+    {
+        $context = $opts['context'] ?? null;
+        $schemaName = $opts['schema'] ?? null;
+        $operationName = $opts['operationName'] ?? null;
+        $rootValue = $opts['rootValue'] ?? null;
+
+        $schema = $this->schema($schemaName);
+
+        $defaultFieldResolver = config('graphql.defaultFieldResolver');
+
+        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
+    }
+
+    /**
      * @param mixed $rootValue
      * @param mixed $contextValue
      * @return array<string,mixed>
      */
-    public function query(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
+    public function executeQuery(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
     {
         try {
-            $result = $this->queryAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
+            $result = $this->executeQueryAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
         } catch (Error $error) {
             $result = new ExecutionResult(null, [$error]);
         }
@@ -130,7 +165,7 @@ class GraphQL
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
-    public function queryAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    public function executeQueryAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $params, $rootValue, $contextValue])
