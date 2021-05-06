@@ -38,7 +38,7 @@ query ($profileId: Int, $height: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'profileId' => 100,
@@ -100,7 +100,7 @@ query {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [],
         ]);

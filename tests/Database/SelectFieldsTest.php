@@ -162,7 +162,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
         ]);
 
@@ -338,7 +338,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->graphql($graphql);
+        $response = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts";');
 

@@ -19,7 +19,7 @@ class IntrospectionCanBeDisabledTest extends TestCase
     {
         $query = Introspection::getIntrospectionQuery();
 
-        $result = $this->graphql($query, [
+        $result = $this->httpGraphql($query, [
             'expectErrors' => true,
         ]);
 

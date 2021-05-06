@@ -38,7 +38,7 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_unique_rule_pass' => 'another_name',
@@ -75,7 +75,7 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_unique_rule_pass' => 'name_unique',
@@ -131,7 +131,7 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_unique_rule_fail' => 'another_name',
@@ -181,7 +181,7 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_unique_rule_fail' => 'name_unique',
@@ -238,7 +238,7 @@ GRAPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg_unique_rule_fail' => 'name_unique',

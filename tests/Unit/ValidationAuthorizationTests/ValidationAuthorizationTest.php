@@ -26,7 +26,7 @@ mutation Mutate($arg1: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'expectErrors' => true,
             'variables' => [
                 'arg1' => 'invalid value',
@@ -68,7 +68,7 @@ mutation Mutate($arg1: String) {
 }
 GRAPHQL;
 
-        $result = $this->graphql($graphql, [
+        $result = $this->httpGraphql($graphql, [
             'variables' => [
                 'arg1' => 'value1',
             ],

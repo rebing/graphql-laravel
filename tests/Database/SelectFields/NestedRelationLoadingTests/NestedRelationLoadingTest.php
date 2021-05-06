@@ -71,7 +71,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -213,7 +213,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -355,7 +355,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -493,7 +493,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -646,7 +646,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -775,7 +775,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'
@@ -859,7 +859,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->graphql($graphql);
+        $result = $this->httpGraphql($graphql);
 
         $this->assertSqlQueries(
             <<<'SQL'

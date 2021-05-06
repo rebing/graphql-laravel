@@ -112,7 +112,7 @@ class ConfigTest extends TestCase
             'graphql.error_formatter' => [$error, 'formatError'],
         ]);
 
-        $this->graphql($this->queries['examplesWithError'], [
+        $this->httpGraphql($this->queries['examplesWithError'], [
             'expectErrors' => true,
         ]);
     }

@@ -8,6 +8,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
+use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -154,22 +155,41 @@ class TestCase extends BaseTestCase
     }
 
     /**
-     * Helper to dispatch an internal GraphQL requests.
+     * Helper to dispatch an HTTP GraphQL requests.
      *
-     * @param array<string,mixed> $options Supports the following options:
+     * @param array<string,mixed> $options
+     *                                     Supports the following options:
      *                                     - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
+     *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
      *                                     - `variables` (default: null): GraphQL variables for the query
-     *                                     - `opts` (default: []): GraphQL options for the query (context, schema, operationName, rootValue)
-     *
      * @return array<string,mixed> GraphQL result
      */
-    protected function graphql(string $query, array $options = []): array
+    protected function httpGraphql(string $query, array $options = []): array
     {
+        $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
-        $opts = $options['opts'] ?? [];
 
-        $result = GraphQL::query($query, $variables, $opts);
+        $payload = [
+            'query' => $query,
+        ];
+
+        if ($variables) {
+            $payload['variables'] = $variables;
+        }
+
+        /** @var JsonResponse $response */
+        $response = $this->json('POST', '/graphql', $payload);
+
+        $httpStatusCode = $response->getStatusCode();
+
+        if ($expectedHttpStatusCode !== $httpStatusCode) {
+            $result = $response->getData(true);
+            $msg = var_export($result, true) . "\n";
+            self::assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
+        }
+
+        $result = $response->getData(true);
 
         $assertMessage = null;
 
@@ -191,33 +211,6 @@ class TestCase extends BaseTestCase
         }
 
         return $result;
-    }
-
-    /**
-     * Helper to dispatch an HTTP GraphQL requests.
-     *
-     * @param array<string,mixed> $options
-     *                                     Supports the following options:
-     *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
-     * @return array<string,mixed> GraphQL result
-     */
-    protected function httpGraphql(string $query, array $options = []): array
-    {
-        $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
-
-        $response = $this->call('GET', '/graphql', [
-            'query' => $query,
-        ]);
-
-        $httpStatusCode = $response->getStatusCode();
-
-        if ($expectedHttpStatusCode !== $httpStatusCode) {
-            $result = $response->getData(true);
-            $msg = var_export($result, true) . "\n";
-            self::assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
-        }
-
-        return $response->getData(true);
     }
 
     /**
