@@ -199,6 +199,7 @@ class TestCase extends BaseTestCase
      *
      * @param array<string,mixed> $options
      *                                     Supports the following options:
+     *                                     - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
      *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
      *                                     - `variables` (default: null): GraphQL variables for the query
      * @return array<string,mixed> GraphQL result
@@ -206,6 +207,7 @@ class TestCase extends BaseTestCase
     protected function httpGraphql(string $query, array $options = []): array
     {
         $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
+        $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
 
         $payload = [
@@ -227,7 +229,28 @@ class TestCase extends BaseTestCase
             self::assertSame($expectedHttpStatusCode, $httpStatusCode, $msg);
         }
 
-        return $response->getData(true);
+        $result = $response->getData(true);
+
+        $assertMessage = null;
+
+        if (!$expectErrors && isset($result['errors'])) {
+            $appendErrors = '';
+
+            if (isset($result['errors'][0]['trace'])) {
+                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['trace']);
+            }
+
+            $assertMessage = "Probably unexpected error in GraphQL response:\n"
+                . var_export($result, true)
+                . $appendErrors;
+        }
+        unset($result['errors'][0]['trace']);
+
+        if ($assertMessage) {
+            throw new ExpectationFailedException($assertMessage);
+        }
+
+        return $result;
     }
 
     /**
