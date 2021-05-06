@@ -2006,19 +2006,9 @@ parameters:
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: "#^Offset 'index' does not exist on array\\<string, mixed\\>\\|null\\.$#"
+			message: "#^Offset 'index' does not exist on array\\|null\\.$#"
 			count: 1
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeVariableMiddleware.php
-
-		-
-			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, array\\<string, int\\> given\\.$#"
-			count: 2
-			path: tests/Unit/ExecutionMiddlewareTest/ExecutionMiddlewareTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, array\\<string, string\\> given\\.$#"
-			count: 1
-			path: tests/Unit/ExecutionMiddlewareTest/ExecutionMiddlewareTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\FieldTest\\:\\:getFieldClass\\(\\) has no return typehint specified\\.$#"
@@ -2029,16 +2019,6 @@ parameters:
 			message: "#^Unable to resolve the template type RealInstanceType in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
 			count: 1
 			path: tests/Unit/FieldTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$operationParams of static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:query\\(\\) expects Rebing\\\\GraphQL\\\\Support\\\\OperationParams, null given\\.$#"
-			count: 2
-			path: tests/Unit/GraphQLTest.php
-
-		-
-			message: "#^Static method Rebing\\\\GraphQL\\\\GraphQL\\:\\:queryAndReturnResult\\(\\) invoked with 1 parameter, 2\\-4 required\\.$#"
-			count: 1
-			path: tests/Unit/GraphQLTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
