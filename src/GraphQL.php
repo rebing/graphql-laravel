@@ -153,11 +153,7 @@ class GraphQL
      */
     public function execute(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
     {
-        try {
-            $result = $this->executeAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
-        } catch (Error $error) {
-            $result = new ExecutionResult(null, [$error]);
-        }
+        $result = $this->executeAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
 
         return $this->decorateExecutionResult($result)->toArray();
     }
@@ -168,9 +164,25 @@ class GraphQL
      */
     protected function executeAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
+        try {
+            $middleware = $this->executionMiddleware($schemaName);
+
+            return $this->executeViaMiddleware($middleware, $schemaName, $params, $rootValue, $contextValue);
+        } catch (Error $error) {
+            return new ExecutionResult(null, [$error]);
+        }
+    }
+
+    /**
+     * @param array<string> $middleware
+     * @param mixed $rootValue
+     * @param mixed $contextValue
+     */
+    protected function executeViaMiddleware(array $middleware, string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    {
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $params, $rootValue, $contextValue])
-            ->through($this->executionMiddleware($schemaName))
+            ->through($middleware)
             ->via('resolve')
             ->thenReturn();
     }
