@@ -7,6 +7,7 @@ use Closure;
 use GraphQL\Error\Error;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Language\AST\OperationDefinitionNode;
+use GraphQL\Type\Schema;
 use Rebing\GraphQL\Support\OperationParams;
 
 class UnusedVariablesMiddleware extends AbstractExecutionMiddleware
@@ -14,12 +15,12 @@ class UnusedVariablesMiddleware extends AbstractExecutionMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
     {
         $unusedVariables = $params->variables;
 
         if (!$unusedVariables) {
-            return $next($schemaName, $params, $rootValue, $contextValue);
+            return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
 
         $query = $params->getParsedQuery();
@@ -41,6 +42,6 @@ class UnusedVariablesMiddleware extends AbstractExecutionMiddleware
             return new ExecutionResult(null, [new Error($msg)]);
         }
 
-        return $next($schemaName, $params, $rootValue, $contextValue);
+        return $next($schemaName, $schema, $params, $rootValue, $contextValue);
     }
 }

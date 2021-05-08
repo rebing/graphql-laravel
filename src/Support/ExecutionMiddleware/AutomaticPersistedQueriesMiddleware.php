@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
+use GraphQL\Type\Schema;
 use Illuminate\Container\Container;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 use Rebing\GraphQL\Support\OperationParams;
@@ -13,7 +14,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
     {
         $query = $params->query;
 
@@ -28,14 +29,14 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
 
         // APQ disabled? Nothing to be done
         if (!$apqEnabled) {
-            return $next($schemaName, $params, $rootValue, $contextValue);
+            return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
 
         // No hash? Nothing to be done
         $hash = $persistedQuery['sha256Hash'] ?? null;
 
         if (null === $hash) {
-            return $next($schemaName, $params, $rootValue, $contextValue);
+            return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
 
         $apqCacheDriver = config('graphql.apq.cache_driver');
@@ -60,7 +61,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
             $ttl = config('graphql.apq.cache_ttl', 300);
             $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $datum, $ttl);
 
-            return $next($schemaName, $params, $rootValue, $contextValue);
+            return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
 
         // retrieve from cache
@@ -75,6 +76,6 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
 
         $params->setParsedQuery($parsedQuery);
 
-        return $next($schemaName, $params, $rootValue, $contextValue);
+        return $next($schemaName, $schema, $params, $rootValue, $contextValue);
     }
 }

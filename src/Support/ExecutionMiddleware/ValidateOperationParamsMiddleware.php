@@ -8,6 +8,7 @@ use GraphQL\Error\Error;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Server\Helper;
 use GraphQL\Server\RequestError;
+use GraphQL\Type\Schema;
 use Rebing\GraphQL\Support\OperationParams;
 
 class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
@@ -22,7 +23,7 @@ class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
     {
         $errors = $this->helper->validateOperationParams($params);
 
@@ -37,6 +38,6 @@ class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
             return new ExecutionResult(null, $errors);
         }
 
-        return $next($schemaName, $params, $rootValue, $contextValue);
+        return $next($schemaName, $schema, $params, $rootValue, $contextValue);
     }
 }

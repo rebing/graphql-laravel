@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\Type\Schema;
 use Rebing\GraphQL\Support\OperationParams;
 
 abstract class AbstractExecutionMiddleware
@@ -14,7 +15,7 @@ abstract class AbstractExecutionMiddleware
      * @param mixed $contextValue
      * @return Closure|array<mixed>|ExecutionResult
      */
-    abstract public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next);
+    abstract public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next);
 
     /**
      * @param array<string,mixed> $arguments
