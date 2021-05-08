@@ -36,7 +36,7 @@ class GraphQLController extends Controller
 
         $data = Helpers::applyEach(
             function (BaseOperationParams $baseOperationParams) use ($schemaName, $graphql): array {
-                $operationParams = OperationParams::fromBaseOperationParams($baseOperationParams);
+                $operationParams = new OperationParams($baseOperationParams);
 
                 return $graphql->execute($schemaName, $operationParams);
             },

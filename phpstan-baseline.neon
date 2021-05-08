@@ -246,11 +246,6 @@ parameters:
 			path: src/Support/Middleware.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 1
-			path: src/Support/OperationParams.php
-
-		-
 			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
 			count: 2
 			path: src/Support/PaginationType.php

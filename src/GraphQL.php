@@ -144,7 +144,7 @@ class GraphQL
         $baseParams->query = $query;
         $baseParams->operation = $operationName;
         $baseParams->variables = $variables;
-        $params = OperationParams::fromBaseOperationParams($baseParams);
+        $params = new OperationParams($baseParams);
 
         return $this->executeAndReturnResult($schemaName, $schema, $params, $rootValue, $context);
     }

@@ -11,26 +11,25 @@ use GraphQL\Server\OperationParams as BaseOperationParams;
 class OperationParams extends BaseOperationParams
 {
     /** @var DocumentNode|null */
-    private $parsedQuery;
+    protected $parsedQuery;
 
     /** @var BaseOperationParams */
-    private $baseOperationParams;
+    protected $baseOperationParams;
 
     public function __construct(BaseOperationParams $baseOperationParams)
     {
-        $this->baseOperationParams = $baseOperationParams;
+        $this->init($baseOperationParams);
     }
 
-    public static function fromBaseOperationParams(BaseOperationParams $baseOperationParams): OperationParams
+    protected function init(BaseOperationParams $baseOperationParams): void
     {
-        $operationParams = new static($baseOperationParams);
-        $operationParams->queryId = $baseOperationParams->queryId;
-        $operationParams->query = $baseOperationParams->query;
-        $operationParams->operation = $baseOperationParams->operation;
-        $operationParams->variables = $baseOperationParams->variables;
-        $operationParams->extensions = $baseOperationParams->extensions;
+        $this->queryId = $baseOperationParams->queryId;
+        $this->query = $baseOperationParams->query;
+        $this->operation = $baseOperationParams->operation;
+        $this->variables = $baseOperationParams->variables;
+        $this->extensions = $baseOperationParams->extensions;
 
-        return $operationParams;
+        $this->baseOperationParams = $baseOperationParams;
     }
 
     public function getOriginalInput($key)
