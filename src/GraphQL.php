@@ -131,11 +131,11 @@ class GraphQL
     public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
-        $schemaName = $opts['schema'] ?? null;
+        $schema = $opts['schema'] ?? null;
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
-        $schema = $this->schema($schemaName);
+        $schema = $this->schema($schema);
 
         $defaultFieldResolver = config('graphql.defaultFieldResolver');
         $detectUnusedVariables = config('graphql.detect_unused_variables', false);
