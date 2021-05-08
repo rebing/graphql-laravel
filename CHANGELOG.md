@@ -104,6 +104,11 @@ CHANGELOG
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)
 
+### Removed
+- The method `\Rebing\GraphQL\GraphQLServiceProvider::provides` was removed [\#769 / mfn](https://github.com/rebing/graphql-laravel/pull/769)\
+  It's only relevant for deferred providers which ours however isn't (and can't
+  be made into with the current Laravel architecture).
+
 2021-04-10, 7.2.0
 -----------------
 ### Added
