@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Support\Facades\Facade;
+use Rebing\GraphQL\GraphQL as RealGraphQL;
 
 /**
  * @method static array query(string $query, ?array $params = [], array $opts = [])
@@ -34,6 +35,6 @@ class GraphQL extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'graphql';
+        return RealGraphQL::class;
     }
 }
