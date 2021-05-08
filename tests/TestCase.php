@@ -72,7 +72,6 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
-        $app['config']->set('graphql.schemas.invalid_class_based', 'ThisClassDoesntExist');
 
         $app['config']->set('graphql.types', [
             'Example' => ExampleType::class,

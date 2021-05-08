@@ -500,13 +500,12 @@ class GraphQL
      */
     public static function getNormalizedSchemasConfiguration(): array
     {
-        return array_filter(array_map(function ($schema) {
-            try {
+        return array_map(
+            static function ($schema) {
                 return static::getNormalizedSchemaConfiguration($schema);
-            } catch (SchemaNotFound $e) {
-                return null;
-            }
-        }, config('graphql.schemas', [])));
+            },
+            config('graphql.schemas', [])
+        );
     }
 
     /**
