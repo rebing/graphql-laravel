@@ -166,7 +166,7 @@ class GraphQL
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
-    public function executeAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    protected function executeAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $params, $rootValue, $contextValue])
