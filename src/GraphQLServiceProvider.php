@@ -122,7 +122,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
     public function registerGraphQL(): void
     {
-        $this->app->singleton('graphql', function (Container $app): GraphQL {
+        $this->app->singleton(GraphQL::class, function (Container $app): GraphQL {
             $graphql = new GraphQL($app);
 
             $this->applySecurityRules();
@@ -131,8 +131,9 @@ class GraphQLServiceProvider extends ServiceProvider
 
             return $graphql;
         });
+        $this->app->alias(GraphQL::class, 'graphql');
 
-        $this->app->afterResolving('graphql', function (GraphQL $graphQL): void {
+        $this->app->afterResolving(GraphQL::class, function (GraphQL $graphQL): void {
             $this->bootTypes($graphQL);
         });
     }
@@ -162,6 +163,9 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['graphql'];
+        return [
+            GraphQL::class,
+            'graphql',
+        ];
     }
 }

@@ -37,7 +37,7 @@ class GraphQLController extends Controller
 
         // TODO: inject?
         /** @var GraphQL $graphql */
-        $graphql = Container::getInstance()->make('graphql');
+        $graphql = Container::getInstance()->make(GraphQL::class);
 
         $data = Helpers::applyEach(
             function (BaseOperationParams $baseOperationParams) use ($schemaName, $graphql): array {
