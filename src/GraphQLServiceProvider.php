@@ -155,17 +155,4 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->commands(TypeMakeCommand::class);
         $this->commands(UnionMakeCommand::class);
     }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            GraphQL::class,
-            'graphql',
-        ];
-    }
 }
