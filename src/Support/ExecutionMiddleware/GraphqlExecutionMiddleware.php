@@ -5,7 +5,6 @@ namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
 use GraphQL\GraphQL as GraphQLBase;
-use Illuminate\Container\Container;
 use Rebing\GraphQL\GraphQL;
 use Rebing\GraphQL\Support\OperationParams;
 
@@ -14,15 +13,19 @@ use Rebing\GraphQL\Support\OperationParams;
  */
 class GraphqlExecutionMiddleware extends AbstractExecutionMiddleware
 {
+    /** @var GraphQL */
+    private $graphql;
+
+    public function __construct(GraphQL $graphql)
+    {
+        $this->graphql = $graphql;
+    }
     /**
      * @inheritdoc
      */
     public function handle(string $schemaName, OperationParams $params, $rootValue, $contextValue, Closure $next)
     {
-        /** @var GraphQL $graphql */
-        $graphql = Container::getInstance()->make('graphql');
-
-        $schema = $graphql->schema($schemaName);
+        $schema = $this->graphql->schema($schemaName);
 
         $query = $params->getParsedQuery();
 

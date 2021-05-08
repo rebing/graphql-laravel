@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use GraphQL\Server\OperationParams as BaseOperationParams;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +14,7 @@ use Rebing\GraphQL\Support\OperationParams;
 
 class GraphQLController extends Controller
 {
-    public function query(Request $request, RequestParser $parser): JsonResponse
+    public function query(Request $request, RequestParser $parser, GraphQL $graphql): JsonResponse
     {
         $routePrefix = config('graphql.route.prefix', 'graphql');
         $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? config('graphql.default_schema', 'default');
@@ -34,10 +33,6 @@ class GraphQLController extends Controller
 
             return response()->json($data, 200, $headers, $jsonOptions);
         }
-
-        // TODO: inject?
-        /** @var GraphQL $graphql */
-        $graphql = Container::getInstance()->make(GraphQL::class);
 
         $data = Helpers::applyEach(
             function (BaseOperationParams $baseOperationParams) use ($schemaName, $graphql): array {
