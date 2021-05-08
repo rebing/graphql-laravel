@@ -9,8 +9,7 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
-use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Language\AST\DocumentNode;
+use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -113,13 +112,11 @@ class GraphQL
     }
 
     /**
-     * @deprecated Use \Rebing\GraphQL\GraphQL::execute instead
-     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      * @return array<string,mixed>
      */
-    public function query($query, ?array $variables = [], array $opts = []): array
+    public function query(string $query, ?array $variables = null, array $opts = []): array
     {
         $result = $this->queryAndReturnResult($query, $variables, $opts);
 
@@ -127,23 +124,29 @@ class GraphQL
     }
 
     /**
-     * @deprecated Use \Rebing\GraphQL\GraphQL::executeAndReturnResult instead
-     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
+    public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
         $schema = $opts['schema'] ?? null;
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
+        $schemaName = is_string($schema) && !empty(config("graphql.schemas.$schema"))
+            ? $schema
+            : config('graphql.default_schema', 'default');
+
         $schema = $this->schema($schema);
 
-        $defaultFieldResolver = config('graphql.defaultFieldResolver');
+        $baseParams = new BaseOperationParams();
+        $baseParams->query = $query;
+        $baseParams->operation = $operationName;
+        $baseParams->variables = $variables;
+        $params = OperationParams::fromBaseOperationParams($baseParams);
 
-        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
+        return $this->executeAndReturnResult($schemaName, $schema, $params, $rootValue, $context);
     }
 
     /**
@@ -153,7 +156,9 @@ class GraphQL
      */
     public function execute(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
     {
-        $result = $this->executeAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
+        $schema = $this->schema($schemaName);
+
+        $result = $this->executeAndReturnResult($schemaName, $schema, $operationParams, $rootValue, $contextValue);
 
         return $this->decorateExecutionResult($result)->toArray();
     }
@@ -162,12 +167,12 @@ class GraphQL
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
-    protected function executeAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    protected function executeAndReturnResult(string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
         try {
             $middleware = $this->executionMiddleware($schemaName);
 
-            return $this->executeViaMiddleware($middleware, $schemaName, $params, $rootValue, $contextValue);
+            return $this->executeViaMiddleware($middleware, $schemaName, $schema, $params, $rootValue, $contextValue);
         } catch (Error $error) {
             return new ExecutionResult(null, [$error]);
         }
@@ -178,10 +183,10 @@ class GraphQL
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
-    protected function executeViaMiddleware(array $middleware, string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    protected function executeViaMiddleware(array $middleware, string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
         return $this->app->make(Pipeline::class)
-            ->send([$schemaName, $params, $rootValue, $contextValue])
+            ->send([$schemaName, $schema, $params, $rootValue, $contextValue])
             ->through($middleware)
             ->via('resolve')
             ->thenReturn();
