@@ -113,7 +113,7 @@ class GraphQL
     }
 
     /**
-     * @deprecated Use \Rebing\GraphQL\GraphQL::executeQuery instead
+     * @deprecated Use \Rebing\GraphQL\GraphQL::execute instead
      * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
@@ -127,7 +127,7 @@ class GraphQL
     }
 
     /**
-     * @deprecated Use \Rebing\GraphQL\GraphQL::executeQueryAndReturnResult instead
+     * @deprecated Use \Rebing\GraphQL\GraphQL::executeAndReturnResult instead
      * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
@@ -151,10 +151,10 @@ class GraphQL
      * @param mixed $contextValue
      * @return array<string,mixed>
      */
-    public function executeQuery(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
+    public function execute(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
     {
         try {
-            $result = $this->executeQueryAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
+            $result = $this->executeAndReturnResult($schemaName, $operationParams, $rootValue, $contextValue);
         } catch (Error $error) {
             $result = new ExecutionResult(null, [$error]);
         }
@@ -166,7 +166,7 @@ class GraphQL
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
-    public function executeQueryAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    public function executeAndReturnResult(string $schemaName, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $params, $rootValue, $contextValue])

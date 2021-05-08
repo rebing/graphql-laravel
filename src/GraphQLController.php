@@ -43,7 +43,7 @@ class GraphQLController extends Controller
             function (BaseOperationParams $baseOperationParams) use ($schemaName, $graphql): array {
                 $operationParams = OperationParams::fromBaseOperationParams($baseOperationParams);
 
-                return $graphql->executeQuery($schemaName, $operationParams);
+                return $graphql->execute($schemaName, $operationParams);
             },
             $operations
         );
