@@ -59,7 +59,7 @@ class GraphQLController extends Controller
             : DebugFlag::NONE;
 
         /** @var GraphQL $graphql */
-        $graphql = Container::getInstance()->make('graphql');
+        $graphql = Container::getInstance()->make(GraphQL::class);
 
         /** @var Helper $helper */
         $helper = Container::getInstance()->make(Helper::class);

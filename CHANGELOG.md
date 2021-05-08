@@ -94,6 +94,7 @@ CHANGELOG
       new: `public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult`
 
 ### Added
+- Primarily register \Rebing\GraphQL\GraphQL as service and keep `'graphql'` as alias [\#768 / mfn](https://github.com/rebing/graphql-laravel/pull/768)
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
 - Add ability to detect unused GraphQL variables [\#660 / mfn](https://github.com/rebing/graphql-laravel/pull/660)
