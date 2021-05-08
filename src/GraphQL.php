@@ -82,18 +82,18 @@ class GraphQL
             'name' => 'Query',
         ]);
 
-        $mutation = $this->objectType($schemaMutation, [
-            'name' => 'Mutation',
-        ]);
+        $mutation = $schemaMutation
+            ? $this->objectType($schemaMutation, ['name' => 'Mutation'])
+            : null;
 
-        $subscription = $this->objectType($schemaSubscription, [
-            'name' => 'Subscription',
-        ]);
+        $subscription = $schemaSubscription
+            ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
+            : null;
 
         return new Schema([
             'query' => $query,
-            'mutation' => !empty($schemaMutation) ? $mutation : null,
-            'subscription' => !empty($schemaSubscription) ? $subscription : null,
+            'mutation' => $mutation,
+            'subscription' => $subscription,
             'types' => function () {
                 $types = [];
 
