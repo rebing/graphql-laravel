@@ -9,8 +9,10 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Support\Facades\Facade;
+use Rebing\GraphQL\Support\OperationParams;
 
 /**
+ * @method static array execute(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null)
  * @method static array query(string $query, ?array $params = [], array $opts = [])
  * @method static ExecutionResult queryAndReturnResult(string $query, ?array $params = [], array $opts = [])
  * @method static Type type(string $name, bool $fresh = false)
