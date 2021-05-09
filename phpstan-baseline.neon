@@ -61,11 +61,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQLServiceProvider\\:\\:provides\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQLServiceProvider.php
-
-		-
 			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
