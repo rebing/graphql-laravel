@@ -94,6 +94,7 @@ CHANGELOG
       new: `public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult`
 
 ### Added
+- The primary execution of the GraphQL requested is now modeled via middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)
 - Primarily register \Rebing\GraphQL\GraphQL as service and keep `'graphql'` as alias [\#768 / mfn](https://github.com/rebing/graphql-laravel/pull/768)
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
