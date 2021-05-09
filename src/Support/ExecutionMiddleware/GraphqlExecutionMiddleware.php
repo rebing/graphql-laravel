@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
+use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Schema;
 use Rebing\GraphQL\Support\OperationParams;
@@ -13,10 +14,7 @@ use Rebing\GraphQL\Support\OperationParams;
  */
 class GraphqlExecutionMiddleware extends AbstractExecutionMiddleware
 {
-    /**
-     * @inheritdoc
-     */
-    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         $query = $params->getParsedQuery();
 

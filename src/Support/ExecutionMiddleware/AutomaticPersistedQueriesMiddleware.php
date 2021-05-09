@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 
 use Closure;
+use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Schema;
 use Illuminate\Container\Container;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
@@ -11,10 +12,7 @@ use Rebing\GraphQL\Support\OperationParams;
 
 class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
 {
-    /**
-     * @inheritdoc
-     */
-    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         $query = $params->query;
 

@@ -11,10 +11,7 @@ use Rebing\GraphQL\Support\OperationParams;
 
 class CacheMiddleware extends AbstractExecutionMiddleware
 {
-    /**
-     * @inheritdoc
-     */
-    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         return new ExecutionResult([
                 'examples' => [['test' => 'Cached response']],

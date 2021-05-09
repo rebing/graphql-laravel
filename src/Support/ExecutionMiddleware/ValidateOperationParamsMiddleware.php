@@ -20,10 +20,8 @@ class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
     {
         $this->helper = $helper;
     }
-    /**
-     * @inheritdoc
-     */
-    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next)
+
+    public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         $errors = $this->helper->validateOperationParams($params);
 
