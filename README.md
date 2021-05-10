@@ -13,7 +13,7 @@ Use Facebook's GraphQL with Laravel 6.0+. It is based on the [PHP port of GraphQ
   * per schema queries/mutations/types 
   * per schema HTTP middlewares
   * per schema GraphQL execution middlewares
-* Custom GraphQL **resolver middleware**  can be defined for each query/mutation
+* Custom GraphQL **resolver middleware** can be defined for each query/mutation
   
 When using the `SelectFields` class for Eloquent support, additional features are available:
 * Queries return **types**, which can have custom **privacy** settings.
