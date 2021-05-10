@@ -33,7 +33,8 @@ CHANGELOG
   - It's now possible to prevent the registering of any routes by making the top
     level `route` an empty array or null
   - `\Rebing\GraphQL\GraphQL::routeNameTransformer` has been removed
-  - It's not possible to register schemas with a `-` in their name
+  - It's now possible to register schemas with a `-` in their name
+  - Routes are now properly cacheable
 
 - Remove the `\Rebing\GraphQL\GraphQLController::$app`  property [\#755 / mfn](https://github.com/rebing/graphql-laravel/pull/755)\
   Injecting the application container early is incompatible when running within
