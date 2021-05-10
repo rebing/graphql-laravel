@@ -85,7 +85,7 @@ CHANGELOG
 ### Added
 - The primary execution of the GraphQL request is now piped through middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)\
   This allows greater flexibility for enabling/disabling certain functionality
-  as well as brining in new features without having to open up the library.
+  as well as bringing in new features without having to open up the library.
 - Primarily register \Rebing\GraphQL\GraphQL as service and keep `'graphql'` as alias [\#768 / mfn](https://github.com/rebing/graphql-laravel/pull/768)
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
