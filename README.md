@@ -2644,8 +2644,8 @@ Variables provided:
 
 In this case, nothing happens and `optional_id` will be treated as not being provided.
 
-To prevent such scenarios, you can enable the config option `detect_unused_variables`
-and set it to `true`.
+To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
+`execution_middleware`.
 
 ## Configuration options
 
