@@ -190,6 +190,12 @@ return [
     /*
      * Automatic Persisted Queries (APQ)
      * See https://www.apollographql.com/docs/apollo-server/performance/apq/
+     *
+     * Note 1: this requires the `AutomaticPersistedQueriesMiddleware` being enabled
+     *
+     * Note 2: even if APQ is disabled per configuration and, according to the "APQ specs" (see above),
+     *         to return a correct response in case it's not enabled, the middleware needs to be active.
+     *         Of course if you know you do not have a need for APQ, feel free to remove the middleware completely.
      */
     'apq' => [
         // Enable/Disable APQ - See https://www.apollographql.com/docs/apollo-server/performance/apq/#disabling-apq
@@ -210,6 +216,7 @@ return [
      */
     'execution_middleware' => [
         \Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware::class,
+        // AutomaticPersistedQueriesMiddleware listed even if APQ is disabled, see the docs for the `'apq'` configuration
         \Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware::class,
         \Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware::class,
         // \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
