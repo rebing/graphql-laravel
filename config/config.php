@@ -83,8 +83,12 @@ return [
             'types' => [
                 // ExampleType::class,
             ],
+
+            // Laravel HTTP middleware
             'middleware' => [],
-            // 'execution_middleware' => [],
+
+            // An array of middlewares, overrides the global ones
+            'execution_middleware' => null,
         ],
     ],
 
