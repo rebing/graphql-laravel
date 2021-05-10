@@ -78,4 +78,69 @@ class ExecutionMiddlewareTest extends TestCase
         ];
         self::assertSame($expected, $result);
     }
+
+    public function testOnlyGlobalMiddleware(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            MiddlewareGlobal::class,
+        ]);
+        $this->app['config']->set('graphql.schemas.default.execution_middleware', null);
+
+        $result = $this->httpGraphql($this->queries['examples']);
+
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => MiddlewareGlobal::class,
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
+
+    public function testOnlyPerSchemaMiddleware(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', null);
+        $this->app['config']->set('graphql.schemas.default.execution_middleware', [
+            MiddlewarePerSchema::class,
+        ]);
+
+        $result = $this->httpGraphql($this->queries['examples']);
+
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => MiddlewarePerSchema::class,
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
+
+    public function testPerSchemaMiddlewareOverridesGlobalMiddleware(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            MiddlewareGlobal::class,
+        ]);
+        $this->app['config']->set('graphql.schemas.default.execution_middleware', [
+            MiddlewarePerSchema::class,
+        ]);
+
+        $result = $this->httpGraphql($this->queries['examples']);
+
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => MiddlewarePerSchema::class,
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
 }
