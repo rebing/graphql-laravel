@@ -19,11 +19,16 @@ class ExecutionMiddlewareTest extends TestCase
             ],
         ]);
 
-        self::assertArrayHasKey('data', $result);
-
-        self::assertEquals($result['data'], [
-            'examples' => [['test' => 'Cached response']],
-        ]);
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => 'Cached response',
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
     }
 
     public function testMiddlewareCanMutateArgs(): void
@@ -38,10 +43,16 @@ class ExecutionMiddlewareTest extends TestCase
             ],
         ]);
 
-        self::assertArrayHasKey('data', $result);
-        self::assertEquals($result['data'], [
-            'examples' => [['test' => 'Example 2']],
-        ]);
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => 'Example 2',
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
     }
 
     public function testMiddlewareCanMutateQueryAndSendParsedQueryAlong(): void
@@ -56,13 +67,15 @@ class ExecutionMiddlewareTest extends TestCase
             ],
         ]);
 
-        self::assertArrayHasKey('data', $result);
-
-        self::assertEquals(
-            [
-                'examples' => [['test' => 'Example 2']],
+        $expected = [
+            'data' => [
+                'examples' => [
+                    [
+                        'test' => 'Example 2',
+                    ],
+                ],
             ],
-            $result['data']
-        );
+        ];
+        self::assertSame($expected, $result);
     }
 }
