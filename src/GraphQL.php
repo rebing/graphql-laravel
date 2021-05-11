@@ -9,15 +9,13 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
-use GraphQL\GraphQL as GraphQLBase;
-use GraphQL\Language\AST\DocumentNode;
-use GraphQL\Language\AST\OperationDefinitionNode;
-use GraphQL\Language\Parser;
+use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -26,6 +24,8 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
+use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
 
@@ -112,11 +112,11 @@ class GraphQL
     }
 
     /**
-     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
+     * @return array<string,mixed>
      */
-    public function query($query, ?array $variables = [], array $opts = []): array
+    public function query(string $query, ?array $variables = null, array $opts = []): array
     {
         $result = $this->queryAndReturnResult($query, $variables, $opts);
 
@@ -124,31 +124,99 @@ class GraphQL
     }
 
     /**
-     * @param string|DocumentNode $query
      * @param array<string,mixed>|null $variables Optional GraphQL input variables for your query/mutation
      * @param array<string,mixed> $opts Additional options, like 'schema', 'context' or 'operationName'
      */
-    public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult
+    public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
         $schema = $opts['schema'] ?? null;
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
+        $schemaName = is_string($schema) && !empty(config("graphql.schemas.$schema"))
+            ? $schema
+            : config('graphql.default_schema', 'default');
+
         $schema = $this->schema($schema);
 
-        $defaultFieldResolver = config('graphql.defaultFieldResolver');
-        $detectUnusedVariables = config('graphql.detect_unused_variables', false);
+        $baseParams = new BaseOperationParams();
+        $baseParams->query = $query;
+        $baseParams->operation = $operationName;
+        $baseParams->variables = $variables;
+        $params = new OperationParams($baseParams);
 
-        if ($variables && $detectUnusedVariables) {
-            $result = $this->detectUnusedVariables($query, $variables);
+        return $this->executeAndReturnResult($schemaName, $schema, $params, $rootValue, $context);
+    }
 
-            if ($result) {
-                return $result;
-            }
+    /**
+     * @param mixed $rootValue
+     * @param mixed $contextValue
+     * @return array<string,mixed>
+     */
+    public function execute(string $schemaName, OperationParams $operationParams, $rootValue = null, $contextValue = null): array
+    {
+        $schema = $this->schema($schemaName);
+
+        $result = $this->executeAndReturnResult($schemaName, $schema, $operationParams, $rootValue, $contextValue);
+
+        return $this->decorateExecutionResult($result)->toArray();
+    }
+
+    /**
+     * @param mixed $rootValue
+     * @param mixed $contextValue
+     */
+    protected function executeAndReturnResult(string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    {
+        try {
+            $middleware = $this->executionMiddleware($schemaName);
+
+            return $this->executeViaMiddleware($middleware, $schemaName, $schema, $params, $rootValue, $contextValue);
+        } catch (Error $error) {
+            return new ExecutionResult(null, [$error]);
         }
+    }
 
-        return GraphQLBase::executeQuery($schema, $query, $rootValue, $context, $variables, $operationName, $defaultFieldResolver);
+    /**
+     * @param array<string> $middleware
+     * @param mixed $rootValue
+     * @param mixed $contextValue
+     */
+    protected function executeViaMiddleware(array $middleware, string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
+    {
+        return $this->app->make(Pipeline::class)
+            ->send([$schemaName, $schema, $params, $rootValue, $contextValue])
+            ->through($middleware)
+            ->via('resolve')
+            ->thenReturn();
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function executionMiddleware(string $schemaName): array
+    {
+        $executionMiddleware = $schemaName
+            ? config("graphql.schemas.$schemaName.execution_middleware")
+            : null;
+
+        return $this->appendGraphqlExecutionMiddleware(
+            $executionMiddleware ??
+            config('graphql.execution_middleware') ??
+            []
+        );
+    }
+
+    /**
+     * @phpstan-param array<class-string> $middlewares
+     * @phpstan-return array<class-string>
+     */
+    protected function appendGraphqlExecutionMiddleware(array $middlewares): array
+    {
+        $middlewares[] = GraphqlExecutionMiddleware::class;
+
+        return $middlewares;
     }
 
     public function addTypes(array $types): void
@@ -540,46 +608,5 @@ class GraphQL
         return $executionResult
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
-    }
-
-    /**
-     * Returning an ExecutionResult here is an indicator of an error
-     * (either due to parsing the query or because unused variables were detected).
-     *
-     * Otherwise "all is good" and `null` is an indicator to carry on.
-     *
-     * @param string|DocumentNode $query
-     * @param array<string,mixed> $variables
-     */
-    protected function detectUnusedVariables($query, array $variables): ?ExecutionResult
-    {
-        if (is_string($query)) {
-            try {
-                $query = Parser::parse($query);
-            } catch (Error $error) {
-                return new ExecutionResult(null, [$error]);
-            }
-        }
-
-        $unusedVariables = $variables;
-
-        foreach ($query->definitions as $definition) {
-            if ($definition instanceof OperationDefinitionNode) {
-                foreach ($definition->variableDefinitions as $variableDefinition) {
-                    unset($unusedVariables[$variableDefinition->variable->name->value]);
-                }
-            }
-        }
-
-        if (!$unusedVariables) {
-            return null;
-        }
-
-        $msg = sprintf(
-            'The following variables were provided but not consumed: %s',
-            implode(', ', array_keys($unusedVariables))
-        );
-
-        return new ExecutionResult(null, [new Error($msg)]);
     }
 }

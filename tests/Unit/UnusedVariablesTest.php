@@ -3,15 +3,14 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
+use Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware;
 use Rebing\GraphQL\Tests\TestCase;
 
 class UnusedVariablesTest extends TestCase
 {
     public function testFeatureNotEnabledUnusedVariableIsIgnored(): void
     {
-        config([
-            'graphql.detect_unused_variables' => false,
-        ]);
+        $this->app['config']->set('graphql.execution_middleware', []);
 
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
@@ -40,8 +39,8 @@ class UnusedVariablesTest extends TestCase
 
     public function testFeatureEnabledUnusedVariableThrowsError(): void
     {
-        config([
-            'graphql.detect_unused_variables' => true,
+        $this->app['config']->set('graphql.execution_middleware', [
+            UnusedVariablesMiddleware::class,
         ]);
 
         $response = $this->call('GET', '/graphql', [

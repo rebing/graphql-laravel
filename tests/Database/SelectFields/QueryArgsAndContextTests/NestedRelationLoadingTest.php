@@ -17,7 +17,9 @@ class NestedRelationLoadingTest extends TestCaseDatabase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('graphql.route.controller', GraphQLController::class . '@query');
+        $app['config']->set('graphql.execution_middleware', [
+            CustomGraphqlContextMiddleware::class,
+        ]);
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [

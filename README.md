@@ -12,7 +12,8 @@ Use Facebook's GraphQL with Laravel 6.0+. It is based on the [PHP port of GraphQ
 * Supports multiple schemas
   * per schema queries/mutations/types 
   * per schema HTTP middlewares
-* Custom GraphQL **resolver middleware** (_not_ HTTP middleware) can be defined for each query/mutation
+  * per schema GraphQL execution middlewares
+* Custom GraphQL **resolver middleware** can be defined for each query/mutation
   
 When using the `SelectFields` class for Eloquent support, additional features are available:
 * Queries return **types**, which can have custom **privacy** settings.
@@ -69,6 +70,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
       - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
     - [Data loading](#data-loading)
     - [GraphiQL](#graphiql)
+    - [Middleware Overview](#middleware-overview)
     - [Schemas](#schemas)
     - [Creating a query](#creating-a-query)
     - [Creating a mutation](#creating-a-mutation)
@@ -202,10 +204,58 @@ route.
 
 If you are using multiple schemas, you can access them via `/graphiql/<schema name>`.
 
+### Middleware Overview
+
+The following middleware concepts are supported:
+
+- HTTP middleware (i.e. from Laravel)
+- GraphQL execution middleware
+- GraphQL resolver middleware
+
+Briefly said, a middleware _usually_ is a class:
+- with a `handle` method
+- receiving a fixed set of parameters plus a callable for the next middleware
+- is responsible for calling the "next" middleware\
+  Usually a middleware does just that but may decide to not do that and
+  just return
+- has the freedom to mutate the parameters passed on
+
+#### HTTP middleware
+
+Any [Laravel compatible HTTP middleware](https://laravel.com/docs/middleware)
+can be provided on a global level for all GraphQL endpoints via the config
+`graphql.route.middleware` or on a per-schema basis via
+`graphql.schemas.<yourschema>.middleware`. The per-schema middleware overrides
+the global one.
+
+#### GraphQL execution middleware
+
+The processing of a GraphQL request, henceforth called "execution", flows
+through a set of middelwares.
+
+They can be set on global level via `config.execution_middleware` or per-schema
+via `config.schemas.<yourschema>.execution_middleware`.
+
+By default, the recommended set of middlewares is provided on the global level.
+
+Note: the execution of the GraphQL request _itself_ is also implemented via a
+middleware, which is usually expected to be called last (and does not call
+further middlewares). In case you're interested in the details, please see
+`\Rebing\GraphQL\GraphQL::appendGraphqlExecutionMiddleware`
+
+#### GraphQL resolver middleware
+
+After the HTTP middleware and the execution middelware is applied, the
+"resolver middleware" is executed for the query/mutation being targeted
+**before** the actual `resolve()` method is called.
+
+See [Resolver middleware](#resolver-middleware) for more details.
+
 ### Schemas
 
-Schemas are required for defining GraphQL endpoints. You can define multiple schemas and assign different **HTTP middleware** to them,
-in addition to the global middleware. For example:
+Schemas are required for defining GraphQL endpoints. You can define multiple
+schemas and assign different **HTTP middleware** and **execution middleware** to
+them, in addition to the global middleware. For example:
 
 ```php
 'schema' => 'default',
@@ -239,6 +289,9 @@ in addition to the global middleware. For example:
         
         ],
         'middleware' => ['auth'],
+        'execution_middleware' => [
+            \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
+        ],
     ],
 ],
 ```
@@ -2591,8 +2644,8 @@ Variables provided:
 
 In this case, nothing happens and `optional_id` will be treated as not being provided.
 
-To prevent such scenarios, you can enable the config option `detect_unused_variables`
-and set it to `true`.
+To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
+`execution_middleware`.
 
 ## Configuration options
 

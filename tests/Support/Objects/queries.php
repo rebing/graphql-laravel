@@ -35,6 +35,14 @@ return [
         }
     ',
 
+    'examplesWithWrongTypeOfArgument' => '
+        query QueryExamplesVariables($indexVariable: String) {
+            examples(index: $indexVariable) {
+                test
+            }
+        }
+    ',
+
     'examplesWithFilterVariables' => '
         query QueryExamplesWithFilterVariables($filter: ExampleFilterInput) {
             examplesFiltered(filter: $filter) {

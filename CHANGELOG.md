@@ -5,6 +5,18 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- As part of moving the architecture to an execution based middleware approach,
+  the following methods have been removed:
+  - `\Rebing\GraphQL\GraphQLController::handleAutomaticPersistQueries` has been
+    replaced by the `AutomaticPersistedQueriesMiddleware` middleware
+  - `\Rebing\GraphQL\GraphQLController::queryContext` has been
+    replaced by the `AddAuthUserContextValueMiddleware` middleware\
+    If you relied on overriding `queryContext` to inject a custom context, you
+    now need to create your own execution middleware and add to your
+    configuration
+  - `\Rebing\GraphQL\GraphQLController::executeQuery` has become obsolete, no
+    direct replacement.
+
 - Routing has been rewritten and simplified [\#757 / mfn](https://github.com/rebing/graphql-laravel/pull/757)
   - All routing related configuration is now within the top level `route`
     configuration key
@@ -59,42 +71,21 @@ CHANGELOG
   - Drop support for configuration the name of the variable for the variables (`params_key`)
   - `GraphQLUploadMiddleware` has been removed (`RequestParser` includes this functionality)
   - Empty GraphQL queries now return a proper validated GraphQL error
-  - Signature changes In `\Rebing\GraphQL\GraphQLController`:
-    - old: `protected function executeQuery(string $schema, array $input): array`
-      new: `protected function executeQuery(string $schema, OperationParams $params): array`
-    - old: `protected function queryContext(string $query, ?array $params, string $schema)`
-      new: `protected function queryContext(string $query, ?array $variables, string $schema)`
-    - old: `protected function handleAutomaticPersistQueries(string $schemaName, array $input): string`
-      new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
       
-- In `\Rebing\GraphQL\GraphQLController`, renamed all occurrences of `$schema` to `$schemaName`
-  This is to reduce the confusion as the code in some other places uses `$schema`
-  for the actual schema itself (either as an object or array form).
-  This changes the signature on the following methods:
-  - old: `protected function executeQuery(string $schema, OperationParams $params): array`
-    new: `protected function executeQuery(string $schemaName, OperationParams $params): array`
-  - old: `protected function queryContext(string $query, ?array $variables, string $schema)`
-    new: `protected function queryContext(string $query, ?array $variables, string $schemaName)`
-    
 - In `\Rebing\GraphQL\GraphQL`, renamed remaining instances of `$params` to `$variables`    
   After switching to `RequestParser`, the support for changing the variable name
-  what was supposed to `params_key` has gone and thus the name isn't fitting anymore
+  what was supposed to `params_key` has gone and thus the name isn't fitting anymore.
+  Also, the default value for `$variables` has been changed to `null` to better
+  fit the how `OperationParams` works:
   - old: `public function query(string $query, ?array $params = [], array $opts = []): array`
-    new: `public function query(string $query, ?array $variables = [], array $opts = []): array`
+    new: `public function query(string $query, ?array $variables = null, array $opts = []): array`
   - old: `public function queryAndReturnResult(string $query, ?array $params = [], array $opts = []): ExecutionResult`
-    new: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
-    
-- As part of APQ parsed query support [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740):
-  - In `\Rebing\GraphQL\GraphQLController`, the following signature changed:
-    - old: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): string`
-      new: `protected function handleAutomaticPersistQueries(string $schemaName, OperationParams $operation): array`
-  - In `\Rebing\GraphQL\GraphQL`, the following signature changed:
-    - old: `public function query(string $query, ?array $variables = [], array $opts = []): array`
-      new: `public function query($query, ?array $variables = [], array $opts = []): array`
-    - old: `public function queryAndReturnResult(string $query, ?array $variables = [], array $opts = []): ExecutionResult`
-      new: `public function queryAndReturnResult($query, ?array $variables = [], array $opts = []): ExecutionResult`
+    new: `public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult`
 
 ### Added
+- The primary execution of the GraphQL request is now piped through middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)\
+  This allows greater flexibility for enabling/disabling certain functionality
+  as well as bringing in new features without having to open up the library.
 - Primarily register \Rebing\GraphQL\GraphQL as service and keep `'graphql'` as alias [\#768 / mfn](https://github.com/rebing/graphql-laravel/pull/768)
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
