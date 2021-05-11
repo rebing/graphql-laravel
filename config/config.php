@@ -85,7 +85,7 @@ return [
             ],
 
             // Laravel HTTP middleware
-            'middleware' => [],
+            'middleware' => null,
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
