@@ -231,7 +231,7 @@ the global one.
 #### GraphQL execution middleware
 
 The processing of a GraphQL request, henceforth called "execution", flows
-through a set of middelwares.
+through a set of middlewares.
 
 They can be set on global level via `graphql.execution_middleware` or per-schema
 via `graphql.schemas.<yourschema>.execution_middleware`.
