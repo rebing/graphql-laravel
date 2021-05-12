@@ -3,6 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
+use Illuminate\Auth\GenericUser;
+use Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ExecutionMiddlewareTest extends TestCase
@@ -139,6 +141,32 @@ class ExecutionMiddlewareTest extends TestCase
                         'test' => MiddlewarePerSchema::class,
                     ],
                 ],
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
+
+    public function testAddAuthUserContextValueMiddleware(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            AddAuthUserContextValueMiddleware::class,
+        ]);
+        $this->app['config']->set('graphql.schemas.default.query', [
+            ReturnAuthenticatableUserQuery::class,
+        ]);
+
+        $graphql = <<<'GRAPHQL'
+{
+    returnAuthenticatableUser
+}
+GRAPHQL;
+
+        $this->actingAs(new GenericUser([]));
+        $result = $this->httpGraphql($graphql);
+
+        $expected = [
+            'data' => [
+                'returnAuthenticatableUser' => 'id',
             ],
         ];
         self::assertSame($expected, $result);
