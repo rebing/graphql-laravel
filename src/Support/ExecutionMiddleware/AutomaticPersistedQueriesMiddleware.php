@@ -6,12 +6,20 @@ namespace Rebing\GraphQL\Support\ExecutionMiddleware;
 use Closure;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Schema;
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Cache\Factory;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 use Rebing\GraphQL\Support\OperationParams;
 
 class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
 {
+    /** @var Factory */
+    private $cache;
+
+    public function __construct(Factory $cache)
+    {
+        $this->cache = $cache;
+    }
+
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         $query = $params->query;
@@ -41,7 +49,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
         $apqCachePrefix = config('graphql.apq.cache_prefix');
         $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
 
-        $cache = Container::getInstance()->make('cache');
+        $cache = $this->cache->store($apqCacheDriver);
 
         // store in cache
         if ($query) {
@@ -57,7 +65,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
             ];
 
             $ttl = config('graphql.apq.cache_ttl', 300);
-            $cache->driver($apqCacheDriver)->set($apqCacheIdentifier, $datum, $ttl);
+            $cache->set($apqCacheIdentifier, $datum, $ttl);
 
             return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
@@ -70,7 +78,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
         [
             'query' => $params->query,
             'parsedQuery' => $parsedQuery,
-        ] = $cache->driver($apqCacheDriver)->get($apqCacheIdentifier);
+        ] = $cache->get($apqCacheIdentifier);
 
         $params->setParsedQuery($parsedQuery);
 
