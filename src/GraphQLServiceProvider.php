@@ -50,7 +50,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($configPath . '/config.php', 'graphql');
 
         $this->publishes([
-            $configPath . '/config.php' => $this->app->configPath() . 'graphql.php',
+            $configPath . '/config.php' => $this->app->configPath() . '/graphql.php',
         ], 'config');
 
         $viewsPath = __DIR__ . '/../resources/views';
