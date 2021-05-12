@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use RuntimeException;
 
 class SelectFields
@@ -177,8 +178,8 @@ class SelectFields
                 $queryable = static::isQueryable($fieldObject->config);
 
                 // Pagination
-                if (is_a($parentType, config('graphql.pagination_type', PaginationType::class)) ||
-                    is_a($parentType, config('graphql.simple_pagination_type', SimplePaginationType::class))) {
+                if (is_a($parentType, Config::get('graphql.pagination_type', PaginationType::class)) ||
+                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class))) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     static::handleFields(

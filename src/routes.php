@@ -2,11 +2,16 @@
 
 declare(strict_types = 1);
 
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Router;
 use Rebing\GraphQL\GraphQL;
 use Rebing\GraphQL\GraphQLController;
 
-$routeConfig = config('graphql.route');
+/** @var Repository $config */
+$config = Container::getInstance()->make(Repository::class);
+
+$routeConfig = $config->get('graphql.route');
 
 if ($routeConfig) {
     /** @var Router $router */
@@ -22,9 +27,9 @@ if ($routeConfig) {
 
     $router->group(
         $routeGroupAttributes,
-        function (Router $router) use ($routeConfig): void {
+        function (Router $router) use ($config, $routeConfig): void {
             $schemas = GraphQL::getNormalizedSchemasConfiguration();
-            $defaultSchema = config('graphql.default_schema', 'default');
+            $defaultSchema = $config->get('graphql.default_schema', 'default');
 
             foreach ($schemas as $schemaName => $schemaConfig) {
                 // A schemaConfig can in fact be a \GraphQL\Type\Schema object
@@ -58,24 +63,24 @@ if ($routeConfig) {
     );
 }
 
-if (config('graphql.graphiql.display', true)) {
+if ($config->get('graphql.graphiql.display', true)) {
     /** @var Router $router */
     $router = app('router');
-    $graphiqlConfig = config('graphql.graphiql');
+    $graphiqlConfig = $config->get('graphql.graphiql');
 
     $router->group(
         [
             'prefix' => $graphiqlConfig['prefix'] ?? 'graphiql',
             'middleware' => $graphiqlConfig['middleware'] ?? [],
         ],
-        function (Router $router) use ($graphiqlConfig): void {
+        function (Router $router) use ($config, $graphiqlConfig): void {
             $actions = [
                 'uses' => $graphiqlConfig['controller'] ?? GraphQLController::class . '@graphiql',
             ];
 
             // A graphiql route for each schema…
             /** @var string $schemaName */
-            foreach (array_keys(config('graphql.schemas', [])) as $schemaName) {
+            foreach (array_keys($config->get('graphql.schemas', [])) as $schemaName) {
                 $router->get(
                     $schemaName,
                     $actions + ['as' => "graphql.graphiql.$schemaName"]
