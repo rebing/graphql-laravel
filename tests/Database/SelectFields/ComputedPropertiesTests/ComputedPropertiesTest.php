@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ComputedPropertiesTests;
 
+use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\User;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
@@ -41,7 +42,7 @@ class ComputedPropertiesTest extends TestCaseDatabase
             'user_id' => $user->id,
         ]);
 
-        $post->published_at = now();
+        $post->published_at = Carbon::now();
         $post->save();
 
         $query = <<<'GRAQPHQL'
