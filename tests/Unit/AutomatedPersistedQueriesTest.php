@@ -117,12 +117,14 @@ class AutomatedPersistedQueriesTest extends TestCase
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
-                    'sha256Hash' => hash('sha256', $this->queries['examples']),
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
                 ],
             ],
         ]);
 
         self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
 
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['examples' => $this->data], $content['data']);
@@ -156,12 +158,14 @@ class AutomatedPersistedQueriesTest extends TestCase
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 9,
-                    'sha256Hash' => hash('sha256', $this->queries['examples']),
+                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
                 ],
             ],
         ]);
 
         self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
 
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['examples' => $this->data], $content['data']);
@@ -414,6 +418,8 @@ class AutomatedPersistedQueriesTest extends TestCase
         );
 
         self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
 
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
