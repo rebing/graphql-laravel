@@ -7,6 +7,7 @@ use GraphQL\Validator\DocumentValidator;
 use GraphQL\Validator\Rules\DisableIntrospection;
 use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Rebing\GraphQL\Console\EnumMakeCommand;
@@ -62,7 +63,7 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootTypes(GraphQL $graphQL): void
     {
-        $configTypes = config('graphql.types', []);
+        $configTypes = $graphQL->getConfigRepository()->get('graphql.types', []);
         $graphQL->addTypes($configTypes);
     }
 
@@ -71,7 +72,7 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     protected function bootSchemas(GraphQL $graphQL): void
     {
-        $configSchemas = config('graphql.schemas', []);
+        $configSchemas = $graphQL->getConfigRepository()->get('graphql.schemas', []);
 
         foreach ($configSchemas as $name => $schema) {
             $graphQL->addSchema($name, $schema);
@@ -81,9 +82,9 @@ class GraphQLServiceProvider extends ServiceProvider
     /**
      * Configure security from config.
      */
-    protected function applySecurityRules(): void
+    protected function applySecurityRules(Repository $config): void
     {
-        $maxQueryComplexity = config('graphql.security.query_max_complexity');
+        $maxQueryComplexity = $config->get('graphql.security.query_max_complexity');
 
         if (null !== $maxQueryComplexity) {
             /** @var QueryComplexity $queryComplexity */
@@ -91,7 +92,7 @@ class GraphQLServiceProvider extends ServiceProvider
             $queryComplexity->setMaxQueryComplexity($maxQueryComplexity);
         }
 
-        $maxQueryDepth = config('graphql.security.query_max_depth');
+        $maxQueryDepth = $config->get('graphql.security.query_max_depth');
 
         if (null !== $maxQueryDepth) {
             /** @var QueryDepth $queryDepth */
@@ -99,7 +100,7 @@ class GraphQLServiceProvider extends ServiceProvider
             $queryDepth->setMaxQueryDepth($maxQueryDepth);
         }
 
-        $disableIntrospection = config('graphql.security.disable_introspection');
+        $disableIntrospection = $config->get('graphql.security.disable_introspection');
 
         if (true === $disableIntrospection) {
             /** @var DisableIntrospection $disableIntrospection */
@@ -123,9 +124,11 @@ class GraphQLServiceProvider extends ServiceProvider
     public function registerGraphQL(): void
     {
         $this->app->singleton(GraphQL::class, function (Container $app): GraphQL {
-            $graphql = new GraphQL($app);
+            $config = $app->make(Repository::class);
 
-            $this->applySecurityRules();
+            $graphql = new GraphQL($app, $config);
+
+            $this->applySecurityRules($config);
 
             $this->bootSchemas($graphql);
 

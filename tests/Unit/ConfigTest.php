@@ -108,7 +108,7 @@ class ConfigTest extends TestCase
         $error->expects(self::once())
             ->method('formatError');
 
-        config([
+        $this->app['config']->set([
             'graphql.error_formatter' => [$error, 'formatError'],
         ]);
 

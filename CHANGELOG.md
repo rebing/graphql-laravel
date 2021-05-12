@@ -5,6 +5,10 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- The following methods now take a `\Illuminate\Contracts\Config\Repository` as
+  second argument:
+  - `\Rebing\GraphQL\GraphQL::__construct`
+  - `\Rebing\GraphQL\GraphQLServiceProvider::applySecurityRules`
 - As part of moving the architecture to an execution based middleware approach,
   the following methods have been removed:
   - `\Rebing\GraphQL\GraphQLController::handleAutomaticPersistQueries` has been
@@ -94,6 +98,7 @@ CHANGELOG
 - Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 ### Changed
+- Internally stop using the global `config()` function and preferable use the repository or the Facade otherwise [\#774 / mfn](https://github.com/rebing/graphql-laravel/pull/774)
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)
 

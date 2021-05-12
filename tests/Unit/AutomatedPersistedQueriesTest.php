@@ -29,12 +29,12 @@ class AutomatedPersistedQueriesTest extends TestCase
             UploadType::class,
         ]));
 
-        config(['graphql.apq.enable' => true]);
+        $app['config']->set(['graphql.apq.enable' => true]);
     }
 
     public function testPersistedQueryNotSupported(): void
     {
-        config(['graphql.apq.enable' => false]);
+        $this->app['config']->set(['graphql.apq.enable' => false]);
 
         $response = $this->call('GET', '/graphql', [
             'extensions' => [
@@ -202,7 +202,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryBatchingNotSupported(): void
     {
-        config(['graphql.apq.enable' => false]);
+        $this->app['config']->set(['graphql.apq.enable' => false]);
 
         $response = $this->call('POST', '/graphql', [
             [
@@ -427,7 +427,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryNotAnArray(): void
     {
-        config(['graphql.apq.enable' => true]);
+        $this->app['config']->set(['graphql.apq.enable' => true]);
 
         $response = $this->call('GET', '/graphql', [
             'extensions' => [

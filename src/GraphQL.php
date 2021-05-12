@@ -13,9 +13,11 @@ use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -49,9 +51,13 @@ class GraphQL
     /** @var Type[] */
     protected $typesInstances = [];
 
-    public function __construct(Container $app)
+    /** @var Repository */
+    protected $config;
+
+    public function __construct(Container $app, Repository $config)
     {
         $this->app = $app;
+        $this->config = $config;
     }
 
     /**
@@ -103,7 +109,7 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader' => config('graphql.lazyload_types', true)
+            'typeLoader' => $this->config->get('graphql.lazyload_types', true)
                 ? function ($name) {
                     return $this->type($name);
                 }
@@ -134,9 +140,9 @@ class GraphQL
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
-        $schemaName = is_string($schema) && !empty(config("graphql.schemas.$schema"))
+        $schemaName = is_string($schema) && !empty($this->config->get("graphql.schemas.$schema"))
             ? $schema
-            : config('graphql.default_schema', 'default');
+            : $this->config->get('graphql.default_schema', 'default');
 
         $schema = $this->schema($schema);
 
@@ -198,12 +204,12 @@ class GraphQL
     protected function executionMiddleware(string $schemaName): array
     {
         $executionMiddleware = $schemaName
-            ? config("graphql.schemas.$schemaName.execution_middleware")
+            ? $this->config->get("graphql.schemas.$schemaName.execution_middleware")
             : null;
 
         return $this->appendGraphqlExecutionMiddleware(
             $executionMiddleware ??
-            config('graphql.execution_middleware') ??
+            $this->config->get('graphql.execution_middleware') ??
             []
         );
     }
@@ -275,7 +281,7 @@ class GraphQL
         if (!isset($this->types[$name])) {
             $error = "Type $name not found.";
 
-            if (config('graphql.lazyload_types', true)) {
+            if ($this->config->get('graphql.lazyload_types', true)) {
                 $error .= "\nCheck that the config array key for the type matches the name attribute in the type's class.\nIt is required when 'lazyload_types' is enabled";
             }
 
@@ -445,7 +451,7 @@ class GraphQL
         $name = $customName ?: $typeName . 'Pagination';
 
         if (!isset($this->typesInstances[$name])) {
-            $paginationType = config('graphql.pagination_type', PaginationType::class);
+            $paginationType = $this->config->get('graphql.pagination_type', PaginationType::class);
             $this->wrapType($typeName, $name, $paginationType);
         }
 
@@ -457,7 +463,7 @@ class GraphQL
         $name = $customName ?: $typeName . 'SimplePagination';
 
         if (!isset($this->typesInstances[$name])) {
-            $paginationType = config('graphql.simple_pagination_type', SimplePaginationType::class);
+            $paginationType = $this->config->get('graphql.simple_pagination_type', SimplePaginationType::class);
             $this->wrapType($typeName, $name, $paginationType);
         }
 
@@ -487,7 +493,7 @@ class GraphQL
      */
     public static function formatError(Error $e): array
     {
-        $debug = config('app.debug') ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE;
+        $debug = Config::get('app.debug') ? (DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE) : DebugFlag::NONE;
         $formatter = FormattedError::prepareFormatter(null, $debug);
         $error = $formatter($e);
 
@@ -552,7 +558,7 @@ class GraphQL
      */
     protected function getSchemaConfiguration($schema)
     {
-        $schemaName = is_string($schema) ? $schema : config('graphql.default_schema', 'default');
+        $schemaName = is_string($schema) ? $schema : $this->config->get('graphql.default_schema', 'default');
 
         if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
             throw new SchemaNotFound('Type ' . $schemaName . ' not found.');
@@ -572,7 +578,7 @@ class GraphQL
             static function ($schema) {
                 return static::getNormalizedSchemaConfiguration($schema);
             },
-            config('graphql.schemas', [])
+            Config::get('graphql.schemas', [])
         );
     }
 
@@ -602,11 +608,16 @@ class GraphQL
 
     public function decorateExecutionResult(ExecutionResult $executionResult): ExecutionResult
     {
-        $errorFormatter = config('graphql.error_formatter', [static::class, 'formatError']);
-        $errorsHandler = config('graphql.errors_handler', [static::class, 'handleErrors']);
+        $errorFormatter = $this->config->get('graphql.error_formatter', [static::class, 'formatError']);
+        $errorsHandler = $this->config->get('graphql.errors_handler', [static::class, 'handleErrors']);
 
         return $executionResult
             ->setErrorsHandler($errorsHandler)
             ->setErrorFormatter($errorFormatter);
+    }
+
+    public function getConfigRepository(): Repository
+    {
+        return $this->config;
     }
 }

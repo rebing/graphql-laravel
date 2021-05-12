@@ -7,6 +7,7 @@ use Closure;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Cache\Factory;
+use Illuminate\Contracts\Config\Repository;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
 use Rebing\GraphQL\Support\OperationParams;
 
@@ -14,17 +15,20 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
 {
     /** @var Factory */
     private $cache;
+    /** @var Repository */
+    private $config;
 
-    public function __construct(Factory $cache)
+    public function __construct(Factory $cache, Repository $config)
     {
         $this->cache = $cache;
+        $this->config = $config;
     }
 
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         $query = $params->query;
 
-        $apqEnabled = config('graphql.apq.enable', false);
+        $apqEnabled = $this->config->get('graphql.apq.enable', false);
 
         // Even if APQ is disabled, we keep this logic for the negotiation protocol
         $persistedQuery = $params->extensions['persistedQuery'] ?? null;
@@ -45,8 +49,8 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
             return $next($schemaName, $schema, $params, $rootValue, $contextValue);
         }
 
-        $apqCacheDriver = config('graphql.apq.cache_driver');
-        $apqCachePrefix = config('graphql.apq.cache_prefix');
+        $apqCacheDriver = $this->config->get('graphql.apq.cache_driver');
+        $apqCachePrefix = $this->config->get('graphql.apq.cache_prefix');
         $apqCacheIdentifier = "$apqCachePrefix:$schemaName:$hash";
 
         $cache = $this->cache->store($apqCacheDriver);
@@ -64,7 +68,7 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
                 'parsedQuery' => $parsedQuery,
             ];
 
-            $ttl = config('graphql.apq.cache_ttl', 300);
+            $ttl = $this->config->get('graphql.apq.cache_ttl', 300);
             $cache->set($apqCacheIdentifier, $datum, $ttl);
 
             return $next($schemaName, $schema, $params, $rootValue, $contextValue);

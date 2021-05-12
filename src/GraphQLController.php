@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
 use GraphQL\Server\OperationParams as BaseOperationParams;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,19 +15,19 @@ use Rebing\GraphQL\Support\OperationParams;
 
 class GraphQLController extends Controller
 {
-    public function query(Request $request, RequestParser $parser, GraphQL $graphql): JsonResponse
+    public function query(Request $request, RequestParser $parser, Repository $config, GraphQL $graphql): JsonResponse
     {
-        $routePrefix = config('graphql.route.prefix', 'graphql');
-        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? config('graphql.default_schema', 'default');
+        $routePrefix = $config->get('graphql.route.prefix', 'graphql');
+        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? $config->get('graphql.default_schema', 'default');
 
         $operations = $parser->parseRequest($request);
 
-        $headers = config('graphql.headers', []);
-        $jsonOptions = config('graphql.json_encoding_options', 0);
+        $headers = $config->get('graphql.headers', []);
+        $jsonOptions = $config->get('graphql.json_encoding_options', 0);
 
         $isBatch = is_array($operations);
 
-        $supportsBatching = config('graphql.batching.enable', true);
+        $supportsBatching = $config->get('graphql.batching.enable', true);
 
         if ($isBatch && !$supportsBatching) {
             $data = $this->createBatchingNotSupportedResponse($request->input());
@@ -46,18 +47,18 @@ class GraphQLController extends Controller
         return response()->json($data, 200, $headers, $jsonOptions);
     }
 
-    public function graphiql(Request $request): View
+    public function graphiql(Request $request, Repository $config): View
     {
-        $routePrefix = config('graphql.graphiql.prefix', 'graphiql');
+        $routePrefix = $config->get('graphql.graphiql.prefix', 'graphiql');
         $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/");
 
-        $graphqlPath = '/' . config('graphql.route.prefix', 'graphql');
+        $graphqlPath = '/' . $config->get('graphql.route.prefix', 'graphql');
 
         if ($schemaName) {
             $graphqlPath .= '/' . $schemaName;
         }
 
-        $view = config('graphql.graphiql.view', 'graphql::graphiql');
+        $view = $config->get('graphql.graphiql.view', 'graphql::graphiql');
 
         return view($view, [
             'graphqlPath' => $graphqlPath,
