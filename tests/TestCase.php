@@ -161,6 +161,7 @@ class TestCase extends BaseTestCase
      *                                     - `expectErrors` (default: false): if no errors are expected but present, let's the test fail
      *                                     - `httpStatusCode` (default: 200): the HTTP status code to expect
      *                                     - `variables` (default: null): GraphQL variables for the query
+     *                                     - `schemaName` (default: null): GraphQL schema to use
      * @return array<string,mixed> GraphQL result
      */
     protected function httpGraphql(string $query, array $options = []): array
@@ -168,6 +169,7 @@ class TestCase extends BaseTestCase
         $expectedHttpStatusCode = $options['httpStatusCode'] ?? 200;
         $expectErrors = $options['expectErrors'] ?? false;
         $variables = $options['variables'] ?? null;
+        $schemaName = $options['schemaName'] ?? null;
 
         $payload = [
             'query' => $query,
@@ -177,8 +179,14 @@ class TestCase extends BaseTestCase
             $payload['variables'] = $variables;
         }
 
+        $path = '/graphql';
+
+        if ($schemaName) {
+            $path .= "/$schemaName";
+        }
+
         /** @var JsonResponse $response */
-        $response = $this->json('POST', '/graphql', $payload);
+        $response = $this->json('POST', $path, $payload);
 
         $httpStatusCode = $response->getStatusCode();
 
