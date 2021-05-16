@@ -33,22 +33,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    public function testSchemaWithSchemaObject(): void
-    {
-        $schemaObject = new Schema([
-            'query' => new ObjectType([
-                'name' => 'Query',
-            ]),
-            'mutation' => new ObjectType([
-                'name' => 'Mutation',
-            ]),
-            'types' => [],
-        ]);
-        $schema = GraphQL::schema($schemaObject);
-
-        $this->assertGraphQLSchema($schema);
-    }
-
     public function testSchemaWithName(): void
     {
         $schema = GraphQL::schema('custom');
@@ -69,26 +53,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    public function testSchemaWithArray(): void
-    {
-        $schema = GraphQL::schema([
-            'query' => [
-                'examplesCustom' => ExamplesQuery::class,
-            ],
-            'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class,
-            ],
-            'types' => [
-                CustomExampleType::class,
-            ],
-        ]);
-
-        $this->assertGraphQLSchema($schema);
-        $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
-        $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
-        self::assertArrayHasKey('CustomExample', $schema->getTypeMap());
-    }
-
     public function testSchemaWithWrongName(): void
     {
         $this->expectException(SchemaNotFound::class);
@@ -100,7 +64,7 @@ class GraphQLTest extends TestCase
         $this->app['config']->set('graphql.schemas.invalid_class_based', 'ThisClassDoesntExist');
 
         $this->expectException(SchemaNotFound::class);
-        $this->expectExceptionMessage('Schema class ThisClassDoesntExist not found.');
+        $this->expectExceptionMessage("Cannot find class 'ThisClassDoesntExist' for schema 'invalid_class_based'");
         GraphQL::schema('invalid_class_based');
     }
 
@@ -407,72 +371,22 @@ class GraphQLTest extends TestCase
 
     public function testAddSchema(): void
     {
-        GraphQL::addSchema('custom_add', [
-            'query' => [
-                'examplesCustom' => ExamplesQuery::class,
-            ],
-            'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class,
-            ],
-            'types' => [
-                CustomExampleType::class,
-            ],
-        ]);
+        $schema = GraphQL::buildSchemaFromConfig([
+                'query' => [
+                    'examplesCustom' => ExamplesQuery::class,
+                ],
+                'mutation' => [
+                    'updateExampleCustom' => UpdateExampleMutation::class,
+                ],
+                'types' => [
+                    CustomExampleType::class,
+                ],
+            ]
+        );
+        GraphQL::addSchema('custom_add', $schema);
 
         $schemas = GraphQL::getSchemas();
         self::assertArrayHasKey('custom_add', $schemas);
-    }
-
-    public function testMergeSchema(): void
-    {
-        GraphQL::addSchema('custom_add', [
-            'query' => [
-                'examplesCustom' => ExamplesQuery::class,
-            ],
-            'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class,
-            ],
-            'types' => [
-                CustomExampleType::class,
-            ],
-        ]);
-
-        GraphQL::addSchema('custom_add_another', [
-            'query' => [
-                'examplesCustom' => ExamplesQuery::class,
-            ],
-            'mutation' => [
-                'updateExampleCustom' => UpdateExampleMutation::class,
-            ],
-            'types' => [
-                CustomExampleType::class,
-            ],
-        ]);
-
-        $schemas = GraphQL::getSchemas();
-        self::assertArrayHasKey('custom_add', $schemas);
-        self::assertArrayHasKey('custom_add_another', $schemas);
-
-        GraphQL::addSchema('custom_add_another', [
-            'query' => [
-                'examplesCustomAnother' => ExamplesQuery::class,
-            ],
-        ]);
-
-        $schemas = GraphQL::getSchemas();
-        self::assertArrayHasKey('custom_add_another', $schemas);
-
-        $queries = $schemas['custom_add_another']['query'];
-        self::assertArrayHasKey('examplesCustom', $queries);
-        self::assertArrayHasKey('examplesCustomAnother', $queries);
-    }
-
-    public function testGetSchemas(): void
-    {
-        $schemas = GraphQL::getSchemas();
-        self::assertArrayHasKey('default', $schemas);
-        self::assertArrayHasKey('custom', $schemas);
-        self::assertIsArray($schemas['default']);
     }
 
     public function testAddSchemaObjectAndExecuteQuery(): void

@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addSchema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:addTypes\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -31,32 +26,12 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemaConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemas\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:mergeSchemas\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:objectType\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:schema\\(\\) has parameter \\$schema with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 

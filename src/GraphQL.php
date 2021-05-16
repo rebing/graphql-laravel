@@ -38,7 +38,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
-    /** @var array<array|string|Schema> */
+    /** @var array<Schema> */
     protected $schemas = [];
 
     /**
@@ -60,61 +60,23 @@ class GraphQL
         $this->config = $config;
     }
 
-    /**
-     * @param Schema|array|string|null $schema
-     */
-    public function schema($schema = null): Schema
+    public function schema(?string $schemaName = null): Schema
     {
-        if ($schema instanceof Schema) {
-            return $schema;
+        $schemaName = $schemaName ?? $this->config->get('graphql.default_schema', 'default');
+
+        if (isset($this->schemas[$schemaName])) {
+            return $this->schemas[$schemaName];
         }
 
         $this->clearTypeInstances();
 
-        $schema = $this->getSchemaConfiguration($schema);
+        $schemaConfig = static::getNormalizedSchemaConfiguration($schemaName);
 
-        if ($schema instanceof Schema) {
-            return $schema;
-        }
+        $schema = $this->buildSchemaFromConfig($schemaConfig);
 
-        $schemaQuery = $schema['query'] ?? [];
-        $schemaMutation = $schema['mutation'] ?? [];
-        $schemaSubscription = $schema['subscription'] ?? [];
-        $schemaTypes = $schema['types'] ?? [];
+        $this->addSchema($schemaName, $schema);
 
-        $this->addTypes($schemaTypes);
-
-        $query = $this->objectType($schemaQuery, [
-            'name' => 'Query',
-        ]);
-
-        $mutation = $schemaMutation
-            ? $this->objectType($schemaMutation, ['name' => 'Mutation'])
-            : null;
-
-        $subscription = $schemaSubscription
-            ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
-            : null;
-
-        return new Schema([
-            'query' => $query,
-            'mutation' => $mutation,
-            'subscription' => $subscription,
-            'types' => function () {
-                $types = [];
-
-                foreach ($this->getTypes() as $name => $type) {
-                    $types[] = $this->type($name);
-                }
-
-                return $types;
-            },
-            'typeLoader' => $this->config->get('graphql.lazyload_types', true)
-                ? function ($name) {
-                    return $this->type($name);
-                }
-                : null,
-        ]);
+        return $schema;
     }
 
     /**
@@ -136,15 +98,11 @@ class GraphQL
     public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
-        $schema = $opts['schema'] ?? null;
+        $schemaName = $opts['schema'] ?? $this->config->get('graphql.default_schema', 'default');
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
 
-        $schemaName = is_string($schema) && !empty($this->config->get("graphql.schemas.$schema"))
-            ? $schema
-            : $this->config->get('graphql.default_schema', 'default');
-
-        $schema = $this->schema($schema);
+        $schema = $this->schema($schemaName);
 
         $baseParams = new BaseOperationParams();
         $baseParams->query = $query;
@@ -384,24 +342,54 @@ class GraphQL
         ], $opts));
     }
 
-    /**
-     * @param Schema|array $schema
-     */
-    public function addSchema(string $name, $schema): void
+    public function addSchema(string $name, Schema $schema): void
     {
-        $this->mergeSchemas($name, $schema);
+        $this->schemas[$name] = $schema;
     }
 
     /**
-     * @param Schema|array $schema
+     * @param array<string,mixed> $schemaConfig
      */
-    public function mergeSchemas(string $name, $schema): void
+    public function buildSchemaFromConfig(array $schemaConfig): Schema
     {
-        if (isset($this->schemas[$name]) && is_array($this->schemas[$name]) && is_array($schema)) {
-            $this->schemas[$name] = array_merge_recursive($this->schemas[$name], $schema);
-        } else {
-            $this->schemas[$name] = $schema;
-        }
+        $schemaQuery = $schemaConfig['query'] ?? [];
+        $schemaMutation = $schemaConfig['mutation'] ?? [];
+        $schemaSubscription = $schemaConfig['subscription'] ?? [];
+        $schemaTypes = $schemaConfig['types'] ?? [];
+
+        $this->addTypes($schemaTypes);
+
+        $query = $this->objectType($schemaQuery, [
+            'name' => 'Query',
+        ]);
+
+        $mutation = $schemaMutation
+            ? $this->objectType($schemaMutation, ['name' => 'Mutation'])
+            : null;
+
+        $subscription = $schemaSubscription
+            ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
+            : null;
+
+        return new Schema([
+            'query' => $query,
+            'mutation' => $mutation,
+            'subscription' => $subscription,
+            'types' => function () {
+                $types = [];
+
+                foreach ($this->getTypes() as $name => $type) {
+                    $types[] = $this->type($name);
+                }
+
+                return $types;
+            },
+            'typeLoader' => $this->config->get('graphql.lazyload_types', true)
+                ? function ($name) {
+                    return $this->type($name);
+                }
+                : null,
+        ]);
     }
 
     public function clearType(string $name): void
@@ -553,57 +541,60 @@ class GraphQL
     }
 
     /**
-     * @param array|string|null $schema
-     * @return array|Schema
-     */
-    protected function getSchemaConfiguration($schema)
-    {
-        $schemaName = is_string($schema) ? $schema : $this->config->get('graphql.default_schema', 'default');
-
-        if (!is_array($schema) && !isset($this->schemas[$schemaName])) {
-            throw new SchemaNotFound('Type ' . $schemaName . ' not found.');
-        }
-
-        $schema = is_array($schema) ? $schema : $this->schemas[$schemaName];
-
-        return static::getNormalizedSchemaConfiguration($schema);
-    }
-
-    /**
-     * @return array<string, array|Schema>
+     * @return array<string,array<string,mixed>>
      */
     public static function getNormalizedSchemasConfiguration(): array
     {
-        return array_map(
-            static function ($schema) {
-                return static::getNormalizedSchemaConfiguration($schema);
-            },
-            Config::get('graphql.schemas', [])
-        );
+        $schemaConfigs = [];
+
+        /** @var string $schemaName */
+        foreach (array_keys(Config::get('graphql.schemas', [])) as $schemaName) {
+            $schemaConfigs[$schemaName] = static::getNormalizedSchemaConfiguration($schemaName);
+        }
+
+        return $schemaConfigs;
     }
 
     /**
-     * @param Schema|array<array>|string|null $schema
-     * @return Schema|array<array>
+     * @return array<string,mixed>
      */
-    public static function getNormalizedSchemaConfiguration($schema)
+    public static function getNormalizedSchemaConfiguration(string $schemaName): array
     {
-        if (is_array($schema) || $schema instanceof Schema) {
-            return $schema;
+        $schemas = Config::get('graphql.schemas');
+
+        if (!array_key_exists($schemaName, $schemas)) {
+            throw new SchemaNotFound("No configuration for schema '$schemaName' found");
         }
 
-        if (is_null($schema)) {
-            return [];
+        $schemaConfig = $schemas[$schemaName];
+
+        if (!is_string($schemaConfig) && !is_array($schemaConfig)) {
+            throw new SchemaNotFound(
+                sprintf(
+                    "Configuration for schema '%s' must be either an array or a class implementing %s, found type %s",
+                    $schemaName,
+                    ConfigConvertible::class,
+                    gettype($schemaConfig)
+                )
+            );
         }
 
-        if (!class_exists($schema)) {
-            throw new SchemaNotFound('Schema class ' . $schema . ' not found.');
+        if (!$schemaConfig) {
+            throw new SchemaNotFound("Empty configuration found for schema '$schemaName'");
         }
 
-        /** @var ConfigConvertible $instance */
-        $instance = app()->make($schema);
+        if (is_string($schemaConfig)) {
+            if (!class_exists($schemaConfig)) {
+                throw new SchemaNotFound("Cannot find class '$schemaConfig' for schema '$schemaName'");
+            }
 
-        return $instance->toConfig();
+            /** @var ConfigConvertible $instance */
+            $instance = app()->make($schemaConfig);
+
+            $schemaConfig = $instance->toConfig();
+        }
+
+        return $schemaConfig;
     }
 
     public function decorateExecutionResult(ExecutionResult $executionResult): ExecutionResult
