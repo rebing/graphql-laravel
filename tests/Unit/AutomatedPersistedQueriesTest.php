@@ -92,6 +92,8 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryFound(): void
     {
+        $hash = hash('sha256', trim($this->queries['examples']));
+
         // run query and persist
 
         $response = $this->call('GET', '/graphql', [
@@ -99,7 +101,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
-                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    'sha256Hash' => $hash,
                 ],
             ],
         ]);
@@ -111,16 +113,27 @@ class AutomatedPersistedQueriesTest extends TestCase
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['examples' => $this->data], $content['data']);
 
-        // run persisted query
+        // run persisted query using POST
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
-                    'sha256Hash' => hash('sha256', trim($this->queries['examples'])),
+                    'sha256Hash' => $hash,
                 ],
             ],
         ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
+
+        // run persisted query using GET
+
+        $response = $this->call('GET', '/graphql?extensions={"persistedQuery":{"version":1,"sha256Hash":"' . $hash . '"}}');
 
         self::assertEquals(200, $response->getStatusCode());
 
