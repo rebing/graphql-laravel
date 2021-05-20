@@ -139,23 +139,8 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
-        $expected = [
-            'errors' => [
-                [
-                    'message' => 'Syntax Error: Unexpected <EOF>',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
-                    'locations' => [
-                        [
-                            'line' => 1,
-                            'column' => 1,
-                        ],
-                    ],
-                ],
-            ],
-        ];
-        self::assertEquals($expected, $content);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
     }
 
     // This test demonstrates we don't actually check the 'version'
