@@ -113,23 +113,6 @@ It is required when 'lazyload_types' is enabled";
         self::assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
     }
 
-    public function testQueryAndReturnResultWithSchema(): void
-    {
-        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom'], null, [
-            'schema' => [
-                'query' => [
-                    'examplesCustom' => ExamplesQuery::class,
-                ],
-            ],
-        ]);
-
-        self::assertObjectHasAttribute('data', $result);
-        self::assertCount(0, $result->errors);
-        self::assertEquals($result->data, [
-            'examplesCustom' => $this->data,
-        ]);
-    }
-
     /**
      * If an error was encountered before execution begins, the data entry should not be present in the result.
      */
@@ -197,17 +180,14 @@ It is required when 'lazyload_types' is enabled";
     {
         $this->app['config']->set('graphql.defaultFieldResolver', [static::class, 'exampleDefaultFieldResolverForTest']);
 
-        $result = GraphQL::queryAndReturnResult(
-            $this->queries['examplesCustom'],
-            null,
-            [
-                'schema' => [
-                    'query' => [
-                        'examplesCustom' => ExamplesQuery::class,
-                    ],
-                ],
-            ]
-        );
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+        ]);
+        GraphQL::addSchema('default', $schema);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom']);
 
         $expectedDataResult = [
             'examplesCustom' => [
@@ -237,17 +217,14 @@ It is required when 'lazyload_types' is enabled";
             return 'defaultFieldResolver closure value';
         });
 
-        $result = GraphQL::queryAndReturnResult(
-            $this->queries['examplesCustom'],
-            null,
-            [
-                'schema' => [
-                    'query' => [
-                        'examplesCustom' => ExamplesQuery::class,
-                    ],
-                ],
-            ]
-        );
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+        ]);
+        GraphQL::addSchema('default', $schema);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examplesCustom']);
 
         $expectedDataResult = [
             'examplesCustom' => [

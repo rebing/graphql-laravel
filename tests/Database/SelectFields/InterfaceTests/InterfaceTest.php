@@ -25,8 +25,6 @@ class InterfaceTest extends TestCaseDatabase
             ],
         ]);
 
-        $app['config']->set('graphql.schemas.custom', null);
-
         $app['config']->set('graphql.types', [
             ExampleInterfaceType::class,
             InterfaceImpl1Type::class,

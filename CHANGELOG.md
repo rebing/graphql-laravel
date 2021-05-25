@@ -5,6 +5,26 @@ CHANGELOG
 --------------
 
 ## Breaking changes
+- Rewrite and simplify how schemas are handled
+  - `\Rebing\GraphQL\GraphQL::$schemas` now only holds `Schema`s and not a
+    mixture of strings or arrays
+  - `\Rebing\GraphQL\GraphQL::schema()` now only accepts a "schema name", but no
+    ad hoc `Schema` or "schema configs". To use ad hoc schemas, use
+    `\Rebing\GraphQL\GraphQL::buildSchemaFromConfig()` and
+    `\Rebing\GraphQL\GraphQL::addSchema()`
+  - `\Rebing\GraphQL\GraphQL::queryAndReturnResult()` (and thus also
+    `\Rebing\GraphQL\GraphQL::query()`) does not accept ad hoc schemas via
+    `$opts['schema']` anymore; it now only can reference a schema via its name.
+  - `\Rebing\GraphQL\GraphQL::addSchema()` now only accept `Schema` objects,
+    where before it would support ad hoc schemas via array configuration.
+    Use `\Rebing\GraphQL\GraphQL::buildSchemaFromConfig()` for that now.
+  - `\Rebing\GraphQL\GraphQL::getSchemaConfiguration()` has been removed due to
+    the simplifications.
+  - `\Rebing\GraphQL\GraphQL::getNormalizedSchemaConfiguration()` does not
+    support ad hoc schemas anymore and only accepts the schema name.
+  - `\Rebing\GraphQL\GraphQLServiceProvider::bootSchemas()` has been removed due
+    to the simplifications.
+    
 - The following methods now take a `\Illuminate\Contracts\Config\Repository` as
   second argument:
   - `\Rebing\GraphQL\GraphQL::__construct`
@@ -98,6 +118,7 @@ CHANGELOG
 - Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 ### Changed
+- Rewrite and simplify how schemas are handled [\#779 / mfn](https://github.com/rebing/graphql-laravel/pull/779)
 - Internally stop using the global `config()` function and preferable use the repository or the Facade otherwise [\#774 / mfn](https://github.com/rebing/graphql-laravel/pull/774)
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)

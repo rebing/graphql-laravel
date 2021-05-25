@@ -19,8 +19,6 @@ class ScalarTypeTest extends TestCase
             ],
         ]);
 
-        $app['config']->set('graphql.schemas.custom', null);
-
         $app['config']->set('graphql.types', [
             MyCustomScalarString::class,
         ]);

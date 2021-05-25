@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use GraphQL\Utils\BuildSchema;
 use GraphQL\Validator\DocumentValidator;
 use GraphQL\Validator\Rules\QueryComplexity;
 use GraphQL\Validator\Rules\QueryDepth;
@@ -43,15 +42,6 @@ class ConfigTest extends TestCase
                         CustomExampleType::class,
                     ],
                 ],
-                'shorthand' => BuildSchema::build('
-                    schema {
-                        query: ShorthandExample
-                    }
-
-                    type ShorthandExample {
-                        echo(message: String!): String!
-                    }
-                '),
             ],
 
             'types' => [
@@ -77,15 +67,6 @@ class ConfigTest extends TestCase
         $schemaCustom = GraphQL::schema('custom');
 
         self::assertEquals($schema, $schemaCustom);
-    }
-
-    public function testSchemas(): void
-    {
-        $schemas = GraphQL::getSchemas();
-
-        self::assertArrayHasKey('default', $schemas);
-        self::assertArrayHasKey('custom', $schemas);
-        self::assertArrayHasKey('shorthand', $schemas);
     }
 
     public function testSecurity(): void

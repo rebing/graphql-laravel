@@ -50,8 +50,6 @@ class SelectFieldsTest extends TestCaseDatabase
             ],
         ]);
 
-        $app['config']->set('graphql.schemas.custom', null);
-
         $app['config']->set('graphql.types', [
             PostType::class,
             PostWithModelAndAliasAndCustomResolverType::class,

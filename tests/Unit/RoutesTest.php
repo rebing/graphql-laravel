@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use GraphQL\Utils\BuildSchema;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware;
@@ -34,15 +33,6 @@ class RoutesTest extends TestCase
                     'middleware' => [ExampleMiddleware::class],
                 ],
                 'class_based' => ExampleSchema::class,
-                'shorthand' => BuildSchema::build('
-                    schema {
-                        query: ShorthandExample
-                    }
-
-                    type ShorthandExample {
-                        echo(message: String!): String!
-                    }
-                '),
             ],
         ]);
     }
@@ -104,15 +94,6 @@ class RoutesTest extends TestCase
                 'middleware' => [
                     ExampleMiddleware::class,
                 ],
-            ],
-            'graphql.shorthand' => [
-                'methods' => [
-                    'GET',
-                    'POST',
-                    'HEAD',
-                ],
-                'uri' => 'graphql_test/shorthand',
-                'middleware' => [],
             ],
         ];
 

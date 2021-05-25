@@ -32,12 +32,6 @@ if ($routeConfig) {
             $defaultSchema = $config->get('graphql.default_schema', 'default');
 
             foreach ($schemas as $schemaName => $schemaConfig) {
-                // A schemaConfig can in fact be a \GraphQL\Type\Schema object
-                // in which case no further information can be extracted from it
-                if (is_object($schemaConfig)) {
-                    $schemaConfig = [];
-                }
-
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,

@@ -24,8 +24,6 @@ class AlwaysRelationTest extends TestCaseDatabase
             ],
         ]);
 
-        $app['config']->set('graphql.schemas.custom', null);
-
         $app['config']->set('graphql.types', [
             LikableInterfaceType::class,
             CommentType::class,
