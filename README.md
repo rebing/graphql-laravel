@@ -1399,7 +1399,7 @@ query FetchUserByID($id: String)
 When you query the GraphQL endpoint, you can pass a JSON encoded `variables` parameter.
 
 ```
-http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&params={"id":123}
+http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&variables={"id":123}
 ```
 
 ### Custom field
