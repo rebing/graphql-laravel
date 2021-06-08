@@ -65,8 +65,8 @@ class UserType extends GraphQLType
                         'flag' => null,
                         'author' => 'EMPIRE',
                         'post' => [
-                            'id' => 2,
                             'body' => 'body2',
+                            'id' => 2,
                         ],
                         'keywords' => [
                             'key4',
@@ -75,6 +75,7 @@ class UserType extends GraphQLType
                         ],
                         'customType' => 'custom string',
                     ];
+
                     Assert::assertSame($expectedQueryArgs, $args);
 
                     return $query;

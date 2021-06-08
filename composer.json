@@ -37,7 +37,7 @@
         "php": ">= 7.2",
         "illuminate/contracts": "^6.0|^7.0|^8.0",
         "illuminate/support": "^6.0|^7.0|^8.0",
-        "webonyx/graphql-php": "^14.0",
+        "webonyx/graphql-php": "^14.6.4",
         "ext-json": "*",
         "laragraph/utils": "^1"
     },

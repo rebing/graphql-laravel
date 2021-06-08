@@ -64,13 +64,9 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->httpGraphql($graphql, [
-            'expectErrors' => true,
-        ]);
+        $result = $this->httpGraphql($graphql);
 
-        self::assertCount(1, $result['errors']);
-        self::assertSame('Internal server error', $result['errors'][0]['message']);
-        self::assertSame('SQLSTATE[HY000]: General error: 1 no such column: posts.user (SQL: select "posts"."id", "posts"."user", "posts"."user_id" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)', $result['errors'][0]['debugMessage']);
+        self::assertCount(0, $result['errors'] ?? []);
     }
 
     public function testDefaultDepthAdjusted(): void

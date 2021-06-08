@@ -366,7 +366,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -421,7 +421,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), string\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), string\\) given\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
