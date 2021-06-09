@@ -1643,11 +1643,6 @@ class UsersQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
     {
-        // $info->getFieldSelection($depth = 3);
-
-        // If your GraphQL query exceeds the default nesting query, you can increase it here:
-        // $fields = $getSelectFields(11);
-
         /** @var SelectFields $fields */
         $fields = $getSelectFields();
         $select = $fields->getSelect();

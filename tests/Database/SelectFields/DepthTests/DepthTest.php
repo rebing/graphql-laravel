@@ -66,7 +66,7 @@ GRAQPHQL;
 
         $result = $this->httpGraphql($graphql);
 
-        self::assertCount(0, $result['errors'] ?? []);
+        self::assertArrayNotHasKey('errors', $result);
     }
 
     public function testDefaultDepthAdjusted(): void
