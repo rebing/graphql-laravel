@@ -107,7 +107,7 @@ CHANGELOG
     new: `public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult`
 
   - `\Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments` has been removed
-  - $getSelectFields closure no longer takes a depth parameter
+  - `$getSelectFields` closure no longer takes a depth parameter
 ### Added
 - Command to make an exection middleware [\#772 / mfn](https://github.com/rebing/graphql-laravel/pull/772)
 - The primary execution of the GraphQL request is now piped through middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)\
@@ -120,8 +120,7 @@ CHANGELOG
 - Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 ### Changed
-- $getSelectFields closure no longer takes a depth parameter
-- Internally webonyx query plan feature is now used for retrieving information about a query
+- Internally webonyx query plan feature is now used for retrieving information about a query [\#793 / crissi](https://github.com/rebing/graphql-laravel/pull/793))
 - Rewrite and simplify how schemas are handled [\#779 / mfn](https://github.com/rebing/graphql-laravel/pull/779)
 - Internally stop using the global `config()` function and preferable use the repository or the Facade otherwise [\#774 / mfn](https://github.com/rebing/graphql-laravel/pull/774)
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
