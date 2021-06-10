@@ -52,7 +52,7 @@ abstract class Field
     abstract public function type(): GraphQLType;
 
     /**
-     * @return array<string,array>
+     * @return array<string,array<string,mixed>>
      */
     public function args(): array
     {

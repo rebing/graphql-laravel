@@ -27,7 +27,7 @@ class RulesInFields
     }
 
     /**
-     * @return array<array>
+     * @return array<string,mixed>
      */
     public function get(): array
     {
