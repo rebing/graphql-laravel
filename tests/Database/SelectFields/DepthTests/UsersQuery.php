@@ -22,19 +22,10 @@ class UsersQuery extends Query
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }
 
-    public function args(): array
-    {
-        return [
-            'depth' => [
-                'type' => Type::int(),
-            ],
-        ];
-    }
-
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         /** @var SelectFields $selectFields */
-        $selectFields = $getSelectFields($args['depth'] ?? null);
+        $selectFields = $getSelectFields();
 
         return User::with($selectFields->getRelations())->select($selectFields->getSelect())->get();
     }
