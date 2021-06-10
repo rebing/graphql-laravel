@@ -109,7 +109,7 @@ CHANGELOG
   - `\Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments` has been removed
   - `$getSelectFields` closure no longer takes a depth parameter
 ### Added
-- Command to make an exection middleware [\#772 / mfn](https://github.com/rebing/graphql-laravel/pull/772)
+- Command to make an execution middleware [\#772 / mfn](https://github.com/rebing/graphql-laravel/pull/772)
 - The primary execution of the GraphQL request is now piped through middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)\
   This allows greater flexibility for enabling/disabling certain functionality
   as well as bringing in new features without having to open up the library.
