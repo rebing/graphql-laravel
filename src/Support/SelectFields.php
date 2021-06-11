@@ -192,7 +192,8 @@ class SelectFields
                     );
                 }
                 // With
-                elseif (is_array($field['fields']) && $queryable) {
+
+                elseif (is_array($field['fields']) && !empty($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')

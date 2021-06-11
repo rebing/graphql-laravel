@@ -20,13 +20,6 @@ use ReflectionMethod;
  */
 abstract class Field
 {
-    /**
-     * The depth the SelectField and ResolveInfoFieldsAndArguments classes traverse.
-     *
-     * @var int
-     */
-    protected $depth = 5;
-
     protected $attributes = [];
 
     /** @var string[] */
@@ -188,7 +181,7 @@ abstract class Field
                 }
             }
 
-            $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))->getFieldsAndArgumentsSelection($this->depth);
+            $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
 
             // Validate arguments in fields
             $this->validateFieldArguments($fieldsAndArguments);
@@ -214,8 +207,8 @@ abstract class Field
                 $className = $param->getType()->getName();
 
                 if (Closure::class === $className) {
-                    return function (int $depth = null) use ($arguments, $fieldsAndArguments): SelectFields {
-                        return $this->instanciateSelectFields($arguments, $fieldsAndArguments, $depth);
+                    return function () use ($arguments, $fieldsAndArguments): SelectFields {
+                        return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
                     };
                 }
 
@@ -241,14 +234,9 @@ abstract class Field
      * @param array<int,mixed> $arguments
      * @param array<string,mixed> $fieldsAndArguments
      */
-    private function instanciateSelectFields(array $arguments, array $fieldsAndArguments, int $depth = null): SelectFields
+    private function instanciateSelectFields(array $arguments, array $fieldsAndArguments): SelectFields
     {
         $ctx = $arguments[2] ?? null;
-
-        if (null !== $depth && $depth !== $this->depth) {
-            $fieldsAndArguments = (new ResolveInfoFieldsAndArguments($arguments[3]))
-                ->getFieldsAndArgumentsSelection($depth);
-        }
 
         return new SelectFields($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
     }
