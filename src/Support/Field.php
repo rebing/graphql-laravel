@@ -84,6 +84,19 @@ abstract class Field
     }
 
     /**
+     * @param array<string,mixed> $arguments
+     * @param array<string,mixed> $rules
+     */
+    protected function validateArguments(array $arguments, array $rules): void
+    {
+        $validator = $this->getValidator($arguments, $rules);
+
+        if ($validator->fails()) {
+            throw new ValidationError('validation', $validator);
+        }
+    }
+
+    /**
      * @param array<string,mixed> $fieldsAndArgumentsSelection
      */
     public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
@@ -174,11 +187,7 @@ abstract class Field
             $rules = $this->getRules($args);
 
             if ($rules) {
-                $validator = $this->getValidator($args, $rules);
-
-                if ($validator->fails()) {
-                    throw new ValidationError('validation', $validator);
-                }
+                $this->validateArguments($args, $rules);
             }
 
             $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
