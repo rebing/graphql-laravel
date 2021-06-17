@@ -46,13 +46,13 @@ abstract class Type implements TypeConvertible
             $resolver = [$this, $resolveMethod];
 
             return function () use ($resolver) {
-                $args = func_get_args();
+                $args = \func_get_args();
 
-                return call_user_func_array($resolver, $args);
+                return \call_user_func_array($resolver, $args);
             };
         }
 
-        if (isset($field['alias']) && is_string($field['alias'])) {
+        if (isset($field['alias']) && \is_string($field['alias'])) {
             $alias = $field['alias'];
 
             return function ($type) use ($alias) {
@@ -69,7 +69,7 @@ abstract class Type implements TypeConvertible
         $allFields = [];
 
         foreach ($fields as $name => $field) {
-            if (is_string($field)) {
+            if (\is_string($field)) {
                 $field = app($field);
                 $field->name = $name;
                 $allFields[$name] = $field->toArray();

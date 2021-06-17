@@ -41,7 +41,7 @@ class WrapperType extends ObjectType
             'data' => [
                 'type' => GraphQL::type($typeName),
                 'resolve' => function ($data) {
-                    return array_key_exists('data', $data) ?
+                    return \array_key_exists('data', $data) ?
                         $data['data'] :
                         $data;
                 },

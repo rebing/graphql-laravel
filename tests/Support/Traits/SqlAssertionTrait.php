@@ -42,7 +42,7 @@ trait SqlAssertionTrait
      */
     protected function assertSqlCount(int $expectedCount, string $msg = ''): void
     {
-        $numSqlQueries = count($this->sqlQueryEvents);
+        $numSqlQueries = \count($this->sqlQueryEvents);
 
         if ($expectedCount === $numSqlQueries) {
             $this->sqlCounterReset();

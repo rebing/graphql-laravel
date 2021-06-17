@@ -38,7 +38,7 @@ class ArrayKeyChange
         $segment = array_shift($segments);
 
         if (empty($segments)) {
-            if (array_key_exists($segment, $target) && $replaceKey !== $segment) {
+            if (\array_key_exists($segment, $target) && $replaceKey !== $segment) {
                 $target[$replaceKey] = $target[$segment];
                 unset($target[$segment]);
             }
@@ -56,7 +56,7 @@ class ArrayKeyChange
             return $target;
         }
 
-        if (array_key_exists($segment, $target) && is_array($target[$segment])) {
+        if (\array_key_exists($segment, $target) && \is_array($target[$segment])) {
             $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
         }
 

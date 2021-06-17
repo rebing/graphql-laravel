@@ -41,7 +41,7 @@ class Rules
      */
     protected function resolveRules($rules, array $arguments)
     {
-        if (is_callable($rules)) {
+        if (\is_callable($rules)) {
             return $rules($arguments, $this->requestArguments);
         }
 
@@ -131,7 +131,7 @@ class Rules
                 $rules[$key] = $this->resolveRules($fieldRules, $resolutionArguments);
             }
 
-            if (property_exists($field, 'type') && array_key_exists($name, $resolutionArguments) && is_array($resolutionArguments[$name])) {
+            if (property_exists($field, 'type') && \array_key_exists($name, $resolutionArguments) && \is_array($resolutionArguments[$name])) {
                 $type = $field instanceof InputObjectField
                     ? $field->getType()
                     : $field->type;

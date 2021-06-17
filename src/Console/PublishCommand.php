@@ -54,7 +54,7 @@ class PublishCommand extends Command
             if ($this->files->exists($to) && !$this->option('force')) {
                 continue;
             }
-            $this->createParentDirectory(dirname($to));
+            $this->createParentDirectory(\dirname($to));
             $this->files->copy($from, $to);
             $this->status($from, $to);
         }

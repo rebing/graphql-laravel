@@ -35,7 +35,7 @@ class FieldTest extends TestCase
         self::assertArrayHasKey('resolve', $attributes);
         self::assertIsArray($attributes['args']);
         self::assertInstanceOf(Closure::class, $attributes['resolve']);
-        self::assertInstanceOf(get_class($field->type()), $attributes['type']);
+        self::assertInstanceOf(\get_class($field->type()), $attributes['type']);
     }
 
     public function testResolve(): void

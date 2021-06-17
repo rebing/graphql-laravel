@@ -42,7 +42,7 @@ class ExamplesPaginationQuery extends Query
 
         return new LengthAwarePaginator(
             collect($data)->slice($page * $take, $take),
-            count($data),
+            \count($data),
             $take,
             $page
         );

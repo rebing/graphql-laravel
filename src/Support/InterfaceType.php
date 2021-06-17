@@ -18,9 +18,9 @@ abstract class InterfaceType extends Type
         $resolver = [$this, 'resolveType'];
 
         return function () use ($resolver) {
-            $args = func_get_args();
+            $args = \func_get_args();
 
-            return call_user_func_array($resolver, $args);
+            return \call_user_func_array($resolver, $args);
         };
     }
 
@@ -33,9 +33,9 @@ abstract class InterfaceType extends Type
         $resolver = [$this, 'types'];
 
         return function () use ($resolver): array {
-            $args = func_get_args();
+            $args = \func_get_args();
 
-            return call_user_func_array($resolver, $args);
+            return \call_user_func_array($resolver, $args);
         };
     }
 

@@ -47,7 +47,7 @@ class AliasArguments
         $maxDepth = 1;
 
         foreach ($array as $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $depth = $this->getArrayDepth($value) + 1;
 
                 if ($depth > $maxDepth) {

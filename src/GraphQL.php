@@ -196,7 +196,7 @@ class GraphQL
     public function addType($class, string $name = null): void
     {
         if (!$name) {
-            $type = is_object($class) ? $class : $this->app->make($class);
+            $type = \is_object($class) ? $class : $this->app->make($class);
             $name = $type->name;
         }
 
@@ -232,7 +232,7 @@ class GraphQL
     {
         $standardTypes = Type::getStandardTypes();
 
-        if (in_array($name, $standardTypes)) {
+        if (\in_array($name, $standardTypes)) {
             return $standardTypes[$name];
         }
 
@@ -252,7 +252,7 @@ class GraphQL
 
         $type = $this->types[$name];
 
-        if (!is_object($type)) {
+        if (!\is_object($type)) {
             $type = $this->app->make($type);
         }
 
@@ -285,7 +285,7 @@ class GraphQL
                     $objectType->config[$key] = $value;
                 }
             }
-        } elseif (is_array($type)) {
+        } elseif (\is_array($type)) {
             $objectType = $this->buildObjectTypeFromFields($type, $opts);
         } else {
             $objectType = $this->buildObjectTypeFromClass($type, $opts);
@@ -299,7 +299,7 @@ class GraphQL
      */
     protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
-        if (!is_object($type)) {
+        if (!\is_object($type)) {
             $type = $this->app->make($type);
         }
 
@@ -307,7 +307,7 @@ class GraphQL
             throw new TypeNotFound(
                 sprintf(
                     'Unable to convert %s to a GraphQL type, please add/implement the interface %s',
-                    get_class($type),
+                    \get_class($type),
                     TypeConvertible::class
                 )
             );
@@ -325,7 +325,7 @@ class GraphQL
         $typeFields = [];
 
         foreach ($fields as $name => $field) {
-            if (is_string($field)) {
+            if (\is_string($field)) {
                 $field = $this->app->make($field);
                 $name = is_numeric($name) ? $field->name : $name;
                 $field->name = $name;
@@ -562,19 +562,19 @@ class GraphQL
     {
         $schemas = Config::get('graphql.schemas');
 
-        if (!array_key_exists($schemaName, $schemas)) {
+        if (!\array_key_exists($schemaName, $schemas)) {
             throw new SchemaNotFound("No configuration for schema '$schemaName' found");
         }
 
         $schemaConfig = $schemas[$schemaName];
 
-        if (!is_string($schemaConfig) && !is_array($schemaConfig)) {
+        if (!\is_string($schemaConfig) && !\is_array($schemaConfig)) {
             throw new SchemaNotFound(
                 sprintf(
                     "Configuration for schema '%s' must be either an array or a class implementing %s, found type %s",
                     $schemaName,
                     ConfigConvertible::class,
-                    gettype($schemaConfig)
+                    \gettype($schemaConfig)
                 )
             );
         }
@@ -583,7 +583,7 @@ class GraphQL
             throw new SchemaNotFound("Empty configuration found for schema '$schemaName'");
         }
 
-        if (is_string($schemaConfig)) {
+        if (\is_string($schemaConfig)) {
             if (!class_exists($schemaConfig)) {
                 throw new SchemaNotFound("Cannot find class '$schemaConfig' for schema '$schemaName'");
             }

@@ -41,7 +41,7 @@ class RulesInFields
      */
     protected function resolveRules($rules, array $arguments)
     {
-        if (is_callable($rules)) {
+        if (\is_callable($rules)) {
             return $rules($arguments);
         }
 
@@ -70,7 +70,7 @@ class RulesInFields
                 continue;
             }
 
-            if (is_array($field['fields'])) {
+            if (\is_array($field['fields'])) {
                 $rules = $rules + $this->getRules($field['fields'], $key . '.fields', $fieldObject->getType());
             }
 

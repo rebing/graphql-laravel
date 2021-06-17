@@ -26,7 +26,7 @@ class GraphQLController extends Controller
         $headers = $config->get('graphql.headers', []);
         $jsonOptions = $config->get('graphql.json_encoding_options', 0);
 
-        $isBatch = is_array($operations);
+        $isBatch = \is_array($operations);
 
         $supportsBatching = $config->get('graphql.batching.enable', true);
 
@@ -78,7 +78,7 @@ class GraphQLController extends Controller
      */
     protected function createBatchingNotSupportedResponse(array $input): array
     {
-        $count = min(count($input), 100);
+        $count = min(\count($input), 100);
 
         $data = [];
 
