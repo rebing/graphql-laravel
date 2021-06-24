@@ -96,7 +96,7 @@ parameters:
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: "#^Parameter \\#2 \\$schema of method Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\:\\:handle\\(\\) expects GraphQL\\\\Type\\\\Schema, Closure\\(\\.\\.\\.mixed\\)\\: mixed given\\.$#"
+			message: "#^Parameter \\#2 \\$schema of method Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\:\\:handle\\(\\) expects GraphQL\\\\Type\\\\Schema, Closure given\\.$#"
 			count: 1
 			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
