@@ -969,7 +969,7 @@ SQL
         self::assertSame($expectedResult, $result);
     }
 
-    public function testQuerySelectAndWithWithAddingOfColumn(): void
+    public function testCustomQueryAllowColumnToBeAdded(): void
     {
         /** @var User[] $users */
         $users = factory(User::class, 2)
