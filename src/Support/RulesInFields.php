@@ -60,7 +60,7 @@ class RulesInFields
         $fields = $fields['fields'] ?? $fields;
         foreach ($fields as $name => $field) {
             $key = null === $prefix ? $name : "{$prefix}.{$name}";
-         //   dump($key);
+
             try {
                 if (!method_exists($parentType, 'getField')) {
                     continue;

@@ -139,10 +139,7 @@ class SelectFields
         $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
         $fields = $requestedFields['fields']['fields'] ?? $requestedFields['fields'];
-        // if ($parentType instanceOf InterfaceType) {
-        //     $fields = $requestedFields['fields']['fields'];
-        // }
-        //dump($requestedFields['implementors']['Post']['fields'] ?? null);
+
         if (isset($requestedFields['implementors'])) {
             $fields = collect($requestedFields['implementors'])->reduce(function($carry, $row) {
                 return array_merge($carry, $row['fields']);
@@ -155,7 +152,7 @@ class SelectFields
             if ('__typename' === $key) {
                 continue;
             }
-            //dump($key);
+
             // Always select foreign key
             if ($field === static::ALWAYS_RELATION_KEY) {
                 static::addFieldToSelect($key, $select, $parentTable, false);
@@ -168,9 +165,6 @@ class SelectFields
                 if (method_exists($parentType, 'getField') && $parentType->hasField($key)) {
                     $fieldObject = $parentType->getField($key);
                 } elseif ($parentType instanceOf InterfaceType ) {
-                    if ($implementors === []) {
-                        dd($requestedFields);
-                    }
                     foreach($implementors as $implementor) {
                         if ($implementor['type']->hasField($key)) {
                             $fieldObject = $implementor['type']->getField($key);
