@@ -8,6 +8,6 @@ RUN install-php-extensions \
 
 COPY --from=composer:2.0.13 /usr/bin/composer /usr/local/bin/
 
-COPY ../ /app
+COPY ./ /app
 
 WORKDIR /app
