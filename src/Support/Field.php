@@ -190,7 +190,10 @@ abstract class Field
                 $this->validateArguments($args, $rules);
             }
 
-            $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
+           // dump($arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan());
+            //dump($arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan());
+            $fieldsAndArguments = $arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan();
+            //$fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
 
             // Validate arguments in fields
             $this->validateFieldArguments($fieldsAndArguments);

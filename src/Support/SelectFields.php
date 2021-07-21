@@ -136,8 +136,10 @@ class SelectFields
         $ctx
     ): void {
         $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
+       // dump($requestedFields['fields']);
+        $fields = $requestedFields['fields']['fields'] ?? $requestedFields['fields'];
+        foreach ($fields as $key => $field) {
 
-        foreach ($requestedFields['fields'] as $key => $field) {
             // Ignore __typename, as it's a special case
             if ('__typename' === $key) {
                 continue;
@@ -255,7 +257,7 @@ class SelectFields
 
         // If parent type is an union or interface we select all fields
         // because we don't know which other fields are required
-        if (is_a($parentType, UnionType::class) || is_a($parentType, \GraphQL\Type\Definition\InterfaceType::class)) {
+        if (is_a($parentType, UnionType::class)) {
             $select = ['*'];
         }
     }
@@ -464,8 +466,8 @@ class SelectFields
         ) {
             $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
+            
             static::handleRelation($select, $query, $parentTable, $field);
-
             // New parent type, which is the relation
             try {
                 if (method_exists($parentType, 'getField')) {
@@ -490,7 +492,7 @@ class SelectFields
                     }
                 );
                 $typesFiltered = array_values($typesFiltered ?? []);
-
+                
                 if (1 === \count($typesFiltered)) {
                     /* @var GraphqlType $type */
                     $type = $typesFiltered[0];
