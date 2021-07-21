@@ -104,7 +104,7 @@ GRAPHQL;
             'expectErrors' => true,
             'variables' => [],
         ]);
-
+        dd($result);
         $expected = [
             'errors' => [
                 [

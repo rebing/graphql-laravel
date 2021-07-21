@@ -4,24 +4,25 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
 use Closure;
+use RuntimeException;
+use Illuminate\Support\Arr;
 use GraphQL\Error\InvariantViolation;
+use GraphQL\Type\Definition\UnionType;
+use Illuminate\Support\Facades\Config;
+use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Database\Query\Expression;
+use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\Type as GraphqlType;
-use GraphQL\Type\Definition\UnionType;
-use GraphQL\Type\Definition\WrappingType;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
-use RuntimeException;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class SelectFields
 {
@@ -136,15 +137,25 @@ class SelectFields
         $ctx
     ): void {
         $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
-       // dump($requestedFields['fields']);
-        $fields = $requestedFields['fields']['fields'] ?? $requestedFields['fields'];
-        foreach ($fields as $key => $field) {
 
+        $fields = $requestedFields['fields']['fields'] ?? $requestedFields['fields'];
+        // if ($parentType instanceOf InterfaceType) {
+        //     $fields = $requestedFields['fields']['fields'];
+        // }
+        //dump($requestedFields['implementors']['Post']['fields'] ?? null);
+        if (isset($requestedFields['implementors'])) {
+            $fields = collect($requestedFields['implementors'])->reduce(function($carry, $row) {
+                return array_merge($carry, $row['fields']);
+
+            }, $fields);
+        }
+        $implementors = $requestedFields['implementors'] ?? [];
+        foreach ($fields as $key => $field) {
             // Ignore __typename, as it's a special case
             if ('__typename' === $key) {
                 continue;
             }
-
+            //dump($key);
             // Always select foreign key
             if ($field === static::ALWAYS_RELATION_KEY) {
                 static::addFieldToSelect($key, $select, $parentTable, false);
@@ -154,8 +165,18 @@ class SelectFields
 
             // If field doesn't exist on definition we don't select it
             try {
-                if (method_exists($parentType, 'getField')) {
+                if (method_exists($parentType, 'getField') && $parentType->hasField($key)) {
                     $fieldObject = $parentType->getField($key);
+                } elseif ($parentType instanceOf InterfaceType ) {
+                    if ($implementors === []) {
+                        dd($requestedFields);
+                    }
+                    foreach($implementors as $implementor) {
+                        if ($implementor['type']->hasField($key)) {
+                            $fieldObject = $implementor['type']->getField($key);
+                            break;
+                        }
+                    }
                 } else {
                     continue;
                 }

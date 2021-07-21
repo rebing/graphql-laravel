@@ -57,10 +57,10 @@ class RulesInFields
     protected function getRules(array $fields, ?string $prefix, Type $parentType): array
     {
         $rules = [];
-
+        $fields = $fields['fields'] ?? $fields;
         foreach ($fields as $name => $field) {
             $key = null === $prefix ? $name : "{$prefix}.{$name}";
-
+         //   dump($key);
             try {
                 if (!method_exists($parentType, 'getField')) {
                     continue;
@@ -75,6 +75,7 @@ class RulesInFields
             }
 
             $args = $fieldObject->config['args'] ?? [];
+
 
             foreach ($args as $argName => $info) {
                 if (isset($info['rules'])) {

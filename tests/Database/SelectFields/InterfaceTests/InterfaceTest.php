@@ -57,7 +57,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select * from "posts";
+select "title" from "posts";
 SQL
         );
 
@@ -241,7 +241,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select "id", "title" from "posts" where "posts"."id" in (?);
+select "id", "title", "created_at", "updated_at" from "posts" where "posts"."id" in (?);
 SQL
         );
 
