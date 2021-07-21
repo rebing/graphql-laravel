@@ -102,8 +102,7 @@ abstract class Field
     public function validateFieldArguments(array $fieldsAndArgumentsSelection): void
     {
         $argsRules = (new RulesInFields($this->type(), $fieldsAndArgumentsSelection))->get();
-       // dump($argsRules);
-       // dd($fieldsAndArgumentsSelection);
+
         if (!$argsRules) {
             return;
         }
@@ -193,11 +192,11 @@ abstract class Field
 
            // dump($arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan());
             //dump($arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan());
-            //$fieldsAndArguments = $arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan();
-            $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
+            $fieldsAndArguments = $arguments[3]->lookAhead(['group-implementor-fields'])->queryPlan();
+            //$fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
 
             // Validate arguments in fields
-            $this->validateFieldArguments($fieldsAndArguments);
+            $this->validateFieldArguments($fieldsAndArguments['fields'] ?? $fieldsAndArguments);
 
             $arguments[1] = $this->getArgs($arguments);
 
