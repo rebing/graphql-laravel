@@ -143,7 +143,6 @@ class SelectFields
         if (isset($requestedFields['implementors'])) {
             $fields = collect($requestedFields['implementors'])->reduce(function($carry, $row) {
                 return array_merge($carry, $row['fields']);
-
             }, $fields);
         }
         $implementors = $requestedFields['implementors'] ?? [];
