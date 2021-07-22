@@ -336,7 +336,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -391,7 +391,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -2204,29 +2204,4 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\WrapperType\\:\\:getMessagesFields\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/WithTypeTests/WrapperType.php
-
-		-
-			message: "#^Return type \\(Illuminate\\\\Support\\\\Collection\\<int, mixed\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Collection\\:\\:pluck\\(\\) should be covariant with return type \\(static\\(Illuminate\\\\Support\\\\Collection\\)\\) of method Illuminate\\\\Support\\\\Collection\\<int,TValue\\>\\:\\:pluck\\(\\)$#"
-			count: 1
-			path: vendor/nunomaduro/larastan/stubs/EloquentCollection.stub
-
-		-
-			message: "#^Return type \\(Illuminate\\\\Support\\\\Collection\\<mixed, Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<mixed\\>\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Collection\\:\\:mapToGroups\\(\\) should be covariant with return type \\(iterable\\<static\\(Illuminate\\\\Support\\\\Collection\\)\\>&static\\(Illuminate\\\\Support\\\\Collection\\)\\) of method Illuminate\\\\Support\\\\Collection\\<int,TValue\\>\\:\\:mapToGroups\\(\\)$#"
-			count: 1
-			path: vendor/nunomaduro/larastan/stubs/EloquentCollection.stub
-
-		-
-			message: "#^Return type \\(Illuminate\\\\Support\\\\Collection\\<mixed, mixed\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Collection\\:\\:flatMap\\(\\) should be covariant with return type \\(static\\(Illuminate\\\\Support\\\\Collection\\)\\) of method Illuminate\\\\Support\\\\Collection\\<int,TValue\\>\\:\\:flatMap\\(\\)$#"
-			count: 1
-			path: vendor/nunomaduro/larastan/stubs/EloquentCollection.stub
-
-		-
-			message: "#^Return type \\(mixed\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Collection\\:\\:times\\(\\) should be covariant with return type \\(static\\(Illuminate\\\\Support\\\\Collection\\)\\) of method Illuminate\\\\Support\\\\Collection\\<int,TValue\\>\\:\\:times\\(\\)$#"
-			count: 1
-			path: vendor/nunomaduro/larastan/stubs/EloquentCollection.stub
-
-		-
-			message: "#^Parameter \\#1 \\$attributes \\(array\\<string, mixed\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOneOrMany\\:\\:make\\(\\) should be compatible with parameter \\$attributes \\(array\\<int, mixed\\>\\) of method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\<TRelatedModel of Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:make\\(\\)$#"
-			count: 1
-			path: vendor/nunomaduro/larastan/stubs/HasOneOrMany.stub
 
