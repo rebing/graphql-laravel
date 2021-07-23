@@ -32,5 +32,3 @@ parameters:
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
     reportUnmatchedIgnoredErrors: true
-    featureToggles:
-        validateOverridingMethodsInStubs: false
