@@ -11,3 +11,7 @@
 /phpunit.xml.dist export-ignore
 /tests export-ignore
 /tmp export-ignore
+
+# Github specific: force syntax highlighting to be PHP for stubs
+# See https://github.com/github/linguist/blob/master/docs/overrides.md
+*.stub linguist-language=PHP
