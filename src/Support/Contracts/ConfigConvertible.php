@@ -10,6 +10,7 @@ interface ConfigConvertible
     /**
      * @return array{
      *                execution_middleware?:array<class-string<AbstractExecutionMiddleware>>,
+     *                method?:string|string[],
      *                middleware?:array<string|class-string>,
      *                mutation?:array<string,class-string>|array<class-string>,
      *                query:array<string,class-string>|array<class-string>,
