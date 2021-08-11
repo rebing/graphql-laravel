@@ -289,6 +289,7 @@ them, in addition to the global middleware. For example:
         
         ],
         'middleware' => ['auth'],
+        'method' => ['GET', 'POST'], 
         'execution_middleware' => [
             \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
         ],

@@ -31,7 +31,7 @@ class RoutesTest extends TestCase
                     'middleware' => [ExampleMiddleware::class],
                 ],
                 'with_methods' => [
-                    'method' => ['post'],
+                    'method' => ['POST'],
                     'middleware' => [ExampleMiddleware::class],
                 ],
                 'class_based' => ExampleSchema::class,
@@ -78,9 +78,7 @@ class RoutesTest extends TestCase
             ],
             'graphql.with_methods' => [
                 'methods' => [
-                    'GET',
                     'POST',
-                    'HEAD',
                 ],
                 'uri' => 'graphql_test/with_methods',
                 'middleware' => [
@@ -100,9 +98,7 @@ class RoutesTest extends TestCase
             ],
             'graphql.class_based_with_methods' => [
                 'methods' => [
-                    'GET',
                     'POST',
-                    'HEAD',
                 ],
                 'uri' => 'graphql_test/class_based_with_methods',
                 'middleware' => [

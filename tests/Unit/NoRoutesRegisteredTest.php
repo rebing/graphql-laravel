@@ -28,7 +28,7 @@ class NoRoutesRegisteredTest extends TestCase
                     'middleware' => [ExampleMiddleware::class],
                 ],
                 'with_methods' => [
-                    'method' => ['post'],
+                    'method' => ['POST'],
                     'middleware' => [ExampleMiddleware::class],
                 ],
                 'class_based' => ExampleSchema::class,
