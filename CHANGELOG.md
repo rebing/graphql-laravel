@@ -64,6 +64,8 @@ CHANGELOG
     - 1 route for each schema + 1 route for the group prefix (default schema)
     - If GraphiQL is enabled: 1 route graphiql route for each schema + 1 for the
       graphiql group prefix (default schema)
+    - If provided, the `'method'` argument **must** provide the HTTP method
+      verbs in uppercase like `POST` or `GET`, `post` or `get` will **not** work.
   - It's now possible to prevent the registering of any routes by making the top
     level `route` an empty array or null
   - `\Rebing\GraphQL\GraphQL::routeNameTransformer` has been removed

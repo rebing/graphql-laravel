@@ -289,6 +289,7 @@ them, in addition to the global middleware. For example:
         
         ],
         'middleware' => ['auth'],
+        // Which HTTP methods to support; must be given in UPPERCASE!
         'method' => ['GET', 'POST'], 
         'execution_middleware' => [
             \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,

@@ -87,7 +87,7 @@ return [
             // Laravel HTTP middleware
             'middleware' => null,
 
-            // Which HTTP methods to support
+            // Which HTTP methods to support; must be given in UPPERCASE!
             'method' => ['GET', 'POST'],
 
             // An array of middlewares, overrides the global ones
