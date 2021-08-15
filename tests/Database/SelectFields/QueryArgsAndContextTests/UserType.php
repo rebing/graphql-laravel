@@ -4,10 +4,11 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\User;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserType extends GraphQLType
 {
@@ -51,6 +52,16 @@ class UserType extends GraphQLType
                     return $query;
                 },
             ],
+            'postsWithExtraField' => [
+                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
+                'alias' => 'posts',
+                'query' => function (array $args, HasMany $query): HasMany {
+                    $query->addSelect(DB::raw("42 as meaning_of_life"));
+
+                    return $query;
+                },
+            ],
+
         ];
     }
 }
