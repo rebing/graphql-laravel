@@ -50,7 +50,7 @@ class SelectFields
         ];
 
         /** @var array{0:mixed[],1:mixed[]} $result */
-        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        $result = static::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
 
         [$this->select, $this->relations] = $result;
     }
@@ -88,7 +88,7 @@ class SelectFields
         if (null !== $primaryKey) {
             $primaryKey = $parentTable ? ($parentTable . '.' . $primaryKey) : $primaryKey;
 
-            if (!\in_array($primaryKey, $select)) {
+            if (!in_array($primaryKey, $select)) {
                 $select[] = $primaryKey;
             }
         }
@@ -193,12 +193,12 @@ class SelectFields
                 }
                 // With
 
-                elseif (\is_array($field['fields']) && !empty($field['fields']) && $queryable) {
+                elseif (is_array($field['fields']) && !empty($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                         $relationsKey = $fieldObject->config['alias'] ?? $key;
-                        $relation = \call_user_func([app($parentType->config['model']), $relationsKey]);
+                        $relation = call_user_func([app($parentType->config['model']), $relationsKey]);
 
                         static::handleRelation($select, $relation, $parentTable, $field);
 
@@ -279,15 +279,15 @@ class SelectFields
             return;
         }
 
-        if ($forRelation && !\array_key_exists($field, $select['fields'])) {
+        if ($forRelation && !array_key_exists($field, $select['fields'])) {
             $select['fields'][$field] = [
                 'args' => [],
                 'fields' => true,
             ];
-        } elseif (!$forRelation && !\in_array($field, $select)) {
+        } elseif (!$forRelation && !in_array($field, $select)) {
             $field = $parentTable ? ($parentTable . '.' . $field) : $field;
 
-            if (!\in_array($field, $select)) {
+            if (!in_array($field, $select)) {
                 $select[] = $field;
             }
         }
@@ -318,14 +318,14 @@ class SelectFields
 
             switch ($privacyClass) {
                 // If privacy given as a closure
-                case \is_callable($privacyClass):
+                case is_callable($privacyClass):
                     if (false === $privacyClass($queryArgs, $ctx)) {
                         $selectable = null;
                     }
 
                     break;
                 // If Privacy class given
-                case \is_string($privacyClass):
+                case is_string($privacyClass):
                     /** @var Privacy $instance */
                     $instance = app($privacyClass);
 
@@ -381,15 +381,15 @@ class SelectFields
             $foreignKeyType = $relation->getMorphType();
             $foreignKeyType = $parentTable ? ($parentTable . '.' . $foreignKeyType) : $foreignKeyType;
 
-            if (!\in_array($foreignKey, $select)) {
+            if (!in_array($foreignKey, $select)) {
                 $select[] = $foreignKey;
             }
 
-            if (!\in_array($foreignKeyType, $select)) {
+            if (!in_array($foreignKeyType, $select)) {
                 $select[] = $foreignKeyType;
             }
         } elseif (is_a($relation, BelongsTo::class)) {
-            if (!\in_array($foreignKey, $select)) {
+            if (!in_array($foreignKey, $select)) {
                 $select[] = $foreignKey;
             }
         } // If 'HasMany', then add it in the 'with'
@@ -397,11 +397,11 @@ class SelectFields
             $relation,
             HasOne::class
         ) || is_a($relation, MorphOne::class)) &&
-            !\array_key_exists($foreignKey, $field)) {
+            !array_key_exists($foreignKey, $field)) {
             $segments = explode('.', $foreignKey);
             $foreignKey = end($segments);
 
-            if (!\array_key_exists($foreignKey, $field)) {
+            if (!array_key_exists($foreignKey, $field)) {
                 $field['fields'][$foreignKey] = static::ALWAYS_RELATION_KEY;
             }
 
@@ -425,7 +425,7 @@ class SelectFields
         if (isset($fieldObject->config['always'])) {
             $always = $fieldObject->config['always'];
 
-            if (\is_string($always)) {
+            if (is_string($always)) {
                 $always = explode(',', $always);
             }
 
@@ -491,7 +491,7 @@ class SelectFields
                 );
                 $typesFiltered = array_values($typesFiltered ?? []);
 
-                if (1 === \count($typesFiltered)) {
+                if (1 === count($typesFiltered)) {
                     /* @var GraphqlType $type */
                     $type = $typesFiltered[0];
                     $relationField = $type->getField($key);
