@@ -125,6 +125,7 @@ CHANGELOG
 - Internally stop using the global `config()` function and preferable use the repository or the Facade otherwise [\#774 / mfn](https://github.com/rebing/graphql-laravel/pull/774)
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)
+- Make it easier to extend select fields [\#799 / crissi](https://github.com/rebing/graphql-laravel/pull/799)
 
 ### Removed
 - The method `\Rebing\GraphQL\GraphQLServiceProvider::provides` was removed [\#769 / mfn](https://github.com/rebing/graphql-laravel/pull/769)\
