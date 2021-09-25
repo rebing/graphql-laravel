@@ -50,7 +50,7 @@ class SelectFields
         ];
 
         /** @var array{0:mixed[],1:mixed[]} $result */
-        $result = self::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        $result = static::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
 
         [$this->select, $this->relations] = $result;
     }

@@ -216,12 +216,12 @@ abstract class Field
                 $className = $param->getType()->getName();
 
                 if (Closure::class === $className) {
-                    return function () use ($arguments, $fieldsAndArguments): SelectFields {
+                    return function () use ($arguments, $fieldsAndArguments) {
                         return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
                     };
                 }
 
-                if (SelectFields::class === $className) {
+                if ($this->selectFieldClass() === $className) {
                     return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
                 }
 
@@ -243,11 +243,18 @@ abstract class Field
      * @param array<int,mixed> $arguments
      * @param array<string,mixed> $fieldsAndArguments
      */
-    private function instanciateSelectFields(array $arguments, array $fieldsAndArguments): SelectFields
+    protected function instanciateSelectFields(array $arguments, array $fieldsAndArguments): SelectFields
     {
         $ctx = $arguments[2] ?? null;
 
-        return new SelectFields($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
+        $selectFieldsClass = $this->selectFieldClass();
+
+        return new $selectFieldsClass($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
+    }
+
+    protected function selectFieldClass(): string
+    {
+        return SelectFields::class;
     }
 
     protected function aliasArgs(array $arguments): array
