@@ -371,7 +371,8 @@ class GraphQLTest extends TestCase
 
     public function testAddSchema(): void
     {
-        $schema = GraphQL::buildSchemaFromConfig([
+        $schema = GraphQL::buildSchemaFromConfig(
+            [
                 'query' => [
                     'examplesCustom' => ExamplesQuery::class,
                 ],
