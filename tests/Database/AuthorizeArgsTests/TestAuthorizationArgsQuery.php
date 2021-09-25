@@ -50,6 +50,8 @@ class TestAuthorizationArgsQuery extends Query
 
         $selectFields = $getSelectFields();
         Assert::assertInstanceOf(SelectFields::class, $selectFields);
+
+        return true;
     }
 
     public function resolve(): void

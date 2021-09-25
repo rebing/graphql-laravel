@@ -9,11 +9,12 @@ interface ConfigConvertible
 {
     /**
      * @return array{
-     *                query:array<string,class-string>|array<class-string>,
-     *                mutation?:array<string,class-string>|array<class-string>,
-     *                types?:array<string,class-string>|array<class-string>,
+     *                execution_middleware?:array<class-string<AbstractExecutionMiddleware>>,
+     *                method?:string|string[],
      *                middleware?:array<string|class-string>,
-     *                execution_middleware?:array<class-string<AbstractExecutionMiddleware>>
+     *                mutation?:array<string,class-string>|array<class-string>,
+     *                query:array<string,class-string>|array<class-string>,
+     *                types?:array<string,class-string>|array<class-string>
      *                }
      */
     public function toConfig(): array;

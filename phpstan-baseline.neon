@@ -236,7 +236,7 @@ parameters:
 			path: src/Support/Rules.php
 
 		-
-			message: "#^Binary operation \"\\.\" between string and array\\|string\\|null results in an error\\.$#"
+			message: "#^Binary operation \"\\.\" between non\\-empty\\-string and array\\|string\\|null results in an error\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -391,7 +391,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), string\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -422,11 +422,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:authorize\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
@@ -1219,6 +1214,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\(\\?'execution_middleware' \\=\\> array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, \\?'method' \\=\\> array\\<string\\>\\|string, \\?'middleware' \\=\\> array\\<string\\>, \\?'mutation' \\=\\> array\\<class\\-string\\>, 'query' \\=\\> array\\<class\\-string\\>, \\?'types' \\=\\> array\\<class\\-string\\>\\) but returns array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>&nonEmpty\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleSchemaWithMethod.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleType\\:\\:\\$attributes has no typehint specified\\.$#"

@@ -289,6 +289,8 @@ them, in addition to the global middleware. For example:
         
         ],
         'middleware' => ['auth'],
+        // Which HTTP methods to support; must be given in UPPERCASE!
+        'method' => ['GET', 'POST'], 
         'execution_middleware' => [
             \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
         ],
@@ -2520,7 +2522,7 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
 
-APQ is disabled by default and can be enabled in the config via `apc.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
+APQ is disabled by default and can be enabled in the config via `apq.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
 
 A persisted query is an ID or hash that can be generated on the client sent to the server instead of the entire GraphQL query string. 
 This smaller signature reduces bandwidth utilization and speeds up client loading times.

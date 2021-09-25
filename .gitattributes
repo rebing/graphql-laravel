@@ -4,10 +4,17 @@
 .gitignore export-ignore
 /.github export-ignore
 /.php_cs.dist export-ignore
-/docker export-ignore
+/docker-compose-dev.yml export-ignore
+/Dockerfile.dev export-ignore
 /example export-ignore
+/Makefile export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist export-ignore
+/README-docker.md export-ignore
 /tests export-ignore
 /tmp export-ignore
+
+# Github specific: force syntax highlighting to be PHP for stubs
+# See https://github.com/github/linguist/blob/master/docs/overrides.md
+*.stub linguist-language=PHP

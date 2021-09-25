@@ -32,6 +32,7 @@ if ($routeConfig) {
             $defaultSchema = $config->get('graphql.default_schema', 'default');
 
             foreach ($schemas as $schemaName => $schemaConfig) {
+                $method = $schemaConfig['method'] ?? ['GET', 'POST'];
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
@@ -39,7 +40,7 @@ if ($routeConfig) {
 
                 // Add route for each schema…
                 $router->addRoute(
-                    ['GET', 'POST'],
+                    $method,
                     $schemaName,
                     $actions + ['as' => "graphql.$schemaName"]
                 );
@@ -47,7 +48,7 @@ if ($routeConfig) {
                 // … and the default schema against the group itself
                 if ($schemaName === $defaultSchema) {
                     $router->addRoute(
-                        ['GET', 'POST'],
+                        $method,
                         '',
                         $actions + ['as' => 'graphql']
                     );
