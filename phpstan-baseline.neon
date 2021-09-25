@@ -426,11 +426,6 @@ parameters:
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:authorize\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\TestAuthorizationArgsQuery\\:\\:\\$attributes has no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
@@ -1221,7 +1216,7 @@ parameters:
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\(\\?'execution_middleware' \\=\\> array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, \\?'method' \\=\\> array\\<string\\>\\|string, \\?'middleware' \\=\\> array\\<string\\>, \\?'mutation' \\=\\> array\\<class\\-string\\>, 'query' \\=\\> array\\<class\\-string\\>, \\?'types' \\=\\> array\\<class\\-string\\>\\) but returns array\\<non\\-empty\\-string, array\\<string\\>\\|string\\>&nonEmpty\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\(\\?'execution_middleware' \\=\\> array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, \\?'method' \\=\\> array\\<string\\>\\|string, \\?'middleware' \\=\\> array\\<string\\>, \\?'mutation' \\=\\> array\\<class\\-string\\>, 'query' \\=\\> array\\<class\\-string\\>, \\?'types' \\=\\> array\\<class\\-string\\>\\) but returns array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>&nonEmpty\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleSchemaWithMethod.php
 
