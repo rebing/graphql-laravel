@@ -46,10 +46,10 @@
         "phpunit/phpunit": "~7.0|~8.0|^9",
         "nunomaduro/larastan": "dev-master#d6b55d8f3a0ef841a70a338ad372ec3e15e2d00b",
         "mockery/mockery": "^1.2",
-        "friendsofphp/php-cs-fixer": "^2.15",
+        "friendsofphp/php-cs-fixer": "^3",
         "ext-pdo_sqlite": "*",
         "laravel/legacy-factories": "^1.0",
-        "mfn/php-cs-fixer-config": "^1"
+        "mfn/php-cs-fixer-config": "^2"
     },
     "autoload": {
         "psr-4": {
