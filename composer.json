@@ -64,7 +64,7 @@
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
-        "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
+        "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
         "tests": "phpunit --colors=always --verbose",
         "tests-all": [
