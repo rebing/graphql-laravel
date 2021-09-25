@@ -154,7 +154,7 @@ abstract class Field
 
                         if (method_exists($instance, 'terminate')) {
                             app()->terminating(function () use ($arguments, $instance, $result): void {
-                                $instance->terminate($this, ...array_slice($arguments, 1), ...[$result]);
+                                $instance->terminate($this, ...\array_slice($arguments, 1), ...[$result]);
                             });
                         }
                     }
@@ -198,13 +198,13 @@ abstract class Field
             $arguments[1] = $this->getArgs($arguments);
 
             // Authorize
-            if (true != call_user_func_array($authorize, $arguments)) {
+            if (true != \call_user_func_array($authorize, $arguments)) {
                 throw new AuthorizationError($this->getAuthorizationMessage());
             }
 
             $method = new ReflectionMethod($this, 'resolve');
 
-            $additionalParams = array_slice($method->getParameters(), 3);
+            $additionalParams = \array_slice($method->getParameters(), 3);
 
             $additionalArguments = array_map(function ($param) use ($arguments, $fieldsAndArguments) {
                 $paramType = $param->getType();
@@ -232,7 +232,7 @@ abstract class Field
                 return app()->make($className);
             }, $additionalParams);
 
-            return call_user_func_array($resolver, array_merge(
+            return \call_user_func_array($resolver, array_merge(
                 [$arguments[0], $arguments[1], $arguments[2]],
                 $additionalArguments
             ));
