@@ -329,8 +329,7 @@ class GraphQL
                 $field = $this->app->make($field);
                 $field = $field->toArray();
             }
-            $nameFromField = $field['name'] ?? null;
-            $name = is_numeric($name) ? $nameFromField : $name;
+            $name = is_numeric($name) ? $field['name'] : $name;
             $field['name'] = $name;
             $typeFields[$name] = $field;
         }
