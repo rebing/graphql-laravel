@@ -47,6 +47,19 @@ class TypeTest extends TestCase
         $attributes['fields']();
     }
 
+    public function testGetAttributesInterfacesClosure(): void
+    {
+        $type = $this->getMockBuilder(ExampleType::class)
+            ->onlyMethods(['interfaces'])
+            ->getMock();
+
+        $type->expects(self::once())
+            ->method('interfaces');
+
+        $attributes = $type->getAttributes();
+        $attributes['interfaces']();
+    }
+
     public function testToArray(): void
     {
         $type = new ExampleType();
