@@ -341,7 +341,7 @@ class DefaultSchema implements ConfigConvertible
 }
 ```
 
-You can use the `php artisan make:graphql:schema` command to create a new schema configuration class automatically.
+You can use the `php artisan make:graphql:schemaConfig` command to create a new schema configuration class automatically.
 
 ### Creating a query
 
