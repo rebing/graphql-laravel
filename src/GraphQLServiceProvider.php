@@ -18,7 +18,7 @@ use Rebing\GraphQL\Console\MiddlewareMakeCommand;
 use Rebing\GraphQL\Console\MutationMakeCommand;
 use Rebing\GraphQL\Console\QueryMakeCommand;
 use Rebing\GraphQL\Console\ScalarMakeCommand;
-use Rebing\GraphQL\Console\SchemaMakeCommand;
+use Rebing\GraphQL\Console\SchemaConfigMakeCommand;
 use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Console\UnionMakeCommand;
 
@@ -142,7 +142,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->commands(MutationMakeCommand::class);
         $this->commands(QueryMakeCommand::class);
         $this->commands(ScalarMakeCommand::class);
-        $this->commands(SchemaMakeCommand::class);
+        $this->commands(SchemaConfigMakeCommand::class);
         $this->commands(TypeMakeCommand::class);
         $this->commands(UnionMakeCommand::class);
     }

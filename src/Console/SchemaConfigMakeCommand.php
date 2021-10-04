@@ -5,24 +5,19 @@ namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
-class SchemaMakeCommand extends GeneratorCommand
+class SchemaConfigMakeCommand extends GeneratorCommand
 {
-    protected $signature = 'make:graphql:schema {name}';
-    protected $description = 'Create a new GraphQL schema class';
+    protected $signature = 'make:graphql:schemaConfig {name}';
+    protected $description = 'Create a new GraphQL schema configuration class';
     protected $type = 'Schema';
 
     protected function getStub()
     {
-        return __DIR__ . '/stubs/schema.stub';
+        return __DIR__ . '/stubs/schemaConfig.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace . '\GraphQL\Schemas';
-    }
-
-    protected function buildClass($name)
-    {
-        return parent::buildClass($name);
     }
 }
