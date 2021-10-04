@@ -3,11 +3,11 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
-use Rebing\GraphQL\Console\SchemaMakeCommand;
+use Rebing\GraphQL\Console\SchemaConfigMakeCommand;
 use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 use Rebing\GraphQL\Tests\TestCase;
 
-class SchemaMakeCommandTest extends TestCase
+class SchemaConfigMakeCommandTest extends TestCase
 {
     use MakeCommandAssertionTrait;
 
@@ -21,7 +21,7 @@ class SchemaMakeCommandTest extends TestCase
     ): void {
         $this->assertMakeCommand(
             'Schema',
-            SchemaMakeCommand::class,
+            SchemaConfigMakeCommand::class,
             $inputName,
             $expectedFilename,
             'App\\\\GraphQL\\\\Schemas',
