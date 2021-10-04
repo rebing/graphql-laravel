@@ -23,20 +23,6 @@ class SchemaMakeCommand extends GeneratorCommand
 
     protected function buildClass($name)
     {
-        $stub = parent::buildClass($name);
-
-        return $this->replaceGraphqlName($stub);
-    }
-
-    protected function replaceGraphqlName(string $stub): string
-    {
-        $graphqlName = lcfirst($this->getNameInput());
-        $graphqlName = preg_replace('/Schema$/', '', $graphqlName);
-
-        return str_replace(
-            'DummyGraphqlName',
-            $graphqlName,
-            $stub
-        );
+        return parent::buildClass($name);
     }
 }
