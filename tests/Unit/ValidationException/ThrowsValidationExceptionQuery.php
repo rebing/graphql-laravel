@@ -26,11 +26,11 @@ class ThrowsValidationExceptionQuery extends Query
     public function resolve($root, $args): bool
     {
         Validator::make(
-                $args,
-                [
-                    'field' => 'required',
-                ]
-            )
+            $args,
+            [
+                'field' => 'required',
+            ]
+        )
             ->validate();
 
         return true;
