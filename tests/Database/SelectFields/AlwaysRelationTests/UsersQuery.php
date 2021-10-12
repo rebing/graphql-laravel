@@ -27,8 +27,7 @@ class UsersQuery extends Query
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();
 
-        return User
-            ::query()
+        return User::query()
             ->select($selectFields->getSelect())
             ->with($selectFields->getRelations())
             ->get();

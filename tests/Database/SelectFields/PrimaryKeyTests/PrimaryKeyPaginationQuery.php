@@ -27,8 +27,7 @@ class PrimaryKeyPaginationQuery extends Query
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();
 
-        return Post
-            ::with($selectFields->getRelations())
+        return Post::with($selectFields->getRelations())
             ->select($selectFields->getSelect())
             ->paginate(1);
     }
