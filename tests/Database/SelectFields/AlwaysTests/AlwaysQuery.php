@@ -27,8 +27,7 @@ class AlwaysQuery extends Query
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();
 
-        return Post
-            ::select($selectFields->getSelect())
+        return Post::select($selectFields->getSelect())
             ->with($selectFields->getRelations())
             ->get();
     }

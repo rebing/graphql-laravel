@@ -23,8 +23,7 @@ class PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return Post
-            ::select($getSelectFields()->getSelect())
+        return Post::select($getSelectFields()->getSelect())
             ->get();
     }
 }

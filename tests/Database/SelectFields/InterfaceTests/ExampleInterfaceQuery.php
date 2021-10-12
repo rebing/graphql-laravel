@@ -25,8 +25,7 @@ class ExampleInterfaceQuery extends Query
     {
         $fields = $getSelectFields();
 
-        return Post
-            ::select($fields->getSelect())
+        return Post::select($fields->getSelect())
             ->with($fields->getRelations())
             ->get();
     }
