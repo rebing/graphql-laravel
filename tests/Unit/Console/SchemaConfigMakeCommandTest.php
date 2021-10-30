@@ -17,7 +17,7 @@ class SchemaConfigMakeCommandTest extends TestCase
     public function testCommand(
         string $inputName,
         string $expectedFilename,
-        string $expectedClassDefinition,
+        string $expectedClassDefinition
     ): void {
         $this->assertMakeCommand(
             'Schema',
