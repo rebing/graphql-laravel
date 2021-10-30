@@ -25,7 +25,7 @@ class SchemaConfigMakeCommandTest extends TestCase
             $inputName,
             $expectedFilename,
             'App\\\\GraphQL\\\\Schemas',
-            $expectedClassDefinition,
+            $expectedClassDefinition
         );
     }
 
