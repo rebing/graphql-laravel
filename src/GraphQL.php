@@ -327,13 +327,10 @@ class GraphQL
         foreach ($fields as $name => $field) {
             if (\is_string($field)) {
                 $field = $this->app->make($field);
-                $name = is_numeric($name) ? $field->name : $name;
-                $field->name = $name;
                 $field = $field->toArray();
-            } else {
-                $name = is_numeric($name) ? $field['name'] : $name;
-                $field['name'] = $name;
             }
+            $name = is_numeric($name) ? $field['name'] : $name;
+            $field['name'] = $name;
             $typeFields[$name] = $field;
         }
 
