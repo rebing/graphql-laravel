@@ -20,6 +20,7 @@ use ReflectionMethod;
  */
 abstract class Field
 {
+    /** @var array */
     protected $attributes = [];
 
     /** @var string[] */
