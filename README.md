@@ -341,6 +341,8 @@ class DefaultSchema implements ConfigConvertible
 }
 ```
 
+You can use the `php artisan make:graphql:schemaConfig` command to create a new schema configuration class automatically.
+
 ### Creating a query
 
 First you usually create a type you want to return from the query. The Eloquent `'model'` is only required if specifying relations.
