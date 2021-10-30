@@ -28,6 +28,7 @@ abstract class Field
      */
     protected $depth = 5;
 
+    /** @var array */
     protected $attributes = [];
 
     /** @var string[] */
