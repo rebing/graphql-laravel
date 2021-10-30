@@ -1426,7 +1426,7 @@ parameters:
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: "#^Parameter \\#1 \\$offset of method Illuminate\\\\Support\\\\Collection\\<mixed,mixed\\>\\:\\:slice\\(\\) expects int, float\\|int given\\.$#"
+			message: "#^Parameter \\#1 \\$offset of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:slice\\(\\) expects int, float\\|int given\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
@@ -1816,16 +1816,6 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:getPackageAliases\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:getPackageProviders\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/TestCase.php
-
-		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$data has no typehint specified\\.$#"
 			count: 1
 			path: tests/TestCase.php
@@ -1837,11 +1827,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setupSqlAssertionTrait\\(\\)\\.$#"
-			count: 1
-			path: tests/TestCaseDatabase.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setUpTraits\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/TestCaseDatabase.php
 

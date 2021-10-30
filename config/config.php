@@ -215,7 +215,7 @@ return [
         // The cache prefix
         'cache_prefix' => config('cache.prefix') . ':graphql.apq',
 
-        // The cache ttl in minutes - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
+        // The cache ttl in seconds - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
         'cache_ttl' => 300,
     ],
 
