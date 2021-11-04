@@ -108,6 +108,9 @@ CHANGELOG
 
   - `\Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments` has been removed
   - `$getSelectFields` closure no longer takes a depth parameter
+
+- The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type.  
+
 ### Added
 - Command to make an execution middleware [\#772 / mfn](https://github.com/rebing/graphql-laravel/pull/772)
 - Command to make a schema configuration [\#830 / matsn0w](https://github.com/rebing/graphql-laravel/pull/830)
