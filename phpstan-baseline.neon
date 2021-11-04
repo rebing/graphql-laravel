@@ -186,11 +186,6 @@ parameters:
 			path: src/Support/Middleware.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has parameter \\$args with no typehint specified\\.$#"
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has parameter \\$context with no typehint specified\\.$#"
 			count: 1
 			path: src/Support/Middleware.php
@@ -207,6 +202,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:resolve\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Middleware.php
+
+		-
+			message: "#^Parameter \\#2 \\$args of method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) expects array\\<string, mixed\\>, Closure given\\.$#"
 			count: 1
 			path: src/Support/Middleware.php
 
@@ -1067,11 +1067,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExampleMiddleware.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleMiddleware\\:\\:handle\\(\\) has parameter \\$args with no typehint specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 

@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class ExampleMiddleware extends Middleware
 {
-    public function handle($root, $args, $context, ResolveInfo $info, Closure $next)
+    public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
     {
         if (4 === $args['index']) {
             $args['index'] = 0;

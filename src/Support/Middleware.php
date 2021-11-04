@@ -8,6 +8,9 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 abstract class Middleware
 {
+    /**
+     * @param array<string,mixed> $args
+     */
     public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
     {
         return $next($root, $args, $context, $info);
