@@ -380,7 +380,7 @@ class UserType extends GraphQLType
             'email' => [
                 'type' => Type::string(),
                 'description' => 'The email of user',
-                'resolve' => function($root, $args) {
+                'resolve' => function($root, array $args) {
                     // If you want to resolve the field yourself,
                     // it can be done here
                     return strtolower($root->email);
@@ -397,7 +397,7 @@ class UserType extends GraphQLType
 
     // You can also resolve a field by declaring a method in the class
     // with the following format resolve[FIELD_NAME]Field()
-    protected function resolveEmailField($root, $args)
+    protected function resolveEmailField($root, array $args)
     {
         return strtolower($root->email);
     }
@@ -481,7 +481,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         if (isset($args['id'])) {
             return User::where('id' , $args['id'])->get();
@@ -568,7 +568,7 @@ class UpdateUserPasswordMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         if(!$user) {
@@ -662,7 +662,7 @@ class UserProfilePhotoMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $file = $args['profilePicture'];
 
@@ -1049,7 +1049,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, SelectFields $fields, SomeClassThatDoLogging $logging)
+    public function resolve($root, array $args, $context, ResolveInfo $info, SelectFields $fields, SomeClassThatDoLogging $logging)
     {
         $logging->log('fetched user');
 
@@ -1100,7 +1100,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class ResolvePage extends Middleware
 {
-    public function handle($root, $args, $context, ResolveInfo $info, Closure $next)
+    public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
     {
         Paginator::currentPageResolver(function () use ($args) {
             return $args['pagination']['page'] ?? 1;
@@ -1181,7 +1181,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class Logstash extends Middleware
 {
-    public function terminate($root, $args, $context, ResolveInfo $info, $result): void
+    public function terminate($root, array $args, $context, ResolveInfo $info, $result): void
     {
         Log::channel('logstash')->info('', (
             collect([
@@ -1441,7 +1441,7 @@ class PictureField extends Field
         ];
     }
 
-    protected function resolve($root, $args)
+    protected function resolve($root, array $args)
     {
         $width = isset($args['width']) ? $args['width']:100;
         $height = isset($args['height']) ? $args['height']:100;
@@ -1530,7 +1530,7 @@ class FormattableDate extends Field
         ];
     }
 
-    protected function resolve($root, $args): ?string
+    protected function resolve($root, array $args): ?string
     {
         $date = $root->{$this->getProperty()};
 
@@ -1645,7 +1645,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
     {
         /** @var SelectFields $fields */
         $fields = $getSelectFields();
@@ -1826,7 +1826,7 @@ class PostsQuery extends Query
 
     // ...
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
     {
         $fields = $getSelectFields();
 
@@ -1878,7 +1878,7 @@ class PostsQuery extends Query
 
     // ...
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
     {
         $fields = $getSelectFields();
 
@@ -2379,7 +2379,7 @@ class UpdateUserMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
         $user->fill($args['input']));
@@ -2828,7 +2828,7 @@ public function type(): Type
     );
 }
 
-public function resolve($root, $args)
+public function resolve($root, array $args)
 {
     return [
         'data' => Post::find($args['post_id']),
