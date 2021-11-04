@@ -245,7 +245,7 @@ further middlewares). In case you're interested in the details, please see
 
 #### GraphQL resolver middleware
 
-After the HTTP middleware and the execution middelware is applied, the
+After the HTTP middleware and the execution middleware is applied, the
 "resolver middleware" is executed for the query/mutation being targeted
 **before** the actual `resolve()` method is called.
 
@@ -267,7 +267,7 @@ them, in addition to the global middleware. For example:
             // It's possible to specify a name/alias with the key
             // but this is discouraged as it prevents things
             // like improving performance with e.g. `lazyload_types=true`
-            // It's recommended to specifcy just the class here and
+            // It's recommended to specify just the class here and
             // rely on the `'name'` attribute in the query / type.
             'someQuery' => AnotherExampleQuery::class,
         ],
@@ -425,7 +425,7 @@ Alternatively you can:
   ],
   ```
   Adding them on the global level allows to share them between different schemas
-  but be aware this might make it harder to undertand which types/fields are used
+  but be aware this might make it harder to understand which types/fields are used
   where.
 
 - or add the type with the `GraphQL` Facade, in a service provider for example.
@@ -773,7 +773,7 @@ let res = await axios.post('/graphql', bodyFormData, {
 
 ### Validation
 
-Laravels validation is supported on queries, mutations, input types and field
+Laravel's validation is supported on queries, mutations, input types and field
 arguments.
 
 > **Note:** The support is "sugar on top" and is provided as a convenience.
@@ -788,7 +788,7 @@ Adding validation rules is supported in the following ways:
   - in input types in fields declared in `function fields()`  
   - `'args'` declared for a field
 - Overriding `\Rebing\GraphQL\Support\Field::rules` on any query/mutation/input type
-- Or directly use Laravels `Validator` in your `resolve()` method
+- Or directly use Laravel's `Validator` in your `resolve()` method
 
 Using the configuration key `'rules'` is very convenient, as it is declared in
 the same location as the GraphQL type itself. However, you may hit certain
@@ -888,9 +888,9 @@ class UpdateUserEmailMutation extends Mutation
 }
 ```
 
-#### Example using Laravels validator directly
+#### Example using Laravel's validator directly
 
-Calling `validate()` in the example below will throw Laravels `ValidationException`
+Calling `validate()` in the example below will throw Laravel's `ValidationException`
 which is handed by the default `error_formatter` by this library:
 
 ```php
@@ -921,7 +921,7 @@ the `rules()` method.
 Exceptions are used to communicate back in the GraphQL response that validation
 errors occurred. When using the built-in support, the exception
 `\Rebing\GraphQL\Error\ValidationError` is thrown. In your custom code or when
-directly using the Laravel `Validator`, Laravels built-in
+directly using the Laravel `Validator`, Laravel's built-in
 `\Illuminate\Validation\ValidationException` is supported too. In both cases,
 the GraphQL response is transformed to the error format shown below.
 
@@ -1066,9 +1066,9 @@ class UsersQuery extends Query
 ### Resolver middleware
 
 These are **GraphQL specific resolver middlewares** and are only
-conceptually related to Laravels "HTTP middleware". The main difference:
+conceptually related to Laravel's "HTTP middleware". The main difference:
 
-- Laravels HTTP middleware:
+- Laravel's HTTP middleware:
   - works on the schema / route level
   - is compatible with any regular Laravel HTTP middleware
   - is the same for all queries/mutations in a schema
@@ -2178,7 +2178,7 @@ Based on the previous code example, the method would look like:
 
 #### Sharing interface fields
 
-Since you often have to repeat many of the field definitons of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
+Since you often have to repeat many of the field definitions of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
 You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
 
 With this you could write the `fields` method of your `HumanType` class like this:
@@ -2530,11 +2530,11 @@ A persisted query is an ID or hash that can be generated on the client sent to t
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
 
-Behind the scenes, APQ uses Laravels cache for storing / retrieving the queries.
+Behind the scenes, APQ uses Laravel's cache for storing / retrieving the queries.
 They are parsed by GraphQL before storing, so re-parsing them again is not necessary.
 Please see the various options there for which cache, prefix, TTL, etc. to use.
 
-> Note: it is advised to clear the cache after a deployment to accomodate for changes in your schema!
+> Note: it is advised to clear the cache after a deployment to accommodate for changes in your schema!
 
 For more information see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
@@ -2760,11 +2760,11 @@ Although version 2 builds on the same code base and does not radically change ho
     - from `function query($query, $variables = [], $opts = [])`
     - to `function query(string $query, ?array $variables = [], array $opts = []): array`
   - If you're using custom Scalar types:
-    - the signature of the method parseLiteral changed (due to upgrade of the webonxy library):
+    - the signature of the method parseLiteral changed (due to upgrade of the webonyx library):
       - from `public function parseLiteral($ast)`
       - to `public function parseLiteral($valueNode, ?array $variables = null)`
 - The `UploadType` now has to be added manually to the `types` in your schema if you want to use it. The `::getInstance()` method is gone, you simple reference it like any other type via `GraphQL::type('Upload')`.
-- Follow Laravel convention and use plural for namspaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); the respective `make` commands have been adjusted. This will not break any existing code, but code generates will use the new schema.
+- Follow Laravel convention and use plural for namespaces (e.g. new queries are placed in `App\GraphQL\Queries`, not `App\GraphQL\Query` anymore); the respective `make` commands have been adjusted. This will not break any existing code, but code generates will use the new schema.
 - Be sure to read the [Changelog](CHANGELOG.md) for more details
 
 ### Migrating from Folklore
@@ -2785,7 +2785,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
   - Removed settings
     - `domain`
     - `resolvers`
-  - `schema` (defaul schema) renamed to `default_schema`
+  - `schema` (default schema) renamed to `default_schema`
   - `middleware_schema` does not exist, it's defined within a `schema.<name>.middleware` now
 - Change namespace references:
   - from `Folklore\`
@@ -2810,7 +2810,7 @@ I.e. you cannot have a query class `ExampleQuery` with the `$name` property
 
 ```php
 'query' => [
-    'aliasedEXample' => ExampleQuery::class,
+    'aliasedExample' => ExampleQuery::class,
 ],
 ```
 
