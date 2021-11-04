@@ -57,7 +57,7 @@ CHANGELOG
     - `graphql.controllers` => `graphql.route.controller`\
       Further, providing a controller action for `query` or `mutation` is not
       supported anymore.
-    - `graphql.middlware` => `graphql.route.middleware`
+    - `graphql.middleware` => `graphql.route.middleware`
     - `graphql.route_group_attributes` => `graphql.route.group_attributes`
   - The actual routes defined have changed:
     - No more separate routes for the HTTP methods
@@ -118,7 +118,7 @@ CHANGELOG
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
 - Add ability to detect unused GraphQL variables [\#660 / mfn](https://github.com/rebing/graphql-laravel/pull/660)
-- Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
+- Laravel's `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 ### Changed
 - Internally webonyx query plan feature is now used for retrieving information about a query [\#793 / crissi](https://github.com/rebing/graphql-laravel/pull/793))
