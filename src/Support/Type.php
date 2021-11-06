@@ -67,6 +67,9 @@ abstract class Type implements TypeConvertible
         return null;
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function getFields(): array
     {
         $fields = $this->fields();

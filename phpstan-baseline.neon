@@ -316,7 +316,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getFields\\(\\) should return array\\<string, mixed\\> but returns array\\<int\\|string, mixed\\>\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
