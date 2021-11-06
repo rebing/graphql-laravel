@@ -300,6 +300,7 @@ class GraphQL
 
     /**
      * @param ObjectType|string $type
+     * @param array<string,string> $opts
      */
     protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
@@ -324,6 +325,9 @@ class GraphQL
         return $type->toType();
     }
 
+    /**
+     * @param array<string,string> $opts
+     */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
     {
         $typeFields = [];

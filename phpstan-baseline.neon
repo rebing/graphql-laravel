@@ -1,17 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromClass\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$opts with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
