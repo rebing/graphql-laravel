@@ -267,7 +267,7 @@ class GraphQL
     }
 
     /**
-     * @param ObjectType|array|string $type
+     * @param ObjectType|array<int|string,class-string|array<string,mixed>>|string $type
      * @param array<string,string> $opts
      */
     public function objectType($type, array $opts = []): Type
