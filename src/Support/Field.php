@@ -214,7 +214,7 @@ abstract class Field
                     throw new InvalidArgumentException("'$param->name' could not be injected");
                 }
 
-                $className = $param->getType()->getName();
+                $className = $paramType->getName();
 
                 if (Closure::class === $className) {
                     return function () use ($arguments, $fieldsAndArguments) {
@@ -297,6 +297,9 @@ abstract class Field
         return 'Unauthorized';
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return $this->getAttributes();

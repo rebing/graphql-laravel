@@ -14,8 +14,12 @@ use Rebing\GraphQL\Support\Contracts\TypeConvertible;
  */
 abstract class Type implements TypeConvertible
 {
+    /** @var array<string,mixed> */
     protected $attributes = [];
 
+    /**
+     * @return array<string,mixed>
+     */
     public function attributes(): array
     {
         return [];
@@ -29,6 +33,9 @@ abstract class Type implements TypeConvertible
         return [];
     }
 
+    /**
+     * @return array<GraphqlType|callable>
+     */
     public function interfaces(): array
     {
         return [];
@@ -63,6 +70,9 @@ abstract class Type implements TypeConvertible
         return null;
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function getFields(): array
     {
         $fields = $this->fields();
@@ -93,6 +103,7 @@ abstract class Type implements TypeConvertible
 
     /**
      * Get the attributes from the container.
+     * @return array<string,mixed>
      */
     public function getAttributes(): array
     {
@@ -108,6 +119,9 @@ abstract class Type implements TypeConvertible
         ], $attributes);
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return $this->getAttributes();
@@ -132,6 +146,9 @@ abstract class Type implements TypeConvertible
         return $attributes[$key] ?? null;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function __set(string $key, $value): void
     {
         $this->attributes[$key] = $value;

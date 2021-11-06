@@ -184,6 +184,9 @@ class GraphQL
         return $middlewares;
     }
 
+    /**
+     * @param array<int|string,string> $types
+     */
     public function addTypes(array $types): void
     {
         foreach ($types as $name => $type) {
@@ -264,7 +267,7 @@ class GraphQL
     }
 
     /**
-     * @param ObjectType|array|string $type
+     * @param ObjectType|array<int|string,class-string|array<string,mixed>>|string $type
      * @param array<string,string> $opts
      */
     public function objectType($type, array $opts = []): Type
@@ -297,6 +300,7 @@ class GraphQL
 
     /**
      * @param ObjectType|string $type
+     * @param array<string,string> $opts
      */
     protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
@@ -321,6 +325,10 @@ class GraphQL
         return $type->toType();
     }
 
+    /**
+     * @param array<int|string,class-string|array<string,mixed>> $fields
+     * @param array<string,string> $opts
+     */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
     {
         $typeFields = [];
@@ -423,6 +431,9 @@ class GraphQL
         return $this->types;
     }
 
+    /**
+     * @return array<Schema>
+     */
     public function getSchemas(): array
     {
         return $this->schemas;
@@ -477,6 +488,7 @@ class GraphQL
 
     /**
      * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
+     * @return array<string,mixed>
      */
     public static function formatError(Error $e): array
     {
