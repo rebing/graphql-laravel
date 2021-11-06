@@ -297,6 +297,9 @@ abstract class Field
         return 'Unauthorized';
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return $this->getAttributes();

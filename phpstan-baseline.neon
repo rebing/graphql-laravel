@@ -146,11 +146,6 @@ parameters:
 			path: src/Support/Field.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Field.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:validationErrorMessages\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
