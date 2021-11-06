@@ -108,9 +108,6 @@ abstract class Type implements TypeConvertible
         ], $attributes);
     }
 
-    /**
-     * Convert the Fluent instance to an array.
-     */
     public function toArray(): array
     {
         return $this->getAttributes();

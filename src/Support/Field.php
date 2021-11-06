@@ -297,9 +297,6 @@ abstract class Field
         return 'Unauthorized';
     }
 
-    /**
-     * Convert the Fluent instance to an array.
-     */
     public function toArray(): array
     {
         return $this->getAttributes();
