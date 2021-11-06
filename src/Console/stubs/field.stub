@@ -18,7 +18,7 @@ class DummyClass extends Field
         return Type::string();
     }
 
-    public function resolve($root, $args): string
+    public function resolve($root, array $args): string
     {
         return 'test';
     }

@@ -27,6 +27,7 @@ use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
+use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
@@ -327,13 +328,11 @@ class GraphQL
         foreach ($fields as $name => $field) {
             if (\is_string($field)) {
                 $field = $this->app->make($field);
-                $name = is_numeric($name) ? $field->name : $name;
-                $field->name = $name;
+                /** @var Field $field */
                 $field = $field->toArray();
-            } else {
-                $name = is_numeric($name) ? $field['name'] : $name;
-                $field['name'] = $name;
             }
+            $name = is_numeric($name) ? $field['name'] : $name;
+            $field['name'] = $name;
             $typeFields[$name] = $field;
         }
 

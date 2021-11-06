@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class DummyClass extends Middleware
 {
-    public function handle($root, $args, $context, ResolveInfo $info, Closure $next)
+    public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
     {
         return $next($root, $args, $context, $info);
     }

@@ -44,12 +44,12 @@
     "require-dev": {
         "orchestra/testbench": "4.0.*|5.0.*|^6.0",
         "phpunit/phpunit": "~7.0|~8.0|^9",
-        "nunomaduro/larastan": "dev-master#d6b55d8f3a0ef841a70a338ad372ec3e15e2d00b",
+        "nunomaduro/larastan": "^0",
         "mockery/mockery": "^1.2",
-        "friendsofphp/php-cs-fixer": "^2.15",
+        "friendsofphp/php-cs-fixer": "^3",
         "ext-pdo_sqlite": "*",
         "laravel/legacy-factories": "^1.0",
-        "mfn/php-cs-fixer-config": "^1"
+        "mfn/php-cs-fixer-config": "^2"
     },
     "autoload": {
         "psr-4": {
@@ -64,7 +64,7 @@
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
-        "lint": "php-cs-fixer fix --diff --diff-format=udiff --dry-run",
+        "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
         "tests": "phpunit --colors=always --verbose",
         "tests-all": [

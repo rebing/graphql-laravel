@@ -57,7 +57,7 @@ CHANGELOG
     - `graphql.controllers` => `graphql.route.controller`\
       Further, providing a controller action for `query` or `mutation` is not
       supported anymore.
-    - `graphql.middlware` => `graphql.route.middleware`
+    - `graphql.middleware` => `graphql.route.middleware`
     - `graphql.route_group_attributes` => `graphql.route.group_attributes`
   - The actual routes defined have changed:
     - No more separate routes for the HTTP methods
@@ -108,8 +108,12 @@ CHANGELOG
 
   - `\Rebing\GraphQL\Support\ResolveInfoFieldsAndArguments` has been removed
   - `$getSelectFields` closure no longer takes a depth parameter
+
+- The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type.  
+
 ### Added
 - Command to make an execution middleware [\#772 / mfn](https://github.com/rebing/graphql-laravel/pull/772)
+- Command to make a schema configuration [\#830 / matsn0w](https://github.com/rebing/graphql-laravel/pull/830)
 - The primary execution of the GraphQL request is now piped through middlewares [\#762 / crissi and mfn](https://github.com/rebing/graphql-laravel/pull/762)\
   This allows greater flexibility for enabling/disabling certain functionality
   as well as bringing in new features without having to open up the library.
@@ -117,7 +121,7 @@ CHANGELOG
 - Automatic Persisted Queries (APQ) now cache the parsed query [\#740 / mfn](https://github.com/rebing/graphql-laravel/pull/740)\
   This avoids having to re-parse the same queries over and over again.
 - Add ability to detect unused GraphQL variables [\#660 / mfn](https://github.com/rebing/graphql-laravel/pull/660)
-- Laravels `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
+- Laravel's `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
 
 ### Changed
 - Internally webonyx query plan feature is now used for retrieving information about a query [\#793 / crissi](https://github.com/rebing/graphql-laravel/pull/793))
@@ -125,6 +129,9 @@ CHANGELOG
 - Internally stop using the global `config()` function and preferable use the repository or the Facade otherwise [\#774 / mfn](https://github.com/rebing/graphql-laravel/pull/774)
 - Don't silence broken schemas when normalizing them for generating routes [\#766 / mfn](https://github.com/rebing/graphql-laravel/pull/766)
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)
+- Make it easier to extend select fields [\#799 / crissi](https://github.com/rebing/graphql-laravel/pull/799)
+- The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type [\#843 / sforward](https://github.com/rebing/graphql-laravel/pull/843)
+
 
 ### Removed
 - The method `\Rebing\GraphQL\GraphQLServiceProvider::provides` was removed [\#769 / mfn](https://github.com/rebing/graphql-laravel/pull/769)\
