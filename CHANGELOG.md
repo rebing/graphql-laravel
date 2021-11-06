@@ -132,6 +132,8 @@ CHANGELOG
 - Make it easier to extend select fields [\#799 / crissi](https://github.com/rebing/graphql-laravel/pull/799)
 - The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type [\#843 / sforward](https://github.com/rebing/graphql-laravel/pull/843)
 
+### Fixed
+- Fix `TypeNotFound` when an interface defined after another type where it is used [\#828 / kasian-sergeev](https://github.com/rebing/graphql-laravel/pull/828)
 
 ### Removed
 - The method `\Rebing\GraphQL\GraphQLServiceProvider::provides` was removed [\#769 / mfn](https://github.com/rebing/graphql-laravel/pull/769)\

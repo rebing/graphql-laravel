@@ -97,19 +97,15 @@ abstract class Type implements TypeConvertible
     public function getAttributes(): array
     {
         $attributes = $this->attributes();
-        $interfaces = $this->interfaces();
 
-        $attributes = array_merge($this->attributes, [
+        return array_merge($this->attributes, [
             'fields' => function () {
                 return $this->getFields();
             },
+            'interfaces' => function () {
+                return $this->interfaces();
+            },
         ], $attributes);
-
-        if ($interfaces) {
-            $attributes['interfaces'] = $interfaces;
-        }
-
-        return $attributes;
     }
 
     /**

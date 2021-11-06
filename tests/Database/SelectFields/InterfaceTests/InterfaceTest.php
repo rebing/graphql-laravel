@@ -26,14 +26,17 @@ class InterfaceTest extends TestCaseDatabase
         ]);
 
         $app['config']->set('graphql.types', [
-            ExampleInterfaceType::class,
-            InterfaceImpl1Type::class,
-            ExampleRelationType::class,
-            LikableInterfaceType::class,
-            PostType::class,
             CommentType::class,
-            UserType::class,
+            ExampleInterfaceType::class,
+            ExampleRelationType::class,
+            InterfaceImpl1Type::class,
             LikeType::class,
+            PostType::class,
+            UserType::class,
+            // Interface deliberately last to guaranteed lazy loading them
+            // works, otherwise tests without the fix in 9644b66faa8d37e7a1c36969470504614ab1c766
+            // won't work!
+            LikableInterfaceType::class,
         ]);
     }
 
