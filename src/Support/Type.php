@@ -14,6 +14,7 @@ use Rebing\GraphQL\Support\Contracts\TypeConvertible;
  */
 abstract class Type implements TypeConvertible
 {
+    /** @var array<string,mixed> */
     protected $attributes = [];
 
     public function attributes(): array
