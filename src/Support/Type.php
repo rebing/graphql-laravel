@@ -17,6 +17,9 @@ abstract class Type implements TypeConvertible
     /** @var array<string,mixed> */
     protected $attributes = [];
 
+    /**
+     * @return array<string,mixed>
+     */
     public function attributes(): array
     {
         return [];

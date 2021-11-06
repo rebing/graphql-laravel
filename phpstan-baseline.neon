@@ -321,11 +321,6 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:attributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
