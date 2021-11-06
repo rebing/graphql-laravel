@@ -184,6 +184,9 @@ class GraphQL
         return $middlewares;
     }
 
+    /**
+     * @param array<int|string,string> $types
+     */
     public function addTypes(array $types): void
     {
         foreach ($types as $name => $type) {
