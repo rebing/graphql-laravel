@@ -122,6 +122,7 @@ CHANGELOG
   This avoids having to re-parse the same queries over and over again.
 - Add ability to detect unused GraphQL variables [\#660 / mfn](https://github.com/rebing/graphql-laravel/pull/660)
 - Laravel's `ValidationException` is now formatted the same way as a `ValidationError` [\#748 / mfn](https://github.com/rebing/graphql-laravel/pull/748)
+- A few missing typehints (mostly array related) [\#849 / mfn](https://github.com/rebing/graphql-laravel/pull/849)
 
 ### Changed
 - Internally webonyx query plan feature is now used for retrieving information about a query [\#793 / crissi](https://github.com/rebing/graphql-laravel/pull/793))
