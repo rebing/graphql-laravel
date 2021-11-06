@@ -119,6 +119,9 @@ abstract class Type implements TypeConvertible
         ], $attributes);
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return $this->getAttributes();

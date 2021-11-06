@@ -321,11 +321,6 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
 			count: 1
 			path: src/Support/Type.php
