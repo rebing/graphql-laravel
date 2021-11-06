@@ -97,6 +97,7 @@ abstract class Type implements TypeConvertible
 
     /**
      * Get the attributes from the container.
+     * @return array<string,mixed>
      */
     public function getAttributes(): array
     {

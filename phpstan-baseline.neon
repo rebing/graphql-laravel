@@ -141,11 +141,6 @@ parameters:
 			path: src/Support/Field.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\InterfaceType\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/InterfaceType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Support/Middleware.php
@@ -316,11 +311,6 @@ parameters:
 			path: src/Support/SimplePaginationType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getFieldResolver\\(\\) has parameter \\$field with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
@@ -344,11 +334,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
 			count: 1
 			path: src/Support/Type.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\UnionType\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/UnionType.php
 
 		-
 			message: "#^Parameter \\#2 \\$nodes of class GraphQL\\\\Error\\\\Error constructor expects GraphQL\\\\Language\\\\AST\\\\Node\\|\\(iterable\\<GraphQL\\\\Language\\\\AST\\\\Node\\>&Traversable\\)\\|null, array\\<int, GraphQL\\\\Language\\\\AST\\\\BooleanValueNode\\|GraphQL\\\\Language\\\\AST\\\\FloatValueNode\\|GraphQL\\\\Language\\\\AST\\\\IntValueNode\\|GraphQL\\\\Language\\\\AST\\\\NullValueNode\\|GraphQL\\\\Language\\\\AST\\\\StringValueNode\\> given\\.$#"
