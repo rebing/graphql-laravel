@@ -6,11 +6,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getSchemas\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:objectType\\(\\) has parameter \\$type with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/GraphQL.php

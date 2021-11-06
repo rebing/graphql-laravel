@@ -431,6 +431,9 @@ class GraphQL
         return $this->types;
     }
 
+    /**
+     * @return array<Schema>
+     */
     public function getSchemas(): array
     {
         return $this->schemas;
