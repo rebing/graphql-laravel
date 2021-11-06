@@ -326,6 +326,7 @@ class GraphQL
     }
 
     /**
+     * @param array<int|string,class-string|array<string,mixed>> $fields
      * @param array<string,string> $opts
      */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType

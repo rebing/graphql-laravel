@@ -1,8 +1,8 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:buildObjectTypeFromFields\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
-			count: 1
+			message: "#^Cannot access offset 'name' on array\\<string, mixed\\>\\|Rebing\\\\GraphQL\\\\Support\\\\Field\\.$#"
+			count: 2
 			path: src/GraphQL.php
 
 		-
