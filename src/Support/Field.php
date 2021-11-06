@@ -214,7 +214,7 @@ abstract class Field
                     throw new InvalidArgumentException("'$param->name' could not be injected");
                 }
 
-                $className = $param->getType()->getName();
+                $className = $paramType->getName();
 
                 if (Closure::class === $className) {
                     return function () use ($arguments, $fieldsAndArguments) {
