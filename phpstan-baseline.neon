@@ -316,11 +316,6 @@ parameters:
 			path: src/Support/SimplePaginationType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:__set\\(\\) has parameter \\$value with no typehint specified\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getAttributes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php

@@ -136,6 +136,9 @@ abstract class Type implements TypeConvertible
         return $attributes[$key] ?? null;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function __set(string $key, $value): void
     {
         $this->attributes[$key] = $value;
