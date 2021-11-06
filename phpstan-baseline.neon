@@ -321,11 +321,6 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/Type.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Type.php
@@ -366,11 +361,6 @@ parameters:
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectPass.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/CommentType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
@@ -379,11 +369,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/AlwaysRelationTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\AlwaysRelationTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
@@ -486,11 +471,6 @@ parameters:
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/CommentType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
@@ -514,11 +494,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\ExampleInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\InterfaceImpl1Type\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/InterfaceImpl1Type.php
 
 		-
 			message: "#^Access to an undefined property Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Models\\\\Post\\:\\:\\$created_at\\.$#"
@@ -546,11 +521,6 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/InterfaceTests/PostType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\InterfaceTests\\\\UserQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
@@ -571,11 +541,6 @@ parameters:
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\CommentType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/CommentType.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
@@ -584,11 +549,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\LikableInterfaceType\\:\\:resolveType\\(\\) has parameter \\$root with no typehint specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\PostType\\:\\:interfaces\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/Database/SelectFields/MorphRelationshipTests/PostType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\MorphRelationshipTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return typehint specified\\.$#"

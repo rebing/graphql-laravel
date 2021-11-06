@@ -33,6 +33,9 @@ abstract class Type implements TypeConvertible
         return [];
     }
 
+    /**
+     * @return array<GraphqlType|callable>
+     */
     public function interfaces(): array
     {
         return [];
