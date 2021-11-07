@@ -16,6 +16,9 @@ use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType;
 
 class MutationTest extends FieldTest
 {
+    /**
+     * @return class-string<UpdateExampleMutationWithInputType>
+     */
     protected function getFieldClass()
     {
         return UpdateExampleMutationWithInputType::class;

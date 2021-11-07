@@ -8,6 +8,9 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 
 class QueryTest extends FieldTest
 {
+    /**
+     * @return class-string<ExamplesQuery>
+     */
     protected function getFieldClass()
     {
         return ExamplesQuery::class;
