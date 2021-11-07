@@ -191,11 +191,6 @@ parameters:
 			path: src/Support/Rules.php
 
 		-
-			message: "#^Binary operation \"\\.\" between non\\-empty\\-string and array\\|string\\|null results in an error\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
 			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
@@ -291,7 +286,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\(\\*NEVER\\*, mixed\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\*NEVER\\*, mixed\\} given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -321,7 +316,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\} given\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -781,7 +776,7 @@ parameters:
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\(\\?'execution_middleware' \\=\\> array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, \\?'method' \\=\\> array\\<string\\>\\|string, \\?'middleware' \\=\\> array\\<string\\>, \\?'mutation' \\=\\> array\\<class\\-string\\>, 'query' \\=\\> array\\<class\\-string\\>, \\?'types' \\=\\> array\\<class\\-string\\>\\) but returns array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>&nonEmpty\\.$#"
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\{execution_middleware\\?\\: array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, method\\?\\: array\\<string\\>\\|string, middleware\\?\\: array\\<string\\>, mutation\\?\\: array\\<class\\-string\\>, query\\: array\\<class\\-string\\>, types\\?\\: array\\<class\\-string\\>\\} but returns non\\-empty\\-array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleSchemaWithMethod.php
 
@@ -937,16 +932,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesPaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesPaginationQuery.php
-
-		-
-			message: "#^Parameter \\#1 \\$offset of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:slice\\(\\) expects int, float\\|int given\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesPaginationQuery.php
-
-		-
-			message: "#^Parameter \\#4 \\$currentPage of class Illuminate\\\\Pagination\\\\LengthAwarePaginator constructor expects int\\|null, float\\|int given\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
@@ -1331,14 +1316,9 @@ parameters:
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeVariableMiddleware.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\FieldTest\\:\\:getFieldClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/Unit/FieldTest.php
-
-		-
-			message: "#^Unable to resolve the template type RealInstanceType in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
-			count: 1
-			path: tests/Unit/FieldTest.php
+			message: "#^Parameter \\#1 \\$abstract of function app expects string\\|null, object\\|string given\\.$#"
+			count: 3
+			path: tests/Unit/GraphQLTest.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\InstantiableTypesTest\\\\FormattableDate\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
@@ -1401,12 +1381,37 @@ parameters:
 			path: tests/Unit/MutationCustomRulesTests/RuleObject.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationTest\\:\\:getFieldClass\\(\\) has no return type specified\\.$#"
-			count: 1
+			message: "#^Relation 'test' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 7
 			path: tests/Unit/MutationTest.php
 
 		-
-			message: "#^Unable to resolve the template type RealInstanceType in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
+			message: "#^Relation 'test_with_rules' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 6
+			path: tests/Unit/MutationTest.php
+
+		-
+			message: "#^Relation 'test_with_rules_closure' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 7
+			path: tests/Unit/MutationTest.php
+
+		-
+			message: "#^Relation 'test_with_rules_non_nullable_input_object' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 14
+			path: tests/Unit/MutationTest.php
+
+		-
+			message: "#^Relation 'test_with_rules_non_nullable_list_of_non_nullable_input_object' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 3
+			path: tests/Unit/MutationTest.php
+
+		-
+			message: "#^Relation 'test_with_rules_nullable_input_object' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 4
+			path: tests/Unit/MutationTest.php
+
+		-
+			message: "#^Return type \\(class\\-string\\<Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\UpdateExampleMutationWithInputType\\>\\) of method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\MutationTest\\:\\:getFieldClass\\(\\) should be compatible with return type \\(class\\-string\\<Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleField\\>\\) of method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\FieldTest\\:\\:getFieldClass\\(\\)$#"
 			count: 1
 			path: tests/Unit/MutationTest.php
 
@@ -1421,7 +1426,7 @@ parameters:
 			path: tests/Unit/MutationValidationInWithCustomRulesTests/RuleObjectPass.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\QueryTest\\:\\:getFieldClass\\(\\) has no return type specified\\.$#"
+			message: "#^Return type \\(class\\-string\\<Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\>\\) of method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\QueryTest\\:\\:getFieldClass\\(\\) should be compatible with return type \\(class\\-string\\<Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleField\\>\\) of method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\FieldTest\\:\\:getFieldClass\\(\\)$#"
 			count: 1
 			path: tests/Unit/QueryTest.php
 
