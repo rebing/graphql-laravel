@@ -11,6 +11,9 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class FieldTest extends TestCase
 {
+    /**
+     * @return class-string<ExampleField>
+     */
     protected function getFieldClass()
     {
         return ExampleField::class;

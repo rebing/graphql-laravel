@@ -253,6 +253,9 @@ abstract class Field
         return new $selectFieldsClass($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
     }
 
+    /**
+     * @return class-string<SelectFields>
+     */
     protected function selectFieldClass(): string
     {
         return SelectFields::class;
