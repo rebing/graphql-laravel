@@ -473,7 +473,7 @@ class GraphQL
      *
      * @param string $typeName The original type name
      * @param string $customTypeName The new type name
-     * @param string $wrapperTypeClass The class to create the new type
+     * @param class-string<Type> $wrapperTypeClass The class to create the new type
      */
     public function wrapType(string $typeName, string $customTypeName, string $wrapperTypeClass): Type
     {
