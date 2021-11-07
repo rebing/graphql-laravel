@@ -15,7 +15,6 @@ parameters:
     checkModelProperties: true
     ignoreErrors:
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
-        - '/Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::getAttributes\(\)/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'
