@@ -171,7 +171,7 @@ parameters:
 			path: src/Support/Middleware.php
 
 		-
-			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
+			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
 			count: 2
 			path: src/Support/PaginationType.php
 
@@ -306,7 +306,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Anonymous function never returns null so it can be removed from the return typehint\\.$#"
+			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
 			count: 2
 			path: src/Support/SimplePaginationType.php
 
