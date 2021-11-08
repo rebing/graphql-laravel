@@ -32,7 +32,7 @@ class InputMakeCommand extends GeneratorCommand
     {
         $graphqlName = $this->getNameInput();
         $graphqlName = str_replace('InputObject', 'Input', $graphqlName);
-        $graphqlName = preg_replace('/Type$/', '', $graphqlName);
+        $graphqlName = \Safe\preg_replace('/Type$/', '', $graphqlName);
 
         return str_replace(
             'DummyGraphqlName',

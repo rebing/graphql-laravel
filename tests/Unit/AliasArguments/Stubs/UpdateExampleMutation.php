@@ -61,7 +61,7 @@ class UpdateExampleMutation extends Mutation
     public function resolve($root, $args)
     {
         return [
-            'test' => json_encode($args),
+            'test' => \Safe\json_encode($args),
         ];
     }
 }
