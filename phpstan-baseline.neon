@@ -1441,11 +1441,6 @@ parameters:
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
 
 		-
-			message: "#^Anonymous function should return string but returns string\\|false\\.$#"
-			count: 1
-			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadMultipleFilesMutation\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
@@ -1467,11 +1462,6 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
-			count: 1
-			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) should return string but returns string\\|false\\.$#"
 			count: 1
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 

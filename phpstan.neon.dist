@@ -19,7 +19,6 @@ parameters:
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'
-        - '/Parameter #2 \$replace of function str_replace expects array\|string, string\|null given/'
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
         - '/Trying to invoke Closure\|null but it might not be a callable/'
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
