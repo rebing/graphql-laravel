@@ -51,7 +51,8 @@
         "nunomaduro/larastan": "^1",
         "orchestra/testbench": "4.0.*|5.0.*|^6.0",
         "phpstan/phpstan": "^1",
-        "phpunit/phpunit": "~7.0|~8.0|^9"
+        "phpunit/phpunit": "~7.0|~8.0|^9",
+        "thecodingmachine/phpstan-safe-rule": "dev-master#a630c7bf9f3060b6e3dc74a4d9ef5edc0feec052"
     },
     "autoload": {
         "psr-4": {
@@ -92,5 +93,24 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "thecodingmachine/phpstan-safe-rule",
+                "type": "library",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://codeload.github.com/thecodingmachine/phpstan-safe-rule/legacy.zip/a630c7bf9f3060b6e3dc74a4d9ef5edc0feec052",
+                    "type": "zip"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "TheCodingMachine\\Safe\\PHPStan\\": "src/"
+                    }
+                }
+            }
+        }
+    ]
 }
