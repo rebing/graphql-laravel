@@ -362,7 +362,7 @@ class AutomatedPersistedQueriesTest extends TestCase
         $query = 'mutation($file: Upload!) { uploadSingleFile(file: $file) }';
         $fileToUpload = UploadedFile::fake()->create('file.txt');
         $fileContent = "This is the\nuploaded\ndata";
-        fwrite($fileToUpload->tempFile, $fileContent);
+        \Safe\fwrite($fileToUpload->tempFile, $fileContent);
 
         // run query and persist
 
@@ -370,7 +370,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             'POST',
             '/graphql',
             [
-                'operations' => json_encode([
+                'operations' => \Safe\json_encode([
                     'query' => $query,
                     'variables' => [
                         'file' => null,
@@ -382,7 +382,7 @@ class AutomatedPersistedQueriesTest extends TestCase
                         ],
                     ],
                 ]),
-                'map' => json_encode([
+                'map' => \Safe\json_encode([
                     '0' => ['variables.file'],
                 ]),
             ],
@@ -404,7 +404,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             'POST',
             '/graphql',
             [
-                'operations' => json_encode([
+                'operations' => \Safe\json_encode([
                     'variables' => [
                         'file' => null,
                     ],
@@ -415,7 +415,7 @@ class AutomatedPersistedQueriesTest extends TestCase
                         ],
                     ],
                 ]),
-                'map' => json_encode([
+                'map' => \Safe\json_encode([
                     '0' => ['variables.file'],
                 ]),
                 'extensions' => [

@@ -21,7 +21,7 @@ class ArrayKeyChange
      */
     private function orderPaths(array $paths): array
     {
-        uksort($paths, function (string $a, string $b): int {
+        \Safe\uksort($paths, function (string $a, string $b): int {
             return $this->pathLevels($b) <=> $this->pathLevels($a);
         });
 

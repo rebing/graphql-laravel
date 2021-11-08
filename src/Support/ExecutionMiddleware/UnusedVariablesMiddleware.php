@@ -31,7 +31,7 @@ class UnusedVariablesMiddleware extends AbstractExecutionMiddleware
         }
 
         if ($unusedVariables) {
-            $msg = sprintf(
+            $msg = \Safe\sprintf(
                 'The following variables were provided but not consumed: %s',
                 implode(', ', array_keys($unusedVariables))
             );

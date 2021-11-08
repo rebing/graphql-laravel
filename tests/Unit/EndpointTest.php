@@ -59,7 +59,7 @@ class EndpointTest extends TestCase
     {
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
-            'variables' => json_encode([
+            'variables' => \Safe\json_encode([
                 'index' => 0,
             ]),
         ]);

@@ -54,7 +54,7 @@ trait SqlAssertionTrait
             $msg .= "\n\n";
         }
 
-        $msg .= sprintf(
+        $msg .= \Safe\sprintf(
             "Expected number of SQL statements of %d does not match the actual value of %d\nQueries:\n\n%s\n",
             $expectedCount,
             $numSqlQueries,
@@ -62,7 +62,7 @@ trait SqlAssertionTrait
                 "\n",
                 array_map(
                     static function (QueryExecuted $query) {
-                        return sprintf(
+                        return \Safe\sprintf(
                             '[%s] %s',
                             $query->connectionName,
                             $query->sql
@@ -96,7 +96,7 @@ trait SqlAssertionTrait
                         // literals directly, which means it includes
                         // IDs which may change during multiple test
                         // runs, which we now manually need to normalize
-                        return preg_replace(
+                        return \Safe\preg_replace(
                             [
                                 // Covers integers in `WHERE IN ()`
                                 '/\d+(,|\))/',
