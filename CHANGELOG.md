@@ -132,6 +132,7 @@ CHANGELOG
 - Lazy loading types has been enabled by default [\#758 / mfn](https://github.com/rebing/graphql-laravel/pull/758)
 - Make it easier to extend select fields [\#799 / crissi](https://github.com/rebing/graphql-laravel/pull/799)
 - The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type [\#843 / sforward](https://github.com/rebing/graphql-laravel/pull/843)
+- Embrace thecodingmachine/safe and use thecodingmachine/phpstan-safe-rule to enforce it [\#851 / mfn](https://github.com/rebing/graphql-laravel/pull/851)
 
 ### Fixed
 - Fix `TypeNotFound` when an interface defined after another type where it is used [\#828 / kasian-sergeev](https://github.com/rebing/graphql-laravel/pull/828)
