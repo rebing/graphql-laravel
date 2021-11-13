@@ -3,7 +3,7 @@
 .gitattributes export-ignore
 .gitignore export-ignore
 /.github export-ignore
-/.php_cs.dist export-ignore
+/.php-cs-fixer.dist.php export-ignore
 /docker-compose-dev.yml export-ignore
 /Dockerfile.dev export-ignore
 /example export-ignore
