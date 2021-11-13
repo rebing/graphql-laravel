@@ -133,6 +133,7 @@ CHANGELOG
 - Make it easier to extend select fields [\#799 / crissi](https://github.com/rebing/graphql-laravel/pull/799)
 - The `$args` argument, of the `handle` method of the execution middlewares requires `array` as type [\#843 / sforward](https://github.com/rebing/graphql-laravel/pull/843)
 - Embrace thecodingmachine/safe and use thecodingmachine/phpstan-safe-rule to enforce it [\#851 / mfn](https://github.com/rebing/graphql-laravel/pull/851)
+- Don't require a return value for the query option of fields [\#856 / sforward](https://github.com/rebing/graphql-laravel/pull/856)
 
 ### Fixed
 - Fix `TypeNotFound` when an interface defined after another type where it is used [\#828 / kasian-sergeev](https://github.com/rebing/graphql-laravel/pull/828)
