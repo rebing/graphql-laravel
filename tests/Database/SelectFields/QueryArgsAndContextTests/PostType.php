@@ -29,14 +29,12 @@ class PostType extends GraphQLType
                         'type' => Type::boolean(),
                     ],
                 ],
-                'query' => function (array $args, HasMany $query, GraphQLContext $ctx): HasMany {
+                'query' => function (array $args, HasMany $query, GraphQLContext $ctx): void {
                     if (isset($ctx->data['flag'])) {
                         $query->where('comments.flag', '=', $ctx->data['flag']);
                     } elseif (isset($args['flag'])) {
                         $query->where('comments.flag', '=', $args['flag']);
                     }
-
-                    return $query;
                 },
             ],
             'id' => [

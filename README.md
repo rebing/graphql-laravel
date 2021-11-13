@@ -1792,8 +1792,9 @@ class UserType extends GraphQLType
                 // $args are the local arguments passed to the relation
                 // $query is the relation builder object
                 // $ctx is the GraphQL context (can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
-                'query'         => function(array $args, $query, $ctx) {
-                    return $query->where('posts.created_at', '>', $args['date_from']);
+                // The return value should be the query builder or void
+                'query'         => function (array $args, $query, $ctx): void {
+                    $query->where('posts.created_at', '>', $args['date_from']);
                 }
             ]
         ];
