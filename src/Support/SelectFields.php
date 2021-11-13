@@ -99,7 +99,7 @@ class SelectFields
 
         return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx): void {
             if ($customQuery) {
-                $query = $customQuery($requestedFields['args'], $query, $ctx);
+                $query = $customQuery($requestedFields['args'], $query, $ctx) ?? $query;
             }
 
             $query->select($select);
