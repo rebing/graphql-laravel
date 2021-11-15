@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/7.2.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/8.0.0...master)
 --------------
+
+2021-11-15, 8.0.0
+-----------------
 
 ## Breaking changes
 - Rewrite and simplify how schemas are handled
