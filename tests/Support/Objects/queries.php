@@ -120,4 +120,50 @@ return [
             }
         }
     ',
+
+    'examplesWithFieldDirective' => '
+        query {
+            examples {
+                test @upper
+                alias: test @lower
+            }
+        }
+    ',
+
+    'examplesWithFragmentAndFieldDirective' => '
+        fragment ExampleFragment on Example {
+            test @upper
+            second: test
+        }
+        query {
+            examples {
+                ...ExampleFragment
+            }
+        }
+    ',
+
+    'examplesWithFieldDirectiveWithArgument' => '
+        query ExamplesWithFieldDirectiveWithArgument($chars: String = "E") {
+            examples {
+                test @trim(chars: $chars)
+            }
+        }
+    ',
+
+    'examplesWithConsecutiveFieldDirectives' => '
+        query {
+            examples {
+                test @upper @lower
+            }
+        }
+    ',
+
+    'examplesWithInternalDirective' => '
+        query ExamplesWithBuildInDirective($index: Int = 0, $withField: Boolean!) {
+            examples {
+                test
+                test_validation(index: $index) @include(if: $withField)
+            }
+        }
+    ',
 ];

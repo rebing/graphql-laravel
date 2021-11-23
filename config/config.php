@@ -83,6 +83,9 @@ return [
             'types' => [
                 // ExampleType::class,
             ],
+            'directives' => [
+                // ExampleDirective::class,
+            ],
 
             // Laravel HTTP middleware
             'middleware' => null,

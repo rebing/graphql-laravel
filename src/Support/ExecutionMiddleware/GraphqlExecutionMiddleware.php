@@ -8,6 +8,7 @@ use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Config\Repository;
+use Rebing\GraphQL\Support\FieldResolver\FieldResolver;
 use Rebing\GraphQL\Support\OperationParams;
 
 /**
@@ -27,8 +28,13 @@ class GraphqlExecutionMiddleware extends AbstractExecutionMiddleware
     {
         $query = $params->getParsedQuery();
 
-        $defaultFieldResolver = $this->config->get('graphql.defaultFieldResolver');
+        $defaultFieldResolver = $this->getDefaultFieldResolver($schema);
 
         return GraphQLBase::executeQuery($schema, $query, $rootValue, $contextValue, $params->variables, $params->operation, $defaultFieldResolver);
+    }
+
+    private function getDefaultFieldResolver(Schema $schema): callable
+    {
+        return $this->config->get('graphql.defaultFieldResolver') ?? app(FieldResolver::class)->setSchema($schema);
     }
 }

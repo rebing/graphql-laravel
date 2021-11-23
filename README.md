@@ -105,6 +105,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Field deprecation](#field-deprecation)
     - [Default field resolver](#default-field-resolver)
     - [Macros](#macros)
+    - [Directives](#directives)
     - [Automatic Persisted Queries support](#automatic-persisted-queries-support) 
     - [Misc features](#misc-features)
   - [Configuration options](#configuration-options)
@@ -2520,6 +2521,96 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
+
+### Directives
+
+Using schema directives to transform schema types, fields, and arguments.
+See [Using schema directives](https://www.apollographql.com/docs/apollo-server/schema/directives/) for more information.
+
+There are two built-in directives:
+- `@include(if: Boolean)` - Only include this field or fragment in the result if the argument is true
+- `@skip(if: Boolean)` - Skip this field or fragment if the argument is true
+
+For example:
+
+```graphql
+query users($withPosts: Boolean!) {
+  users {
+    email
+    posts @include(if: $withPosts) {
+      title
+    }
+  }
+}
+```
+You could also register custom directives by adding them to the config:
+
+> **WARNING:** only the directive location `field` is supported at the moment.
+
+> **WARNING:** type system directives are not supported by the underlying webonyx/graphql-php library. However, the
+> same can be achieved in your type, query or mutation classes.   
+
+```
+'schemas' => [
+    'default' => [
+        // ...
+        
+        'directives' => [
+            \App\GraphQL\Directives\CapitalizeDirective::class,
+        ],
+```
+
+```php
+namespace App\GraphQL\Directives;
+
+use GraphQL\Language\DirectiveLocation;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Directive;
+
+class TrimDirective extends Directive
+{
+    protected $attributes = [
+        'name' => 'trim',
+        'description' => 'The trim directive.',
+    ];
+
+    public function locations(): array
+    {
+        return [
+            DirectiveLocation::FIELD,
+        ];
+    }
+
+    public function args(): array
+    {
+        return [
+            'chars' => [
+                'type' => Type::string(),
+                'description' => 'Trim field by given characters.',
+            ],
+        ];
+    }
+
+    public function handle($value, array $args = []): string
+    {
+        if (isset($args['chars'])) {
+            return trim($value, $args['chars']);
+        }
+
+        return trim($value);
+    }
+}
+```
+
+Tests with example query:
+
+```graphql
+query Example {
+    example {
+        name @upper
+    }
+}
+```
 
 ### Automatic Persisted Queries support
 

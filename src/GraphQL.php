@@ -26,6 +26,7 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\Directive;
 use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
 use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
@@ -363,6 +364,7 @@ class GraphQL
         $schemaMutation = $schemaConfig['mutation'] ?? [];
         $schemaSubscription = $schemaConfig['subscription'] ?? [];
         $schemaTypes = $schemaConfig['types'] ?? [];
+        $schemaDirectives = $schemaConfig['directives'] ?? [];
 
         $this->addTypes($schemaTypes);
 
@@ -378,10 +380,23 @@ class GraphQL
             ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
             : null;
 
+        $directives = Directive::getInternalDirectives();
+
+        foreach ($schemaDirectives as $name => $class) {
+            $directive = $this->app->make($class);
+
+            if (!\is_string($name)) {
+                $name = $directive->name;
+            }
+
+            $directives[$name] = $directive;
+        }
+
         return new Schema([
             'query' => $query,
             'mutation' => $mutation,
             'subscription' => $subscription,
+            'directives' => $directives,
             'types' => function () {
                 $types = [];
 

@@ -14,6 +14,9 @@ use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Directives\LowerCaseDirective;
+use Rebing\GraphQL\Tests\Support\Directives\TrimDirective;
+use Rebing\GraphQL\Tests\Support\Directives\UpperCaseDirective;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
@@ -59,6 +62,11 @@ class TestCase extends BaseTestCase
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class,
+            ],
+            'directives' => [
+                LowerCaseDirective::class,
+                TrimDirective::class,
+                UpperCaseDirective::class,
             ],
         ]);
 
