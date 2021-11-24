@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.0.0...master)
 --------------
 
+### Added
+- Support for field directives [\#860 / sforward](https://github.com/rebing/graphql-laravel/pull/860)
+
 2021-11-15, 8.0.0
 -----------------
 
