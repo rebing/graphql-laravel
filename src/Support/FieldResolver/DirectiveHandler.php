@@ -32,7 +32,6 @@ class DirectiveHandler
 
     /**
      * @param mixed $property
-     * @param \GraphQL\Type\Definition\ResolveInfo $info
      *
      * @return mixed
      */

@@ -8,9 +8,7 @@ use Rebing\GraphQL\Support\Directive;
 
 class LowerCaseDirective extends Directive
 {
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'lower',
         'description' => 'The lower directive.',

@@ -8,9 +8,7 @@ use Rebing\GraphQL\Support\Directive;
 
 class UpperCaseDirective extends Directive
 {
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'upper',
         'description' => 'The upper directive.',

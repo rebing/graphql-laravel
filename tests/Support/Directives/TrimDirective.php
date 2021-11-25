@@ -9,9 +9,7 @@ use Rebing\GraphQL\Support\Directive;
 
 class TrimDirective extends Directive
 {
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'trim',
         'description' => 'The trim directive.',
