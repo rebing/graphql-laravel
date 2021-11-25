@@ -24,7 +24,14 @@ class FieldResolver extends Executor
         return $this;
     }
 
-    public function __invoke($objectValue, $args, $contextValue, ResolveInfo $info)
+    /**
+     * @param mixed $objectValue
+     * @param array<string, mixed> $args
+     * @param mixed|null $contextValue
+     *
+     * @return mixed
+     */
+    public function __invoke($objectValue, array $args, $contextValue, ResolveInfo $info)
     {
         $property = self::defaultFieldResolver($objectValue, $args, $contextValue, $info);
 

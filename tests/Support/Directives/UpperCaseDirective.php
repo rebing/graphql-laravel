@@ -8,11 +8,17 @@ use Rebing\GraphQL\Support\Directive;
 
 class UpperCaseDirective extends Directive
 {
+    /**
+     * @var array<string, string>
+     */
     protected $attributes = [
         'name' => 'upper',
         'description' => 'The upper directive.',
     ];
 
+    /**
+     * @return array<string>
+     */
     public function locations(): array
     {
         return [
@@ -20,6 +26,9 @@ class UpperCaseDirective extends Directive
         ];
     }
 
+    /**
+     * @param array<mixed> $args
+     */
     public function handle($value, array $args = []): ?string
     {
         if (\is_string($value)) {

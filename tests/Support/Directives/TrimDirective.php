@@ -9,11 +9,17 @@ use Rebing\GraphQL\Support\Directive;
 
 class TrimDirective extends Directive
 {
+    /**
+     * @var array<string, string>
+     */
     protected $attributes = [
         'name' => 'trim',
         'description' => 'The trim directive.',
     ];
 
+    /**
+     * @return array<string>
+     */
     public function locations(): array
     {
         return [
@@ -21,6 +27,9 @@ class TrimDirective extends Directive
         ];
     }
 
+    /**
+     * @return array<array<string, mixed>>
+     */
     public function args(): array
     {
         return [
@@ -31,6 +40,9 @@ class TrimDirective extends Directive
         ];
     }
 
+    /**
+     * @param array<mixed> $args
+     */
     public function handle($value, array $args = []): string
     {
         if (isset($args['chars'])) {

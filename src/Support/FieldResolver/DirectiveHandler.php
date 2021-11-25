@@ -30,11 +30,17 @@ class DirectiveHandler
         return $this->directives[$name] ?? null;
     }
 
+    /**
+     * @param mixed $property
+     * @param \GraphQL\Type\Definition\ResolveInfo $info
+     *
+     * @return mixed
+     */
     public function applyDirectives($property, ResolveInfo $info)
     {
         $fieldNode = $info->fieldNodes[0];
 
-        foreach ($fieldNode->directives ?? [] as $directiveNode) {
+        foreach ($fieldNode->directives as $directiveNode) {
             $directive = $this->getDirective($directiveNode->name->value);
 
             if ($directive instanceof \Rebing\GraphQL\Support\Directive) {
@@ -48,6 +54,11 @@ class DirectiveHandler
         return $property;
     }
 
+    /**
+     * @param array<string, mixed> $variableValues
+     *
+     * @return array<string, mixed>
+     */
     protected function getDirectiveArguments(DirectiveNode $directiveNode, Directive $directive, array $variableValues): array
     {
         return Values::getArgumentValues(
