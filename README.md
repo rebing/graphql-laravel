@@ -2252,7 +2252,9 @@ class ReviewInput extends InputType
                 'name' => 'score',
                 'description' => 'A score (0 to 5)',
                 'type' => Type::int(),
-                'rules' => ['min:0', 'max:5']
+                // You must use 'integer' on rules if you want to validate if the number is inside a range
+                // Otherwise it will validate the number of 'characters' the number can have.
+                'rules' => ['integer', 'min:0', 'max:5']
             ]
         ];
     }
@@ -2324,7 +2326,7 @@ class UserInput extends InputType
 {
     protected $attributes = [
         'name' => 'userInput',
-        'description' => 'A review with a comment and a score (0 to 5)'
+        'description' => 'A user.'
     ];
 
     public function fields(): array
@@ -2332,15 +2334,15 @@ class UserInput extends InputType
         return [
             'firstName' => [
                 'alias' => 'first_name',
-                'description' => 'A comment (250 max chars)',
+                'description' => 'The first name of the user',
                 'type' => Type::string(),
-                'rules' => ['max:250']
+                'rules' => ['max:30']
             ],
             'lastName' => [
                 'alias' => 'last_name',
-                'description' => 'A score (0 to 5)',
-                'type' => Type::int(),
-                'rules' => ['min:0', 'max:5']
+                'description' => 'The last name of the user',
+                'type' => Type::string(),
+                'rules' => ['max:30']
             ]
         ];
     }
