@@ -864,12 +864,7 @@ class UpdateUserEmailMutation extends Mutation
         return [
             'id' => ['required'],
             'email' => ['required', 'email'],
-            'password' => function($inputArguments, $mutationArguments) {
-                if ($inputArguments['id'] !== 1337) {
-                    return ['required'];
-                }
-                return [];
-            }
+            'password' => $args['id'] !== 1337 ? ['required'] : [],
         ];
     }
 
