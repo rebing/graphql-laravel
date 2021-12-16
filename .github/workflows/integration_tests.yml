@@ -47,6 +47,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - run: composer install --prefer-dist --no-suggest
+      - run: composer install --prefer-dist
 
       - run: tests/integration-laravel.sh
