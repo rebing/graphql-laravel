@@ -67,7 +67,7 @@ class SelectFields
         ];
 
         /** @var array{0:mixed[],1:mixed[]} $result */
-        $result = $this->getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
+        $result = $this->getSelectableFieldsAndRelations($requestedFields, $parentType, null, true, $ctx);
 
         [$this->select, $this->relations] = $result;
     }
@@ -76,14 +76,12 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @param array $queryArgs Arguments given with the query/mutation
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      * @return array|Closure - if first recursion, return an array,
      *                       where the first key is 'select' array and second is 'with' array.
      *                       On other recursions return a closure that will be used in with
      */
     public function getSelectableFieldsAndRelations(
-        array $queryArgs,
         array $requestedFields,
         GraphqlType $parentType,
         ?Closure $customQuery = null,
@@ -99,7 +97,7 @@ class SelectFields
         $parentTable = $this->getTableNameFromParentType($parentType);
         $primaryKey = $this->getPrimaryKeyFromParentType($parentType);
 
-        $this->handleFields($queryArgs, $requestedFields, $parentType, $select, $with, $ctx);
+        $this->handleFields($requestedFields, $parentType, $select, $with, $ctx);
 
         // If a primary key is given, but not in the selects, add it
         if (null !== $primaryKey) {
@@ -138,14 +136,12 @@ class SelectFields
      * Get the selects and withs from the given fields
      * and recurse if necessary.
      *
-     * @param array $queryArgs Arguments given with the query/mutation
      * @param array<string,mixed> $requestedFields
      * @param array $select Passed by reference, adds further fields to select
      * @param array $with Passed by reference, adds further relations
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      */
     protected function handleFields(
-        array $queryArgs,
         array $requestedFields,
         GraphqlType $parentType,
         array &$select,
@@ -185,7 +181,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = $this->validateField($fieldObject, $queryArgs, $ctx);
+            $canSelect = $this->validateField($fieldObject, $ctx);
 
             if (true === $canSelect) {
                 // Add a query, if it exists
@@ -200,7 +196,6 @@ class SelectFields
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     $this->handleFields(
-                        $queryArgs,
                         $field,
                         $fieldType->getWrappedType(),
                         $select,
@@ -225,7 +220,6 @@ class SelectFields
                         $this->addAlwaysFields($fieldObject, $field, $parentTable, true);
 
                         $with[$relationsKey] = $this->getSelectableFieldsAndRelations(
-                            $queryArgs,
                             $field,
                             $newParentType,
                             $customQuery,
@@ -234,7 +228,6 @@ class SelectFields
                         );
                     } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
                         $this->handleInterfaceFields(
-                            $queryArgs,
                             $field,
                             $parentTypeUnwrapped,
                             $select,
@@ -245,7 +238,7 @@ class SelectFields
                             $customQuery
                         );
                     } else {
-                        $this->handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
+                        $this->handleFields($field, $fieldObject->config['type'], $select, $with, $ctx);
                     }
                 }
                 // Select
@@ -314,14 +307,13 @@ class SelectFields
      * Check the privacy status, if it's given.
      *
      * @param FieldDefinition $fieldObject Validated field
-     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
      * @param mixed $ctx Query/mutation context
      *
      * @return bool|null `true`  if selectable
      *                   `false` if not selectable, but allowed
      *                   `null`  if not allowed
      */
-    protected function validateField(FieldDefinition $fieldObject, array $queryArgs, $ctx): ?bool
+    protected function validateField(FieldDefinition $fieldObject, $ctx): ?bool
     {
         $selectable = true;
 
@@ -336,7 +328,7 @@ class SelectFields
             switch ($privacyClass) {
                 // If privacy given as a closure
                 case \is_callable($privacyClass):
-                    if (false === $privacyClass($queryArgs, $ctx)) {
+                    if (false === $privacyClass($this->getQueryArgs(), $ctx)) {
                         $selectable = null;
                     }
 
@@ -346,7 +338,7 @@ class SelectFields
                     /** @var Privacy $instance */
                     $instance = app($privacyClass);
 
-                    if (false === $instance->fire($queryArgs, $ctx)) {
+                    if (false === $instance->fire($this->getQueryArgs(), $ctx)) {
                         $selectable = null;
                     }
 
@@ -457,7 +449,6 @@ class SelectFields
      * @param mixed $ctx
      */
     protected function handleInterfaceFields(
-        array $queryArgs,
         array $field,
         GraphqlType $parentType,
         array &$select,
@@ -470,7 +461,6 @@ class SelectFields
         $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
 
         $with[$relationsKey] = function ($query) use (
-            $queryArgs,
             $field,
             $parentType,
             &$select,
@@ -524,7 +514,6 @@ class SelectFields
 
             /** @var callable $callable */
             $callable = $this->getSelectableFieldsAndRelations(
-                $queryArgs,
                 $field,
                 $newParentType,
                 $customQuery,
