@@ -110,13 +110,18 @@ class SelectFields
             return [$select, $with];
         }
 
-        return function ($query) use ($with, $select, $customQuery, $requestedFields): void {
+        return function ($query) use ($parentType, $with, $select, $customQuery, $requestedFields): void {
+            /** @var Relation $query */
+            $this->onBeforeModifyQuery($query, $parentType, $with, $select, $requestedFields);
+
             if ($customQuery) {
                 $query = $customQuery($requestedFields['args'], $query, $this->getCtx()) ?? $query;
             }
 
             $query->select($select);
             $query->with($with);
+
+            $this->onAfterModifyQuery($query, $parentType, $with, $select, $requestedFields);
         };
     }
 
@@ -509,6 +514,40 @@ class SelectFields
 
             return $callable($query);
         };
+    }
+
+    /**
+     * This method is called before the query is modified to make it eagerly load the fields and relations
+     *
+     * @param Relation $query The query to be executed
+     * @param array $with The relations to be eagerly loaded by the query
+     * @param array $select The fields to be selected with the query
+     */
+    protected function onBeforeModifyQuery(
+        $query,
+        GraphqlType $parentType,
+        array &$with,
+        array &$select,
+        array $requestedFields
+    ): void {
+        // Do nothing. This is left for child classes to implement when needed.
+    }
+
+    /**
+     * This method is called after the query is modified by adding select fields and relations to be eagerly loaded.
+     *
+     * @param Relation $query The query to be executed
+     * @param array $with The relations to be eagerly loaded by the query
+     * @param array $select The fields to be selected with the query
+     */
+    protected function onAfterModifyQuery(
+        $query,
+        GraphqlType $parentType,
+        array $with,
+        array $select,
+        array $requestedFields
+    ): void {
+        // Do nothing. This is left for child classes to implement when needed.
     }
 
     public function getParentType(): GraphqlType
