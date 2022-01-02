@@ -56,9 +56,9 @@ class SelectFields
             $parentType = $parentType->getWrappedType(true);
         }
 
-        $this->parentType         = $parentType;
-        $this->queryArgs          = $queryArgs;
-        $this->ctx                = $ctx;
+        $this->parentType = $parentType;
+        $this->queryArgs = $queryArgs;
+        $this->ctx = $ctx;
         $this->fieldsAndArguments = $fieldsAndArguments;
 
         $requestedFields = [
@@ -511,25 +511,16 @@ class SelectFields
         };
     }
 
-    /**
-     * @return GraphqlType
-     */
     public function getParentType(): GraphqlType
     {
         return $this->parentType;
     }
 
-    /**
-     * @return array
-     */
     public function getQueryArgs(): array
     {
         return $this->queryArgs;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCtx()
     {
         return $this->ctx;
