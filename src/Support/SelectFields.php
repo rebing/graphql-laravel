@@ -30,6 +30,18 @@ class SelectFields
     /** @var array */
     protected $relations = [];
 
+    /** @var GraphqlType */
+    protected $parentType;
+
+    /** @var array */
+    protected $queryArgs;
+
+    /** @var mixed */
+    protected $ctx;
+
+    /** @var array<string,mixed> */
+    protected $fieldsAndArguments;
+
     public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
@@ -43,6 +55,11 @@ class SelectFields
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getWrappedType(true);
         }
+
+        $this->parentType         = $parentType;
+        $this->queryArgs          = $queryArgs;
+        $this->ctx                = $ctx;
+        $this->fieldsAndArguments = $fieldsAndArguments;
 
         $requestedFields = [
             'args' => $queryArgs,
@@ -517,6 +534,38 @@ class SelectFields
 
             return $callable($query);
         };
+    }
+
+    /**
+     * @return GraphqlType
+     */
+    public function getParentType(): GraphqlType
+    {
+        return $this->parentType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryArgs(): array
+    {
+        return $this->queryArgs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCtx()
+    {
+        return $this->ctx;
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function getFieldsAndArguments(): array
+    {
+        return $this->fieldsAndArguments;
     }
 
     public function getSelect(): array
