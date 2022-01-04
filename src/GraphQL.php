@@ -382,14 +382,9 @@ class GraphQL
 
         $directives = Directive::getInternalDirectives();
 
-        foreach ($schemaDirectives as $name => $class) {
+        foreach ($schemaDirectives as $class) {
             $directive = $this->app->make($class);
-
-            if (!\is_string($name)) {
-                $name = $directive->name;
-            }
-
-            $directives[$name] = $directive;
+            $directives[$directive->name] = $directive;
         }
 
         return new Schema([
