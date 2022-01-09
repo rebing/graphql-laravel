@@ -118,7 +118,7 @@ class SelectFields
                 $query = $customQuery($requestedFields['args'], $query, $this->getCtx()) ?? $query;
             }
 
-            $query->select($select);
+            $query->addSelect($select);
             $query->with($with);
 
             $this->onAfterModifyQuery($query, $parentType, $with, $select, $requestedFields);
