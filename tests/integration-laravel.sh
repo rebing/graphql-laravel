@@ -8,21 +8,21 @@
 # This script is meant to be run on CI environments
 
 echo "Install Laravel"
-composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel
+composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel || exit 1
 cd ../laravel
 
 echo "Add package from source"
-sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json
-composer require --dev "rebing/graphql-laravel:*"
+sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json || exit 1
+composer require --dev "rebing/graphql-laravel:*" || exit 1
 
 echo "Publish vendor files"
-php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider" || exit 1
 
 echo "Make GraphQL ExampleQuery"
-php artisan make:graphql:query ExampleQuery
+php artisan make:graphql:query ExampleQuery || exit 1
 
 echo "Add ExampleQuery to config"
-sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
+sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php || exit 1
 
 echo "Start Webserver"
 php -S 127.0.0.1:8001 -t public >/dev/null 2>&1 &
