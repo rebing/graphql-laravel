@@ -7,8 +7,19 @@
 #
 # This script is meant to be run on CI environments
 
+LARAVEL_VERSION="$1"
+if [[ "$LARAVEL_VERSION" = "" ]]; then
+    echo "ERROR: Usage of this script is: $0 <laravel version>"
+    exit 1
+fi
+
+# TODO: temporary until laravel/laravel for 9 was released
+if [[ "$LARAVEL_VERSION" = "^9.0" ]]; then
+    LARAVEL_VERSION=dev-master
+fi
+
 echo "Install Laravel"
-composer create-project --prefer-dist "laravel/laravel" ../laravel || exit 1
+composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
 
 echo "Add package from source"

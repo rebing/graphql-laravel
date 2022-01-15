@@ -71,4 +71,4 @@ jobs:
 
       - run: composer install --prefer-dist
 
-      - run: tests/integration-laravel.sh
+      - run: tests/integration-laravel.sh ${{ matrix.laravel }}
