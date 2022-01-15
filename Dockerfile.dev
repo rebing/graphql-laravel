@@ -1,13 +1,13 @@
-FROM php:8.1.0-cli-alpine
+FROM php:8.1.1-cli-alpine
 
-COPY --from=mlocati/php-extension-installer:1.4.2 /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=mlocati/php-extension-installer:1.4.12 /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions \
       xdebug && \
       rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-COPY --from=composer:2.1.14 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2.2.4 /usr/bin/composer /usr/local/bin/
 
-COPY ./ /app
+RUN mkdir /app
 
 WORKDIR /app

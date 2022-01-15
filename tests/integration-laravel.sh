@@ -7,22 +7,33 @@
 #
 # This script is meant to be run on CI environments
 
+LARAVEL_VERSION="$1"
+if [[ "$LARAVEL_VERSION" = "" ]]; then
+    echo "ERROR: Usage of this script is: $0 <laravel version>"
+    exit 1
+fi
+
+# TODO: temporary until laravel/laravel for 9 was released
+if [[ "$LARAVEL_VERSION" = "^9.0" ]]; then
+    LARAVEL_VERSION=dev-master
+fi
+
 echo "Install Laravel"
-composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel
+composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
 
 echo "Add package from source"
-sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json
-composer require --dev "rebing/graphql-laravel:*"
+sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json || exit 1
+composer require --dev "rebing/graphql-laravel:*" || exit 1
 
 echo "Publish vendor files"
-php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider" || exit 1
 
 echo "Make GraphQL ExampleQuery"
-php artisan make:graphql:query ExampleQuery
+php artisan make:graphql:query ExampleQuery || exit 1
 
 echo "Add ExampleQuery to config"
-sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php
+sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::class,|" -i config/graphql.php || exit 1
 
 echo "Start Webserver"
 php -S 127.0.0.1:8001 -t public >/dev/null 2>&1 &

@@ -18,7 +18,27 @@ on:
 
 jobs:
   integration:
-    name: laravel
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.2, 7.3, 7.4, 8.0, 8.1]
+        laravel: [^6.0, ^7.0, ^8.0, ^9.0]
+        exclude:
+          - php: 7.2
+            laravel: ^8.0
+          - php: 7.2
+            laravel: ^9.0
+          - php: 7.3
+            laravel: ^9.0
+          - php: 7.4
+            laravel: ^9.0
+          - php: 8.0
+            laravel: ^6.0
+          - php: 8.1
+            laravel: ^6.0
+          - php: 8.1
+            laravel: ^7.0
+    name: P=${{ matrix.php }} L=${{ matrix.laravel }}
     runs-on: ubuntu-latest
     env:
       COMPOSER_NO_INTERACTION: 1
@@ -28,13 +48,15 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: ${{ matrix.php }}
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer remove --dev nunomaduro/larastan --no-update
-      - run: composer require illuminate/contracts:^8.0 --no-update
+      - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
+      - run: composer remove --dev laravel/legacy-factories --no-update
+        if: (matrix.laravel == '^6.0' || matrix.laravel == '^7.0')
+      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
         id: composercache
@@ -49,4 +71,4 @@ jobs:
 
       - run: composer install --prefer-dist
 
-      - run: tests/integration-laravel.sh
+      - run: tests/integration-laravel.sh ${{ matrix.laravel }}
