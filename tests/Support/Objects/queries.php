@@ -120,4 +120,22 @@ return [
             }
         }
     ',
+
+    'examplePaginationWithStrictData' => '
+        query Items($take: Int!, $page: Int!) {
+            examplesPaginationWithStrictData(take: $take, page: $page) {
+                data {
+                    field
+                    sub {
+                        field
+                        otherField
+                    }
+                }
+                cursor {
+                    total
+                    per_page
+                }
+            }
+        }
+    ',
 ];

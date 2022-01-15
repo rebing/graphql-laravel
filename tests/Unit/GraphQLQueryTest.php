@@ -3,8 +3,15 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
+use GraphQL\Type\Introspection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationWithStrictDataQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleSubType;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleWithSubtypeType;
+use Rebing\GraphQL\Tests\Support\Types\Wrappers\PaginationType;
 use Rebing\GraphQL\Tests\TestCase;
 
 class GraphQLQueryTest extends TestCase
@@ -242,4 +249,74 @@ It is required when 'lazyload_types' is enabled";
         self::assertSame($expectedDataResult, $result->data);
         self::assertCount(0, $result->errors);
     }
+
+    public function testQueryPaginationWithStrictData(): void
+    {
+        $this->app['config']->set('graphql.schemas.default', [
+            'query' => [
+                'examplesPaginationWithStrictData' => ExamplesPaginationWithStrictDataQuery::class,
+            ],
+        ]);
+
+        $this->app['config']->set('graphql.types.ExampleWithSubtype', ExampleWithSubtypeType::class);
+        $this->app['config']->set('graphql.types.ExampleSub', ExampleSubType::class);
+        $this->app['config']->set('graphql.pagination_type', PaginationType::class);
+        $this->app['config']->set('graphql.security.query_max_depth', 11);
+
+        //schema test
+        $schemaResult = $this->httpGraphql(Introspection::getIntrospectionQuery());
+        $types = collect(Arr::get($schemaResult, 'data.__schema.types'));
+
+        self::assertTrue(
+            $types->where('name', 'ExampleWithSubtype!Pagination')->isEmpty()
+        );
+
+        self::assertTrue(
+            $types->where('name', 'ExampleWithSubtypePagination')->isNotEmpty()
+        );
+
+        //nonNull type in pagination test(getting wrapped type with recursion)
+        $result = $this->httpGraphql($this->queries['examplePaginationWithStrictData'], [
+            'variables' => [
+                'page' => 1,
+                'take' => 10,
+            ],
+        ]);
+
+        self::assertEquals(
+            [
+                'examplesPaginationWithStrictData' => [
+                    'data' => [
+                        [
+                            'field' => 'Field 1',
+                            'sub' => [
+                                'field' => 'Subfield 1',
+                                'otherField' => 'OtherField 1',
+                            ],
+                        ],
+                        [
+                            'field' => 'Field 2',
+                            'sub' => [
+                                'field' => 'Subfield 2',
+                                'otherField' => 'OtherField 2',
+                            ],
+                        ],
+                        [
+                            'field' => 'Field 3',
+                            'sub' => [
+                                'field' => 'Subfield 3',
+                                'otherField' => 'OtherField 3',
+                            ],
+                        ],
+                    ],
+                    'cursor' => [
+                        'per_page' => 10,
+                        'total' => 3,
+                    ],
+                ],
+            ],
+            $result['data']
+        );
+    }
+
 }
