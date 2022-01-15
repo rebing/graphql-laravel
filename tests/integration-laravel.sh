@@ -8,7 +8,7 @@
 # This script is meant to be run on CI environments
 
 echo "Install Laravel"
-composer create-project --quiet --prefer-dist "laravel/laravel" ../laravel || exit 1
+composer create-project --prefer-dist "laravel/laravel" ../laravel || exit 1
 cd ../laravel
 
 echo "Add package from source"
