@@ -19,7 +19,7 @@ class GraphQLController extends Controller
     public function query(Request $request, RequestParser $parser, Repository $config, GraphQL $graphql): JsonResponse
     {
         $routePrefix = $config->get('graphql.route.prefix', 'graphql');
-        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?? $config->get('graphql.default_schema', 'default');
+        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?: $config->get('graphql.default_schema', 'default');
 
         $operations = $parser->parseRequest($request);
 
