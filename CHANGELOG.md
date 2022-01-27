@@ -4,6 +4,11 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.1.0...master)
 --------------
 
+2022-01-27, 8.2.0
+-----------------
+### Fixed
+- Fix "No configuration for schema '' found" when route prefix is empty string [\888 / hello-liang-shan](https://github.com/rebing/graphql-laravel/pull/888)
+
 2022-01-15, 8.1.0
 -----------------
 ### Added
