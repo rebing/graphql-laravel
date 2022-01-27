@@ -14,7 +14,7 @@ class EmptyRoutePrefixTest extends TestCase
         $app['config']->set('graphql.route.prefix', '');
     }
 
-    public function testEmptyRoutePrefix():void
+    public function testEmptyRoutePrefix(): void
     {
         $response = $this->call('GET', '/', [
             'query' => $this->queries['examples'],
