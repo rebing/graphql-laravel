@@ -19,7 +19,7 @@ class GraphQLController extends Controller
     public function query(Request $request, RequestParser $parser, Repository $config, GraphQL $graphql): JsonResponse
     {
         $routePrefix = $config->get('graphql.route.prefix', 'graphql');
-        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/") ?: $config->get('graphql.default_schema', 'default');
+        $schemaName = $this->findSchemaNameInRequest($request, "/$routePrefix") ?: $config->get('graphql.default_schema', 'default');
 
         $operations = $parser->parseRequest($request);
 
@@ -51,13 +51,15 @@ class GraphQLController extends Controller
     public function graphiql(Request $request, Repository $config, Factory $viewFactory): View
     {
         $routePrefix = $config->get('graphql.graphiql.prefix', 'graphiql');
-        $schemaName = $this->findSchemaNameInRequest($request, "$routePrefix/");
+        $schemaName = $this->findSchemaNameInRequest($request, "/$routePrefix");
 
         $graphqlPath = '/' . $config->get('graphql.route.prefix', 'graphql');
 
         if ($schemaName) {
             $graphqlPath .= '/' . $schemaName;
         }
+
+        $graphqlPath = '/' . trim($graphqlPath, '/');
 
         $view = $config->get('graphql.graphiql.view', 'graphql::graphiql');
 
@@ -97,12 +99,12 @@ class GraphQLController extends Controller
 
     protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
     {
-        $path = $request->path();
+        $path = $request->getPathInfo();
 
         if (!Str::startsWith($path, $routePrefix)) {
             return null;
         }
 
-        return Str::after($path, $routePrefix);
+        return trim(Str::after($path, $routePrefix), '/');
     }
 }
