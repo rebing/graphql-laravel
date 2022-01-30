@@ -1,10 +1,14 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/8.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/8.2.1...master)
 --------------
+
+2022-01-30, 8.2.1
+-----------------
 ### Fixed
-- Fix schema parsing issue when route prefix is empty string [\#890 / hello-liang-shan](https://github.com/rebing/graphql-laravel/pull/890)
+- Fix schema parsing issue when route prefix is empty string [\#890 / hello-liang-shan](https://github.com/rebing/graphql-laravel/pull/890)\
+  Note: this is a follow-up fix to #888
 
 2022-01-27, 8.2.0
 -----------------
