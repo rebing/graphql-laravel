@@ -981,7 +981,6 @@ SQL
                         'flag' => true,
                         'user_id' => $user->id,
                     ]);
-
             });
 
         $graphql = <<<'GRAQPHQL'
@@ -1005,7 +1004,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "users"."id", "users"."name" from "users" order by "users"."id" asc;
-select "posts"."body", "posts"."id", "posts"."title", "posts"."user_id", 42 as meaning_of_life from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
+select 42 as meaning_of_life, "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
 SQL
         );
 
@@ -1030,7 +1029,7 @@ SQL
                             [
                                 'body' => $users[1]->posts[0]->body,
                                 'id' => (string) $users[1]->posts[0]->id,
-                                'title' => $users[1]->posts[0]->title
+                                'title' => $users[1]->posts[0]->title,
                             ],
                         ],
                     ],
@@ -1039,5 +1038,4 @@ SQL
         ];
         self::assertSame($expectedResult, $result);
     }
-
 }
