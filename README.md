@@ -87,6 +87,7 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
       - [Example using Laravel's validator directly](#example-using-laravels-validator-directly)
       - [Handling validation errors](#handling-validation-errors)
       - [Customizing error messages](#customizing-error-messages)
+      - [Customizing attributes](#customizing-attributes)
       - [Misc notes](#misc-notes)
     - [Resolve method](#resolve-method)
     - [Resolver middleware](#resolver-middleware)
@@ -989,6 +990,21 @@ public function validationErrorMessages(array $args = []): array
         'email.required' => 'Please enter your email address',
         'email.email' => 'Please enter a valid email address',
         'email.exists' => 'Sorry, this email address is already in use',
+    ];
+}
+```
+
+#### Customizing attributes
+
+The validation attributes can be customised by overriding the
+`validationAttributes` method. This method should return an array of custom
+attributes in the same way documented by Laravel's validation.
+
+```php
+public function validationAttributes(array $args = []): array
+{
+    return [
+        'email' => 'email address',
     ];
 }
 ```
