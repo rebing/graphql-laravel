@@ -129,7 +129,7 @@ abstract class Field
     {
         // allow our error messages to be customised
         $messages = $this->validationErrorMessages($args);
-        
+
         // allow our attributes to be customized
         $attributes = $this->validationAttributes($args);
 
