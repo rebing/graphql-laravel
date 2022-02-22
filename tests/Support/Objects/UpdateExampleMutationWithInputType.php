@@ -62,6 +62,19 @@ class UpdateExampleMutationWithInputType extends Mutation
                 'name' => 'test',
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleValidationInputObject')))),
             ],
+
+            'test_validation_custom_attributes' => [
+                'name' => 'custom validation attributes',
+                'type' => Type::string(),
+                'rules' => ['required'],
+            ],
+        ];
+    }
+
+    public function validationAttributes(array $args = []): array
+    {
+        return [
+            'test_validation_custom_attributes' => 'custom attribute',
         ];
     }
 
