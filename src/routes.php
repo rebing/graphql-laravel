@@ -38,6 +38,10 @@ if ($routeConfig) {
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
                 ]);
 
+                if (is_array($actions['uses']) && isset($actions['uses'][0], $actions['uses'][1])) {
+                    $actions['uses'] = $actions['uses'][0] . '@' . $actions['uses'][1];
+                }
+
                 // Add route for each schema…
                 $router->addRoute(
                     $method,
