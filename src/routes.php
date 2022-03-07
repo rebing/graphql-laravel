@@ -73,6 +73,10 @@ if ($config->get('graphql.graphiql.display', true)) {
             'middleware' => $graphiqlConfig['middleware'] ?? [],
         ],
         function (Router $router) use ($config, $graphiqlConfig): void {
+            if (\is_array($graphiqlConfig['controller']) && isset($graphiqlConfig['controller'][0], $graphiqlConfig['controller'][1])) {
+                $graphiqlConfig['controller'] = $graphiqlConfig['controller'][0] . '@' . $graphiqlConfig['controller'][1];
+            }
+
             $actions = [
                 'uses' => $graphiqlConfig['controller'] ?? GraphQLController::class . '@graphiql',
             ];
