@@ -557,8 +557,8 @@ class UpdateUserPasswordMutation extends Mutation
     public function args(): array
     {
         return [
-            'id' => ['
-                name' => 'id', 
+            'id' => [
+                'name' => 'id', 
                 'type' => Type::nonNull(Type::string()),
             ],
             'password' => [
