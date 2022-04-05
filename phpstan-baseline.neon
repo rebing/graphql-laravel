@@ -781,11 +781,6 @@ parameters:
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\{execution_middleware\\?\\: array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, method\\?\\: array\\<string\\>\\|string, middleware\\?\\: array\\<string\\>, mutation\\?\\: array\\<class\\-string\\>, query\\: array\\<class\\-string\\>, types\\?\\: array\\<class\\-string\\>\\} but returns non\\-empty\\-array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExampleSchemaWithMethod.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleUnionType\\:\\:resolveType\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleUnionType.php
