@@ -4,6 +4,9 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.2.1...master)
 --------------
 
+### Added
+- Add support to use array in `controller` param in config [\#906 / viktorruskai](https://github.com/rebing/graphql-laravel/pull/906)
+
 2022-01-30, 8.2.1
 -----------------
 ### Fixed
