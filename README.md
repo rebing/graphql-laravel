@@ -48,7 +48,7 @@ composer require rebing/graphql-laravel
 
 Publish the configuration file:
 ```bash
-$ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```
 
 Review the configuration file:
