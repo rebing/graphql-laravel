@@ -11,11 +11,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
@@ -189,11 +184,6 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Privacy\\:\\:fire\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
 			path: src/Support/Privacy.php
-
-		-
-			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$rules\\.$#"
-			count: 1
-			path: src/Support/Rules.php
 
 		-
 			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
