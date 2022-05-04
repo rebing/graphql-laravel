@@ -247,10 +247,8 @@ class SelectFields
                 $fieldObject->resolveFn = function (): void {
                 };
             }
-            // If allowed field, but not selectable
-            elseif (false === $canSelect) {
-                static::addAlwaysFields($fieldObject, $select, $parentTable);
-            }
+
+            static::addAlwaysFields($fieldObject, $select, $parentTable);
         }
 
         // If parent type is an union or interface we select all fields

@@ -47,7 +47,6 @@ class AlwaysTest extends TestCaseDatabase
         $query = <<<'GRAQPHQL'
 {
   alwaysQuery {
-    body
     title
     comments_always_single_field {
       id
@@ -62,7 +61,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "posts"."body", "posts"."title", "posts"."id" from "posts";
+select "posts"."title", "posts"."body", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id", "comments"."body" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
 SQL
         );
@@ -71,7 +70,6 @@ SQL
             'data' => [
                 'alwaysQuery' => [
                     [
-                        'body' => 'post body',
                         'title' => 'post title',
                         'comments_always_single_field' => [
                             [

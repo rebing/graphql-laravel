@@ -33,10 +33,6 @@ class AlwaysRelationTest extends TestCaseDatabase
         ]);
     }
 
-    /**
-     * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
-     * the test needs to be changed, showing that it works.
-     */
     public function testAlwaysSingleHasManyRelationField(): void
     {
         /** @var User $user */
@@ -60,6 +56,9 @@ class AlwaysRelationTest extends TestCaseDatabase
     posts {
       id
       title
+      comments {
+          id
+      }
     }
   }
 }
@@ -67,54 +66,39 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->httpGraphql($query, [
-            'expectErrors' => true,
-        ]);
+        $result = $this->httpGraphql($query);
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "users"."id" from "users";
-SQL
+        select "users"."id" from "users";
+        select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
+        select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
+        SQL
         );
 
-//         $this->assertSqlQueries(<<<'SQL'
-        // select "users"."id" from "users";
-        // select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
-        // select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-        // SQL
-        // );
-
-        unset($result['errors'][0]['trace']);
         $expectedResult = [
-            'errors' => [
-                [
-                    'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: posts.comments (SQL: select "posts"."id", "posts"."title", "posts"."user_id", "posts"."comments" from "posts" where "posts"."user_id" in (1) order by "posts"."id" asc)',
-                    'message' => 'Internal server error',
-                    'extensions' => [
-                        'category' => 'internal',
-                    ],
-                    'locations' => [
-                        [
-                            'line' => 2,
-                            'column' => 3,
+            'data' => [
+                'users' => [
+                    [
+                        'id' => $user->id,
+                        'posts' => [
+                            [
+                                'id' => 1,
+                                'title' => $post->title,
+                                'comments' => [
+                                    [
+                                        'id' => 1,
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
-                    'path' => [
-                        'users',
-                    ],
                 ],
-            ],
-            'data' => [
-                'users' => null,
             ],
         ];
         self::assertEquals($expectedResult, $result);
     }
 
-    /**
-     * Once https://github.com/rebing/graphql-laravel/issues/369 is fixed,
-     * the test needs to be changed, showing that it works.
-     */
     public function testAlwaysSingleMorphRelationField(): void
     {
         $user = factory(User::class)->create([
@@ -152,40 +136,30 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $result = $this->httpGraphql($query, [
-            'expectErrors' => true,
-        ]);
+        $result = $this->httpGraphql($query);
 
         $this->assertSqlQueries(
             <<<'SQL'
 select "users"."name", "users"."id" from "users";
+select "likes"."id", "likes"."user_id" from "likes" where "likes"."user_id" in (?);
 SQL
         );
-        // Expecting .._id and .._type to be selected.
-        // select "likes"."id", "likes"."likable_id", "likes"."likable_type", "likes"."user_id" from "likes" where "likes"."user_id" in (?);
 
-        unset($result['errors'][0]['trace']);
         $expectedResult = [
-            'errors' => [
-                [
-                    'debugMessage' => 'SQLSTATE[HY000]: General error: 1 no such column: likes.likable (SQL: select "likes"."id", "likes"."user_id", "likes"."likable" from "likes" where "likes"."user_id" in (1))',
-                    'message' => 'Internal server error',
-                    'extensions' => [
-                        'category' => 'internal',
-                    ],
-                    'locations' => [
-                        [
-                            'line' => 2,
-                            'column' => 3,
+            'data' => [
+                'users' => [
+                    [
+                        'name' => $user->name,
+                        'likes' => [
+                            [
+                                'id' => '1',
+                            ],
+                            [
+                                'id' => '2',
+                            ],
                         ],
                     ],
-                    'path' => [
-                        'users',
-                    ],
                 ],
-            ],
-            'data' => [
-                'users' => null,
             ],
         ];
         self::assertEquals($expectedResult, $result);
