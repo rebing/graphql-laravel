@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Use Facebook's GraphQL with Laravel 6.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
+Use Facebook's GraphQL with PHP 7.4+ on Laravel 6.0 & 8.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
 * Allows creating **queries** and **mutations** as request endpoints
 * Supports multiple schemas
@@ -48,7 +48,7 @@ composer require rebing/graphql-laravel
 
 Publish the configuration file:
 ```bash
-$ php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
+php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```
 
 Review the configuration file:
@@ -557,8 +557,8 @@ class UpdateUserPasswordMutation extends Mutation
     public function args(): array
     {
         return [
-            'id' => ['
-                name' => 'id', 
+            'id' => [
+                'name' => 'id', 
                 'type' => Type::nonNull(Type::string()),
             ],
             'password' => [

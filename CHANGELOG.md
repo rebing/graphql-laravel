@@ -7,6 +7,9 @@ CHANGELOG
 ### Added
 - Add support to use array in `controller` param in config [\#906 / viktorruskai](https://github.com/rebing/graphql-laravel/pull/906)
 
+### Removed
+- Support for PHP 7.2, PHP 7.3 and Laravel 7.0 (all EOL) [\#914 / mfn](https://github.com/rebing/graphql-laravel/pull/914)
+
 2022-01-30, 8.2.1
 -----------------
 ### Fixed

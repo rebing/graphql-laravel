@@ -13,11 +13,6 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
     exit 1
 fi
 
-# TODO: temporary until laravel/laravel for 9 was released
-if [[ "$LARAVEL_VERSION" = "^9.0" ]]; then
-    LARAVEL_VERSION=dev-master
-fi
-
 echo "Install Laravel"
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
