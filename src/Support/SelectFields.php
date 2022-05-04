@@ -102,7 +102,7 @@ class SelectFields
                 $query = $customQuery($requestedFields['args'], $query, $ctx) ?? $query;
             }
 
-            $query->select($select);
+            $query->addSelect($select);
             $query->with($with);
         };
     }

@@ -5,7 +5,7 @@ CHANGELOG
 --------------
 ### Fixed
 - Allow 'always' to work on object types [\#473 / tinyoverflow \#369 / zjbarg](https://github.com/rebing/graphql-laravel/pull/892)
-
+- Allow using addSelect() in relationship query scopes [\#875 / codercms](https://github.com/rebing/graphql-laravel/pull/806)
 ### Removed
 - Support for PHP 7.2, PHP 7.3 and Laravel 7.0 (all EOL) [\#914 / mfn](https://github.com/rebing/graphql-laravel/pull/914)
 

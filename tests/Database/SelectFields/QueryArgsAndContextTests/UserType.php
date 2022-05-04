@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\User;
@@ -47,6 +48,15 @@ class UserType extends GraphQLType
                 'alias' => 'posts',
                 'query' => function (array $args, HasMany $query): HasMany {
                     $query->where('posts.flag', '=', 1);
+
+                    return $query;
+                },
+            ],
+            'postsWithExtraField' => [
+                'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
+                'alias' => 'posts',
+                'query' => function (array $args, HasMany $query): HasMany {
+                    $query->addSelect(DB::raw('42 as meaning_of_life'));
 
                     return $query;
                 },
