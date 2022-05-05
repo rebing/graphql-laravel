@@ -38,6 +38,11 @@ if ($routeConfig) {
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
                 ]);
 
+                // Support array syntax: `[Some::class, 'method']`
+                if (\is_array($actions['uses']) && isset($actions['uses'][0], $actions['uses'][1])) {
+                    $actions['uses'] = $actions['uses'][0] . '@' . $actions['uses'][1];
+                }
+
                 // Add route for each schema…
                 $router->addRoute(
                     $method,
@@ -69,6 +74,11 @@ if ($config->get('graphql.graphiql.display', true)) {
             'middleware' => $graphiqlConfig['middleware'] ?? [],
         ],
         function (Router $router) use ($config, $graphiqlConfig): void {
+            // Support array syntax: `[Some::class, 'method']`
+            if (\is_array($graphiqlConfig['controller']) && isset($graphiqlConfig['controller'][0], $graphiqlConfig['controller'][1])) {
+                $graphiqlConfig['controller'] = $graphiqlConfig['controller'][0] . '@' . $graphiqlConfig['controller'][1];
+            }
+
             $actions = [
                 'uses' => $graphiqlConfig['controller'] ?? GraphQLController::class . '@graphiql',
             ];
