@@ -2655,7 +2655,7 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
     The default makes the API available via `/graphql`
   - `controller`\
     Allows overriding the default controller class, in case you want to extend or
-    replace the existing one. (also supports `array` format)
+    replace the existing one (also supports `array` format).
   - `middleware`\
     Global GraphQL middleware applying in case no schema-specific middleware was
     provided
