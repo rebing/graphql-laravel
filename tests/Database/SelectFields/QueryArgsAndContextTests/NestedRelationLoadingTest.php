@@ -968,4 +968,74 @@ SQL
 
         self::assertSame($expectedResult, $result);
     }
+
+    public function testCustomQueryAllowColumnToBeAdded(): void
+    {
+        /** @var User[] $users */
+        $users = factory(User::class, 2)
+            ->create()
+            ->each(function (User $user): void {
+                /** @var Post $post */
+                $post = factory(Post::class)
+                    ->create([
+                        'flag' => true,
+                        'user_id' => $user->id,
+                    ]);
+            });
+
+        $graphql = <<<'GRAQPHQL'
+{
+  users(select: true, with: true) {
+    id
+    name
+    postsWithExtraField {
+      body
+      id
+      title
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->httpGraphql($graphql);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "users"."id", "users"."name" from "users" order by "users"."id" asc;
+select 42 as meaning_of_life, "posts"."body", "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?, ?) order by "posts"."id" asc;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'users' => [
+                    [
+                        'id' => (string) $users[0]->id,
+                        'name' => $users[0]->name,
+                        'postsWithExtraField' => [
+                            [
+                                'body' => $users[0]->posts[0]->body,
+                                'id' => (string) $users[0]->posts[0]->id,
+                                'title' => $users[0]->posts[0]->title,
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $users[1]->id,
+                        'name' => $users[1]->name,
+                        'postsWithExtraField' => [
+                            [
+                                'body' => $users[1]->posts[0]->body,
+                                'id' => (string) $users[1]->posts[0]->id,
+                                'title' => $users[1]->posts[0]->title,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expectedResult, $result);
+    }
 }
