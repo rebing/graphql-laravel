@@ -11,6 +11,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$alias\\.$#"
+			count: 1
+			path: src/Support/AliasArguments/AliasArguments.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
@@ -186,6 +191,11 @@ parameters:
 			path: src/Support/Privacy.php
 
 		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|stdClass\\:\\:\\$rules\\.$#"
+			count: 1
+			path: src/Support/Rules.php
+
+		-
 			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
@@ -324,6 +334,11 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Support/UploadType.php
+
+		-
+			message: "#^Offset 'uses' does not exist on array\\{uses\\?\\: mixed, middleware\\?\\: mixed\\}\\.$#"
+			count: 1
+			path: src/routes.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLContext\\:\\:\\$data has no type specified\\.$#"
@@ -769,6 +784,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleNestedValidationInputObject\\:\\:resolve\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleSchemaWithMethod\\:\\:toConfig\\(\\) should return array\\{execution_middleware\\?\\: array\\<class\\-string\\<Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\>\\>, method\\?\\: array\\<string\\>\\|string, middleware\\?\\: array\\<string\\>, mutation\\?\\: array\\<class\\-string\\>, query\\: array\\<class\\-string\\>, types\\?\\: array\\<class\\-string\\>\\} but returns non\\-empty\\-array\\<literal\\-string&non\\-empty\\-string, array\\<string\\>\\|string\\>\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExampleSchemaWithMethod.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleUnionType\\:\\:resolveType\\(\\) has no return type specified\\.$#"
