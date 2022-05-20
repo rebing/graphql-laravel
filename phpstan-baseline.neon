@@ -1396,6 +1396,11 @@ parameters:
 			path: tests/Unit/MutationTest.php
 
 		-
+			message: "#^Relation 'test_validation_custom_attributes' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 7
+			path: tests/Unit/MutationTest.php
+
+		-
 			message: "#^Relation 'test_with_rules_non_nullable_list_of_non_nullable_input_object' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
 			count: 3
 			path: tests/Unit/MutationTest.php

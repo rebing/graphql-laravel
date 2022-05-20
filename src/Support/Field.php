@@ -66,7 +66,8 @@ abstract class Field
     /**
      * Define custom Laravel Validator attributes as per Laravel 'custom attributes'.
      *
-     * @param array $args submitted arguments
+     * @param array<string,mixed> $args submitted arguments
+     * @return array<string,string>
      */
     public function validationAttributes(array $args = []): array
     {
