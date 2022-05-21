@@ -6,6 +6,7 @@ CHANGELOG
 
 ### Added
 - Add support to use array in `controller` param in config [\#906 / viktorruskai](https://github.com/rebing/graphql-laravel/pull/906)
+- Add support for laravel validation attributes [\#901 / jacobdekeizer](https://github.com/rebing/graphql-laravel/pull/901)
 
 ### Fixed
 - Allow 'always' to work on object types [\#473 / tinyoverflow \#369 / zjbarg](https://github.com/rebing/graphql-laravel/pull/892)

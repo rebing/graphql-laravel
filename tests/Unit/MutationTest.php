@@ -74,6 +74,7 @@ class MutationTest extends FieldTest
                     ['email' => 'test@test.com'],
                 ],
             ],
+            'test_validation_custom_attributes' => 'test',
         ], [], $this->resolveInfoMock());
     }
 
@@ -117,7 +118,8 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-        self::assertCount(6, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(7, $messages->all());
     }
 
     public function testWithInput(): void
@@ -154,7 +156,8 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.otherValue'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-        self::assertCount(6, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(7, $messages->all());
     }
 
     public function testWithEmptyInput(): void
@@ -182,7 +185,8 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
         self::assertTrue($messages->has('test_with_rules_closure'));
-        self::assertCount(4, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(5, $messages->all());
     }
 
     public function testWithInputDepthOne(): void
@@ -212,7 +216,8 @@ class MutationTest extends FieldTest
 
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
         self::assertTrue($messages->has('test_with_rules_closure'));
-        self::assertCount(3, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(4, $messages->all());
     }
 
     public function testWithInputWithEmptyInputObjects(): void
@@ -245,6 +250,8 @@ class MutationTest extends FieldTest
 
         self::assertTrue($messages->has('test_with_rules'));
 
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+
         self::assertTrue($messages->has('test_with_rules_nullable_input_object.otherValue'));
         self::assertTrue($messages->has('test_with_rules_nullable_input_object.val'));
         self::assertTrue($messages->has('test_with_rules_nullable_input_object.nest'));
@@ -253,7 +260,7 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.val'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.nest'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object.list'));
-        self::assertCount(12, $messages->all());
+        self::assertCount(13, $messages->all());
     }
 
     public function testWithEmptyArrayOfInputsObjects(): void
@@ -282,7 +289,8 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_input_object'));
         self::assertTrue($messages->has('test_with_rules_closure'));
-        self::assertCount(4, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(5, $messages->all());
     }
 
     public function testWithArrayOfInputsObjects(): void
@@ -319,7 +327,8 @@ class MutationTest extends FieldTest
         self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.otherValue'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.nest'));
         self::assertTrue($messages->has('test_with_rules_non_nullable_list_of_non_nullable_input_object.0.list'));
-        self::assertCount(7, $messages->all());
+        self::assertTrue($messages->has('test_validation_custom_attributes'));
+        self::assertCount(8, $messages->all());
     }
 
     public function testCustomValidationErrorMessages(): void
@@ -354,6 +363,25 @@ class MutationTest extends FieldTest
             'The test with rules non nullable input object.nest.email must be a valid email address.',
             $messages->first('test_with_rules_non_nullable_input_object.nest.email')
         );
+    }
+
+    public function testCustomValidationAttributes(): void
+    {
+        $class = $this->getFieldClass();
+        $field = new $class();
+        $attributes = $field->getAttributes();
+
+        /** @var ValidationError $exception */
+        $exception = null;
+
+        try {
+            $attributes['resolve'](null, [], [], $this->resolveInfoMock());
+        } catch (ValidationError $exception) {
+        }
+
+        $messages = $exception->getValidatorMessages();
+
+        self::assertEquals('The custom attribute field is required.', $messages->first('test_validation_custom_attributes'));
     }
 
     public function testRuleCallbackArgumentsMatchesTheInput(): void
