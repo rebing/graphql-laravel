@@ -17,11 +17,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  supported-versions-matrix:
+    name: Supported Versions Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.supported-versions-matrix.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: supported-versions-matrix
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+
   integration:
+    needs:
+      - supported-versions-matrix
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
         laravel: [^6.0, ^8.0, ^9.0]
         exclude:
           - php: 7.4
