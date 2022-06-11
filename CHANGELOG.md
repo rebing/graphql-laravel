@@ -1,9 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/8.2.1...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/8.3.0...master)
 --------------
 
+2022-06-11, 8.3.0
+-----------------
 ### Added
 - Add support to use array in `controller` param in config [\#906 / viktorruskai](https://github.com/rebing/graphql-laravel/pull/906)
 - Add support for laravel validation attributes [\#901 / jacobdekeizer](https://github.com/rebing/graphql-laravel/pull/901)
