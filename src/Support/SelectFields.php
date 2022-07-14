@@ -395,7 +395,7 @@ class SelectFields
             $relation,
             HasOne::class
         ) || is_a($relation, MorphOne::class)) &&
-            !\array_key_exists($foreignKey, $field)) {
+                !\array_key_exists($foreignKey, $field)) {
             $segments = explode('.', $foreignKey);
             $foreignKey = end($segments);
 
