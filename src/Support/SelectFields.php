@@ -322,7 +322,7 @@ class SelectFields
                     }
 
                     break;
-                // If Privacy class given
+                    // If Privacy class given
                 case \is_string($privacyClass):
                     /** @var Privacy $instance */
                     $instance = app($privacyClass);
