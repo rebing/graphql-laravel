@@ -33,6 +33,8 @@ if ($routeConfig) {
 
             foreach ($schemas as $schemaName => $schemaConfig) {
                 $method = $schemaConfig['method'] ?? ['GET', 'POST'];
+                $method = array_map('strtoupper', $method);
+
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
