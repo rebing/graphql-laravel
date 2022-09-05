@@ -44,13 +44,13 @@
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
-        "friendsofphp/php-cs-fixer": "^3",
+        "friendsofphp/php-cs-fixer": "3.11.0",
         "laravel/legacy-factories": "^1.0",
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.2",
-        "nunomaduro/larastan": "^1",
+        "nunomaduro/larastan": "1.0.3",
         "orchestra/testbench": "4.0.*|5.0.*|^6.0|^7.0",
-        "phpstan/phpstan": "^1",
+        "phpstan/phpstan": "1.8.4",
         "phpunit/phpunit": "~7.0|~8.0|^9",
         "thecodingmachine/phpstan-safe-rule": "^1"
     },
