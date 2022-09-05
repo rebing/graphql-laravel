@@ -186,7 +186,7 @@ parameters:
 			path: src/Support/Privacy.php
 
 		-
-			message: "#^Instanceof between \\*NEVER\\* and string will always evaluate to false\\.$#"
+			message: "#^Instanceof between \\*NEVER\\* and 'Jenssegers\\\\\\\\Mongodb…' will always evaluate to false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -311,7 +311,7 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-empty\\-string\\} given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{\\$this\\(Rebing\\\\GraphQL\\\\Support\\\\Type\\), non\\-falsy\\-string\\} given\\.$#"
 			count: 1
 			path: src/Support/Type.php
 
@@ -1381,6 +1381,11 @@ parameters:
 			path: tests/Unit/MutationTest.php
 
 		-
+			message: "#^Relation 'test_validation_custom_attributes' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
+			count: 7
+			path: tests/Unit/MutationTest.php
+
+		-
 			message: "#^Relation 'test_with_rules' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
 			count: 6
 			path: tests/Unit/MutationTest.php
@@ -1393,11 +1398,6 @@ parameters:
 		-
 			message: "#^Relation 'test_with_rules_non_nullable_input_object' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
 			count: 14
-			path: tests/Unit/MutationTest.php
-
-		-
-			message: "#^Relation 'test_validation_custom_attributes' is not found in Illuminate\\\\Contracts\\\\Support\\\\MessageBag model\\.$#"
-			count: 7
 			path: tests/Unit/MutationTest.php
 
 		-
