@@ -10,6 +10,7 @@ use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Server\OperationParams as BaseOperationParams;
+use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -363,6 +364,7 @@ class GraphQL
         $schemaMutation = $schemaConfig['mutation'] ?? [];
         $schemaSubscription = $schemaConfig['subscription'] ?? [];
         $schemaTypes = $schemaConfig['types'] ?? [];
+        $schemaDirectives = $schemaConfig['directives'] ?? [];
 
         $this->addTypes($schemaTypes);
 
@@ -378,10 +380,18 @@ class GraphQL
             ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
             : null;
 
+        $directives = Directive::getInternalDirectives();
+
+        foreach ($schemaDirectives as $class) {
+            $directive = $this->app->make($class);
+            $directives[$directive->name] = $directive;
+        }
+
         return new Schema([
             'query' => $query,
             'mutation' => $mutation,
             'subscription' => $subscription,
+            'directives' => $directives,
             'types' => function () {
                 $types = [];
 
