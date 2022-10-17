@@ -77,7 +77,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
         if (null !== $maxQueryComplexity) {
             /** @var QueryComplexity $queryComplexity */
-            $queryComplexity = DocumentValidator::getRule('QueryComplexity');
+            $queryComplexity = DocumentValidator::getRule(QueryComplexity::class);
             $queryComplexity->setMaxQueryComplexity($maxQueryComplexity);
         }
 
@@ -85,7 +85,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
         if (null !== $maxQueryDepth) {
             /** @var QueryDepth $queryDepth */
-            $queryDepth = DocumentValidator::getRule('QueryDepth');
+            $queryDepth = DocumentValidator::getRule(QueryDepth::class);
             $queryDepth->setMaxQueryDepth($maxQueryDepth);
         }
 
@@ -93,7 +93,7 @@ class GraphQLServiceProvider extends ServiceProvider
 
         if (true === $disableIntrospection) {
             /** @var DisableIntrospection $disableIntrospection */
-            $disableIntrospection = DocumentValidator::getRule('DisableIntrospection');
+            $disableIntrospection = DocumentValidator::getRule(DisableIntrospection::class);
             $disableIntrospection->setEnabled(DisableIntrospection::ENABLED);
         }
     }
