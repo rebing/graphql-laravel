@@ -6,6 +6,16 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, non\\-empty\\-array\\<string, array\\<int\\|string, non\\-empty\\-array\\<string, mixed\\>\\|\\(ArrayAccess&Rebing\\\\GraphQL\\\\Support\\\\Field\\)\\>\\|string\\> given\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			message: "#^Property GraphQL\\\\Type\\\\Definition\\\\ObjectType\\:\\:\\$config \\(array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}\\) does not accept non\\-empty\\-array\\<string, \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|\\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|iterable\\|string\\|null\\>\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\GraphQL\\:\\:\\$types \\(array\\<string, object\\|string\\>\\) does not accept array\\<int\\|string, object\\|string\\>\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -64,6 +74,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\ArrayKeyChange\\:\\:orderPaths\\(\\) has parameter \\$paths with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\EnumType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, values\\: \\(callable\\(\\)\\: iterable\\<int, string\\>\\|iterable\\<string, mixed\\>\\)\\|iterable\\<int\\|string, mixed\\>, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\EnumTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\EnumTypeExtensionNode\\>\\|null\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Support/EnumType.php
 
 		-
 			message: "#^Parameter \\#2 \\$schema of method Rebing\\\\GraphQL\\\\Support\\\\ExecutionMiddleware\\\\AbstractExecutionMiddleware\\:\\:handle\\(\\) expects GraphQL\\\\Type\\\\Schema, Closure given\\.$#"
@@ -141,6 +156,16 @@ parameters:
 			path: src/Support/Field.php
 
 		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\InputObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, fields\\: \\(callable\\(\\)\\: iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\)\\|GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>\\)\\|iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\)\\|GraphQL\\\\Type\\\\Definition\\\\InputObjectField\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>, parseValue\\?\\: callable\\(array\\<string, mixed\\>\\)\\: mixed, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\InputObjectTypeExtensionNode\\>\\|null\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Support/InputType.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\InterfaceType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, resolveType\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|string\\|null\\)\\|GraphQL\\\\Deferred\\|GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|string\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InterfaceTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\InterfaceTypeExtensionNode\\>\\|null\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Support/InterfaceType.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Middleware\\:\\:handle\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/Support/Middleware.php
@@ -184,6 +209,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Privacy\\:\\:fire\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
 			path: src/Support/Privacy.php
+
+		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$config\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
 
 		-
 			message: "#^Instanceof between \\*NEVER\\* and 'Jenssegers\\\\\\\\Mongodb…' will always evaluate to false\\.$#"
@@ -281,6 +311,21 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
+			message: "#^Offset 'always' on array\\{name\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), resolve\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, args\\?\\: iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>\\|null, description\\?\\: string\\|null, deprecationReason\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\FieldDefinitionNode\\|null, complexity\\?\\: \\(callable\\(int, array\\<string, mixed\\>\\)\\: int\\)\\|null\\} in isset\\(\\) does not exist\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Offset 'privacy' on array\\{name\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), resolve\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, args\\?\\: iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>\\|null, description\\?\\: string\\|null, deprecationReason\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\FieldDefinitionNode\\|null, complexity\\?\\: \\(callable\\(int, array\\<string, mixed\\>\\)\\: int\\)\\|null\\} in isset\\(\\) does not exist\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Offset 'selectable' on array\\{name\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\OutputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), resolve\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, args\\?\\: iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>\\|null, description\\?\\: string\\|null, deprecationReason\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\FieldDefinitionNode\\|null, complexity\\?\\: \\(callable\\(int, array\\<string, mixed\\>\\)\\: int\\)\\|null\\} in isset\\(\\) does not exist\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{\\*NEVER\\*, mixed\\} given\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
@@ -292,6 +337,11 @@ parameters:
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:\\$select type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -316,9 +366,14 @@ parameters:
 			path: src/Support/Type.php
 
 		-
-			message: "#^Parameter \\#2 \\$nodes of class GraphQL\\\\Error\\\\Error constructor expects GraphQL\\\\Language\\\\AST\\\\Node\\|\\(iterable\\<GraphQL\\\\Language\\\\AST\\\\Node\\>&Traversable\\)\\|null, array\\<int, GraphQL\\\\Language\\\\AST\\\\BooleanValueNode\\|GraphQL\\\\Language\\\\AST\\\\FloatValueNode\\|GraphQL\\\\Language\\\\AST\\\\IntValueNode\\|GraphQL\\\\Language\\\\AST\\\\NullValueNode\\|GraphQL\\\\Language\\\\AST\\\\StringValueNode\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, array\\<string, mixed\\> given\\.$#"
 			count: 1
-			path: src/Support/UploadType.php
+			path: src/Support/Type.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\UnionType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, types\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\)\\|GraphQL\\\\Type\\\\Definition\\\\ObjectType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\)\\|GraphQL\\\\Type\\\\Definition\\\\ObjectType\\>, resolveType\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|string\\|null\\)\\|GraphQL\\\\Deferred\\|GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|string\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\UnionTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<GraphQL\\\\Language\\\\AST\\\\UnionTypeExtensionNode\\>\\|null\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Support/UnionType.php
 
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
@@ -1246,6 +1301,11 @@ parameters:
 			path: tests/Unit/AliasArguments/Stubs/UpdateExampleMutation.php
 
 		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: tests/Unit/ConfigTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\EnumMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/EnumMakeCommandTest.php
@@ -1306,13 +1366,18 @@ parameters:
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: "#^Offset 'index' does not exist on array\\|null\\.$#"
-			count: 1
-			path: tests/Unit/ExecutionMiddlewareTest/ChangeVariableMiddleware.php
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$name\\.$#"
+			count: 5
+			path: tests/Unit/GraphQLTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$abstract of function app expects string\\|null, object\\|string given\\.$#"
 			count: 3
+			path: tests/Unit/GraphQLTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, array\\{name\\: 'ObjectType'\\} given\\.$#"
+			count: 1
 			path: tests/Unit/GraphQLTest.php
 
 		-
