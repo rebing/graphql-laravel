@@ -171,10 +171,9 @@ GRAQPHQL;
         $expectedResult = [
             'errors' => [
                 [
-                    'debugMessage' => "'coolNumber' could not be injected",
                     'message' => 'Internal server error',
                     'extensions' => [
-                        'category' => 'internal',
+                        'debugMessage' => "'coolNumber' could not be injected",
                     ],
                     'locations' => [
                         [
