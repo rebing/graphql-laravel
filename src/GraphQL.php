@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Error\ProvidesErrorCategory;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
@@ -510,6 +511,12 @@ class GraphQL
             if ($previous instanceof ValidationError) {
                 $error['extensions']['validation'] = $previous->getValidatorMessages()->getMessages();
             }
+
+            if ($previous instanceof ProvidesErrorCategory) {
+                $error['extensions']['category'] = $previous->getCategory();
+            }
+        } elseif ($e instanceof ProvidesErrorCategory) {
+            $error['extensions']['category'] = $e->getCategory();
         }
 
         return $error;
