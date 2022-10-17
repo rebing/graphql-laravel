@@ -23,11 +23,11 @@ parameters:
         - '/Trying to invoke Closure\|null but it might not be a callable/'
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
-        # tests/Unit/EndpointTest.php
-        - '/Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects \(callable\(\): mixed\)\|GraphQL\\Type\\Definition\\NullableType, GraphQL\\Type\\Definition\\Type given/'
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/nunomaduro/larastan/issues/611
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
+        - path: tests/*
+          message: '/Parameter #1 \$type of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects .*, GraphQL\\Type\\Definition\\Type given./'
     reportUnmatchedIgnoredErrors: true
