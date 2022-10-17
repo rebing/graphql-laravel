@@ -28,7 +28,7 @@ class PostType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'likes' => [
-                'type' => Type::listOf(GraphQL::Type('Like')),
+                'type' => Type::listOf(GraphQL::type('Like')),
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),

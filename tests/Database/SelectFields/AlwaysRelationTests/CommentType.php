@@ -25,7 +25,7 @@ class CommentType extends GraphQLType
                 'type' => Type::nonNull(Type::ID()),
             ],
             'likes' => [
-                'type' => Type::listOf(GraphQL::Type('Like')),
+                'type' => Type::listOf(GraphQL::type('Like')),
             ],
             'post' => [
                 'type' => Type::nonNull(GraphQL::type('Post')),
