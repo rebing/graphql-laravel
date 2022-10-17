@@ -44,6 +44,6 @@ class FieldMakeCommandTest extends TestCase
         ]);
 
         self::assertSame(0, $tester->getStatusCode());
-        self::assertMatchesRegularExpression('/Field created successfully/', $tester->getDisplay());
+        self::assertMatchesRegularExpression('/Field.*created successfully/', $tester->getDisplay());
     }
 }
