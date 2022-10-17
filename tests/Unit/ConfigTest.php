@@ -71,6 +71,8 @@ class ConfigTest extends TestCase
 
     public function testSecurity(): void
     {
+        self::markTestSkipped('Skipped until we know whether/how to retrieve the applied config values, see also https://github.com/webonyx/graphql-php/discussions/1231#discussioncomment-3899310');
+
         /** @var QueryComplexity $queryComplexity */
         $queryComplexity = DocumentValidator::getRule(QueryComplexity::class);
         self::assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
