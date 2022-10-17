@@ -52,7 +52,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -62,7 +61,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -72,7 +70,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -82,7 +79,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -92,7 +88,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'Syntax Error: Unexpected <EOF>',
                         'extensions' => [
-                            'category' => 'graphql',
                         ],
                         'locations' => [
                             [

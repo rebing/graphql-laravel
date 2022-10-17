@@ -295,9 +295,6 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('locations', $error);
         $expectedError = [
             'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
-            'extensions' => [
-                'category' => 'graphql',
-            ],
             'locations' => [
                 [
                     'line' => 3,

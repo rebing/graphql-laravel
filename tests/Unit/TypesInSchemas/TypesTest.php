@@ -107,9 +107,6 @@ GRAPHQL;
             'errors' => [
                 [
                     'message' => 'Cannot query field "query" on type "Query".',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
                     'locations' => [
                         [
                             'line' => 2,
@@ -292,9 +289,6 @@ GRAPHQL;
             'errors' => [
                 [
                     'message' => 'Cannot query field "title" on type "Type".',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
                     'locations' => [
                         [
                             'line' => 3,

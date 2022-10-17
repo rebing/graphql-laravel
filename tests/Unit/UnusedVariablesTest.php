@@ -64,7 +64,6 @@ class UnusedVariablesTest extends TestCase
                 [
                     'message' => 'The following variables were provided but not consumed: unused_variable, another_unused_variable',
                     'extensions' => [
-                        'category' => 'graphql',
                     ],
                 ],
             ],

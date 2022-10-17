@@ -480,7 +480,6 @@ class AutomatedPersistedQueriesTest extends TestCase
                 [
                     'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                     'extensions' => [
-                        'category' => 'request',
                     ],
                 ],
             ],
@@ -514,7 +513,6 @@ class AutomatedPersistedQueriesTest extends TestCase
                 [
                     'message' => 'Syntax Error: Expected :, found )',
                     'extensions' => [
-                        'category' => 'graphql',
                     ],
                     'locations' => [
                         [
