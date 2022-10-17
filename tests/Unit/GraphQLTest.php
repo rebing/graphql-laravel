@@ -125,11 +125,11 @@ class GraphQLTest extends TestCase
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]');
-        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertSame($type->getInnermostType(), $typeOther->getInnermostType());
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]', true);
-        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getInnermostType(), $typeOther->getInnermostType());
     }
 
     public function testNonNullListOfNonNullType(): void
@@ -145,11 +145,11 @@ class GraphQLTest extends TestCase
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!');
-        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertSame($type->getInnermostType(), $typeOther->getInnermostType());
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!', true);
-        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getInnermostType(), $typeOther->getInnermostType());
     }
 
     public function testMalformedListOfWithNoLeadingBracket(): void
@@ -225,7 +225,7 @@ class GraphQLTest extends TestCase
 
             self::assertInstanceOf(ListOfType::class, $type);
             self::assertInstanceOf(NonNull::class, $type->getWrappedType());
-            self::assertSame($type->getWrappedType(true), $standardType);
+            self::assertSame($type->getInnermostType(), $standardType);
 
             /** @var NonNull */
             $type = GraphQL::type("[$standardType->name!]!");
@@ -235,7 +235,7 @@ class GraphQLTest extends TestCase
             self::assertInstanceOf(NonNull::class, $type);
             self::assertInstanceOf(ListOfType::class, $wrappedType);
             self::assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
-            self::assertSame($type->getWrappedType(true), $standardType);
+            self::assertSame($type->getInnermostType(), $standardType);
         }
     }
 
