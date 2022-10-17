@@ -287,6 +287,9 @@ class GraphQLTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
 
+        unset($error['extensions']['file']);
+        unset($error['extensions']['line']);
+
         self::assertIsArray($error);
         self::assertArrayHasKey('message', $error);
         self::assertArrayHasKey('locations', $error);
@@ -300,6 +303,8 @@ class GraphQLTest extends TestCase
                     'line' => 3,
                     'column' => 13,
                 ],
+            ],
+            'extensions' => [
             ],
         ];
         self::assertEquals($expectedError, $error);
@@ -315,8 +320,13 @@ class GraphQLTest extends TestCase
         $error = new Error('error', null, null, [], null, $validationError);
         $error = GraphQL::formatError($error);
 
-        self::assertArrayHasKey('trace', $error);
-        unset($error['trace']);
+        self::assertArrayHasKey('extensions', $error);
+        self::assertArrayHasKey('file', $error['extensions']);
+        self::assertArrayHasKey('line', $error['extensions']);
+        self::assertArrayHasKey('trace', $error['extensions']);
+        unset($error['extensions']['file']);
+        unset($error['extensions']['line']);
+        unset($error['extensions']['trace']);
 
         $expected = [
             'message' => 'error',

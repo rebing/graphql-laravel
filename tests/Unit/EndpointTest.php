@@ -159,7 +159,10 @@ class EndpointTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
-        unset($content['errors'][0]['trace']);
+
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+        unset($content['errors'][0]['extensions']['trace']);
 
         $expected = [
             'errors' => [

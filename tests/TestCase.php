@@ -203,15 +203,17 @@ class TestCase extends BaseTestCase
         if (!$expectErrors && isset($result['errors'])) {
             $appendErrors = '';
 
-            if (isset($result['errors'][0]['trace'])) {
-                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['trace']);
+            if (isset($result['errors'][0]['extensions']['trace'])) {
+                $appendErrors = "\n\n" . $this->formatSafeTrace($result['errors'][0]['extensions']['trace']);
             }
 
             $assertMessage = "Probably unexpected error in GraphQL response:\n"
                 . var_export($result, true)
                 . $appendErrors;
         }
-        unset($result['errors'][0]['trace']);
+        unset($result['errors'][0]['extensions']['trace']);
+        unset($result['errors'][0]['extensions']['file']);
+        unset($result['errors'][0]['extensions']['line']);
 
         if ($assertMessage) {
             throw new ExpectationFailedException($assertMessage);

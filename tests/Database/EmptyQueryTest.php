@@ -37,7 +37,9 @@ class EmptyQueryTest extends TestCaseDatabase
 
         $results = array_map(
             static function (array $result): array {
-                unset($result['errors'][0]['trace']);
+                unset($result['errors'][0]['extensions']['file']);
+                unset($result['errors'][0]['extensions']['line']);
+                unset($result['errors'][0]['extensions']['trace']);
 
                 return $result;
             },
