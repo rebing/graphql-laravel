@@ -23,4 +23,35 @@ class Helpers
 
         return $callback($valueOrValues);
     }
+
+    /**
+     * Check compatible ability to use thecodingmachine/safe.
+     *
+     * @param string $methodName
+     * @return bool
+     */
+    public static function shouldUseSafe(string $methodName): bool
+    {
+        $safeVersion = \Composer\InstalledVersions::getVersion('thecodingmachine/safe');
+
+        $skipFunctions = [
+            'uksort',
+        ];
+
+        // Version 2.
+        if (version_compare($safeVersion, '2', '>='))
+        {
+            if (in_array($methodName, $skipFunctions))
+            {
+                return false;
+            }
+        }
+
+        if (!is_callable('\\Safe\\' . $methodName))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
