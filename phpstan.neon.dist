@@ -30,4 +30,7 @@ parameters:
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
+        -
+          path: tests/*
+          message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
     reportUnmatchedIgnoredErrors: true
