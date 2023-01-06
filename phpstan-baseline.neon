@@ -1216,6 +1216,11 @@ parameters:
 			path: tests/TestCase.php
 
 		-
+			message: "#^Parameter \\#1 \\$laravel of method Illuminate\\\\Console\\\\Command\\:\\:setLaravel\\(\\) expects Illuminate\\\\Contracts\\\\Container\\\\Container, Illuminate\\\\Foundation\\\\Application\\|null given\\.$#"
+			count: 1
+			path: tests/TestCase.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\TestCase\\:\\:\\$data has no type specified\\.$#"
 			count: 1
 			path: tests/TestCase.php
