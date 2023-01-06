@@ -33,4 +33,7 @@ parameters:
         -
           path: tests/*
           message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
+        -
+          path: tests/*
+          message: "/Offset 'config' does not exist on Illuminate.*Application\\|null./"
     reportUnmatchedIgnoredErrors: true
