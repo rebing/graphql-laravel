@@ -4,7 +4,7 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.4.0...master)
 --------------
 
-2022-06-11, 8.4.0
+2023-01-06, 8.4.0
 -----------------
 ### Added
 - Register directives via schema config [\#947 / sforward](https://github.com/rebing/graphql-laravel/pull/947)
