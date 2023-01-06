@@ -57,6 +57,6 @@ trait MakeCommandAssertionTrait
         ]);
 
         self::assertSame(0, $tester->getStatusCode());
-        self::assertMatchesRegularExpression("/$graphqlKind created successfully/", $tester->getDisplay());
+        self::assertMatchesRegularExpression("/$graphqlKind.*created successfully/", $tester->getDisplay());
     }
 }
