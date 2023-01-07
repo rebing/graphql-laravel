@@ -27,8 +27,10 @@ class ArrayKeyChange
             return $this->pathLevels($b) <=> $this->pathLevels($a);
         };
 
-        if (Helpers::shouldUseSafe('uksort')) {
-            \Safe\uksort($paths, $callback);
+        $functionName = Helpers::shouldUseSafe('\\Safe\\uksort');
+
+        if (\is_callable($functionName)) {
+            $functionName($paths, $callback);
         } else {
             uksort($paths, $callback);
         }
