@@ -4,6 +4,10 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.4.0...master)
 --------------
 
+### Added
+- Upgrade to graphql-php 15 [\#953 / mfn](https://github.com/rebing/graphql-laravel/pull/953)\
+  This includes possible breaking changes also outside of this package, see also https://github.com/webonyx/graphql-php/releases/tag/v15.0.0
+
 2023-01-06, 8.4.0
 -----------------
 ### Added
