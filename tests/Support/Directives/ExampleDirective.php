@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Tests\Support\Directives;
 
 use GraphQL\Language\DirectiveLocation;
 use GraphQL\Type\Definition\Directive;
-use GraphQL\Type\Definition\FieldArgument;
+use GraphQL\Type\Definition\Argument;
 use GraphQL\Type\Definition\Type;
 
 class ExampleDirective extends Directive
@@ -20,7 +20,7 @@ class ExampleDirective extends Directive
                 DirectiveLocation::QUERY,
             ],
             'args' => [
-                new FieldArgument([
+                'first' => new Argument([
                     'name' => 'first',
                     'description' => 'Description of this argument',
                     'type' => Type::string(),
