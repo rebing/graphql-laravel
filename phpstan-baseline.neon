@@ -11,6 +11,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Schema constructor expects array\\{query\\?\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|null, mutation\\?\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|null, subscription\\?\\: GraphQL\\\\Type\\\\Definition\\\\ObjectType\\|null, types\\?\\: \\(callable\\(\\)\\: iterable\\<GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\>\\)\\|iterable\\<GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\>\\|null, directives\\?\\: array\\<GraphQL\\\\Type\\\\Definition\\\\Directive\\>\\|null, typeLoader\\?\\: \\(callable\\(string\\)\\: \\(GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|null\\)\\|null, assumeValid\\?\\: bool\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\SchemaDefinitionNode\\|null, \\.\\.\\.\\}\\|GraphQL\\\\Type\\\\SchemaConfig, array\\{query\\: GraphQL\\\\Type\\\\Definition\\\\Type, mutation\\: GraphQL\\\\Type\\\\Definition\\\\Type\\|null, subscription\\: GraphQL\\\\Type\\\\Definition\\\\Type\\|null, directives\\: array\\<int\\|string, mixed\\>, types\\: Closure\\(\\)\\: array\\<int, GraphQL\\\\Type\\\\Definition\\\\Type\\>, typeLoader\\: \\(Closure\\(mixed\\)\\: GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|null\\} given\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Property GraphQL\\\\Type\\\\Definition\\\\ObjectType\\:\\:\\$config \\(array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}\\) does not accept non\\-empty\\-array\\<string, \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|\\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: bool\\|GraphQL\\\\Deferred\\|null\\)\\|GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|iterable\\|string\\|null\\>\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -196,6 +201,11 @@ parameters:
 			path: src/Support/Middleware.php
 
 		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$config\\.$#"
+			count: 1
+			path: src/Support/PaginationType.php
+
+		-
 			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
 			count: 2
 			path: src/Support/PaginationType.php
@@ -212,7 +222,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$config\\.$#"
-			count: 1
+			count: 6
 			path: src/Support/SelectFields.php
 
 		-
@@ -344,6 +354,11 @@ parameters:
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$config\\.$#"
+			count: 1
+			path: src/Support/SimplePaginationType.php
 
 		-
 			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
@@ -734,6 +749,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateFieldTests\\\\ValidateFieldsQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$config of method GraphQL\\\\Type\\\\Definition\\\\Directive\\:\\:__construct\\(\\) expects array\\{name\\: string, description\\?\\: string\\|null, args\\?\\: iterable\\<array\\{name\\?\\: string, type\\: \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\), defaultValue\\?\\: mixed, description\\?\\: string\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\InputValueDefinitionNode\\|null\\}\\|\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\InputType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\>\\|null, locations\\: array\\<string\\>, isRepeatable\\?\\: bool\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\DirectiveDefinitionNode\\|null\\}, array\\{name\\: 'exampleDirective', description\\: 'This is an example…', locations\\: array\\{'QUERY'\\}, args\\: array\\{first\\: GraphQL\\\\Type\\\\Definition\\\\Argument\\}\\} given\\.$#"
+			count: 1
+			path: tests/Support/Directives/ExampleDirective.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\CustomExamplesQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
@@ -1306,11 +1326,6 @@ parameters:
 			path: tests/Unit/AliasArguments/Stubs/UpdateExampleMutation.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: tests/Unit/ConfigTest.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\Console\\\\EnumMakeCommandTest\\:\\:dataForMakeCommand\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Unit/Console/EnumMakeCommandTest.php
@@ -1569,6 +1584,11 @@ parameters:
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\SimpleMessage\\:\\:\\$type has no type specified\\.$#"
 			count: 1
 			path: tests/Unit/WithTypeTests/SimpleMessage.php
+
+		-
+			message: "#^Access to an undefined property GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:\\$config\\.$#"
+			count: 1
+			path: tests/Unit/WithTypeTests/WrapperType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\WithTypeTests\\\\WrapperType\\:\\:getMessagesFields\\(\\) return type has no value type specified in iterable type array\\.$#"
