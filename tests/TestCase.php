@@ -18,13 +18,11 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
-use Rebing\GraphQL\Tests\Support\Objects\ExamplesConfigAliasQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleType2;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -43,10 +41,6 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        if ('0' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
-            $app['config']->set('graphql.lazyload_types', false);
-        }
-
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 'examples' => ExamplesQuery::class,
@@ -55,7 +49,6 @@ class TestCase extends BaseTestCase
                 'examplesMiddleware' => ExamplesMiddlewareQuery::class,
                 'examplesPagination' => ExamplesPaginationQuery::class,
                 'examplesFiltered' => ExamplesFilteredQuery::class,
-                'examplesConfigAlias' => ExamplesConfigAliasQuery::class,
             ],
             'mutation' => [
                 'updateExample' => UpdateExampleMutation::class,
@@ -75,7 +68,6 @@ class TestCase extends BaseTestCase
 
         $app['config']->set('graphql.types', [
             'Example' => ExampleType::class,
-            'ExampleConfigAlias' => ExampleType2::class,
             'ExampleFilterInput' => ExampleFilterInputType::class,
         ]);
 

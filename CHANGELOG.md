@@ -9,6 +9,14 @@ CHANGELOG
 - Upgrade to graphql-php 15 [\#953 / mfn](https://github.com/rebing/graphql-laravel/pull/953)\
   This includes possible breaking changes also outside of this package, see also https://github.com/webonyx/graphql-php/releases/tag/v15.0.0
 
+### Removed
+- Remove support for eager loading (=non-lazy loading) of types\
+  Lazy loading has been introduced in 2.0.0 (2019-08) and has been made the
+  default since 8.0.0 (2021-11).\
+  The practical impact is that types are always going to be resolved using a
+  type loader and therefore cannot use aliases anymore. Types and their type
+  name have to match.
+
 2023-01-06, 8.4.0
 -----------------
 ### Added
