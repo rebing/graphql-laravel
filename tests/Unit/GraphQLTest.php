@@ -15,6 +15,7 @@ use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Directives\ExampleDirective;
 use Rebing\GraphQL\Tests\Support\Objects\CustomExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -459,6 +460,25 @@ class GraphQLTest extends TestCase
         ];
 
         self::assertSame($expectedResult, $result);
+    }
+
+    public function testBuildSchemaWithDirectives(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+            'directives' => [
+                ExampleDirective::class,
+            ],
+        ]);
+
+        self::assertSame([
+            'include',
+            'skip',
+            'deprecated',
+            'exampleDirective',
+        ], array_keys($schema->getDirectives()));
     }
 
     public function testIsMacroable(): void
