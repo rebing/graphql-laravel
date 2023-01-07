@@ -4,6 +4,15 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.5.0...master)
 --------------
 
+## Breaking changes
+### Removed
+- Remove support for eager loading (=non-lazy loading) of types\
+  Lazy loading has been introduced in 2.0.0 (2019-08) and has been made the
+  default since 8.0.0 (2021-11).\
+  The practical impact is that types are always going to be resolved using a
+  type loader and therefore cannot use aliases anymore. Types and their type
+  name have to match.
+
 2023-01-13, 8.5.0
 -----------------
 ### Added

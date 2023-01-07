@@ -126,8 +126,6 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
   - [Performance considerations](#performance-considerations)
-    - [Lazy loading of types](#lazy-loading-of-types)
-      - [Example of aliasing **not** supported by lazy loading](#example-of-aliasing-not-supported-by-lazy-loading)
     - [Wrap Types](#wrap-types)
   - [GraphQL testing clients](#graphql-testing-clients)
 
@@ -278,12 +276,6 @@ them, in addition to the global middleware. For example:
     'default' => [
         'query' => [
             ExampleQuery::class,
-            // It's possible to specify a name/alias with the key
-            // but this is discouraged as it prevents things
-            // like improving performance with e.g. `lazyload_types=true`
-            // It's recommended to specify just the class here and
-            // rely on the `'name'` attribute in the query / type.
-            'someQuery' => AnotherExampleQuery::class,
         ],
         'mutation' => [
             ExampleMutation::class,
@@ -446,18 +438,6 @@ Alternatively you can:
   ```php
   GraphQL::addType(\App\GraphQL\Types\UserType::class);
   ```
-
-As with queries/mutations, you can use an alias name (though again this prevents
-it from taking advantage of lazy type loading):
-```php
-'schemas' => [
-    'default' => [
-        // ...
-        
-        'types' => [
-            'Useralias' => App\GraphQL\Types\UserType::class,
-        ],
-```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
@@ -2696,9 +2676,6 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 - `batching`\
   - 'enable'\
     Whether to support GraphQL batching or not
-- `lazyload_types`\
-  The types will be loaded on demand. Enabled by default as it improves
-  performance. Cannot be used with type aliasing.
 - `error_formatter`\
   This callable will be passed the Error object for each errors GraphQL catch.
   The method should return an array representing the error.
@@ -2823,24 +2800,6 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
 
 ## Performance considerations
-
-### Lazy loading of types
-
-Lazy loading of types is a way of improving the start up performance.
-
-If you are declaring types using aliases, this is not supported and you need to
-set `lazyload_types` set to `false`.
-
-#### Example of aliasing **not** supported by lazy loading
-
-I.e. you cannot have a query class `ExampleQuery` with the `$name` property
-`example` but register it with a different one; this will **not** work:
-
-```php
-'query' => [
-    'aliasedExample' => ExampleQuery::class,
-],
-```
 
 ### Wrap Types
 

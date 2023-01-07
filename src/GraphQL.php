@@ -242,11 +242,7 @@ class GraphQL
         }
 
         if (!isset($this->types[$name])) {
-            $error = "Type $name not found.";
-
-            if ($this->config->get('graphql.lazyload_types', true)) {
-                $error .= "\nCheck that the config array key for the type matches the name attribute in the type's class.\nIt is required when 'lazyload_types' is enabled";
-            }
+            $error = "Type $name not found. Check that the config array key for the type matches the name attribute in the type's class.";
 
             throw new TypeNotFound($error);
         }
@@ -401,11 +397,9 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader' => $this->config->get('graphql.lazyload_types', true)
-                ? function ($name) {
-                    return $this->type($name);
-                }
-                : null,
+            'typeLoader' => function ($name) {
+                return $this->type($name);
+            },
         ]);
     }
 

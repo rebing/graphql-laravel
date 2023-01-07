@@ -866,21 +866,6 @@ parameters:
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
-
-		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesConfigAliasQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
-			count: 1
-			path: tests/Support/Objects/ExamplesConfigAliasQuery.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesFilteredQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesFilteredQuery.php

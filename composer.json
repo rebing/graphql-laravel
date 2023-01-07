@@ -69,11 +69,7 @@
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "tests": "phpunit --colors=always --verbose",
-        "tests-all": [
-            "TESTS_ENABLE_LAZYLOAD_TYPES=0 phpunit --colors=always --verbose",
-            "TESTS_ENABLE_LAZYLOAD_TYPES=1 phpunit --colors=always --verbose"
-        ]
+        "tests": "phpunit --colors=always --verbose"
     },
     "extra": {
         "branch-alias": {
