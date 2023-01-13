@@ -7,7 +7,35 @@ CHANGELOG
 ## Breaking changes
 ### Added
 - Upgrade to graphql-php 15 [\#953 / mfn](https://github.com/rebing/graphql-laravel/pull/953)\
-  This includes possible breaking changes also outside of this package, see also https://github.com/webonyx/graphql-php/releases/tag/v15.0.0
+  This includes possible breaking changes also outside of this package, see also https://github.com/webonyx/graphql-php/releases/tag/v15.0.0 \
+  Known breaking changes:
+  - non-standard error related data keys are not included directly in
+    `errors.*.<non-standard error key>` any more, but have been moved to
+    `errors.*.extensions.<non-standard error key>`.\
+    Also new keys may appear here from upstream.
+  - The `errors.*.extensions.category` has been removed upstream, but we try to
+    keep it alive with the interface
+    `\Rebing\GraphQL\Error\ProvidesErrorCategory` as it can be a useful
+    discriminator on the client side in certain cases. But only the cases from
+    _this_ library are preserved, e.g. categories like `request`, `graphql` or
+    `internal` are gone.
+  - The `\Rebing\GraphQL\Support\OperationParams` has added required types due to
+    its base class changes:
+    - Old: `public function getOriginalInput($key)`\
+      new: `public function getOriginalInput(string $key)`
+    - Old: `public function isReadOnly()`\
+      new: `public function isReadOnly(): bool`
+  
+  Some BC may happen also if you extended code originating in graphql-php,
+  some examples:
+  - if you implement custom types, you now have to use property types for e.g.
+    `$name` or `$description`
+  - If you used any `\GraphQL\Validator\DocumentValidator` in your code
+    directly, you now need use FQCN to reference them and not the shortened
+    string names.
+  - `->getWrappedType(true)` was replaced with `->getInnermostType()`
+  - the class `\GraphQL\Type\Definition\FieldArgument` has been renamed to
+    `\GraphQL\Type\Definition\Argument`
 
 ### Removed
 - Remove support for eager loading (=non-lazy loading) of types\
