@@ -1,8 +1,13 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/8.4.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/8.5.0...master)
 --------------
+
+2023-01-13, 8.5.0
+-----------------
+### Added
+- Add support for thecodingmachine/safe 2.4 [\#961 / tranvantri](https://github.com/rebing/graphql-laravel/pull/961)
 
 2023-01-06, 8.4.0
 -----------------

@@ -27,6 +27,7 @@ class ArrayKeyChange
             return $this->pathLevels($b) <=> $this->pathLevels($a);
         };
 
+        // TODO: can be removed once PHP 7.4 is dropped
         $functionName = Helpers::shouldUseSafe('\\Safe\\uksort');
 
         if (\is_callable($functionName)) {
