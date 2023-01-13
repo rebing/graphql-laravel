@@ -3,6 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\AliasArguments;
 
+use Rebing\GraphQL\Helpers;
+
 class ArrayKeyChange
 {
     public function modify(array $array, array $pathKeyMappings): array
@@ -21,9 +23,17 @@ class ArrayKeyChange
      */
     private function orderPaths(array $paths): array
     {
-        \Safe\uksort($paths, function (string $a, string $b): int {
+        $callback = function (string $a, string $b): int {
             return $this->pathLevels($b) <=> $this->pathLevels($a);
-        });
+        };
+
+        $functionName = Helpers::shouldUseSafe('\\Safe\\uksort');
+
+        if (\is_callable($functionName)) {
+            $functionName($paths, $callback);
+        } else {
+            uksort($paths, $callback);
+        }
 
         return $paths;
     }
