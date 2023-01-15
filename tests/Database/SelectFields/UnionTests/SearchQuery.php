@@ -41,13 +41,13 @@ class SearchQuery extends Query
         if (Str::startsWith($args['id'], 'comment:')) {
             return Comment::select($selectFields->getSelect())
                 ->with($selectFields->getRelations())
-                ->where('id', (int)Str::after($args['id'], 'comment:'))
-                ->first();
-        } else {
-            return Post::select($selectFields->getSelect())
-                ->with($selectFields->getRelations())
-                ->where('id', (int)$args['id'])
+                ->where('id', (int) Str::after($args['id'], 'comment:'))
                 ->first();
         }
+
+        return Post::select($selectFields->getSelect())
+            ->with($selectFields->getRelations())
+            ->where('id', (int) $args['id'])
+            ->first();
     }
 }
