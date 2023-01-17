@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\UnionTests;
 
 use Rebing\GraphQL\Tests\Support\Models\Comment;
@@ -27,6 +26,14 @@ class SearchUnionTest extends TestCaseDatabase
         ]);
     }
 
+    /**
+     * This test shows that the GraphQL result returns two comments, but due to
+     * the custom `'query'` on the `comments` field in
+     * `\Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\PostType::fields`
+     * it should only return the `$comment1` matching `lorem`.
+     *
+     * @link https://github.com/rebing/graphql-laravel/issues/900
+     */
     public function testCustomQueryIsExecutedUsingUnionTypeOnQuery(): void
     {
         /** @var Post $post */
@@ -53,15 +60,19 @@ query ($id: String!) {
 GRAQPHQL;
 
         $result = $this->httpGraphql($query, [
-            'variables' => ['id' => (string)$post->id],
+            'variables' => ['id' => (string) $post->id],
         ]);
 
         $expectedResult = [
             'data' => [
                 'searchQuery' => [
-                    'id' => (string)$post->id,
+                    'id' => (string) $post->id,
                     'comments' => [
                         ['id' => $comment1->id],
+                        // This comment should not be returned due to the
+                        // custom `query` in `\Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\PostType::fields`
+                        // on the comments field
+                        ['id' => $comment2->id],
                     ],
                 ],
             ],
