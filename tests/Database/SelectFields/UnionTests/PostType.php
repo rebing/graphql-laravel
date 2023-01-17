@@ -23,7 +23,7 @@ class PostType extends GraphQLType
             ],
             'comments' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Comment')))),
-                'query' => function (array $args, $query, $ctx) {
+                'query' => function (array $args, $query, $ctx): void {
                     $query->where('title', 'like', 'lorem');
                 },
             ],

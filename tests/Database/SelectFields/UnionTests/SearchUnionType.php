@@ -25,16 +25,17 @@ class SearchUnionType extends UnionType
 
     /**
      * @param object $value
-     * @return Type|null
      */
     public function resolveType($value): ?Type
     {
         if ($value instanceof Post) {
             return GraphQL::type('Post');
-        } elseif ($value instanceof Comment) {
-            return GraphQL::type('Comment');
-        } else {
-            return null;
         }
+
+        if ($value instanceof Comment) {
+            return GraphQL::type('Comment');
+        }
+
+        return null;
     }
 }
