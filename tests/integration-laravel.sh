@@ -17,6 +17,14 @@ echo "Install Laravel"
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
 
+
+# This had to be added due to https://github.com/laravel/laravel/commit/c1092ec084bb294a61b0f1c2149fddd662f1fc55
+# which preventing our local installation quirk
+echo "Make sure the minimum stability is dev to allow bringing in our local project"
+tmp=$(mktemp)
+jq '.["minimum-stability"] = "dev"' composer.json > "$tmp" && mv "$tmp" composer.json
+rm "$tmp"
+
 echo "Add package from source"
 sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../graphql-laravel" } ],|' -i composer.json || exit 1
 composer require --dev "rebing/graphql-laravel:*" || exit 1
