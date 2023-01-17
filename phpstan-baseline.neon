@@ -641,6 +641,26 @@ parameters:
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\UnionTests\\\\SearchQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\UnionTests\\\\SearchQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\UnionTests\\\\SearchQuery\\:\\:resolve\\(\\) has parameter \\$ctx with no type specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\UnionTests\\\\SearchQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\SelectFields\\\\ValidateDiffNodeTests\\\\UsersQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
