@@ -54,13 +54,16 @@ GRAPHQL;
                         'category' => 'validation',
                         'validation' => [
                             'profile.fields.name.args.includeMiddleNames' => [
-                                'The profile.fields.name.args.include middle names format is invalid.',
+                                // The profile.fields.name.args.include middle names format is invalid.',
+                                trans('validation.regex', ['attribute' => 'profile.fields.name.args.include middle names']),
                             ],
                             'profile.fields.height.args.unit' => [
-                                'The profile.fields.height.args.unit format is invalid.',
+                                // 'The profile.fields.height.args.unit format is invalid.
+                                trans('validation.regex', ['attribute' => 'profile.fields.height.args.unit']),
                             ],
                             'profile.args.profileId' => [
-                                'The profile.args.profile id must not be greater than 10.',
+                                // The profile.args.profile id must not be greater than 10.
+                                trans('validation.max.numeric', ['attribute' => 'profile.args.profile id', 'max' => 10]),
                             ],
                         ],
                     ],
@@ -113,7 +116,8 @@ GRAPHQL;
                         'category' => 'validation',
                         'validation' => [
                             'alias.args.type' => [
-                                'The alias.args.type format is invalid.',
+                                // The alias.args.type format is invalid.
+                                trans('validation.regex', ['attribute' => 'alias.args.type']),
                             ],
                         ],
                     ],
