@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        laravel: [^6.0, ^8.0, ^9.0]
+        laravel: [^6.0, ^8.0, ^9.0, ^10.0]
         lazy_types: ['false', 'true']
         exclude:
           - php: 7.4
@@ -45,6 +45,8 @@ jobs:
             laravel: ^6.0
           - php: 8.2
             laravel: ^6.0
+          - php: 8.0
+            laravel: ^10.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} Lazy types=${{ matrix.lazy_types }}
     runs-on: ubuntu-latest
     env:
