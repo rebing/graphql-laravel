@@ -36,9 +36,10 @@ GRAQPHQL;
                     'extensions' => [
                         'category' => 'validation',
                         'validation' => [
-                                'data.0.password' => [
-                                    'The data.0.password and data.*.password confirmation must match.',
-                                ],
+                            'data.0.password' => [
+                                // The data.0.password and data.*.password confirmation must match.
+                                trans('validation.same', ['attribute' => 'data.0.password', 'other' => 'data.*.password confirmation']),
+                            ],
                         ],
                     ],
                     'locations' => [
@@ -90,10 +91,12 @@ GRAQPHQL;
                         'category' => 'validation',
                         'validation' => [
                             'data.0.password' => [
-                                'The data.0.password and data.*.password confirmation must match.',
+                                // The data.0.password and data.*.password confirmation must match.
+                                trans('validation.same', ['attribute' => 'data.0.password', 'other' => 'data.*.password confirmation']),
                             ],
                             'data.1.password' => [
-                                'The data.1.password and data.*.password confirmation must match.',
+                                // The data.1.password and data.*.password confirmation must match.
+                                trans('validation.same', ['attribute' => 'data.1.password', 'other' => 'data.*.password confirmation']),
                             ],
                         ],
                     ],
