@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.6.0...master)
 --------------
+### Removed
+- Remove integrated GraphiQL support in favour of https://github.com/mll-lab/laravel-graphiql [\#986 / mfn](https://github.com/rebing/graphql-laravel/pull/986)
 
 2023-02-18, 8.6.0
 -----------------

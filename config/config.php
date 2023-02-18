@@ -158,17 +158,6 @@ return [
     'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
-     * Config for GraphiQL (see (https://github.com/graphql/graphiql).
-     */
-    'graphiql' => [
-        'prefix' => 'graphiql', // Do NOT use a leading slash
-        'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
-        'middleware' => [],
-        'view' => 'graphql::graphiql',
-        'display' => env('ENABLE_GRAPHIQL', true),
-    ],
-
-    /*
      * Overrides the default field resolver
      * See http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
      *

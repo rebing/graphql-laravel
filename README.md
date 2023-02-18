@@ -56,8 +56,6 @@ Review the configuration file:
 config/graphql.php
 ```
 
-The default GraphiQL view makes use of the global `csrf_token()` helper function.
-
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
@@ -69,7 +67,6 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Concepts](#concepts)
       - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
     - [Data loading](#data-loading)
-    - [GraphiQL](#graphiql)
     - [Middleware Overview](#middleware-overview)
       - [HTTP middleware](#http-middleware)
       - [GraphQL execution middleware](#graphql-execution-middleware)
@@ -203,20 +200,6 @@ The gist is that you can use any kind of data source you like (Eloquent,
 static data, ElasticSearch results, caching, etc.) in your resolvers but you've
 to be mindful of the execution model to avoid repetitive fetches and perform
 smart pre-fetching of your data.
-
-### GraphiQL
-
-GraphiQL is lightweight "GraphQL IDE" in your browser. It takes advantage of the
-GraphQL type system and allows autocompletion of all queries/mutations/types and
-fields.
-
-GraphiQL in the meantime evolved in terms of features and complexity, thus for
-convenience an older version is directly included with this library.
-
-As enabled by the default configuration, it's available under the `/graphiql`
-route.
-
-If you are using multiple schemas, you can access them via `/graphiql/<schema name>`.
 
 ### Middleware Overview
 
@@ -2715,19 +2698,6 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
   You can define your own pagination type.
 - `simple_pagination_type`\
   You can define your own simple pagination type.
-- `graphiql`\
-  Config for GraphiQL (see (https://github.com/graphql/graphiql)
-  - `prefix`\
-    The route prefix
-  - `controller`\
-    The controller / method to handle the route
-  - `middleware`\
-    Any middleware to be run before invoking the controller
-  - `view`\
-    Which view to use
-  - `display`\
-    Whether to enable it or not.\
-    **Note:** it's recommended to disable this in production!
 - `defaultFieldResolver`\
   Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
 - `headers`\
@@ -2809,7 +2779,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - `composer remove folklore/graphql`
 - if you've a custom ServiceProvider or did include it manually, remove it. The point is that the existing GraphQL code should not be triggered to run.
 - `composer require rebing/graphql-laravel`
-- Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings, graphiql)
+- Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings)
   - Removed settings
     - `domain`
     - `resolvers`
@@ -2870,4 +2840,4 @@ public function resolve($root, array $args)
 
 ## GraphQL testing clients
  - [Firecamp](https://firecamp.io/graphql)
- - [GraphiQL](https://github.com/graphql/graphiql)
+ - [GraphiQL](https://github.com/graphql/graphiql) [integration via laravel-graphiql](https://github.com/mll-lab/laravel-graphiql)
