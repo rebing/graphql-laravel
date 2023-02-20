@@ -221,11 +221,6 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getSelectableFieldsAndRelations\\(\\) has parameter \\$requestedFields with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\SelectFields\\:\\:getSelectableFieldsAndRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php

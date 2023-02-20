@@ -22,6 +22,7 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use RuntimeException;
+use GraphQL\Type\Definition\ObjectType;
 
 class SelectFields
 {
@@ -60,6 +61,7 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
+     * @param array{args:array<string,mixed>,fields:array<string,array<int,mixed>>,implementors?:array<string,array{type:ObjectType,fields:array<string,array{type:ObjectType}>}>,parentType?:GraphqlType} $requestedFields
      * @param array $queryArgs Arguments given with the query/mutation
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      * @return array|Closure - if first recursion, return an array,
@@ -123,7 +125,7 @@ class SelectFields
      * and recurse if necessary.
      *
      * @param array $queryArgs Arguments given with the query/mutation
-     * @param array<string,mixed> $requestedFields
+     * @param  array{fields:array<string,array<int,mixed>>,implementors?:array<string,array{type:ObjectType,fields:array<string,array{type:GraphqlType}>}>,parentType?:GraphqlType}  $requestedFields
      * @param array $select Passed by reference, adds further fields to select
      * @param array $with Passed by reference, adds further relations
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
