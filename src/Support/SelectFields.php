@@ -46,7 +46,8 @@ class SelectFields
 
         $requestedFields = [
             'args' => $queryArgs,
-            'fields' => $fieldsAndArguments,
+            'fields' => $fieldsAndArguments['fields'],
+            'implementors' => $fieldsAndArguments['implementors'] ?? [],
         ];
 
         /** @var array{0:mixed[],1:mixed[]} $result */
@@ -137,7 +138,17 @@ class SelectFields
     ): void {
         $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
-        foreach ($requestedFields['fields'] as $key => $field) {
+        $fields = $requestedFields['fields'];
+        $implementorFields = collect($requestedFields['implementors'] ?? [])->flatMap(function (array $row) {
+            return collect($row['fields'])->map(function ($field) use ($row) {
+                $field['parentType'] = $row['type'];
+                return $field;
+            })->toArray();
+        })->toArray();
+
+        $allFields = array_merge($implementorFields, $fields);
+
+        foreach ($allFields as $key => $field) {
             // Ignore __typename, as it's a special case
             if ('__typename' === $key) {
                 continue;
@@ -152,12 +163,29 @@ class SelectFields
 
             // If field doesn't exist on definition we don't select it
             try {
-                if (method_exists($parentType, 'getField')) {
+                if ($field['parentType'] ?? null) {
+                    $parentType = $field['parentType'];
+                    $fieldObject = $parentType->getField($key);
+                } elseif (method_exists($parentType, 'getField')) {
                     $fieldObject = $parentType->getField($key);
                 } else {
                     continue;
                 }
             } catch (InvariantViolation $e) {
+                $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
+
+                // Always select foreign key
+                if ($field === self::ALWAYS_RELATION_KEY) {
+                    self::addFieldToSelect($key, $select, $parentTable, false);
+                }
+                continue;
+            }
+
+            $parentTable = self::isMongodbInstance($parentType) ? null : self::getTableNameFromParentType($parentType);
+
+            // Always select foreign key
+            if ($field === self::ALWAYS_RELATION_KEY) {
+                self::addFieldToSelect($key, $select, $parentTable, false);
                 continue;
             }
 
@@ -216,6 +244,7 @@ class SelectFields
                             $ctx
                         );
                     } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
+
                         static::handleInterfaceFields(
                             $queryArgs,
                             $field,

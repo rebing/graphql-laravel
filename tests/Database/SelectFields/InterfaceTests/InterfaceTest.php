@@ -244,7 +244,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select * from "posts" where "posts"."id" in (?);
+select "posts"."created_at", "posts"."updated_at", "posts"."id", "posts"."title" from "posts" where "posts"."id" in (?);
 SQL
         );
 

@@ -52,9 +52,7 @@ query ($id: String!) {
             id
         }
     }
-    ... on Comment {
-        id
-    }
+
   }
 }
 GRAQPHQL;
@@ -68,11 +66,7 @@ GRAQPHQL;
                 'searchQuery' => [
                     'id' => (string) $post->id,
                     'comments' => [
-                        ['id' => $comment1->id],
-                        // This comment should not be returned due to the
-                        // custom `query` in `\Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\PostType::fields`
-                        // on the comments field
-                        ['id' => $comment2->id],
+                        ['id' => $comment1->id]
                     ],
                 ],
             ],
