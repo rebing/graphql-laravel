@@ -288,7 +288,6 @@ class GraphQLTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
 
-        self::assertIsArray($error);
         self::assertArrayHasKey('message', $error);
         self::assertArrayHasKey('locations', $error);
         $expectedError = [

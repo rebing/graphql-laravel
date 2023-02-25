@@ -36,7 +36,6 @@ class FieldTest extends TestCase
         self::assertArrayHasKey('type', $attributes);
         self::assertArrayHasKey('args', $attributes);
         self::assertArrayHasKey('resolve', $attributes);
-        self::assertIsArray($attributes['args']);
         self::assertInstanceOf(Closure::class, $attributes['resolve']);
         self::assertInstanceOf(\get_class($field->type()), $attributes['type']);
     }
@@ -60,8 +59,6 @@ class FieldTest extends TestCase
         $class = $this->getFieldClass();
         $field = new $class();
         $array = $field->toArray();
-
-        self::assertIsArray($array);
 
         $attributes = $field->getAttributes();
         self::assertEquals($attributes, $array);
