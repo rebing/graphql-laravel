@@ -11,6 +11,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\AliasArguments\\\\AliasArguments\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
@@ -326,7 +331,7 @@ parameters:
 			path: src/Support/UploadType.php
 
 		-
-			message: "#^Offset 'uses' does not exist on array\\{uses\\?\\: mixed, middleware\\?\\: mixed\\}\\.$#"
+			message: "#^Offset 'uses' might not exist on array\\{uses\\?\\: mixed, middleware\\?\\: mixed\\}\\.$#"
 			count: 1
 			path: src/routes.php
 
@@ -1331,7 +1336,7 @@ parameters:
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: "#^Offset 'index' does not exist on array\\|null\\.$#"
+			message: "#^Offset 'index' might not exist on array\\|null\\.$#"
 			count: 1
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeVariableMiddleware.php
 
