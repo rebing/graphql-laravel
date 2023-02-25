@@ -14,6 +14,7 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     checkUninitializedProperties: true
     checkModelProperties: true
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         # tests/Unit/GraphQLTest.php
