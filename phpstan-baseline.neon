@@ -6,6 +6,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Instanceof between Error and Error will always evaluate to true\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Property Rebing\\\\GraphQL\\\\GraphQL\\:\\:\\$types \\(array\\<string, object\\|string\\>\\) does not accept array\\<int\\|string, object\\|string\\>\\.$#"
 			count: 1
 			path: src/GraphQL.php
