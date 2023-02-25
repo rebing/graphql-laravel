@@ -65,8 +65,6 @@ class TypeTest extends TestCase
         $type = new ExampleType();
         $array = $type->toArray();
 
-        self::assertIsArray($array);
-
         $attributes = $type->getAttributes();
         self::assertEquals($attributes, $array);
     }

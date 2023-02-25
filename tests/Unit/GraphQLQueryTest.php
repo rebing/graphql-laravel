@@ -55,7 +55,6 @@ It is required when 'lazyload_types' is enabled";
         $resultArray = GraphQL::query($this->queries['examples']);
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        self::assertIsArray($resultArray);
         self::assertArrayHasKey('data', $resultArray);
         self::assertEquals($resultArray['data'], $result->data);
     }
