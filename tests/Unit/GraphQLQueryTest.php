@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
+use GraphQL\Utils\SchemaPrinter;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
@@ -240,5 +241,22 @@ It is required when 'lazyload_types' is enabled";
         ];
         self::assertSame($expectedDataResult, $result->data);
         self::assertCount(0, $result->errors);
+    }
+
+    public function testPrintSchema(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = 'type Query {
+  examplesCustom(index: Int): [Example]
+}';
+
+        self::assertStringContainsString($queryFragment, $gql);
     }
 }
