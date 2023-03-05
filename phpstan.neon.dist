@@ -34,7 +34,7 @@ parameters:
           message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
         -
           path: tests/*
-          message: "/Offset 'config' might not exist on Illuminate.*Application\\|null./"
+          message: "/Offset 'config' might not exist/"
         - path: tests/*
           message: '/Parameter #1 \$type of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects .*, GraphQL\\Type\\Definition\\Type given./'
     reportUnmatchedIgnoredErrors: true
