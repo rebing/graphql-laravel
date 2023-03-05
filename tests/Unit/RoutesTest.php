@@ -19,10 +19,6 @@ class RoutesTest extends TestCase
                 'prefix' => 'graphql_test',
             ],
 
-            'graphiql' => [
-                'display' => false,
-            ],
-
             'schemas' => [
                 'default' => [
                     'middleware' => [ExampleMiddleware::class],

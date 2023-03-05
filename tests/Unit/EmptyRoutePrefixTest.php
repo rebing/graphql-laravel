@@ -31,18 +31,4 @@ class EmptyRoutePrefixTest extends TestCase
 
         self::assertEquals(200, $response->getStatusCode());
     }
-
-    public function testGetGraphiQL(): void
-    {
-        $response = $this->call('GET', '/graphiql');
-
-        $response->assertSee('return fetch(\'/\', {', false);
-    }
-
-    public function testGetGraphiQLCustomSchema(): void
-    {
-        $response = $this->call('GET', '/graphiql/custom');
-
-        $response->assertSee('return fetch(\'/custom\', {', false);
-    }
 }

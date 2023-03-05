@@ -62,38 +62,3 @@ if ($routeConfig) {
         }
     );
 }
-
-if ($config->get('graphql.graphiql.display', true)) {
-    /** @var Router $router */
-    $router = app('router');
-    $graphiqlConfig = $config->get('graphql.graphiql');
-
-    $router->group(
-        [
-            'prefix' => $graphiqlConfig['prefix'] ?? 'graphiql',
-            'middleware' => $graphiqlConfig['middleware'] ?? [],
-        ],
-        function (Router $router) use ($config, $graphiqlConfig): void {
-            // Support array syntax: `[Some::class, 'method']`
-            if (\is_array($graphiqlConfig['controller']) && isset($graphiqlConfig['controller'][0], $graphiqlConfig['controller'][1])) {
-                $graphiqlConfig['controller'] = $graphiqlConfig['controller'][0] . '@' . $graphiqlConfig['controller'][1];
-            }
-
-            $actions = [
-                'uses' => $graphiqlConfig['controller'] ?? GraphQLController::class . '@graphiql',
-            ];
-
-            // A graphiql route for each schema…
-            /** @var string $schemaName */
-            foreach (array_keys($config->get('graphql.schemas', [])) as $schemaName) {
-                $router->get(
-                    $schemaName,
-                    $actions + ['as' => "graphql.graphiql.$schemaName"]
-                );
-            }
-
-            // … and one for the default schema against the group itself
-            $router->get('/', $actions + ['as' => 'graphql.graphiql']);
-        }
-    );
-}
