@@ -45,6 +45,10 @@ CHANGELOG
   type loader and therefore cannot use aliases anymore. Types and their type
   name have to match.
 
+## Changed
+- The type resolver is now able to resolve the top level types 'Query',
+  'Mutation' and 'Subscription'
+
 2023-02-18, 8.6.0
 -----------------
 ### Added

@@ -398,8 +398,24 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader' => function ($name) {
-                return $this->type($name);
+            'typeLoader' => function ($name) use (
+                $query,
+                $mutation,
+                $subscription
+            ) {
+                switch ($name) {
+                    case 'Query':
+                        return $query;
+
+                    case 'Mutation':
+                        return $mutation;
+
+                    case 'Subscription':
+                        return $subscription;
+
+                    default:
+                        return $this->type($name);
+                }
             },
         ]);
     }
