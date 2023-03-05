@@ -256,4 +256,15 @@ class TestCase extends BaseTestCase
     {
         self::assertThat($string, new RegularExpression($pattern), $message);
     }
+
+    /**
+     * @note Maybe can be removed in PHPUnit 10+ if https://github.com/sebastianbergmann/phpunit/pull/5231 gets merged and replaced with `assertObjectHasProperty`. For now uses suggested workaround from https://github.com/sebastianbergmann/phpunit/issues/4601#issuecomment-1418923160
+     *
+     * @param mixed $object
+     */
+    public static function assertObjectHasAttribute(string $attributeName, $object, string $message = ''): void
+    {
+        self::assertIsObject($object);
+        self::assertTrue(property_exists($object, $attributeName));
+    }
 }
