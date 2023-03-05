@@ -126,11 +126,11 @@ class GraphQLTest extends TestCase
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]');
-        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertSame($type->getInnermostType(), $typeOther->getInnermostType());
 
         /** @var ListOfType */
         $typeOther = GraphQL::type('[Example!]', true);
-        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getInnermostType(), $typeOther->getInnermostType());
     }
 
     public function testNonNullListOfNonNullType(): void
@@ -146,11 +146,11 @@ class GraphQLTest extends TestCase
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!');
-        self::assertSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertSame($type->getInnermostType(), $typeOther->getInnermostType());
 
         /** @var NonNull */
         $typeOther = GraphQL::type('[Example!]!', true);
-        self::assertNotSame($type->getWrappedType(true), $typeOther->getWrappedType(true));
+        self::assertNotSame($type->getInnermostType(), $typeOther->getInnermostType());
     }
 
     public function testMalformedListOfWithNoLeadingBracket(): void
@@ -226,7 +226,7 @@ class GraphQLTest extends TestCase
 
             self::assertInstanceOf(ListOfType::class, $type);
             self::assertInstanceOf(NonNull::class, $type->getWrappedType());
-            self::assertSame($type->getWrappedType(true), $standardType);
+            self::assertSame($type->getInnermostType(), $standardType);
 
             /** @var NonNull */
             $type = GraphQL::type("[$standardType->name!]!");
@@ -236,7 +236,7 @@ class GraphQLTest extends TestCase
             self::assertInstanceOf(NonNull::class, $type);
             self::assertInstanceOf(ListOfType::class, $wrappedType);
             self::assertInstanceOf(NonNull::class, $wrappedType->getWrappedType());
-            self::assertSame($type->getWrappedType(true), $standardType);
+            self::assertSame($type->getInnermostType(), $standardType);
         }
     }
 
@@ -288,18 +288,21 @@ class GraphQLTest extends TestCase
         $result = GraphQL::queryAndReturnResult($this->queries['examplesWithError']);
         $error = GraphQL::formatError($result->errors[0]);
 
+        unset($error['extensions']['file']);
+        unset($error['extensions']['line']);
+
+        self::assertIsArray($error);
         self::assertArrayHasKey('message', $error);
         self::assertArrayHasKey('locations', $error);
         $expectedError = [
-            'message' => 'Cannot query field "examplesQueryNotFound" on type "Query".',
-            'extensions' => [
-                'category' => 'graphql',
-            ],
+            'message' => 'Cannot query field "examplesQueryNotFound" on type "Query". Did you mean "examplesPagination"?',
             'locations' => [
                 [
                     'line' => 3,
                     'column' => 13,
                 ],
+            ],
+            'extensions' => [
             ],
         ];
         self::assertEquals($expectedError, $error);
@@ -315,8 +318,13 @@ class GraphQLTest extends TestCase
         $error = new Error('error', null, null, [], null, $validationError);
         $error = GraphQL::formatError($error);
 
-        self::assertArrayHasKey('trace', $error);
-        unset($error['trace']);
+        self::assertArrayHasKey('extensions', $error);
+        self::assertArrayHasKey('file', $error['extensions']);
+        self::assertArrayHasKey('line', $error['extensions']);
+        self::assertArrayHasKey('trace', $error['extensions']);
+        unset($error['extensions']['file']);
+        unset($error['extensions']['line']);
+        unset($error['extensions']['trace']);
 
         $expected = [
             'message' => 'error',

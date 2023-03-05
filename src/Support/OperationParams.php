@@ -32,14 +32,17 @@ class OperationParams extends BaseOperationParams
         $this->baseOperationParams = $baseOperationParams;
     }
 
-    public function getOriginalInput($key)
+    /**
+     * @return mixed|null
+     */
+    public function getOriginalInput(string $key)
     {
-        return $this->baseOperationParams->getOriginalInput($key);
+        return $this->baseOperationParams->originalInput[$key] ?? null;
     }
 
-    public function isReadOnly()
+    public function isReadOnly(): bool
     {
-        return $this->baseOperationParams->isReadOnly();
+        return $this->baseOperationParams->readOnly;
     }
 
     public function getParsedQuery(): DocumentNode

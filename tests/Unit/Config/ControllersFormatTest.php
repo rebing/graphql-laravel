@@ -28,10 +28,6 @@ class ControllersFormatTest extends TestCase
             'types' => [
                 'Example' => ExampleType::class,
             ],
-
-            'graphiql' => [
-                'controller' => [GraphQLController::class, 'graphiql'],
-            ],
         ]);
     }
 
@@ -40,13 +36,6 @@ class ControllersFormatTest extends TestCase
         $response = $this->call('GET', '/graphql', [
             'query' => $this->queries['examples'],
         ]);
-
-        self::assertSame(200, $response->getStatusCode());
-    }
-
-    public function testGraphiQLHasValidMethod(): void
-    {
-        $response = $this->call('GET', '/graphiql');
 
         self::assertSame(200, $response->getStatusCode());
     }

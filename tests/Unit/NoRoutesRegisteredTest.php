@@ -16,10 +16,6 @@ class NoRoutesRegisteredTest extends TestCase
     {
         $app['config']->set('graphql', [
             'route' => [],
-            'graphiql' => [
-                'display' => false,
-            ],
-
             'schemas' => [
                 'default' => [
                     'middleware' => [ExampleMiddleware::class],

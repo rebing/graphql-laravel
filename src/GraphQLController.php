@@ -5,8 +5,6 @@ namespace Rebing\GraphQL;
 
 use GraphQL\Server\OperationParams as BaseOperationParams;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -46,27 +44,6 @@ class GraphQLController extends Controller
         );
 
         return response()->json($data, 200, $headers, $jsonOptions);
-    }
-
-    public function graphiql(Request $request, Repository $config, Factory $viewFactory): View
-    {
-        $routePrefix = $config->get('graphql.graphiql.prefix', 'graphiql');
-        $schemaName = $this->findSchemaNameInRequest($request, "/$routePrefix");
-
-        $graphqlPath = '/' . $config->get('graphql.route.prefix', 'graphql');
-
-        if ($schemaName) {
-            $graphqlPath .= '/' . $schemaName;
-        }
-
-        $graphqlPath = '/' . trim($graphqlPath, '/');
-
-        $view = $config->get('graphql.graphiql.view', 'graphql::graphiql');
-
-        return $viewFactory->make($view, [
-            'graphqlPath' => $graphqlPath,
-            'schema' => $schemaName,
-        ]);
     }
 
     /**

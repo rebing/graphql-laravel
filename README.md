@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Use Facebook's GraphQL with PHP 7.4+ on Laravel 6.0 & 8.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
+Use Facebook's GraphQL with PHP 7.4+ on Laravel 8.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
 * Allows creating **queries** and **mutations** as request endpoints
 * Supports multiple schemas
@@ -56,8 +56,6 @@ Review the configuration file:
 config/graphql.php
 ```
 
-The default GraphiQL view makes use of the global `csrf_token()` helper function.
-
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
@@ -69,7 +67,6 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Concepts](#concepts)
       - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
     - [Data loading](#data-loading)
-    - [GraphiQL](#graphiql)
     - [Middleware Overview](#middleware-overview)
       - [HTTP middleware](#http-middleware)
       - [GraphQL execution middleware](#graphql-execution-middleware)
@@ -126,8 +123,6 @@ The default GraphiQL view makes use of the global `csrf_token()` helper function
     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
   - [Performance considerations](#performance-considerations)
-    - [Lazy loading of types](#lazy-loading-of-types)
-      - [Example of aliasing **not** supported by lazy loading](#example-of-aliasing-not-supported-by-lazy-loading)
     - [Wrap Types](#wrap-types)
   - [GraphQL testing clients](#graphql-testing-clients)
 
@@ -204,20 +199,6 @@ static data, ElasticSearch results, caching, etc.) in your resolvers but you've
 to be mindful of the execution model to avoid repetitive fetches and perform
 smart pre-fetching of your data.
 
-### GraphiQL
-
-GraphiQL is lightweight "GraphQL IDE" in your browser. It takes advantage of the
-GraphQL type system and allows autocompletion of all queries/mutations/types and
-fields.
-
-GraphiQL in the meantime evolved in terms of features and complexity, thus for
-convenience an older version is directly included with this library.
-
-As enabled by the default configuration, it's available under the `/graphiql`
-route.
-
-If you are using multiple schemas, you can access them via `/graphiql/<schema name>`.
-
 ### Middleware Overview
 
 The following middleware concepts are supported:
@@ -278,12 +259,6 @@ them, in addition to the global middleware. For example:
     'default' => [
         'query' => [
             ExampleQuery::class,
-            // It's possible to specify a name/alias with the key
-            // but this is discouraged as it prevents things
-            // like improving performance with e.g. `lazyload_types=true`
-            // It's recommended to specify just the class here and
-            // rely on the `'name'` attribute in the query / type.
-            'someQuery' => AnotherExampleQuery::class,
         ],
         'mutation' => [
             ExampleMutation::class,
@@ -446,18 +421,6 @@ Alternatively you can:
   ```php
   GraphQL::addType(\App\GraphQL\Types\UserType::class);
   ```
-
-As with queries/mutations, you can use an alias name (though again this prevents
-it from taking advantage of lazy type loading):
-```php
-'schemas' => [
-    'default' => [
-        // ...
-        
-        'types' => [
-            'Useralias' => App\GraphQL\Types\UserType::class,
-        ],
-```
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
@@ -2696,9 +2659,6 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 - `batching`\
   - 'enable'\
     Whether to support GraphQL batching or not
-- `lazyload_types`\
-  The types will be loaded on demand. Enabled by default as it improves
-  performance. Cannot be used with type aliasing.
 - `error_formatter`\
   This callable will be passed the Error object for each errors GraphQL catch.
   The method should return an array representing the error.
@@ -2715,19 +2675,6 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
   You can define your own pagination type.
 - `simple_pagination_type`\
   You can define your own simple pagination type.
-- `graphiql`\
-  Config for GraphiQL (see (https://github.com/graphql/graphiql)
-  - `prefix`\
-    The route prefix
-  - `controller`\
-    The controller / method to handle the route
-  - `middleware`\
-    Any middleware to be run before invoking the controller
-  - `view`\
-    Which view to use
-  - `display`\
-    Whether to enable it or not.\
-    **Note:** it's recommended to disable this in production!
 - `defaultFieldResolver`\
   Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
 - `headers`\
@@ -2809,7 +2756,7 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - `composer remove folklore/graphql`
 - if you've a custom ServiceProvider or did include it manually, remove it. The point is that the existing GraphQL code should not be triggered to run.
 - `composer require rebing/graphql-laravel`
-- Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings, graphiql)
+- Publish `config/graphql.php` and adapt it (prefix, middleware, schemas, types, mutations, queries, security settings)
   - Removed settings
     - `domain`
     - `resolvers`
@@ -2823,24 +2770,6 @@ The following is not a bullet-proof list but should serve as a guide. It's not a
 - The first argument to the resolve method for queries/mutations is now `null` (previously its default was an empty array)
 
 ## Performance considerations
-
-### Lazy loading of types
-
-Lazy loading of types is a way of improving the start up performance.
-
-If you are declaring types using aliases, this is not supported and you need to
-set `lazyload_types` set to `false`.
-
-#### Example of aliasing **not** supported by lazy loading
-
-I.e. you cannot have a query class `ExampleQuery` with the `$name` property
-`example` but register it with a different one; this will **not** work:
-
-```php
-'query' => [
-    'aliasedExample' => ExampleQuery::class,
-],
-```
 
 ### Wrap Types
 
@@ -2870,4 +2799,4 @@ public function resolve($root, array $args)
 
 ## GraphQL testing clients
  - [Firecamp](https://firecamp.io/graphql)
- - [GraphiQL](https://github.com/graphql/graphiql)
+ - [GraphiQL](https://github.com/graphql/graphiql) [integration via laravel-graphiql](https://github.com/mll-lab/laravel-graphiql)

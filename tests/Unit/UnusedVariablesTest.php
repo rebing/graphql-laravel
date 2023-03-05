@@ -56,12 +56,14 @@ class UnusedVariablesTest extends TestCase
 
         $content = $response->getData(true);
 
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+
         $expected = [
             'errors' => [
                 [
                     'message' => 'The following variables were provided but not consumed: unused_variable, another_unused_variable',
                     'extensions' => [
-                        'category' => 'graphql',
                     ],
                 ],
             ],

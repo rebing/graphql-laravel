@@ -21,36 +21,6 @@ class GraphQLQueryTest extends TestCase
         ]);
     }
 
-    public function testConfigKeysIsDifferentFromTypeClassNameQuery(): void
-    {
-        if (app('config')->get('graphql.lazyload_types')) {
-            self::markTestSkipped('Skipping test when lazyload_types=true');
-        }
-
-        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
-
-        self::assertObjectHasAttribute('data', $result);
-
-        self::assertEquals($result->data, [
-            'examplesConfigAlias' => $this->data,
-        ]);
-    }
-
-    public function testConfigKeyIsDifferentFromTypeClassNameNotSupportedInLazyLoadingOfTypes(): void
-    {
-        if (false === app('config')->get('graphql.lazyload_types')) {
-            self::markTestSkipped('Skipping test when lazyload_types=false');
-        }
-
-        $result = GraphQL::queryAndReturnResult($this->queries['examplesWithConfigAlias']);
-        self::assertObjectHasAttribute('errors', $result);
-
-        $expected = "Type Example2 not found.
-Check that the config array key for the type matches the name attribute in the type's class.
-It is required when 'lazyload_types' is enabled";
-        self::assertSame($expected, $result->errors[0]->getMessage());
-    }
-
     public function testQuery(): void
     {
         $resultArray = GraphQL::query($this->queries['examples']);

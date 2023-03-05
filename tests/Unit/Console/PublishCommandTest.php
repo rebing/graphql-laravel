@@ -20,7 +20,7 @@ class PublishCommandTest extends TestCase
             ])
             ->getMock();
         $filesystemMock
-            ->expects(self::exactly(2))
+            ->expects(self::exactly(1))
             ->method('copy')
             ->withConsecutive(
                 [
@@ -39,26 +39,6 @@ class PublishCommandTest extends TestCase
                         return true;
                     }),
                 ],
-                [
-                    self::callback(function (string $from): bool {
-                        $this->assertMatchesRegularExpression(
-                            '|/resources/views/graphiql.php|',
-                            $from,
-                            '2nd call to copy, $from'
-                        );
-
-                        return true;
-                    }),
-                    self::callback(function (string $to): bool {
-                        $this->assertMatchesRegularExpression(
-                            '|laravel[/\\\\]resources/views/vendor/graphql/graphiql.php|',
-                            $to,
-                            '2nd call to copy, $to'
-                        );
-
-                        return true;
-                    }),
-                ]
             );
         $this->instance(Filesystem::class, $filesystemMock);
 
@@ -68,9 +48,5 @@ class PublishCommandTest extends TestCase
 
         self::assertSame(0, $tester->getStatusCode());
         self::assertMatchesRegularExpression('|Copied File.*[/\\\\]config[/\\\\]config.php.* To|', $tester->getDisplay());
-        self::assertMatchesRegularExpression(
-            '|Copied File.*[/\\\\]resources[/\\\\]views[/\\\\]graphiql.php.* To|',
-            $tester->getDisplay()
-        );
     }
 }

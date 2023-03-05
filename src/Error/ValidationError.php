@@ -7,7 +7,7 @@ use GraphQL\Error\Error;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\Validation\Validator;
 
-class ValidationError extends Error
+class ValidationError extends Error implements ProvidesErrorCategory
 {
     /** @var Validator */
     private $validator;

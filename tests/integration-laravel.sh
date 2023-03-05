@@ -53,15 +53,3 @@ else
   cat storage/logs/*
   exit 1
 fi
-
-echo "Test accessing GraphiQL"
-curl 'http://127.0.0.1:8001/graphiql' -sSfLv | grep '<div id="graphiql">Loading...</div>'
-
-if [[ $? = 0 ]]; then
-  echo "Can access GraphiQL 👍"
-else
-  echo "Cannot access GraphiQL 🚨"
-  curl 'http://127.0.0.1:8001/graphiql' -sSfLv
-  cat storage/logs/*
-  exit 1
-fi

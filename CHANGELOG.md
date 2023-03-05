@@ -4,10 +4,57 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.6.0...master)
 --------------
 
+## Breaking changes
+### Added
+- Upgrade to graphql-php 15 [\#953 / mfn](https://github.com/rebing/graphql-laravel/pull/953)\
+  This includes possible breaking changes also outside of this package, see also https://github.com/webonyx/graphql-php/releases/tag/v15.0.0 \
+  Known breaking changes:
+  - non-standard error related data keys are not included directly in
+    `errors.*.<non-standard error key>` any more, but have been moved to
+    `errors.*.extensions.<non-standard error key>`.\
+    Also new keys may appear here from upstream.
+  - The `errors.*.extensions.category` has been removed upstream, but we try to
+    keep it alive with the interface
+    `\Rebing\GraphQL\Error\ProvidesErrorCategory` as it can be a useful
+    discriminator on the client side in certain cases. But only the cases from
+    _this_ library are preserved, e.g. categories like `request`, `graphql` or
+    `internal` are gone.
+  - The `\Rebing\GraphQL\Support\OperationParams` has added required types due to
+    its base class changes:
+    - Old: `public function getOriginalInput($key)`\
+      new: `public function getOriginalInput(string $key)`
+    - Old: `public function isReadOnly()`\
+      new: `public function isReadOnly(): bool`
+  
+  Some BC may happen also if you extended code originating in graphql-php,
+  some examples:
+  - if you implement custom types, you now have to use property types for e.g.
+    `$name` or `$description`
+  - If you used any `\GraphQL\Validator\DocumentValidator` in your code
+    directly, you now need use FQCN to reference them and not the shortened
+    string names.
+  - `->getWrappedType(true)` was replaced with `->getInnermostType()`
+  - the class `\GraphQL\Type\Definition\FieldArgument` has been renamed to
+    `\GraphQL\Type\Definition\Argument`
+
+### Removed
+- Remove support for eager loading (=non-lazy loading) of types\
+  Lazy loading has been introduced in 2.0.0 (2019-08) and has been made the
+  default since 8.0.0 (2021-11).\
+  The practical impact is that types are always going to be resolved using a
+  type loader and therefore cannot use aliases anymore. Types and their type
+  name have to match.
+- Remove integrated GraphiQL support in favour of https://github.com/mll-lab/laravel-graphiql [\#986 / mfn](https://github.com/rebing/graphql-laravel/pull/986)
+- Laravel 6 is no longer supported [\#967 / mfn](https://github.com/rebing/graphql-laravel/pull/967)
+
+## Changed
+- The type resolver is now able to resolve the top level types 'Query',
+  'Mutation' and 'Subscription'
+
 2023-02-18, 8.6.0
 -----------------
 ### Added
-- Add Laravl 10 support [\#983 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/983)
+- Add Laravel 10 support [\#983 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/983)
 
 2023-01-13, 8.5.0
 -----------------

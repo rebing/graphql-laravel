@@ -21,7 +21,7 @@ class RulesInFields
     public function __construct(Type $parentType, array $fieldsAndArgumentsSelection)
     {
         $this->parentType = $parentType instanceof WrappingType
-            ? $parentType->getWrappedType(true)
+            ? $parentType->getInnermostType()
             : $parentType;
         $this->fieldsAndArguments = $fieldsAndArgumentsSelection;
     }
