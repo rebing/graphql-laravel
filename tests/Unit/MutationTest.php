@@ -94,7 +94,6 @@ class MutationTest extends FieldTest
         $field = new $class();
 
         $attributes = $field->getAttributes();
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -105,6 +104,8 @@ class MutationTest extends FieldTest
             ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -129,7 +130,6 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -167,13 +167,14 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
             $attributes['resolve'](null, [], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -196,7 +197,6 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -205,6 +205,8 @@ class MutationTest extends FieldTest
             ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -227,7 +229,6 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -237,6 +238,8 @@ class MutationTest extends FieldTest
             ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -270,7 +273,6 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -279,6 +281,8 @@ class MutationTest extends FieldTest
             ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -300,7 +304,6 @@ class MutationTest extends FieldTest
 
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -313,6 +316,8 @@ class MutationTest extends FieldTest
             ], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $validator = $exception->getValidator();
 
@@ -337,7 +342,6 @@ class MutationTest extends FieldTest
         $field = new $class();
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
@@ -352,15 +356,20 @@ class MutationTest extends FieldTest
         } catch (ValidationError $exception) {
         }
 
+        self::assertInstanceOf(ValidationError::class, $exception);
+
+        /** @var ValidationError $exception */
         $messages = $exception->getValidatorMessages();
 
         self::assertEquals('The test field is required.', $messages->first('test'));
         self::assertEquals(
-            'The test with rules nullable input object.nest.email must be a valid email address.',
+            // The test with rules nullable input object.nest.email must be a valid email address.
+            trans('validation.email', ['attribute' => 'test with rules nullable input object.nest.email']),
             $messages->first('test_with_rules_nullable_input_object.nest.email')
         );
         self::assertEquals(
-            'The test with rules non nullable input object.nest.email must be a valid email address.',
+            // The test with rules non nullable input object.nest.email must be a valid email address.
+            trans('validation.email', ['attribute' => 'test with rules non nullable input object.nest.email']),
             $messages->first('test_with_rules_non_nullable_input_object.nest.email')
         );
     }
@@ -371,13 +380,14 @@ class MutationTest extends FieldTest
         $field = new $class();
         $attributes = $field->getAttributes();
 
-        /** @var ValidationError $exception */
         $exception = null;
 
         try {
             $attributes['resolve'](null, [], [], $this->resolveInfoMock());
         } catch (ValidationError $exception) {
         }
+
+        self::assertInstanceOf(ValidationError::class, $exception);
 
         $messages = $exception->getValidatorMessages();
 

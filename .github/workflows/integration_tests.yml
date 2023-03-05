@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        laravel: [^6.0, ^8.0, ^9.0]
+        laravel: [^6.0, ^8.0, ^9.0, ^10.0]
         exclude:
           - php: 7.4
             laravel: ^9.0
@@ -44,13 +44,17 @@ jobs:
             laravel: ^6.0
           - php: 8.2
             laravel: ^6.0
+          - php: 8.0
+            laravel: ^10.0
+          - php: 7.4
+            laravel: ^10.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }}
     runs-on: ubuntu-latest
     env:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -69,7 +73,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composercache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}

@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
+use GraphQL\Utils\SchemaPrinter;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
@@ -25,7 +26,6 @@ class GraphQLQueryTest extends TestCase
         $resultArray = GraphQL::query($this->queries['examples']);
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        self::assertIsArray($resultArray);
         self::assertArrayHasKey('data', $resultArray);
         self::assertEquals($resultArray['data'], $result->data);
     }
@@ -211,5 +211,22 @@ class GraphQLQueryTest extends TestCase
         ];
         self::assertSame($expectedDataResult, $result->data);
         self::assertCount(0, $result->errors);
+    }
+
+    public function testPrintSchema(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = 'type Query {
+  examplesCustom(index: Int): [Example]
+}';
+
+        self::assertStringContainsString($queryFragment, $gql);
     }
 }

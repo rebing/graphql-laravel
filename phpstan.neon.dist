@@ -14,6 +14,7 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     checkUninitializedProperties: true
     checkModelProperties: true
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         # tests/Unit/GraphQLTest.php
@@ -33,7 +34,7 @@ parameters:
           message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
         -
           path: tests/*
-          message: "/Offset 'config' does not exist on Illuminate.*Application\\|null./"
+          message: "/Offset 'config' might not exist on Illuminate.*Application\\|null./"
         - path: tests/*
           message: '/Parameter #1 \$type of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects .*, GraphQL\\Type\\Definition\\Type given./'
     reportUnmatchedIgnoredErrors: true
