@@ -54,7 +54,7 @@ CHANGELOG
 2023-02-18, 8.6.0
 -----------------
 ### Added
-- Add Laravl 10 support [\#983 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/983)
+- Add Laravel 10 support [\#983 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/983)
 
 2023-01-13, 8.5.0
 -----------------
