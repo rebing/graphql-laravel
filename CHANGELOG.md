@@ -65,6 +65,9 @@ CHANGELOG
   type loader and therefore cannot use aliases anymore. Types and their type
   name have to match.
 
+### Removed
+- Laravel 6 is no longer supported [\#967 / mfn](https://github.com/rebing/graphql-laravel/pull/967)
+
 2023-01-13, 8.5.0
 -----------------
 ### Added
