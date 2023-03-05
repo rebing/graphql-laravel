@@ -3,8 +3,6 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.6.0...master)
 --------------
-### Removed
-- Remove integrated GraphiQL support in favour of https://github.com/mll-lab/laravel-graphiql [\#986 / mfn](https://github.com/rebing/graphql-laravel/pull/986)
 
 ## Breaking changes
 ### Added
@@ -46,6 +44,8 @@ CHANGELOG
   The practical impact is that types are always going to be resolved using a
   type loader and therefore cannot use aliases anymore. Types and their type
   name have to match.
+- Remove integrated GraphiQL support in favour of https://github.com/mll-lab/laravel-graphiql [\#986 / mfn](https://github.com/rebing/graphql-laravel/pull/986)
+- Laravel 6 is no longer supported [\#967 / mfn](https://github.com/rebing/graphql-laravel/pull/967)
 
 ## Changed
 - The type resolver is now able to resolve the top level types 'Query',
@@ -55,18 +55,6 @@ CHANGELOG
 -----------------
 ### Added
 - Add Laravl 10 support [\#983 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/983)
-
-## Breaking changes
-### Removed
-- Remove support for eager loading (=non-lazy loading) of types\
-  Lazy loading has been introduced in 2.0.0 (2019-08) and has been made the
-  default since 8.0.0 (2021-11).\
-  The practical impact is that types are always going to be resolved using a
-  type loader and therefore cannot use aliases anymore. Types and their type
-  name have to match.
-
-### Removed
-- Laravel 6 is no longer supported [\#967 / mfn](https://github.com/rebing/graphql-laravel/pull/967)
 
 2023-01-13, 8.5.0
 -----------------
