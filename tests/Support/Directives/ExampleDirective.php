@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Directives;
 
 use GraphQL\Language\DirectiveLocation;
-use GraphQL\Type\Definition\Argument;
 use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\Type;
 
@@ -20,11 +19,10 @@ class ExampleDirective extends Directive
                 DirectiveLocation::QUERY,
             ],
             'args' => [
-                'first' => new Argument([
-                    'name' => 'first',
+                'first' => [
                     'description' => 'Description of this argument',
                     'type' => Type::string(),
-                ]),
+                ],
             ],
         ]);
     }
