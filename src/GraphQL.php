@@ -33,6 +33,7 @@ use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
+use Rebing\GraphQL\Support\CursorPaginationType;
 
 class GraphQL
 {
@@ -483,6 +484,18 @@ class GraphQL
 
         if (!isset($this->typesInstances[$name])) {
             $paginationType = $this->config->get('graphql.simple_pagination_type', SimplePaginationType::class);
+            $this->wrapType($typeName, $name, $paginationType);
+        }
+
+        return $this->typesInstances[$name];
+    }
+
+    public function cursorPaginate(string $typeName, string $customName = null): Type
+    {
+        $name = $customName ?: $typeName . 'CursorPagination';
+
+        if (!isset($this->typesInstances[$name])) {
+            $paginationType = $this->config->get('graphql.cursor_pagination_type', CursorPaginationType::class);
             $this->wrapType($typeName, $name, $paginationType);
         }
 

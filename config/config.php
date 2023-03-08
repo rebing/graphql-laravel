@@ -153,6 +153,13 @@ return [
     'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
+     * You can define your own simple pagination type.
+     * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
+     */
+    'cursor_pagination_type' => \Rebing\GraphQL\Support\CursorPaginationType::class,
+
+
+    /*
      * Overrides the default field resolver
      * See http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
      *
