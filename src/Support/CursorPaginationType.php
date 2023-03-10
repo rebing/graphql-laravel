@@ -50,7 +50,7 @@ class CursorPaginationType extends ObjectType
             'per_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::string()),
                 'description' => 'Number of items returned per page',
-                'resolve' => function (CursorPaginator $data): string {
+                'resolve' => function (CursorPaginator $data): int {
                     return $data->perPage();
                 },
                 'selectable' => false,
