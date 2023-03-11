@@ -66,7 +66,7 @@ class CursorPaginationType extends ObjectType
             'next_page_url' => [
                 'type' => GraphQLType::string(),
                 'description' => 'The URL for the next page, or null',
-                'resolve' => function (CursorPaginator $data): string {
+                'resolve' => function (CursorPaginator $data): string|null {
                     return $data->nextPageUrl();
                 },
                 'selectable' => false,
@@ -82,7 +82,7 @@ class CursorPaginationType extends ObjectType
             'prev_page_url' => [
                 'type' => GraphQLType::string(),
                 'description' => 'Get the URL for the previous page',
-                'resolve' => function (CursorPaginator $data): string {
+                'resolve' => function (CursorPaginator $data): string|null {
                     return $data->previousPageUrl();
                 },
                 'selectable' => false,
