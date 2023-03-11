@@ -58,7 +58,7 @@ class CursorPaginationType extends ObjectType
             'next_cursor' => [
                 'type' => GraphQLType::string(),
                 'description' => 'Get the cursor that points to the next set of items.',
-                'resolve' => function (CursorPaginator $data): string {
+                'resolve' => function (CursorPaginator $data): string|null {
                     return $data->nextCursor()?->encode();
                 },
                 'selectable' => false,
@@ -74,7 +74,7 @@ class CursorPaginationType extends ObjectType
             'prev_cursor' => [
                 'type' => GraphQLType::string(),
                 'description' => 'Get the cursor that points to the previous set of items',
-                'resolve' => function (CursorPaginator $data): string {
+                'resolve' => function (CursorPaginator $data): string|null {
                     return $data->previousCursor()?->encode();
                 },
                 'selectable' => false,
