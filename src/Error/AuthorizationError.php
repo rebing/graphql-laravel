@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Error;
 
 use GraphQL\Error\Error;
 
-class AuthorizationError extends Error
+class AuthorizationError extends Error implements ProvidesErrorCategory
 {
     public function isClientSafe(): bool
     {

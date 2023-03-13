@@ -19,6 +19,7 @@ use Rebing\GraphQL\Support\OperationParams;
  * @method static Type type(string $name, bool $fresh = false)
  * @method static Type paginate(string $typeName, string $customName = null)
  * @method static Type simplePaginate(string $typeName, string $customName = null)
+ * @method static Type cursorPaginate(string $typeName, string $customName = null)
  * @method static array<string,object|string> getTypes()
  * @method static Schema schema(?string $schema = null)
  * @method static Schema buildSchemaFromConfig(array $schemaConfig)

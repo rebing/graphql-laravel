@@ -28,7 +28,7 @@ class EngineErrorInResolverTest extends TestCase
         ]);
 
         // Using a regex here because in some cases the message gets prefixed with "Type error:"
-        self::assertMatchesRegularExpression('/Simulating a TypeError/', $result['errors'][0]['debugMessage']);
+        self::assertMatchesRegularExpression('/Simulating a TypeError/', $result['errors'][0]['extensions']['debugMessage']);
     }
 
     protected function resolveApplicationExceptionHandler($app): void

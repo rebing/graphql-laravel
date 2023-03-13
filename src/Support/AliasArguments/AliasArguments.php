@@ -119,7 +119,7 @@ class AliasArguments
     private function getWrappedType(Type $type): Type
     {
         if ($type instanceof WrappingType) {
-            $type = $type->getWrappedType(true);
+            $type = $type->getInnermostType();
         }
 
         return $type;

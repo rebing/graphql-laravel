@@ -44,7 +44,6 @@ class PublishCommand extends Command
         $fromPath = __DIR__ . '/../..';
         $this->fileMap = [
             $fromPath . '/config/config.php' => app()->basePath('config/graphql.php'),
-            $fromPath . '/resources/views/graphiql.php' => app()->basePath('resources/views/vendor/graphql/graphiql.php'),
         ];
     }
 

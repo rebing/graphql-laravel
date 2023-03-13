@@ -25,11 +25,6 @@ class QueriesAndTypesEachInTheirOwnSchemaTest extends TestCase
                 SchemaTwo\Type::class,
             ],
         ]);
-
-        // To still properly support dual tests, we thus have to add this
-        if ('0' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
-            $app['config']->set('graphql.lazyload_types', false);
-        }
     }
 
     public function testQueriesAndTypesEachInTheirOwnSchema(): void

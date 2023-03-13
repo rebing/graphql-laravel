@@ -159,14 +159,16 @@ class EndpointTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
-        unset($content['errors'][0]['trace']);
+
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+        unset($content['errors'][0]['extensions']['trace']);
 
         $expected = [
             'errors' => [
                 [
                     'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                     'extensions' => [
-                        'category' => 'request',
                     ],
                 ],
             ],
@@ -214,27 +216,5 @@ class EndpointTest extends TestCase
             ],
         ];
         self::assertEquals($expected, $actual);
-    }
-
-    public function testGetGraphiQL(): void
-    {
-        $response = $this->call('GET', '/graphiql');
-
-        // Are we seeing the right template?
-        $response->assertSee('This GraphiQL example illustrates how to use some of GraphiQL\'s props', false);
-        // The argument to fetch is extracted from the configuration
-        $response->assertSee('return fetch(\'/graphql\', {', false);
-        $response->assertSee("'x-csrf-token': xcsrfToken || ''", false);
-    }
-
-    public function testGetGraphiQLCustomSchema(): void
-    {
-        $response = $this->call('GET', '/graphiql/custom');
-
-        // Are we seeing the right template?
-        $response->assertSee('This GraphiQL example illustrates how to use some of GraphiQL\'s props', false);
-        // The argument to fetch is extracted from the configuration
-        $response->assertSee('return fetch(\'/graphql/custom\', {', false);
-        $response->assertSee("'x-csrf-token': xcsrfToken || ''", false);
     }
 }

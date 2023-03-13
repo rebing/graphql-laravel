@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Error;
 
 use GraphQL\Error\Error;
 
-class AutomaticPersistedQueriesError extends Error
+class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCategory
 {
     public const CODE_PERSISTED_QUERY_NOT_SUPPORTED = 'PERSISTED_QUERY_NOT_SUPPORTED';
     public const CODE_PERSISTED_QUERY_NOT_FOUND = 'PERSISTED_QUERY_NOT_FOUND';

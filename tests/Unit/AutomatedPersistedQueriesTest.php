@@ -49,6 +49,9 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+
         self::assertEquals([
             'errors' => [
                 [
@@ -76,6 +79,9 @@ class AutomatedPersistedQueriesTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
+
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
 
         self::assertEquals([
             'errors' => [
@@ -200,6 +206,9 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+
         self::assertEquals([
             'errors' => [
                 [
@@ -243,6 +252,11 @@ class AutomatedPersistedQueriesTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
+
+        unset($content[0]['errors'][0]['extensions']['file']);
+        unset($content[0]['errors'][0]['extensions']['line']);
+        unset($content[1]['errors'][0]['extensions']['file']);
+        unset($content[1]['errors'][0]['extensions']['line']);
 
         self::assertArrayHasKey(0, $content);
         self::assertArrayHasKey(1, $content);
@@ -328,6 +342,11 @@ class AutomatedPersistedQueriesTest extends TestCase
         self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->json();
+
+        unset($content[1]['errors'][0]['extensions']['file']);
+        unset($content[1]['errors'][0]['extensions']['line']);
+        unset($content[2]['errors'][0]['extensions']['file']);
+        unset($content[2]['errors'][0]['extensions']['line']);
 
         self::assertArrayHasKey(0, $content);
         self::assertArrayHasKey(1, $content);
@@ -452,14 +471,15 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
-        unset($content['errors'][0]['trace']);
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+        unset($content['errors'][0]['extensions']['trace']);
 
         $expected = [
             'errors' => [
                 [
                     'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                     'extensions' => [
-                        'category' => 'request',
                     ],
                 ],
             ],
@@ -485,12 +505,14 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         $content = $response->json();
 
+        unset($content['errors'][0]['extensions']['file']);
+        unset($content['errors'][0]['extensions']['line']);
+
         $expected = [
             'errors' => [
                 [
                     'message' => 'Syntax Error: Expected :, found )',
                     'extensions' => [
-                        'category' => 'graphql',
                     ],
                     'locations' => [
                         [

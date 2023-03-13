@@ -111,11 +111,6 @@ return [
         // \Rebing\GraphQL\Support\UploadType::class,
     ],
 
-    // The types will be loaded on demand. Default is to load all types on each request
-    // Can increase performance on schemes with many types
-    // Presupposes the config type key to match the type class name property
-    'lazyload_types' => true,
-
     // This callable will be passed the Error object for each errors GraphQL catch.
     // The method should return an array representing the error.
     // Typically:
@@ -158,15 +153,11 @@ return [
     'simple_pagination_type' => \Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
-     * Config for GraphiQL (see (https://github.com/graphql/graphiql).
+     * You can define your own simple pagination type.
+     * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
      */
-    'graphiql' => [
-        'prefix' => 'graphiql', // Do NOT use a leading slash
-        'controller' => \Rebing\GraphQL\GraphQLController::class . '@graphiql',
-        'middleware' => [],
-        'view' => 'graphql::graphiql',
-        'display' => env('ENABLE_GRAPHIQL', true),
-    ],
+    'cursor_pagination_type' => \Rebing\GraphQL\Support\CursorPaginationType::class,
+
 
     /*
      * Overrides the default field resolver

@@ -41,7 +41,7 @@ class SelectFields
     public function __construct(GraphqlType $parentType, array $queryArgs, $ctx, array $fieldsAndArguments)
     {
         if ($parentType instanceof WrappingType) {
-            $parentType = $parentType->getWrappedType(true);
+            $parentType = $parentType->getInnermostType();
         }
 
         $requestedFields = [
@@ -77,7 +77,7 @@ class SelectFields
         $with = [];
 
         if ($parentType instanceof WrappingType) {
-            $parentType = $parentType->getWrappedType(true);
+            $parentType = $parentType->getInnermostType();
         }
         $parentTable = static::getTableNameFromParentType($parentType);
         $primaryKey = static::getPrimaryKeyFromParentType($parentType);
@@ -164,7 +164,7 @@ class SelectFields
             $parentTypeUnwrapped = $parentType;
 
             if ($parentTypeUnwrapped instanceof WrappingType) {
-                $parentTypeUnwrapped = $parentTypeUnwrapped->getWrappedType(true);
+                $parentTypeUnwrapped = $parentTypeUnwrapped->getInnermostType();
             }
 
             // First check if the field is even accessible
@@ -178,8 +178,11 @@ class SelectFields
                 $queryable = static::isQueryable($fieldObject->config);
 
                 // Pagination
-                if (is_a($parentType, Config::get('graphql.pagination_type', PaginationType::class)) ||
-                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class))) {
+                if (
+                    is_a($parentType, Config::get('graphql.pagination_type', PaginationType::class)) ||
+                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class)) ||
+                    is_a($parentType, Config::get('graphql.cursor_pagination_type', CursorPaginationType::class))
+                ) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     static::handleFields(
@@ -500,7 +503,7 @@ class SelectFields
             }
 
             if ($newParentType instanceof WrappingType) {
-                $newParentType = $newParentType->getWrappedType(true);
+                $newParentType = $newParentType->getInnermostType();
             }
 
             /** @var callable $callable */

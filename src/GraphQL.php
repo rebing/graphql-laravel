@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
+use Rebing\GraphQL\Error\ProvidesErrorCategory;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
@@ -32,6 +33,7 @@ use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
+use Rebing\GraphQL\Support\CursorPaginationType;
 
 class GraphQL
 {
@@ -242,11 +244,7 @@ class GraphQL
         }
 
         if (!isset($this->types[$name])) {
-            $error = "Type $name not found.";
-
-            if ($this->config->get('graphql.lazyload_types', true)) {
-                $error .= "\nCheck that the config array key for the type matches the name attribute in the type's class.\nIt is required when 'lazyload_types' is enabled";
-            }
+            $error = "Type $name not found. Check that the config array key for the type matches the name attribute in the type's class.";
 
             throw new TypeNotFound($error);
         }
@@ -401,11 +399,25 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader' => $this->config->get('graphql.lazyload_types', true)
-                ? function ($name) {
-                    return $this->type($name);
+            'typeLoader' => function ($name) use (
+                $query,
+                $mutation,
+                $subscription
+            ) {
+                switch ($name) {
+                    case 'Query':
+                        return $query;
+
+                    case 'Mutation':
+                        return $mutation;
+
+                    case 'Subscription':
+                        return $subscription;
+
+                    default:
+                        return $this->type($name);
                 }
-                : null,
+            },
         ]);
     }
 
@@ -478,6 +490,18 @@ class GraphQL
         return $this->typesInstances[$name];
     }
 
+    public function cursorPaginate(string $typeName, string $customName = null): Type
+    {
+        $name = $customName ?: $typeName . 'CursorPagination';
+
+        if (!isset($this->typesInstances[$name])) {
+            $paginationType = $this->config->get('graphql.cursor_pagination_type', CursorPaginationType::class);
+            $this->wrapType($typeName, $name, $paginationType);
+        }
+
+        return $this->typesInstances[$name];
+    }
+
     /**
      * To add customs result to the query or mutations.
      *
@@ -520,6 +544,12 @@ class GraphQL
             if ($previous instanceof ValidationError) {
                 $error['extensions']['validation'] = $previous->getValidatorMessages()->getMessages();
             }
+
+            if ($previous instanceof ProvidesErrorCategory) {
+                $error['extensions']['category'] = $previous->getCategory();
+            }
+        } elseif ($e instanceof ProvidesErrorCategory) {
+            $error['extensions']['category'] = $e->getCategory();
         }
 
         return $error;

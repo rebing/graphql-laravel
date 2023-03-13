@@ -505,10 +505,9 @@ GRAQPHQL;
         $expectedResult = [
             'errors' => [
                 [
-                    'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
                     'message' => 'Internal server error',
                     'extensions' => [
-                        'category' => 'internal',
+                        'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
                     ],
                     'locations' => [
                         [

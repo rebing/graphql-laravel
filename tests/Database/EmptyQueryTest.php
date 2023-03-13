@@ -37,7 +37,9 @@ class EmptyQueryTest extends TestCaseDatabase
 
         $results = array_map(
             static function (array $result): array {
-                unset($result['errors'][0]['trace']);
+                unset($result['errors'][0]['extensions']['file']);
+                unset($result['errors'][0]['extensions']['line']);
+                unset($result['errors'][0]['extensions']['trace']);
 
                 return $result;
             },
@@ -50,7 +52,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -60,7 +61,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -70,7 +70,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -80,7 +79,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
                         'extensions' => [
-                            'category' => 'request',
                         ],
                     ],
                 ],
@@ -90,7 +88,6 @@ class EmptyQueryTest extends TestCaseDatabase
                     [
                         'message' => 'Syntax Error: Unexpected <EOF>',
                         'extensions' => [
-                            'category' => 'graphql',
                         ],
                         'locations' => [
                             [

@@ -11,11 +11,6 @@ class TypesTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         // Note: deliberately not calling parent to start with a clean config
-
-        // To still properly support dual tests, we thus have to add this
-        if ('0' === env('TESTS_ENABLE_LAZYLOAD_TYPES')) {
-            $app['config']->set('graphql.lazyload_types', false);
-        }
     }
 
     public function testQueryAndTypeInDefaultSchema(): void
@@ -107,9 +102,6 @@ GRAPHQL;
             'errors' => [
                 [
                     'message' => 'Cannot query field "query" on type "Query".',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
                     'locations' => [
                         [
                             'line' => 2,
@@ -292,9 +284,6 @@ GRAPHQL;
             'errors' => [
                 [
                     'message' => 'Cannot query field "title" on type "Type".',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
                     'locations' => [
                         [
                             'line' => 3,

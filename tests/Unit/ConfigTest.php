@@ -72,11 +72,11 @@ class ConfigTest extends TestCase
     public function testSecurity(): void
     {
         /** @var QueryComplexity $queryComplexity */
-        $queryComplexity = DocumentValidator::getRule('QueryComplexity');
+        $queryComplexity = DocumentValidator::getRule(QueryComplexity::class);
         self::assertEquals(1000, $queryComplexity->getMaxQueryComplexity());
 
         /** @var QueryDepth $queryDepth */
-        $queryDepth = DocumentValidator::getRule('QueryDepth');
+        $queryDepth = DocumentValidator::getRule(QueryDepth::class);
         self::assertEquals(10, $queryDepth->getMaxQueryDepth());
     }
 

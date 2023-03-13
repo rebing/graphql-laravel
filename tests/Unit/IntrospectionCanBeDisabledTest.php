@@ -27,9 +27,6 @@ class IntrospectionCanBeDisabledTest extends TestCase
             'errors' => [
                 [
                     'message' => 'GraphQL introspection is not allowed, but the query contained __schema or __type',
-                    'extensions' => [
-                        'category' => 'graphql',
-                    ],
                     'locations' => [
                         [
                             'line' => 2,
