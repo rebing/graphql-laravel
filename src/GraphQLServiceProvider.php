@@ -130,17 +130,19 @@ class GraphQLServiceProvider extends ServiceProvider
      */
     public function registerConsole(): void
     {
-        $this->commands(EnumMakeCommand::class);
-        $this->commands(FieldMakeCommand::class);
-        $this->commands(InputMakeCommand::class);
-        $this->commands(InterfaceMakeCommand::class);
-        $this->commands(InterfaceMakeCommand::class);
-        $this->commands(MiddlewareMakeCommand::class);
-        $this->commands(MutationMakeCommand::class);
-        $this->commands(QueryMakeCommand::class);
-        $this->commands(ScalarMakeCommand::class);
-        $this->commands(SchemaConfigMakeCommand::class);
-        $this->commands(TypeMakeCommand::class);
-        $this->commands(UnionMakeCommand::class);
+        $this->commands([
+            EnumMakeCommand::class,
+            FieldMakeCommand::class,
+            InputMakeCommand::class,
+            InterfaceMakeCommand::class,
+            InterfaceMakeCommand::class,
+            MiddlewareMakeCommand::class,
+            MutationMakeCommand::class,
+            QueryMakeCommand::class,
+            ScalarMakeCommand::class,
+            SchemaConfigMakeCommand::class,
+            TypeMakeCommand::class,
+            UnionMakeCommand::class,
+        ]);
     }
 }
