@@ -13,12 +13,12 @@ class ScalarMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL scalar class';
     protected $type = 'Scalar';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/scalar.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Scalars';
     }

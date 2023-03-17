@@ -13,17 +13,17 @@ class InterfaceMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL interface class';
     protected $type = 'Interface';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/interface.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Interfaces';
     }
 
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = parent::buildClass($name);
 

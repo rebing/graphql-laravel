@@ -13,17 +13,17 @@ class InputMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL input class';
     protected $type = 'Input';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/input.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Inputs';
     }
 
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = parent::buildClass($name);
 

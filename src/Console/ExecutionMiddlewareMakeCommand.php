@@ -13,12 +13,12 @@ class ExecutionMiddlewareMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL execution middleware class';
     protected $type = 'ExecutionMiddleware';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/executionMiddleware.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Middleware\Execution';
     }

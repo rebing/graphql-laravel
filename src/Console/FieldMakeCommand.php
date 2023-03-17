@@ -13,12 +13,12 @@ class FieldMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL field class';
     protected $type = 'Field';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/field.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Fields';
     }

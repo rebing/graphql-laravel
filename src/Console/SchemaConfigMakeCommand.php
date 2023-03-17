@@ -13,12 +13,12 @@ class SchemaConfigMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL schema configuration class';
     protected $type = 'Schema';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/schemaConfig.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Schemas';
     }

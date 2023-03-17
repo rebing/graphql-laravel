@@ -13,17 +13,17 @@ class TypeMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL type class';
     protected $type = 'Type';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/type.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Types';
     }
 
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = parent::buildClass($name);
 

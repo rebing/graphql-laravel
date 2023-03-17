@@ -13,17 +13,17 @@ class MutationMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL mutation class';
     protected $type = 'Mutation';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/mutation.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Mutations';
     }
 
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = parent::buildClass($name);
 

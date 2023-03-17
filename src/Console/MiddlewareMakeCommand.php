@@ -13,12 +13,12 @@ class MiddlewareMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL middleware class';
     protected $type = 'Middleware';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/middleware.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Middleware';
     }

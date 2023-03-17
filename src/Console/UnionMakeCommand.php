@@ -13,17 +13,17 @@ class UnionMakeCommand extends GeneratorCommand
     protected $description = 'Create a new GraphQL union class';
     protected $type = 'Union';
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/stubs/union.stub';
     }
 
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\GraphQL\Unions';
     }
 
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = parent::buildClass($name);
 
