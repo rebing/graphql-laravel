@@ -4,6 +4,10 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/8.6.0...master)
 --------------
 
+### Removed
+- Remove unused publish command [\#1004 / sforward](https://github.com/rebing/graphql-laravel/pull/1004)
+  A leftover from the Lumen removal yers ago (#772)
+
 2023-02-18, 8.6.0
 -----------------
 ### Added
