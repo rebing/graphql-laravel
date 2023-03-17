@@ -4,7 +4,9 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand('make:graphql:type')]
 class TypeMakeCommand extends GeneratorCommand
 {
     protected $signature = 'make:graphql:type {name}';

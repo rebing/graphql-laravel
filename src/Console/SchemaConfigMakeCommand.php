@@ -4,7 +4,9 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand('make:graphql:schemaConfig')]
 class SchemaConfigMakeCommand extends GeneratorCommand
 {
     protected $signature = 'make:graphql:schemaConfig {name}';

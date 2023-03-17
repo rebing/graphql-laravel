@@ -4,7 +4,9 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand('make:graphql:field')]
 class FieldMakeCommand extends GeneratorCommand
 {
     protected $signature = 'make:graphql:field {name}';
