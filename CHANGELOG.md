@@ -50,6 +50,7 @@ CHANGELOG
 ## Changed
 - The type resolver is now able to resolve the top level types 'Query',
   'Mutation' and 'Subscription'
+- Return types were added to all methods of the commands [\#1005 / sforward](https://github.com/rebing/graphql-laravel/pull/1005)
 
 2023-02-18, 8.6.0
 -----------------
