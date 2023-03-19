@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
+use Closure;
 use Error as PhpError;
 use Exception;
 use GraphQL\Error\DebugFlag;
@@ -54,13 +55,20 @@ class GraphQL
     /** @var Type[] */
     protected $typesInstances = [];
 
+    /** @var Closure|null */
+    protected $typeLoader = null;
+
     /** @var Repository */
     protected $config;
 
-    public function __construct(Container $app, Repository $config)
+    /** @var SchemaCache */
+    protected $schemaCache;
+
+    public function __construct(Container $app, Repository $config, SchemaCache $schemaCache)
     {
         $this->app = $app;
         $this->config = $config;
+        $this->schemaCache = $schemaCache;
     }
 
     public function schema(?string $schemaName = null): Schema
@@ -71,6 +79,18 @@ class GraphQL
             return $this->schemas[$schemaName];
         }
 
+        $cacheEnabled = $this->schemaCache->enabled($schemaName);
+
+        if ($cacheEnabled && ($schema = $this->schemaCache->get($schemaName))) {
+            $this->typeLoader = static function (string $name) use ($schema) {
+                return $schema->getType($name);
+            };
+
+            $this->addSchema($schemaName, $schema);
+
+            return $schema;
+        }
+
         $this->clearTypeInstances();
 
         $schemaConfig = static::getNormalizedSchemaConfiguration($schemaName);
@@ -78,6 +98,10 @@ class GraphQL
         $schema = $this->buildSchemaFromConfig($schemaConfig);
 
         $this->addSchema($schemaName, $schema);
+
+        if ($cacheEnabled) {
+            $this->schemaCache->set($schemaName, $schema);
+        }
 
         return $schema;
     }
@@ -240,6 +264,10 @@ class GraphQL
 
         if (\in_array($name, $standardTypes)) {
             return $standardTypes[$name];
+        }
+
+        if ($this->typeLoader instanceof Closure) {
+            return ($this->typeLoader)($name);
         }
 
         if (!isset($this->types[$name])) {

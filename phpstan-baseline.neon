@@ -1511,6 +1511,11 @@ parameters:
 			path: tests/Unit/QueryTest.php
 
 		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\SchemaCacheTest has an uninitialized property \\$schemaCache\\. Give it default value or assign it in the constructor\\.$#"
+			count: 1
+			path: tests/Unit/SchemaCacheTest.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\TypesInSchemas\\\\SchemaOne\\\\Query\\:\\:resolve\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php

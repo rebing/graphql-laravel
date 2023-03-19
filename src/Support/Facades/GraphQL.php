@@ -24,6 +24,8 @@ use Rebing\GraphQL\Support\OperationParams;
  * @method static Schema buildSchemaFromConfig(array $schemaConfig)
  * @method static array getSchemas()
  * @method static void addSchema(string $name, Schema $schema)
+ * @method static void clearSchema(string $name)
+ * @method static void clearTypes()
  * @method static void addType(object|string $class, string $name = null)
  * @method static Type objectType(ObjectType|array|string $type, array $opts = [])
  * @method static array formatError(Error $e)

@@ -93,6 +93,9 @@ return [
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
+
+            // Enable schema cache
+            'cache' => 'local' !== env('APP_ENV'),
         ],
     ],
 

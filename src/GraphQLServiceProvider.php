@@ -112,7 +112,11 @@ class GraphQLServiceProvider extends ServiceProvider
         $this->app->singleton(GraphQL::class, function (Container $app): GraphQL {
             $config = $app->make(Repository::class);
 
-            $graphql = new GraphQL($app, $config);
+            $graphql = new GraphQL(
+                $app,
+                $config,
+                $app->make(SchemaCache::class),
+            );
 
             $this->applySecurityRules($config);
 

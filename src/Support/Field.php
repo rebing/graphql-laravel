@@ -145,7 +145,7 @@ abstract class Field
         return $this->middleware;
     }
 
-    protected function getResolver(): ?Closure
+    public function getResolver(): ?Closure
     {
         $resolver = $this->originalResolver();
 
