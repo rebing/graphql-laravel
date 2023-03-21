@@ -23,6 +23,8 @@ class SchemaCache
     protected Application $app;
     protected Cache $cache;
     protected Config $config;
+    /** @var array<string, array<string, mixed>> */
+    protected array $schemaConfigs = [];
 
     public function __construct(Application $app, Cache $cache, Config $config)
     {
@@ -33,7 +35,7 @@ class SchemaCache
 
     public function enabled(string $schemaName): bool
     {
-        return $this->config->get("graphql.schemas.$schemaName.cache", false);
+        return $this->getSchemaConfig($schemaName)['cache'] ?? false;
     }
 
     public function set(string $schemaName, Schema $schema): void
@@ -111,12 +113,20 @@ class SchemaCache
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    protected function getSchemaConfig(string $schemaName): array
+    {
+        return $this->schemaConfigs[$schemaName] ??= GraphQL::getNormalizedSchemaConfiguration($schemaName);
+    }
+
+    /**
      * @return array<string, array<class-string>>
      */
     protected function getClassMapping(string $schemaName): array
     {
         return array_merge_recursive(
-            $this->config->get("graphql.schemas.$schemaName", []),
+            $this->getSchemaConfig($schemaName),
             ['types' => $this->config->get('graphql.types', [])] // add global types
         );
     }

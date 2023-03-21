@@ -6,8 +6,10 @@ namespace Rebing\GraphQL\Tests\Unit;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Rebing\GraphQL\SchemaCache;
+use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
 
 class SchemaCacheTest extends TestCase
@@ -23,7 +25,9 @@ class SchemaCacheTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->schemaCache->flush('default');
+        foreach (self::provideSchemaNames() as [$schemaName]) {
+            $this->schemaCache->flush($schemaName);
+        }
 
         parent::tearDown();
     }
@@ -35,12 +39,26 @@ class SchemaCacheTest extends TestCase
         $app['config']->set('graphql.schemas.default.cache', true);
 
         $app['config']->set('graphql.schemas.default.query.notInstantiated', NotInstantiatedQuery::class);
+
+        $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
     }
 
-    public function testCachingSchema(): void
+    /**
+     * @return array<array<string>>
+     */
+    public static function provideSchemaNames(): array
     {
-        $schemaName = 'default';
+        return [
+            ['default'],
+            ['class_based'],
+        ];
+    }
 
+    /**
+     * @dataProvider provideSchemaNames
+     */
+    public function testCachingSchema(string $schemaName): void
+    {
         self::assertTrue($this->schemaCache->enabled($schemaName));
 
         $this->schemaCache->set($schemaName, $schema = GraphQL::schema($schemaName));
@@ -108,5 +126,18 @@ class NotInstantiatedQuery extends Query
 
     public function resolve(): void
     {
+    }
+}
+
+class ExampleSchema implements ConfigConvertible
+{
+    public function toConfig(): array
+    {
+        return [
+            'query' => [
+                'examples' => ExamplesQuery::class,
+            ],
+            'cache' => true,
+        ];
     }
 }
