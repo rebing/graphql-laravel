@@ -58,9 +58,7 @@ class PaginationType extends ObjectType
             'from' => [
                 'type' => GraphQLType::int(),
                 'description' => 'Number of the first item returned',
-                'resolve' => function (LengthAwarePaginator $data): ?int {
-                    return $data->firstItem();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): ?int => $data->firstItem(),
                 'selectable' => false,
             ],
             'to' => [
