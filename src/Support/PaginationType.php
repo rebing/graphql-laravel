@@ -76,9 +76,7 @@ class PaginationType extends ObjectType
             'has_more_pages' => [
                 'type' => GraphQLType::nonNull(GraphQLType::boolean()),
                 'description' => 'Determines if cursor has more pages after the current page',
-                'resolve' => function (LengthAwarePaginator $data): bool {
-                    return $data->hasMorePages();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): bool => $data->hasMorePages(),
                 'selectable' => false,
             ],
         ];
