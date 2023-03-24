@@ -35,9 +35,7 @@ class PaginationType extends ObjectType
             'data' => [
                 'type' => GraphQLType::listOf(GraphQL::type($typeName)),
                 'description' => 'List of items on the current page',
-                'resolve' => function (LengthAwarePaginator $data): Collection {
-                    return $data->getCollection();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): Collection => $data->getCollection(),
             ],
             'total' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
