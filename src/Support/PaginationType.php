@@ -40,9 +40,7 @@ class PaginationType extends ObjectType
             'total' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Number of total items selected by the query',
-                'resolve' => function (LengthAwarePaginator $data): int {
-                    return $data->total();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): int => $data->total(),
                 'selectable' => false,
             ],
             'per_page' => [
