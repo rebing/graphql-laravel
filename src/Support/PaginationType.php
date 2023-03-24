@@ -46,9 +46,7 @@ class PaginationType extends ObjectType
             'per_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Number of items returned per page',
-                'resolve' => function (LengthAwarePaginator $data): int {
-                    return $data->perPage();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): int => $data->perPage(),
                 'selectable' => false,
             ],
             'current_page' => [
