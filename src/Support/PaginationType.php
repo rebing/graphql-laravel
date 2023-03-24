@@ -64,9 +64,7 @@ class PaginationType extends ObjectType
             'to' => [
                 'type' => GraphQLType::int(),
                 'description' => 'Number of the last item returned',
-                'resolve' => function (LengthAwarePaginator $data): ?int {
-                    return $data->lastItem();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): ?int => $data->lastItem(),
                 'selectable' => false,
             ],
             'last_page' => [
