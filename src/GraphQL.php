@@ -33,6 +33,7 @@ use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
 use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
+use Rebing\GraphQL\Support\SchemaCache\SchemaCache;
 use Rebing\GraphQL\Support\SimplePaginationType;
 
 class GraphQL

@@ -3,12 +3,18 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
+use GraphQL\Error\InvariantViolation;
+use GraphQL\Language\AST\Node;
+use GraphQL\Language\AST\StringValueNode;
+use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
-use Rebing\GraphQL\SchemaCache;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
+use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
+use Rebing\GraphQL\Support\SchemaCache\SchemaCache;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
 
@@ -39,6 +45,10 @@ class SchemaCacheTest extends TestCase
         $app['config']->set('graphql.schemas.default.cache', true);
 
         $app['config']->set('graphql.schemas.default.query.notInstantiated', NotInstantiatedQuery::class);
+        $app['config']->set('graphql.schemas.default.query.returnScalar', ReturnScalarQuery::class);
+        $app['config']->set('graphql.schemas.default.query.examplesPagination', ExamplesPaginationQuery::class);
+
+        $app['config']->set('graphql.schemas.default.types.TestScalar', TestScalar::class);
 
         $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
     }
@@ -71,7 +81,7 @@ class SchemaCacheTest extends TestCase
         self::assertSame(array_keys($schema->getTypeMap()), array_keys($schemaFromCache->getTypeMap()));
     }
 
-    public function testResolveWithSchemaCache(): void
+    public function testUnrelatedTypeIsNotInstantiated(): void
     {
         $this->schemaCache->set('default', GraphQL::schema());
 
@@ -101,6 +111,49 @@ class SchemaCacheTest extends TestCase
         self::assertSame($expectedResult, $result);
 
         $otherQueryMock->shouldNotHaveReceived('toArray');
+    }
+
+    public function testSchemaCacheWithScalar(): void
+    {
+        $this->schemaCache->set('default', GraphQL::schema());
+
+        GraphQL::clearSchema('default');
+
+        $result = $this->call('GET', '/graphql', [
+            'query' => '{ returnScalar }',
+        ])->assertOk()->json();
+
+        $expected = [
+            'data' => [
+                'returnScalar' => 'JUST A STRING',
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
+
+    public function testSchemaCacheWithPaginateType(): void
+    {
+        $this->schemaCache->set('default', GraphQL::schema());
+
+        GraphQL::clearSchema('default');
+
+        $result = $this->call('GET', '/graphql', [
+            'query' => '{ examplesPagination(take: 3, page: 1) { data { test } total } }',
+        ])->assertOk()->json();
+
+        $expected = [
+            'data' => [
+                'examplesPagination' => [
+                    'data' => [
+                        ['test' => 'Example 1'],
+                        ['test' => 'Example 2'],
+                        ['test' => 'Example 3'],
+                    ],
+                    'total' => 3,
+                ],
+            ],
+        ];
+        self::assertSame($expected, $result);
     }
 }
 
@@ -139,5 +192,49 @@ class ExampleSchema implements ConfigConvertible
             ],
             'cache' => true,
         ];
+    }
+}
+
+class TestScalar extends ScalarType implements TypeConvertible
+{
+    public function serialize($value)
+    {
+        return strtoupper($value);
+    }
+
+    public function parseValue($value)
+    {
+        return $value;
+    }
+
+    public function parseLiteral(Node $valueNode, ?array $variables = null)
+    {
+        if (!$valueNode instanceof StringValueNode) {
+            throw new InvariantViolation('Expected node of type ' . StringValueNode::class . ' , got ' . \get_class($valueNode));
+        }
+
+        return $valueNode->value;
+    }
+
+    public function toType(): Type
+    {
+        return new self();
+    }
+}
+
+class ReturnScalarQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'returnScalar',
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('TestScalar');
+    }
+
+    public function resolve(): string
+    {
+        return 'just a string';
     }
 }

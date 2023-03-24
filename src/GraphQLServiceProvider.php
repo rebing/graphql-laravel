@@ -21,6 +21,7 @@ use Rebing\GraphQL\Console\ScalarMakeCommand;
 use Rebing\GraphQL\Console\SchemaConfigMakeCommand;
 use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Console\UnionMakeCommand;
+use Rebing\GraphQL\Support\SchemaCache\SchemaCache;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
