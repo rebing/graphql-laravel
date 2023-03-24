@@ -52,9 +52,7 @@ class PaginationType extends ObjectType
             'current_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
                 'description' => 'Current page of the cursor',
-                'resolve' => function (LengthAwarePaginator $data): int {
-                    return $data->currentPage();
-                },
+                'resolve' => fn (LengthAwarePaginator $data): int => $data->currentPage(),
                 'selectable' => false,
             ],
             'from' => [
