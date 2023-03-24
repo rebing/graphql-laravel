@@ -971,6 +971,46 @@ parameters:
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php

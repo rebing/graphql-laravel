@@ -3,9 +3,13 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database;
 
+use GraphQL\Utils\SchemaPrinter;
 use Illuminate\Support\Carbon;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery;
+use Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostQueryWithNonInjectableTypehintsQuery;
@@ -35,6 +39,8 @@ class SelectFieldsTest extends TestCaseDatabase
 
         $app['config']->set('graphql.schemas.default', [
             'query' => [
+                PostNonNullPaginationQuery::class,
+                PostNonNullSimplePaginationQuery::class,
                 PostNonNullWithSelectFieldsAndModelQuery::class,
                 PostQuery::class,
                 PostsListOfWithSelectFieldsAndModelQuery::class,
@@ -612,5 +618,180 @@ SQL
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
+    }
+
+    public function testPostNonNullPaginationQuery(): void
+    {
+        /** @var Post $post */
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<'GRAQPHQL'
+{
+  postNonNullPaginationQuery {
+    data {
+      id,
+      title,
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select count(*) as aggregate from "posts";
+select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
+SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'postNonNullPaginationQuery' => [
+                    'data' => [
+                        [
+                            'id' => "$post->id",
+                            'title' => 'Title of the post',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals($expectedResult, $response->json());
+    }
+
+    public function testPostNonNullPaginationTypes(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'postNonNullPaginationQuery' => PostNonNullPaginationQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = <<<'GQL'
+type PostWithModelPagination {
+  """List of items on the current page"""
+  data: [PostWithModel!]
+
+  """Number of total items selected by the query"""
+  total: Int!
+
+  """Number of items returned per page"""
+  per_page: Int!
+
+  """Current page of the cursor"""
+  current_page: Int!
+
+  """Number of the first item returned"""
+  from: Int
+
+  """Number of the last item returned"""
+  to: Int
+
+  """The last page (number of pages)"""
+  last_page: Int!
+
+  """Determines if cursor has more pages after the current page"""
+  has_more_pages: Boolean!
+}
+
+type Query {
+  postNonNullPaginationQuery: PostWithModelPagination!
+}
+GQL;
+
+        self::assertStringContainsString($queryFragment, $gql);
+    }
+
+    public function testPostNonNullSimplePaginationQuery(): void
+    {
+        /** @var Post $post */
+        $post = factory(Post::class)->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<'GRAQPHQL'
+{
+  postNonNullSimplePaginationQuery {
+    data {
+      id,
+      title,
+    }
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $response = $this->call('GET', '/graphql', [
+            'query' => $graphql,
+        ]);
+
+        $this->assertSqlQueries('select "posts"."id", "posts"."title" from "posts" limit 16 offset 0;');
+
+        $expectedResult = [
+            'data' => [
+                'postNonNullSimplePaginationQuery' => [
+                    'data' => [
+                        [
+                            'id' => "$post->id",
+                            'title' => 'Title of the post',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals($expectedResult, $response->json());
+    }
+
+    public function testPostNonNullSimplePaginationTypes(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'postNonNullSimplePaginationQuery' => PostNonNullSimplePaginationQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = <<<'GQL'
+type PostWithModelSimplePagination {
+  """List of items on the current page"""
+  data: [PostWithModel!]
+
+  """Number of items returned per page"""
+  per_page: Int!
+
+  """Current page of the cursor"""
+  current_page: Int!
+
+  """Number of the first item returned"""
+  from: Int
+
+  """Number of the last item returned"""
+  to: Int
+
+  """Determines if cursor has more pages after the current page"""
+  has_more_pages: Boolean!
+}
+
+type Query {
+  postNonNullSimplePaginationQuery: PostWithModelSimplePagination!
+}
+GQL;
+
+        self::assertStringContainsString($queryFragment, $gql);
     }
 }

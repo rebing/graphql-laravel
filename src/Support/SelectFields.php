@@ -185,7 +185,7 @@ class SelectFields
                     static::handleFields(
                         $queryArgs,
                         $field,
-                        $fieldType->getWrappedType(),
+                        $fieldType->getWrappedType(true),
                         $select,
                         $with,
                         $ctx

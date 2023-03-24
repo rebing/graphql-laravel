@@ -456,7 +456,7 @@ class GraphQL
 
     public function paginate(string $typeName, string $customName = null): Type
     {
-        $name = $customName ?: $typeName . 'Pagination';
+        $name = $customName ?: rtrim($typeName, '!') . 'Pagination';
 
         if (!isset($this->typesInstances[$name])) {
             $paginationType = $this->config->get('graphql.pagination_type', PaginationType::class);
@@ -468,7 +468,7 @@ class GraphQL
 
     public function simplePaginate(string $typeName, string $customName = null): Type
     {
-        $name = $customName ?: $typeName . 'SimplePagination';
+        $name = $customName ?: rtrim($typeName, '!') . 'SimplePagination';
 
         if (!isset($this->typesInstances[$name])) {
             $paginationType = $this->config->get('graphql.simple_pagination_type', SimplePaginationType::class);
