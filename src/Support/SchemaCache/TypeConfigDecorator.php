@@ -63,7 +63,7 @@ class TypeConfigDecorator
      */
     protected function decorateOperation(array $config): array
     {
-        $config['fields'] = function () use ($config) {
+        $config['fields'] = function () use ($config): array {
             $name = strtolower($config['name']);
             $fields = $config['fields']();
 
@@ -104,7 +104,16 @@ class TypeConfigDecorator
             return $config;
         }
 
-        $config['fields'] = function () use ($config, $className) {
+        $config['model'] = function () use ($className): ?string {
+            /** @var \Rebing\GraphQL\Support\Type $type */
+            $type = app($className);
+
+            $attributes = $type->getAttributes();
+
+            return $attributes['model'] ?? null;
+        };
+
+        $config['fields'] = function () use ($config, $className): array {
             /** @var \Rebing\GraphQL\Support\Type $type */
             $type = app($className);
 
@@ -131,7 +140,7 @@ class TypeConfigDecorator
             return $config;
         }
 
-        $config['fields'] = function () use ($config, $typeName, $className) {
+        $config['fields'] = function () use ($config, $typeName, $className): array {
             if (is_subclass_of($className, AbstractPaginationType::class)) {
                 $type = new $className($typeName);
 
@@ -173,11 +182,22 @@ class TypeConfigDecorator
     {
         $fields = $config['fields']();
 
+        $props = [
+            'alias',
+            'always',
+            'is_relation',
+            'privacy',
+            'resolve',
+            'selectable',
+        ];
+
         foreach ($fields as &$field) {
             $fieldName = $field['astNode']->name->value;
 
-            if (isset($fieldDefinitions[$fieldName]['resolve'])) {
-                $field['resolve'] = $fieldDefinitions[$fieldName]['resolve'];
+            foreach ($props as $prop) {
+                if (isset($fieldDefinitions[$fieldName][$prop])) {
+                    $field[$prop] = $fieldDefinitions[$fieldName][$prop];
+                }
             }
         }
 

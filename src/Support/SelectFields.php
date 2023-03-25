@@ -79,6 +79,11 @@ class SelectFields
         if ($parentType instanceof WrappingType) {
             $parentType = $parentType->getInnermostType();
         }
+
+        if (isset($parentType->config['model']) && $parentType->config['model'] instanceof Closure) {
+            $parentType->config['model'] = $parentType->config['model']();
+        }
+
         $parentTable = static::getTableNameFromParentType($parentType);
         $primaryKey = static::getPrimaryKeyFromParentType($parentType);
 
