@@ -22,4 +22,7 @@
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="GRAPHQL_SCHEMA_CACHE" value="false"/>
+    </php>
 </phpunit>
