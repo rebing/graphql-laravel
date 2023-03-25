@@ -8,34 +8,38 @@ use GraphQL\Type\Schema;
 use GraphQL\Utils\AST;
 use GraphQL\Utils\BuildSchema;
 use GraphQL\Utils\SchemaPrinter;
+use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Contracts\Foundation\Application;
 use Rebing\GraphQL\GraphQL;
-use function Safe\file_get_contents;
-use function Safe\file_put_contents;
 use function Safe\json_decode;
 use function Safe\json_encode;
-use function Safe\unlink;
 
 class SchemaCache
 {
-    protected Application $app;
     protected Cache $cache;
-    protected Config $config;
+
+    /** @var array{enable: bool, cache_driver: string, cache_prefix: string} */
+    protected array $cacheConfigs;
+
     /** @var array<string, array<string, mixed>> */
     protected array $schemaConfigs = [];
 
-    public function __construct(Application $app, Cache $cache, Config $config)
+    public function __construct(Config $config, CacheFactory $cache)
     {
-        $this->app = $app;
-        $this->cache = $cache;
-        $this->config = $config;
+        $this->cacheConfigs = $config->get('graphql.schema_cache');
+
+        $this->cache = $cache->store($this->cacheConfigs['cache_driver'] ?? null);
     }
 
     public function enabled(string $schemaName): bool
     {
-        return $this->getSchemaConfig($schemaName)['cache'] ?? false;
+        return $this->cacheConfigs['enable'] && !($this->getSchemaConfig($schemaName)['disable_cache'] ?? false);
+    }
+
+    protected function getCacheKey(string $schemaName): string
+    {
+        return $this->cacheConfigs['cache_prefix'] . ':' . $schemaName;
     }
 
     public function set(string $schemaName, Schema $schema): void
@@ -44,21 +48,23 @@ class SchemaCache
 
         $document = Parser::parse($gql);
 
-        file_put_contents(
-            $this->getSchemaCachePath($schemaName),
+        $this->cache->put(
+            $this->getCacheKey($schemaName),
             json_encode($document->toArray())
         );
     }
 
     public function get(string $schemaName): ?Schema
     {
-        if (!file_exists($path = $this->getSchemaCachePath($schemaName))) {
+        $json = $this->cache->get($this->getCacheKey($schemaName));
+
+        if (!$json) {
             return null;
         }
 
         /** @var \GraphQL\Language\AST\DocumentNode $ast */
         $ast = AST::fromArray(
-            json_decode(file_get_contents($path), true)
+            json_decode($json, true)
         );
 
         return BuildSchema::buildAST(
@@ -68,16 +74,9 @@ class SchemaCache
         );
     }
 
-    public function flush(string $schemaName): void
+    public function forget(string $schemaName): void
     {
-        if (file_exists($path = $this->getSchemaCachePath($schemaName))) {
-            unlink($path);
-        }
-    }
-
-    protected function getSchemaCachePath(string $schemaName): string
-    {
-        return $this->app->storagePath() . "/app/schema-cache-$schemaName.json";
+        $this->cache->forget($this->getCacheKey($schemaName));
     }
 
     protected function getTypeConfigDecorator(string $schemaName): callable

@@ -9,14 +9,17 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Http\UploadedFile;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\SchemaCache\SchemaCache;
+use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
+use Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation;
 
 class SchemaCacheTest extends TestCase
 {
@@ -32,7 +35,7 @@ class SchemaCacheTest extends TestCase
     protected function tearDown(): void
     {
         foreach (self::provideSchemaNames() as [$schemaName]) {
-            $this->schemaCache->flush($schemaName);
+            $this->schemaCache->forget($schemaName);
         }
 
         parent::tearDown();
@@ -42,15 +45,28 @@ class SchemaCacheTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('graphql.schemas.default.cache', true);
+        $app['config']->set('graphql.schema_cache', [
+            'enable' => true,
+            'cache_prefix' => 'graphql.schema_cache',
+        ]);
 
         $app['config']->set('graphql.schemas.default.query.notInstantiated', NotInstantiatedQuery::class);
         $app['config']->set('graphql.schemas.default.query.returnScalar', ReturnScalarQuery::class);
         $app['config']->set('graphql.schemas.default.query.examplesPagination', ExamplesPaginationQuery::class);
 
+        $app['config']->set('graphql.schemas.default.mutation.uploadSingleFile', UploadSingleFileMutation::class);
+
         $app['config']->set('graphql.schemas.default.types.TestScalar', TestScalar::class);
+        $app['config']->set('graphql.types.Upload', UploadType::class);
 
         $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
+    }
+
+    private function cacheSchema(): void
+    {
+        $this->schemaCache->set('default', GraphQL::schema());
+
+        GraphQL::clearSchema('default');
     }
 
     /**
@@ -83,9 +99,7 @@ class SchemaCacheTest extends TestCase
 
     public function testUnrelatedTypeIsNotInstantiated(): void
     {
-        $this->schemaCache->set('default', GraphQL::schema());
-
-        GraphQL::clearSchema('default');
+        $this->cacheSchema();
 
         $otherQueryMock = $this->mock(NotInstantiatedQuery::class);
 
@@ -115,9 +129,7 @@ class SchemaCacheTest extends TestCase
 
     public function testSchemaCacheWithScalar(): void
     {
-        $this->schemaCache->set('default', GraphQL::schema());
-
-        GraphQL::clearSchema('default');
+        $this->cacheSchema();
 
         $result = $this->call('GET', '/graphql', [
             'query' => '{ returnScalar }',
@@ -131,11 +143,9 @@ class SchemaCacheTest extends TestCase
         self::assertSame($expected, $result);
     }
 
-    public function testSchemaCacheWithPaginateType(): void
+    public function testSchemaCacheWithPaginationType(): void
     {
-        $this->schemaCache->set('default', GraphQL::schema());
-
-        GraphQL::clearSchema('default');
+        $this->cacheSchema();
 
         $result = $this->call('GET', '/graphql', [
             'query' => '{ examplesPagination(take: 3, page: 1) { data { test } total } }',
@@ -154,6 +164,37 @@ class SchemaCacheTest extends TestCase
             ],
         ];
         self::assertSame($expected, $result);
+    }
+
+    public function testSchemaCacheWithUploadScalar(): void
+    {
+        $this->cacheSchema();
+
+        $fileToUpload = UploadedFile::fake()->create('file.txt');
+        $fileContent = "This is the\nuploaded\ndata";
+        \Safe\fwrite($fileToUpload->tempFile, $fileContent);
+
+        $content = $this->call(
+            'POST',
+            '/graphql',
+            [
+                'operations' => \Safe\json_encode([
+                    'query' => 'mutation($file: Upload!) { uploadSingleFile(file: $file) }',
+                    'variables' => [
+                        'file' => null,
+                    ],
+                ]),
+                'map' => \Safe\json_encode([
+                    '0' => ['variables.file'],
+                ]),
+            ],
+            [],
+            ['0' => $fileToUpload],
+            ['CONTENT_TYPE' => 'multipart/form-data']
+        )->assertOk()->json();
+
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
     }
 }
 

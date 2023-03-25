@@ -94,8 +94,8 @@ return [
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
 
-            // Enable schema cache
-            'cache' => 'local' !== env('APP_ENV'),
+            // Disable schema cache for this schema
+            'disable_cache' => false,
         ],
     ],
 
@@ -205,6 +205,18 @@ return [
 
         // The cache ttl in seconds - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
         'cache_ttl' => 300,
+    ],
+
+    /*
+     * Schema cache
+     */
+    'schema_cache' => [
+        // Enable/disable the schema cache. It is possible to disable the schema cache for a specific schema, see schema config example.
+        'enable' => env('GRAPHQL_SCHEMA_CACHE', 'local' !== env('APP_ENV')),
+
+        'cache_driver' => env('GRAPHQL_SCHEMA_CACHE_DRIVER', config('cache.default')),
+
+        'cache_prefix' => env('GRAPHQL_SCHEMA_CACHE_PREFIX', 'graphql.schema_cache'),
     ],
 
     /*
