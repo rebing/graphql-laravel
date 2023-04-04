@@ -24,7 +24,7 @@ abstract class TestCaseDatabase extends TestCase
         $uses = parent::setUpTraits();
 
         if (isset($uses[SqlAssertionTrait::class])) {
-            $this->setupSqlAssertionTrait();
+            $this->setupTraitForSqlAssertion();
         }
 
         return $uses;

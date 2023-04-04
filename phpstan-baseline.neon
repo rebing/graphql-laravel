@@ -1301,7 +1301,7 @@ parameters:
 			path: tests/TestCase.php
 
 		-
-			message: "#^Call to an undefined method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setupSqlAssertionTrait\\(\\)\\.$#"
+			message: "#^Call to an undefined method Rebing\\\\GraphQL\\\\Tests\\\\TestCaseDatabase\\:\\:setupTraitForSqlAssertion\\(\\)\\.$#"
 			count: 1
 			path: tests/TestCaseDatabase.php
 
