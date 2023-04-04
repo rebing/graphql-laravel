@@ -24,7 +24,7 @@ trait SqlAssertionTrait
      */
     protected $sqlQueryEvents = [];
 
-    protected function setupSqlAssertionTrait(): void
+    protected function setupTraitForSqlAssertion(): void
     {
         $this->sqlCounterReset();
 

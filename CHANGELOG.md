@@ -52,6 +52,10 @@ CHANGELOG
   'Mutation' and 'Subscription'
 - Return types were added to all methods of the commands [\#1005 / sforward](https://github.com/rebing/graphql-laravel/pull/1005)
 
+### Removed
+- Remove unused publish command [\#1004 / sforward](https://github.com/rebing/graphql-laravel/pull/1004)
+  A leftover from the Lumen removal yers ago (#772)
+
 2023-02-18, 8.6.0
 -----------------
 ### Added
