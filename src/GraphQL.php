@@ -228,7 +228,12 @@ class GraphQL
     {
         if (!$name) {
             $type = \is_object($class) ? $class : $this->app->make($class);
-            $name = $type->name;
+
+            if ($type instanceof Support\Type || $type instanceof Field) {
+                $name = $type->getName();
+            } else {
+                $name = $type->name;
+            }
         }
 
         $this->types[$name] = $class;

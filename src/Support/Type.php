@@ -70,6 +70,11 @@ abstract class Type implements TypeConvertible
         return null;
     }
 
+    public function getName(): ?string
+    {
+        return $this->attributes['name'] ?? $this->attributes()['name'] ?? null;
+    }
+
     /**
      * @return array<string,mixed>
      */

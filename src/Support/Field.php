@@ -285,6 +285,11 @@ abstract class Field
         return $this->aliasArgs($arguments);
     }
 
+    public function getName(): ?string
+    {
+        return $this->attributes['name'] ?? $this->attributes()['name'] ?? null;
+    }
+
     /**
      * Get the attributes from the container.
      */
