@@ -16,11 +16,11 @@ class TypeConfigDecorator
     private array $classMapping;
 
     /**
-     * @param array<string, mixed> $schemaConfig
+     * @param array<string, mixed> $classMapping
      */
-    public function __construct(array $schemaConfig)
+    public function __construct(array $classMapping)
     {
-        $this->classMapping = $this->getClassMapping($schemaConfig);
+        $this->classMapping = $classMapping;
     }
 
     /**
@@ -31,7 +31,7 @@ class TypeConfigDecorator
     public function __invoke(array $config): array
     {
         if ($config['astNode'] instanceof ObjectTypeDefinitionNode) {
-            if (\in_array($config['name'], ['Query', 'Mutation'], true)) {
+            if (\in_array($config['name'], ['Query', 'Mutation', 'Subscription'], true)) {
                 $config = $this->decorateOperation($config);
             } else {
                 $config = $this->decorateType($config);
@@ -41,19 +41,6 @@ class TypeConfigDecorator
         }
 
         return $config;
-    }
-
-    /**
-     * @param array<string, mixed> $schemaConfig
-     *
-     * @return array<string, array<class-string>>
-     */
-    protected function getClassMapping(array $schemaConfig): array
-    {
-        return array_merge_recursive(
-            $schemaConfig,
-            ['types' => Config::get('graphql.types', [])] // add global types
-        );
     }
 
     /**

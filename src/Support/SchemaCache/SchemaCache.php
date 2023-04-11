@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\SchemaCache;
 
 use GraphQL\Language\Parser;
+use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Schema;
 use GraphQL\Utils\AST;
 use GraphQL\Utils\BuildSchema;
@@ -12,11 +13,14 @@ use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use Rebing\GraphQL\GraphQL;
+use Rebing\GraphQL\Support\Field;
+use Rebing\GraphQL\Support\Type;
 use function Safe\json_decode;
 use function Safe\json_encode;
 
 class SchemaCache
 {
+    protected Config $config;
     protected Cache $cache;
 
     /** @var array{enable: bool, cache_driver: string, cache_prefix: string} */
@@ -27,8 +31,8 @@ class SchemaCache
 
     public function __construct(Config $config, CacheFactory $cache)
     {
+        $this->config = $config;
         $this->cacheConfigs = $config->get('graphql.schema_cache');
-
         $this->cache = $cache->store($this->cacheConfigs['cache_driver'] ?? null);
     }
 
@@ -48,23 +52,28 @@ class SchemaCache
 
         $document = Parser::parse($gql);
 
+        $json = json_encode($document->toArray());
+        $mapping = $this->getSchemaConfig($schemaName);
+
         $this->cache->put(
             $this->getCacheKey($schemaName),
-            json_encode($document->toArray())
+            ['json' => $json, 'mapping' => $mapping]
         );
     }
 
     public function get(string $schemaName): ?Schema
     {
-        $json = $this->cache->get($this->getCacheKey($schemaName));
+        $data = $this->cache->get($this->getCacheKey($schemaName));
 
-        if (!$json) {
+        if (!$data || !isset($data['json'], $data['mapping'])) {
             return null;
         }
 
+        $this->schemaConfigs[$schemaName] = $data['mapping'];
+
         /** @var \GraphQL\Language\AST\DocumentNode $ast */
         $ast = AST::fromArray(
-            json_decode($json, true)
+            json_decode($data['json'], true)
         );
 
         return BuildSchema::buildAST(
@@ -89,6 +98,42 @@ class SchemaCache
      */
     protected function getSchemaConfig(string $schemaName): array
     {
-        return $this->schemaConfigs[$schemaName] ??= GraphQL::getNormalizedSchemaConfiguration($schemaName);
+        return $this->schemaConfigs[$schemaName] ??= $this->enrichSchemaConfig(GraphQL::getNormalizedSchemaConfiguration($schemaName));
+    }
+
+    /**
+     * @param array<string, mixed> $schemaConfig
+     *
+     * @return array<string, mixed>
+     */
+    protected function enrichSchemaConfig(array $schemaConfig): array
+    {
+        $namedSchemaConfig = [
+            'types' => $this->config->get('graphql.types', []),
+        ];
+
+        foreach ($schemaConfig as $group => $types) {
+            if (!\is_array($types)) {
+                $namedSchemaConfig[$group] = $types;
+            } else {
+                foreach ($types as $name => $class) {
+                    if (\is_int($name)) {
+                        $instance = app($class);
+
+                        if ($instance instanceof Type || $instance instanceof Field) {
+                            $name = $instance->getName();
+                        } elseif ($instance instanceof NamedType) {
+                            $name = $instance->name();
+                        } else {
+                            $name = $instance->name;
+                        }
+                    }
+
+                    $namedSchemaConfig[$group][$name] = $class;
+                }
+            }
+        }
+
+        return $namedSchemaConfig;
     }
 }

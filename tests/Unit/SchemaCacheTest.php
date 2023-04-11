@@ -60,13 +60,18 @@ class SchemaCacheTest extends TestCase
         $app['config']->set('graphql.types.Upload', UploadType::class);
 
         $app['config']->set('graphql.schemas.class_based', ExampleSchema::class);
+
+        $app['config']->set('graphql.schemas.config_without_names', [
+            'query' => [ReturnScalarQuery::class],
+            'types' => [TestScalar::class],
+        ]);
     }
 
-    private function cacheSchema(): void
+    private function cacheSchema(string $name = 'default'): void
     {
-        $this->schemaCache->set('default', GraphQL::schema());
+        $this->schemaCache->set($name, GraphQL::schema($name));
 
-        GraphQL::clearSchema('default');
+        GraphQL::clearSchema($name);
     }
 
     /**
@@ -77,6 +82,7 @@ class SchemaCacheTest extends TestCase
         return [
             ['default'],
             ['class_based'],
+            ['config_without_names'],
         ];
     }
 
@@ -195,6 +201,22 @@ class SchemaCacheTest extends TestCase
 
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['uploadSingleFile' => $fileContent], $content['data']);
+    }
+
+    public function testSchemaCacheHavingNoTypeNamesInConfig(): void
+    {
+        $this->cacheSchema('config_without_names');
+
+        $result = $this->call('GET', '/graphql/config_without_names', [
+            'query' => '{ returnScalar }',
+        ])->assertOk()->json();
+
+        $expected = [
+            'data' => [
+                'returnScalar' => 'JUST A STRING',
+            ],
+        ];
+        self::assertSame($expected, $result);
     }
 }
 
