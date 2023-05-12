@@ -118,7 +118,7 @@ class GraphQLQueryTest extends TestCase
                     ],
                     'locations' => [
                         [
-                            'line' => 3,
+                            'line' => 2,
                             'column' => 13,
                         ],
                     ],

@@ -38,7 +38,7 @@
         "ext-json": "*",
         "illuminate/contracts": "^8.0|^9.0|^10.0",
         "illuminate/support": "^8.0|^9.0|^10.0",
-        "laragraph/utils": "^1.5",
+        "laragraph/utils": "^2",
         "thecodingmachine/safe": "^1.1|^2.4",
         "webonyx/graphql-php": "^15"
     },
