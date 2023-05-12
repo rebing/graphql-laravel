@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database;
 
+use Laragraph\Utils\BadRequestGraphQLException;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class EmptyQueryTest extends TestCaseDatabase
@@ -22,10 +23,47 @@ class EmptyQueryTest extends TestCaseDatabase
         self::assertSame($expectedError, $result['errors'][0]['message']);
     }
 
-    public function testEmptyBatchedQuery(): void
+    public function testNoExplicitContentType(): void
     {
         $response = $this->call('POST', '/graphql', [
             [],
+            ['query' => null],
+            ['query' => ''],
+            ['query' => ' '],
+            ['query' => '#'],
+        ]);
+
+        self::assertSame(400, $response->getStatusCode());
+
+        $content = (string) $response->getContent();
+
+        self::assertMatchesRegularExpression(
+            ';Could not decode request with content type.*application/x-www-form-urlencoded;',
+            $content
+        );
+    }
+
+    public function testInvalidEmptyBatchQuery(): void
+    {
+        $response = $this->json('POST', '/graphql', [
+            [],
+        ]);
+
+        self::assertSame(400, $response->getStatusCode());
+        $result = $response->getData(true);
+
+        unset($result['file'], $result['line'], $result['trace']);
+
+        $expectedResult = [
+            'message' => 'GraphQL Server expects JSON object or array, but got: [[]].',
+            'exception' => BadRequestGraphQLException::class,
+        ];
+        self::assertSame($expectedResult, $result);
+    }
+
+    public function testEmptyBatchedQuery(): void
+    {
+        $response = $this->json('POST', '/graphql', [
             ['query' => null],
             ['query' => ''],
             ['query' => ' '],
@@ -47,15 +85,6 @@ class EmptyQueryTest extends TestCaseDatabase
         );
 
         $expected = [
-            [
-                'errors' => [
-                    [
-                        'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
-                        'extensions' => [
-                        ],
-                    ],
-                ],
-            ],
             [
                 'errors' => [
                     [
