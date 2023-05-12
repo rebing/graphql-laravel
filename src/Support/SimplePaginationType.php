@@ -15,12 +15,12 @@ class SimplePaginationType extends ObjectType
     {
         $name = $customName ?: $typeName . 'SimplePagination';
 
+        $underlyingType = GraphQL::type($typeName);
+
         $config = [
             'name' => $name,
-            'fields' => $this->getPaginationFields($typeName),
+            'fields' => $this->getPaginationFields($underlyingType),
         ];
-
-        $underlyingType = GraphQL::type($typeName);
 
         if (isset($underlyingType->config['model'])) {
             $config['model'] = $underlyingType->config['model'];
@@ -32,11 +32,11 @@ class SimplePaginationType extends ObjectType
     /**
      * @return array<string, array<string,mixed>>
      */
-    protected function getPaginationFields(string $typeName): array
+    protected function getPaginationFields(ObjectType $underlyingType): array
     {
         return [
             'data' => [
-                'type' => GraphQLType::listOf(GraphQL::type($typeName)),
+                'type' => GraphQLType::nonNull(GraphQLType::listOf(GraphQLType::nonNull($underlyingType))),
                 'description' => 'List of items on the current page',
                 'resolve' => function (Paginator $data): Collection {
                     return $data->getCollection();
