@@ -216,6 +216,11 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
+			message: "#^Parameter \\#1 \\$underlyingType of method Rebing\\\\GraphQL\\\\Support\\\\PaginationType\\:\\:getPaginationFields\\(\\) expects GraphQL\\\\Type\\\\Definition\\\\ObjectType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: src/Support/PaginationType.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Privacy\\:\\:fire\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
 			path: src/Support/Privacy.php
@@ -349,6 +354,11 @@ parameters:
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
+
+		-
+			message: "#^Parameter \\#1 \\$underlyingType of method Rebing\\\\GraphQL\\\\Support\\\\SimplePaginationType\\:\\:getPaginationFields\\(\\) expects GraphQL\\\\Type\\\\Definition\\\\ObjectType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			count: 1
+			path: src/Support/SimplePaginationType.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Type\\:\\:getFieldResolver\\(\\) has parameter \\$field with no value type specified in iterable type array\\.$#"
@@ -1004,6 +1014,36 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullPaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullPaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullSimplePaginationQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Queries\\\\PostNonNullWithSelectFieldsAndModelQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"

@@ -1862,7 +1862,7 @@ class PostsQuery extends Query
 {
     public function type(): Type
     {
-        return Type::nonNull(GraphQL::simplePaginate('posts'));
+        return GraphQL::simplePaginate('posts');
     }
 
     // ...
