@@ -112,11 +112,11 @@ class SchemaCache
             'types' => $this->config->get('graphql.types', []),
         ];
 
-        foreach ($schemaConfig as $group => $types) {
-            if (!\is_array($types)) {
-                $namedSchemaConfig[$group] = $types;
-            } else {
-                foreach ($types as $name => $class) {
+        foreach ($schemaConfig as $group => $value) {
+            if ('disable_cache' === $group) {
+                $namedSchemaConfig[$group] = $value;
+            } elseif (\in_array($group, ['types', 'query', 'mutation', 'subscription'], true)) {
+                foreach ($value as $name => $class) {
                     if (\is_int($name)) {
                         $instance = app($class);
 

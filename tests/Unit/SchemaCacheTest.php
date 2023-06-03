@@ -9,6 +9,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\UploadedFile;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
@@ -65,6 +66,13 @@ class SchemaCacheTest extends TestCase
             'query' => [ReturnScalarQuery::class],
             'types' => [TestScalar::class],
         ]);
+        $app['config']->set('graphql.schemas.config_with_middleware', [
+            'query' => [
+                'examples' => ExamplesQuery::class,
+            ],
+            'middleware' => ['auth'],
+            'method' => ['POST'],
+        ]);
     }
 
     private function cacheSchema(string $name = 'default'): void
@@ -83,6 +91,7 @@ class SchemaCacheTest extends TestCase
             ['default'],
             ['class_based'],
             ['config_without_names'],
+            ['config_with_middleware'],
         ];
     }
 
@@ -214,6 +223,28 @@ class SchemaCacheTest extends TestCase
         $expected = [
             'data' => [
                 'returnScalar' => 'JUST A STRING',
+            ],
+        ];
+        self::assertSame($expected, $result);
+    }
+
+    public function testSchemaCacheWithMiddlewareInConfig(): void
+    {
+        $this->cacheSchema('config_with_middleware');
+
+        $this->actingAs(new User());
+
+        $result = $this->call('POST', '/graphql/config_with_middleware', [
+            'query' => '{ examples { test } }',
+        ])->assertOk()->json();
+
+        $expected = [
+            'data' => [
+                'examples' => [
+                    ['test' => 'Example 1'],
+                    ['test' => 'Example 2'],
+                    ['test' => 'Example 3'],
+                ],
             ],
         ];
         self::assertSame($expected, $result);
