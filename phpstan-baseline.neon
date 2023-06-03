@@ -211,11 +211,6 @@ parameters:
 			path: src/Support/Middleware.php
 
 		-
-			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
-			count: 2
-			path: src/Support/PaginationType.php
-
-		-
 			message: "#^Parameter \\#1 \\$type of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\), GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: src/Support/PaginationType.php
@@ -354,11 +349,6 @@ parameters:
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: src/Support/SelectFields.php
-
-		-
-			message: "#^Anonymous function never returns null so it can be removed from the return type\\.$#"
-			count: 2
-			path: src/Support/SimplePaginationType.php
 
 		-
 			message: "#^Parameter \\#1 \\$type of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\), GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
