@@ -34,13 +34,9 @@ jobs:
       fail-fast: false
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        laravel: [^8.0, ^9.0, ^10.0]
+        laravel: [^9.0, ^10.0]
         exclude:
-          - php: 7.4
-            laravel: ^9.0
           - php: 8.0
-            laravel: ^10.0
-          - php: 7.4
             laravel: ^10.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }}
     runs-on: ubuntu-latest
@@ -58,8 +54,6 @@ jobs:
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev nunomaduro/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
-      - run: composer remove --dev laravel/legacy-factories --no-update
-        if: (matrix.laravel == '^6.0' || matrix.laravel == '^7.0')
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
