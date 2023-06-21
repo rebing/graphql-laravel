@@ -29,7 +29,7 @@ class MiddlewareMakeCommandTest extends TestCase
         );
     }
 
-    public function dataForMakeCommand(): array
+    public static function dataForMakeCommand(): array
     {
         return [
             'Example' => [

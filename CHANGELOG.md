@@ -46,6 +46,7 @@ CHANGELOG
   name have to match.
 - Remove integrated GraphiQL support in favour of https://github.com/mll-lab/laravel-graphiql [\#986 / mfn](https://github.com/rebing/graphql-laravel/pull/986)
 - Laravel 6 is no longer supported [\#967 / mfn](https://github.com/rebing/graphql-laravel/pull/967)
+- Laravel 8 is no longer supported [\#1049 / mfn](https://github.com/rebing/graphql-laravel/pull/1049)
 
 ## Changed
 - The type resolver is now able to resolve the top level types 'Query',

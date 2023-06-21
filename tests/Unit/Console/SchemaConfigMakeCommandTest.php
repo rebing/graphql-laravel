@@ -32,7 +32,7 @@ class SchemaConfigMakeCommandTest extends TestCase
     /**
      * @return array<string,mixed>
      */
-    public function dataForMakeCommand(): array
+    public static function dataForMakeCommand(): array
     {
         return [
             'Example' => [

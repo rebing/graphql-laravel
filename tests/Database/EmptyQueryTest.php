@@ -134,7 +134,7 @@ class EmptyQueryTest extends TestCaseDatabase
     /**
      * @return array<mixed>
      */
-    public function dataForEmptyQuery(): array
+    public static function dataForEmptyQuery(): array
     {
         return [
             // completely empty request

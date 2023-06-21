@@ -10,7 +10,6 @@ use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -241,14 +240,6 @@ class TestCase extends BaseTestCase
                 return $line;
             }, $trace, array_keys($trace))
         );
-    }
-
-    /**
-     * @todo Remove this method once we're PHPUnit 9+ only.
-     */
-    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
-    {
-        self::assertThat($string, new RegularExpression($pattern), $message);
     }
 
     /**
