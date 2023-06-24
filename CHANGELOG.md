@@ -54,6 +54,10 @@ CHANGELOG
 - Return types were added to all methods of the commands [\#1005 / sforward](https://github.com/rebing/graphql-laravel/pull/1005)
 - Upgrade to laragraph/utils v2 [\#1032 / mfn](https://github.com/rebing/graphql-laravel/pull/1032)
 - The `Pagination` and `SimplePagination` helper types no enforce `nonNull` on their data types
+- The test suite now also runs with `--prefer-lowest` [\#1055 / mfn](https://github.com/rebing/graphql-laravel/pull/1055)\
+  This uncovered a few issues with `laragraph/utils` and `webonyx/graphql-php`
+  and thus their minimum version had to be slightly bumped to `2.0.1` nand
+  `15.0.3` respectively.
 
 ### Removed
 - Remove unused publish command [\#1004 / sforward](https://github.com/rebing/graphql-laravel/pull/1004)
