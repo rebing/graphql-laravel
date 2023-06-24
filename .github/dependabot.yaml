@@ -2,12 +2,10 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
-    target-branch: 8.x
     schedule:
       interval: weekly
 
   - package-ecosystem: composer
     directory: /
-    target-branch: 8.x
     schedule:
       interval: weekly
