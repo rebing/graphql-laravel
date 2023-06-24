@@ -35,10 +35,11 @@ jobs:
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
         laravel: [^9.0, ^10.0]
+        stability: [prefer-lowest, prefer-stable]
         exclude:
           - php: 8.0
             laravel: ^10.0
-    name: P=${{ matrix.php }} L=${{ matrix.laravel }}
+    name: P=${{ matrix.php }} L=${{ matrix.laravel }} ${{ matrix.stability }}
     runs-on: ubuntu-latest
     env:
       COMPOSER_NO_INTERACTION: 1
@@ -68,7 +69,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress
+      - run: composer update --prefer-dist --no-progress --${{ matrix.stability }}
 
       - name: Run tests
         run: composer tests
