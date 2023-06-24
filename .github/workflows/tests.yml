@@ -35,10 +35,11 @@ jobs:
       matrix:
         php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
         laravel: [^9.0, ^10.0]
+        stability: [prefer-lowest, prefer-stable]
         exclude:
           - php: 8.0
             laravel: ^10.0
-    name: P=${{ matrix.php }} L=${{ matrix.laravel }}
+    name: P=${{ matrix.php }} L=${{ matrix.laravel }} ${{ matrix.stability }}
     runs-on: ubuntu-latest
     env:
       COMPOSER_NO_INTERACTION: 1
@@ -56,6 +57,8 @@ jobs:
       - run: composer remove --dev nunomaduro/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
+      - run: composer require illuminate/contracts:9.33 --no-update
+        if:  matrix.laravel == '^9.0' && matrix.stability == 'prefer-lowest'
 
       - name: Get composer cache directory
         id: composer-cache
@@ -68,7 +71,7 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress
+      - run: composer update --prefer-dist --no-progress --${{ matrix.stability }}
 
       - name: Run tests
         run: composer tests
