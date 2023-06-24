@@ -38,9 +38,9 @@
         "ext-json": "*",
         "illuminate/contracts": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
-        "laragraph/utils": "^2",
+        "laragraph/utils": "^2.0.1",
         "thecodingmachine/safe": "^2.4",
-        "webonyx/graphql-php": "^15"
+        "webonyx/graphql-php": "^15.0.3"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
