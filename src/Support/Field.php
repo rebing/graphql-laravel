@@ -191,7 +191,7 @@ abstract class Field
         return function () use ($resolver, $authorize) {
             // 0 - the "root" object; `null` for queries, otherwise the parent of a type
             // 1 - the provided `args` of the query or type (if applicable), empty array otherwise
-            // 2 - the "GraphQL query context" (see \Rebing\GraphQL\GraphQLController::queryContext)
+            // 2 - the `$contextValue` (usually set via a GraphQL execution middleware, e.g. `AddAuthUserContextValueMiddleware`)
             // 3 - \GraphQL\Type\Definition\ResolveInfo as provided by the underlying GraphQL PHP library
             // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
             $arguments = \func_get_args();
