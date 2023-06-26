@@ -124,6 +124,8 @@ config/graphql.php
     - [Migrating from Folklore](#migrating-from-folklore)
   - [Performance considerations](#performance-considerations)
     - [Wrap Types](#wrap-types)
+  - [Known Limitations](#known-limitations)
+    - [SelectFields related](#selectfields-related)
   - [GraphQL testing clients](#graphql-testing-clients)
 
 ### Concepts
@@ -2796,6 +2798,12 @@ public function resolve($root, array $args)
     ];
 }
 ```
+
+## Known limitations
+
+### SelectFields related
+- Resolving fields via aliases will only resolve them once, even if the fields
+  have different arguments ([Issue](https://github.com/rebing/graphql-laravel/issues/604)).
 
 ## GraphQL testing clients
  - [Firecamp](https://firecamp.io/graphql)
