@@ -76,7 +76,7 @@ class GraphQLController extends Controller
 
     protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
     {
-        $path = $request->getPathInfo();
+        $path = "/" . $request->route()->uri();
 
         if (!Str::startsWith($path, $routePrefix)) {
             return null;
