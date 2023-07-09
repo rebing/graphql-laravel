@@ -12,14 +12,17 @@ if (empty($routeConfig)) {
 }
 
 $defaultSchemaName = config('graphql.default_schema', 'default');
-$schemasConfig = GraphQL::getNormalizedSchemasConfiguration();
-
 Route::group([
     'prefix' => $routeConfig['prefix'] ?? 'graphql',
     'middleware' => $routeConfig['middleware'] ?? [],
     'as' => 'graphql',
     ...$routeConfig['group_attributes'] ?? [],
-], fn () => collect($schemasConfig)->map(fn ($schemaConfig, $schemaName) => array_merge(
-    [GraphQL::parseRoute($schemaName, $schemaConfig, $routeConfig)],
-    $schemaName === $defaultSchemaName ? [GraphQL::parseRoute($schemaName, $schemaConfig, $routeConfig, '')] : []
-))->flatten(1));
+], function () use (&$defaultSchemaName, &$routeConfig): void {
+    foreach (GraphQL::getNormalizedSchemasConfiguration() as $schemaName => $schemaConfig) {
+        GraphQL::parseRoute($schemaName, $schemaConfig, $routeConfig);
+
+        if ($schemaName === $defaultSchemaName) {
+            GraphQL::parseRoute($schemaName, $schemaConfig, $routeConfig, '');
+        }
+    }
+});
