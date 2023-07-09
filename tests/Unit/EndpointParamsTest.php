@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use Illuminate\Contracts\Config\Repository;
-use Rebing\GraphQL\GraphQLController;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\TestCase;
 
 class EndpointParamsTest extends TestCase
@@ -43,5 +39,4 @@ class EndpointParamsTest extends TestCase
         parent::getEnvironmentSetUp($app);
         $app['config']->set('graphql.route.prefix', 'graphql/{parameter}');
     }
-
 }
