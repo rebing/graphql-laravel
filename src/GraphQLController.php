@@ -1,6 +1,7 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace Rebing\GraphQL;
 
 use GraphQL\Server\OperationParams as BaseOperationParams;
@@ -16,6 +17,7 @@ class GraphQLController extends Controller
 {
     public function query(Request $request, RequestParser $parser, Repository $config, GraphQL $graphql): JsonResponse
     {
+//        $schemaName = $request->route()->parameter('schemaName', $config->get('graphql.default_schema', 'default'));
         $routePrefix = $config->get('graphql.route.prefix', 'graphql');
         $schemaName = $this->findSchemaNameInRequest($request, "/$routePrefix") ?: $config->get('graphql.default_schema', 'default');
 
@@ -57,6 +59,7 @@ class GraphQLController extends Controller
      */
     protected function createBatchingNotSupportedResponse(array $input): array
     {
+
         $count = min(\count($input), 100);
 
         $data = [];
@@ -76,12 +79,10 @@ class GraphQLController extends Controller
 
     protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
     {
-        $path = "/" . $request->route()->uri();
-
-        if (!Str::startsWith($path, $routePrefix)) {
+        $path = str($request->route()->uri())->ltrim('/')->start('/');
+        if (!$path->startsWith($routePrefix)) {
             return null;
         }
-
-        return trim(Str::after($path, $routePrefix), '/');
+        return $path->after($routePrefix)->trim('/')->toString();
     }
 }
