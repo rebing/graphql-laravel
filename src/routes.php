@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use Illuminate\Support\Facades\Route;
 use Rebing\GraphQL\GraphQL;
@@ -37,9 +37,9 @@ $defaultSchemaName = config('graphql.default_schema', 'default');
 $schemasConfig = GraphQL::getNormalizedSchemasConfiguration();
 
 Route::group([
-    'prefix'     => $routeConfig['prefix'] ?? 'graphql',
+    'prefix' => $routeConfig['prefix'] ?? 'graphql',
     'middleware' => $routeConfig['middleware'] ?? [],
-    'as'         => 'graphql',
+    'as' => 'graphql',
     ...$routeConfig['group_attributes'] ?? [],
 ], function () use (&$routeConfig, &$defaultSchemaName, &$schemasConfig): void {
     foreach ($schemasConfig as $schemaName => $schemaConfig) {
