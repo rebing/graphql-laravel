@@ -4,8 +4,16 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      deps:
+        patterns:
+          - '*'
 
   - package-ecosystem: composer
     directory: /
     schedule:
       interval: monthly
+    groups:
+      deps:
+        patterns:
+          - '*'
