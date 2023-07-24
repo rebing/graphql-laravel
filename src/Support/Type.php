@@ -59,7 +59,7 @@ abstract class Type implements TypeConvertible
             };
         }
 
-        if (isset($field['alias']) && \is_string($field['alias'])) {
+        if (isset($field['alias']) && \is_string($field['alias']) && !($this instanceof InputType)) {
             $alias = $field['alias'];
 
             return function ($type) use ($alias) {
