@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.1.0...master)
 --------------
+
+2023-08-06, 9.1.0
+-----------------
 ## Fixed
 - fix schema validation - resolve not allowed in input fields [\#1078 / crissi](https://github.com/rebing/graphql-laravel/pull/1078)
 
