@@ -22,8 +22,6 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleNestedValidationInputObject;
-use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleType as ExampleAliasType;
-use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleValidationInputObject;
 
 class GraphQLTest extends TestCase
 {
@@ -53,17 +51,11 @@ class GraphQLTest extends TestCase
     public function testSchemaIsValidWithInputFieldAliases(): void
     {
         $schema = GraphQL::buildSchemaFromConfig([
-            'mutation' => [
-                'examplesCustom' => \Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\UpdateExampleMutation::class,
-            ],
             'query' => [
                 'examplesCustom' => ExamplesQuery::class,
             ],
 
             'types' => [
-                CustomExampleType::class,
-                ExampleAliasType::class,
-                ExampleValidationInputObject::class,
                 ExampleNestedValidationInputObject::class,
             ],
         ]);
