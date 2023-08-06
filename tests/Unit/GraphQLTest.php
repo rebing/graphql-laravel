@@ -21,6 +21,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\TestCase;
+use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleNestedValidationInputObject;
 
 class GraphQLTest extends TestCase
 {
@@ -42,6 +43,24 @@ class GraphQLTest extends TestCase
         $this->assertGraphQLSchemaHasQuery($schema, 'examplesCustom');
         $this->assertGraphQLSchemaHasMutation($schema, 'updateExampleCustom');
         self::assertArrayHasKey('Example', $schema->getTypeMap());
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testSchemaIsValidWithInputFieldAliases(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examplesCustom' => ExamplesQuery::class,
+            ],
+
+            'types' => [
+                ExampleNestedValidationInputObject::class,
+            ],
+        ]);
+
+        $schema->assertValid();
     }
 
     public function testSchemaWithNameReferencingClass(): void
