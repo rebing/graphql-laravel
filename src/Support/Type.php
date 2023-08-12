@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Support\Str;
+use Rebing\GraphQL\Support\Builder\FieldType;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 
 /**
@@ -89,6 +90,14 @@ abstract class Type implements TypeConvertible
             } elseif ($field instanceof FieldDefinition) {
                 $allFields[$field->name] = $field;
             } else {
+
+                if ($field instanceof FieldType) {
+                    $field->typeName( $this->name);
+
+                    $name  = $field->get(FieldType::NAME);
+                    $field = $field->toArray();
+                }
+
                 $resolver = $this->getFieldResolver($name, $field);
 
                 if ($resolver) {
