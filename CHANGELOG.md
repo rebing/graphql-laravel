@@ -3,6 +3,8 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.1.0...master)
 --------------
+### Changed
+- Implement lazy root types [\#1091 / sforward](https://github.com/rebing/graphql-laravel/pull/1091)
 
 2023-08-06, 9.1.0
 -----------------
