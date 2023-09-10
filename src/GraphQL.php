@@ -365,17 +365,13 @@ class GraphQL
 
         $this->addTypes($schemaTypes);
 
-        $query = $this->objectType($schemaQuery, [
-            'name' => 'Query',
-        ]);
+        $rootTypeResolver = function (string $name, mixed $typeConfig, bool $required = false) {
+            if (!isset($this->typesInstances[$name])) {
+                $this->typesInstances[$name] = $typeConfig || $required ? $this->objectType($typeConfig, ['name' => $name]) : null;
+            }
 
-        $mutation = $schemaMutation
-            ? $this->objectType($schemaMutation, ['name' => 'Mutation'])
-            : null;
-
-        $subscription = $schemaSubscription
-            ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
-            : null;
+            return $this->typesInstances[$name];
+        };
 
         $directives = Directive::getInternalDirectives();
 
@@ -385,9 +381,9 @@ class GraphQL
         }
 
         return new Schema([
-            'query' => $query,
-            'mutation' => $mutation,
-            'subscription' => $subscription,
+            'query' => fn () => $rootTypeResolver('Query', $schemaQuery, true),
+            'mutation' => fn () => $rootTypeResolver('Mutation', $schemaMutation),
+            'subscription' => fn () => $rootTypeResolver('Subscription', $schemaSubscription),
             'directives' => $directives,
             'types' => function () {
                 $types = [];
@@ -399,19 +395,20 @@ class GraphQL
                 return $types;
             },
             'typeLoader' => function ($name) use (
-                $query,
-                $mutation,
-                $subscription
+                $schemaQuery,
+                $schemaMutation,
+                $schemaSubscription,
+                $rootTypeResolver,
             ) {
                 switch ($name) {
                     case 'Query':
-                        return $query;
+                        return $rootTypeResolver($name, $schemaQuery);
 
                     case 'Mutation':
-                        return $mutation;
+                        return $rootTypeResolver($name, $schemaMutation);
 
                     case 'Subscription':
-                        return $subscription;
+                        return $rootTypeResolver($name, $schemaSubscription);
 
                     default:
                         return $this->type($name);
