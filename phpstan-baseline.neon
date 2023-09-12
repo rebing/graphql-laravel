@@ -2,7 +2,7 @@ parameters:
 	ignoreErrors:
 		-
 			message: "#^Cannot access offset 'name' on array\\<string, mixed\\>\\|Rebing\\\\GraphQL\\\\Support\\\\Field\\.$#"
-			count: 2
+			count: 3
 			path: src/GraphQL.php
 
 		-
@@ -11,7 +11,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, non\\-empty\\-array\\<string, array\\<int\\|string, non\\-empty\\-array\\<string, mixed\\>\\|\\(ArrayAccess&Rebing\\\\GraphQL\\\\Support\\\\Field\\)\\>\\|string\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, non\\-empty\\-array\\<string, array\\<int\\|string, non\\-empty\\-array\\<string, mixed\\>\\|\\(ArrayAccess&Rebing\\\\GraphQL\\\\Support\\\\Field\\)\\|\\(Closure\\(\\)\\: \\(array\\<string, mixed\\>\\|Rebing\\\\GraphQL\\\\Support\\\\Field\\)\\)\\>\\|string\\> given\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
@@ -1414,6 +1414,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$visitor of static method GraphQL\\\\Language\\\\Visitor\\:\\:visit\\(\\) expects array\\<string, array\\<string, callable\\(GraphQL\\\\Language\\\\AST\\\\Node\\)\\: \\(GraphQL\\\\Language\\\\VisitorOperation\\|void\\|false\\|null\\)\\>\\|\\(callable\\(GraphQL\\\\Language\\\\AST\\\\Node\\)\\: \\(GraphQL\\\\Language\\\\VisitorOperation\\|void\\|false\\|null\\)\\)\\>, array\\{VariableDefinition\\: Closure\\(mixed, mixed, mixed, mixed, mixed\\)\\: mixed\\} given\\.$#"
 			count: 1
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
+
+		-
+			message: "#^Cannot call method afterResolving\\(\\) on Illuminate\\\\Foundation\\\\Application\\|null\\.$#"
+			count: 1
+			path: tests/Unit/GraphQLQueryTest.php
 
 		-
 			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertIsArray\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
