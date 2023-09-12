@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\SchemaPrinter;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
 
@@ -228,5 +229,37 @@ class GraphQLQueryTest extends TestCase
 }';
 
         self::assertStringContainsString($queryFragment, $gql);
+    }
+
+    public function testOtherQueryClassesArentInitializedUsingNamedSchemaConfig(): void
+    {
+        $this->app->afterResolving(ExamplesFilteredQuery::class, function (): void {
+            $this->fail('Only requested query should become initialized.');
+        });
+
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examples' => ExamplesQuery::class,
+                'examplesFiltered' => ExamplesFilteredQuery::class,
+            ],
+        ]);
+        GraphQL::addSchema('default', $schema);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['examples']);
+
+        $expectedDataResult = [
+            'examples' => [
+                [
+                    'test' => 'Example 1',
+                ],
+                [
+                    'test' => 'Example 2',
+                ],
+                [
+                    'test' => 'Example 3',
+                ],
+            ],
+        ];
+        self::assertSame($expectedDataResult, $result->data);
     }
 }
