@@ -44,11 +44,11 @@
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
-        "friendsofphp/php-cs-fixer": "3.25.0",
+        "friendsofphp/php-cs-fixer": "3.34.0",
         "laravel/legacy-factories": "^1.0",
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.2",
-        "phpstan/phpstan": "1.10.32",
+        "phpstan/phpstan": "1.10.36",
         "nunomaduro/larastan": "2.6.4",
         "orchestra/testbench": "^7.0|^8.0",
         "phpunit/phpunit": "^9",
