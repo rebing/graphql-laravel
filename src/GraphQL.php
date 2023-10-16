@@ -403,19 +403,12 @@ class GraphQL
                 $mutation,
                 $subscription
             ) {
-                switch ($name) {
-                    case 'Query':
-                        return $query;
-
-                    case 'Mutation':
-                        return $mutation;
-
-                    case 'Subscription':
-                        return $subscription;
-
-                    default:
-                        return $this->type($name);
-                }
+                return match ($name) {
+                    'Query' => $query,
+                    'Mutation' => $mutation,
+                    'Subscription' => $subscription,
+                    default => $this->type($name),
+                };
             },
         ]);
     }
