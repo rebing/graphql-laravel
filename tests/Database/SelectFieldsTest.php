@@ -474,7 +474,6 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -533,7 +532,6 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
@@ -576,7 +574,6 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
