@@ -187,11 +187,13 @@ GRAPHQL;
                 SchemaOne\Query::class,
             ],
         ]);
+
         $this->app['config']->set('graphql.schemas.custom', [
             'query' => [
                 SchemaOne\Query::class,
             ],
         ]);
+
         $this->app['config']->set('graphql.types', [
             SchemaOne\Type::class,
         ]);
@@ -204,7 +206,6 @@ GRAPHQL;
 }
 GRAPHQL;
 
-        $actual = $this->httpGraphql($query);
         $expected = [
             'data' => [
                 'query' => [
@@ -212,26 +213,15 @@ GRAPHQL;
                 ],
             ],
         ];
+
+        $actual = $this->httpGraphql($query);
+
         self::assertSame($expected, $actual);
 
-        $query = <<<'GRAPHQL'
-{
-    query {
-        name
-    }
-}
-GRAPHQL;
         $actual = GraphQL::query($query, null, [
             'schema' => 'custom',
         ]);
 
-        $expected = [
-            'data' => [
-                'query' => [
-                    'name' => 'example from schema one',
-                ],
-            ],
-        ];
         self::assertSame($expected, $actual);
     }
 
