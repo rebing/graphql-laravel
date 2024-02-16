@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Inspired by https://github.com/nunomaduro/larastan/blob/669b489e10558bd45fafc2429068fd4a73843802/tests/laravel-test.sh
+# Inspired by https://github.com/larastan/larastan/blob/669b489e10558bd45fafc2429068fd4a73843802/tests/laravel-test.sh
 #
 # Create a fresh Laravel installation, install our package in it and run some
 # basic tests to ensure everything works.

@@ -42,7 +42,7 @@ jobs:
           extensions: pdo_sqlite
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev larastan/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer require illuminate/contracts:9.33 --no-update
