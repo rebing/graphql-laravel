@@ -993,7 +993,10 @@ The first three parameters to the resolve method are hard-coded:
 
 1. The `$root` object this resolve method belongs to (can be `null`)
 2. The arguments passed as `array $args` (can be an empty array)
-3. The query specific GraphQL context, can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
+3. The query specific GraphQL context
+   Can be customized by implementing a custom "execution middleware", see
+   `\Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware`
+   for an example.
 
 Arguments here after will be attempted to be injected, similar to how controller methods works in Laravel.
 
