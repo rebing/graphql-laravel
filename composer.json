@@ -49,7 +49,7 @@
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.2",
         "phpstan/phpstan": "1.10.40",
-        "nunomaduro/larastan": "2.6.4",
+        "larastan/larastan": "2.6.4",
         "orchestra/testbench": "^7.0|^8.0",
         "phpunit/phpunit": "^9",
         "thecodingmachine/phpstan-safe-rule": "^1"
