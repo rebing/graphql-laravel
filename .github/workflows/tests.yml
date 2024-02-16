@@ -17,23 +17,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  supported-versions-matrix:
-    name: Supported Versions Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.supported-versions-matrix.outputs.version }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: supported-versions-matrix
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
-
   tests:
-    needs:
-      - supported-versions-matrix
     strategy:
       fail-fast: false
       matrix:
-        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
+        php: [8.0, 8.1, 8.2, 8.3]
         laravel: [^9.0, ^10.0]
         stability: [prefer-lowest, prefer-stable]
         exclude:
@@ -54,7 +42,7 @@ jobs:
           extensions: pdo_sqlite
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev larastan/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer require illuminate/contracts:9.33 --no-update
