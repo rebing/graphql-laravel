@@ -36,8 +36,8 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "illuminate/contracts": "^9.0|^10.0",
-        "illuminate/support": "^9.0|^10.0",
+        "illuminate/contracts": "^9.0|^10.0|^11.0",
+        "illuminate/support": "^9.0|^10.0|^11.0",
         "laragraph/utils": "^2.0.1",
         "thecodingmachine/safe": "^2.4",
         "webonyx/graphql-php": "^15.0.3"
@@ -50,8 +50,8 @@
         "mockery/mockery": "^1.2",
         "phpstan/phpstan": "1.10.40",
         "larastan/larastan": "2.6.4",
-        "orchestra/testbench": "^7.0|^8.0",
-        "phpunit/phpunit": "^9",
+        "orchestra/testbench": "^7.0|^8.0|^9.0|^9.x-dev",
+        "phpunit/phpunit": "^9|^10",
         "thecodingmachine/phpstan-safe-rule": "^1"
     },
     "autoload": {
