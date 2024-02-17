@@ -12,10 +12,10 @@
 >
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix=".php">./tests/Unit</directory>
+      <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
     <testsuite name="Database">
-      <directory suffix=".php">./tests/Database</directory>
+      <directory suffix="Test.php">./tests/Database</directory>
     </testsuite>
   </testsuites>
   <source>
