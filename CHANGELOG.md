@@ -1,8 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.2.0...master)
 --------------
+
+2024-02-18, 9.2.0
+-----------------
 
 ## Added
 - Support Laravel for 11 [\#1117 / mfn](https://github.com/rebing/graphql-laravel/pull/1117)
