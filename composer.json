@@ -47,8 +47,8 @@
         "friendsofphp/php-cs-fixer": "3.37.1",
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.2",
-        "phpstan/phpstan": "1.10.40",
-        "larastan/larastan": "2.6.4",
+        "phpstan/phpstan": "^1",
+        "larastan/larastan": "^2",
         "orchestra/testbench": "^7.0|^8.0|^9.0|^9.x-dev",
         "phpunit/phpunit": "^9|^10",
         "thecodingmachine/phpstan-safe-rule": "^1"
