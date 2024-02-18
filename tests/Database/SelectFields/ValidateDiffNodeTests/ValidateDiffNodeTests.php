@@ -35,15 +35,15 @@ class ValidateDiffNodeTests extends TestCaseDatabase
     public function testDiffValueNodeAndNestedValueNodeArgs(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class)
+                Post::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                factory(Post::class)
+                Post::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);

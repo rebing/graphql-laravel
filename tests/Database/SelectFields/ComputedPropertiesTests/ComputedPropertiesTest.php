@@ -32,11 +32,11 @@ class ComputedPropertiesTest extends TestCaseDatabase
     public function testComputedProperty(): void
     {
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
         ]);
 
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'user_id' => $user->id,
         ]);
 

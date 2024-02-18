@@ -37,11 +37,11 @@ class SearchUnionTest extends TestCaseDatabase
     public function testCustomQueryIsExecutedUsingUnionTypeOnQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create();
+        $post = Post::factory()->create();
         /** @var Comment $comment1 */
-        $comment1 = factory(Comment::class)->create(['post_id' => $post->id, 'title' => 'lorem']);
+        $comment1 = Comment::factory()->create(['post_id' => $post->id, 'title' => 'lorem']);
         /** @var Comment $comment2 */
-        $comment2 = factory(Comment::class)->create(['post_id' => $post->id, 'title' => 'ipsum']);
+        $comment2 = Comment::factory()->create(['post_id' => $post->id, 'title' => 'ipsum']);
 
         $query = <<<'GRAQPHQL'
 query ($id: String!) {

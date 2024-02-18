@@ -4,11 +4,14 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Rebing\GraphQL\Tests\Support\database\factories\PostFactory;
 
 /**
  * @property int $id
@@ -24,6 +27,8 @@ use Illuminate\Support\Carbon;
  */
 class Post extends Model
 {
+    use HasFactory;
+
     /** @var string[] */
     protected $dates = [
         'published_at',
@@ -54,5 +59,10 @@ class Post extends Model
         $publishedAt = $this->published_at;
 
         return null !== $publishedAt;
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return PostFactory::new();
     }
 }

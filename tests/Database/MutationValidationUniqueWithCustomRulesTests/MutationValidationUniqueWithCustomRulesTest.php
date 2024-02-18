@@ -25,7 +25,7 @@ class MutationValidationUniqueWithCustomRulesTest extends TestCaseDatabase
     public function testUniquePassRulePass(): void
     {
         /* @var User $user */
-        factory(User::class)
+        User::factory()
             ->create([
                 'name' => 'name_unique',
             ]);
@@ -62,7 +62,7 @@ SQL
     public function testUniqueFailRulePass(): void
     {
         /* @var User $user */
-        factory(User::class)
+        User::factory()
             ->create([
                 'name' => 'name_unique',
             ]);
@@ -118,7 +118,7 @@ SQL
     public function testUniquePassRuleFail(): void
     {
         /* @var User $user */
-        factory(User::class)
+        User::factory()
             ->create([
                 'name' => 'name_unique',
             ]);
@@ -168,7 +168,7 @@ GRAPHQL;
     public function testUniqueFailRuleFail(): void
     {
         /* @var User $user */
-        factory(User::class)
+        User::factory()
             ->create([
                 'name' => 'name_unique',
             ]);
@@ -225,7 +225,7 @@ SQL
     public function testErrorExtension(): void
     {
         /* @var User $user */
-        factory(User::class)
+        User::factory()
             ->create([
                 'name' => 'name_unique',
             ]);
