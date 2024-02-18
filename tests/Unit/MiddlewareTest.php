@@ -14,7 +14,7 @@ class MiddlewareTest extends TestCase
             'index' => 0,
         ]);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
 
         self::assertEquals($result->data, [
             'examplesMiddleware' => [$this->data[0]],
@@ -27,7 +27,7 @@ class MiddlewareTest extends TestCase
             'index' => 4, // there is no index 4
         ]);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
 
         self::assertEquals($result->data, [
             'examplesMiddleware' => [$this->data[0]], // switched to index 0 in middleware
@@ -40,7 +40,7 @@ class MiddlewareTest extends TestCase
             'index' => 1,
         ]);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
 
         self::assertEquals(
             [
@@ -56,7 +56,7 @@ class MiddlewareTest extends TestCase
             'index' => 5,
         ]);
 
-        self::assertObjectHasAttribute('errors', $result);
+        self::assertObjectHasProperty('errors', $result);
         self::assertSame('Index 5 is not allowed', $result->errors[0]->getMessage());
     }
 
@@ -66,7 +66,7 @@ class MiddlewareTest extends TestCase
             'index' => 2,
         ]);
 
-        self::assertObjectHasAttribute('errors', $result);
+        self::assertObjectHasProperty('errors', $result);
         self::assertSame('Example 3 is not allowed', $result->errors[0]->getMessage());
     }
 
@@ -76,7 +76,7 @@ class MiddlewareTest extends TestCase
             'index' => 6,
         ]);
 
-        self::assertObjectHasAttribute('errors', $result);
+        self::assertObjectHasProperty('errors', $result);
         self::assertMatchesRegularExpression('/^Undefined .* 6$/', $result->errors[0]->getMessage());
     }
 }

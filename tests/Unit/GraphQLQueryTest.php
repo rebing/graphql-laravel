@@ -14,7 +14,7 @@ class GraphQLQueryTest extends TestCase
     {
         $result = GraphQL::queryAndReturnResult($this->queries['examples']);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
 
         self::assertEquals($result->data, [
             'examples' => $this->data,
@@ -36,7 +36,7 @@ class GraphQLQueryTest extends TestCase
             'index' => 0,
         ]);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
         self::assertCount(0, $result->errors);
         self::assertEquals($result->data, [
             'examples' => [
@@ -53,7 +53,7 @@ class GraphQLQueryTest extends TestCase
             ],
         ]);
 
-        self::assertObjectHasAttribute('data', $result);
+        self::assertObjectHasProperty('data', $result);
         // When XDebug is used with breaking on exceptions the real error will
         // be visible in case the recursion for getInputTypeRules runs away.
         // GraphQL\Error\Error: Maximum function nesting level of '256' reached, aborting!
