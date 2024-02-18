@@ -2,13 +2,7 @@
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
-        backupGlobals="false"
-        backupStaticProperties="false"
-        bootstrap="vendor/autoload.php"
         cacheDirectory=".phpunit.result.cache"
-        colors="true"
-        processIsolation="false"
-        stopOnFailure="false"
 >
   <testsuites>
     <testsuite name="Unit">
