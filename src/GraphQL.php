@@ -332,13 +332,29 @@ class GraphQL
         $typeFields = [];
 
         foreach ($fields as $name => $field) {
-            if (\is_string($field)) {
-                $field = $this->app->make($field);
-                /** @var Field $field */
-                $field = $field->toArray();
+            $fieldResolver = function () use ($field, $name) {
+                if (\is_string($field)) {
+                    $field = $this->app->make($field);
+                    /** @var Field $field */
+                    $field = $field->toArray();
+                }
+
+                if (!is_numeric($name)) {
+                    $field['name'] = $name;
+                }
+
+                return $field;
+            };
+
+            if (is_numeric($name)) {
+                $field = $fieldResolver();
+
+                $name = $field['name'];
+                $field['name'] = $name;
+            } else {
+                $field = $fieldResolver;
             }
-            $name = is_numeric($name) ? $field['name'] : $name;
-            $field['name'] = $name;
+
             $typeFields[$name] = $field;
         }
 
