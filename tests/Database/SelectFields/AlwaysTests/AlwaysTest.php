@@ -31,13 +31,13 @@ class AlwaysTest extends TestCaseDatabase
     public function testAlwaysSingleField(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -86,13 +86,13 @@ SQL
     public function testAlwaysSingleMultipleFieldInString(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -143,13 +143,13 @@ SQL
     public function testAlwaysSingleMultipleFieldInArray(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -200,13 +200,13 @@ SQL
     public function testAlwaysSameFieldTwice(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,

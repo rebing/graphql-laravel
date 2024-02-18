@@ -34,13 +34,13 @@ class ValidateFieldTest extends TestCaseDatabase
     public function testSelectableFalse(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -91,13 +91,13 @@ SQL
     public function testSelectableNull(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -148,13 +148,13 @@ SQL
     public function testSelectableTrue(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'body' => 'post body',
                 'title' => 'post title',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'body' => 'comment body',
                 'post_id' => $post->id,
@@ -204,7 +204,7 @@ SQL
 
     public function testPrivacyClosureAllowed(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -241,7 +241,7 @@ SQL
 
     public function testPrivacyClosureDenied(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -278,7 +278,7 @@ SQL
 
     public function testPrivacyClassAllowed(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -315,7 +315,7 @@ SQL
 
     public function testPrivacyClassDenied(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -352,7 +352,7 @@ SQL
 
     public function testPrivacyClassMultipleTimesIsCalledMultipleTimes(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -404,7 +404,7 @@ SQL
      */
     public function testPrivacyClosureReceivesQueryArgs(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -444,7 +444,7 @@ SQL
      */
     public function testPrivacyClassReceivesQueryArgs(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -481,7 +481,7 @@ SQL
 
     public function testPrivacyWrongType(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -533,7 +533,7 @@ GRAQPHQL;
      */
     public function testPrivacyClosureReceivesContext(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);
@@ -580,7 +580,7 @@ SQL
      */
     public function testPrivacyClassReceivesQueryContext(): void
     {
-        factory(Post::class)
+        Post::factory()
             ->create([
                 'title' => 'post title',
             ]);

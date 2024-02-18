@@ -1,15 +1,23 @@
 <?php
 
 declare(strict_types = 1);
+namespace Rebing\GraphQL\Tests\Support\database\factories;
 
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 
-/* @var Factory $factory */
-$factory->define(Post::class, function (Faker $faker) {
-    return [
-        'title' => $faker->title,
-        'body' => $faker->sentence,
-    ];
-});
+/**
+ * @extends Factory<Post>
+ */
+class PostFactory extends Factory
+{
+    protected $model = Post::class;
+
+    public function definition(): array
+    {
+        return [
+            'title' => fake()->title,
+            'body' => fake()->sentence,
+        ];
+    }
+}

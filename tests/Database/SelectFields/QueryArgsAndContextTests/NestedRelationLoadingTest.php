@@ -37,36 +37,36 @@ class NestedRelationLoadingTest extends TestCaseDatabase
     public function testGraphqlQueryFlagOverridesCustomQueryThroughContext(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'flag' => true,
                         'post_id' => $post->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'post_id' => $post->id,
                     ]);
 
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'flag' => true,
                         'post_id' => $post->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'post_id' => $post->id,
                     ]);
@@ -125,15 +125,15 @@ SQL
     public function testQueryNoSelectFields(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class, 2)
+                Post::factory()->count(2)
                     ->create([
                         'user_id' => $user->id,
                     ])
                     ->each(function (Post $post): void {
-                        factory(Comment::class, 2)
+                        Comment::factory()->count(2)
                             ->create([
                                 'post_id' => $post->id,
                             ]);
@@ -267,15 +267,15 @@ SQL
     public function testQuerySelect(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class, 2)
+                Post::factory()->count(2)
                     ->create([
                         'user_id' => $user->id,
                     ])
                     ->each(function (Post $post): void {
-                        factory(Comment::class, 2)
+                        Comment::factory()->count(2)
                             ->create([
                                 'post_id' => $post->id,
                             ]);
@@ -409,15 +409,15 @@ SQL
     public function testQueryWith(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class, 2)
+                Post::factory()->count(2)
                     ->create([
                         'user_id' => $user->id,
                     ])
                     ->each(function (Post $post): void {
-                        factory(Comment::class, 2)
+                        Comment::factory()->count(2)
                             ->create([
                                 'post_id' => $post->id,
                             ]);
@@ -547,15 +547,15 @@ SQL
     public function testQuerySelectAndWith(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class, 2)
+                Post::factory()->count(2)
                     ->create([
                         'user_id' => $user->id,
                     ])
                     ->each(function (Post $post): void {
-                        factory(Comment::class, 2)
+                        Comment::factory()->count(2)
                             ->create([
                                 'post_id' => $post->id,
                             ]);
@@ -685,26 +685,26 @@ SQL
     public function testQuerySelectAndWithAndSubArgs(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class, 2)
+                Comment::factory()->count(2)
                     ->create([
                         'post_id' => $post->id,
                     ]);
 
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class, 2)
+                Comment::factory()->count(2)
                     ->create([
                         'post_id' => $post->id,
                     ]);
@@ -799,36 +799,36 @@ SQL
     public function testQuerySelectAndWithAndNestedSubArgs(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'flag' => true,
                         'post_id' => $post->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'post_id' => $post->id,
                     ]);
 
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'flag' => true,
                         'post_id' => $post->id,
                     ]);
-                factory(Comment::class)
+                Comment::factory()
                     ->create([
                         'post_id' => $post->id,
                     ]);
@@ -912,10 +912,10 @@ SQL
 
     public function testRelationshipAlias(): void
     {
-        $users = factory(User::class, 1)
+        $users = User::factory()->count(1)
             ->create()
             ->each(function (User $user): void {
-                factory(Post::class)
+                Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,
@@ -972,11 +972,11 @@ SQL
     public function testCustomQueryAllowColumnToBeAdded(): void
     {
         /** @var User[] $users */
-        $users = factory(User::class, 2)
+        $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
                 /** @var Post $post */
-                $post = factory(Post::class)
+                $post = Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,

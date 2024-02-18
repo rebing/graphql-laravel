@@ -32,18 +32,18 @@ class PaginationTest extends TestCaseDatabase
     public function testPagination(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'post 1',
         ]);
-        factory(Comment::class)->create([
+        Comment::factory()->create([
             'title' => 'post 1 comment 1',
             'post_id' => $post->id,
         ]);
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'post 2',
         ]);
-        factory(Comment::class)->create([
+        Comment::factory()->create([
             'title' => 'post 2 comment 1',
             'post_id' => $post->id,
         ]);
