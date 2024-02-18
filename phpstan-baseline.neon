@@ -1416,11 +1416,6 @@ parameters:
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
 
 		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertIsArray\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
-			count: 1
-			path: tests/Unit/GraphQLTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$abstract of function app expects string\\|null, object\\|string given\\.$#"
 			count: 3
 			path: tests/Unit/GraphQLTest.php

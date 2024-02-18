@@ -310,7 +310,6 @@ class GraphQLTest extends TestCase
         unset($error['extensions']['file']);
         unset($error['extensions']['line']);
 
-        self::assertIsArray($error);
         self::assertArrayHasKey('message', $error);
         self::assertArrayHasKey('locations', $error);
         $expectedError = [
