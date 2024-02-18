@@ -48,6 +48,7 @@ jobs:
       # Due to version incompatibility with older Laravels we test, we remove it
       - run: composer remove --dev larastan/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
+      - run: composer remove --dev phpstan/phpstan --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
       - run: composer require illuminate/contracts:9.33 --no-update
         if:  matrix.laravel == '^9.0' && matrix.stability == 'prefer-lowest'
