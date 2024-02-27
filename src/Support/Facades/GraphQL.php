@@ -24,6 +24,8 @@ use Rebing\GraphQL\Support\OperationParams;
  * @method static Schema buildSchemaFromConfig(array $schemaConfig)
  * @method static array getSchemas()
  * @method static void addSchema(string $name, Schema $schema)
+ * @method static array getGlobalResolverMiddlewares()
+ * @method static void appendGlobalResolverMiddleware(object|string $class)
  * @method static void addType(object|string $class, string $name = null)
  * @method static Type objectType(ObjectType|array|string $type, array $opts = [])
  * @method static array formatError(Error $e)
