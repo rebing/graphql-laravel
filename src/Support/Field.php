@@ -147,7 +147,7 @@ abstract class Field
     }
 
     /**
-     * @return array<string>
+     * @return array<class-string|object>
      * @phpstan-param array<string> $middleware
      */
     protected function appendGlobalMiddlewares(array $middleware): array
@@ -175,7 +175,7 @@ abstract class Field
 
                     foreach ($middleware as $name) {
                         /** @var Middleware $instance */
-                        $instance = app()->make($name);
+                        $instance = \is_object($name) ? $name : app()->make($name);
 
                         if (method_exists($instance, 'terminate')) {
                             app()->terminating(function () use ($arguments, $instance, $result): void {
