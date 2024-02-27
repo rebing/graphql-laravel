@@ -1,5 +1,5 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
     - ./phpstan-baseline.neon
     - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - ./vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
@@ -25,7 +25,7 @@ parameters:
         - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
         - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # Mass ignore the raw array property access used in many tests for now
-        # See also https://github.com/nunomaduro/larastan/issues/611
+        # See also https://github.com/larastan/larastan/issues/611
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'

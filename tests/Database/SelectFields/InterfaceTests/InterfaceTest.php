@@ -42,7 +42,7 @@ class InterfaceTest extends TestCaseDatabase
 
     public function testGeneratedSqlQuery(): void
     {
-        factory(Post::class)->create([
+        Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -79,11 +79,11 @@ SQL
     public function testGeneratedRelationSqlQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'title' => 'Title of the post',
             ]);
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
@@ -133,18 +133,18 @@ SQL
     public function testGeneratedInterfaceFieldSqlQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'title' => 'Title of the post',
             ]);
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Like::create([
             'likable_id' => $post->id,
             'likable_type' => Post::class,
@@ -200,18 +200,18 @@ SQL
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'title' => 'Title of the post',
             ]);
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Like::create([
             'likable_id' => $post->id,
             'likable_type' => Post::class,
@@ -273,20 +273,20 @@ SQL
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'title' => 'Title of the post',
             ]);
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var User $user2 */
-        $user2 = factory(User::class)->create();
+        $user2 = User::factory()->create();
         $like1 = Like::create([
             'likable_id' => $post->id,
             'likable_type' => Post::class,
@@ -378,21 +378,21 @@ SQL
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)
+        $post = Post::factory()
             ->create([
                 'title' => 'Title of the post',
             ]);
         /** @var Comment $comment */
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'title' => 'Title of the comment',
                 'post_id' => $post->id,
             ]);
 
         /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var User $user2 */
-        $user2 = factory(User::class)->create();
+        $user2 = User::factory()->create();
         $like1 = Like::create([
             'likable_id' => $comment->id,
             'likable_type' => Comment::class,

@@ -1,8 +1,25 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.3.0...master)
 --------------
+
+2024-02-18, 9.3.0
+-----------------
+
+## Removed
+- Support for Laravel 9 & PHP 8.0 have been removed [\#1123 / mfn](https://github.com/rebing/graphql-laravel/pull/1123)
+
+2024-02-18, 9.2.0
+-----------------
+
+## Added
+- Support Laravel for 11 [\#1117 / mfn](https://github.com/rebing/graphql-laravel/pull/1117)
+
+2023-08-06, 9.1.0
+-----------------
+## Fixed
+- fix schema validation - resolve not allowed in input fields [\#1078 / crissi](https://github.com/rebing/graphql-laravel/pull/1078)
 
 2023-06-25, 9.0.0
 -----------------

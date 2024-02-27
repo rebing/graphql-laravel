@@ -32,9 +32,9 @@ class PrimaryKeyTest extends TestCaseDatabase
     public function testPrimaryKeyRetrievedWhenSelectingRelations(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create();
+        $post = Post::factory()->create();
         /** @var Comment $comment */
-        $comment = factory(Comment::class)->create(['post_id' => $post->id]);
+        $comment = Comment::factory()->create(['post_id' => $post->id]);
 
         $query = <<<'GRAQPHQL'
 {
@@ -76,18 +76,18 @@ SQL
     public function testPrimaryKeyRetrievedWhenSelectingRelationsAndResultPaginated(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'post 1',
         ]);
-        factory(Comment::class)->create([
+        Comment::factory()->create([
             'title' => 'post 1 comment 1',
             'post_id' => $post->id,
         ]);
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'post 2',
         ]);
-        factory(Comment::class)->create([
+        Comment::factory()->create([
             'title' => 'post 2 comment 1',
             'post_id' => $post->id,
         ]);

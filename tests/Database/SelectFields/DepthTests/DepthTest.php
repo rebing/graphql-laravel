@@ -31,8 +31,8 @@ class DepthTest extends TestCaseDatabase
     public function testDefaultDepthExceeded(): void
     {
         /** @var User $user */
-        $user = factory(User::class)->create();
-        factory(Post::class)->create([
+        $user = User::factory()->create();
+        Post::factory()->create([
             'user_id' => $user->id,
         ]);
 

@@ -69,7 +69,7 @@ class SelectFieldsTest extends TestCaseDatabase
     public function testWithoutSelectFields(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -110,7 +110,7 @@ SQL
     public function testWithSelectFieldsClassInjection(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -151,7 +151,7 @@ SQL
     public function testWithSelectFieldsNonInjectableTypehints(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -202,7 +202,7 @@ GRAQPHQL;
     public function testWithSelectFieldsAndModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -243,7 +243,7 @@ SQL
     public function testWithNonNullSelectFieldsAndModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -278,7 +278,7 @@ GRAQPHQL;
     public function testWithListOfSelectFieldsAndModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -317,7 +317,7 @@ GRAQPHQL;
     public function testWithListOfSelectFieldsAndModelWithSameFieldsInFragment(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -364,7 +364,7 @@ GRAQPHQL;
     public function testWithNonNullAndListOfSelectFieldsAndModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -401,7 +401,7 @@ GRAQPHQL;
     public function testWithNonNullAndListOfAndNonNullSelectFieldsAndModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -438,7 +438,7 @@ GRAQPHQL;
     public function testWithSelectFieldsAndModelAndAlias(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Description of the post',
         ]);
 
@@ -474,26 +474,25 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndCallbackSqlAlias(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Description of the post',
         ]);
 
         Carbon::setTestNow('2018-01-01');
 
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'post_id' => $post->id,
                 'created_at' => new Carbon('2000-01-01'),
             ]);
 
-        factory(Comment::class)
+        Comment::factory()
             ->create([
                 'post_id' => $post->id,
                 'created_at' => new Carbon('2018-05-05'),
@@ -533,14 +532,13 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsAndModelAndAliasAndCustomResolver(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Description of the post',
         ]);
 
@@ -576,14 +574,13 @@ SQL
             ],
         ];
 
-        self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($expectedResult, $response->json());
     }
 
     public function testWithSelectFieldsNoModel(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -623,7 +620,7 @@ SQL
     public function testPostNonNullPaginationQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 
@@ -712,7 +709,7 @@ GQL;
     public function testPostNonNullSimplePaginationQuery(): void
     {
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'title' => 'Title of the post',
         ]);
 

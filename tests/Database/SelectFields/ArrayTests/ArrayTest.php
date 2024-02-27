@@ -38,7 +38,7 @@ class ArrayTest extends TestCaseDatabase
         ];
 
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'properties' => $properties,
         ]);
 

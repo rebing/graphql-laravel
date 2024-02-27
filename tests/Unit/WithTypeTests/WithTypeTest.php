@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 use Rebing\GraphQL\Tests\TestCase;
 
-class WithTypeTests extends TestCase
+class WithTypeTest extends TestCase
 {
     protected function getEnvironmentSetUp($app): void
     {

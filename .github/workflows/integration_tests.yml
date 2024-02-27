@@ -16,35 +16,27 @@ on:
     - cron: 0 3 * * 1
   workflow_dispatch:
 
-jobs:
-  supported-versions-matrix:
-    name: Supported Versions Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.supported-versions-matrix.outputs.version }}
-    steps:
-      - uses: actions/checkout@v3
-      - id: supported-versions-matrix
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
+jobs:
   integration:
-    needs:
-      - supported-versions-matrix
     strategy:
       fail-fast: false
       matrix:
-        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        laravel: [^9.0, ^10.0]
+        php: [8.1, 8.2, 8.3]
+        laravel: [^10.0, ^11.x-dev]
         exclude:
-          - php: 8.0
-            laravel: ^10.0
+          - php: 8.1
+            laravel: ^11.x-dev
     name: P=${{ matrix.php }} L=${{ matrix.laravel }}
     runs-on: ubuntu-latest
     env:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -52,8 +44,9 @@ jobs:
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev nunomaduro/larastan --no-update
+      - run: composer remove --dev larastan/larastan --no-update
       - run: composer remove --dev friendsofphp/php-cs-fixer --no-update
+      - run: composer remove --dev phpstan/phpstan --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
@@ -61,7 +54,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}

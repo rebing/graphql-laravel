@@ -36,16 +36,16 @@ class AlwaysRelationTest extends TestCaseDatabase
     public function testAlwaysSingleHasManyRelationField(): void
     {
         /** @var User $user */
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'User Name',
         ]);
 
         /** @var Post $post */
-        $post = factory(Post::class)->create([
+        $post = Post::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        factory(Comment::class)->create([
+        Comment::factory()->create([
             'post_id' => $post->id,
         ]);
 
@@ -101,14 +101,14 @@ GRAQPHQL;
 
     public function testAlwaysSingleMorphRelationField(): void
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'User Name',
         ]);
 
         /** @var Post $post */
-        $post = factory(Post::class)->create();
+        $post = Post::factory()->create();
 
-        $comment = factory(Comment::class)
+        $comment = Comment::factory()
             ->create([
                 'post_id' => $post->id,
             ]);
