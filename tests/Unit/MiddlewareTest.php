@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Middlewares\GlobalMiddleware;
 use Rebing\GraphQL\Tests\TestCase;
 
 class MiddlewareTest extends TestCase
@@ -78,5 +79,18 @@ class MiddlewareTest extends TestCase
 
         self::assertObjectHasProperty('errors', $result);
         self::assertMatchesRegularExpression('/^Undefined .* 6$/', $result->errors[0]->getMessage());
+    }
+
+    public function testGlobalMiddlewareExecuted(): void
+    {
+        $mock = $this->partialMock(GlobalMiddleware::class);
+        GraphQL::appendGlobalResolverMiddleware($mock);
+        $result = GraphQL::queryAndReturnResult($this->queries['exampleMiddleware'], [
+            'index' => 2,
+        ]);
+        $mock->shouldHaveReceived('handle');
+
+        self::assertObjectHasProperty('errors', $result);
+        self::assertSame('Example 3 is not allowed', $result->errors[0]->getMessage());
     }
 }
