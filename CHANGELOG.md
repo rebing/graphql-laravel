@@ -7,7 +7,7 @@ CHANGELOG
 -----------------
 
 ## Added
-- Possibility to add resolver middleware at runtime using `GraphQL::appendGlobalResolverMiddleware(YourMiddleware::class)`
+- Possibility to add resolver middleware at runtime using `GraphQL::appendGlobalResolverMiddleware(YourMiddleware::class)` or `GraphQL::appendGlobalResolverMiddleware(new YourMiddleware(...))`
 
 2024-02-18, 9.3.0
 -----------------

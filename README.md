@@ -1168,6 +1168,8 @@ You can also use the `appendGlobalResolverMiddleware` method in any ServiceProvi
     {
         ...
         GraphQL::appendGlobalResolverMiddleware(YourMiddleware::class);
+        // Or with new instance
+        GraphQL::appendGlobalResolverMiddleware(new YourMiddleware(...));
     }
 ```
 
