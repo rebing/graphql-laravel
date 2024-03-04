@@ -1156,7 +1156,7 @@ If you want to register middleware globally, use the `resolver_middleware_append
 ```php  
 return [
     ...
-    resolver_middleware_append => [YourMiddleware::class],
+    'resolver_middleware_append' => [YourMiddleware::class],
 ];
 ```
 
