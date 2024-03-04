@@ -14,6 +14,6 @@ class GlobalMiddleware extends Middleware
      */
     public function handle($root, array $args, $context, ResolveInfo $info, Closure $next): mixed
     {
-        return parent::handle($root, $args, $context, $info, $next);
+        return [['test' => 'Intercepted by GlobalMiddleware']];
     }
 }

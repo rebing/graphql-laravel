@@ -1150,7 +1150,17 @@ Alternatively, you can override `getMiddleware` to supply your own logic:
         return array_merge([...], $this->middleware);
     }
 ```
-If you want to register middleware globally, use can use the `appendGlobalResolverMiddleware` method in ServiceProvider:
+
+If you want to register middleware globally, use the `resolver_middleware_append` key in `config/graphql.php`:
+
+```php  
+return [
+    ...
+    resolver_middleware_append => [YourMiddleware::class],
+];
+```
+
+You can also use the `appendGlobalResolverMiddleware` method in any ServiceProvider:
 
 ```php
     ...

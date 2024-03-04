@@ -206,7 +206,9 @@ class GraphQL
      */
     public function getGlobalResolverMiddlewares(): array
     {
-        return $this->globalResolverMiddlewares;
+        $resolverMiddlewares = $this->config->get('graphql.resolver_middleware_append') ?? [];
+
+        return array_merge($resolverMiddlewares, $this->globalResolverMiddlewares);
     }
 
     /**
@@ -524,8 +526,8 @@ class GraphQL
     }
 
     /**
-     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
      * @return array<string,mixed>
+     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
      */
     public static function formatError(Error $e): array
     {
