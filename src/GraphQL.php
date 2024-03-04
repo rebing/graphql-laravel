@@ -41,7 +41,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
-    /** @var array<Schema> */
+    /** @var array<string,Schema> */
     protected $schemas = [];
 
     /**
@@ -54,7 +54,7 @@ class GraphQL
     /**
      * These middleware are executed before all resolve methods
      *
-     * @var array<object|class-string>
+     * @var list<object|class-string>
      */
     protected $globalResolverMiddlewares = [];
 
@@ -153,7 +153,7 @@ class GraphQL
     }
 
     /**
-     * @param array<string> $middleware
+     * @param list<string> $middleware
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
@@ -167,7 +167,7 @@ class GraphQL
     }
 
     /**
-     * @return array<string>
+     * @return list<class-string>
      */
     protected function executionMiddleware(string $schemaName): array
     {
@@ -183,8 +183,8 @@ class GraphQL
     }
 
     /**
-     * @phpstan-param array<class-string> $middlewares
-     * @phpstan-return array<class-string>
+     * @phpstan-param list<class-string> $middlewares
+     * @phpstan-return list<class-string>
      */
     protected function appendGraphqlExecutionMiddleware(array $middlewares): array
     {
@@ -202,7 +202,7 @@ class GraphQL
     }
 
     /**
-     * @phpstan-return array<object|class-string>
+     * @phpstan-return list<object|class-string>
      */
     public function getGlobalResolverMiddlewares(): array
     {
@@ -471,7 +471,7 @@ class GraphQL
     }
 
     /**
-     * @return array<Schema>
+     * @return array<string,Schema>
      */
     public function getSchemas(): array
     {

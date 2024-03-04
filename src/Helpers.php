@@ -12,8 +12,8 @@ class Helpers
      *
      * Apply a callback to a value or each value in an array.
      *
-     * @param mixed|array<mixed> $valueOrValues
-     * @return mixed|array<mixed>
+     * @param mixed|list<mixed> $valueOrValues
+     * @return mixed|list<mixed>
      */
     public static function applyEach(Closure $callback, $valueOrValues)
     {
