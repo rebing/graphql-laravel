@@ -51,7 +51,7 @@ jobs:
 
       - run: composer update --prefer-dist --no-progress
 
-      - run: composer phpstan -- --no-progress
+      - run: composer phpstan -- --no-progress --error-format=table
 
   code-style-checker:
     name: Code Style checker
