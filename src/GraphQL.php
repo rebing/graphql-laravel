@@ -72,6 +72,7 @@ class GraphQL
 
     public function schema(?string $schemaName = null): Schema
     {
+        /** @var string $schemaName */
         $schemaName = $schemaName ?? $this->config->get('graphql.default_schema', 'default');
 
         if (isset($this->schemas[$schemaName])) {
@@ -108,6 +109,7 @@ class GraphQL
     public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
+        /** @var string $schemaName */
         $schemaName = $opts['schema'] ?? $this->config->get('graphql.default_schema', 'default');
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
@@ -159,6 +161,7 @@ class GraphQL
      */
     protected function executeViaMiddleware(array $middleware, string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
+        /** @var ExecutionResult */
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $schema, $params, $rootValue, $contextValue])
             ->through($middleware)
@@ -385,6 +388,7 @@ class GraphQL
         $schemaQuery = $schemaConfig['query'] ?? [];
         $schemaMutation = $schemaConfig['mutation'] ?? [];
         $schemaSubscription = $schemaConfig['subscription'] ?? [];
+        /** @var array<int|string,string> $schemaTypes */
         $schemaTypes = $schemaConfig['types'] ?? [];
         $schemaDirectives = $schemaConfig['directives'] ?? [];
 
