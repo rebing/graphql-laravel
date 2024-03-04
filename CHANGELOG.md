@@ -3,7 +3,7 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.4.0...master)
 
-2024-02-27, 9.4.0
+2024-03-04, 9.4.0
 -----------------
 
 ## Added
