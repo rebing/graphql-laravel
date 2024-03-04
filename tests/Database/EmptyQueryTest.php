@@ -10,7 +10,7 @@ class EmptyQueryTest extends TestCaseDatabase
 {
     /**
      * @dataProvider dataForEmptyQuery
-     * @param array<mixed> $parameters
+     * @param list<mixed> $parameters
      */
     public function testEmptyQuery(array $parameters, string $expectedError): void
     {
@@ -132,7 +132,7 @@ class EmptyQueryTest extends TestCaseDatabase
     }
 
     /**
-     * @return array<mixed>
+     * @return list<mixed>
      */
     public static function dataForEmptyQuery(): array
     {

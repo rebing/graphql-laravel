@@ -24,7 +24,7 @@ abstract class Field
     /** @var array<string,mixed> */
     protected $attributes = [];
 
-    /** @var string[] */
+    /** @var list<class-string> */
     protected $middleware = [];
 
     /**
@@ -139,7 +139,7 @@ abstract class Field
     }
 
     /**
-     * @return array<string>
+     * @return list<class-string>
      */
     protected function getMiddleware(): array
     {
@@ -147,8 +147,8 @@ abstract class Field
     }
 
     /**
-     * @return array<class-string|object>
-     * @phpstan-param array<string> $middleware
+     * @return list<class-string|object>
+     * @phpstan-param list<string> $middleware
      */
     protected function appendGlobalMiddlewares(array $middleware): array
     {

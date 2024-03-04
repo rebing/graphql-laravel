@@ -41,7 +41,7 @@ class GraphQL
     /** @var Container */
     protected $app;
 
-    /** @var array<Schema> */
+    /** @var array<string,Schema> */
     protected $schemas = [];
 
     /**
@@ -54,7 +54,7 @@ class GraphQL
     /**
      * These middleware are executed before all resolve methods
      *
-     * @var array<object|class-string>
+     * @var list<object|class-string>
      */
     protected $globalResolverMiddlewares = [];
 
@@ -72,6 +72,7 @@ class GraphQL
 
     public function schema(?string $schemaName = null): Schema
     {
+        /** @var string $schemaName */
         $schemaName = $schemaName ?? $this->config->get('graphql.default_schema', 'default');
 
         if (isset($this->schemas[$schemaName])) {
@@ -108,6 +109,7 @@ class GraphQL
     public function queryAndReturnResult(string $query, ?array $variables = null, array $opts = []): ExecutionResult
     {
         $context = $opts['context'] ?? null;
+        /** @var string $schemaName */
         $schemaName = $opts['schema'] ?? $this->config->get('graphql.default_schema', 'default');
         $operationName = $opts['operationName'] ?? null;
         $rootValue = $opts['rootValue'] ?? null;
@@ -153,12 +155,13 @@ class GraphQL
     }
 
     /**
-     * @param array<string> $middleware
+     * @param list<string> $middleware
      * @param mixed $rootValue
      * @param mixed $contextValue
      */
     protected function executeViaMiddleware(array $middleware, string $schemaName, Schema $schema, OperationParams $params, $rootValue = null, $contextValue = null): ExecutionResult
     {
+        /** @var ExecutionResult */
         return $this->app->make(Pipeline::class)
             ->send([$schemaName, $schema, $params, $rootValue, $contextValue])
             ->through($middleware)
@@ -167,7 +170,7 @@ class GraphQL
     }
 
     /**
-     * @return array<string>
+     * @return list<class-string>
      */
     protected function executionMiddleware(string $schemaName): array
     {
@@ -183,8 +186,8 @@ class GraphQL
     }
 
     /**
-     * @phpstan-param array<class-string> $middlewares
-     * @phpstan-return array<class-string>
+     * @phpstan-param list<class-string> $middlewares
+     * @phpstan-return list<class-string>
      */
     protected function appendGraphqlExecutionMiddleware(array $middlewares): array
     {
@@ -202,7 +205,7 @@ class GraphQL
     }
 
     /**
-     * @phpstan-return array<object|class-string>
+     * @phpstan-return list<object|class-string>
      */
     public function getGlobalResolverMiddlewares(): array
     {
@@ -385,6 +388,7 @@ class GraphQL
         $schemaQuery = $schemaConfig['query'] ?? [];
         $schemaMutation = $schemaConfig['mutation'] ?? [];
         $schemaSubscription = $schemaConfig['subscription'] ?? [];
+        /** @var array<int|string,string> $schemaTypes */
         $schemaTypes = $schemaConfig['types'] ?? [];
         $schemaDirectives = $schemaConfig['directives'] ?? [];
 
@@ -471,7 +475,7 @@ class GraphQL
     }
 
     /**
-     * @return array<Schema>
+     * @return array<string,Schema>
      */
     public function getSchemas(): array
     {
