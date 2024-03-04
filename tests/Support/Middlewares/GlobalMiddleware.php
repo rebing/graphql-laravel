@@ -10,7 +10,6 @@ class GlobalMiddleware extends Middleware
     /**
      * @phpstan-param mixed $root
      * @phpstan-param mixed $context
-     * @phpstan-return mixed
      */
     public function handle($root, array $args, $context, ResolveInfo $info, Closure $next): mixed
     {
