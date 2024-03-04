@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionMethod;
 
 /**
@@ -145,6 +146,15 @@ abstract class Field
         return $this->middleware;
     }
 
+    /**
+     * @return array<class-string|object>
+     * @phpstan-param array<string> $middleware
+     */
+    protected function appendGlobalMiddlewares(array $middleware): array
+    {
+        return array_merge($middleware, GraphQL::getGlobalResolverMiddlewares());
+    }
+
     protected function getResolver(): ?Closure
     {
         $resolver = $this->originalResolver();
@@ -154,7 +164,7 @@ abstract class Field
         }
 
         return function ($root, ...$arguments) use ($resolver) {
-            $middleware = $this->getMiddleware();
+            $middleware = $this->appendGlobalMiddlewares($this->getMiddleware());
 
             return app()->make(Pipeline::class)
                 ->send(array_merge([$this], $arguments))
@@ -165,7 +175,7 @@ abstract class Field
 
                     foreach ($middleware as $name) {
                         /** @var Middleware $instance */
-                        $instance = app()->make($name);
+                        $instance = \is_object($name) ? $name : app()->make($name);
 
                         if (method_exists($instance, 'terminate')) {
                             app()->terminating(function () use ($arguments, $instance, $result): void {

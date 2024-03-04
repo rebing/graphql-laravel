@@ -51,6 +51,13 @@ class GraphQL
      */
     protected $types = [];
 
+    /**
+     * These middleware are executed before all resolve methods
+     *
+     * @var array<object|class-string>
+     */
+    protected $globalResolverMiddlewares = [];
+
     /** @var Type[] */
     protected $typesInstances = [];
 
@@ -184,6 +191,24 @@ class GraphQL
         $middlewares[] = GraphqlExecutionMiddleware::class;
 
         return $middlewares;
+    }
+
+    /**
+     * @phpstan-param class-string|object $class
+     */
+    public function appendGlobalResolverMiddleware(object|string $class): void
+    {
+        $this->globalResolverMiddlewares[] = $class;
+    }
+
+    /**
+     * @phpstan-return array<object|class-string>
+     */
+    public function getGlobalResolverMiddlewares(): array
+    {
+        $resolverMiddlewares = $this->config->get('graphql.resolver_middleware_append') ?? [];
+
+        return array_merge($resolverMiddlewares, $this->globalResolverMiddlewares);
     }
 
     /**
@@ -501,8 +526,8 @@ class GraphQL
     }
 
     /**
-     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
      * @return array<string,mixed>
+     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
      */
     public static function formatError(Error $e): array
     {

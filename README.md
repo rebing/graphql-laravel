@@ -1151,6 +1151,28 @@ Alternatively, you can override `getMiddleware` to supply your own logic:
     }
 ```
 
+If you want to register middleware globally, use the `resolver_middleware_append` key in `config/graphql.php`:
+
+```php  
+return [
+    ...
+    'resolver_middleware_append' => [YourMiddleware::class],
+];
+```
+
+You can also use the `appendGlobalResolverMiddleware` method in any ServiceProvider:
+
+```php
+    ...
+    public function boot()
+    {
+        ...
+        GraphQL::appendGlobalResolverMiddleware(YourMiddleware::class);
+        // Or with new instance
+        GraphQL::appendGlobalResolverMiddleware(new YourMiddleware(...));
+    }
+```
+
 #### Terminable middleware
 
 Sometimes a middleware may need to do some work after the response has been sent to the browser.

@@ -214,4 +214,9 @@ return [
         Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware::class,
         // \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
     ],
+
+    /*
+     * Globally registered ResolverMiddleware
+     */
+    'resolver_middleware_append' => null,
 ];
