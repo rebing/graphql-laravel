@@ -29,7 +29,7 @@ class PaginationType extends ObjectType
         parent::__construct($config);
     }
 
-    protected function getPaginationFields(ObjectType $underlyingType): array
+    protected function getPaginationFields(GraphQLType $underlyingType): array
     {
         return [
             'data' => [
