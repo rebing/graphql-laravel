@@ -55,7 +55,7 @@ class ExampleRuleTestingInputObject extends InputType
     /**
      * @param mixed $root
      * @param array<string,mixed> $args
-     * @return array<string>
+     * @return list<string>
      */
     public function resolve($root, array $args): array
     {

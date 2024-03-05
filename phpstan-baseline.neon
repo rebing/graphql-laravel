@@ -11,6 +11,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\GraphQL\\:\\:getGlobalResolverMiddlewares\\(\\) should return list\\<class\\-string\\|object\\> but returns array\\.$#"
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: "#^Parameter \\#1 \\$config of class GraphQL\\\\Type\\\\Definition\\\\ObjectType constructor expects array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}, non\\-empty\\-array\\<string, array\\<int\\|string, non\\-empty\\-array\\<string, mixed\\>\\|\\(ArrayAccess&Rebing\\\\GraphQL\\\\Support\\\\Field\\)\\>\\|string\\> given\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -122,6 +127,11 @@ parameters:
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:aliasArgs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:appendGlobalMiddlewares\\(\\) should return list\\<class\\-string\\|object\\> but returns array\\.$#"
 			count: 1
 			path: src/Support/Field.php
 
