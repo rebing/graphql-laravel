@@ -4,7 +4,7 @@ CHANGELOG
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.4.0...master)
 
 ### Fixed
-- Relax PaginationType getPaginationFields typehint [\#1132 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/1132)
+- Relax PaginationType/SimplePaginationType getPaginationFields typehint [\#1132 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/1132)
 
 2024-03-04, 9.4.0
 -----------------
