@@ -32,7 +32,7 @@ class SimplePaginationType extends ObjectType
     /**
      * @return array<string, array<string,mixed>>
      */
-    protected function getPaginationFields(ObjectType $underlyingType): array
+    protected function getPaginationFields(GraphQLType $underlyingType): array
     {
         return [
             'data' => [

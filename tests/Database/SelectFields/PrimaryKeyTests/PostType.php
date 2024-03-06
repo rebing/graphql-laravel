@@ -32,4 +32,11 @@ class PostType extends GraphQLType
             ],
         ];
     }
+
+    public function interfaces(): array
+    {
+        return [
+            GraphQL::type('ModelInterface'),
+        ];
+    }
 }

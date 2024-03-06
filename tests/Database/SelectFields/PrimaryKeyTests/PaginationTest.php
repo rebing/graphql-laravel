@@ -20,10 +20,12 @@ class PaginationTest extends TestCaseDatabase
             'query' => [
                 PrimaryKeyQuery::class,
                 PrimaryKeyPaginationQuery::class,
+                PrimaryKeyInterfacePaginationQuery::class,
             ],
         ]);
 
         $app['config']->set('graphql.types', [
+            ModelInterfaceType::class,
             CommentType::class,
             PostType::class,
         ]);
@@ -92,6 +94,59 @@ SQL
                                     'title' => 'post 1 comment 1',
                                 ],
                             ],
+                        ],
+                    ],
+                    'from' => 1,
+                    'has_more_pages' => true,
+                    'last_page' => 2,
+                    'per_page' => 1,
+                    'to' => 1,
+                    'total' => 2,
+                ],
+            ],
+        ];
+        self::assertEquals($expectedResult, $result);
+    }
+
+    public function testInterfacePagination(): void
+    {
+        Post::factory(2)->create();
+
+        $query = <<<'GRAQPHQL'
+{
+  primaryKeyInterfacePaginationQuery {
+    current_page
+    data {
+      id
+    }
+    from
+    has_more_pages
+    last_page
+    per_page
+    to
+    total
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->httpGraphql($query);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+            select count(*) as aggregate from "posts";
+            select * from "posts" limit 1 offset 0;
+            SQL
+        );
+
+        $expectedResult = [
+            'data' => [
+                'primaryKeyInterfacePaginationQuery' => [
+                    'current_page' => 1,
+                    'data' => [
+                        [
+                            'id' => '1',
                         ],
                     ],
                     'from' => 1,
