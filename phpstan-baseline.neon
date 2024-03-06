@@ -226,7 +226,7 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$underlyingType of method Rebing\\\\GraphQL\\\\Support\\\\PaginationType\\:\\:getPaginationFields\\(\\) expects GraphQL\\\\Type\\\\Definition\\\\ObjectType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			message: "#^Parameter \\#1 \\$type of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: \\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\), GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: src/Support/PaginationType.php
 
@@ -366,7 +366,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: "#^Parameter \\#1 \\$underlyingType of method Rebing\\\\GraphQL\\\\Support\\\\SimplePaginationType\\:\\:getPaginationFields\\(\\) expects GraphQL\\\\Type\\\\Definition\\\\ObjectType, GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
+			message: "#^Parameter \\#1 \\$type of static method GraphQL\\\\Type\\\\Definition\\\\Type\\:\\:nonNull\\(\\) expects \\(callable\\(\\)\\: \\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\)\\)\\|\\(GraphQL\\\\Type\\\\Definition\\\\NullableType&GraphQL\\\\Type\\\\Definition\\\\Type\\), GraphQL\\\\Type\\\\Definition\\\\Type given\\.$#"
 			count: 1
 			path: src/Support/SimplePaginationType.php
 
