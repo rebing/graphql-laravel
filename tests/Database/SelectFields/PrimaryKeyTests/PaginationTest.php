@@ -133,12 +133,12 @@ GRAQPHQL;
 
         $result = $this->httpGraphql($query);
 
-        //        $this->assertSqlQueries(
-        //            <<<'SQL'
-        //select count(*) as aggregate from "posts";
-        //select "posts"."id" from "posts" limit 1 offset 0;
-        //SQL
-        //        );
+        $this->assertSqlQueries(
+            <<<'SQL'
+            select count(*) as aggregate from "posts";
+            select * from "posts" limit 1 offset 0;
+            SQL
+        );
 
         $expectedResult = [
             'data' => [
