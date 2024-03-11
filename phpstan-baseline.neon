@@ -6,6 +6,11 @@ parameters:
 			path: src/GraphQL.php
 
 		-
+			message: "#^Cannot access offset 1 on iterable\\<string\\>\\|null\\.$#"
+			count: 2
+			path: src/GraphQL.php
+
+		-
 			message: "#^Instanceof between Error and Error will always evaluate to true\\.$#"
 			count: 1
 			path: src/GraphQL.php
@@ -26,7 +31,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: "#^Property GraphQL\\\\Type\\\\Definition\\\\ObjectType\\:\\:\\$config \\(array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}\\) does not accept non\\-empty\\-array\\<string, \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|\\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|iterable\\|string\\|null\\>\\.$#"
+			message: "#^Property GraphQL\\\\Type\\\\Definition\\\\ObjectType\\:\\:\\$config \\(array\\{name\\?\\: string\\|null, description\\?\\: string\\|null, resolveField\\?\\: \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|null, fields\\: \\(callable\\(\\)\\: iterable\\)\\|iterable, interfaces\\?\\: \\(callable\\(\\)\\: iterable\\<callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>\\)\\|iterable\\<\\(callable\\(\\)\\: GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\)\\|GraphQL\\\\Type\\\\Definition\\\\InterfaceType\\>, isTypeOf\\?\\: \\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|null, astNode\\?\\: GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|null, extensionASTNodes\\?\\: array\\<int, GraphQL\\\\Language\\\\AST\\\\ObjectTypeExtensionNode\\>\\|null\\}\\) does not accept non\\-empty\\-array\\<string, \\(callable\\(mixed, array\\<string, mixed\\>, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: mixed\\)\\|\\(callable\\(\\)\\: iterable\\)\\|\\(callable\\(mixed, mixed, GraphQL\\\\Type\\\\Definition\\\\ResolveInfo\\)\\: \\(bool\\|GraphQL\\\\Deferred\\|null\\)\\)\\|GraphQL\\\\Language\\\\AST\\\\ObjectTypeDefinitionNode\\|iterable\\|string\\|null\\>\\.$#"
 			count: 1
 			path: src/GraphQL.php
 
