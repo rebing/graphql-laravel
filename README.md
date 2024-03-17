@@ -91,6 +91,7 @@ config/graphql.php
       - [Defining middleware](#defining-middleware)
       - [Registering middleware](#registering-middleware)
       - [Terminable middleware](#terminable-middleware)
+    - [Authentication](#authenticationAu)
     - [Authorization](#authorization)
     - [Privacy](#privacy)
     - [Query variables](#query-variables)
@@ -1244,6 +1245,60 @@ The terminate method receives both the resolver arguments and the query result.
 
 Once you have defined a terminable middleware, you should add it to the list of
 middleware in your queries and mutations.
+
+### Authentication
+
+For Query or Mutation authentication, we can use `authenticate()` function.
+
+```php
+namespace App\GraphQL\Queries;
+
+use Auth;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+
+class UserFeedQuery extends Query
+{
+    public function authenticate($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    {
+        // true, if logged in
+        return ! Auth::guest();
+    }
+
+    // ...
+}
+```
+
+This function is called before `authorization()` which can be used to check whether authenticated user is authorized (has ability/permission) to use this Query or Mutation.
+If not provided, it will default to true - passing authenticate function and continuing to `authorize()` check.
+
+If user is not authenticated, an "Unauthenticated" error message will be thrown.
+
+You can also provide a custom error message when the authentication fails:
+
+```php
+namespace App\GraphQL\Queries;
+
+use Auth;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+
+class UserFeedQuery extends Query
+{
+    public function authenticate($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    {
+        // true, if logged in
+        return ! Auth::guest();
+    }
+
+    public function getAuthenticationMessage(): string
+    {
+        return 'You are not authenticated';
+    }
+
+    // ...
+}
+```
 
 ### Authorization
 
