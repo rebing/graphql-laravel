@@ -146,6 +146,11 @@ parameters:
 			path: src/Support/Field.php
 
 		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:authenticate\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Field.php
+
+		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Support\\\\Field\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Support/Field.php
@@ -409,6 +414,16 @@ parameters:
 			message: "#^Offset 'uses' might not exist on array\\{uses\\?\\: mixed, middleware\\?\\: mixed\\}\\.$#"
 			count: 1
 			path: src/routes.php
+
+		-
+			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthenticateArgsTest\\\\GraphQLContext\\:\\:\\$data has no type specified\\.$#"
+			count: 1
+			path: tests/Database/AuthenticateArgsTest/GraphQLContext.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthenticateArgsTest\\\\TestAuthenticationArgsQuery\\:\\:authenticate\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Database/AuthenticateArgsTest/TestAuthenticationArgsQuery.php
 
 		-
 			message: "#^Property Rebing\\\\GraphQL\\\\Tests\\\\Database\\\\AuthorizeArgsTests\\\\GraphQLContext\\:\\:\\$data has no type specified\\.$#"
@@ -914,6 +929,56 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExampleValidationInputObject\\:\\:resolve\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/Support/Objects/ExampleValidationInputObject.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateMessageQuery\\:\\:authenticate\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateMessageQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateMessageQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateMessageQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateMessageQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateMessageQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateMessageQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateMessageQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateMessageQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateMessageQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateQuery\\:\\:authenticate\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateQuery\\:\\:resolve\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateQuery\\:\\:resolve\\(\\) has parameter \\$args with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateQuery\\:\\:resolve\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateQuery.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthenticateQuery\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
+			count: 1
+			path: tests/Support/Objects/ExamplesAuthenticateQuery.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Support\\\\Objects\\\\ExamplesAuthorizeMessageQuery\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -1554,6 +1619,11 @@ parameters:
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\UploadTests\\\\UploadSingleFileMutation\\:\\:resolve\\(\\) has parameter \\$root with no type specified\\.$#"
 			count: 1
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
+
+		-
+			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthenticationTests\\\\ValidationAndAuthenticateMutation\\:\\:authenticate\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/ValidationAuthenticationTests/ValidationAndAuthenticateMutation.php
 
 		-
 			message: "#^Method Rebing\\\\GraphQL\\\\Tests\\\\Unit\\\\ValidationAuthorizationTests\\\\ValidationAndAuthorizationMutation\\:\\:authorize\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"

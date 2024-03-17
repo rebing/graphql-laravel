@@ -105,6 +105,36 @@ class EndpointTest extends TestCase
         self::assertNull($content['data']['examplesAuthorizeMessage']);
     }
 
+    public function testGetUnauthenticated(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            'query' => $this->queries['examplesWithAuthenticate'],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('errors', $content);
+        self::assertEquals('Unauthenticated', $content['errors'][0]['message']);
+        self::assertNull($content['data']['examplesAuthenticate']);
+    }
+
+    public function testGetUnauthenticatedWithCustomError(): void
+    {
+        $response = $this->call('GET', '/graphql', [
+            'query' => $this->queries['examplesWithAuthenticateMessage'],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayHasKey('data', $content);
+        self::assertArrayHasKey('errors', $content);
+        self::assertEquals('You are not authenticated', $content['errors'][0]['message']);
+        self::assertNull($content['data']['examplesAuthenticateMessage']);
+    }
+
     public function testBatchedQueries(): void
     {
         $response = $this->call('POST', '/graphql', [

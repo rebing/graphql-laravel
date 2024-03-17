@@ -21,6 +21,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
+use Rebing\GraphQL\Error\AuthenticationError;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ProvidesErrorCategory;
 use Rebing\GraphQL\Error\ValidationError;
@@ -579,6 +580,7 @@ class GraphQL
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError ||
                 $error instanceof AuthorizationError ||
+                $error instanceof AuthenticationError ||
                 !(
                     $error instanceof Exception ||
                     $error instanceof PhpError

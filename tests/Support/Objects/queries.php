@@ -73,6 +73,22 @@ return [
         }
     ',
 
+    'examplesWithAuthenticate' => '
+        query QueryExamplesAuthenticate {
+            examplesAuthenticate {
+                test
+            }
+        }
+    ',
+
+    'examplesWithAuthenticateMessage' => '
+        query QueryExamplesAuthenticateMessage {
+            examplesAuthenticateMessage {
+                test
+            }
+        }
+    ',
+
     'examplesWithError' => '
         query QueryExamplesWithError {
             examplesQueryNotFound {

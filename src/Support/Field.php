@@ -10,6 +10,7 @@ use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
+use Rebing\GraphQL\Error\AuthenticationError;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
@@ -35,6 +36,18 @@ abstract class Field
      * @param mixed $ctx
      */
     public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    {
+        return true;
+    }
+
+    /**
+     * Override this in your queries or mutations
+     * to provide custom authentication.
+     *
+     * @param mixed $root
+     * @param mixed $ctx
+     */
+    public function authenticate($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
     {
         return true;
     }
@@ -197,8 +210,9 @@ abstract class Field
 
         $resolver = [$this, 'resolve'];
         $authorize = [$this, 'authorize'];
+        $authenticate = [$this, 'authenticate'];
 
-        return function () use ($resolver, $authorize) {
+        return function () use ($resolver, $authorize, $authenticate) {
             // 0 - the "root" object; `null` for queries, otherwise the parent of a type
             // 1 - the provided `args` of the query or type (if applicable), empty array otherwise
             // 2 - the `$contextValue` (usually set via a GraphQL execution middleware, e.g. `AddAuthUserContextValueMiddleware`)
@@ -221,6 +235,11 @@ abstract class Field
             $this->validateFieldArguments($fieldsAndArguments);
 
             $arguments[1] = $this->getArgs($arguments);
+
+            // Authenticate
+            if (true != \call_user_func_array($authenticate, $arguments)) {
+                throw new AuthenticationError($this->getAuthenticationMessage());
+            }
 
             // Authorize
             if (true != \call_user_func_array($authorize, $arguments)) {
@@ -322,6 +341,11 @@ abstract class Field
     public function getAuthorizationMessage(): string
     {
         return 'Unauthorized';
+    }
+
+    public function getAuthenticationMessage(): string
+    {
+        return 'Unauthenticated';
     }
 
     /**

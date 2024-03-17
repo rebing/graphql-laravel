@@ -83,6 +83,24 @@ class GraphQLQueryTest extends TestCase
         self::assertEquals('You are not authorized to perform this action', $result['errors'][0]['message']);
     }
 
+    public function testQueryAndReturnResultWithAuthenticate(): void
+    {
+        $result = $this->httpGraphql($this->queries['examplesWithAuthenticate'], [
+            'expectErrors' => true,
+        ]);
+        self::assertNull($result['data']['examplesAuthenticate']);
+        self::assertEquals('Unauthenticated', $result['errors'][0]['message']);
+    }
+
+    public function testQueryAndReturnResultWithCustomAuthenticateMessage(): void
+    {
+        $result = $this->httpGraphql($this->queries['examplesWithAuthenticateMessage'], [
+            'expectErrors' => true,
+        ]);
+        self::assertNull($result['data']['examplesAuthenticateMessage']);
+        self::assertEquals('You are not authenticated', $result['errors'][0]['message']);
+    }
+
     /**
      * If an error was encountered before execution begins, the data entry should not be present in the result.
      */
