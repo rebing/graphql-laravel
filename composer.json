@@ -49,7 +49,7 @@
         "mockery/mockery": "^1.2",
         "phpstan/phpstan": "^1",
         "larastan/larastan": "^2",
-        "orchestra/testbench": "^8.0|^9.0|^9.x-dev",
+        "orchestra/testbench": "^8.0|^9.0",
         "phpunit/phpunit": "^10.5",
         "thecodingmachine/phpstan-safe-rule": "^1"
     },
