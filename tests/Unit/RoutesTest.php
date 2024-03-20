@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
+use Rebing\GraphQL\GraphQLHttpMiddleware;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleSchemaWithMethod;
@@ -47,6 +48,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':default',
                     ExampleMiddleware::class,
                 ],
             ],
@@ -58,6 +60,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test/default',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':default',
                     ExampleMiddleware::class,
                 ],
             ],
@@ -69,6 +72,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test/custom',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':custom',
                     ExampleMiddleware::class,
                 ],
             ],
@@ -78,6 +82,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test/with_methods',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':with_methods',
                     ExampleMiddleware::class,
                 ],
             ],
@@ -89,6 +94,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test/class_based',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':class_based',
                     ExampleMiddleware::class,
                 ],
             ],
@@ -98,6 +104,7 @@ class RoutesTest extends TestCase
                 ],
                 'uri' => 'graphql_test/class_based_with_methods',
                 'middleware' => [
+                    GraphQLHttpMiddleware::class . ':class_based_with_methods',
                     ExampleMiddleware::class,
                 ],
             ],

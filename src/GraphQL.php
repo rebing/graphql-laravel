@@ -19,6 +19,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationException;
 use Rebing\GraphQL\Error\AuthorizationError;
@@ -655,6 +656,24 @@ class GraphQL
         }
 
         return $schemaConfig;
+    }
+
+    public static function parseRoute(string $schemaName, array $schemaConfig, array $routeConfig, ?string $alias = null): \Illuminate\Routing\Route
+    {
+        if (null !== $alias) {
+            $routeName = $alias ? ".$alias" : '';
+        } else {
+            $routeName = $schemaName ? ".$schemaName" : '';
+        }
+
+        return Route::match(
+            $schemaConfig['method'] ?? ['GET', 'POST'],
+            $alias ?? $schemaName,
+            $schemaConfig['controller'] ?? $routeConfig['controller'] ?? [GraphQLController::class, 'query'],
+        )->middleware(array_merge(
+            [GraphQLHttpMiddleware::class . ":$schemaName"],
+            $schemaConfig['middleware'] ?? []
+        ))->name($routeName);
     }
 
     public function decorateExecutionResult(ExecutionResult $executionResult): ExecutionResult
