@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database;
 
 use Laragraph\Utils\BadRequestGraphQLException;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class EmptyQueryTest extends TestCaseDatabase
@@ -23,6 +24,7 @@ class EmptyQueryTest extends TestCaseDatabase
         self::assertSame($expectedError, $result['errors'][0]['message']);
     }
 
+    #[WithConfig('app.debug', true)]
     public function testNoExplicitContentType(): void
     {
         $response = $this->call('POST', '/graphql', [
