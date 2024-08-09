@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Illuminate\Auth\GenericUser;
 use Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware;
+use Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ExecutionMiddlewareTest extends TestCase
@@ -170,5 +171,31 @@ GRAPHQL;
             ],
         ];
         self::assertSame($expected, $result);
+    }
+
+    public function testValidateOperationParamsMiddlewareWithInvalidParams(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            ValidateOperationParamsMiddleware::class,
+        ]);
+
+        $result = $this->httpGraphql($this->queries['examples'], [
+            'expectErrors' => true,
+            'variables' => [
+                []
+            ],
+        ]);
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'GraphQL Request parameter "variables" must be object or JSON string parsed to object, but got [[]]',
+                    'extensions' => [
+                    ],
+                ],
+            ],
+        ];
+
+        self::assertEquals($expected, $result);
     }
 }
