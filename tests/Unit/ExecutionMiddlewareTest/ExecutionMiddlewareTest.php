@@ -182,7 +182,7 @@ GRAPHQL;
         $result = $this->httpGraphql($this->queries['examples'], [
             'expectErrors' => true,
             'variables' => [
-                []
+                [],
             ],
         ]);
 
