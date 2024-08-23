@@ -260,7 +260,7 @@ class SelectFields
 
     protected static function isMongodbInstance(GraphqlType $parentType): bool
     {
-        $mongoType = 'Jenssegers\Mongodb\Eloquent\Model';
+        $mongoType = 'MongoDB\Laravel\Eloquent\Model';
 
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
     }
