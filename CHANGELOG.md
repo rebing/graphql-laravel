@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.5.0...master)
 
+## Fixed
+- Bring back laravel-mongodb support [\#1144 / jsrodas-pdpaola](https://github.com/rebing/graphql-laravel/pull/1144)
+
 2024-03-06, 9.5.0
 -----------------
 
