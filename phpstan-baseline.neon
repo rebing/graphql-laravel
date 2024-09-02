@@ -111,6 +111,66 @@ parameters:
 			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
 		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method buildSchemaFromConfig\\(\\) parameter \\#1 \\$schemaConfig with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method execute\\(\\) return type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method formatError\\(\\) return type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method getGlobalResolverMiddlewares\\(\\) return type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method getSchemas\\(\\) return type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method objectType\\(\\) parameter \\#1 \\$type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method objectType\\(\\) parameter \\#2 \\$opts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method query\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method query\\(\\) parameter \\#3 \\$opts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method query\\(\\) return type with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method queryAndReturnResult\\(\\) parameter \\#2 \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
+			message: "#^Class Rebing\\\\GraphQL\\\\Support\\\\Facades\\\\GraphQL has PHPDoc tag @method for method queryAndReturnResult\\(\\) parameter \\#3 \\$opts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Support/Facades/GraphQL.php
+
+		-
 			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
 			count: 1
 			path: src/Support/Field.php
