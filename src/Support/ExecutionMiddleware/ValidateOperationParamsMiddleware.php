@@ -23,6 +23,7 @@ class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
 
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
+        /** @phpstan-var list<RequestError> $errors */
         $errors = $this->helper->validateOperationParams($params);
 
         if ($errors) {
