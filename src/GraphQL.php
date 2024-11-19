@@ -227,7 +227,7 @@ class GraphQL
     /**
      * @param object|string $class
      */
-    public function addType($class, string $name = null): void
+    public function addType($class, ?string $name = null): void
     {
         if (!$name) {
             $type = \is_object($class) ? $class : $this->app->make($class);
@@ -487,7 +487,7 @@ class GraphQL
         $this->typesInstances = [];
     }
 
-    public function paginate(string $typeName, string $customName = null): Type
+    public function paginate(string $typeName, ?string $customName = null): Type
     {
         $name = $customName ?: $typeName . 'Pagination';
 
@@ -499,7 +499,7 @@ class GraphQL
         return $this->typesInstances[$name];
     }
 
-    public function simplePaginate(string $typeName, string $customName = null): Type
+    public function simplePaginate(string $typeName, ?string $customName = null): Type
     {
         $name = $customName ?: $typeName . 'SimplePagination';
 
