@@ -42,6 +42,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          ini-file: development
           coverage: none
           extensions: pdo_sqlite
 
