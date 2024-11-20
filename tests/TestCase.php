@@ -71,6 +71,17 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('app.debug', true);
+
+        $deprecationChannel = $app['config']->get('logging.deprecations.channel');
+
+        if ($deprecationChannel) {
+            // By setting `logging.channels.deprecations` here manually we
+            // override some behaviour in `\Orchestra\Testbench\Bootstrap\HandleExceptions::ensureDeprecationLoggerIsConfigured`
+            // and avoid enabling the stacktrace
+            $app['config']->set('logging.channels.deprecations', [
+                'driver' => $deprecationChannel,
+            ]);
+        }
     }
 
     protected function assertGraphQLSchema($schema): void
