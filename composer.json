@@ -70,7 +70,7 @@
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "tests": "phpunit"
+        "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog phpunit"
     },
     "extra": {
         "branch-alias": {
