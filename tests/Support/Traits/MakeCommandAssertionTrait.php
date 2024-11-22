@@ -18,7 +18,7 @@ trait MakeCommandAssertionTrait
         string $expectedFilename,
         string $expectedNamespace,
         string $expectedClassDefinition,
-        string $expectedGraphqlName = null
+        ?string $expectedGraphqlName = null
     ): void {
         $filesystemMock = $this
             ->getMockBuilder(Filesystem::class)

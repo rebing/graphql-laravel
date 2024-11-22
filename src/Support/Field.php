@@ -34,7 +34,7 @@ abstract class Field
      * @param mixed $root
      * @param mixed $ctx
      */
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         return true;
     }

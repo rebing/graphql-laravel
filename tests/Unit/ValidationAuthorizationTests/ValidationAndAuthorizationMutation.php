@@ -14,7 +14,7 @@ class ValidationAndAuthorizationMutation extends Mutation
         'name' => 'validationAndAuthorization',
     ];
 
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         return 'value1' === $args['arg1'];
     }
