@@ -531,7 +531,7 @@ class GraphQL
 
     /**
      * @return array<string,mixed>
-     * @see \GraphQL\Executor\ExecutionResult::setErrorFormatter
+     * @see ExecutionResult::setErrorFormatter
      */
     public static function formatError(Error $e): array
     {
