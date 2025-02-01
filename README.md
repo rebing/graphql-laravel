@@ -19,7 +19,7 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 * Queries return **types**, which can have custom **privacy** settings.
 * The queried fields will have the option to be retrieved **dynamically** from the database.
 
-It offers following features and improvements over the original package by
+It offers the following features and improvements over the original package by
 [Folklore](https://github.com/folkloreinc/laravel-graphql):
 * Per-operation authorization
 * Per-field callback defining its visibility (e.g. hiding from unauthenticated users)
@@ -33,7 +33,7 @@ It offers following features and improvements over the original package by
 
 ### Dependencies:
 
-* [Laravel 9.0+](https://github.com/laravel/laravel)
+* [Laravel 10.0+](https://github.com/laravel/laravel)
 * [GraphQL PHP](https://github.com/webonyx/graphql-php)
 
 
