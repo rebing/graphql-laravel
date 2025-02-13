@@ -336,7 +336,7 @@ class SelectFields
 
                 default:
                     throw new RuntimeException(
-                        \Safe\sprintf(
+                        \sprintf(
                             "Unsupported use of 'privacy' configuration on field '%s'.",
                             $fieldObject->name
                         )

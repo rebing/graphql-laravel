@@ -39,19 +39,19 @@
         "illuminate/contracts": "^10.0|^11.0",
         "illuminate/support": "^10.0|^11.0",
         "laragraph/utils": "^2.0.1",
-        "thecodingmachine/safe": "^2.4",
+        "thecodingmachine/safe": "^3.0",
         "webonyx/graphql-php": "^15.0.3"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "fakerphp/faker": "^1.6",
         "friendsofphp/php-cs-fixer": "^3",
-        "larastan/larastan": "^2",
+        "larastan/larastan": "^3",
         "laravel/framework": "^10.0|^11.0",
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.5",
         "orchestra/testbench-core": "^8.0|^9.0",
-        "phpstan/phpstan": "^1",
+        "phpstan/phpstan": "^2",
         "phpunit/phpunit": "^10.5.32",
         "thecodingmachine/phpstan-safe-rule": "^1"
     },
