@@ -1,7 +1,12 @@
 {
     "name": "rebing/graphql-laravel",
     "description": "Laravel wrapper for PHP GraphQL",
-    "keywords": ["framework", "laravel", "graphql", "react"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "graphql",
+        "react"
+    ],
     "authors": [
         {
             "name": "Rebing OÜ",
@@ -36,10 +41,10 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
-        "illuminate/contracts": "^10.0|^11.0",
-        "illuminate/support": "^10.0|^11.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
         "laragraph/utils": "^2.0.1",
-        "thecodingmachine/safe": "^2.4",
+        "thecodingmachine/safe": "^2.4|^3.0",
         "webonyx/graphql-php": "^15.0.3"
     },
     "require-dev": {
@@ -47,11 +52,11 @@
         "fakerphp/faker": "^1.6",
         "friendsofphp/php-cs-fixer": "^3",
         "larastan/larastan": "^2",
-        "laravel/framework": "^10.0|^11.0",
+        "laravel/framework": "^10.0|^11.0|^12.0",
         "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.5",
         "orchestra/testbench-core": "^8.0|^9.0",
-        "phpstan/phpstan": "^1",
+        "phpstan/phpstan": "^1|^2.1",
         "phpunit/phpunit": "^10.5.32",
         "thecodingmachine/phpstan-safe-rule": "^1"
     },
