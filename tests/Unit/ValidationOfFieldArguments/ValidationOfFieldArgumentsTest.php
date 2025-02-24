@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ValidationOfFieldArguments;
 
-use Composer\InstalledVersions;
 use Rebing\GraphQL\Tests\TestCase;
 
 class ValidationOfFieldArgumentsTest extends TestCase
