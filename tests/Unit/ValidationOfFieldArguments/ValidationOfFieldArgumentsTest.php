@@ -83,12 +83,6 @@ GRAPHQL;
             ],
         ];
 
-        if ($this->orchestraTestbenchCoreVersionBelow('6.17.1.0')) {
-            $expected['errors'][0]['extensions']['validation']['profile.args.profileId'] = [
-                'The profile.args.profile id may not be greater than 10.',
-            ];
-        }
-
         self::assertEquals($expected, $result);
     }
 
@@ -137,10 +131,5 @@ GRAPHQL;
             ],
         ];
         self::assertEquals($expected, $result);
-    }
-
-    private function orchestraTestbenchCoreVersionBelow(string $versionString): bool
-    {
-        return InstalledVersions::getVersion('orchestra/testbench-core') < $versionString;
     }
 }
