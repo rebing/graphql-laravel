@@ -5,14 +5,15 @@ namespace Rebing\GraphQL\Tests\Database;
 
 use Laragraph\Utils\BadRequestGraphQLException;
 use Orchestra\Testbench\Attributes\WithConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class EmptyQueryTest extends TestCaseDatabase
 {
     /**
-     * @dataProvider dataForEmptyQuery
      * @param list<mixed> $parameters
      */
+    #[DataProvider('dataForEmptyQuery')]
     public function testEmptyQuery(array $parameters, string $expectedError): void
     {
         $response = $this->call('GET', '/graphql', $parameters);

@@ -3,6 +3,13 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.7.0...master)
 
+## Added
+- Support for Laravel 12 [\#1164 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1164)
+
+## Changed
+- Adopted PHPUnit attributes in the test suite [#1167 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1167)
+- Updated to PHPStan 2 [#1168 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1168)
+
 2024-11-22, 9.7.0
 -----------------
 

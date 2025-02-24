@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Traits\Macroable;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
@@ -45,9 +46,7 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testSchemaIsValidWithInputFieldAliases(): void
     {
         $schema = GraphQL::buildSchemaFromConfig([
