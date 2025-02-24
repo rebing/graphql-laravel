@@ -14,6 +14,10 @@ class RoutesTest extends TestCase
 {
     protected function getEnvironmentSetUp($app): void
     {
+        // Laravel registers routes for local filesystems by default.
+        // However, for the purpose of this test, we don't want it to register any routes.
+        $app['config']->set('filesystems.disks.local.serve', false);
+
         $app['config']->set('graphql', [
             'route' => [
                 'prefix' => 'graphql_test',
