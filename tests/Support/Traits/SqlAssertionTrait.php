@@ -54,7 +54,7 @@ trait SqlAssertionTrait
             $msg .= "\n\n";
         }
 
-        $msg .= \Safe\sprintf(
+        $msg .= \sprintf(
             "Expected number of SQL statements of %d does not match the actual value of %d\nQueries:\n\n%s\n",
             $expectedCount,
             $numSqlQueries,
@@ -62,7 +62,7 @@ trait SqlAssertionTrait
                 "\n",
                 array_map(
                     static function (QueryExecuted $query) {
-                        return \Safe\sprintf(
+                        return \sprintf(
                             '[%s] %s',
                             $query->connectionName,
                             $query->sql
