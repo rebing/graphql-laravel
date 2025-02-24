@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Rebing\GraphQL\Console\UnionMakeCommand;
 use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
 use Rebing\GraphQL\Tests\TestCase;
@@ -11,9 +12,7 @@ class UnionMakeCommandTest extends TestCase
 {
     use MakeCommandAssertionTrait;
 
-    /**
-     * @dataProvider dataForMakeCommand
-     */
+    #[DataProvider('dataForMakeCommand')]
     public function testCommand(
         string $inputName,
         string $expectedFilename,
