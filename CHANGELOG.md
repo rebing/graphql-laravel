@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.8.0...master)
 
+## Removed
+- Support for Laravel 10 & PHP 8.1 have been removed [\#1170 / mfn](https://github.com/rebing/graphql-laravel/pull/1170)
+
 2025-02-24, 9.8.0
 -----------------
 
