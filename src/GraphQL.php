@@ -352,7 +352,7 @@ class GraphQL
     }
 
     /**
-     * @param array<int|string,class-string|array<string,mixed>> $fields
+     * @param array<int|string,class-string|array<string,mixed>|Field> $fields
      * @param array<string,string> $opts
      */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
@@ -363,6 +363,8 @@ class GraphQL
             if (\is_string($field)) {
                 $field = $this->app->make($field);
                 /** @var Field $field */
+                $field = $field->toArray();
+            } elseif ($field instanceof Field) {
                 $field = $field->toArray();
             }
             $name = is_numeric($name) ? $field['name'] : $name;
