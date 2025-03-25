@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-Use Facebook's GraphQL with PHP 8.1+ on Laravel 10.0+. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
+This package provides an integration of GraphQL for Laravel. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
 * Allows creating **queries** and **mutations** as request endpoints
 * Supports multiple schemas
@@ -19,7 +19,7 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 * Queries return **types**, which can have custom **privacy** settings.
 * The queried fields will have the option to be retrieved **dynamically** from the database.
 
-It offers following features and improvements over the original package by
+It offers the following features and improvements over the original package by
 [Folklore](https://github.com/folkloreinc/laravel-graphql):
 * Per-operation authorization
 * Per-field callback defining its visibility (e.g. hiding from unauthenticated users)
@@ -31,22 +31,12 @@ It offers following features and improvements over the original package by
 
 ## Installation
 
-### Dependencies:
-
-* [Laravel 9.0+](https://github.com/laravel/laravel)
-* [GraphQL PHP](https://github.com/webonyx/graphql-php)
-
-
-### Installation:
-
 Require the package via Composer:
 ```bash
 composer require rebing/graphql-laravel
 ```
 
-#### Laravel
-
-Publish the configuration file:
+Publish the configuration file via Laravel artisan:
 ```bash
 php artisan vendor:publish --provider="Rebing\GraphQL\GraphQLServiceProvider"
 ```

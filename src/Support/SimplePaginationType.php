@@ -11,7 +11,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class SimplePaginationType extends ObjectType
 {
-    public function __construct(string $typeName, string $customName = null)
+    public function __construct(string $typeName, ?string $customName = null)
     {
         $name = $customName ?: $typeName . 'SimplePagination';
 
@@ -32,7 +32,7 @@ class SimplePaginationType extends ObjectType
     /**
      * @return array<string, array<string,mixed>>
      */
-    protected function getPaginationFields(ObjectType $underlyingType): array
+    protected function getPaginationFields(GraphQLType $underlyingType): array
     {
         return [
             'data' => [

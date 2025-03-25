@@ -18,7 +18,7 @@ use Rebing\GraphQL\Tests\Support\database\factories\PostFactory;
  * @property string $title
  * @property string|null $body
  * @property int|null $user_id
- * @property array|null $properties
+ * @property array{name:?string,title:?string}|null $properties
  * @property bool $flag
  * @property Carbon|null $published_at
  * @property bool $is_published

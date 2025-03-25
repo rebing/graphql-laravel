@@ -1,7 +1,41 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.4.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.9.0...master)
+
+2025-02-24, 9.9.0
+-----------------
+
+## Removed
+- Support for Laravel 10 & PHP 8.1 have been removed [\#1170 / mfn](https://github.com/rebing/graphql-laravel/pull/1170)
+
+2025-02-24, 9.8.0
+-----------------
+
+## Added
+- Support for Laravel 12 [\#1164 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1164)
+
+## Changed
+- Adopted PHPUnit attributes in the test suite [#1167 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1167)
+- Updated to PHPStan 2 [#1168 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1168)
+
+2024-11-22, 9.7.0
+-----------------
+
+## Fixed
+- Fixes for implicit nullability deprecation (PHP 8.4 compat) [\#1152 / duncanmcclean](https://github.com/rebing/graphql-laravel/pull/1152)
+
+2024-08-23, 9.6.0
+-----------------
+
+## Fixed
+- Bring back laravel-mongodb support [\#1144 / jsrodas-pdpaola](https://github.com/rebing/graphql-laravel/pull/1144)
+
+2024-03-06, 9.5.0
+-----------------
+
+### Changed
+- Relax PaginationType/SimplePaginationType getPaginationFields typehint [\#1132 / jasonvarga](https://github.com/rebing/graphql-laravel/pull/1132)
 
 2024-03-04, 9.4.0
 -----------------

@@ -14,8 +14,9 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     checkUninitializedProperties: true
     checkModelProperties: true
-    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
+        -
+          identifier: missingType.generics
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
         # tests/Unit/GraphQLTest.php
         - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'

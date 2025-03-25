@@ -28,7 +28,7 @@ class FormattableDate extends Field
             'format' => [
                 'type' => Type::string(),
                 'defaultValue' => $this->defaultFormat,
-                'description' => \Safe\sprintf('Defaults to %s', $this->defaultFormat),
+                'description' => \sprintf('Defaults to %s', $this->defaultFormat),
             ],
             'relative' => [
                 'type' => Type::boolean(),

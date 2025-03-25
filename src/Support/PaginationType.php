@@ -11,7 +11,7 @@ use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class PaginationType extends ObjectType
 {
-    public function __construct(string $typeName, string $customName = null)
+    public function __construct(string $typeName, ?string $customName = null)
     {
         $name = $customName ?: $typeName . 'Pagination';
 
@@ -29,7 +29,7 @@ class PaginationType extends ObjectType
         parent::__construct($config);
     }
 
-    protected function getPaginationFields(ObjectType $underlyingType): array
+    protected function getPaginationFields(GraphQLType $underlyingType): array
     {
         return [
             'data' => [
