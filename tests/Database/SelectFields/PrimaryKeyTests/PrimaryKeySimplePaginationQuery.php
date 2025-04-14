@@ -29,7 +29,7 @@ class PrimaryKeySimplePaginationQuery extends Query
      * @param mixed $args
      * @param mixed $ctx
      *
-     * @return Paginator<Post>
+     * @return Paginator<int,Post>
      */
     public function resolve($root, $args, $ctx, ResolveInfo $info, Closure $getSelectFields)
     {
