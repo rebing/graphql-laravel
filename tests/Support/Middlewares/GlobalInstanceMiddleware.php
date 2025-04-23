@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class GlobalInstanceMiddleware extends Middleware
 {
-    protected int $invalidValue;
+    protected ?int $invalidValue;
 
     public function __construct(int $invalidValue)
     {
