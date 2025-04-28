@@ -10,7 +10,6 @@ use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
