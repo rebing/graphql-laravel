@@ -23,6 +23,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class TestCase extends BaseTestCase
@@ -218,7 +219,7 @@ class TestCase extends BaseTestCase
         unset($result['errors'][0]['extensions']['line']);
 
         if ($assertMessage) {
-            throw new ExpectationFailedException($assertMessage);
+            throw new RuntimeException($assertMessage);
         }
 
         return $result;
