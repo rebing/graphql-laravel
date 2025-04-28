@@ -1,6 +1,12 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Call to method report\(\) of internal class NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler from outside its root namespace NunoMaduro\.$#'
+			identifier: method.internalClass
+			count: 1
+			path: src/GraphQL.php
+
+		-
 			message: '#^Cannot access offset ''name'' on array\<string, mixed\>\|Rebing\\GraphQL\\Support\\Field\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
