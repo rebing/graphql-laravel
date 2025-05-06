@@ -366,9 +366,11 @@ class SelectFields
             $foreignKey = $relation->getForeignKey();
         } elseif (method_exists($relation, 'getQualifiedForeignPivotKeyName')) {
             $foreignKey = $relation->getQualifiedForeignPivotKeyName();
-        } else {
+        } elseif (method_exists($relation, 'getQualifiedForeignKeyName')) {
             /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
+        } else {
+            return;
         }
         $foreignKey = $parentTable ? ($parentTable . '.' . \Safe\preg_replace(
             '/^' . preg_quote($parentTable, '/') . '\./',
