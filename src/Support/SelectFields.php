@@ -179,7 +179,7 @@ class SelectFields
 
                 // Pagination
                 if (is_a($parentType, Config::get('graphql.pagination_type', PaginationType::class)) ||
-                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class))) {
+                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class)) || is_a($parentType, Config::get('graphql.cursor_pagination_type', CursorPaginationType::class))) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     static::handleFields(

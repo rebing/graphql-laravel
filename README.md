@@ -1895,6 +1895,37 @@ class PostsQuery extends Query
 }
 ```
 
+[Cursor Pagination](https://laravel.com/docs/pagination#cursor-pagination) will be used, if a query or mutation returns a `CursorPaginationType`.
+
+```php
+namespace App\GraphQL\Queries;
+
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+
+class PostsQuery extends Query
+{
+    public function type(): Type
+    {
+        return GraphQL::cursorPaginate('posts');
+    }
+
+    // ...
+
+    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    {
+        $fields = $getSelectFields();
+
+        return Post::with($fields->getRelations())
+            ->select($fields->getSelect())
+            ->cursorPaginate($args['limit'], ['*'], 'cursorName', $args['cursor']);
+    }
+}
+```
+
 ### Batching
 
 Batched requests are required to be sent via a POST request.
