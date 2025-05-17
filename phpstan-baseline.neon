@@ -121,6 +121,18 @@ parameters:
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Pagination\\CursorPaginator\:\:getCollection\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Support/CursorPaginationType.php
+
+		-
+			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Support/CursorPaginationType.php
+
+		-
 			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\EnumType constructor expects array\{name\?\: string\|null, description\?\: string\|null, values\: \(callable\(\)\: iterable\<int\|string, mixed\>\)\|iterable\<int\|string, mixed\>, astNode\?\: GraphQL\\Language\\AST\\EnumTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\EnumTypeExtensionNode\>\|null\}, array\<string, mixed\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1331,6 +1343,24 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
+
+		-
+			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullCursorPaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
+
+		-
+			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullCursorPaginationQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
+
+		-
+			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullCursorPaginationQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
 
 		-
 			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullPaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
