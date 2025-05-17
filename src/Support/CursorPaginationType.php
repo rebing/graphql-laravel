@@ -6,7 +6,6 @@ namespace Rebing\GraphQL\Support;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Pagination\CursorPaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
