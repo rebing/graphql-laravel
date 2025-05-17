@@ -1,7 +1,13 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.9.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.10.0...master)
+
+2025-05-17, 9.10.0
+------------------
+
+## Added
+- Support Laravels cursor pagination [\#1180 / Davidnadejdin](https://github.com/rebing/graphql-laravel/pull/1180)
 
 2025-02-24, 9.9.0
 -----------------
