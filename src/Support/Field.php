@@ -147,8 +147,8 @@ abstract class Field
     }
 
     /**
-     * @return list<class-string|object>
      * @phpstan-param list<string> $middleware
+     * @return list<class-string|object>
      */
     protected function appendGlobalMiddlewares(array $middleware): array
     {
