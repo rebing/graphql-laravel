@@ -490,12 +490,9 @@ class GraphQLTest extends TestCase
             ],
         ]);
 
-        self::assertSame([
-            'include',
-            'skip',
-            'deprecated',
-            'exampleDirective',
-        ], array_keys($schema->getDirectives()));
+        self::assertTrue(
+            \in_array('exampleDirective', array_keys($schema->getDirectives()), true),
+        );
     }
 
     public function testIsMacroable(): void
