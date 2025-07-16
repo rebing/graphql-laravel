@@ -9,4 +9,5 @@ $finder = PhpCsFixer\Finder::create()
 return (new Config())
         ->setFinder($finder)
         ->setRules(\Mfn\PhpCsFixer\Config::getRules())
-        ->setRiskyAllowed(true);
+        ->setRiskyAllowed(true)
+        ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
