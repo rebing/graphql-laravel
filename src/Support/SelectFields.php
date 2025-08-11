@@ -488,7 +488,7 @@ class SelectFields
                         return app($type->config['model'])->getTable() === $query->getParent()->getTable();
                     }
                 );
-                $typesFiltered = array_values($typesFiltered ?? []);
+                $typesFiltered = array_values($typesFiltered);
 
                 if (1 === \count($typesFiltered)) {
                     /* @var GraphqlType $type */
