@@ -37,7 +37,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\NonNull\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/GraphQL.php
@@ -127,7 +127,7 @@ parameters:
 			path: src/Support/CursorPaginationType.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\NonNull\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Support/CursorPaginationType.php
@@ -361,7 +361,7 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\NonNull\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Support/PaginationType.php
@@ -529,7 +529,7 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\NonNull\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Support/SimplePaginationType.php
@@ -1837,7 +1837,7 @@ parameters:
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: '#^Parameter \#2 \$visitor of static method GraphQL\\Language\\Visitor\:\:visit\(\) expects array\<string, array\<string, callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\>\|\(callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\)\>, array\{VariableDefinition\: Closure\(mixed, mixed, mixed, mixed, mixed\)\: mixed\} given\.$#'
+			message: '#^Parameter \#2 \$visitor of static method GraphQL\\Language\\Visitor\:\:visit\(\) expects array\<string, array\<string, callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\AST\\Node\|GraphQL\\Language\\AST\\NodeList\<GraphQL\\Language\\AST\\Node\>\|GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\>\|\(callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\AST\\Node\|GraphQL\\Language\\AST\\NodeList\<GraphQL\\Language\\AST\\Node\>\|GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\)\>, array\{VariableDefinition\: Closure\(mixed, mixed, mixed, mixed, mixed\)\: mixed\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
