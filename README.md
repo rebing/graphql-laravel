@@ -63,6 +63,7 @@ config/graphql.php
       - [GraphQL resolver middleware](#graphql-resolver-middleware)
     - [Schemas](#schemas)
       - [Schema classes](#schema-classes)
+      - [Route attributes](#route-attributes)
     - [Creating a query](#creating-a-query)
     - [Creating a mutation](#creating-a-mutation)
       - [File uploads](#file-uploads)
@@ -275,6 +276,11 @@ them, in addition to the global middleware. For example:
         'execution_middleware' => [
             \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
         ],
+        // Route attributes applied to the generated HTTP route for this schema
+        // Example: expose this schema on a dedicated subdomain
+        'route_attributes' => [
+            'domain' => 'api.example.com',
+        ],
     ],
 ],
 ```
@@ -284,6 +290,24 @@ which it is accessible. Per the default configuration of `prefix = graphql`, the
 _default_ schema is accessible via `/graphql`.
 
 
+#### Route attributes
+
+You can customize the HTTP route generated for a specific schema using the `route_attributes` key.
+This is useful for setting parameters supported by Laravel routes, e.g. a custom `domain`.
+
+```php
+'schemas' => [
+    'with_custom_domain' => [
+        'query' => [
+            App\GraphQL\Queries\UsersQuery::class,
+        ],
+        'middleware' => ['auth:api'],
+        'route_attributes' => [
+            'domain' => 'api.example.com',
+        ],
+    ],
+]
+```
 
 
 #### Schema classes
