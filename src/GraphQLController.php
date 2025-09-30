@@ -8,7 +8,6 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
 use Laragraph\Utils\RequestParser;
 use Rebing\GraphQL\Support\OperationParams;
 
@@ -16,9 +15,7 @@ class GraphQLController extends Controller
 {
     public function query(Request $request, RequestParser $parser, Repository $config, GraphQL $graphql): JsonResponse
     {
-        $routePrefix = $config->get('graphql.route.prefix', 'graphql');
-        $schemaName = $this->findSchemaNameInRequest($request, "/$routePrefix") ?: $config->get('graphql.default_schema', 'default');
-
+        $schemaName = $request->server('graphql.schemaName');
         $operations = $parser->parseRequest($request);
 
         $headers = $config->get('graphql.headers', []);
@@ -72,16 +69,5 @@ class GraphQLController extends Controller
         }
 
         return $data;
-    }
-
-    protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
-    {
-        $path = $request->getPathInfo();
-
-        if (!Str::startsWith($path, $routePrefix)) {
-            return null;
-        }
-
-        return trim(Str::after($path, $routePrefix), '/');
     }
 }
