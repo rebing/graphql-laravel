@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.10.0...master)
 
+## Added
+- Add `route_attributes` support for GraphQL routes [\#1186 / alissn](https://github.com/rebing/graphql-laravel/pull/1186)
+
 2025-05-17, 9.10.0
 ------------------
 
