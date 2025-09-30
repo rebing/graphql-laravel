@@ -90,7 +90,7 @@ class RouteWithSchemaTest extends TestCase
                 'methods' => $route->methods(),
                 'uri' => $route->uri(),
                 'middleware' => $route->middleware(),
-                'domain' => method_exists($route, 'getDomain') ? $route->getDomain() : null,
+                'domain' => $route->getDomain(),
                 'action_middleware' => $action['middleware'] ?? [],
                 'action_excluded_middleware' => $action['excluded_middleware'] ?? [],
             ];
