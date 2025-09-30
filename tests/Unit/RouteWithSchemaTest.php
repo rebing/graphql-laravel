@@ -86,6 +86,7 @@ class RouteWithSchemaTest extends TestCase
             app('router')->getRoutes()->getRoutesByName()
         )->map(function (Route $route) {
             $action = $route->getAction();
+
             return [
                 'methods' => $route->methods(),
                 'uri' => $route->uri(),
@@ -99,5 +100,3 @@ class RouteWithSchemaTest extends TestCase
         self::assertEquals($expected, $actual);
     }
 }
-
-
