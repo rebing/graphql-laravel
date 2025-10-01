@@ -25,9 +25,9 @@ class RouteWithSchemaTest extends TestCase
                 'default' => [
                     'middleware' => [ExampleMiddleware::class],
                 ],
-                'with_schema_attributes' => [
+                'with_route_attributes' => [
                     'middleware' => [ExampleMiddleware::class],
-                    'schema_attributes' => [
+                    'route_attributes' => [
                         'domain' => 'api.example.com',
                     ],
                 ],
@@ -66,13 +66,13 @@ class RouteWithSchemaTest extends TestCase
                 'action_middleware' => [ExampleMiddleware::class],
                 'action_excluded_middleware' => [],
             ],
-            'graphql.with_schema_attributes' => [
+            'graphql.with_route_attributes' => [
                 'methods' => [
                     'GET',
                     'POST',
                     'HEAD',
                 ],
-                'uri' => 'graphql_test/with_schema_attributes',
+                'uri' => 'graphql_test/with_route_attributes',
                 'middleware' => [
                     ExampleMiddleware::class,
                 ],

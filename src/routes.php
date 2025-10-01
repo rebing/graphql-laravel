@@ -36,7 +36,7 @@ if ($routeConfig) {
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
-                    ...$schemaConfig['schema_attributes'] ?? [],
+                    ...$schemaConfig['route_attributes'] ?? [],
                 ]);
 
                 // Support array syntax: `[Some::class, 'method']`
