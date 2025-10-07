@@ -565,12 +565,6 @@ parameters:
 			path: src/Support/UploadType.php
 
 		-
-			message: '#^Offset ''uses'' might not exist on array\{uses\?\: mixed, middleware\?\: mixed\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/routes.php
-
-		-
 			message: '#^Property Rebing\\GraphQL\\Tests\\Database\\AuthorizeArgsTests\\GraphQLContext\:\:\$data has no type specified\.$#'
 			identifier: missingType.property
 			count: 1

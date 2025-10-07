@@ -93,6 +93,13 @@ return [
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
+
+            // Route attributes applied when generating the HTTP route for this schema
+            // Example:
+            // 'route_attributes' => [
+            //     'domain' => 'api.example.com',
+            // ]
+            'route_attributes' => [],
         ],
     ],
 
