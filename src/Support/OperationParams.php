@@ -13,9 +13,6 @@ class OperationParams extends BaseOperationParams
     /** @var DocumentNode|null */
     protected $parsedQuery;
 
-    /** @var BaseOperationParams */
-    protected $baseOperationParams;
-
     public function __construct(BaseOperationParams $baseOperationParams)
     {
         $this->init($baseOperationParams);
@@ -28,8 +25,8 @@ class OperationParams extends BaseOperationParams
         $this->operation = $baseOperationParams->operation;
         $this->variables = $baseOperationParams->variables;
         $this->extensions = $baseOperationParams->extensions;
-
-        $this->baseOperationParams = $baseOperationParams;
+        $this->originalInput = $baseOperationParams->originalInput ?? [];
+        $this->readOnly = $baseOperationParams->readOnly ?? false;
     }
 
     /**
@@ -37,12 +34,12 @@ class OperationParams extends BaseOperationParams
      */
     public function getOriginalInput(string $key)
     {
-        return $this->baseOperationParams->originalInput[$key] ?? null;
+        return $this->originalInput[$key] ?? null;
     }
 
     public function isReadOnly(): bool
     {
-        return $this->baseOperationParams->readOnly;
+        return $this->readOnly;
     }
 
     public function getParsedQuery(): DocumentNode
