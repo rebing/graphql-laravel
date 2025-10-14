@@ -19,6 +19,18 @@ return [
         }
     ',
 
+    'exampleProse' => '
+        query QueryExamplesProse {
+            exampleProse
+        }
+    ',
+
+    'exampleProseRenamed' => '
+        query QueryExamplesProseRenamed {
+            loremIpsum
+        }
+    ',
+
     'examplesWithConfigAlias' => '
         query examplesConfigAlias($index: Int) {
             examplesConfigAlias(index: $index) {
