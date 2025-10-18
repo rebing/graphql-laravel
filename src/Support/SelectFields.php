@@ -207,14 +207,29 @@ class SelectFields
 
                         static::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
-                        $with[$relationsKey] = static::getSelectableFieldsAndRelations(
-                            $queryArgs,
-                            $field,
-                            $newParentType,
-                            $customQuery,
-                            false,
-                            $ctx
-                        );
+                        // Check if this is a MorphTo relation
+                        if (is_a($relation, MorphTo::class)) {
+                            // For MorphTo relations, we need to handle them specially
+                            // because they can have different models, and we need to eager load based on the query
+                            static::handleMorphToRelation(
+                                $queryArgs,
+                                $field,
+                                $with,
+                                $ctx,
+                                $fieldObject,
+                                $key,
+                                $customQuery
+                            );
+                        } else {
+                            $with[$relationsKey] = static::getSelectableFieldsAndRelations(
+                                $queryArgs,
+                                $field,
+                                $newParentType,
+                                $customQuery,
+                                false,
+                                $ctx
+                            );
+                        }
                     } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
                         static::handleInterfaceFields(
                             $queryArgs,
@@ -516,6 +531,68 @@ class SelectFields
 
             return $callable($query);
         };
+    }
+
+    /**
+     * Handle MorphTo relations
+     * @param mixed $ctx
+     */
+    protected static function handleMorphToRelation(
+        array $queryArgs,
+        array $field,
+        array &$with,
+        $ctx,
+        FieldDefinition $fieldObject,
+        string $key,
+        ?Closure $customQuery
+    ): void {
+        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+
+        /* @var GraphqlType $fieldType */
+        $fieldType = $fieldObject->config['type'];
+
+        if ($fieldType instanceof WrappingType) {
+            $fieldType = $fieldType->getInnermostType();
+        }
+
+        /** @var UnionType $union */
+        $union = $fieldType;
+
+        $relationNames = (isset($union->config['relationName']) && \is_callable($union->config['relationName']))
+            ? $union->config['relationName']()
+            : null;
+        $with[$relationsKey] = function (MorphTo $relation) use ($queryArgs, $field, $union, $relationNames, $customQuery, $ctx): void {
+            $morphRelation = [];
+
+            foreach ($union->getTypes() as $unionType) {
+                // Get the model class name for the morph type
+                if (isset($unionType->config['model'])) {
+                    $modelClass = $unionType->config['model'];
+                } else {
+                    // Fallback to type name if no model is configured
+                    $modelClass = $relationNames[$unionType->name()] ?? $unionType->name();
+                }
+
+                /** @var callable $callable */
+                $callable = static::getSelectableFieldsAndRelations(
+                    $queryArgs,
+                    $field,
+                    $unionType,
+                    $customQuery,
+                    false,
+                    $ctx
+                );
+
+                $morphRelation[$modelClass] = $callable;
+
+            }
+
+            if (!empty($morphRelation)) {
+                $relation->morphWith($morphRelation);
+            }
+        };
+
+
     }
 
     public function getSelect(): array
