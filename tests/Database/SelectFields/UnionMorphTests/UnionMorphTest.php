@@ -12,10 +12,13 @@ use Rebing\GraphQL\Tests\Support\Models\Like;
 use Rebing\GraphQL\Tests\Support\Models\Post;
 use Rebing\GraphQL\Tests\Support\Models\Product;
 use Rebing\GraphQL\Tests\Support\Models\User;
+use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 use Rebing\GraphQL\Tests\TestCaseDatabase;
 
 class UnionMorphTest extends TestCaseDatabase
 {
+    use SqlAssertionTrait;
+
     protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
@@ -133,37 +136,103 @@ class UnionMorphTest extends TestCaseDatabase
 }
 GRAQPHQL;
 
+        $this->sqlCounterReset();
+
         $result = $this->httpGraphql($query);
 
-        self::assertArrayHasKey('data', $result);
-        self::assertCount(4, $result['data']['comments']);
+        $this->assertSqlQueries(
+            /** @lang SQL */ <<<'SQL'
+select "comments"."id", "comments"."title", "comments"."body", "comments"."commentable_id", "comments"."commentable_type" from "comments";
+select "products"."id", "products"."name", "products"."price", "products"."file_id" from "products" where "products"."id" in (?, ?);
+select "files"."id", "files"."name", "files"."path", "files"."folder_id" from "files" where "files"."id" in (?, ?);
+select "folders"."id", "folders"."name" from "folders" where "folders"."id" in (?);
+select "posts"."id", "posts"."file_id", "posts"."title" from "posts" where "posts"."id" in (?, ?);
+select "files"."id", "files"."name", "files"."path", "files"."folder_id" from "files" where "files"."id" in (?, ?);
+select "folders"."id", "folders"."name" from "folders" where "folders"."id" in (?);
+SQL
+        );
 
-        // Verify comments data structure
-        $comments = $result['data']['comments'];
-        
-        // Check that we have 4 comments (2 for products, 2 for posts)
-        self::assertCount(4, $comments);
-        
-        // Verify commentable field contains the correct data
-        foreach ($comments as $comment) {
-            self::assertArrayHasKey('id', $comment);
-            self::assertArrayHasKey('title', $comment);
-            self::assertArrayHasKey('commentable', $comment);
-            
-            $commentable = $comment['commentable'];
-            if (isset($commentable['title'])) {
-                // This is a Post comment
-                self::assertArrayHasKey('file', $commentable);
-                if (isset($commentable['file'])) {
-                    self::assertArrayHasKey('folder', $commentable['file']);
-                }
-            } elseif (isset($commentable['name'])) {
-                // This is a Product comment
-                self::assertArrayHasKey('file', $commentable);
-                if (isset($commentable['file'])) {
-                    self::assertArrayHasKey('folder', $commentable['file']);
-                }
-            }
-        }
+        $expectedResult = [
+            'data' => [
+                'comments' => [
+                    [
+                        'id' => (string) $product1Comment->id,
+                        'title' => $product1Comment->title,
+                        'body' => $product1Comment->body,
+                        'commentable' => [
+                            'id' => (string) $product1->id,
+                            'name' => $product1->name,
+                            'price' => $product1->price,
+                            'file' => [
+                                'id' => (string) $productFile1->id,
+                                'name' => $productFile1->name,
+                                'path' => $productFile1->path,
+                                'folder' => [
+                                    'id' => (string) $productFolder->id,
+                                    'name' => $productFolder->name,
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $product2Comment->id,
+                        'title' => $product2Comment->title,
+                        'body' => $product2Comment->body,
+                        'commentable' => [
+                            'id' => (string) $product2->id,
+                            'name' => $product2->name,
+                            'price' => $product2->price,
+                            'file' => [
+                                'id' => (string) $productFile2->id,
+                                'name' => $productFile2->name,
+                                'path' => $productFile2->path,
+                                'folder' => [
+                                    'id' => (string) $productFolder->id,
+                                    'name' => $productFolder->name,
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $post1Comment->id,
+                        'title' => $post1Comment->title,
+                        'body' => $post1Comment->body,
+                        'commentable' => [
+                            'id' => (string) $post1->id,
+                            'title' => $post1->title,
+                            'file' => [
+                                'id' => (string) $postFile1->id,
+                                'name' => $postFile1->name,
+                                'path' => $postFile1->path,
+                                'folder' => [
+                                    'id' => (string) $postFolder->id,
+                                    'name' => $postFolder->name,
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'id' => (string) $post2Comment->id,
+                        'title' => $post2Comment->title,
+                        'body' => $post2Comment->body,
+                        'commentable' => [
+                            'id' => (string) $post2->id,
+                            'title' => $post2->title,
+                            'file' => [
+                                'id' => (string) $postFile2->id,
+                                'name' => $postFile2->name,
+                                'path' => $postFile2->path,
+                                'folder' => [
+                                    'id' => (string) $postFolder->id,
+                                    'name' => $postFolder->name,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::assertSame($expectedResult, $result);
     }
 }
