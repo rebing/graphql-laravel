@@ -584,15 +584,12 @@ class SelectFields
                 );
 
                 $morphRelation[$modelClass] = $callable;
-
             }
 
             if (!empty($morphRelation)) {
                 $relation->constrain($morphRelation);
             }
         };
-
-
     }
 
     public function getSelect(): array

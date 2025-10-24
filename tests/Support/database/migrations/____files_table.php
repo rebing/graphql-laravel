@@ -20,5 +20,3 @@ class FilesTable extends Migration
         });
     }
 }
-
-

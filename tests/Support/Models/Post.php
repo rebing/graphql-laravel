@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Tests\Support\database\factories\PostFactory;
-use Rebing\GraphQL\Tests\Support\Models\File;
 
 /**
  * @property int $id

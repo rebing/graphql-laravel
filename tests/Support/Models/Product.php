@@ -3,17 +3,13 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Tests\Support\database\factories\ProductFactory;
-use Rebing\GraphQL\Tests\Support\Models\Comment;
-use Rebing\GraphQL\Tests\Support\Models\File;
 
 /**
  * @property int $id
@@ -31,7 +27,6 @@ class Product extends Model
     protected $dates = [
         'published_at',
     ];
-
 
     public function file(): BelongsTo
     {

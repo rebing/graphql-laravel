@@ -26,7 +26,7 @@ class CommentableUnionType extends UnionType
     public function relationName(): array
     {
         return [
-            Post::class    => 'post',
+            Post::class => 'post',
             Product::class => 'product',
         ];
     }
@@ -35,15 +35,15 @@ class CommentableUnionType extends UnionType
      * @param object $value
      */
     public function resolveType($value): ?GraphqlType
-    {  
+    {
         if ($value instanceof Post) {
             return GraphQL::type('Post');
         }
+
         if ($value instanceof Product) {
             return GraphQL::type('Product');
         }
+
         return null;
     }
 }
-
-

@@ -18,5 +18,3 @@ class FoldersTable extends Migration
         });
     }
 }
-
-

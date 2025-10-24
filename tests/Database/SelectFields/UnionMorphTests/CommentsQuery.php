@@ -36,5 +36,3 @@ class CommentsQuery extends Query
         return $comments;
     }
 }
-
-

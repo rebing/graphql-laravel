@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rebing\GraphQL\Tests\Support\database\factories\CommentFactory;
 
 /**
- * @property int                    $id
- * @property int                    $post_id
- * @property string                 $title
- * @property string|null            $body
- * @property bool                   $flag
+ * @property int $id
+ * @property int $post_id
+ * @property string $title
+ * @property string|null $body
+ * @property bool $flag
  * @property-read Post              $post
  * @property-read Collection|Like[] $likes
  */
