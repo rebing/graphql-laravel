@@ -9,15 +9,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rebing\GraphQL\Tests\Support\database\factories\CommentFactory;
 
 /**
- * @property int $id
- * @property int $post_id
- * @property string $title
- * @property string|null $body
- * @property bool $flag
- * @property-read Post $post
+ * @property int                    $id
+ * @property int                    $post_id
+ * @property string                 $title
+ * @property string|null            $body
+ * @property bool                   $flag
+ * @property-read Post              $post
  * @property-read Collection|Like[] $likes
  */
 class Comment extends Model
@@ -32,6 +33,11 @@ class Comment extends Model
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likable');
+    }
+
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     protected static function newFactory(): Factory
