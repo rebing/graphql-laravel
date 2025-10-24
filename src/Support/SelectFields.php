@@ -588,7 +588,7 @@ class SelectFields
             }
 
             if (!empty($morphRelation)) {
-                $relation->morphWith($morphRelation);
+                $relation->constrain($morphRelation);
             }
         };
 
