@@ -37,13 +37,13 @@ class ScalarMakeCommandTest extends TestCase
                 'inputName' => 'Example',
                 'expectedFilename' => 'GraphQL/Scalars/Example.php',
                 'expectedClassDefinition' => 'Example extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'Example\';',
+                'expectedGraphqlName' => 'public string \\$name = \'Example\';',
             ],
             'ExampleScalar' => [
                 'inputName' => 'ExampleScalar',
                 'expectedFilename' => 'GraphQL/Scalars/ExampleScalar.php',
                 'expectedClassDefinition' => 'ExampleScalar extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'ExampleScalar\';',
+                'expectedGraphqlName' => 'public string \\$name = \'ExampleScalar\';',
             ],
         ];
     }
