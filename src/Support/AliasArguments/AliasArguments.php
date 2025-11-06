@@ -32,7 +32,7 @@ class AliasArguments
 
     public function get(): array
     {
-        $pathsWithAlias = $this->getAliasesInFields($this->queryArguments);
+        $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, $this->requestArguments);
 
         return (new ArrayKeyChange())->modify($this->requestArguments, $pathsWithAlias);
     }
@@ -59,7 +59,19 @@ class AliasArguments
         return $maxDepth;
     }
 
-    protected function getAliasesInFields(array $fields, $prefix = ''): array
+    /**
+     * Get aliases from fields, only traversing fields present in request data.
+     * 
+     * This prevents exponential time complexity with circular type references by only
+     * exploring the actual data structure sent by the client, not all possible fields
+     * in the type schema.
+     *
+     * @param array $fields Type field definitions
+     * @param array|null $requestData Actual request data at this level (null for initial call)
+     * @param string $prefix Path prefix for nested fields
+     * @return array<string,string> Map of field paths to their aliases
+     */
+    protected function getAliasesInFields(array $fields, ?array $requestData = null, string $prefix = ''): array
     {
         // checks for traversal beyond the max depth
         // this scenario occurs in types with recursive relations
@@ -69,6 +81,12 @@ class AliasArguments
         $pathAndAlias = [];
 
         foreach ($fields as $name => $arg) {
+            // KEY FIX: Skip fields not present in actual request data
+            // This prevents exponential explosion with circular type references
+            if ($requestData !== null && !array_key_exists($name, $requestData)) {
+                continue;
+            }
+
             $type = null;
 
             // $arg is either an array DSL notation or an InputObjectField
@@ -91,7 +109,8 @@ class AliasArguments
                 $pathAndAlias[$newPrefix] = $alias;
             }
 
-            if ($this->isWrappedInList($type)) {
+            $isWrappedInList = $this->isWrappedInList($type);
+            if ($isWrappedInList) {
                 $newPrefix .= '.*';
             }
 
@@ -101,7 +120,28 @@ class AliasArguments
                 continue;
             }
 
-            $pathAndAlias = $pathAndAlias + $this->getAliasesInFields($type->getFields(), $newPrefix);
+            // Get the actual data at this field (if requestData provided)
+            $fieldData = $requestData !== null ? ($requestData[$name] ?? null) : null;
+
+            // If it's a list, process each item
+            if ($isWrappedInList && is_array($fieldData)) {
+                foreach ($fieldData as $item) {
+                    if (is_array($item)) {
+                        $pathAndAlias = $pathAndAlias + $this->getAliasesInFields(
+                            $type->getFields(),
+                            $item,
+                            $newPrefix
+                        );
+                    }
+                }
+            } elseif ($fieldData !== null && is_array($fieldData)) {
+                // Single object
+                $pathAndAlias = $pathAndAlias + $this->getAliasesInFields(
+                    $type->getFields(),
+                    $fieldData,
+                    $newPrefix
+                );
+            }
         }
 
         return $pathAndAlias;
