@@ -12,7 +12,8 @@ class CommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table): void {
             $table->increments('id');
-            $table->integer('post_id');
+            $table->integer('post_id')->nullable();
+            $table->nullableMorphs('commentable');
             $table->string('title');
             $table->string('body')->nullable();
             $table->boolean('flag')->default('false');
