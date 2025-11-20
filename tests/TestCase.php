@@ -27,6 +27,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class TestCase extends BaseTestCase
 {
+    /**
+     * The last response instance.
+     *
+     * @var \Illuminate\Testing\TestResponse|null
+     */
+    protected static $latestResponse;
+
     protected $queries;
     protected $data;
 
