@@ -3,6 +3,8 @@ name: Tests
 on:
   pull_request:
   push:
+    branches:
+      - master
   schedule:
     # Run Monday morning at 3 o'clock
     #       ┌───────────── minute (0 - 59)
