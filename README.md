@@ -246,7 +246,7 @@ schemas and assign different **HTTP middleware** and **execution middleware** to
 them, in addition to the global middleware. For example:
 
 ```php
-'schema' => 'default',
+'default_schema' => 'default',
 
 'schemas' => [
     'default' => [
@@ -2060,7 +2060,7 @@ class EpisodeEnum extends EnumType
 > will be able to choose from, while the value is what will your server receive (what will enum
 > be resolved to).
 
-The Enum will be registered like any other type in your schema in `config/graphq.php`:
+The Enum will be registered like any other type in your schema in `config/graphql.php`:
 
 ```php
 'schemas' => [
@@ -2321,7 +2321,7 @@ class ReviewInput extends InputType
 }
 ```
 
-The Input Object will be registered like any other type in your schema in `config/graphq.php`:
+The Input Object will be registered like any other type in your schema in `config/graphql.php`:
 
 ```php
 'schemas' => [
