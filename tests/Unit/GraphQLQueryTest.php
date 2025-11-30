@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Utils\SchemaPrinter;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\Objects\ExampleProseInstanceQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\TestCase;
 
@@ -228,5 +229,26 @@ class GraphQLQueryTest extends TestCase
 }';
 
         self::assertStringContainsString($queryFragment, $gql);
+    }
+
+    public function testQueryCanBeSetAsInstance(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                new ExampleProseInstanceQuery('A simple prose'),
+                'loremIpsum' => new ExampleProseInstanceQuery('Lorem ipsum dolor sit amet'),
+            ],
+        ]);
+        GraphQL::addSchema('default', $schema);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['exampleProse']);
+        $expectedDataResult = ['exampleProse' => 'A simple prose'];
+        self::assertSame($expectedDataResult, $result->data);
+        self::assertCount(0, $result->errors);
+
+        $result = GraphQL::queryAndReturnResult($this->queries['exampleProseRenamed']);
+        $expectedDataResult = ['loremIpsum' => 'Lorem ipsum dolor sit amet'];
+        self::assertSame($expectedDataResult, $result->data);
+        self::assertCount(0, $result->errors);
     }
 }

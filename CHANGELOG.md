@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.12.0...master)
 
+## Added
+-  Allow field to be passed as instance [\#1178 / alancolant](https://github.com/rebing/graphql-laravel/pull/1178)
+
 2025-11-05, 9.12.0
 ------------------
 
