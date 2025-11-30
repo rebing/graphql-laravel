@@ -10,7 +10,6 @@ use GraphQL\Type\Schema;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use PHPUnit\Framework\ExpectationFailedException;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
@@ -23,10 +22,18 @@ use Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
+use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class TestCase extends BaseTestCase
 {
+    /**
+     * The last response instance.
+     *
+     * @var \Illuminate\Testing\TestResponse|null
+     */
+    protected static $latestResponse;
+
     protected $queries;
     protected $data;
 
@@ -140,15 +147,12 @@ class TestCase extends BaseTestCase
      *                                       - named  arguments: ['model' => 'Post']
      *                                       - boolean flags: ['--all' => true]
      *                                       - arguments with values: ['--arg' => 'value']
-     * @param array<string,mixed> $interactiveInput Interactive responses to the command
-     *                                              I.e. anything the command `->ask()` or `->confirm()`, etc.
      */
-    protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
+    protected function runCommand(Command $command, array $arguments = []): CommandTester
     {
         $command->setLaravel($this->app);
 
         $tester = new CommandTester($command);
-        $tester->setInputs($interactiveInput);
 
         $tester->execute($arguments);
 
@@ -218,7 +222,7 @@ class TestCase extends BaseTestCase
         unset($result['errors'][0]['extensions']['line']);
 
         if ($assertMessage) {
-            throw new ExpectationFailedException($assertMessage);
+            throw new RuntimeException($assertMessage);
         }
 
         return $result;

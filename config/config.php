@@ -93,6 +93,13 @@ return [
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
+
+            // Route attributes applied when generating the HTTP route for this schema
+            // Example:
+            // 'route_attributes' => [
+            //     'domain' => 'api.example.com',
+            // ]
+            'route_attributes' => [],
         ],
     ],
 
@@ -151,6 +158,12 @@ return [
      * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
      */
     'simple_pagination_type' => Rebing\GraphQL\Support\SimplePaginationType::class,
+
+    /*
+     * You can define your own cursor pagination type.
+     * Reference Rebing\GraphQL\Support\CursorPaginationType::class
+     */
+    'cursor_pagination_type' => Rebing\GraphQL\Support\CursorPaginationType::class,
 
     /*
      * Overrides the default field resolver

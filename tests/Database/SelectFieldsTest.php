@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Queries\PostNonNullCursorPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
@@ -700,6 +701,35 @@ type PostWithModelPagination {
 
   "Determines if cursor has more pages after the current page"
   has_more_pages: Boolean!
+}
+GQL;
+
+        self::assertStringContainsString($queryFragment, $gql);
+    }
+
+    public function testPostNonNullCursorPaginationTypes(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'postNonNullPaginationQuery' => PostNonNullCursorPaginationQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = <<<'GQL'
+type PostWithModelCursorPagination {
+  "List of items on the current page"
+  data: [PostWithModel!]!
+
+  "Number of items returned per page"
+  per_page: Int!
+
+  "Previous page cursor"
+  previous_cursor: String
+
+  "Next page cursor"
+  next_cursor: String
 }
 GQL;
 
