@@ -363,9 +363,9 @@ class GraphQL
         foreach ($fields as $name => $field) {
             if (\is_string($field)) {
                 $field = $this->app->make($field);
-                /** @var Field $field */
-                $field = $field->toArray();
-            } elseif ($field instanceof Field) {
+            }
+
+            if ($field instanceof Field) {
                 $field = $field->toArray();
             }
             $name = is_numeric($name) ? $field['name'] : $name;
