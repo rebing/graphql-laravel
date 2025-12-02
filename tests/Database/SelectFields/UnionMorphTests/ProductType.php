@@ -25,7 +25,7 @@ class ProductType extends GraphQLType
                 'type' => Type::string(),
             ],
             'price' => [
-                'type' => Type::float(),
+                'type' => Type::int(),
             ],
             'file' => [
                 'type' => GraphQL::type('File'),
