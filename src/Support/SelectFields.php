@@ -193,7 +193,19 @@ class SelectFields
                 }
                 // With
 
-                elseif (\is_array($field['fields']) && !empty($field['fields']) && $queryable) {
+                elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
+                    static::handleInterfaceFields(
+                        $queryArgs,
+                        $field,
+                        $parentTypeUnwrapped,
+                        $select,
+                        $with,
+                        $ctx,
+                        $fieldObject,
+                        $key,
+                        $customQuery
+                    );
+                } elseif (\is_array($field['fields']) && !empty($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
@@ -230,18 +242,6 @@ class SelectFields
                                 $ctx
                             );
                         }
-                    } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
-                        static::handleInterfaceFields(
-                            $queryArgs,
-                            $field,
-                            $parentTypeUnwrapped,
-                            $select,
-                            $with,
-                            $ctx,
-                            $fieldObject,
-                            $key,
-                            $customQuery
-                        );
                     } else {
                         static::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
                     }
@@ -278,6 +278,27 @@ class SelectFields
         $mongoType = 'MongoDB\Laravel\Eloquent\Model';
 
         return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
+    }
+
+    /**
+     * Get types from UnionType or InterfaceType.
+     *
+     * @return GraphqlType[]
+     */
+    protected static function getTypesFromUnionOrInterface(GraphqlType $type): array
+    {
+        if ($type instanceof UnionType) {
+            return $type->getTypes();
+        }
+
+        if ($type instanceof \GraphQL\Type\Definition\InterfaceType) {
+            // For InterfaceType, get types from the config
+            if (isset($type->config['types']) && \is_callable($type->config['types'])) {
+                return $type->config['types']();
+            }
+        }
+
+        return [];
     }
 
     /**
@@ -466,6 +487,21 @@ class SelectFields
     ): void {
         $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
 
+        // Check if this field is actually a relation
+        $queryable = static::isQueryable($fieldObject->config);
+        $isRelation = $queryable && \is_array($field['fields']) && !empty($field['fields']);
+
+        // If it's not a relation, handle it as a regular field
+        if (!$isRelation) {
+            $key = $fieldObject->config['alias'] ?? $key;
+            $key = $key instanceof Closure ? $key() : $key;
+            $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
+            static::addFieldToSelect($key, $select, $parentTable, false);
+            static::addAlwaysFields($fieldObject, $select, $parentTable);
+
+            return;
+        }
+
         $with[$relationsKey] = function ($query) use (
             $queryArgs,
             $field,
@@ -476,6 +512,11 @@ class SelectFields
             $key,
             $fieldObject
         ) {
+            // Check if $query is actually a relation
+            if (!($query instanceof Relation)) {
+                return $query;
+            }
+
             $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
             static::handleRelation($select, $query, $parentTable, $field);
@@ -555,33 +596,57 @@ class SelectFields
             $fieldType = $fieldType->getInnermostType();
         }
 
-        /** @var UnionType $union */
-        $union = $fieldType;
-
-        $relationNames = (isset($union->config['relationName']) && \is_callable($union->config['relationName']))
-            ? $union->config['relationName']()
+        $relationNames = (isset($fieldType->config['relationName']) && \is_callable($fieldType->config['relationName']))
+            ? $fieldType->config['relationName']()
             : null;
-        $with[$relationsKey] = function (MorphTo $relation) use ($queryArgs, $field, $union, $relationNames, $customQuery, $ctx): void {
+
+        $types = static::getTypesFromUnionOrInterface($fieldType);
+        $isInterface = $fieldType instanceof \GraphQL\Type\Definition\InterfaceType;
+
+        $with[$relationsKey] = function ($relation) use ($queryArgs, $field, $types, $relationNames, $customQuery, $ctx, $isInterface) {
+            // Check if $relation is actually a MorphTo relation
+            if (!($relation instanceof MorphTo)) {
+                return $relation;
+            }
+
             $morphRelation = [];
 
-            foreach ($union->getTypes() as $unionType) {
+            foreach ($types as $type) {
                 // Get the model class name for the morph type
-                if (isset($unionType->config['model'])) {
-                    $modelClass = $unionType->config['model'];
+                if (isset($type->config['model'])) {
+                    $modelClass = $type->config['model'];
                 } else {
                     // Fallback to type name if no model is configured
-                    $modelClass = $relationNames[$unionType->name()] ?? $unionType->name();
+                    $modelClass = $relationNames[$type->name()] ?? $type->name();
                 }
 
                 /** @var callable $callable */
                 $callable = static::getSelectableFieldsAndRelations(
                     $queryArgs,
                     $field,
-                    $unionType,
+                    $type,
                     $customQuery,
                     false,
                     $ctx
                 );
+
+                // If the field type is an interface, wrap the callable to select * instead
+                // This is necessary because interfaces can have different implementations
+                // with different fields, so we need to select all fields
+                if ($isInterface) {
+                    $originalCallable = $callable;
+                    $callable = function ($query) use ($originalCallable) {
+                        // Call the original callable first to set up relations
+                        $originalCallable($query);
+                        // Override select to use * for interface types
+                        // We need to clear existing columns and set to * to ensure
+                        // all fields from the concrete type are selected
+                        $query->getQuery()->columns = null;
+                        $query->select('*');
+
+                        return $query;
+                    };
+                }
 
                 $morphRelation[$modelClass] = $callable;
             }
@@ -589,6 +654,8 @@ class SelectFields
             if (!empty($morphRelation)) {
                 $relation->constrain($morphRelation);
             }
+
+            return $relation;
         };
     }
 
