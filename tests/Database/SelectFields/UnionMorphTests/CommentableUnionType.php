@@ -23,6 +23,9 @@ class CommentableUnionType extends UnionType
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function relationName(): array
     {
         return [
@@ -31,10 +34,7 @@ class CommentableUnionType extends UnionType
         ];
     }
 
-    /**
-     * @param object $value
-     */
-    public function resolveType($value): ?GraphqlType
+    public function resolveType(object $value): ?GraphqlType
     {
         if ($value instanceof Post) {
             return GraphQL::type('Post');

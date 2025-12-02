@@ -22,17 +22,14 @@ class CommentsQuery extends Query
         return Type::listOf(GraphQL::type('Comment'));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields): array|\Illuminate\Database\Eloquent\Collection
     {
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();
 
-        /** @var Comment[] $comments */
-        $comments = Comment::query()
+        return Comment::query()
             ->select($selectFields->getSelect())
             ->with($selectFields->getRelations())
             ->get();
-
-        return $comments;
     }
 }

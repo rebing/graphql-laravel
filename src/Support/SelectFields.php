@@ -293,8 +293,12 @@ class SelectFields
 
         if ($type instanceof \GraphQL\Type\Definition\InterfaceType) {
             // For InterfaceType, get types from the config
+            // @phpstan-ignore-next-line - InterfaceType can have custom 'types' config
             if (isset($type->config['types']) && \is_callable($type->config['types'])) {
-                return $type->config['types']();
+                /** @var callable(): array<int, GraphqlType> $typesCallable */
+                $typesCallable = $type->config['types'];
+
+                return $typesCallable();
             }
         }
 
@@ -493,7 +497,9 @@ class SelectFields
 
         // If it's not a relation, handle it as a regular field
         if (!$isRelation) {
+            // @phpstan-ignore-next-line - Custom config key
             $key = $fieldObject->config['alias'] ?? $key;
+            // @phpstan-ignore-next-line - alias can be Closure or string
             $key = $key instanceof Closure ? $key() : $key;
             $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
             static::addFieldToSelect($key, $select, $parentTable, false);
@@ -600,6 +606,7 @@ class SelectFields
             ? $fieldType->config['relationName']()
             : null;
 
+        // @phpstan-ignore-next-line - getInnermostType returns Type which is GraphqlType
         $types = static::getTypesFromUnionOrInterface($fieldType);
         $isInterface = $fieldType instanceof \GraphQL\Type\Definition\InterfaceType;
 
@@ -617,7 +624,8 @@ class SelectFields
                     $modelClass = $type->config['model'];
                 } else {
                     // Fallback to type name if no model is configured
-                    $modelClass = $relationNames[$type->name()] ?? $type->name();
+                    $typeName = $type instanceof \GraphQL\Type\Definition\NamedType ? $type->name() : '';
+                    $modelClass = $relationNames[$typeName] ?? $typeName;
                 }
 
                 /** @var callable $callable */
