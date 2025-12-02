@@ -463,6 +463,24 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleMorphToRelation() has parameter $field with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleMorphToRelation() has parameter $queryArgs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleMorphToRelation() has parameter $with with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
 			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleRelation() has parameter $field with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1031,6 +1049,36 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionMorphTests\CommentsQuery::resolve() has parameter $args with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Database/SelectFields/UnionMorphTests/CommentsQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionMorphTests\CommentsQuery::resolve() has parameter $context with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Database/SelectFields/UnionMorphTests/CommentsQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionMorphTests\CommentsQuery::resolve() has parameter $root with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Database/SelectFields/UnionMorphTests/CommentsQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionMorphTests\CommentsQuery::resolve() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Database/SelectFields/UnionMorphTests/CommentsQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionMorphTests\CommentsQuery::resolve() return type has no value type specified in iterable type array|Illuminate\Database\Eloquent\Collection.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Database/SelectFields/UnionMorphTests/CommentsQuery.php
 
 		-
 			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\CustomExamplesQuery::resolve() has no return type specified.'
