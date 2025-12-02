@@ -3,6 +3,8 @@ name: Integration tests
 on:
   pull_request:
   push:
+    branches:
+      - master
   schedule:
     # Run Monday morning at 3 o'clock
     #       ┌───────────── minute (0 - 59)
@@ -25,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4]
+        php: [8.2, 8.3, 8.4, 8.5]
         laravel: [^11.0, ^12.0]
     name: P=${{ matrix.php }} L=${{ matrix.laravel }}
     runs-on: ubuntu-latest
@@ -33,7 +35,7 @@ jobs:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:

@@ -3,6 +3,8 @@ name: Code Analysis
 on:
   pull_request:
   push:
+    branches:
+      - master
   schedule:
     # Run Monday morning at 3 o'clock
     #       ┌───────────── minute (0 - 59)
@@ -28,7 +30,7 @@ jobs:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -58,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
