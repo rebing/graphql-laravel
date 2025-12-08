@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.13.0...master)
 
+## Fixed
+- Fix exponential time complexity in AliasArguments with circular type references [\#1195 / artem-schander](https://github.com/rebing/graphql-laravel/pull/1195)
+
 2025-11-30, 9.13.0
 ------------------
 
