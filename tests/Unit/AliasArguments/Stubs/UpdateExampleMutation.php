@@ -47,12 +47,12 @@ class UpdateExampleMutation extends Mutation
             ],
             'a_list_non_null_and_type_nonNull' => [
                 'type' => Type::nonNull(
-                    Type::listOf(Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE)))
+                    Type::listOf(Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE))),
                 ),
             ],
             'a_list_type_nonNull' => [
                 'type' => Type::listOf(
-                    Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE))
+                    Type::nonNull(GraphQL::type(ExampleNestedValidationInputObject::TYPE)),
                 ),
             ],
         ];

@@ -92,7 +92,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select * from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -133,7 +133,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "id", "title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -225,7 +225,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -461,7 +461,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -518,7 +518,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '2018-01-01 00:00:00') AS commentsLastMonth from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -561,7 +561,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -603,7 +603,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "id", "title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -646,7 +646,7 @@ GRAQPHQL;
             <<<'SQL'
 select count(*) as aggregate from "posts";
 select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
-SQL
+SQL,
         );
 
         $expectedResult = [

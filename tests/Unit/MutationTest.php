@@ -365,12 +365,12 @@ class MutationTest extends FieldTest
         self::assertEquals(
             // The test with rules nullable input object.nest.email must be a valid email address.
             trans('validation.email', ['attribute' => 'test with rules nullable input object.nest.email']),
-            $messages->first('test_with_rules_nullable_input_object.nest.email')
+            $messages->first('test_with_rules_nullable_input_object.nest.email'),
         );
         self::assertEquals(
             // The test with rules non nullable input object.nest.email must be a valid email address.
             trans('validation.email', ['attribute' => 'test with rules non nullable input object.nest.email']),
-            $messages->first('test_with_rules_non_nullable_input_object.nest.email')
+            $messages->first('test_with_rules_non_nullable_input_object.nest.email'),
         );
     }
 

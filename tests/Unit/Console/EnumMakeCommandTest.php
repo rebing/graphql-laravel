@@ -17,7 +17,7 @@ class EnumMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Enum',
@@ -26,7 +26,7 @@ class EnumMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Enums',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 

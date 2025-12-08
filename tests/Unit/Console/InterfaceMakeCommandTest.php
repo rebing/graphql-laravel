@@ -17,7 +17,7 @@ class InterfaceMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Interface',
@@ -26,7 +26,7 @@ class InterfaceMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Interfaces',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 

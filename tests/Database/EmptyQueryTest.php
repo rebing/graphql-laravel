@@ -42,7 +42,7 @@ class EmptyQueryTest extends TestCaseDatabase
 
         self::assertMatchesRegularExpression(
             ';Could not decode request with content type.*application/x-www-form-urlencoded;',
-            $content
+            $content,
         );
     }
 
@@ -84,7 +84,7 @@ class EmptyQueryTest extends TestCaseDatabase
 
                 return $result;
             },
-            $results
+            $results,
         );
 
         $expected = [

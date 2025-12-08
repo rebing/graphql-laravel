@@ -85,7 +85,7 @@ select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "post
 select "likes"."id", "likes"."user_id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ?;
 select "users"."id" from "users" where "users"."id" in (?);
 select * from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [

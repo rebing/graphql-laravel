@@ -46,7 +46,7 @@ class MiddlewareTest extends TestCase
             [
                 'examplesMiddleware' => [['test' => 'ExampleMiddleware changed me!']],
             ],
-            $result->data
+            $result->data,
         );
     }
 

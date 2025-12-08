@@ -17,7 +17,7 @@ class ScalarMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Scalar',
@@ -26,7 +26,7 @@ class ScalarMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Scalars',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 

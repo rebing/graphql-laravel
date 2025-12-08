@@ -29,7 +29,7 @@ class ThrowsValidationExceptionQuery extends Query
             $args,
             [
                 'field' => 'required',
-            ]
+            ],
         )
             ->validate();
 

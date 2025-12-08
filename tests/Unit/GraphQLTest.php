@@ -407,7 +407,7 @@ class GraphQLTest extends TestCase
                 'types' => [
                     CustomExampleType::class,
                 ],
-            ]
+            ],
         );
         GraphQL::addSchema('custom_add', $schema);
 

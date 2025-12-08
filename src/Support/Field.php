@@ -259,7 +259,7 @@ abstract class Field
 
             return \call_user_func_array($resolver, array_merge(
                 [$arguments[0], $arguments[1], $arguments[2]],
-                $additionalArguments
+                $additionalArguments,
             ));
         };
     }
@@ -305,7 +305,7 @@ abstract class Field
         $attributes = array_merge(
             $this->attributes,
             ['args' => $this->args()],
-            $attributes
+            $attributes,
         );
 
         $attributes['type'] = $this->type();
