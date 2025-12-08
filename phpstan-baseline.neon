@@ -55,24 +55,6 @@ parameters:
 			path: src/Support/AliasArguments/AliasArguments.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\AliasArguments::getAliasesInFields() has parameter $fields with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\AliasArguments::getAliasesInFields() has parameter $prefix with no type specified.'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\AliasArguments::getAliasesInFields() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
 			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() has parameter $segments with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
