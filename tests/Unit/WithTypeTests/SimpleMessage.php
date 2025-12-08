@@ -17,7 +17,7 @@ class SimpleMessage
      */
     public function __construct(
         string $message,
-        string $type = 'success'
+        string $type = 'success',
     ) {
         $this->message = $message;
         $this->type = $type;

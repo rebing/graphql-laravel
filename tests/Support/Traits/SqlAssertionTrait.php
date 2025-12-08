@@ -65,12 +65,12 @@ trait SqlAssertionTrait
                         return \sprintf(
                             '[%s] %s',
                             $query->connectionName,
-                            $query->sql
+                            $query->sql,
                         );
                     },
-                    $this->sqlQueryEvents
-                )
-            )
+                    $this->sqlQueryEvents,
+                ),
+            ),
         );
         self::assertSame($expectedCount, $numSqlQueries, $msg);
     }
@@ -107,12 +107,12 @@ trait SqlAssertionTrait
                                 '?$1',
                                 '= ?',
                             ],
-                            $query->sql
+                            $query->sql,
                         ) . ';';
                     },
-                    $this->sqlQueryEvents
-                )
-            )
+                    $this->sqlQueryEvents,
+                ),
+            ),
         );
 
         $this->sqlCounterReset();

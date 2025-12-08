@@ -16,7 +16,7 @@ class MiddlewareMakeCommandTest extends TestCase
     public function testCommand(
         string $inputName,
         string $expectedFilename,
-        string $expectedClassDefinition
+        string $expectedClassDefinition,
     ): void {
         $this->assertMakeCommand(
             'Middleware',
@@ -24,7 +24,7 @@ class MiddlewareMakeCommandTest extends TestCase
             $inputName,
             $expectedFilename,
             'App\\\\GraphQL\\\\Middleware',
-            $expectedClassDefinition
+            $expectedClassDefinition,
         );
     }
 

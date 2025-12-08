@@ -33,7 +33,7 @@ class FieldMakeCommandTest extends TestCase
                     $this->assertMatchesRegularExpression("/'name' => 'ExampleField',/", $contents);
 
                     return true;
-                })
+                }),
             );
         $this->instance(Filesystem::class, $filesystemMock);
 

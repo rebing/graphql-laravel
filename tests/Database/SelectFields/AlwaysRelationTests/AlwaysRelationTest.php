@@ -73,7 +73,7 @@ GRAQPHQL;
         select "users"."id" from "users";
         select "posts"."id", "posts"."title", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
         select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-        SQL
+        SQL,
         );
 
         $expectedResult = [
@@ -142,7 +142,7 @@ GRAQPHQL;
             <<<'SQL'
 select "users"."name", "users"."id" from "users";
 select "likes"."id", "likes"."user_id" from "likes" where "likes"."user_id" in (?);
-SQL
+SQL,
         );
 
         $expectedResult = [

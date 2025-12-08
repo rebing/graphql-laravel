@@ -31,7 +31,7 @@ class ValidateOperationParamsMiddleware extends AbstractExecutionMiddleware
                 static function (RequestError $err): Error {
                     return Error::createLocatedError($err);
                 },
-                $errors
+                $errors,
             );
 
             return new ExecutionResult(null, $errors);

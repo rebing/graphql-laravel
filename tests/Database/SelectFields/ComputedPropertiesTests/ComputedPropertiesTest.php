@@ -64,7 +64,7 @@ GRAQPHQL;
             <<<'SQL'
 select "users"."id", "users"."name" from "users";
 select "posts"."id", "posts"."published_at", "posts"."user_id" from "posts" where "posts"."user_id" in (?) order by "posts"."id" asc;
-SQL
+SQL,
         );
 
         $expectedResult = [

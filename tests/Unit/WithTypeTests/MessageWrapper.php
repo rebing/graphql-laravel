@@ -16,7 +16,7 @@ class MessageWrapper
         return GraphQL::wrapType(
             $typeName,
             $typeName . 'Messages',
-            WrapperType::class
+            WrapperType::class,
         );
     }
 }

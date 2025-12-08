@@ -108,7 +108,7 @@ class RoutesTest extends TestCase
         ];
 
         $actual = Collection::make(
-            app('router')->getRoutes()->getRoutesByName()
+            app('router')->getRoutes()->getRoutesByName(),
         )->map(function (Route $route) {
             return [
                 'methods' => $route->methods(),

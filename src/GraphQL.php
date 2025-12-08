@@ -182,7 +182,7 @@ class GraphQL
         return $this->appendGraphqlExecutionMiddleware(
             $executionMiddleware ??
             $this->config->get('graphql.execution_middleware') ??
-            []
+            [],
         );
     }
 
@@ -340,8 +340,8 @@ class GraphQL
                 \sprintf(
                     'Unable to convert %s to a GraphQL type, please add/implement the interface %s',
                     \get_class($type),
-                    TypeConvertible::class
-                )
+                    TypeConvertible::class,
+                ),
             );
         }
 
@@ -605,7 +605,7 @@ class GraphQL
                 $error = new Exception(
                     $error->getMessage(),
                     $error->getCode(),
-                    $error
+                    $error,
                 );
             }
 
@@ -649,8 +649,8 @@ class GraphQL
                     "Configuration for schema '%s' must be either an array or a class implementing %s, found type %s",
                     $schemaName,
                     ConfigConvertible::class,
-                    \gettype($schemaConfig)
-                )
+                    \gettype($schemaConfig),
+                ),
             );
         }
 

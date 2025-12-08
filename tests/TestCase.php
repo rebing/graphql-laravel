@@ -253,7 +253,7 @@ class TestCase extends BaseTestCase
                 }
 
                 return $line;
-            }, $trace, array_keys($trace))
+            }, $trace, array_keys($trace)),
         );
     }
 }

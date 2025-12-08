@@ -44,7 +44,7 @@ class EngineErrorInResolverTest extends TestCase
                     $this->assertMatchesRegularExpression('/Simulating a TypeError/', $error->getMessage());
 
                     return true;
-                }
+                },
             ))
             ->once();
 

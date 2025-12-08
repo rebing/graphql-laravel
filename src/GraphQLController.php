@@ -40,7 +40,7 @@ class GraphQLController extends Controller
 
                 return $graphql->execute($schemaName, $operationParams);
             },
-            $operations
+            $operations,
         );
 
         return response()->json($data, 200, $headers, $jsonOptions);

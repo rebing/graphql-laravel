@@ -55,12 +55,12 @@ class UpdateExampleMutationForRuleTesting extends Mutation
 
                     Assert::assertSame(
                         $mutationArguments,
-                        $fullParamsExpected
+                        $fullParamsExpected,
                     );
 
                     Assert::assertSame(
                         $inputArguments,
-                        $fullParamsExpected
+                        $fullParamsExpected,
                     );
 
                     return ['required'];
