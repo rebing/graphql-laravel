@@ -17,7 +17,7 @@ class TypeMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Type',
@@ -26,7 +26,7 @@ class TypeMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Types',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 

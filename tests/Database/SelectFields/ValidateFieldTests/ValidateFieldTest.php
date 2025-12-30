@@ -67,7 +67,7 @@ GRAQPHQL;
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -124,7 +124,7 @@ GRAQPHQL;
             <<<'SQL'
 select "posts"."body", "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -181,7 +181,7 @@ GRAQPHQL;
             <<<'SQL'
 select "posts"."body", "posts"."title", "posts"."id" from "posts";
 select "comments"."id", "comments"."post_id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -224,7 +224,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -261,7 +261,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -298,7 +298,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -335,7 +335,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -360,7 +360,7 @@ SQL
         /** @var PrivacyAllowed|MockInterface $privacyMock */
         $privacyMock = $this->instance(
             PrivacyAllowed::class,
-            Mockery::mock(PrivacyAllowed::class)->makePartial()
+            Mockery::mock(PrivacyAllowed::class)->makePartial(),
         );
         $privacyMock
             ->expects('validate')
@@ -383,7 +383,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
         $expectedResult = [
             'data' => [
@@ -424,7 +424,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -464,7 +464,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -560,7 +560,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -607,7 +607,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."title", "posts"."id" from "posts";
-SQL
+SQL,
         );
 
         $expectedResult = [

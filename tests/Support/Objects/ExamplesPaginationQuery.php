@@ -45,7 +45,7 @@ class ExamplesPaginationQuery extends Query
             collect($data)->slice($page * $take, $take),
             \count($data),
             $take,
-            $page
+            $page,
         );
     }
 }

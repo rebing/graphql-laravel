@@ -33,7 +33,7 @@ class ExampleRuleTestingInputObject extends InputType
                 'rules' => function ($arguments) {
                     Assert::assertSame(
                         $arguments,
-                        ['otherValue' => 1337]
+                        ['otherValue' => 1337],
                     );
 
                     return ['required'];

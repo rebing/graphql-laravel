@@ -17,7 +17,7 @@ class InputMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Input',
@@ -26,7 +26,7 @@ class InputMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Inputs',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 

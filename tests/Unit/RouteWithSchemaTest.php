@@ -83,7 +83,7 @@ class RouteWithSchemaTest extends TestCase
         ];
 
         $actual = Collection::make(
-            app('router')->getRoutes()->getRoutesByName()
+            app('router')->getRoutes()->getRoutesByName(),
         )->map(function (Route $route) {
             $action = $route->getAction();
 

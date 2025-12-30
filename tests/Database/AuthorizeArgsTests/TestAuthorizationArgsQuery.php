@@ -35,7 +35,7 @@ class TestAuthorizationArgsQuery extends Query
         array $args,
         $ctx,
         ?ResolveInfo $resolveInfo = null,
-        ?Closure $getSelectFields = null
+        ?Closure $getSelectFields = null,
     ): bool {
         Assert::assertNull($root);
 

@@ -71,7 +71,7 @@ class SelectFields
         GraphqlType $parentType,
         ?Closure $customQuery = null,
         bool $topLevel = true,
-        $ctx = null
+        $ctx = null,
     ) {
         $select = [];
         $with = [];
@@ -133,7 +133,7 @@ class SelectFields
         GraphqlType $parentType,
         array &$select,
         array &$with,
-        $ctx
+        $ctx,
     ): void {
         $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
 
@@ -188,7 +188,7 @@ class SelectFields
                         $fieldType->getInnermostType(),
                         $select,
                         $with,
-                        $ctx
+                        $ctx,
                     );
                 }
                 // With
@@ -203,7 +203,7 @@ class SelectFields
                         $ctx,
                         $fieldObject,
                         $key,
-                        $customQuery
+                        $customQuery,
                     );
                 } elseif (\is_array($field['fields']) && !empty($field['fields']) && $queryable) {
                     if (isset($parentType->config['model'])) {
@@ -230,7 +230,7 @@ class SelectFields
                                 $ctx,
                                 $fieldObject,
                                 $key,
-                                $customQuery
+                                $customQuery,
                             );
                         } else {
                             $with[$relationsKey] = static::getSelectableFieldsAndRelations(
@@ -239,7 +239,7 @@ class SelectFields
                                 $newParentType,
                                 $customQuery,
                                 false,
-                                $ctx
+                                $ctx,
                             );
                         }
                     } else {
@@ -378,8 +378,8 @@ class SelectFields
                     throw new RuntimeException(
                         \sprintf(
                             "Unsupported use of 'privacy' configuration on field '%s'.",
-                            $fieldObject->name
-                        )
+                            $fieldObject->name,
+                        ),
                     );
             }
         }
@@ -413,7 +413,7 @@ class SelectFields
         $foreignKey = $parentTable ? ($parentTable . '.' . \Safe\preg_replace(
             '/^' . preg_quote($parentTable, '/') . '\./',
             '',
-            $foreignKey
+            $foreignKey,
         )) : $foreignKey;
 
         if (is_a($relation, MorphTo::class)) {
@@ -434,7 +434,7 @@ class SelectFields
         } // If 'HasMany', then add it in the 'with'
         elseif ((is_a($relation, HasMany::class) || is_a($relation, MorphMany::class) || is_a(
             $relation,
-            HasOne::class
+            HasOne::class,
         ) || is_a($relation, MorphOne::class)) &&
             !\array_key_exists($foreignKey, $field)) {
             $segments = explode('.', $foreignKey);
@@ -459,7 +459,7 @@ class SelectFields
         FieldDefinition $fieldObject,
         array &$select,
         ?string $parentTable,
-        bool $forRelation = false
+        bool $forRelation = false,
     ): void {
         if (isset($fieldObject->config['always'])) {
             $always = $fieldObject->config['always'];
@@ -487,7 +487,7 @@ class SelectFields
         $ctx,
         FieldDefinition $fieldObject,
         string $key,
-        ?Closure $customQuery
+        ?Closure $customQuery,
     ): void {
         $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
 
@@ -548,7 +548,7 @@ class SelectFields
                     function (GraphqlType $type) use ($query) {
                         /* @var Relation $query */
                         return app($type->config['model'])->getTable() === $query->getParent()->getTable();
-                    }
+                    },
                 );
                 $typesFiltered = array_values($typesFiltered);
 
@@ -573,7 +573,7 @@ class SelectFields
                 $newParentType,
                 $customQuery,
                 false,
-                $ctx
+                $ctx,
             );
 
             return $callable($query);
