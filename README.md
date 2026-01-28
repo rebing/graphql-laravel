@@ -2293,6 +2293,137 @@ class TestMutation extends GraphQLType {
 }
 ```
 
+### OneOf Input Objects
+
+OneOf Input Objects are a special type of input object where **exactly one field** must be provided. This is useful for creating polymorphic inputs or "input unions" where you want to accept one of several possible input types.
+Read more about OneOf in the [RFC](https://github.com/graphql/graphql-spec/pull/825) or in the [GraphQL PHP Documentation](https://webonyx.github.io/graphql-php/type-definitions/inputs/#using-the-isoneof-configuration-option)
+
+#### Creating a OneOf Input Type
+
+Create a OneOf Input Type by setting `'isOneOf' => true` in the attributes:
+
+```php
+namespace App\GraphQL\InputObject;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\InputType;
+
+class SearchInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'SearchInput',
+        'description' => 'Search by exactly one criteria',
+        'isOneOf' => true, // Enable OneOf validation
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'byId' => [
+                'type' => Type::id(),
+                'description' => 'Search by user ID',
+            ],
+            'byEmail' => [
+                'type' => Type::string(),
+                'description' => 'Search by email address',
+            ],
+            'byUsername' => [
+                'type' => Type::string(),
+                'description' => 'Search by username',
+            ],
+        ];
+    }
+}
+```
+
+Alternatively, you can override the `isOneOf()` method:
+
+```php
+class SearchInput extends InputType
+{
+    protected $attributes = [
+        'name' => 'SearchInput',
+        'description' => 'Search by exactly one criteria',
+    ];
+
+    protected function isOneOf(): bool
+    {
+        return true;
+    }
+
+    public function fields(): array
+    {
+        return [
+            'byId' => Type::id(),
+            'byEmail' => Type::string(),
+        ];
+    }
+}
+```
+
+#### Using OneOf Input Types
+```php
+namespace App\GraphQL\Queries;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+use App\Models\User;
+
+class UserQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'user',
+        'description' => 'Find a user by search criteria'
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('User');
+    }
+
+    public function args(): array
+    {
+        return [
+            'search' => [
+                'type' => Type::nonNull(GraphQL::type('SearchInput')),
+                'description' => 'Search criteria (exactly one field required)',
+            ],
+        ];
+    }
+
+    public function resolve($root, array $args)
+    {
+        $search = $args['search'];
+
+        // Exactly one of these will be set
+        if (isset($search['byId'])) {
+            return User::find($search['byId']);
+        }
+
+        if (isset($search['byEmail'])) {
+            return User::where('email', $search['byEmail'])->first();
+        }
+
+        if (isset($search['byUsername'])) {
+            return User::where('username', $search['byUsername'])->first();
+        }
+
+        return null;
+    }
+}
+```
+
+#### Generating OneOf Input Types
+
+You can generate a OneOf input type using the Artisan command with the `--oneof` flag:
+
+```bash
+php artisan make:graphql:input SearchInput --oneof
+```
+
+This will create a new input type with `'isOneOf' => true` already configured.
+
 ### Type modifiers
 
 Type modifiers can be applied by wrapping your chosen type in `Type::nonNull` or `Type::listOf` calls

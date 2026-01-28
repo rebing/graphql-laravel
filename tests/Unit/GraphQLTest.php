@@ -494,6 +494,7 @@ class GraphQLTest extends TestCase
             'include',
             'skip',
             'deprecated',
+            'oneOf',  // Added in graphql-php 15.21.0
             'exampleDirective',
         ], array_keys($schema->getDirectives()));
     }

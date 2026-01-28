@@ -3,6 +3,12 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.9.0...master)
 
+## Added
+- Support for OneOf Input Objects (GraphQL @oneOf directive)
+  - Added `isOneOf()` method and `isOneOf` attribute support to `InputType` class
+  - Added `--oneof` flag to `make:graphql:input` Artisan command
+  - Updated input stub template with OneOf example
+
 2025-02-24, 9.9.0
 -----------------
 

@@ -12,6 +12,8 @@ class DummyClass extends InputType
     protected $attributes = [
         'name' => 'DummyGraphqlName',
         'description' => 'An example input',
+        // Uncomment the line below to make this a OneOf input (exactly one field required)
+        // 'isOneOf' => true,
     ];
 
     public function fields(): array

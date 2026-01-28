@@ -9,7 +9,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand('make:graphql:input')]
 class InputMakeCommand extends GeneratorCommand
 {
-    protected $signature = 'make:graphql:input {name}';
+    protected $signature = 'make:graphql:input {name} {--oneof : Generate a OneOf input type}';
     protected $description = 'Create a new GraphQL input class';
     protected $type = 'Input';
 
@@ -27,7 +27,13 @@ class InputMakeCommand extends GeneratorCommand
     {
         $stub = parent::buildClass($name);
 
-        return $this->replaceGraphqlName($stub);
+        $stub = $this->replaceGraphqlName($stub);
+
+        if ($this->option('oneof')) {
+            $stub = $this->enableOneOf($stub);
+        }
+
+        return $stub;
     }
 
     protected function replaceGraphqlName(string $stub): string
@@ -39,6 +45,16 @@ class InputMakeCommand extends GeneratorCommand
         return str_replace(
             'DummyGraphqlName',
             $graphqlName,
+            $stub
+        );
+    }
+
+    protected function enableOneOf(string $stub): string
+    {
+        // Uncomment the isOneOf line
+        return str_replace(
+            "        // Uncomment the line below to make this a OneOf input (exactly one field required)\n        // 'isOneOf' => true,",
+            "        // This is a OneOf input - exactly one field must be provided\n        'isOneOf' => true,",
             $stub
         );
     }
