@@ -3,6 +3,12 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.14.0...master)
 
+2026-02-19, 9.15.0
+------------------
+
+## Added
+- Support for Laravel 13
+
 2025-12-08, 9.14.0
 ------------------
 
