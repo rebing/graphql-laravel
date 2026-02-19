@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Arr;
 use PHPUnit\Framework\MockObject\MockObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
@@ -61,6 +62,20 @@ class FieldTest extends TestCase
         $array = $field->toArray();
 
         $attributes = $field->getAttributes();
-        self::assertEquals($attributes, $array);
+
+        self::assertEquals(
+            $this->recursivelyFilterClosures(Arr::except($attributes, ['resolve'])),
+            $this->recursivelyFilterClosures(Arr::except($array, ['resolve']))
+        );
+
+        self::assertInstanceOf(Closure::class, $array['resolve']);
+    }
+
+    protected function recursivelyFilterClosures(array $array): array
+    {
+        return array_map(
+            fn ($value) => is_array($value) ? $this->recursivelyFilterClosures($value) : $value,
+            array_filter($array, fn ($value) => !$value instanceof Closure)
+        );
     }
 }

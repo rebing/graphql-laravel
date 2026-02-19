@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 use Closure;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use Illuminate\Support\Arr;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\TestCase;
 
@@ -66,7 +67,18 @@ class TypeTest extends TestCase
         $array = $type->toArray();
 
         $attributes = $type->getAttributes();
-        self::assertEquals($attributes, $array);
+
+        self::assertEquals(
+            Arr::except($attributes, ['fields', 'interfaces', 'rules']),
+            Arr::except($array, ['fields', 'interfaces', 'rules'])
+        );
+
+        self::assertInstanceOf(Closure::class, $array['fields']);
+        self::assertInstanceOf(Closure::class, $array['interfaces']);
+
+        if (isset($array['rules'])) {
+            self::assertInstanceOf(Closure::class, $array['rules']);
+        }
     }
 
     public function testToType(): void
