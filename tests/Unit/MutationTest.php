@@ -3,9 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\Validator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleRuleTestingInputObject;
@@ -34,13 +32,6 @@ class MutationTest extends FieldTest
             'ExampleRuleTestingInputObject' => ExampleRuleTestingInputObject::class,
             'ExampleNestedValidationInputObject' => ExampleNestedValidationInputObject::class,
         ]);
-    }
-
-    protected function resolveInfoMock(): MockObject
-    {
-        return $this->getMockBuilder(ResolveInfo::class)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
     public function testResolve(): void

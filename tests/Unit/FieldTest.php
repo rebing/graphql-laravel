@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
 
@@ -19,11 +19,9 @@ class FieldTest extends TestCase
         return ExampleField::class;
     }
 
-    protected function resolveInfoMock(): MockObject
+    protected function resolveInfoMock(): Stub
     {
-        return $this->getMockBuilder(ResolveInfo::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        return self::createStub(ResolveInfo::class);
     }
 
     public function testGetAttributes(): void
