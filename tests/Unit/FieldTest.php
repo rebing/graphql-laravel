@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
+use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
 use GraphQL\Type\Definition\ResolveInfo;
 use PHPUnit\Framework\MockObject\Stub;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
@@ -59,6 +60,6 @@ class FieldTest extends TestCase
         $array = $field->toArray();
 
         $attributes = $field->getAttributes();
-        self::assertEquals($attributes, $array);
+        DeepClosureAssert::assertEquals($attributes, $array);
     }
 }

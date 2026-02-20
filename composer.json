@@ -44,6 +44,7 @@
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
+        "eliashaeussler/deep-closure-comparator": "^1.2",
         "fakerphp/faker": "^1.6",
         "friendsofphp/php-cs-fixer": "^3",
         "larastan/larastan": "^3",
