@@ -145,7 +145,7 @@ return [
      * denial-of-service attacks via deeply nested or overly complex queries.
      */
     'security' => [
-        'query_max_complexity' => null,
+        'query_max_complexity' => 500,
         'query_max_depth' => 13,
         'disable_introspection' => false,
     ],
