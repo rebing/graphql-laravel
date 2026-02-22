@@ -93,7 +93,10 @@ return [
             'middleware' => null,
 
             // Which HTTP methods to support; must be given in UPPERCASE!
-            'method' => ['GET', 'POST'],
+            // GET requests are disabled by default to reduce CSRF attack surface
+            // and prevent sensitive query data from appearing in server logs and
+            // browser history.
+            'method' => ['POST'],
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
