@@ -43,13 +43,13 @@ php -S 127.0.0.1:8001 -t public >/dev/null 2>&1 &
 sleep 2
 
 echo "Send GraphQL HTTP request to fetch ExampleQuery"
-curl 'http://127.0.0.1:8001/graphql?query=%7Bexample%7D' -sSfLv | grep 'The example works'
+curl 'http://127.0.0.1:8001/graphql' -sSfLv -X POST -H 'Content-Type: application/json' -d '{"query":"{example}"}' | grep 'The example works'
 
 if [[ $? = 0 ]]; then
   echo "Example GraphQL query works 👍"
 else
   echo "Example GraphQL query DID NOT work 🚨"
-  curl 'http://127.0.0.1:8001/graphql?query=%7Bexample%7D' -sSfLv
+  curl 'http://127.0.0.1:8001/graphql' -sSfLv -X POST -H 'Content-Type: application/json' -d '{"query":"{example}"}'
   cat storage/logs/*
   exit 1
 fi
