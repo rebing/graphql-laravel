@@ -26,7 +26,7 @@ class GraphQLController extends Controller
 
         $isBatch = \is_array($operations);
 
-        $supportsBatching = $config->get('graphql.batching.enable', true);
+        $supportsBatching = $config->get('graphql.batching.enable', false);
 
         if ($isBatch && !$supportsBatching) {
             $data = $this->createBatchingNotSupportedResponse($request->input());
