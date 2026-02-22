@@ -223,7 +223,7 @@ abstract class Field
             $arguments[1] = $this->getArgs($arguments);
 
             // Authorize
-            if (true != \call_user_func_array($authorize, $arguments)) {
+            if (true !== \call_user_func_array($authorize, $arguments)) {
                 throw new AuthorizationError($this->getAuthorizationMessage());
             }
 
