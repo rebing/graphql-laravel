@@ -139,11 +139,14 @@ return [
     /*
      * Options to limit the query complexity and depth. See the doc
      * @ https://webonyx.github.io/graphql-php/security
-     * for details. Disabled by default.
+     * for details.
+     *
+     * It is HIGHLY recommended to keep these limits enabled to prevent
+     * denial-of-service attacks via deeply nested or overly complex queries.
      */
     'security' => [
         'query_max_complexity' => null,
-        'query_max_depth' => null,
+        'query_max_depth' => 13,
         'disable_introspection' => false,
     ],
 
