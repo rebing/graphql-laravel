@@ -32,7 +32,11 @@ return [
         // Whether to support GraphQL batching or not.
         // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
         // for pro and con
-        'enable' => true,
+        //
+        // WARNING: Batching can be abused for brute-force attacks and DoS amplification,
+        // as it allows multiple operations in a single HTTP request, bypassing
+        // per-request rate limiting. Only enable if you have appropriate safeguards.
+        'enable' => false,
     ],
 
     // The schemas for query and/or mutation. It expects an array of schemas to provide
