@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.14.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.15.0...master)
 
 ## Added
 - Support for PHPUnit 12 [\#1209 / mfn](https://github.com/rebing/graphql-laravel/pull/1209)
