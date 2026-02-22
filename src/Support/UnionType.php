@@ -30,6 +30,10 @@ abstract class UnionType extends Type
             $attributes['resolveType'] = [$this, 'resolveType'];
         }
 
+        if (method_exists($this, 'relationName')) {
+            $attributes['relationName'] = [$this, 'relationName'];
+        }
+
         return $attributes;
     }
 

@@ -24,6 +24,7 @@ use Rebing\GraphQL\Tests\Support\database\factories\PostFactory;
  * @property bool $is_published
  * @property-read Collection|Comment[] $comments
  * @property-read Collection|Like[] $likes
+ * @property-read Collection|File[] $files
  */
 class Post extends Model
 {
@@ -47,6 +48,16 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->orderBy('comments.id');
+    }
+
+    public function commentableComments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function file(): BelongsTo
+    {
+        return $this->belongsTo(File::class, 'file_id');
     }
 
     public function likes(): MorphMany
