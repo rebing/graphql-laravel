@@ -147,7 +147,7 @@ return [
     'security' => [
         'query_max_complexity' => 500,
         'query_max_depth' => 13,
-        'disable_introspection' => false,
+        'disable_introspection' => env('GRAPHQL_INTROSPECTION', true),
     ],
 
     /*
