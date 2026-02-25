@@ -25,7 +25,7 @@ class InputTypeTest extends TestCase
 
     public function testOneOfAttribute(): void
     {
-        $type = new class extends \Rebing\GraphQL\Support\InputType {
+        $type = new class() extends \Rebing\GraphQL\Support\InputType {
             protected $attributes = [
                 'name' => 'TestOneOfInput',
                 'isOneOf' => true,

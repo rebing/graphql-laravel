@@ -54,7 +54,7 @@ class InputMakeCommand extends GeneratorCommand
         return str_replace(
             "'isOneOf' => false",
             "'isOneOf' => true",
-            $stub
+            $stub,
         );
     }
 }
