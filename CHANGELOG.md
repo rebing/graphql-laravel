@@ -5,6 +5,9 @@ CHANGELOG
 
 ## Added
 - Support for PHPUnit 12 [\#1209 / mfn](https://github.com/rebing/graphql-laravel/pull/1209)
+- Support for OneOf Input Objects (GraphQL @oneOf directive)
+    - Fixed minimum version for `webonyx/graphql-php` to `^15.22.1`
+    - Added `--oneof` flag to `make:graphql:input` Artisan command
 
 2026-02-19, 9.15.0
 ------------------
@@ -41,12 +44,6 @@ CHANGELOG
 
 ## Added
 - Support Laravels cursor pagination [\#1180 / Davidnadejdin](https://github.com/rebing/graphql-laravel/pull/1180)
-
-## Added
-- Support for OneOf Input Objects (GraphQL @oneOf directive)
-  - Added `isOneOf()` method and `isOneOf` attribute support to `InputType` class
-  - Added `--oneof` flag to `make:graphql:input` Artisan command
-  - Updated input stub template with OneOf example
 
 2025-02-24, 9.9.0
 -----------------

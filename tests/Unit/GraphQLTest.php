@@ -490,12 +490,8 @@ class GraphQLTest extends TestCase
             ],
         ]);
 
-        $directives =  array_keys($schema->getDirectives());
         self::assertTrue(
-            \in_array('exampleDirective', $directives, true),
-        );
-        self::assertTrue(
-            \in_array('isOneOf', $directives, true),
+            \in_array('exampleDirective', array_keys($schema->getDirectives()), true),
         );
     }
 

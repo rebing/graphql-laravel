@@ -2368,7 +2368,7 @@ class SearchInput extends InputType
     protected $attributes = [
         'name' => 'SearchInput',
         'description' => 'Search by exactly one criteria',
-        'isOneOf' => true, // Enable OneOf validation
+        'isOneOf' => true,
     ];
 
     public function fields(): array
@@ -2386,31 +2386,6 @@ class SearchInput extends InputType
                 'type' => Type::string(),
                 'description' => 'Search by username',
             ],
-        ];
-    }
-}
-```
-
-Alternatively, you can override the `isOneOf()` method:
-
-```php
-class SearchInput extends InputType
-{
-    protected $attributes = [
-        'name' => 'SearchInput',
-        'description' => 'Search by exactly one criteria',
-    ];
-
-    protected function isOneOf(): bool
-    {
-        return true;
-    }
-
-    public function fields(): array
-    {
-        return [
-            'byId' => Type::id(),
-            'byEmail' => Type::string(),
         ];
     }
 }

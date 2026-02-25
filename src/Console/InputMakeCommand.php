@@ -51,10 +51,9 @@ class InputMakeCommand extends GeneratorCommand
 
     protected function enableOneOf(string $stub): string
     {
-        // Uncomment the isOneOf line
         return str_replace(
-            "        // Uncomment the line below to make this a OneOf input (exactly one field required)\n        // 'isOneOf' => true,",
-            "        // This is a OneOf input - exactly one field must be provided\n        'isOneOf' => true,",
+            "'isOneOf' => false",
+            "'isOneOf' => true",
             $stub
         );
     }

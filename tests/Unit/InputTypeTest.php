@@ -23,41 +23,13 @@ class InputTypeTest extends TestCase
         self::assertArrayHasKey('test', $fields);
     }
 
-    public function testOneOfViaAttributes(): void
+    public function testOneOfAttribute(): void
     {
         $type = new class extends \Rebing\GraphQL\Support\InputType {
             protected $attributes = [
                 'name' => 'TestOneOfInput',
                 'isOneOf' => true,
             ];
-
-            public function fields(): array
-            {
-                return [
-                    'byId' => \GraphQL\Type\Definition\Type::id(),
-                    'byEmail' => \GraphQL\Type\Definition\Type::string(),
-                ];
-            }
-        };
-
-        /** @var InputObjectType $objectType */
-        $objectType = $type->toType();
-
-        self::assertInstanceOf(InputObjectType::class, $objectType);
-        self::assertTrue($objectType->isOneOf);
-    }
-
-    public function testOneOfViaMethodOverride(): void
-    {
-        $type = new class extends \Rebing\GraphQL\Support\InputType {
-            protected $attributes = [
-                'name' => 'TestOneOfInput',
-            ];
-
-            protected function isOneOf(): bool
-            {
-                return true;
-            }
 
             public function fields(): array
             {
@@ -82,35 +54,6 @@ class InputTypeTest extends TestCase
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
-        self::assertFalse($objectType->isOneOf);
-    }
-
-    public function testAttributesOverrideMethod(): void
-    {
-        $type = new class extends \Rebing\GraphQL\Support\InputType {
-            protected $attributes = [
-                'name' => 'TestInput',
-                'isOneOf' => false, // Attribute set to false
-            ];
-
-            protected function isOneOf(): bool
-            {
-                return true; // Method returns true
-            }
-
-            public function fields(): array
-            {
-                return [
-                    'test' => \GraphQL\Type\Definition\Type::string(),
-                ];
-            }
-        };
-
-        /** @var InputObjectType $objectType */
-        $objectType = $type->toType();
-
-        self::assertInstanceOf(InputObjectType::class, $objectType);
-        // Attributes should take precedence
         self::assertFalse($objectType->isOneOf);
     }
 }
