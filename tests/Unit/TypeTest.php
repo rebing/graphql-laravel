@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
+use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -66,7 +67,7 @@ class TypeTest extends TestCase
         $array = $type->toArray();
 
         $attributes = $type->getAttributes();
-        self::assertEquals($attributes, $array);
+        DeepClosureAssert::assertEquals($attributes, $array);
     }
 
     public function testToType(): void

@@ -38,7 +38,7 @@ class MutationMakeCommand extends GeneratorCommand
         return str_replace(
             'DummyGraphqlName',
             $graphqlName,
-            $stub
+            $stub,
         );
     }
 }

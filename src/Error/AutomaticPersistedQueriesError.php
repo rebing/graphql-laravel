@@ -26,7 +26,7 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
             $previous = null,
             $extensions = [
                 'code' => self::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
-            ]
+            ],
         );
     }
 
@@ -41,7 +41,7 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
             $previous = null,
             $extensions = [
                 'code' => self::CODE_PERSISTED_QUERY_NOT_FOUND,
-            ]
+            ],
         );
     }
 
@@ -59,7 +59,7 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
             $previous = null,
             $extensions = [
                 'code' => self::CODE_INTERNAL_SERVER_ERROR,
-            ]
+            ],
         );
     }
 

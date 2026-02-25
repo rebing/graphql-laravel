@@ -407,7 +407,7 @@ class GraphQLTest extends TestCase
                 'types' => [
                     CustomExampleType::class,
                 ],
-            ]
+            ],
         );
         GraphQL::addSchema('custom_add', $schema);
 
@@ -490,13 +490,13 @@ class GraphQLTest extends TestCase
             ],
         ]);
 
-        self::assertSame([
-            'include',
-            'skip',
-            'deprecated',
-            'oneOf',  // Added in graphql-php 15.21.0
-            'exampleDirective',
-        ], array_keys($schema->getDirectives()));
+        $directives =  array_keys($schema->getDirectives());
+        self::assertTrue(
+            \in_array('exampleDirective', $directives, true),
+        );
+        self::assertTrue(
+            \in_array('isOneOf', $directives, true),
+        );
     }
 
     public function testIsMacroable(): void

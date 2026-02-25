@@ -27,6 +27,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class TestCase extends BaseTestCase
 {
+    /**
+     * The last response instance.
+     *
+     * @var \Illuminate\Testing\TestResponse|null
+     */
+    protected static $latestResponse;
+
     protected $queries;
     protected $data;
 
@@ -140,15 +147,12 @@ class TestCase extends BaseTestCase
      *                                       - named  arguments: ['model' => 'Post']
      *                                       - boolean flags: ['--all' => true]
      *                                       - arguments with values: ['--arg' => 'value']
-     * @param array<string,mixed> $interactiveInput Interactive responses to the command
-     *                                              I.e. anything the command `->ask()` or `->confirm()`, etc.
      */
-    protected function runCommand(Command $command, array $arguments = [], array $interactiveInput = []): CommandTester
+    protected function runCommand(Command $command, array $arguments = []): CommandTester
     {
         $command->setLaravel($this->app);
 
         $tester = new CommandTester($command);
-        $tester->setInputs($interactiveInput);
 
         $tester->execute($arguments);
 
@@ -249,7 +253,7 @@ class TestCase extends BaseTestCase
                 }
 
                 return $line;
-            }, $trace, array_keys($trace))
+            }, $trace, array_keys($trace)),
         );
     }
 }

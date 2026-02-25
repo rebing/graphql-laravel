@@ -407,7 +407,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
             [],
             ['0' => $fileToUpload],
-            ['CONTENT_TYPE' => 'multipart/form-data']
+            ['CONTENT_TYPE' => 'multipart/form-data'],
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -446,7 +446,7 @@ class AutomatedPersistedQueriesTest extends TestCase
             ],
             [],
             ['0' => $fileToUpload],
-            ['CONTENT_TYPE' => 'multipart/form-data']
+            ['CONTENT_TYPE' => 'multipart/form-data'],
         );
 
         self::assertEquals(200, $response->getStatusCode());

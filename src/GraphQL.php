@@ -28,6 +28,7 @@ use Rebing\GraphQL\Exception\SchemaNotFound;
 use Rebing\GraphQL\Exception\TypeNotFound;
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use Rebing\GraphQL\Support\CursorPaginationType;
 use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
 use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
@@ -181,7 +182,7 @@ class GraphQL
         return $this->appendGraphqlExecutionMiddleware(
             $executionMiddleware ??
             $this->config->get('graphql.execution_middleware') ??
-            []
+            [],
         );
     }
 
@@ -339,8 +340,8 @@ class GraphQL
                 \sprintf(
                     'Unable to convert %s to a GraphQL type, please add/implement the interface %s',
                     \get_class($type),
-                    TypeConvertible::class
-                )
+                    TypeConvertible::class,
+                ),
             );
         }
 
@@ -352,7 +353,7 @@ class GraphQL
     }
 
     /**
-     * @param array<int|string,class-string|array<string,mixed>> $fields
+     * @param array<int|string,class-string|array<string,mixed>|Field> $fields
      * @param array<string,string> $opts
      */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
@@ -362,7 +363,9 @@ class GraphQL
         foreach ($fields as $name => $field) {
             if (\is_string($field)) {
                 $field = $this->app->make($field);
-                /** @var Field $field */
+            }
+
+            if ($field instanceof Field) {
                 $field = $field->toArray();
             }
             $name = is_numeric($name) ? $field['name'] : $name;
@@ -511,6 +514,18 @@ class GraphQL
         return $this->typesInstances[$name];
     }
 
+    public function cursorPaginate(string $typeName, ?string $customName = null): Type
+    {
+        $name = $customName ?: $typeName . 'CursorPagination';
+
+        if (!isset($this->typesInstances[$name])) {
+            $paginationType = $this->config->get('graphql.cursor_pagination_type', CursorPaginationType::class);
+            $this->wrapType($typeName, $name, $paginationType);
+        }
+
+        return $this->typesInstances[$name];
+    }
+
     /**
      * To add customs result to the query or mutations.
      *
@@ -590,7 +605,7 @@ class GraphQL
                 $error = new Exception(
                     $error->getMessage(),
                     $error->getCode(),
-                    $error
+                    $error,
                 );
             }
 
@@ -634,8 +649,8 @@ class GraphQL
                     "Configuration for schema '%s' must be either an array or a class implementing %s, found type %s",
                     $schemaName,
                     ConfigConvertible::class,
-                    \gettype($schemaConfig)
-                )
+                    \gettype($schemaConfig),
+                ),
             );
         }
 

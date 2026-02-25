@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 use Rebing\GraphQL\Tests\Support\Models\Post;
+use Rebing\GraphQL\Tests\Support\Queries\PostNonNullCursorPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery;
 use Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery;
@@ -91,7 +92,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select * from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -132,7 +133,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "id", "title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -224,7 +225,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -460,7 +461,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -517,7 +518,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title", (SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '2018-01-01 00:00:00') AS commentsLastMonth from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -560,7 +561,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "posts"."id", "posts"."title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         self::assertEquals(200, $response->getStatusCode());
@@ -602,7 +603,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select "id", "title" from "posts" where "posts"."id" = ? limit 1;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -645,7 +646,7 @@ GRAQPHQL;
             <<<'SQL'
 select count(*) as aggregate from "posts";
 select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -700,6 +701,35 @@ type PostWithModelPagination {
 
   "Determines if cursor has more pages after the current page"
   has_more_pages: Boolean!
+}
+GQL;
+
+        self::assertStringContainsString($queryFragment, $gql);
+    }
+
+    public function testPostNonNullCursorPaginationTypes(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'postNonNullPaginationQuery' => PostNonNullCursorPaginationQuery::class,
+            ],
+        ]);
+
+        $gql = SchemaPrinter::doPrint($schema);
+
+        $queryFragment = <<<'GQL'
+type PostWithModelCursorPagination {
+  "List of items on the current page"
+  data: [PostWithModel!]!
+
+  "Number of items returned per page"
+  per_page: Int!
+
+  "Previous page cursor"
+  previous_cursor: String
+
+  "Next page cursor"
+  next_cursor: String
 }
 GQL;
 

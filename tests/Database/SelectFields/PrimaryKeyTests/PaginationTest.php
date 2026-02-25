@@ -79,7 +79,7 @@ GRAQPHQL;
 select count(*) as aggregate from "posts";
 select "posts"."title", "posts"."id" from "posts" limit 1 offset 0;
 select "comments"."title", "comments"."post_id", "comments"."id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -137,7 +137,7 @@ GRAQPHQL;
             <<<'SQL'
             select count(*) as aggregate from "posts";
             select * from "posts" limit 1 offset 0;
-            SQL
+            SQL,
         );
 
         $expectedResult = [

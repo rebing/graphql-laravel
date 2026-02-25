@@ -16,12 +16,12 @@ class DummyClass extends ScalarType implements TypeConvertible
     /**
      * @var string
      */
-    public $name = 'DummyClass';
+    public string $name = 'DummyClass';
 
     /**
-     * @var string
+     * @var ?string
      */
-    public $description = '';
+    public ?string $description = '';
 
     /**
      * Serializes an internal value to include in a response.

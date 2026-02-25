@@ -17,7 +17,7 @@ class ScalarMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Scalar',
@@ -26,7 +26,7 @@ class ScalarMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Scalars',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 
@@ -37,13 +37,13 @@ class ScalarMakeCommandTest extends TestCase
                 'inputName' => 'Example',
                 'expectedFilename' => 'GraphQL/Scalars/Example.php',
                 'expectedClassDefinition' => 'Example extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'Example\';',
+                'expectedGraphqlName' => 'public string \\$name = \'Example\';',
             ],
             'ExampleScalar' => [
                 'inputName' => 'ExampleScalar',
                 'expectedFilename' => 'GraphQL/Scalars/ExampleScalar.php',
                 'expectedClassDefinition' => 'ExampleScalar extends ScalarType implements TypeConvertible',
-                'expectedGraphqlName' => '\$name = \'ExampleScalar\';',
+                'expectedGraphqlName' => 'public string \\$name = \'ExampleScalar\';',
             ],
         ];
     }

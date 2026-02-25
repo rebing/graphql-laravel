@@ -147,8 +147,8 @@ abstract class Field
     }
 
     /**
-     * @return list<class-string|object>
      * @phpstan-param list<string> $middleware
+     * @return list<class-string|object>
      */
     protected function appendGlobalMiddlewares(array $middleware): array
     {
@@ -259,7 +259,7 @@ abstract class Field
 
             return \call_user_func_array($resolver, array_merge(
                 [$arguments[0], $arguments[1], $arguments[2]],
-                $additionalArguments
+                $additionalArguments,
             ));
         };
     }
@@ -305,7 +305,7 @@ abstract class Field
         $attributes = array_merge(
             $this->attributes,
             ['args' => $this->args()],
-            $attributes
+            $attributes,
         );
 
         $attributes['type'] = $this->type();

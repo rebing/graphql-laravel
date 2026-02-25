@@ -22,7 +22,7 @@ if ($routeConfig) {
             'prefix' => $routeConfig['prefix'] ?? 'graphql',
             'middleware' => $routeConfig['middleware'] ?? [],
         ],
-        $routeConfig['group_attributes'] ?? []
+        $routeConfig['group_attributes'] ?? [],
     );
 
     $router->group(
@@ -36,6 +36,7 @@ if ($routeConfig) {
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
+                    ...$schemaConfig['route_attributes'] ?? [],
                 ]);
 
                 // Support array syntax: `[Some::class, 'method']`
@@ -47,7 +48,7 @@ if ($routeConfig) {
                 $router->addRoute(
                     $method,
                     $schemaName,
-                    $actions + ['as' => "graphql.$schemaName"]
+                    $actions + ['as' => "graphql.$schemaName"],
                 );
 
                 // … and the default schema against the group itself
@@ -55,10 +56,10 @@ if ($routeConfig) {
                     $router->addRoute(
                         $method,
                         '',
-                        $actions + ['as' => 'graphql']
+                        $actions + ['as' => 'graphql'],
                     );
                 }
             }
-        }
+        },
     );
 }

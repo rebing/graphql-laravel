@@ -3,9 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
-use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\Validator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleRuleTestingInputObject;
@@ -34,13 +32,6 @@ class MutationTest extends FieldTest
             'ExampleRuleTestingInputObject' => ExampleRuleTestingInputObject::class,
             'ExampleNestedValidationInputObject' => ExampleNestedValidationInputObject::class,
         ]);
-    }
-
-    protected function resolveInfoMock(): MockObject
-    {
-        return $this->getMockBuilder(ResolveInfo::class)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
     public function testResolve(): void
@@ -365,12 +356,12 @@ class MutationTest extends FieldTest
         self::assertEquals(
             // The test with rules nullable input object.nest.email must be a valid email address.
             trans('validation.email', ['attribute' => 'test with rules nullable input object.nest.email']),
-            $messages->first('test_with_rules_nullable_input_object.nest.email')
+            $messages->first('test_with_rules_nullable_input_object.nest.email'),
         );
         self::assertEquals(
             // The test with rules non nullable input object.nest.email must be a valid email address.
             trans('validation.email', ['attribute' => 'test with rules non nullable input object.nest.email']),
-            $messages->first('test_with_rules_non_nullable_input_object.nest.email')
+            $messages->first('test_with_rules_non_nullable_input_object.nest.email'),
         );
     }
 

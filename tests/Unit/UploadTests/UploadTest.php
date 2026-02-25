@@ -54,7 +54,7 @@ class UploadTest extends TestCase
                 // $server
                 [
                     'CONTENT_TYPE' => 'multipart/form-data',
-                ]
+                ],
             )
             ->json();
 
@@ -101,7 +101,7 @@ class UploadTest extends TestCase
                 // $server
                 [
                     'CONTENT_TYPE' => 'multipart/form-data',
-                ]
+                ],
             )
             ->json();
 
@@ -164,7 +164,7 @@ class UploadTest extends TestCase
                 // $server
                 [
                     'CONTENT_TYPE' => 'multipart/form-data',
-                ]
+                ],
             )
             ->json();
 

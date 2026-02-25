@@ -48,7 +48,7 @@ GRAPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
-SQL
+SQL,
         );
 
         $expectedResult = [
@@ -85,7 +85,7 @@ GRAPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
-SQL
+SQL,
         );
 
         $expected = [
@@ -191,7 +191,7 @@ GRAPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
 select count(*) as aggregate from "users" where "name" = ?;
-SQL
+SQL,
         );
 
         $expected = [

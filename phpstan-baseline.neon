@@ -1,2011 +1,2011 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to method report\(\) of internal class NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler from outside its root namespace NunoMaduro\.$#'
+			rawMessage: 'Call to method report() of internal class NunoMaduro\Collision\Adapters\Laravel\ExceptionHandler from outside its root namespace NunoMaduro.'
 			identifier: method.internalClass
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Cannot access offset ''name'' on array\<string, mixed\>\|Rebing\\GraphQL\\Support\\Field\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 2
-			path: src/GraphQL.php
-
-		-
-			message: '#^Instanceof between Error and Error will always evaluate to true\.$#'
+			rawMessage: Instanceof between Error and Error will always evaluate to true.
 			identifier: instanceof.alwaysTrue
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\GraphQL\:\:getGlobalResolverMiddlewares\(\) should return list\<class\-string\|object\> but returns array\<mixed, mixed\>\.$#'
+			rawMessage: 'Method Rebing\GraphQL\GraphQL::getGlobalResolverMiddlewares() should return list<class-string|object> but returns array<mixed, mixed>.'
 			identifier: return.type
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\ObjectType constructor expects array\{name\?\: string\|null, description\?\: string\|null, resolveField\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, fields\: \(callable\(\)\: iterable\)\|iterable, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>, isTypeOf\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(bool\|GraphQL\\Deferred\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\ObjectTypeDefinitionNode\|null, \.\.\.\}, non\-empty\-array\<string, array\<non\-empty\-array\<string, mixed\>\|\(ArrayAccess&Rebing\\GraphQL\\Support\\Field\)\>\|string\> given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\ObjectType constructor expects array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}, non-empty-array<string, array|string> given.'
 			identifier: argument.type
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Schema constructor expects array\{query\?\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\ObjectType\|null\)\)\|GraphQL\\Type\\Definition\\ObjectType\|null, mutation\?\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\ObjectType\|null\)\)\|GraphQL\\Type\\Definition\\ObjectType\|null, subscription\?\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\ObjectType\|null\)\)\|GraphQL\\Type\\Definition\\ObjectType\|null, types\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\Type&GraphQL\\Type\\Definition\\NamedType\>\)\|\(callable\(\)\: iterable\<GraphQL\\Type\\Definition\\NamedType&GraphQL\\Type\\Definition\\Type\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\Type&GraphQL\\Type\\Definition\\NamedType\)\|\(GraphQL\\Type\\Definition\\NamedType&GraphQL\\Type\\Definition\\Type\)\>\|null, directives\?\: array\<GraphQL\\Type\\Definition\\Directive\>\|null, typeLoader\?\: \(callable\(string\)\: \(\(GraphQL\\Type\\Definition\\NamedType&GraphQL\\Type\\Definition\\Type\)\|null\)\)\|null, assumeValid\?\: bool\|null, astNode\?\: GraphQL\\Language\\AST\\SchemaDefinitionNode\|null, \.\.\.\}\|GraphQL\\Type\\SchemaConfig, array\{query\: GraphQL\\Type\\Definition\\Type, mutation\: GraphQL\\Type\\Definition\\Type\|null, subscription\: GraphQL\\Type\\Definition\\Type\|null, directives\: array, types\: Closure\(\)\: list\<GraphQL\\Type\\Definition\\Type\>, typeLoader\: Closure\(mixed\)\: \(GraphQL\\Type\\Definition\\Type\|null\)\} given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Schema constructor expects array{description?: string|null, query?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, mutation?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, subscription?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, types?: (callable(): iterable<callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType>)|(callable(): iterable<GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type>)|iterable<(callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType)|(GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)>|null, directives?: array<GraphQL\Type\Definition\Directive>|null, typeLoader?: (callable(string): ((GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)|null))|null, assumeValid?: bool|null, ...}|GraphQL\Type\SchemaConfig, array{query: GraphQL\Type\Definition\Type, mutation: GraphQL\Type\Definition\Type|null, subscription: GraphQL\Type\Definition\Type|null, directives: array, types: Closure(): list<GraphQL\Type\Definition\Type>, typeLoader: Closure(mixed): (GraphQL\Type\Definition\Type|null)} given.'
 			identifier: argument.type
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
 			identifier: argument.type
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Property GraphQL\\Type\\Definition\\ObjectType\:\:\$config \(array\{name\?\: string\|null, description\?\: string\|null, resolveField\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, fields\: \(callable\(\)\: iterable\)\|iterable, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>, isTypeOf\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(bool\|GraphQL\\Deferred\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\ObjectTypeDefinitionNode\|null, \.\.\.\}\) does not accept array\{name\?\: string\|null, description\?\: string\|null, resolveField\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|string\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|string\|null, fields\: \(callable\(\)\: iterable\)\|iterable\|string, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>\|string, isTypeOf\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(bool\|GraphQL\\Deferred\|null\)\)\|string\|null, astNode\?\: GraphQL\\Language\\AST\\ObjectTypeDefinitionNode\|string\|null, \.\.\.\}\.$#'
+			rawMessage: 'Property GraphQL\Type\Definition\ObjectType::$config (array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}) does not accept array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|string|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|string|null, fields: (callable(): iterable)|iterable|string, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>|string, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|string|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|string|null, ...}.'
 			identifier: assign.propertyType
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Result of \|\| is always true\.$#'
+			rawMessage: Result of || is always true.
 			identifier: booleanOr.alwaysTrue
 			count: 1
 			path: src/GraphQL.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\AliasArguments\:\:get\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\AliasArguments::get() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/AliasArguments.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\AliasArguments\:\:getAliasesInFields\(\) has parameter \$fields with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\AliasArguments\:\:getAliasesInFields\(\) has parameter \$prefix with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\AliasArguments\:\:getAliasesInFields\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:changeKey\(\) has parameter \$segments with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() has parameter $segments with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:changeKey\(\) has parameter \$target with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() has parameter $target with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:changeKey\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:modify\(\) has parameter \$array with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() has parameter $array with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:modify\(\) has parameter \$pathKeyMappings with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() has parameter $pathKeyMappings with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:modify\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\AliasArguments\\ArrayKeyChange\:\:orderPaths\(\) has parameter \$paths with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::orderPaths() has parameter $paths with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/AliasArguments/ArrayKeyChange.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\EnumType constructor expects array\{name\?\: string\|null, description\?\: string\|null, values\: \(callable\(\)\: iterable\<int\|string, mixed\>\)\|iterable\<int\|string, mixed\>, astNode\?\: GraphQL\\Language\\AST\\EnumTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\EnumTypeExtensionNode\>\|null\}, array\<string, mixed\> given\.$#'
+			rawMessage: 'Call to an undefined method Illuminate\Contracts\Pagination\CursorPaginator::getCollection().'
+			identifier: method.notFound
+			count: 1
+			path: src/Support/CursorPaginationType.php
+
+		-
+			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
+			identifier: argument.type
+			count: 1
+			path: src/Support/CursorPaginationType.php
+
+		-
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\EnumType constructor expects array{name?: string|null, description?: string|null, values: (callable(): iterable<int|string, mixed>)|iterable<int|string, mixed>, astNode?: GraphQL\Language\AST\EnumTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\EnumTypeExtensionNode>|null}, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/EnumType.php
 
 		-
-			message: '#^Parameter \#2 \$schema of method Rebing\\GraphQL\\Support\\ExecutionMiddleware\\AbstractExecutionMiddleware\:\:handle\(\) expects GraphQL\\Type\\Schema, Closure given\.$#'
+			rawMessage: 'Parameter #2 $schema of method Rebing\GraphQL\Support\ExecutionMiddleware\AbstractExecutionMiddleware::handle() expects GraphQL\Type\Schema, Closure given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method buildSchemaFromConfig\(\) parameter \#1 \$schemaConfig with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method buildSchemaFromConfig() parameter #1 $schemaConfig with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method execute\(\) return type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method execute() return type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method formatError\(\) return type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method formatError() return type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method getGlobalResolverMiddlewares\(\) return type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method getGlobalResolverMiddlewares() return type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method getSchemas\(\) return type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method getSchemas() return type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method objectType\(\) parameter \#1 \$type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method objectType() parameter #1 $type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method objectType\(\) parameter \#2 \$opts with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method objectType() parameter #2 $opts with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method query\(\) parameter \#2 \$params with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() parameter #2 $params with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method query\(\) parameter \#3 \$opts with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() parameter #3 $opts with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method query\(\) return type with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() return type with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method queryAndReturnResult\(\) parameter \#2 \$params with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method queryAndReturnResult() parameter #2 $params with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Class Rebing\\GraphQL\\Support\\Facades\\GraphQL has PHPDoc tag @method for method queryAndReturnResult\(\) parameter \#3 \$opts with no value type specified in iterable type array\.$#'
+			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method queryAndReturnResult() parameter #3 $opts with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Facades/GraphQL.php
 
 		-
-			message: '#^Cannot call method getName\(\) on ReflectionType\|null\.$#'
+			rawMessage: 'Cannot call method getName() on ReflectionType|null.'
 			identifier: method.nonObject
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Cannot call method isBuiltin\(\) on ReflectionType\|null\.$#'
+			rawMessage: 'Cannot call method isBuiltin() on ReflectionType|null.'
 			identifier: method.nonObject
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:__set\(\) has parameter \$value with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::__set() has parameter $value with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:aliasArgs\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::aliasArgs() has parameter $arguments with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:aliasArgs\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::aliasArgs() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:appendGlobalMiddlewares\(\) should return list\<class\-string\|object\> but returns array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::appendGlobalMiddlewares() should return list<class-string|object> but returns array.'
 			identifier: return.type
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:attributes\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::attributes() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:authorize\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::authorize() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:getArgs\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::getArgs() has parameter $arguments with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:getArgs\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::getArgs() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:getAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::getAttributes() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:getValidator\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::getValidator() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:getValidator\(\) has parameter \$rules with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::getValidator() has parameter $rules with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:validationErrorMessages\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::validationErrorMessages() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Field\:\:validationErrorMessages\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::validationErrorMessages() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\InputObjectType constructor expects array\{name\?\: string\|null, description\?\: string\|null, fields\: \(callable\(\)\: iterable\<array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|callable\(\)\: \(array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>\)\|iterable\<array\{name\?\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|\(callable\(\)\: \(array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\)\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>, parseValue\?\: callable\(array\<string, mixed\>\)\: mixed, astNode\?\: GraphQL\\Language\\AST\\InputObjectTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\InputObjectTypeExtensionNode\>\|null\}, array\<string, mixed\> given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\InputObjectType constructor expects array{name?: string|null, description?: string|null, isOneOf?: bool|null, fields: (callable(): iterable<array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|callable(): (array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>)|iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)))|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>, parseValue?: (callable(array<string, mixed>): mixed)|null, astNode?: GraphQL\Language\AST\InputObjectTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\InputObjectTypeExtensionNode>|null}, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/InputType.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\InterfaceType constructor expects array\{name\?\: string\|null, description\?\: string\|null, fields\: \(callable\(\)\: iterable\)\|iterable, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>, resolveType\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\ObjectType\|string\|null\)\|GraphQL\\Deferred\|GraphQL\\Type\\Definition\\ObjectType\|string\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\InterfaceTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\InterfaceTypeExtensionNode\>\|null\}, array\<string, mixed\> given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\InterfaceType constructor expects array{name?: string|null, description?: string|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, resolveType?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (callable(): (GraphQL\Type\Definition\ObjectType|string|null)|GraphQL\Deferred|GraphQL\Type\Definition\ObjectType|string|null))|null, resolveValue?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, astNode?: GraphQL\Language\AST\InterfaceTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\InterfaceTypeExtensionNode>|null}, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/InterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Middleware\:\:handle\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Middleware\:\:handle\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Middleware\:\:handle\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Middleware\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Middleware\:\:resolve\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::resolve() has parameter $arguments with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Parameter \#2 \$args of method Rebing\\GraphQL\\Support\\Middleware\:\:handle\(\) expects array\<string, mixed\>, Closure given\.$#'
+			rawMessage: 'Parameter #2 $args of method Rebing\GraphQL\Support\Middleware::handle() expects array<string, mixed>, Closure given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\PaginationType\:\:getPaginationFields\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\PaginationType::getPaginationFields() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/PaginationType.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/PaginationType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Privacy\:\:fire\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Privacy::fire() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Support/Privacy.php
 
 		-
-			message: '#^Access to an undefined property GraphQL\\Type\\Definition\\Type\:\:\$config\.$#'
+			rawMessage: Access to an undefined property GraphQL\Type\Definition\Type::$config.
 			identifier: property.notFound
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:__construct\(\) has parameter \$queryArgs with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::__construct() has parameter $queryArgs with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:addAlwaysFields\(\) has parameter \$select with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::addAlwaysFields() has parameter $select with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:addFieldToSelect\(\) has parameter \$select with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::addFieldToSelect() has parameter $select with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:getRelations\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getRelations() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:getSelect\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelect() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:getSelectableFieldsAndRelations\(\) has parameter \$queryArgs with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() has parameter $queryArgs with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:getSelectableFieldsAndRelations\(\) has parameter \$requestedFields with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() has parameter $requestedFields with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:getSelectableFieldsAndRelations\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleFields\(\) has parameter \$queryArgs with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $queryArgs with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleFields\(\) has parameter \$select with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $select with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleFields\(\) has parameter \$with with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $with with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleInterfaceFields\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $field with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleInterfaceFields\(\) has parameter \$queryArgs with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $queryArgs with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleInterfaceFields\(\) has parameter \$select with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $select with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleInterfaceFields\(\) has parameter \$with with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $with with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleRelation\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleRelation() has parameter $field with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:handleRelation\(\) has parameter \$select with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleRelation() has parameter $select with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\SelectFields\:\:isQueryable\(\) has parameter \$fieldObject with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::isQueryable() has parameter $fieldObject with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Offset ''always'' on array\{name\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\), resolve\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, args\?\: iterable\<array\{name\?\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|\(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, description\?\: string\|null, visible\?\: bool\|\(callable\(\)\: bool\), deprecationReason\?\: string\|null, \.\.\.\} in isset\(\) does not exist\.$#'
+			rawMessage: 'Offset ''always'' on array{name: string, type: (callable(): (GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type), resolve?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, args?: iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, description?: string|null, visible?: bool|(callable(): bool), deprecationReason?: string|null, ...} in isset() does not exist.'
 			identifier: isset.offset
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Offset ''privacy'' on array\{name\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\), resolve\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, args\?\: iterable\<array\{name\?\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|\(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, description\?\: string\|null, visible\?\: bool\|\(callable\(\)\: bool\), deprecationReason\?\: string\|null, \.\.\.\} in isset\(\) does not exist\.$#'
+			rawMessage: 'Offset ''privacy'' on array{name: string, type: (callable(): (GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type), resolve?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, args?: iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, description?: string|null, visible?: bool|(callable(): bool), deprecationReason?: string|null, ...} in isset() does not exist.'
 			identifier: isset.offset
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Offset ''selectable'' on array\{name\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\OutputType&GraphQL\\Type\\Definition\\Type\), resolve\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, args\?\: iterable\<array\{name\?\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|\(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, description\?\: string\|null, visible\?\: bool\|\(callable\(\)\: bool\), deprecationReason\?\: string\|null, \.\.\.\} in isset\(\) does not exist\.$#'
+			rawMessage: 'Offset ''selectable'' on array{name: string, type: (callable(): (GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type), resolve?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, args?: iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, description?: string|null, visible?: bool|(callable(): bool), deprecationReason?: string|null, ...} in isset() does not exist.'
 			identifier: isset.offset
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Parameter \#1 \$callback of function call_user_func expects callable\(\)\: mixed, array\{mixed, mixed\} given\.$#'
+			rawMessage: 'Parameter #1 $callback of function call_user_func expects callable(): mixed, array{mixed, mixed} given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Support\\SelectFields\:\:\$relations type has no value type specified in iterable type array\.$#'
+			rawMessage: Property Rebing\GraphQL\Support\SelectFields::$relations type has no value type specified in iterable type array.
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Support\\SelectFields\:\:\$select type has no value type specified in iterable type array\.$#'
+			rawMessage: Property Rebing\GraphQL\Support\SelectFields::$select type has no value type specified in iterable type array.
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Result of && is always false\.$#'
+			rawMessage: Result of && is always false.
 			identifier: booleanAnd.alwaysFalse
 			count: 1
 			path: src/Support/SelectFields.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects \(callable\(\)\: \(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\NullableType&GraphQL\\Type\\Definition\\Type\), GraphQL\\Type\\Definition\\Type given\.$#'
+			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/SimplePaginationType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) has parameter \$field with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Support\Type::getFieldResolver() has parameter $field with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Type.php
 
 		-
-			message: '#^Parameter \#1 \$callback of function call_user_func_array expects callable\(\)\: mixed, array\{\$this\(Rebing\\GraphQL\\Support\\Type\), non\-falsy\-string\} given\.$#'
+			rawMessage: 'Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{$this(Rebing\GraphQL\Support\Type), non-falsy-string} given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/Type.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\ObjectType constructor expects array\{name\?\: string\|null, description\?\: string\|null, resolveField\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, fields\: \(callable\(\)\: iterable\)\|iterable, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>, isTypeOf\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(bool\|GraphQL\\Deferred\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\ObjectTypeDefinitionNode\|null, \.\.\.\}, array\<string, mixed\> given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\ObjectType constructor expects array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/Type.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\UnionType constructor expects array\{name\?\: string\|null, description\?\: string\|null, types\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\ObjectType\|GraphQL\\Type\\Definition\\ObjectType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\ObjectType\)\|GraphQL\\Type\\Definition\\ObjectType\>, resolveType\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\ObjectType\|string\|null\)\|GraphQL\\Deferred\|GraphQL\\Type\\Definition\\ObjectType\|string\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\UnionTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\UnionTypeExtensionNode\>\|null\}, array\<string, mixed\> given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\UnionType constructor expects array{name?: string|null, description?: string|null, types: (callable(): iterable<callable(): GraphQL\Type\Definition\ObjectType|GraphQL\Type\Definition\ObjectType>)|iterable<(callable(): GraphQL\Type\Definition\ObjectType)|GraphQL\Type\Definition\ObjectType>, resolveType?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (callable(): (GraphQL\Type\Definition\ObjectType|string|null)|GraphQL\Deferred|GraphQL\Type\Definition\ObjectType|string|null))|null, resolveValue?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, astNode?: GraphQL\Language\AST\UnionTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\UnionTypeExtensionNode>|null}, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/UnionType.php
 
 		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
+			rawMessage: 'Unsafe usage of new static().'
 			identifier: new.static
 			count: 1
 			path: src/Support/UploadType.php
 
 		-
-			message: '#^Offset ''uses'' might not exist on array\{uses\?\: mixed, middleware\?\: mixed\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/routes.php
-
-		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Database\\AuthorizeArgsTests\\GraphQLContext\:\:\$data has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\GraphQLContext::$data has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/GraphQLContext.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\AuthorizeArgsTests\\TestAuthorizationArgsQuery\:\:authorize\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\TestAuthorizationArgsQuery::authorize() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\MutationValidationUniqueWithCustomRulesTests\\RuleObjectFail\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests\RuleObjectFail::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectFail.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\MutationValidationUniqueWithCustomRulesTests\\RuleObjectPass\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\MutationValidationUniqueWithCustomRulesTests\RuleObjectPass::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Database/MutationValidationUniqueWithCustomRulesTests/RuleObjectPass.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\LikableInterfaceType\:\:resolveType\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\LikableInterfaceType::resolveType() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\LikableInterfaceType\:\:resolveType\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\LikableInterfaceType::resolveType() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysRelationTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysRelationTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysRelationTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysTests\\AlwaysQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysTests\AlwaysQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysTests\\AlwaysQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysTests\AlwaysQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysTests\\AlwaysQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysTests\AlwaysQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\AlwaysTests\\AlwaysQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\AlwaysTests\AlwaysQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/AlwaysTests/AlwaysQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ArrayTests\\ArrayQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ArrayTests\ArrayQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ArrayTests\\ArrayQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ArrayTests\ArrayQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ArrayTests\\ArrayQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ArrayTests\ArrayQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ArrayTests\\ArrayQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ArrayTests\ArrayQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ArrayTests/ArrayQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ComputedPropertiesTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ComputedPropertiesTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ComputedPropertiesTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ComputedPropertiesTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ComputedPropertiesTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ComputedPropertiesTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ComputedPropertiesTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ComputedPropertiesTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ComputedPropertiesTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\DepthTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\DepthTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\DepthTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\DepthTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\DepthTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\DepthTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\DepthTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\DepthTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/DepthTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\ExampleInterfaceQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\ExampleInterfaceQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\ExampleInterfaceQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\ExampleInterfaceQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\ExampleInterfaceQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\ExampleInterfaceQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\ExampleInterfaceQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\ExampleInterfaceQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\ExampleInterfaceType\:\:resolveType\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\ExampleInterfaceType::resolveType() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:where\(\) expects array\<int\|model property of Illuminate\\Database\\Eloquent\\Model, mixed\>\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: void\)\|Illuminate\\Contracts\\Database\\Query\\Expression\|model property of Illuminate\\Database\\Eloquent\\Model, ''id'' given\.$#'
+			rawMessage: 'Parameter #1 $column of method Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>::where() expects array<int|model property of Illuminate\Database\Eloquent\Model, mixed>|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>)|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): void)|Illuminate\Contracts\Database\Query\Expression|model property of Illuminate\Database\Eloquent\Model, ''id'' given.'
 			identifier: argument.type
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/ExampleInterfaceType.php
 
 		-
-			message: '#^Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Models\\Post\:\:\$created_at\.$#'
+			rawMessage: Access to an undefined property Rebing\GraphQL\Tests\Support\Models\Post::$created_at.
 			identifier: property.notFound
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
 
 		-
-			message: '#^Access to an undefined property Rebing\\GraphQL\\Tests\\Support\\Models\\Post\:\:\$updated_at\.$#'
+			rawMessage: Access to an undefined property Rebing\GraphQL\Tests\Support\Models\Post::$updated_at.
 			identifier: property.notFound
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/InterfaceTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\LikableInterfaceType\:\:resolveType\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\LikableInterfaceType::resolveType() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\LikableInterfaceType\:\:resolveType\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\LikableInterfaceType::resolveType() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\LikableInterfaceType\:\:types\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\LikableInterfaceType::types() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\UserQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\UserQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\UserQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\UserQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\UserQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\UserQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\InterfaceTests\\UserQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\InterfaceTests\UserQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/InterfaceTests/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\LikableInterfaceType\:\:resolveType\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\LikableInterfaceType::resolveType() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\LikableInterfaceType\:\:resolveType\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\LikableInterfaceType::resolveType() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/LikableInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\MorphRelationshipTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\MorphRelationshipTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/MorphRelationshipTests/UsersQuery.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:where\(\) expects array\<int\|model property of Illuminate\\Database\\Eloquent\\Model, mixed\>\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: void\)\|Illuminate\\Contracts\\Database\\Query\\Expression\|model property of Illuminate\\Database\\Eloquent\\Model, ''comments\.flag'' given\.$#'
+			rawMessage: 'Parameter #1 $column of method Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>::where() expects array<int|model property of Illuminate\Database\Eloquent\Model, mixed>|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>)|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): void)|Illuminate\Contracts\Database\Query\Expression|model property of Illuminate\Database\Eloquent\Model, ''comments.flag'' given.'
 			identifier: argument.type
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/PostType.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:where\(\) expects array\<int\|model property of Illuminate\\Database\\Eloquent\\Model, mixed\>\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: void\)\|Illuminate\\Contracts\\Database\\Query\\Expression\|model property of Illuminate\\Database\\Eloquent\\Model, ''posts\.flag'' given\.$#'
+			rawMessage: 'Parameter #1 $column of method Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>::where() expects array<int|model property of Illuminate\Database\Eloquent\Model, mixed>|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>)|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): void)|Illuminate\Contracts\Database\Query\Expression|model property of Illuminate\Database\Eloquent\Model, ''posts.flag'' given.'
 			identifier: argument.type
 			count: 2
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UserType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\NestedRelationLoadingTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\NestedRelationLoadingTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\NestedRelationLoadingTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\NestedRelationLoadingTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\NestedRelationLoadingTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/NestedRelationLoadingTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyPaginationQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyPaginationQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyPaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyPaginationQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyPaginationQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyPaginationQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyPaginationQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyPaginationQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\PrimaryKeyTests\\PrimaryKeyQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\PrimaryKeyTests\PrimaryKeyQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/PrimaryKeyTests/PrimaryKeyQuery.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Database\\SelectFields\\QueryArgsAndContextTests\\GraphQLContext\:\:\$data has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests\GraphQLContext::$data has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/GraphQLContext.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:where\(\) expects array\<int\|model property of Illuminate\\Database\\Eloquent\\Model, mixed\>\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: void\)\|Illuminate\\Contracts\\Database\\Query\\Expression\|model property of Illuminate\\Database\\Eloquent\\Model, ''comments\.flag'' given\.$#'
+			rawMessage: 'Parameter #1 $column of method Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>::where() expects array<int|model property of Illuminate\Database\Eloquent\Model, mixed>|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>)|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): void)|Illuminate\Contracts\Database\Query\Expression|model property of Illuminate\Database\Eloquent\Model, ''comments.flag'' given.'
 			identifier: argument.type
 			count: 2
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/PostType.php
 
 		-
-			message: '#^Parameter \#1 \$column of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:where\(\) expects array\<int\|model property of Illuminate\\Database\\Eloquent\\Model, mixed\>\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\|\(Closure\(Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\)\: void\)\|Illuminate\\Contracts\\Database\\Query\\Expression\|model property of Illuminate\\Database\\Eloquent\\Model, ''posts\.flag'' given\.$#'
+			rawMessage: 'Parameter #1 $column of method Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>::where() expects array<int|model property of Illuminate\Database\Eloquent\Model, mixed>|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>)|(Closure(Illuminate\Database\Eloquent\Builder<Illuminate\Database\Eloquent\Model>): void)|Illuminate\Contracts\Database\Query\Expression|model property of Illuminate\Database\Eloquent\Model, ''posts.flag'' given.'
 			identifier: argument.type
 			count: 3
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UserType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\QueryArgsAndContextTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\QueryArgsAndContextTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\QueryArgsAndContextTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/QueryArgsAndContextTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\UnionTests\\SearchQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\SearchQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\UnionTests\\SearchQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\SearchQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\UnionTests\\SearchQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\SearchQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\UnionTests\\SearchQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\UnionTests\SearchQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/UnionTests/SearchQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateDiffNodeTests\\UsersQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests\UsersQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateDiffNodeTests\\UsersQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests\UsersQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateDiffNodeTests\\UsersQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests\UsersQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateDiffNodeTests\\UsersQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateDiffNodeTests\UsersQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateDiffNodeTests/UsersQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateFieldTests\\ValidateFieldsQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\ValidateFieldsQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateFieldTests\\ValidateFieldsQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\ValidateFieldsQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateFieldTests\\ValidateFieldsQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\ValidateFieldsQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Database\\SelectFields\\ValidateFieldTests\\ValidateFieldsQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests\ValidateFieldsQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Database/SelectFields/ValidateFieldTests/ValidateFieldsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\CustomExamplesQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\CustomExamplesQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\CustomExamplesQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\CustomExamplesQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\CustomExamplesQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\CustomExamplesQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/CustomExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ErrorFormatter\:\:formatError\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ErrorFormatter::formatError() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ErrorFormatter.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleField\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleField::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleField\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleField::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleField\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleField::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExampleField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleInterfaceType\:\:resolveType\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleInterfaceType::resolveType() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleInterfaceType\:\:resolveType\(\) should return GraphQL\\Type\\Definition\\StringType but returns GraphQL\\Type\\Definition\\ScalarType\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleInterfaceType::resolveType() should return GraphQL\Type\Definition\StringType but returns GraphQL\Type\Definition\ScalarType.'
 			identifier: return.type
 			count: 1
 			path: tests/Support/Objects/ExampleInterfaceType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:handle\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::handle() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:handle\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::handle() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:handle\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::handle() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:terminate\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::terminate() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:terminate\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::terminate() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:terminate\(\) has parameter \$result with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::terminate() has parameter $result with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleMiddleware\:\:terminate\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware::terminate() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleMiddleware.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleNestedValidationInputObject\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleNestedValidationInputObject\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleNestedValidationInputObject\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleNestedValidationInputObject::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExampleNestedValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleUnionType\:\:resolveType\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleUnionType::resolveType() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExampleUnionType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleUnionType\:\:resolveType\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleUnionType::resolveType() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleUnionType.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationField\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationField::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleValidationField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationField\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationField::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleValidationField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationField\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationField::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExampleValidationField.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationInputObject\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationInputObject\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExampleValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleValidationInputObject\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExampleValidationInputObject::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExampleValidationInputObject.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeMessageQuery\:\:authorize\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery::authorize() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeMessageQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeMessageQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeMessageQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeMessageQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeMessageQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeQuery\:\:authorize\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery::authorize() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesAuthorizeQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesAuthorizeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesFilteredQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesFilteredQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesFilteredQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesFilteredQuery\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesFilteredQuery::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Support/Objects/ExamplesFilteredQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesMiddlewareQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesMiddlewareQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesMiddlewareQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesPaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesPaginationQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesPaginationQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesPaginationQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Objects/ExamplesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullPaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullCursorPaginationQuery::resolve() has parameter $args with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullCursorPaginationQuery::resolve() has parameter $context with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullCursorPaginationQuery::resolve() has parameter $root with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/Support/Queries/PostNonNullCursorPaginationQuery.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullPaginationQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullPaginationQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullPaginationQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullPaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullSimplePaginationQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullSimplePaginationQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullSimplePaginationQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullSimplePaginationQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullSimplePaginationQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullWithSelectFieldsAndModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostNonNullWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostNonNullWithSelectFieldsAndModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostNonNullWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithNonInjectableTypehintsQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithNonInjectableTypehintsQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithNonInjectableTypehintsQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithNonInjectableTypehintsQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithNonInjectableTypehintsQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithNonInjectableTypehintsQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithNonInjectableTypehintsQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithNonInjectableTypehintsQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithNonInjectableTypehintsQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithSelectFieldsClassInjectionQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFieldsClassInjectionQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithSelectFieldsClassInjectionQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFieldsClassInjectionQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithSelectFieldsClassInjectionQuery\:\:resolve\(\) has parameter \$ctx with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFieldsClassInjectionQuery::resolve() has parameter $ctx with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostQueryWithSelectFieldsClassInjectionQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostQueryWithSelectFieldsClassInjectionQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostQueryWithSelectFieldsClassInjectionQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasAndCustomResolverQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasCallbackQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasCallbackQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasCallbackQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelAndAliasQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelAndAliasQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelAndAliasQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsAndModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsNoModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsNoModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsNoModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostWithSelectFieldsNoModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostWithSelectFieldsNoModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostWithSelectFieldsNoModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsListOfWithSelectFieldsAndModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$context with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery::resolve() has parameter $context with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Support\\Queries\\PostsNonNullAndListOfWithSelectFieldsAndModelQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Support\Queries\PostsNonNullAndListOfWithSelectFieldsAndModelQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Support/Queries/PostsNonNullAndListOfWithSelectFieldsAndModelQuery.php
 
 		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
+			rawMessage: 'Unsafe usage of new static().'
 			identifier: new.static
 			count: 1
 			path: tests/Support/Types/MyCustomScalarString.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:assertGraphQLSchema\(\) has parameter \$schema with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::assertGraphQLSchema() has parameter $schema with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:assertGraphQLSchemaHasMutation\(\) has parameter \$key with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::assertGraphQLSchemaHasMutation() has parameter $key with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:assertGraphQLSchemaHasMutation\(\) has parameter \$schema with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::assertGraphQLSchemaHasMutation() has parameter $schema with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:assertGraphQLSchemaHasQuery\(\) has parameter \$key with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::assertGraphQLSchemaHasQuery() has parameter $key with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:assertGraphQLSchemaHasQuery\(\) has parameter \$schema with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::assertGraphQLSchemaHasQuery() has parameter $schema with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\TestCase\:\:formatSafeTrace\(\) has parameter \$trace with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\TestCase::formatSafeTrace() has parameter $trace with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Parameter \#1 \$laravel of method Illuminate\\Console\\Command\:\:setLaravel\(\) expects Illuminate\\Contracts\\Container\\Container, Illuminate\\Foundation\\Application\|null given\.$#'
+			rawMessage: 'Parameter #1 $laravel of method Illuminate\Console\Command::setLaravel() expects Illuminate\Contracts\Container\Container, Illuminate\Foundation\Application|null given.'
 			identifier: argument.type
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\TestCase\:\:\$data has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\TestCase::$data has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\TestCase\:\:\$queries has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\TestCase::$queries has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/TestCase.php
 
 		-
-			message: '#^Call to an undefined method Rebing\\GraphQL\\Tests\\TestCaseDatabase\:\:setupTraitForSqlAssertion\(\)\.$#'
+			rawMessage: 'Call to an undefined method Rebing\GraphQL\Tests\TestCaseDatabase::setupTraitForSqlAssertion().'
 			identifier: method.notFound
 			count: 1
 			path: tests/TestCaseDatabase.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\AliasArguments\\Stubs\\UpdateExampleMutation\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\UpdateExampleMutation::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Unit/AliasArguments/Stubs/UpdateExampleMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\AliasArguments\\Stubs\\UpdateExampleMutation\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\UpdateExampleMutation::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/AliasArguments/Stubs/UpdateExampleMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\AliasArguments\\Stubs\\UpdateExampleMutation\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\UpdateExampleMutation::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/AliasArguments/Stubs/UpdateExampleMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\EnumMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\EnumMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/EnumMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\ExecutionMiddlewareMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\ExecutionMiddlewareMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/ExecutionMiddlewareMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\InputMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\InputMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/InputMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\InterfaceMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\InterfaceMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/InterfaceMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\MiddlewareMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\MiddlewareMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/MiddlewareMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\MutationMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\MutationMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/MutationMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\QueryMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\QueryMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/QueryMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\ScalarMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\ScalarMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/ScalarMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\TypeMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\TypeMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/TypeMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\Console\\UnionMakeCommandTest\:\:dataForMakeCommand\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\Console\UnionMakeCommandTest::dataForMakeCommand() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/Console/UnionMakeCommandTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\EngineErrorInResolverTests\\QueryWithEngineErrorInCodeQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\EngineErrorInResolverTests\QueryWithEngineErrorInCodeQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\EngineErrorInResolverTests\\QueryWithEngineErrorInCodeQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\EngineErrorInResolverTests\QueryWithEngineErrorInCodeQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/EngineErrorInResolverTests/QueryWithEngineErrorInCodeQuery.php
 
 		-
-			message: '#^Parameter \#2 \$visitor of static method GraphQL\\Language\\Visitor\:\:visit\(\) expects array\<string, array\<string, callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\>\|\(callable\(GraphQL\\Language\\AST\\Node\)\: \(GraphQL\\Language\\VisitorOperation\|void\|false\|null\)\)\>, array\{VariableDefinition\: Closure\(mixed, mixed, mixed, mixed, mixed\)\: mixed\} given\.$#'
+			rawMessage: 'Parameter #2 $visitor of static method GraphQL\Language\Visitor::visit() expects array<string, array<string, callable(GraphQL\Language\AST\Node): (GraphQL\Language\AST\Node|GraphQL\Language\AST\NodeList<GraphQL\Language\AST\Node>|GraphQL\Language\VisitorOperation|void|false|null)>|(callable(GraphQL\Language\AST\Node): (GraphQL\Language\AST\Node|GraphQL\Language\AST\NodeList<GraphQL\Language\AST\Node>|GraphQL\Language\VisitorOperation|void|false|null))>, array{VariableDefinition: Closure(mixed, mixed, mixed, mixed, mixed): mixed} given.'
 			identifier: argument.type
 			count: 1
 			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
 
 		-
-			message: '#^Parameter \#1 \$abstract of function app expects string\|null, object\|string given\.$#'
+			rawMessage: 'Parameter #1 $abstract of function app expects string|null, object|string given.'
 			identifier: argument.type
 			count: 3
 			path: tests/Unit/GraphQLTest.php
 
 		-
-			message: '#^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\ObjectType constructor expects array\{name\?\: string\|null, description\?\: string\|null, resolveField\?\: \(callable\(mixed, array\<string, mixed\>, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: mixed\)\|null, argsMapper\?\: \(callable\(array\<string, mixed\>, GraphQL\\Type\\Definition\\FieldDefinition, GraphQL\\Language\\AST\\FieldNode, mixed\)\: mixed\)\|null, fields\: \(callable\(\)\: iterable\)\|iterable, interfaces\?\: \(callable\(\)\: iterable\<callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\|GraphQL\\Type\\Definition\\InterfaceType\>\)\|iterable\<\(callable\(\)\: GraphQL\\Type\\Definition\\InterfaceType\)\|GraphQL\\Type\\Definition\\InterfaceType\>, isTypeOf\?\: \(callable\(mixed, mixed, GraphQL\\Type\\Definition\\ResolveInfo\)\: \(bool\|GraphQL\\Deferred\|null\)\)\|null, astNode\?\: GraphQL\\Language\\AST\\ObjectTypeDefinitionNode\|null, \.\.\.\}, array\{name\: ''ObjectType''\} given\.$#'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\ObjectType constructor expects array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}, array{name: ''ObjectType''} given.'
 			identifier: argument.type
 			count: 1
 			path: tests/Unit/GraphQLTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\FormattableDate\:\:__construct\(\) has parameter \$settings with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\FormattableDate::__construct() has parameter $settings with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\FormattableDate\:\:resolve\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\FormattableDate::resolve() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\FormattableDate\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\FormattableDate::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\FormattableDate\:\:\$defaultFormat has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\FormattableDate::$defaultFormat has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/FormattableDate.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\UserQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\UserQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\UserQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\UserQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\InstantiableTypesTest\\UserQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\InstantiableTypesTest\UserQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/InstantiableTypesTest/UserQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\LaravelValidatorTests\\RuleObjectFail\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\LaravelValidatorTests\RuleObjectFail::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/LaravelValidatorTests/RuleObjectFail.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\LaravelValidatorTests\\RuleObjectPass\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\LaravelValidatorTests\RuleObjectPass::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/LaravelValidatorTests/RuleObjectPass.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\MutationCustomRulesTests\\MutationWithCustomRuleWithClosure\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests\MutationWithCustomRuleWithClosure::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\MutationCustomRulesTests\\MutationWithCustomRuleWithClosure\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests\MutationWithCustomRuleWithClosure::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/MutationWithCustomRuleWithClosure.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\MutationCustomRulesTests\\RuleObject\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\MutationCustomRulesTests\RuleObject::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/MutationCustomRulesTests/RuleObject.php
 
 		-
-			message: '#^Return type \(class\-string\<Rebing\\GraphQL\\Tests\\Support\\Objects\\UpdateExampleMutationWithInputType\>\) of method Rebing\\GraphQL\\Tests\\Unit\\MutationTest\:\:getFieldClass\(\) should be compatible with return type \(class\-string\<Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleField\>\) of method Rebing\\GraphQL\\Tests\\Unit\\FieldTest\:\:getFieldClass\(\)$#'
+			rawMessage: 'Return type (class-string<Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutationWithInputType>) of method Rebing\GraphQL\Tests\Unit\MutationTest::getFieldClass() should be compatible with return type (class-string<Rebing\GraphQL\Tests\Support\Objects\ExampleField>) of method Rebing\GraphQL\Tests\Unit\FieldTest::getFieldClass()'
 			identifier: method.childReturnType
 			count: 1
 			path: tests/Unit/MutationTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\MutationValidationInWithCustomRulesTests\\RuleObjectFail\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests\RuleObjectFail::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/MutationValidationInWithCustomRulesTests/RuleObjectFail.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\MutationValidationInWithCustomRulesTests\\RuleObjectPass\:\:message\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests\RuleObjectPass::message() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/MutationValidationInWithCustomRulesTests/RuleObjectPass.php
 
 		-
-			message: '#^Return type \(class\-string\<Rebing\\GraphQL\\Tests\\Support\\Objects\\ExamplesQuery\>\) of method Rebing\\GraphQL\\Tests\\Unit\\QueryTest\:\:getFieldClass\(\) should be compatible with return type \(class\-string\<Rebing\\GraphQL\\Tests\\Support\\Objects\\ExampleField\>\) of method Rebing\\GraphQL\\Tests\\Unit\\FieldTest\:\:getFieldClass\(\)$#'
+			rawMessage: 'Return type (class-string<Rebing\GraphQL\Tests\Support\Objects\ExamplesQuery>) of method Rebing\GraphQL\Tests\Unit\QueryTest::getFieldClass() should be compatible with return type (class-string<Rebing\GraphQL\Tests\Support\Objects\ExampleField>) of method Rebing\GraphQL\Tests\Unit\FieldTest::getFieldClass()'
 			identifier: method.childReturnType
 			count: 1
 			path: tests/Unit/QueryTest.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\TypesInSchemas\\SchemaOne\\Query\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\TypesInSchemas\SchemaOne\Query::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaOne/Query.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\TypesInSchemas\\SchemaTwo\\Query\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\TypesInSchemas\SchemaTwo\Query::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Unit/TypesInSchemas/SchemaTwo/Query.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadMultipleFilesMutation\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\UploadTests\UploadMultipleFilesMutation::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadMultipleFilesMutation\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\UploadTests\UploadMultipleFilesMutation::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadMultipleFilesMutation\:\:resolve\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\UploadTests\UploadMultipleFilesMutation::resolve() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/UploadTests/UploadMultipleFilesMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\UploadTests\\UploadSingleFileMutation\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\UploadTests\UploadSingleFileMutation::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/UploadTests/UploadSingleFileMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\ValidationAuthorizationTests\\ValidationAndAuthorizationMutation\:\:authorize\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\ValidationAuthorizationTests\ValidationAndAuthorizationMutation::authorize() has parameter $args with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/ValidationAuthorizationTests/ValidationAndAuthorizationMutation.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\PostMessagesQuery\:\:resolve\(\) has no return type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\WithTypeTests\PostMessagesQuery::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
 			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\PostMessagesQuery\:\:resolve\(\) has parameter \$args with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\WithTypeTests\PostMessagesQuery::resolve() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\PostMessagesQuery\:\:resolve\(\) has parameter \$root with no type specified\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\WithTypeTests\PostMessagesQuery::resolve() has parameter $root with no type specified.'
 			identifier: missingType.parameter
 			count: 1
 			path: tests/Unit/WithTypeTests/PostMessagesQuery.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\SimpleMessage\:\:\$code has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Unit\WithTypeTests\SimpleMessage::$code has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Unit/WithTypeTests/SimpleMessage.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\SimpleMessage\:\:\$message has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Unit\WithTypeTests\SimpleMessage::$message has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Unit/WithTypeTests/SimpleMessage.php
 
 		-
-			message: '#^Property Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\SimpleMessage\:\:\$type has no type specified\.$#'
+			rawMessage: Property Rebing\GraphQL\Tests\Unit\WithTypeTests\SimpleMessage::$type has no type specified.
 			identifier: missingType.property
 			count: 1
 			path: tests/Unit/WithTypeTests/SimpleMessage.php
 
 		-
-			message: '#^Method Rebing\\GraphQL\\Tests\\Unit\\WithTypeTests\\WrapperType\:\:getMessagesFields\(\) return type has no value type specified in iterable type array\.$#'
+			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\WithTypeTests\WrapperType::getMessagesFields() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/Unit/WithTypeTests/WrapperType.php

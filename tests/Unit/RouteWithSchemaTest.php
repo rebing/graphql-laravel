@@ -6,11 +6,9 @@ namespace Rebing\GraphQL\Tests\Unit;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleMiddleware;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleSchema;
-use Rebing\GraphQL\Tests\Support\Objects\ExampleSchemaWithMethod;
 use Rebing\GraphQL\Tests\TestCase;
 
-class RoutesTest extends TestCase
+class RouteWithSchemaTest extends TestCase
 {
     protected function getEnvironmentSetUp($app): void
     {
@@ -27,20 +25,17 @@ class RoutesTest extends TestCase
                 'default' => [
                     'middleware' => [ExampleMiddleware::class],
                 ],
-                'custom' => [
+                'with_route_attributes' => [
                     'middleware' => [ExampleMiddleware::class],
+                    'route_attributes' => [
+                        'domain' => 'api.example.com',
+                    ],
                 ],
-                'with_methods' => [
-                    'method' => ['POST'],
-                    'middleware' => [ExampleMiddleware::class],
-                ],
-                'class_based' => ExampleSchema::class,
-                'class_based_with_methods' => ExampleSchemaWithMethod::class,
             ],
         ]);
     }
 
-    public function testRoutes(): void
+    public function testRoutesWithSchemaAttributes(): void
     {
         $expected = [
             'graphql' => [
@@ -53,6 +48,9 @@ class RoutesTest extends TestCase
                 'middleware' => [
                     ExampleMiddleware::class,
                 ],
+                'domain' => null,
+                'action_middleware' => [ExampleMiddleware::class],
+                'action_excluded_middleware' => [],
             ],
             'graphql.default' => [
                 'methods' => [
@@ -64,56 +62,38 @@ class RoutesTest extends TestCase
                 'middleware' => [
                     ExampleMiddleware::class,
                 ],
+                'domain' => null,
+                'action_middleware' => [ExampleMiddleware::class],
+                'action_excluded_middleware' => [],
             ],
-            'graphql.custom' => [
+            'graphql.with_route_attributes' => [
                 'methods' => [
                     'GET',
                     'POST',
                     'HEAD',
                 ],
-                'uri' => 'graphql_test/custom',
+                'uri' => 'graphql_test/with_route_attributes',
                 'middleware' => [
                     ExampleMiddleware::class,
                 ],
-            ],
-            'graphql.with_methods' => [
-                'methods' => [
-                    'POST',
-                ],
-                'uri' => 'graphql_test/with_methods',
-                'middleware' => [
-                    ExampleMiddleware::class,
-                ],
-            ],
-            'graphql.class_based' => [
-                'methods' => [
-                    'GET',
-                    'POST',
-                    'HEAD',
-                ],
-                'uri' => 'graphql_test/class_based',
-                'middleware' => [
-                    ExampleMiddleware::class,
-                ],
-            ],
-            'graphql.class_based_with_methods' => [
-                'methods' => [
-                    'POST',
-                ],
-                'uri' => 'graphql_test/class_based_with_methods',
-                'middleware' => [
-                    ExampleMiddleware::class,
-                ],
+                'domain' => 'api.example.com',
+                'action_middleware' => [ExampleMiddleware::class],
+                'action_excluded_middleware' => [],
             ],
         ];
 
         $actual = Collection::make(
             app('router')->getRoutes()->getRoutesByName(),
         )->map(function (Route $route) {
+            $action = $route->getAction();
+
             return [
                 'methods' => $route->methods(),
                 'uri' => $route->uri(),
                 'middleware' => $route->middleware(),
+                'domain' => $route->getDomain(),
+                'action_middleware' => $action['middleware'] ?? [],
+                'action_excluded_middleware' => $action['excluded_middleware'] ?? [],
             ];
         })->all();
 

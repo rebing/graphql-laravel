@@ -17,7 +17,7 @@ class UnionMakeCommandTest extends TestCase
         string $inputName,
         string $expectedFilename,
         string $expectedClassDefinition,
-        string $expectedGraphqlName
+        string $expectedGraphqlName,
     ): void {
         $this->assertMakeCommand(
             'Union',
@@ -26,7 +26,7 @@ class UnionMakeCommandTest extends TestCase
             $expectedFilename,
             'App\\\\GraphQL\\\\Unions',
             $expectedClassDefinition,
-            $expectedGraphqlName
+            $expectedGraphqlName,
         );
     }
 
