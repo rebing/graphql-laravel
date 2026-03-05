@@ -34,8 +34,12 @@ class InputTypeTest extends TestCase
             public function fields(): array
             {
                 return [
-                    'byId' => \GraphQL\Type\Definition\Type::id(),
-                    'byEmail' => \GraphQL\Type\Definition\Type::string(),
+                    'byId' => [
+                        'type' => \GraphQL\Type\Definition\Type::id(),
+                    ],
+                    'byEmail' => [
+                        'type' => \GraphQL\Type\Definition\Type::string(),
+                    ],
                 ];
             }
         };

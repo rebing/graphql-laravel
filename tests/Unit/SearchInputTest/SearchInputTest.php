@@ -88,6 +88,7 @@ GRAPHQL;
                             'column' => 17,
                         ],
                     ],
+                    'extensions' => [],
                 ],
             ],
         ];
@@ -97,6 +98,8 @@ GRAPHQL;
 
     protected function getEnvironmentSetUp($app): void
     {
+        parent::getEnvironmentSetUp($app);
+
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 UserQuery::class,

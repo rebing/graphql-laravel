@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\SearchInputTest;
 
 use GraphQL\Type\Definition\Type;
@@ -28,7 +30,7 @@ class UserQuery extends Query
     }
 
     /**
-     * @param array<string, array<string, string>> $args
+     * @param array{search: array<string, mixed>} $args
      */
     public function resolve(?Query $root, array $args): ?string
     {
