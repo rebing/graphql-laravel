@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.15.0...master)
 
+2026-03-06, 9.16.0
+------------------
+
 ## Added
 - Support for PHPUnit 12 [\#1209 / mfn](https://github.com/rebing/graphql-laravel/pull/1209)
 - Support for OneOf Input Objects (GraphQL @oneOf directive)
