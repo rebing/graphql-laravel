@@ -66,6 +66,8 @@ class EmptyQueryTest extends TestCaseDatabase
 
     public function testEmptyBatchedQuery(): void
     {
+        $this->app['config']->set('graphql.batching.enable', true);
+
         $response = $this->json('POST', '/graphql', [
             ['query' => null],
             ['query' => ''],
