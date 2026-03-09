@@ -225,6 +225,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     public function testPersistedQueryBatchingNotSupported(): void
     {
         $this->app['config']->set(['graphql.apq.enable' => false]);
+        $this->app['config']->set('graphql.batching.enable', true);
 
         $response = $this->call('POST', '/graphql', [
             [
@@ -284,6 +285,8 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryBatchingFoundNotFoundAndInvalidHash(): void
     {
+        $this->app['config']->set('graphql.batching.enable', true);
+
         // run query and persist
 
         $response = $this->call('GET', '/graphql', [

@@ -118,6 +118,8 @@ class UploadTest extends TestCase
 
     public function testBatchUploads(): void
     {
+        $this->app['config']->set('graphql.batching.enable', true);
+
         $file1ToUpload = UploadedFile::fake()->create('file1.txt');
         \Safe\fwrite($file1ToUpload->tempFile, 'File 1 to upload');
 
