@@ -17,6 +17,7 @@ class PostsTable extends Migration
             $table->integer('user_id')->nullable();
             $table->text('properties')->nullable();
             $table->boolean('flag')->default('false');
+            $table->unsignedInteger('file_id')->nullable();
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });
