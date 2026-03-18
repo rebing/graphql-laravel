@@ -1,7 +1,10 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.16.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
+
+2026-03-18, 10.0.0-RC1
+----------------------
 
 ## Breaking changes
 - Security hardening: safer defaults for production deployments [\#1210 / mfn](https://github.com/rebing/graphql-laravel/pull/1210)
