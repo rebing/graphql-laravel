@@ -40,9 +40,7 @@ class RouteWithSchemaTest extends TestCase
         $expected = [
             'graphql' => [
                 'methods' => [
-                    'GET',
                     'POST',
-                    'HEAD',
                 ],
                 'uri' => 'graphql_test',
                 'middleware' => [
@@ -54,9 +52,7 @@ class RouteWithSchemaTest extends TestCase
             ],
             'graphql.default' => [
                 'methods' => [
-                    'GET',
                     'POST',
-                    'HEAD',
                 ],
                 'uri' => 'graphql_test/default',
                 'middleware' => [
@@ -68,9 +64,7 @@ class RouteWithSchemaTest extends TestCase
             ],
             'graphql.with_route_attributes' => [
                 'methods' => [
-                    'GET',
                     'POST',
-                    'HEAD',
                 ],
                 'uri' => 'graphql_test/with_route_attributes',
                 'middleware' => [
