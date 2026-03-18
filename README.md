@@ -2851,7 +2851,7 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
   https://webonyx.github.io/graphql-php/security/
   - `query_max_complexity`
   - `query_max_depth`
-  - `disable_introspection`
+  - `disable_introspection` (env: `GRAPHQL_DISABLE_INTROSPECTION`, default: `true`)
 - `pagination_type`\
   You can define your own pagination type.
 - `simple_pagination_type`\
