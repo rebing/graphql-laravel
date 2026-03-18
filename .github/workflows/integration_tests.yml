@@ -65,6 +65,6 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer install --prefer-dist
+      - run: composer update --prefer-dist --no-progress
 
       - run: tests/integration-laravel.sh ${{ matrix.laravel }}
