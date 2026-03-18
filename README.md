@@ -110,8 +110,9 @@ config/graphql.php
   - [Misc features](#misc-features)
     - [Detecting unused variables](#detecting-unused-variables)
   - [Configuration options](#configuration-options)
-  - [Guides](#guides)
-    - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
+   - [Guides](#guides)
+     - [Upgrading from 9 to 10](#upgrading-from-9-to-10)
+     - [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
     - [Migrating from Folklore](#migrating-from-folklore)
   - [Performance considerations](#performance-considerations)
     - [Wrap Types](#wrap-types)
@@ -2892,6 +2893,33 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
   If enabled, variables provided but not consumed by the query will throw an error
 
 ## Guides
+
+### Upgrading from 9 to 10
+
+Version 10 hardens several security defaults. Existing applications may
+need to explicitly re-enable previously-open behaviour.
+
+- **HTTP method restricted to POST** — Schemas now default to `'method' => ['POST']`.
+  To re-enable GET requests, add `'method' => ['GET', 'POST']` to each schema in `config/graphql.php`.
+- **Batching disabled** — `batching.enable` now defaults to `false`.
+  Set it to `true` to restore batching.
+- **Max batch size** — New `batching.max_batch_size` option (default `10`).
+  Set to `null` to remove the limit.
+- **Query depth limit** — `security.query_max_depth` now defaults to `13` (was `null`).
+  Set to `null` to remove the limit.
+- **Query complexity limit** — `security.query_max_complexity` now defaults to `500` (was `null`).
+  Set to `null` to remove the limit.
+- **Introspection disabled** — `security.disable_introspection` now defaults to `true`.
+  To allow introspection (e.g. in dev), set env `GRAPHQL_DISABLE_INTROSPECTION=false`.
+- **Introspection env var renamed** — The env var changed from
+  `GRAPHQL_INTROSPECTION` to `GRAPHQL_DISABLE_INTROSPECTION` (inverted logic).
+  Update `.env` files accordingly.
+- **Authorization runs before validation** — Field authorization (`authorize()`) is
+  now checked before argument validation rules. Unauthorized requests are
+  rejected without revealing validation details.
+- **Strict authorization comparison** — The `authorize()` return value is now
+  compared with `!== true` (strict). Ensure your `authorize()` methods return
+  an actual `bool`.
 
 ### Upgrading from v1 to v2
 
