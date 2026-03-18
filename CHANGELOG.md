@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+### Added
+- Add tracing support with OpenTelemetry driver [\#1220 / mfn](https://github.com/rebing/graphql-laravel/pull/1220)
+
 ## Fixed
 - Narrow `GraphQL::type()` PHPStan return type to `(NullableType&Type)|NonNull` so consumers can pass it to `Type::nonNull()` without static analysis errors [\#1221 / mfn](https://github.com/rebing/graphql-laravel/pull/1221)
 
