@@ -149,8 +149,8 @@ return [
      * @ https://webonyx.github.io/graphql-php/security
      * for details.
      *
-     * It is HIGHLY recommended to keep these limits enabled to prevent
-     * denial-of-service attacks via deeply nested or overly complex queries.
+     * It is highly recommended to have limits to prevent denial-of-service
+     * attacks via deeply nested or overly complex queries.
      */
     'security' => [
         'query_max_complexity' => 500,
