@@ -11,6 +11,7 @@ parameters:
         - tests/
     excludePaths:
         - tests/Support/database/
+        - tests/integration-otel/
     inferPrivatePropertyTypeFromConstructor: true
     checkUninitializedProperties: true
     checkModelProperties: true
