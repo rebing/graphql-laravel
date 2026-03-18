@@ -219,9 +219,18 @@ class EndpointTest extends TestCase
         $actual = $response->getData(true);
 
         $expected = [
-            'errors' => [
-                [
-                    'message' => 'Batch request exceeds the maximum of 1 operations',
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch of 2 exceeds the maximum of 1 operation',
+                    ],
+                ],
+            ],
+            [
+                'errors' => [
+                    [
+                        'message' => 'Batch of 2 exceeds the maximum of 1 operation',
+                    ],
                 ],
             ],
         ];

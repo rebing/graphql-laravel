@@ -39,18 +39,18 @@ class GraphQLController extends Controller
             $maxBatchSize = $config->get('graphql.batching.max_batch_size', 10);
 
             if (null !== $maxBatchSize && \count($operations) > $maxBatchSize) {
-                return response()->json(
-                    [
-                        'errors' => [
-                            [
-                                'message' => "Batch request exceeds the maximum of $maxBatchSize operations",
-                            ],
+                $operationCount = \count($operations);
+                $message = "Batch of $operationCount exceeds the maximum of $maxBatchSize " . (1 === $maxBatchSize ? 'operation' : 'operations');
+
+                $data = array_fill(0, $operationCount, [
+                    'errors' => [
+                        [
+                            'message' => $message,
                         ],
                     ],
-                    200,
-                    $headers,
-                    $jsonOptions,
-                );
+                ]);
+
+                return response()->json($data, 200, $headers, $jsonOptions);
             }
         }
 
