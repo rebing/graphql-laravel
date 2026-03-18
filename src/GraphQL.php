@@ -32,10 +32,12 @@ use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
 use Rebing\GraphQL\Support\CursorPaginationType;
 use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
+use Rebing\GraphQL\Support\ExecutionMiddleware\TracingExecutionMiddleware;
 use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
+use Rebing\GraphQL\Support\Tracing\TracingManager;
 
 class GraphQL
 {
@@ -60,6 +62,16 @@ class GraphQL
      * @var list<object|class-string>
      */
     protected $globalResolverMiddlewares = [];
+
+    /**
+     * Middleware prepended to the resolver pipeline (before per-field and global appended middleware).
+     *
+     * Used by the tracing system to unwrap the context scope before any
+     * other resolver middleware sees it.
+     *
+     * @var list<object|class-string>
+     */
+    protected $prependedGlobalResolverMiddlewares = [];
 
     /** @var Type[] */
     protected $typesInstances = [];
@@ -181,11 +193,22 @@ class GraphQL
             ? $this->config->get("graphql.schemas.$schemaName.execution_middleware")
             : null;
 
-        return $this->appendGraphqlExecutionMiddleware(
-            $executionMiddleware ??
+        $middleware = $executionMiddleware ??
             $this->config->get('graphql.execution_middleware') ??
-            [],
-        );
+            [];
+
+        // Prepend tracing middleware when any schema has a driver configured
+        // so it wraps the entire execution pipeline including validation and
+        // the actual GraphQL execution. The middleware itself will skip
+        // schemas that have tracing disabled.
+        /** @var TracingManager $tracingManager */
+        $tracingManager = $this->app->make(TracingManager::class);
+
+        if ($tracingManager->hasAnyTracing()) {
+            array_unshift($middleware, TracingExecutionMiddleware::class);
+        }
+
+        return $this->appendGraphqlExecutionMiddleware($middleware);
     }
 
     /**
@@ -205,6 +228,25 @@ class GraphQL
     public function appendGlobalResolverMiddleware(object|string $class): void
     {
         $this->globalResolverMiddlewares[] = $class;
+    }
+
+    /**
+     * Prepend a resolver middleware so it runs before all other resolver
+     * middleware (including per-field middleware and appended global middleware).
+     *
+     * @phpstan-param class-string|object $class
+     */
+    public function prependGlobalResolverMiddleware(object|string $class): void
+    {
+        $this->prependedGlobalResolverMiddlewares[] = $class;
+    }
+
+    /**
+     * @phpstan-return list<object|class-string>
+     */
+    public function getPrependedGlobalResolverMiddlewares(): array
+    {
+        return $this->prependedGlobalResolverMiddlewares;
     }
 
     /**

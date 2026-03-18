@@ -21,6 +21,8 @@ use Rebing\GraphQL\Console\ScalarMakeCommand;
 use Rebing\GraphQL\Console\SchemaConfigMakeCommand;
 use Rebing\GraphQL\Console\TypeMakeCommand;
 use Rebing\GraphQL\Console\UnionMakeCommand;
+use Rebing\GraphQL\Support\Tracing\TracingManager;
+use Rebing\GraphQL\Support\Tracing\TracingResolverMiddleware;
 
 class GraphQLServiceProvider extends ServiceProvider
 {
@@ -120,9 +122,33 @@ class GraphQLServiceProvider extends ServiceProvider
         });
         $this->app->alias(GraphQL::class, 'graphql');
 
+        $this->registerTracing();
+
         $this->app->afterResolving(GraphQL::class, function (GraphQL $graphQL): void {
             $this->bootTypes($graphQL);
+            $this->bootTracing($graphQL);
         });
+    }
+
+    /**
+     * Register the TracingManager singleton.
+     */
+    protected function registerTracing(): void
+    {
+        $this->app->singleton(TracingManager::class);
+    }
+
+    /**
+     * Register tracing resolver middleware when any schema has field tracing enabled.
+     */
+    protected function bootTracing(GraphQL $graphQL): void
+    {
+        /** @var TracingManager $tracingManager */
+        $tracingManager = $this->app->make(TracingManager::class);
+
+        if ($tracingManager->hasAnyFieldTracing()) {
+            $graphQL->prependGlobalResolverMiddleware(new TracingResolverMiddleware());
+        }
     }
 
     /**

@@ -1897,6 +1897,24 @@ parameters:
 			path: tests/Unit/QueryTest.php
 
 		-
+			rawMessage: 'Cannot call method instance() on Illuminate\Foundation\Application|null.'
+			identifier: method.nonObject
+			count: 5
+			path: tests/Unit/TracingTest/TracingExecutionMiddlewareTest.php
+
+		-
+			rawMessage: 'Cannot call method instance() on Illuminate\Foundation\Application|null.'
+			identifier: method.nonObject
+			count: 5
+			path: tests/Unit/TracingTest/TracingManagerTest.php
+
+		-
+			rawMessage: 'Cannot call method instance() on Illuminate\Foundation\Application|null.'
+			identifier: method.nonObject
+			count: 5
+			path: tests/Unit/TracingTest/TracingResolverMiddlewareTest.php
+
+		-
 			rawMessage: 'Method Rebing\GraphQL\Tests\Unit\TypesInSchemas\SchemaOne\Query::resolve() has no return type specified.'
 			identifier: missingType.return
 			count: 1
