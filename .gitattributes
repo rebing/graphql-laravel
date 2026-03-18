@@ -10,6 +10,7 @@
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist export-ignore
 /tests export-ignore
+/AGENTS.md export-ignore
 /tmp export-ignore
 
 # Github specific: force syntax highlighting to be PHP for stubs
