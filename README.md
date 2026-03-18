@@ -272,6 +272,7 @@ them, in addition to the global middleware. For example:
         ],
         'middleware' => ['auth'],
         // Which HTTP methods to support; must be given in UPPERCASE!
+        // Default is POST only; enable GET explicitly if needed
         'method' => ['GET', 'POST'], 
         'execution_middleware' => [
             \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
@@ -502,7 +503,7 @@ Add the query to the `config/graphql.php` configuration file
 ]
 ```
 
-And that's it. You should be able to query GraphQL with a request to the url `/graphql` (or anything you choose in your config). Try a GET request with the following `query` input
+And that's it. You should be able to query GraphQL with a POST request to the url `/graphql` (or anything you choose in your config). Try a POST request with the following `query` input
 
 ```graphql
 query FetchUsers {
@@ -513,9 +514,11 @@ query FetchUsers {
 }
 ```
 
-For example, if you use homestead:
-```
-http://homestead.app/graphql?query=query+FetchUsers{users{id,email}}
+For example, using `curl`:
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"query": "query FetchUsers { users { id email } }"}' \
+  http://homestead.app/graphql
 ```
 
 ### Creating a mutation
@@ -602,9 +605,11 @@ mutation users {
 }
 ```
 
-if you use homestead:
-```
-http://homestead.app/graphql?query=mutation+users{updateUserPassword(id: "1", password: "newpassword"){id,email}}
+For example, using `curl`:
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"query": "mutation users { updateUserPassword(id: \"1\", password: \"newpassword\") { id email } }"}' \
+  http://homestead.app/graphql
 ```
 
 #### File uploads
@@ -1262,6 +1267,11 @@ middleware in your queries and mutations.
 ### Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
+
+> **Important:** The `authorize()` method must return exactly `true` (strict comparison) for the request to proceed. Returning other truthy values (e.g. `1`, `"yes"`) will be treated as unauthorized.
+
+> **Note:** Authorization is checked **before** validation rules are evaluated. This prevents unauthenticated users from probing validation rules to discover API structure.
+
 An example of Laravel's `'auth'` middleware:
 
 ```php
@@ -1430,8 +1440,11 @@ query FetchUserByID($id: String)
 
 When you query the GraphQL endpoint, you can pass a JSON encoded `variables` parameter.
 
-```
-http://homestead.app/graphql?query=query+FetchUserByID($id:Int){user(id:$id){id,email}}&variables={"id":123}
+For example, using `curl`:
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"query": "query FetchUserByID($id: Int) { user(id: $id) { id email } }", "variables": {"id": 123}}' \
+  http://homestead.app/graphql
 ```
 
 ### Custom field
@@ -2001,7 +2014,7 @@ There are tools that help with this and can handle the batching for you, e.g. [A
 >   OTOH with "resolver middleware" this will work as expected (though the solve
 >   different problems).
 > 
-> - No limitations on the number of queries/mutations  
+> - Batch size limits  
 >   By default, a maximum of 10 operations per batch is enforced via the
 >   `batching.max_batch_size` config option. Set to `null` for no limit.
 
@@ -2701,6 +2714,7 @@ APQ is disabled by default and can be enabled in the config via `apq.enabled=tru
 A persisted query is an ID or hash that can be generated on the client sent to the server instead of the entire GraphQL query string. 
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
 Persisted queries pair especially with GET requests, enabling the browser cache and integration with a CDN.
+Note that GET requests are disabled by default; to use APQ with GET, you must explicitly set `'method' => ['GET', 'POST']` in your schema configuration.
 
 Behind the scenes, APQ uses Laravel's cache for storing / retrieving the queries.
 They are parsed by GraphQL before storing, so re-parsing them again is not necessary.
@@ -2838,8 +2852,10 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 - `default_schema`\
   The name of the default schema used, when none is provided via the route
 - `batching`\
-  - 'enable'\
-    Whether to support GraphQL batching or not
+  - `enable`\
+    Whether to support GraphQL batching or not (default: `false`)
+  - `max_batch_size`\
+    Maximum number of operations allowed in a single batch (default: `10`, set to `null` for no limit)
 - `error_formatter`\
   This callable will be passed the Error object for each errors GraphQL catch.
   The method should return an array representing the error.
@@ -2849,8 +2865,8 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 - `security`\
   Various options to limit the query complexity and depth, see docs at
   https://webonyx.github.io/graphql-php/security/
-  - `query_max_complexity`
-  - `query_max_depth`
+  - `query_max_complexity` (default: `500`)
+  - `query_max_depth` (default: `13`)
   - `disable_introspection` (env: `GRAPHQL_DISABLE_INTROSPECTION`, default: `true`)
 - `pagination_type`\
   You can define your own pagination type.
