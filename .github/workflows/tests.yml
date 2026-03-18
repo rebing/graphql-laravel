@@ -18,6 +18,9 @@ on:
     - cron: 0 3 * * 1
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -35,6 +38,7 @@ jobs:
             laravel: ^13.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} ${{ matrix.stability }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       COMPOSER_NO_INTERACTION: 1
 
@@ -62,7 +66,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
       - run: composer update --prefer-dist --no-progress --${{ matrix.stability }}
