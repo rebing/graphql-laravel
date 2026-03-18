@@ -29,6 +29,7 @@ jobs:
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       COMPOSER_NO_INTERACTION: 1
 
@@ -61,6 +62,7 @@ jobs:
   code-style-checker:
     name: Code Style checker
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v6

@@ -38,6 +38,7 @@ jobs:
             laravel: ^13.0
     name: P=${{ matrix.php }} L=${{ matrix.laravel }} ${{ matrix.stability }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       COMPOSER_NO_INTERACTION: 1
 
