@@ -26,7 +26,7 @@ abstract class Type implements TypeConvertible
     }
 
     /**
-     * @return array<int|string,array<string,mixed>|string|FieldDefinition|Field>
+     * @return array<string,array<string,mixed>|string|FieldDefinition|Field>
      */
     public function fields(): array
     {

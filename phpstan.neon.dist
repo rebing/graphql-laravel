@@ -23,8 +23,6 @@ parameters:
         - '/Call to an undefined method Mockery\\/'
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
         - '/Trying to invoke Closure\|null but it might not be a callable/'
-        - '/Property Rebing\\GraphQL\\Support\\Field\:\:\$name \(string\) does not accept int\|string/'
-        - '/Parameter #1 \$name of method Rebing\\GraphQL\\Support\\Type\:\:getFieldResolver\(\) expects string, int\|string given/'
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/larastan/larastan/issues/611
         -
