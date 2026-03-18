@@ -7,9 +7,9 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class EndpointTest extends TestCase
 {
-    public function testGetDefaultSchema(): void
+    public function testPostDefaultSchema(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examples'],
         ]);
 
@@ -22,11 +22,13 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    public function testGetCustomSchema(): void
+    public function testPostCustomSchema(): void
     {
-        $response = $this->call('GET', '/graphql/custom', [
+        $response = $this->call('POST', '/graphql/custom', [
             'query' => $this->queries['examplesCustom'],
         ]);
+
+        self::assertEquals(200, $response->getStatusCode());
 
         $content = $response->getData(true);
         self::assertArrayHasKey('data', $content);
@@ -35,9 +37,9 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    public function testGetWithVariables(): void
+    public function testPostWithVariables(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
             'variables' => [
                 'index' => 0,
@@ -55,9 +57,9 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    public function testGetWithVariablesSerialized(): void
+    public function testPostWithVariablesSerialized(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
             'variables' => \Safe\json_encode([
                 'index' => 0,
@@ -75,9 +77,9 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    public function testGetUnauthorized(): void
+    public function testPostUnauthorized(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithAuthorize'],
         ]);
 
@@ -90,9 +92,9 @@ class EndpointTest extends TestCase
         self::assertNull($content['data']['examplesAuthorize']);
     }
 
-    public function testGetUnauthorizedWithCustomError(): void
+    public function testPostUnauthorizedWithCustomError(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithAuthorizeMessage'],
         ]);
 
@@ -141,41 +143,13 @@ class EndpointTest extends TestCase
         ]);
     }
 
-    public function testBatchedQueriesDontWorkWithGet(): void
+    public function testGetRequestsAreRejected(): void
     {
         $response = $this->call('GET', '/graphql', [
-            [
-                'query' => $this->queries['examplesWithVariables'],
-                'variables' => [
-                    'index' => 0,
-                ],
-            ],
-            [
-                'query' => $this->queries['examplesWithVariables'],
-                'variables' => [
-                    'index' => 0,
-                ],
-            ],
+            'query' => $this->queries['examples'],
         ]);
 
-        self::assertEquals(200, $response->getStatusCode());
-
-        $content = $response->getData(true);
-
-        unset($content['errors'][0]['extensions']['file']);
-        unset($content['errors'][0]['extensions']['line']);
-        unset($content['errors'][0]['extensions']['trace']);
-
-        $expected = [
-            'errors' => [
-                [
-                    'message' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
-                    'extensions' => [
-                    ],
-                ],
-            ],
-        ];
-        self::assertEquals($expected, $content);
+        self::assertEquals(405, $response->getStatusCode());
     }
 
     public function testBatchedQueriesButBatchingDisabled(): void

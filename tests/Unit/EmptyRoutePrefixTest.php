@@ -16,7 +16,7 @@ class EmptyRoutePrefixTest extends TestCase
 
     public function testEmptyRoutePrefix(): void
     {
-        $response = $this->call('GET', '/', [
+        $response = $this->call('POST', '/', [
             'query' => $this->queries['examples'],
         ]);
 
@@ -25,7 +25,7 @@ class EmptyRoutePrefixTest extends TestCase
 
     public function testGetCustomSchema(): void
     {
-        $response = $this->call('GET', '/custom', [
+        $response = $this->call('POST', '/custom', [
             'query' => $this->queries['examplesCustom'],
         ]);
 

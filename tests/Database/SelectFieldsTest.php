@@ -85,7 +85,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -126,7 +126,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -218,7 +218,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -259,7 +259,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -294,7 +294,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -380,7 +380,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -417,7 +417,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -454,7 +454,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -511,7 +511,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -554,7 +554,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -596,7 +596,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -638,7 +638,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 
@@ -756,7 +756,7 @@ GRAQPHQL;
 
         $this->sqlCounterReset();
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $graphql,
         ]);
 

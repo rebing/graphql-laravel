@@ -29,7 +29,7 @@ class SchemaMultiLevelPathTest extends TestCase
 }
 GRAPHQL;
 
-        $response = $this->call('GET', '/graphql/multi/level', [
+        $response = $this->call('POST', '/graphql/multi/level', [
             'query' => $graphql,
         ]);
 

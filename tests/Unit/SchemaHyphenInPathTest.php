@@ -29,7 +29,7 @@ class SchemaHyphenInPathTest extends TestCase
 }
 GRAPHQL;
 
-        $response = $this->call('GET', '/graphql/with-hyphen', [
+        $response = $this->call('POST', '/graphql/with-hyphen', [
             'query' => $graphql,
         ]);
 
