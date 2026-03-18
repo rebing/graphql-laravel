@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Types;
 
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Post;
@@ -34,11 +33,7 @@ class PostWithModelAndAliasType extends GraphQLType
             'commentsLastMonth' => [
                 'type' => Type::nonNull(Type::int()),
                 'alias' => function () {
-                    $day = Carbon::now()
-                        ->startOfMonth()
-                        ->format('Y-m-d H:i:s');
-
-                    return DB::raw("(SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '$day') AS commentsLastMonth");
+                    return DB::raw("(SELECT count(*) FROM comments WHERE posts.id = comments.post_id AND DATE(created_at) > '2018-01-01 00:00:00') AS commentsLastMonth");
                 },
             ],
         ];
