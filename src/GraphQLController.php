@@ -28,10 +28,30 @@ class GraphQLController extends Controller
 
         $supportsBatching = $config->get('graphql.batching.enable', false);
 
-        if ($isBatch && !$supportsBatching) {
-            $data = $this->createBatchingNotSupportedResponse($request->input());
+        if ($isBatch) {
+            if (!$supportsBatching) {
+                $data = $this->createBatchingNotSupportedResponse($request->input());
 
-            return response()->json($data, 200, $headers, $jsonOptions);
+                return response()->json($data, 200, $headers, $jsonOptions);
+            }
+
+            /** @var int|null $maxBatchSize */
+            $maxBatchSize = $config->get('graphql.batching.max_batch_size', 10);
+
+            if (null !== $maxBatchSize && \count($operations) > $maxBatchSize) {
+                return response()->json(
+                    [
+                        'errors' => [
+                            [
+                                'message' => "Batch request exceeds the maximum of $maxBatchSize operations",
+                            ],
+                        ],
+                    ],
+                    200,
+                    $headers,
+                    $jsonOptions,
+                );
+            }
         }
 
         $data = Helpers::applyEach(

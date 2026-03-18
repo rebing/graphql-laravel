@@ -33,6 +33,11 @@ return [
         // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
         // for pro and con
         'enable' => false,
+
+        // Maximum number of operations allowed in a single batched request.
+        // This limits DoS amplification by preventing an attacker from sending
+        // thousands of operations in one HTTP request. Set to null for no limit.
+        'max_batch_size' => 10,
     ],
 
     // The schemas for query and/or mutation. It expects an array of schemas to provide

@@ -2002,9 +2002,12 @@ There are tools that help with this and can handle the batching for you, e.g. [A
 >   different problems).
 > 
 > - No limitations on the number of queries/mutations  
->   Currently there's no way to limit this.
+>   By default, a maximum of 10 operations per batch is enforced via the
+>   `batching.max_batch_size` config option. Set to `null` for no limit.
 
-Support for batching can be disabled by setting the config `batching.enable` to `false`.
+Support for batching can be enabled by setting the config `batching.enable` to `true` (disabled by default).
+
+The maximum number of operations per batch is controlled by `batching.max_batch_size` (default: `10`). Requests exceeding this limit will receive an error response. Set to `null` to allow unlimited operations (not recommended).
 
 ### Scalar types
 

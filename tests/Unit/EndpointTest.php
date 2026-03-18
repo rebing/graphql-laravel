@@ -193,4 +193,96 @@ class EndpointTest extends TestCase
         ];
         self::assertEquals($expected, $actual);
     }
+
+    public function testBatchedQueriesExceedingMaxBatchSize(): void
+    {
+        $this->app['config']->set('graphql.batching.enable', true);
+        $this->app['config']->set('graphql.batching.max_batch_size', 1);
+
+        $response = $this->call('POST', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $actual = $response->getData(true);
+
+        $expected = [
+            'errors' => [
+                [
+                    'message' => 'Batch request exceeds the maximum of 1 operations',
+                ],
+            ],
+        ];
+        self::assertEquals($expected, $actual);
+    }
+
+    public function testBatchedQueriesWithinMaxBatchSize(): void
+    {
+        $this->app['config']->set('graphql.batching.enable', true);
+        $this->app['config']->set('graphql.batching.max_batch_size', 5);
+
+        $response = $this->call('POST', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayHasKey(0, $content);
+        self::assertArrayHasKey(1, $content);
+        self::assertArrayHasKey('data', $content[0]);
+        self::assertArrayHasKey('data', $content[1]);
+    }
+
+    public function testBatchedQueriesWithNullMaxBatchSizeAllowsUnlimited(): void
+    {
+        $this->app['config']->set('graphql.batching.enable', true);
+        $this->app['config']->set('graphql.batching.max_batch_size', null);
+
+        $response = $this->call('POST', '/graphql', [
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+            [
+                'query' => $this->queries['examplesWithVariables'],
+                'variables' => [
+                    'index' => 0,
+                ],
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayHasKey(0, $content);
+        self::assertArrayHasKey(1, $content);
+        self::assertArrayHasKey('data', $content[0]);
+        self::assertArrayHasKey('data', $content[1]);
+    }
 }
