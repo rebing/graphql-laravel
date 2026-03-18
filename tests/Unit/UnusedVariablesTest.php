@@ -12,7 +12,7 @@ class UnusedVariablesTest extends TestCase
     {
         $this->app['config']->set('graphql.execution_middleware', []);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
             'variables' => [
                 'index' => 1,
@@ -43,7 +43,7 @@ class UnusedVariablesTest extends TestCase
             UnusedVariablesMiddleware::class,
         ]);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examplesWithVariables'],
             'variables' => [
                 'index' => 1,

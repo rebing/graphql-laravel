@@ -32,7 +32,12 @@ return [
         // Whether to support GraphQL batching or not.
         // See e.g. https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/
         // for pro and con
-        'enable' => true,
+        'enable' => false,
+
+        // Maximum number of operations allowed in a single batched request.
+        // This limits DoS amplification by preventing an attacker from sending
+        // thousands of operations in one HTTP request. Set to null for no limit.
+        'max_batch_size' => 10,
     ],
 
     // The schemas for query and/or mutation. It expects an array of schemas to provide
@@ -89,7 +94,10 @@ return [
             'middleware' => null,
 
             // Which HTTP methods to support; must be given in UPPERCASE!
-            'method' => ['GET', 'POST'],
+            // GET requests are disabled by default to reduce CSRF attack surface
+            // and prevent sensitive query data from appearing in server logs and
+            // browser history.
+            'method' => ['POST'],
 
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
@@ -139,12 +147,15 @@ return [
     /*
      * Options to limit the query complexity and depth. See the doc
      * @ https://webonyx.github.io/graphql-php/security
-     * for details. Disabled by default.
+     * for details.
+     *
+     * It is highly recommended to have limits to prevent denial-of-service
+     * attacks via deeply nested or overly complex queries.
      */
     'security' => [
-        'query_max_complexity' => null,
-        'query_max_depth' => null,
-        'disable_introspection' => false,
+        'query_max_complexity' => 500,
+        'query_max_depth' => 13,
+        'disable_introspection' => env('GRAPHQL_DISABLE_INTROSPECTION', true),
     ],
 
     /*

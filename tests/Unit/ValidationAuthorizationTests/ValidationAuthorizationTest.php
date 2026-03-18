@@ -33,17 +33,14 @@ GRAPHQL;
             ],
         ]);
 
+        // Authorization runs before validation, so an unauthorized request
+        // is rejected without exposing validation details
         $expected = [
             'errors' => [
                 [
-                    'message' => 'validation',
+                    'message' => 'Unauthorized',
                     'extensions' => [
-                        'category' => 'validation',
-                        'validation' => [
-                            'arg1' => [
-                                'The selected arg1 is invalid.',
-                            ],
-                        ],
+                        'category' => 'authorization',
                     ],
                     'locations' => [
                         [

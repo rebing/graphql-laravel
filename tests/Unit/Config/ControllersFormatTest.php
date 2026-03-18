@@ -33,7 +33,7 @@ class ControllersFormatTest extends TestCase
 
     public function testControllerHasValidMethod(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examples'],
         ]);
 

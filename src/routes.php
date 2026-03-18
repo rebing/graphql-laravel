@@ -32,7 +32,7 @@ if ($routeConfig) {
             $defaultSchema = $config->get('graphql.default_schema', 'default');
 
             foreach ($schemas as $schemaName => $schemaConfig) {
-                $method = $schemaConfig['method'] ?? ['GET', 'POST'];
+                $method = $schemaConfig['method'] ?? ['POST'];
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
                     'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,

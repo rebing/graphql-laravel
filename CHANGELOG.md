@@ -3,6 +3,22 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.16.0...master)
 
+## Breaking changes
+- Security hardening: safer defaults for production deployments [\#1210 / mfn](https://github.com/rebing/graphql-laravel/pull/1210)
+    - Default HTTP method changed from `GET`/`POST` to `POST` only
+    - Batching disabled by default (`batching.default` → `false`)
+    - Introspection disabled by default (`GRAPHQL_DISABLE_INTROSPECTION` env var)
+    - Default `query_max_depth` set to `13` (was unlimited)
+    - Default `query_max_complexity` set to `500` (was unlimited)
+    - Authorization now runs before validation in field resolver
+    - Authorization uses strict `=== true` comparison
+    - 
+## Added
+    - Added `max_batch_size` config option to limit batch query operations
+
+2026-03-18, 9.17.0
+------------------
+
 ## Removed
 - Support for Laravel 11 & PHPUnit 10 have been removed
 

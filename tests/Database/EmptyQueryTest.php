@@ -16,13 +16,20 @@ class EmptyQueryTest extends TestCaseDatabase
     #[DataProvider('dataForEmptyQuery')]
     public function testEmptyQuery(array $parameters, string $expectedError): void
     {
-        $response = $this->call('GET', '/graphql', $parameters);
+        $response = $this->json('POST', '/graphql', $parameters);
 
         self::assertSame(200, $response->getStatusCode());
         $result = $response->getData(true);
 
         self::assertCount(1, $result['errors']);
         self::assertSame($expectedError, $result['errors'][0]['message']);
+    }
+
+    public function testCompletelyEmptyPostRequest(): void
+    {
+        $response = $this->json('POST', '/graphql', []);
+
+        self::assertSame(400, $response->getStatusCode());
     }
 
     #[WithConfig('app.debug', true)]
@@ -66,6 +73,8 @@ class EmptyQueryTest extends TestCaseDatabase
 
     public function testEmptyBatchedQuery(): void
     {
+        $this->app['config']->set('graphql.batching.enable', true);
+
         $response = $this->json('POST', '/graphql', [
             ['query' => null],
             ['query' => ''],
@@ -140,11 +149,6 @@ class EmptyQueryTest extends TestCaseDatabase
     public static function dataForEmptyQuery(): array
     {
         return [
-            // completely empty request
-            [
-                'parameters' => [],
-                'expectedError' => 'GraphQL Request must include at least one of those two parameters: "query" or "queryId"',
-            ],
             // single request with an empty query parameter
             [
                 'parameters' => ['query' => null],

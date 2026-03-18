@@ -36,7 +36,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         $this->app['config']->set(['graphql.apq.enable' => false]);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
@@ -67,7 +67,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryNotFound(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 1,
@@ -102,7 +102,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         // run query and persist
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => trim($this->queries['examples']),
             'extensions' => [
                 'persistedQuery' => [
@@ -137,9 +137,16 @@ class AutomatedPersistedQueriesTest extends TestCase
         self::assertArrayHasKey('data', $content);
         self::assertEquals(['examples' => $this->data], $content['data']);
 
-        // run persisted query using GET
+        // run persisted query again via POST
 
-        $response = $this->call('GET', '/graphql?extensions={"persistedQuery":{"version":1,"sha256Hash":"' . $hash . '"}}');
+        $response = $this->call('POST', '/graphql', [
+            'extensions' => [
+                'persistedQuery' => [
+                    'version' => 1,
+                    'sha256Hash' => $hash,
+                ],
+            ],
+        ]);
 
         self::assertEquals(200, $response->getStatusCode());
 
@@ -154,7 +161,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         // run query and persist
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => trim($this->queries['examples']),
             'extensions' => [
                 'persistedQuery' => [
@@ -173,7 +180,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
         // run persisted query
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'extensions' => [
                 'persistedQuery' => [
                     'version' => 9,
@@ -192,7 +199,7 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryInvalidHash(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => trim($this->queries['examples']),
             'extensions' => [
                 'persistedQuery' => [
@@ -225,6 +232,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     public function testPersistedQueryBatchingNotSupported(): void
     {
         $this->app['config']->set(['graphql.apq.enable' => false]);
+        $this->app['config']->set('graphql.batching.enable', true);
 
         $response = $this->call('POST', '/graphql', [
             [
@@ -284,9 +292,11 @@ class AutomatedPersistedQueriesTest extends TestCase
 
     public function testPersistedQueryBatchingFoundNotFoundAndInvalidHash(): void
     {
+        $this->app['config']->set('graphql.batching.enable', true);
+
         // run query and persist
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => trim($this->queries['examples']),
             'extensions' => [
                 'persistedQuery' => [
@@ -461,7 +471,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         $this->app['config']->set(['graphql.apq.enable' => true]);
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'extensions' => [
                 'persistedQuery' => 'invalid',
             ],
@@ -491,7 +501,7 @@ class AutomatedPersistedQueriesTest extends TestCase
     {
         $query = '{ parse(error) }';
 
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $query,
             'extensions' => [
                 'persistedQuery' => [

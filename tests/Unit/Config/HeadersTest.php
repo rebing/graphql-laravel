@@ -32,7 +32,7 @@ class HeadersTest extends TestCase
 
     public function testCustomHeaders(): void
     {
-        $response = $this->call('GET', '/graphql', [
+        $response = $this->call('POST', '/graphql', [
             'query' => $this->queries['examples'],
         ]);
 

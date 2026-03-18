@@ -206,6 +206,12 @@ abstract class Field
             // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
             $arguments = \func_get_args();
 
+            // Authorize first - prevents unauthenticated users from probing
+            // validation rules to discover API structure
+            if (true !== \call_user_func_array($authorize, $arguments)) {
+                throw new AuthorizationError($this->getAuthorizationMessage());
+            }
+
             // Validate mutation arguments
             $args = $arguments[1];
 
@@ -221,11 +227,6 @@ abstract class Field
             $this->validateFieldArguments($fieldsAndArguments);
 
             $arguments[1] = $this->getArgs($arguments);
-
-            // Authorize
-            if (true != \call_user_func_array($authorize, $arguments)) {
-                throw new AuthorizationError($this->getAuthorizationMessage());
-            }
 
             $method = new ReflectionMethod($this, 'resolve');
 
