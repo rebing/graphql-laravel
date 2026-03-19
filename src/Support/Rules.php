@@ -9,6 +9,11 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
+/**
+ * Collects validation rules from Field args and nested InputType definitions.
+ *
+ * @internal This class is an implementation detail and not part of the public API.
+ */
 class Rules
 {
     /** @var array<string,mixed> */

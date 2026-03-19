@@ -76,6 +76,7 @@ config/graphql.php
       - [Handling validation errors](#handling-validation-errors)
       - [Customizing error messages](#customizing-error-messages)
       - [Customizing attributes](#customizing-attributes)
+      - [Cross-field validation rules in nested input types](#cross-field-validation-rules-in-nested-input-types)
       - [Misc notes](#misc-notes)
     - [Resolve method](#resolve-method)
     - [Resolver middleware](#resolver-middleware)
@@ -993,6 +994,71 @@ public function validationAttributes(array $args = []): array
     return [
         'email' => 'email address',
     ];
+}
+```
+
+#### Cross-field validation rules in nested input types
+
+When using Laravel validation rules that reference sibling fields (like
+`prohibits`, `required_without`, `required_if`, etc.) within an InputType, the
+library automatically transforms those references into fully-qualified
+dot-notation paths that Laravel's Validator can resolve correctly.
+
+For example, given an InputType:
+
+```php
+class RecipientInput extends InputType
+{
+    protected $attributes = ['name' => 'RecipientInput'];
+
+    public function fields(): array
+    {
+        return [
+            'createParams' => [
+                'type' => Type::string(),
+                'rules' => ['nullable', 'prohibits:mintParams'],
+            ],
+            'mintParams' => [
+                'type' => Type::string(),
+                'rules' => ['nullable', 'prohibits:createParams'],
+            ],
+        ];
+    }
+}
+```
+
+Used in a mutation as a list:
+
+```php
+public function args(): array
+{
+    return [
+        'recipients' => [
+            'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('RecipientInput')))),
+        ],
+    ];
+}
+```
+
+The `prohibits:mintParams` rule on `recipients.0.createParams` is automatically
+transformed to `prohibits:recipients.0.mintParams` so that Laravel's Validator
+correctly resolves the sibling field reference.
+
+This applies to all dependent rules including `prohibits`, `required_with`,
+`required_without`, `required_if`, `same`, `different`, and others. For rules
+like `required_if` that take both a field reference and a value (e.g.
+`required_if:mode,advanced`), only the field reference parameter is transformed.
+
+**Disabling automatic prefixing:** If you need to opt out of this behavior for
+a specific query or mutation, override `processCollectedRules()`:
+
+```php
+class MyMutation extends Mutation
+{
+    protected function processCollectedRules(array $rules): array
+    {
+        return $rules; // disable automatic cross-field rule prefixing
+    }
 }
 ```
 
@@ -3087,6 +3153,13 @@ need to explicitly re-enable previously-open behaviour.
 - **Strict authorization comparison** — The `authorize()` return value is now
   compared with `!== true` (strict). Ensure your `authorize()` methods return
   an actual `bool`.
+- **Cross-field validation rules in nested InputTypes** — Validation rules like
+  `prohibits:otherField`, `required_without:otherField`, `required_if:field,value`,
+  etc. defined on InputType fields are now automatically transformed to use
+  fully-qualified dot-notation paths. This fixes cross-field rules that previously
+  didn't work in nested or list InputTypes. If this causes issues, you can disable
+  it per mutation/query by overriding `processCollectedRules()` to return `$rules`
+  unchanged.
 
 ### Upgrading from v1 to v2
 
