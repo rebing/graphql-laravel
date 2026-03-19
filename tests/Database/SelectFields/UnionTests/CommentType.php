@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\UnionTests;
 
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Models\Comment;
 
@@ -22,6 +23,10 @@ class CommentType extends GraphQLType
             ],
             'id' => [
                 'type' => Type::nonNull(Type::ID()),
+            ],
+            'post' => [
+                'type' => GraphQL::type('Post'),
+                'is_relation' => true,
             ],
             'title' => [
                 'type' => Type::nonNull(Type::string()),

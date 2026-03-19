@@ -7,6 +7,7 @@ use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\InterfaceType as GraphqlInterfaceType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
@@ -155,6 +156,13 @@ class SelectFields
             try {
                 if (method_exists($parentType, 'getField')) {
                     $fieldObject = $parentType->getField($key);
+                } elseif (is_a($parentType, UnionType::class)) {
+                    // Union types don't have getField(); look up from concrete member types
+                    $fieldObject = static::findFieldInConcreteUnionTypes($parentType, $key);
+
+                    if (null === $fieldObject) {
+                        continue;
+                    }
                 } else {
                     continue;
                 }
@@ -206,7 +214,19 @@ class SelectFields
                 // With
 
                 elseif (\is_array($field['fields']) && !empty($field['fields']) && $queryable) {
-                    if (isset($parentType->config['model'])) {
+                    if (is_a($parentType, UnionType::class)) {
+                        static::handleUnionFields(
+                            $queryArgs,
+                            $field,
+                            $parentType,
+                            $select,
+                            $with,
+                            $ctx,
+                            $fieldObject,
+                            $key,
+                            $customQuery,
+                        );
+                    } elseif (isset($parentType->config['model'])) {
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                         $relationsKey = $fieldObject->config['alias'] ?? $key;
@@ -531,6 +551,106 @@ class SelectFields
     }
 
     /**
+     * Handle relation fields when the parent type is a union.
+     *
+     * Similar to handleInterfaceFields(), this iterates over the union's
+     * concrete member types to find the one that owns the relation, then
+     * extracts the custom query callback and sets up eager loading.
+     *
+     * @param array<string,mixed> $queryArgs Arguments given with the query/mutation
+     * @param array<string,mixed> $field
+     * @param mixed[] $select Passed by reference, adds further fields to select
+     * @param mixed[] $with Passed by reference, adds further relations
+     * @param mixed $ctx
+     */
+    protected static function handleUnionFields(
+        array $queryArgs,
+        array $field,
+        UnionType $parentType,
+        array &$select,
+        array &$with,
+        $ctx,
+        FieldDefinition $fieldObject,
+        string $key,
+        ?Closure $customQuery,
+    ): void {
+        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+
+        $with[$relationsKey] = function ($query) use (
+            $queryArgs,
+            $field,
+            $parentType,
+            &$select,
+            $ctx,
+            $customQuery,
+            $key,
+            $fieldObject
+        ) {
+            $parentTable = static::isMongodbInstance($parentType) ? null : static::getTableNameFromParentType($parentType);
+
+            static::handleRelation($select, $query, $parentTable, $field);
+
+            $newParentType = $fieldObject->config['type'];
+
+            static::addAlwaysFields($fieldObject, $field, $parentTable, true);
+
+            // Find the concrete union member type that owns this relation
+            // by comparing table names, then extract its custom query callback
+            $types = $parentType->getTypes();
+
+            $typesFiltered = array_filter(
+                $types,
+                function (ObjectType $type) use ($query) {
+                    // Widen the config type: Rebing adds 'model' beyond webonyx's ObjectConfig
+                    /** @var array<string,mixed> $typeConfig */
+                    $typeConfig = $type->config;
+
+                    if (!isset($typeConfig['model'])) {
+                        return false;
+                    }
+
+                    /* @var Relation $query */
+                    return app($typeConfig['model'])->getTable() === $query->getParent()->getTable();
+                },
+            );
+            $typesFiltered = array_values($typesFiltered);
+
+            if (1 === \count($typesFiltered)) {
+                $type = $typesFiltered[0];
+
+                try {
+                    $relationField = $type->getField($key);
+                    $newParentType = $relationField->config['type'];
+                    // 'query' is a Rebing extension to webonyx's FieldDefinitionConfig
+                    $customQuery = $relationField->config['query'] ?? $customQuery; // @phpstan-ignore nullCoalesce.offset
+                } catch (InvariantViolation) {
+                    // Field not found on this type, keep defaults
+                }
+            }
+
+            if ($newParentType instanceof WrappingType) {
+                $newParentType = $newParentType->getInnermostType();
+            }
+
+            if (!$newParentType instanceof GraphqlType) {
+                return $query;
+            }
+
+            /** @var callable $callable */
+            $callable = static::getSelectableFieldsAndRelations(
+                $queryArgs,
+                $field,
+                $newParentType,
+                $customQuery,
+                false,
+                $ctx,
+            );
+
+            return $callable($query);
+        };
+    }
+
+    /**
      * For interface types, find a field definition from one of the concrete
      * implementing types. This handles inline fragment fields (e.g.
      * `...on Post { created_at }`) that exist on a concrete type but not
@@ -550,6 +670,24 @@ class SelectFields
                 if (method_exists($type, 'getField')) {
                     return $type->getField($fieldName);
                 }
+            } catch (InvariantViolation) {
+                continue;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * For union types, find a field definition from one of the concrete
+     * member types. This handles inline fragment fields (e.g.
+     * `...on Post { comments }`) that exist on a concrete type.
+     */
+    protected static function findFieldInConcreteUnionTypes(UnionType $unionType, string $fieldName): ?FieldDefinition
+    {
+        foreach ($unionType->getTypes() as $type) {
+            try {
+                return $type->getField($fieldName);
             } catch (InvariantViolation) {
                 continue;
             }
