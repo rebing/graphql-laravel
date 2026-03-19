@@ -102,6 +102,11 @@ return [
             // An array of middlewares, overrides the global ones
             'execution_middleware' => null,
 
+            // Per-schema tracing override (optional).
+            // Set to false to disable, or an array to override the global tracing config.
+            // Example: 'tracing' => ['field_tracing' => true],
+            // Example: 'tracing' => false,
+
             // Route attributes applied when generating the HTTP route for this schema
             // Example:
             // 'route_attributes' => [
@@ -156,6 +161,44 @@ return [
         'query_max_complexity' => 500,
         'query_max_depth' => 13,
         'disable_introspection' => env('GRAPHQL_DISABLE_INTROSPECTION', true),
+    ],
+
+    /*
+     * Tracing / observability
+     *
+     * When a driver is set, GraphQL operations are instrumented with timing data.
+     * The built-in OpenTelemetryTracingDriver emits spans via the OpenTelemetry
+     * API following the GraphQL semantic conventions. Requires the
+     * `open-telemetry/api` package (install separately).
+     *
+     * You can also implement the TracingDriver interface to create a custom driver.
+     *
+     * Set `driver` to null to disable tracing entirely (the default).
+     *
+     * This global config applies to all schemas by default. Individual schemas
+     * can override tracing by adding a `tracing` key to their schema config:
+     *
+     *   - `'tracing' => false`           — disable tracing for this schema
+     *   - `'tracing' => ['driver' => ..]` — full override, deep-merged over global
+     *
+     * See the README for detailed per-schema tracing examples.
+     */
+    'tracing' => [
+        // The tracing driver class, or null to disable.
+        // Example: \Rebing\GraphQL\Support\Tracing\OpenTelemetryTracingDriver::class
+        'driver' => null,
+
+        // Enable per-field resolver tracing (opt-in).
+        // When true, each field resolution is individually instrumented.
+        // This produces high-cardinality data and should only be used for debugging.
+        'field_tracing' => false,
+
+        // Driver-specific options
+        'driver_options' => [
+            // OpenTelemetryTracingDriver: include the GraphQL document (query string) in spans.
+            // The document may contain sensitive data; disabled by default.
+            'include_document' => false,
+        ],
     ],
 
     /*

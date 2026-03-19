@@ -107,6 +107,7 @@ config/graphql.php
     - [Automatic Persisted Queries support](#automatic-persisted-queries-support)
       - [Notes](#notes)
       - [Client example](#client-example)
+    - [Tracing / Observability](#tracing--observability)
   - [Misc features](#misc-features)
     - [Detecting unused variables](#detecting-unused-variables)
   - [Configuration options](#configuration-options)
@@ -1192,6 +1193,17 @@ You can also use the `appendGlobalResolverMiddleware` method in any ServiceProvi
         GraphQL::appendGlobalResolverMiddleware(new YourMiddleware(...));
     }
 ```
+
+If your middleware needs to wrap **all** other resolver middleware (including
+per-field middleware), use `prependGlobalResolverMiddleware` instead:
+
+```php
+GraphQL::prependGlobalResolverMiddleware(YourOutermostMiddleware::class);
+```
+
+The resulting pipeline order is: prepended global middleware, per-field
+middleware, appended global middleware. This is used internally by the tracing
+system but is available for any middleware that must run outermost.
 
 #### Terminable middleware
 
@@ -2803,6 +2815,146 @@ const app = new Vue({
     }
 </script>
 ```
+
+### Tracing / Observability
+
+GraphQL operations can be instrumented with timing data by configuring a tracing
+driver. Tracing is **disabled by default** (`'driver' => null`).
+
+The built-in `OpenTelemetryTracingDriver` emits spans via the OpenTelemetry API
+following the [GraphQL semantic conventions](https://opentelemetry.io/docs/specs/semconv/graphql/graphql-spans/).
+It requires the `open-telemetry/api` ^1.0 package.
+
+#### Enabling OpenTelemetry
+
+Install the OpenTelemetry API package first:
+
+```bash
+composer require open-telemetry/api
+```
+
+Then configure the driver:
+
+```php
+'tracing' => [
+    'driver' => \Rebing\GraphQL\Support\Tracing\OpenTelemetryTracingDriver::class,
+    'driver_options' => [
+        // Include the GraphQL document in spans (may contain sensitive data)
+        'include_document' => true,
+    ],
+],
+```
+
+Without an OTel SDK configured, all spans are automatically no-ops.
+
+To actually collect and export spans, you need to install and configure the
+[OpenTelemetry PHP SDK](https://opentelemetry.io/docs/languages/php/sdk/) along
+with an [exporter](https://opentelemetry.io/docs/languages/php/exporters/) for
+your backend. The
+[Getting Started guide](https://opentelemetry.io/docs/languages/php/getting-started/)
+walks through a complete example. Once the SDK is configured, the driver
+automatically picks up the global `TracerProvider` — no additional wiring is
+needed in this package.
+
+#### Per-field resolver tracing
+
+By default, only the top-level operation is traced. To instrument individual
+field resolvers, enable `field_tracing`:
+
+```php
+'tracing' => [
+    'driver' => \Rebing\GraphQL\Support\Tracing\OpenTelemetryTracingDriver::class,
+    'field_tracing' => true,
+],
+```
+
+With OpenTelemetry this creates a child span for each resolved field.
+
+> **Note:** Field tracing produces high-cardinality data and is intended for
+> development/debugging. Use it with caution in production.
+
+#### Custom tracing drivers
+
+You can implement the `Rebing\GraphQL\Support\Tracing\TracingDriver` interface
+to create your own driver. The interface has four methods:
+
+- `startOperation(schemaName, operationName, operationType, source)` — called before execution
+- `endOperation(context, ExecutionResult)` — called after execution; receives the opaque context from `startOperation` and may modify the result
+- `startFieldResolve(ResolveInfo)` — called before each field resolve (when field tracing is enabled)
+- `endFieldResolve(context, ResolveInfo)` — called after each field resolve
+
+Register your driver class in the `tracing.driver` config key and it will be
+resolved from the Laravel service container. If the driver constructor accepts
+an `array $driverOptions` parameter, it will receive the merged `driver_options`
+from the global and per-schema tracing config.
+
+#### Per-schema tracing
+
+By default, the global `tracing` configuration applies to every schema. You can
+override tracing on a per-schema basis by adding a `tracing` key inside the
+schema's config array.
+
+**Disable tracing for a specific schema:**
+
+```php
+'schemas' => [
+    'internal' => [
+        'query' => [/* ... */],
+        'tracing' => false, // no tracing for this schema
+    ],
+],
+```
+
+**Enable tracing only for a specific schema** (no global driver):
+
+```php
+// Global: tracing disabled
+'tracing' => [
+    'driver' => null,
+],
+
+'schemas' => [
+    'default' => [
+        'query' => [/* ... */],
+        // No 'tracing' key — inherits global (disabled)
+    ],
+    'monitored' => [
+        'query' => [/* ... */],
+        'tracing' => [
+            'driver' => \Rebing\GraphQL\Support\Tracing\OpenTelemetryTracingDriver::class,
+            'field_tracing' => true,
+        ],
+    ],
+],
+```
+
+**Override driver options per schema** (deep-merged over global):
+
+```php
+// Global: tracing enabled, document excluded
+'tracing' => [
+    'driver' => \Rebing\GraphQL\Support\Tracing\OpenTelemetryTracingDriver::class,
+    'driver_options' => [
+        'include_document' => false,
+    ],
+],
+
+'schemas' => [
+    'debug' => [
+        'query' => [/* ... */],
+        'tracing' => [
+            'field_tracing' => true,
+            'driver_options' => [
+                'include_document' => true, // override for this schema only
+            ],
+        ],
+    ],
+],
+```
+
+Per-schema `tracing` arrays are deep-merged over the global config: schema
+values win for top-level keys, and `driver_options` is merged separately so you
+can override individual options without repeating the full array.
 
 ## Misc features
 

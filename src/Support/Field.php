@@ -147,12 +147,21 @@ abstract class Field
     }
 
     /**
+     * Prepends and appends global resolver middlewares to the given middleware list.
+     *
+     * Note: Despite the name, this method both prepends and appends global
+     * middlewares. The name is kept for backward compatibility.
+     *
      * @phpstan-param list<string> $middleware
      * @return list<class-string|object>
      */
     protected function appendGlobalMiddlewares(array $middleware): array
     {
-        return array_merge($middleware, GraphQL::getGlobalResolverMiddlewares());
+        return array_merge(
+            GraphQL::getPrependedGlobalResolverMiddlewares(),
+            $middleware,
+            GraphQL::getGlobalResolverMiddlewares(),
+        );
     }
 
     protected function getResolver(): ?Closure

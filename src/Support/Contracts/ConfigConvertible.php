@@ -14,6 +14,7 @@ interface ConfigConvertible
      *                middleware?:array<string|class-string>,
      *                mutation?:array<string,class-string>|list<class-string>,
      *                query:array<string,class-string>|list<class-string>,
+     *                tracing?:array<string,mixed>|false,
      *                types?:array<string,class-string>|list<class-string>
      *                }
      */
