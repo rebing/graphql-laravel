@@ -2255,6 +2255,8 @@ class HumanType extends GraphQLType
 
 If an interface contains a relation with a custom query, it's required to implement `public function types()` returning an array of `GraphQL::type()`, i.e. all the possible types it may resolve to (quite similar as it works for unions) so that it works correctly with `SelectFields`.
 
+Additionally, if your query uses inline fragments to select fields that only exist on concrete types (e.g. `...on Post { created_at }`), implementing `types()` is required so that `SelectFields` can look up those fields from the concrete types.
+
 Based on the previous code example, the method would look like:
 ```php
     public function types(): array
