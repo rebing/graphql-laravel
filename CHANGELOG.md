@@ -9,6 +9,7 @@ CHANGELOG
 ## Fixed
 - Narrow `GraphQL::type()` PHPStan return type to `(NullableType&Type)|NonNull` so consumers can pass it to `Type::nonNull()` without static analysis errors [\#1221 / mfn](https://github.com/rebing/graphql-laravel/pull/1221)
 - Fix `SelectFields` forcing `select *` for Interface return types instead of selecting only the requested columns [\#683 / mfn](https://github.com/rebing/graphql-laravel/issues/683)
+- Fix `SelectFields` not calling custom `query` callbacks on relation fields inside `UnionType` members [\#900 / mfn](https://github.com/rebing/graphql-laravel/pull/1225)
 
 2026-03-18, 10.0.0-RC1
 ----------------------

@@ -93,6 +93,7 @@ config/graphql.php
     - [Batching](#batching)
     - [Scalar types](#scalar-types)
     - [Enums](#enums)
+    - [SelectFields and abstract types](#selectfields-and-abstract-types)
     - [Unions](#unions)
     - [Interfaces](#interfaces)
       - [Supporting custom queries on interface relations](#supporting-custom-queries-on-interface-relations)
@@ -2117,6 +2118,18 @@ class TestType extends GraphQLType
     }
 }
 ```
+
+### SelectFields and abstract types
+
+When using `SelectFields` with union or interface types, custom `query`
+callbacks on relation fields defined in member/concrete types are supported.
+`SelectFields` will match the concrete type at eager-load time and apply the
+callback automatically.
+
+**Note:** When a query includes inline fragments on multiple member types that
+each request different relations, `SelectFields` will merge all requested
+relations into the eager-load set. This is a known limitation of how
+`SelectFields` handles abstract types.
 
 ### Unions
 
