@@ -93,7 +93,32 @@ abstract class Field
         $rules = $this->rules($arguments);
         $argsRules = (new Rules($this->args(), $arguments))->get();
 
-        return array_merge($argsRules, $rules);
+        $merged = array_merge($argsRules, $rules);
+
+        return $this->processCollectedRules($merged);
+    }
+
+    /**
+     * Post-process collected validation rules to transform cross-field references
+     * (e.g. `prohibits:otherField`, `required_if:field,value`) into fully-qualified
+     * dot-notation paths that Laravel's Validator can resolve correctly.
+     *
+     * This is called automatically after rules are collected from both the Field's
+     * `rules()` method and from nested InputType definitions.
+     *
+     * Override this method to customize or disable the transformation:
+     *
+     *     protected function processCollectedRules(array $rules): array
+     *     {
+     *         return $rules; // disable automatic prefixing
+     *     }
+     *
+     * @param array<string,mixed> $rules The merged rules from args and field definitions
+     * @return array<string,mixed>
+     */
+    protected function processCollectedRules(array $rules): array
+    {
+        return RulesPrefixer::apply($rules, $this->args());
     }
 
     /**
