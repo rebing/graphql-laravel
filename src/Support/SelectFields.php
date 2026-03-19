@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use RuntimeException;
 
 class SelectFields
 {
@@ -188,9 +187,9 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = static::validateField($fieldObject, $queryArgs, $ctx);
+            $canSelect = static::validateField($fieldObject);
 
-            if (true === $canSelect) {
+            if ($canSelect) {
                 // Add a query, if it exists
                 $customQuery = $fieldObject->config['query'] ?? null;
 
@@ -274,11 +273,6 @@ class SelectFields
                     static::addAlwaysFields($fieldObject, $select, $parentTable);
                 }
             }
-            // If privacy does not allow the field, return it as null
-            elseif (null === $canSelect) {
-                $fieldObject->resolveFn = function (): void {
-                };
-            }
 
             static::addAlwaysFields($fieldObject, $select, $parentTable);
         }
@@ -324,59 +318,21 @@ class SelectFields
     }
 
     /**
-     * Check the privacy status, if it's given.
+     * Check whether the field is selectable.
      *
      * @param FieldDefinition $fieldObject Validated field
-     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
-     * @param mixed $ctx Query/mutation context
      *
-     * @return bool|null `true`  if selectable
-     *                   `false` if not selectable, but allowed
-     *                   `null`  if not allowed
+     * @return bool `true`  if selectable
+     *              `false` if not selectable
      */
-    protected static function validateField(FieldDefinition $fieldObject, array $queryArgs, $ctx): ?bool
+    protected static function validateField(FieldDefinition $fieldObject): bool
     {
-        $selectable = true;
-
         // If not a selectable field
         if (isset($fieldObject->config['selectable']) && false === $fieldObject->config['selectable']) {
-            $selectable = false;
+            return false;
         }
 
-        if (isset($fieldObject->config['privacy'])) {
-            $privacyClass = $fieldObject->config['privacy'];
-
-            switch ($privacyClass) {
-                // If privacy given as a closure
-                case \is_callable($privacyClass):
-                    if (false === $privacyClass($queryArgs, $ctx)) {
-                        $selectable = null;
-                    }
-
-                    break;
-
-                    // If Privacy class given
-                case \is_string($privacyClass):
-                    /** @var Privacy $instance */
-                    $instance = app($privacyClass);
-
-                    if (false === $instance->fire($queryArgs, $ctx)) {
-                        $selectable = null;
-                    }
-
-                    break;
-
-                default:
-                    throw new RuntimeException(
-                        \sprintf(
-                            "Unsupported use of 'privacy' configuration on field '%s'.",
-                            $fieldObject->name,
-                        ),
-                    );
-            }
-        }
-
-        return $selectable;
+        return true;
     }
 
     /**

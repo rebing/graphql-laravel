@@ -11,6 +11,7 @@ CHANGELOG
 - Fix `SelectFields` forcing `select *` for Interface return types instead of selecting only the requested columns [\#683 / mfn](https://github.com/rebing/graphql-laravel/issues/683)
 - Fix `SelectFields` not calling custom `query` callbacks on relation fields inside `UnionType` members [\#900 / mfn](https://github.com/rebing/graphql-laravel/pull/1225)
 - Fix cross-field validation rules (`prohibits`, `required_without`, `required_if`, etc.) not working in nested InputTypes [\#930 / mfn](https://github.com/rebing/graphql-laravel/pull/1226)
+- Fix `privacy` attribute ignored on nested/sub-types by moving enforcement from `SelectFields` to field resolvers in `Type::getFields()` [\#1161 / mfn](https://github.com/rebing/graphql-laravel/pull/1227)
 
 2026-03-18, 10.0.0-RC1
 ----------------------

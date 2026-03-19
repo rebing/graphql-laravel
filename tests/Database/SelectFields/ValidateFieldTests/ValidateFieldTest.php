@@ -260,7 +260,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "posts"."id" from "posts";
+select "posts"."title", "posts"."id" from "posts";
 SQL,
         );
 
@@ -334,7 +334,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select "posts"."id" from "posts";
+select "posts"."title", "posts"."id" from "posts";
 SQL,
         );
 
@@ -500,28 +500,38 @@ GRAQPHQL;
             'expectErrors' => true,
         ]);
 
-        $this->assertSqlQueries('');
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL,
+        );
 
         $expectedResult = [
             'errors' => [
                 [
                     'message' => 'Internal server error',
                     'extensions' => [
-                        'debugMessage' => 'Unsupported use of \'privacy\' configuration on field \'title_privacy_wrong_type\'.',
+                        'debugMessage' => "Unsupported use of 'privacy' configuration: expected a callable or a class-string.",
                     ],
                     'locations' => [
                         [
-                            'line' => 2,
-                            'column' => 3,
+                            'line' => 3,
+                            'column' => 5,
                         ],
                     ],
                     'path' => [
                         'validateFields',
+                        0,
+                        'title_privacy_wrong_type',
                     ],
                 ],
             ],
             'data' => [
-                'validateFields' => null,
+                'validateFields' => [
+                    [
+                        'title_privacy_wrong_type' => null,
+                    ],
+                ],
             ],
         ];
         self::assertEquals($expectedResult, $result);

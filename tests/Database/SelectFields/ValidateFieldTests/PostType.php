@@ -82,7 +82,7 @@ class PostType extends GraphQLType
                 ],
                 'privacy' => function (array $queryArgs): bool {
                     $expectedQueryArgs = [
-                        'arg_from_query' => true,
+                        'arg_from_field' => true,
                     ];
                     Assert::assertSame($expectedQueryArgs, $queryArgs);
 
@@ -100,6 +100,7 @@ class PostType extends GraphQLType
                 'privacy' => PrivacyArgs::class,
             ],
             'title_privacy_wrong_type' => [
+                'alias' => 'title',
                 'type' => Type::string(),
                 'privacy' => true,
             ],

@@ -14,7 +14,7 @@ class PrivacyArgs extends Privacy
     public function validate(array $queryArgs, $queryContext = null): bool
     {
         $expectedQueryArgs = [
-            'arg_from_query' => true,
+            'arg_from_field' => true,
         ];
         Assert::assertSame($expectedQueryArgs, $queryArgs);
 

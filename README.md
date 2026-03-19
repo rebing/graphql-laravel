@@ -1428,11 +1428,14 @@ class UsersQuery extends Query
 
 ### Privacy
 
-> **Note:** this only applies when making use of the `SelectFields` class to query Eloquent models!
-
 You can set custom privacy attributes for every Type's Field. If a field is not
-allowed, `null` will be returned. For example, if you want the user's email to
-only be accessible to themselves:
+allowed, `null` will be returned. Privacy is enforced at the field resolver
+level, so it works universally — whether the type is a root query result, a
+nested sub-type, or accessed via `SelectFields`.
+
+The privacy callback receives the **field's own arguments** and the query
+context. For example, if you want the user's email to only be accessible
+to themselves:
 
 ```php
 class UserType extends GraphQLType
@@ -3160,6 +3163,19 @@ need to explicitly re-enable previously-open behaviour.
   didn't work in nested or list InputTypes. If this causes issues, you can disable
   it per mutation/query by overriding `processCollectedRules()` to return `$rules`
   unchanged.
+- **Privacy enforcement moved from `SelectFields` to field resolvers** — The
+  `privacy` attribute on Type fields is now enforced universally via resolver
+  wrapping in `Type::getFields()`, instead of only inside `SelectFields`. This
+  means privacy now works on nested/sub-types and when `SelectFields` is not
+  used. Two breaking behavioral changes:
+  1. The `$queryArgs` parameter passed to privacy callbacks and
+     `Privacy::validate()` now contains the **field's own arguments** instead of
+     the root query's arguments. Update any privacy logic that relied on
+     inspecting root query arguments.
+  2. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
+     statement. The column is still fetched, but the field resolver returns
+     `null`. If you relied on the denied column being absent from SQL queries,
+     adjust accordingly.
 
 ### Upgrading from v1 to v2
 

@@ -3,11 +3,15 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
+use Closure;
+use GraphQL\Executor\Executor;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use Illuminate\Support\Str;
 use Rebing\GraphQL\Support\Contracts\TypeConvertible;
+use RuntimeException;
 
 /**
  * @property string $name
@@ -94,11 +98,68 @@ abstract class Type implements TypeConvertible
                 if ($resolver) {
                     $field['resolve'] = $resolver;
                 }
+
+                if (isset($field['privacy'])) {
+                    $field['resolve'] = static::wrapResolverWithPrivacy(
+                        $field['resolve'] ?? null,
+                        $field['privacy'],
+                    );
+                }
+
                 $allFields[$name] = $field;
             }
         }
 
         return $allFields;
+    }
+
+    /**
+     * Wrap a field resolver with a privacy check.
+     *
+     * If privacy denies access, `null` is returned without calling the
+     * original resolver.  When no original resolver is provided the
+     * default field resolver from webonyx/graphql-php is used.
+     *
+     * @param mixed $privacy Closure or Privacy class name
+     */
+    protected static function wrapResolverWithPrivacy(?callable $originalResolve, $privacy): Closure
+    {
+        return function ($root, array $args, $context, ResolveInfo $info) use ($originalResolve, $privacy) {
+            if (!static::evaluatePrivacy($privacy, $args, $context)) {
+                return null;
+            }
+
+            if ($originalResolve) {
+                return $originalResolve($root, $args, $context, $info);
+            }
+
+            return Executor::defaultFieldResolver($root, $args, $context, $info);
+        };
+    }
+
+    /**
+     * Evaluate a privacy configuration (closure or class name).
+     *
+     * @param mixed $privacy Closure or Privacy class name
+     * @param array<string,mixed> $args The field's own arguments
+     * @param mixed $context The query context value
+     */
+    protected static function evaluatePrivacy(mixed $privacy, array $args, $context): bool
+    {
+        if (\is_callable($privacy)) {
+            return (bool) $privacy($args, $context);
+        }
+
+        if (\is_string($privacy)) {
+            /** @var Privacy $instance */
+            $instance = app($privacy);
+
+            return $instance->fire($args, $context);
+        }
+
+        throw new RuntimeException(
+            "Unsupported use of 'privacy' configuration: expected a callable or a class-string.",
+        );
     }
 
     /**
