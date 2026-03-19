@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+## Fixed
+- Narrow `GraphQL::type()` PHPStan return type to `(NullableType&Type)|NonNull` so consumers can pass it to `Type::nonNull()` without static analysis errors [\#1221 / mfn](https://github.com/rebing/graphql-laravel/pull/1221)
+
 2026-03-18, 10.0.0-RC1
 ----------------------
 

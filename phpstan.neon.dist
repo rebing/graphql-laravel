@@ -18,8 +18,8 @@ parameters:
         -
           identifier: missingType.generics
         - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
-        # tests/Unit/GraphQLTest.php
-        - '/Call to an undefined method GraphQL\\Type\\Definition\\Type::getFields\(\)/'
+        # tests/Unit/GraphQLTest.php and tests/Database/SelectFields/InterfaceTests
+        - '/Call to an undefined method .+::getFields\(\)/'
         - '/Call to an undefined method Mockery\\/'
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
         - '/Trying to invoke Closure\|null but it might not be a callable/'
@@ -34,6 +34,4 @@ parameters:
         -
           path: tests/*
           message: "/Offset 'config' might not exist/"
-        - path: tests/*
-          message: '/Parameter #1 \$type of static method GraphQL\\Type\\Definition\\Type::nonNull\(\) expects .*, GraphQL\\Type\\Definition\\Type given./'
     reportUnmatchedIgnoredErrors: true

@@ -11,6 +11,8 @@ use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\Directive;
+use GraphQL\Type\Definition\NonNull;
+use GraphQL\Type\Definition\NullableType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -238,6 +240,9 @@ class GraphQL
         $this->types[$name] = $class;
     }
 
+    /**
+     * @phpstan-return (NullableType&Type)|NonNull
+     */
     public function type(string $name, bool $fresh = false): Type
     {
         $modifiers = [];
@@ -254,10 +259,15 @@ class GraphQL
             }
         }
 
+        /** @var (NullableType&Type)|NonNull $type */
         $type = $this->getType($name, $fresh);
 
         foreach ($modifiers as $modifier) {
-            $type = Type::$modifier($type);
+            if ('nonNull' === $modifier) {
+                $type = Type::nonNull($type);
+            } else {
+                $type = Type::listOf($type);
+            }
         }
 
         return $type;

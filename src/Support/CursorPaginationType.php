@@ -3,6 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support;
 
+use GraphQL\Type\Definition\NonNull;
+use GraphQL\Type\Definition\NullableType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -30,6 +32,8 @@ class CursorPaginationType extends ObjectType
     }
 
     /**
+     * @phpstan-param (NullableType&GraphQLType)|NonNull $underlyingType
+     *
      * @return array<string, array<string,mixed>>
      */
     protected function getPaginationFields(GraphQLType $underlyingType): array

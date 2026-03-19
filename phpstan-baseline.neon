@@ -25,13 +25,7 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Schema constructor expects array{description?: string|null, query?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, mutation?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, subscription?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, types?: (callable(): iterable<callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType>)|(callable(): iterable<GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type>)|iterable<(callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType)|(GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)>|null, directives?: array<GraphQL\Type\Definition\Directive>|null, typeLoader?: (callable(string): ((GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)|null))|null, assumeValid?: bool|null, ...}|GraphQL\Type\SchemaConfig, array{query: GraphQL\Type\Definition\Type, mutation: GraphQL\Type\Definition\Type|null, subscription: GraphQL\Type\Definition\Type|null, directives: array, types: Closure(): list<GraphQL\Type\Definition\Type>, typeLoader: Closure(mixed): (GraphQL\Type\Definition\Type|null)} given.'
-			identifier: argument.type
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
+			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Schema constructor expects array{description?: string|null, query?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, mutation?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, subscription?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, types?: (callable(): iterable<callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType>)|(callable(): iterable<GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type>)|iterable<(callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType)|(GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)>|null, directives?: array<GraphQL\Type\Definition\Directive>|null, typeLoader?: (callable(string): ((GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)|null))|null, assumeValid?: bool|null, ...}|GraphQL\Type\SchemaConfig, array{query: GraphQL\Type\Definition\Type, mutation: GraphQL\Type\Definition\Type|null, subscription: GraphQL\Type\Definition\Type|null, directives: array, types: Closure(): list<GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type)>, typeLoader: Closure(mixed): (GraphQL\Type\Definition\Type|null)} given.'
 			identifier: argument.type
 			count: 1
 			path: src/GraphQL.php
@@ -99,12 +93,6 @@ parameters:
 		-
 			rawMessage: 'Call to an undefined method Illuminate\Contracts\Pagination\CursorPaginator::getCollection().'
 			identifier: method.notFound
-			count: 1
-			path: src/Support/CursorPaginationType.php
-
-		-
-			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
-			identifier: argument.type
 			count: 1
 			path: src/Support/CursorPaginationType.php
 
@@ -337,12 +325,6 @@ parameters:
 			path: src/Support/PaginationType.php
 
 		-
-			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/PaginationType.php
-
-		-
 			rawMessage: 'Method Rebing\GraphQL\Support\Privacy::fire() has parameter $args with no type specified.'
 			identifier: missingType.parameter
 			count: 1
@@ -503,12 +485,6 @@ parameters:
 			identifier: booleanAnd.alwaysFalse
 			count: 1
 			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Parameter #1 $type of static method GraphQL\Type\Definition\Type::nonNull() expects (callable(): (GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type), GraphQL\Type\Definition\Type given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/SimplePaginationType.php
 
 		-
 			rawMessage: 'Method Rebing\GraphQL\Support\Type::getFieldResolver() has parameter $field with no value type specified in iterable type array.'
