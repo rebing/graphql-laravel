@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\InterfaceType as GraphqlInterfaceType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
@@ -158,7 +159,18 @@ class SelectFields
                     continue;
                 }
             } catch (InvariantViolation $e) {
-                continue;
+                if (!is_a($parentType, GraphqlInterfaceType::class)) {
+                    continue;
+                }
+
+                // For interface types, the field may exist on a concrete implementing
+                // type (e.g. via inline fragments like `...on Post { created_at }`).
+                // Look it up from the concrete types so it gets properly selected.
+                $fieldObject = static::findFieldInConcreteTypes($parentType, $key);
+
+                if (null === $fieldObject) {
+                    continue;
+                }
             }
 
             $parentTypeUnwrapped = $parentType;
@@ -215,7 +227,7 @@ class SelectFields
                             false,
                             $ctx,
                         );
-                    } elseif (is_a($parentTypeUnwrapped, \GraphQL\Type\Definition\InterfaceType::class)) {
+                    } elseif (is_a($parentTypeUnwrapped, GraphqlInterfaceType::class)) {
                         static::handleInterfaceFields(
                             $queryArgs,
                             $field,
@@ -251,9 +263,9 @@ class SelectFields
             static::addAlwaysFields($fieldObject, $select, $parentTable);
         }
 
-        // If parent type is an union or interface we select all fields
-        // because we don't know which other fields are required
-        if (is_a($parentType, UnionType::class) || is_a($parentType, \GraphQL\Type\Definition\InterfaceType::class)) {
+        // If parent type is a union we select all fields
+        // because we don't know which concrete type will be returned
+        if (is_a($parentType, UnionType::class)) {
             $select = ['*'];
         }
     }
@@ -516,6 +528,34 @@ class SelectFields
 
             return $callable($query);
         };
+    }
+
+    /**
+     * For interface types, find a field definition from one of the concrete
+     * implementing types. This handles inline fragment fields (e.g.
+     * `...on Post { created_at }`) that exist on a concrete type but not
+     * on the interface itself.
+     */
+    protected static function findFieldInConcreteTypes(GraphqlType $interfaceType, string $fieldName): ?FieldDefinition
+    {
+        if (!isset($interfaceType->config['types'])) {
+            return null;
+        }
+
+        /** @var list<GraphqlType> $types */
+        $types = $interfaceType->config['types']();
+
+        foreach ($types as $type) {
+            try {
+                if (method_exists($type, 'getField')) {
+                    return $type->getField($fieldName);
+                }
+            } catch (InvariantViolation) {
+                continue;
+            }
+        }
+
+        return null;
     }
 
     public function getSelect(): array

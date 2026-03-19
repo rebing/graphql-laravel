@@ -42,9 +42,6 @@ class InterfaceTest extends TestCaseDatabase
     }
 
     /**
-     * Bug: the query only requests `title`, yet the generated SQL is
-     * `select *` instead of selecting only the requested columns.
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedSqlQuery(): void
@@ -67,7 +64,7 @@ GRAQPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select * from "posts";
+select "title" from "posts";
 SQL,
         );
 
@@ -84,10 +81,6 @@ SQL,
     }
 
     /**
-     * Bug: the posts query generates `select *` instead of selecting only
-     * the requested columns, while the comments relation correctly selects
-     * specific columns.
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedRelationSqlQuery(): void
@@ -121,7 +114,7 @@ GRAPHQL;
 
         $this->assertSqlQueries(
             <<<'SQL'
-select * from "posts";
+select "id", "title" from "posts";
 select "comments"."title", "comments"."post_id", "comments"."id" from "comments" where "comments"."post_id" in (?) and "id" >= ? order by "comments"."id" asc;
 SQL,
         );
@@ -145,9 +138,6 @@ SQL,
     }
 
     /**
-     * Bug: the morph target (posts) generates `select *` instead of
-     * selecting only the requested columns (`id`, `title`).
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedInterfaceFieldSqlQuery(): void
@@ -193,7 +183,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select * from "posts" where "posts"."id" in (?);
+select "id", "title" from "posts" where "posts"."id" in (?);
 SQL,
         );
 
@@ -218,10 +208,6 @@ SQL,
     }
 
     /**
-     * Bug: the morph target (posts) generates `select *` instead of
-     * selecting only the requested columns (`id`, `title`, `created_at`,
-     * `updated_at` via alias).
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
@@ -271,7 +257,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?);
-select * from "posts" where "posts"."id" in (?);
+select "created_at", "updated_at", "id", "title" from "posts" where "posts"."id" in (?);
 SQL,
         );
 
@@ -298,9 +284,6 @@ SQL,
     }
 
     /**
-     * Bug: the morph target (posts) generates `select *` instead of
-     * selecting only the requested columns.
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
@@ -356,7 +339,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select * from "posts" where "posts"."id" in (?);
+select "id", "title" from "posts" where "posts"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 0=0;
 SQL,
         );
@@ -409,9 +392,6 @@ SQL,
     }
 
     /**
-     * Bug: the morph target (comments) generates `select *` instead of
-     * selecting only the requested columns.
-     *
      * @see https://github.com/rebing/graphql-laravel/issues/683
      */
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
@@ -468,7 +448,7 @@ GRAPHQL;
             <<<'SQL'
 select "users"."id" from "users";
 select "likes"."likable_id", "likes"."likable_type", "likes"."user_id", "likes"."id" from "likes" where "likes"."user_id" in (?, ?);
-select * from "comments" where "comments"."id" in (?);
+select "id", "title" from "comments" where "comments"."id" in (?);
 select "likes"."id", "likes"."likable_id", "likes"."likable_type" from "likes" where "likes"."likable_id" in (?) and "likes"."likable_type" = ? and 1=1;
 SQL,
         );
@@ -523,19 +503,9 @@ SQL,
     /**
      * @see https://github.com/rebing/graphql-laravel/issues/683
      *
-     * Bug: SelectFields forces `select *` for interface return types
-     * (see SelectFields::handleFields, end of method) instead of selecting
-     * only the requested fields. This makes GROUP BY fail on MySQL with
-     * ONLY_FULL_GROUP_BY because non-aggregated columns not in the GROUP BY
-     * clause are included via `*`.
-     *
-     * SQLite is lenient about GROUP BY, so this test passes, but the
-     * generated SQL is wrong. On MySQL it would produce:
-     *   "Syntax error or access violation: 1055 Expression #1 of SELECT list
-     *    is not in GROUP BY clause and contains nonaggregated column..."
-     *
-     * Current (wrong):  select * from "posts" group by "title"
-     * Expected (fixed): select "title" from "posts" group by "title"
+     * Verifies that SelectFields selects only the requested columns for
+     * interface return types, making GROUP BY work correctly on MySQL
+     * with ONLY_FULL_GROUP_BY.
      */
     public function testGeneratedSqlQueryWithGroupBy(): void
     {
@@ -558,11 +528,9 @@ GRAQPHQL;
 
         $result = $this->httpGraphql($graphql);
 
-        // Bug https://github.com/rebing/graphql-laravel/issues/683
-        // Should be: select "title" from "posts" group by "title"
         $this->assertSqlQueries(
             <<<'SQL'
-select * from "posts" group by "title";
+select "title" from "posts" group by "title";
 SQL,
         );
 

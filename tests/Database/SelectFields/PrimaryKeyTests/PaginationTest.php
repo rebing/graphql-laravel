@@ -136,7 +136,7 @@ GRAQPHQL;
         $this->assertSqlQueries(
             <<<'SQL'
             select count(*) as aggregate from "posts";
-            select * from "posts" limit 1 offset 0;
+            select "id" from "posts" limit 1 offset 0;
             SQL,
         );
 
