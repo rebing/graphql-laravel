@@ -21,6 +21,7 @@ class InterfaceTest extends TestCaseDatabase
         $app['config']->set('graphql.schemas.default', [
             'query' => [
                 ExampleInterfaceQuery::class,
+                ExampleInterfaceGroupByQuery::class,
                 UserQuery::class,
             ],
         ]);
@@ -40,6 +41,12 @@ class InterfaceTest extends TestCaseDatabase
         ]);
     }
 
+    /**
+     * Bug: the query only requests `title`, yet the generated SQL is
+     * `select *` instead of selecting only the requested columns.
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedSqlQuery(): void
     {
         Post::factory()->create([
@@ -76,6 +83,13 @@ SQL,
         self::assertSame($expectedResult, $result);
     }
 
+    /**
+     * Bug: the posts query generates `select *` instead of selecting only
+     * the requested columns, while the comments relation correctly selects
+     * specific columns.
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedRelationSqlQuery(): void
     {
         /** @var Post $post */
@@ -130,6 +144,12 @@ SQL,
         self::assertSame($expectedResult, $result);
     }
 
+    /**
+     * Bug: the morph target (posts) generates `select *` instead of
+     * selecting only the requested columns (`id`, `title`).
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedInterfaceFieldSqlQuery(): void
     {
         /** @var Post $post */
@@ -197,6 +217,13 @@ SQL,
         self::assertSame($expectedResult, $result);
     }
 
+    /**
+     * Bug: the morph target (posts) generates `select *` instead of
+     * selecting only the requested columns (`id`, `title`, `created_at`,
+     * `updated_at` via alias).
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedInterfaceFieldInlineFragmentsAndAlias(): void
     {
         /** @var Post $post */
@@ -270,6 +297,12 @@ SQL,
         self::assertSame($expectedResult, $result);
     }
 
+    /**
+     * Bug: the morph target (posts) generates `select *` instead of
+     * selecting only the requested columns.
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedInterfaceFieldWithRelationSqlQuery(): void
     {
         /** @var Post $post */
@@ -375,6 +408,12 @@ SQL,
         self::assertSame($expectedResult, $result);
     }
 
+    /**
+     * Bug: the morph target (comments) generates `select *` instead of
+     * selecting only the requested columns.
+     *
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     */
     public function testGeneratedInterfaceFieldWithRelationAndCustomQueryOnInterfaceSqlQuery(): void
     {
         /** @var Post $post */
@@ -474,6 +513,64 @@ SQL,
                                 ],
                             ],
                         ],
+                    ],
+                ],
+            ],
+        ];
+        self::assertSame($expectedResult, $result);
+    }
+
+    /**
+     * @see https://github.com/rebing/graphql-laravel/issues/683
+     *
+     * Bug: SelectFields forces `select *` for interface return types
+     * (see SelectFields::handleFields, end of method) instead of selecting
+     * only the requested fields. This makes GROUP BY fail on MySQL with
+     * ONLY_FULL_GROUP_BY because non-aggregated columns not in the GROUP BY
+     * clause are included via `*`.
+     *
+     * SQLite is lenient about GROUP BY, so this test passes, but the
+     * generated SQL is wrong. On MySQL it would produce:
+     *   "Syntax error or access violation: 1055 Expression #1 of SELECT list
+     *    is not in GROUP BY clause and contains nonaggregated column..."
+     *
+     * Current (wrong):  select * from "posts" group by "title"
+     * Expected (fixed): select "title" from "posts" group by "title"
+     */
+    public function testGeneratedSqlQueryWithGroupBy(): void
+    {
+        Post::factory()->create([
+            'title' => 'Title of the post',
+        ]);
+        Post::factory()->create([
+            'title' => 'Title of the post',
+        ]);
+
+        $graphql = <<<'GRAQPHQL'
+{
+  exampleInterfaceGroupByQuery {
+    title
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->httpGraphql($graphql);
+
+        // Bug https://github.com/rebing/graphql-laravel/issues/683
+        // Should be: select "title" from "posts" group by "title"
+        $this->assertSqlQueries(
+            <<<'SQL'
+select * from "posts" group by "title";
+SQL,
+        );
+
+        $expectedResult = [
+            'data' => [
+                'exampleInterfaceGroupByQuery' => [
+                    [
+                        'title' => 'Title of the post',
                     ],
                 ],
             ],
