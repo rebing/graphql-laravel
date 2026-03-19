@@ -3,7 +3,6 @@
 ## Commands
 - Run all tests: `composer tests` or `vendor/bin/phpunit`
 - Run single test: `vendor/bin/phpunit --filter TestClassName::testMethodName` or `vendor/bin/phpunit tests/Unit/GraphQLTest.php`
-- Lint/check style: `composer lint`
 - Fix code style: `composer fix-style`
 - Static analysis: `composer phpstan`
 - Update PHPStan baseline: `composer phpstan-baseline`
