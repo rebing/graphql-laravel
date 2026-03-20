@@ -3227,10 +3227,17 @@ need to explicitly re-enable previously-open behaviour.
      Update any privacy logic that relied on inspecting root query arguments.
   2. Privacy closures receive the same change — `$args` now contains the field's
      own arguments, not the root query's arguments.
-  3. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
-     statement. The column is still fetched, but the field resolver returns
-     `null`. If you relied on the denied column being absent from SQL queries,
-     adjust accordingly.
+   3. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
+      statement. The column is still fetched, but the field resolver returns
+      `null`. If you relied on the denied column being absent from SQL queries,
+      adjust accordingly.
+   4. `SelectFields` now identifies wrapper types (pagination types, custom wrap
+      types) via the `Rebing\GraphQL\Support\Contracts\WrapType` marker interface
+      instead of config lookups. If you use a custom pagination class (via the
+      `pagination_type`, `simple_pagination_type`, or `cursor_pagination_type`
+      config keys) or a custom wrap type with `GraphQL::wrapType()`, your class
+      must `implement \Rebing\GraphQL\Support\Contracts\WrapType` for
+      `SelectFields` to work correctly.
 
 ### Upgrading from v1 to v2
 
@@ -3332,6 +3339,45 @@ public function resolve($root, array $args)
     ];
 }
 ```
+
+#### Using wrap types with `SelectFields`
+
+If you use `SelectFields` (via the `$getSelectFields` closure) in a query that
+returns a wrap type, your wrapper class **must** implement the
+`Rebing\GraphQL\Support\Contracts\WrapType` marker interface. This tells
+`SelectFields` to look through the wrapper's `data` field to find the underlying
+model type and generate the correct `SELECT`/`WITH` clauses.
+
+```php
+use GraphQL\Type\Definition\ObjectType;
+use Rebing\GraphQL\Support\Contracts\WrapType;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+
+class PostWrappedType extends ObjectType implements WrapType
+{
+    public function __construct()
+    {
+        parent::__construct([
+            'name' => 'PostWrapped',
+            'fields' => fn () => [
+                'data' => [
+                    'type' => Type::listOf(GraphQL::type('Post')),
+                    'is_relation' => false,
+                ],
+                'message' => [
+                    'type' => Type::string(),
+                    'selectable' => false,
+                ],
+            ],
+        ]);
+    }
+}
+```
+
+The built-in pagination types (`PaginationType`, `SimplePaginationType`,
+`CursorPaginationType`) already implement this interface. Custom pagination
+classes configured via the `pagination_type`, `simple_pagination_type`, or
+`cursor_pagination_type` config keys must also implement it.
 
 ## Known limitations
 

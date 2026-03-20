@@ -5,9 +5,11 @@ CHANGELOG
 
 ## Breaking changes
 - `Privacy::validate()` first parameter renamed from `$queryArgs` to `$fieldArgs` — it now receives the field's own arguments instead of root query arguments
+- `SelectFields` now identifies wrapper types via the `Rebing\GraphQL\Support\Contracts\WrapType` marker interface. Custom pagination types and wrap types used with `SelectFields` **must** implement this interface. [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
 
 ### Added
 - Add tracing support with OpenTelemetry driver [\#1220 / mfn](https://github.com/rebing/graphql-laravel/pull/1220)
+- `Rebing\GraphQL\Support\Contracts\WrapType` marker interface for wrapper types (pagination types and custom wrap types) [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
 
 ## Fixed
 - Narrow `GraphQL::type()` PHPStan return type to `(NullableType&Type)|NonNull` so consumers can pass it to `Type::nonNull()` without static analysis errors [\#1221 / mfn](https://github.com/rebing/graphql-laravel/pull/1221)
@@ -15,6 +17,7 @@ CHANGELOG
 - Fix `SelectFields` not calling custom `query` callbacks on relation fields inside `UnionType` members [\#900 / mfn](https://github.com/rebing/graphql-laravel/pull/1225)
 - Fix cross-field validation rules (`prohibits`, `required_without`, `required_if`, etc.) not working in nested InputTypes [\#930 / mfn](https://github.com/rebing/graphql-laravel/pull/1226)
 - Fix `privacy` attribute ignored on nested/sub-types by moving enforcement from `SelectFields` to field resolvers in `Type::getFields()` [\#1161 / mfn](https://github.com/rebing/graphql-laravel/pull/1227)
+- Fix `SelectFields` producing empty `SELECT` clause for custom wrap types created via `GraphQL::wrapType()` [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
 
 
 2026-03-18, 10.0.0-RC1
