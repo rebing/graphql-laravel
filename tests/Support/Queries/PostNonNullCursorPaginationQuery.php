@@ -22,7 +22,7 @@ class PostNonNullCursorPaginationQuery extends Query
         return GraphQL::cursorPaginate('PostWithModel');
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): CursorPaginator
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): CursorPaginator
     {
         return Post::query()
             ->select($getSelectFields()->getSelect())

@@ -37,7 +37,7 @@ class UsersQuery extends Query
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }
 
-    public function resolve($root, $args, GraphQLContext $ctx, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, GraphQLContext $ctx, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
     {
         if (isset($args['flag'])) {
             $ctx->data['flag'] = $args['flag'];

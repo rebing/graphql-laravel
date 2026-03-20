@@ -21,7 +21,7 @@ class PostsNonNullAndListAndNonNullOfWithSelectFieldsAndModelQuery extends Query
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('PostWithModel'))));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
     {
         return Post::select($getSelectFields()->getSelect())
             ->get();

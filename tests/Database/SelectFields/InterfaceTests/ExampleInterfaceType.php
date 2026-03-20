@@ -33,7 +33,7 @@ class ExampleInterfaceType extends InterfaceType
         ];
     }
 
-    public function resolveType()
+    public function resolveType(mixed $root): Type
     {
         return GraphQL::type('InterfaceImpl1');
     }

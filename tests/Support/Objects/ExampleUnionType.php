@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\UnionType;
 
@@ -20,7 +21,7 @@ class ExampleUnionType extends UnionType
         ];
     }
 
-    public function resolveType($root)
+    public function resolveType(mixed $root): Type
     {
         return GraphQL::type('Example');
     }

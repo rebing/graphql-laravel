@@ -31,7 +31,7 @@ class ValidateFieldsQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();

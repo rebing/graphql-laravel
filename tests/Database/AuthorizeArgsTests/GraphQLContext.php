@@ -5,5 +5,6 @@ namespace Rebing\GraphQL\Tests\Database\AuthorizeArgsTests;
 
 class GraphQLContext
 {
-    public $data;
+    /** @var array<string,mixed> */
+    public array $data = [];
 }

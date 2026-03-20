@@ -14,7 +14,7 @@ class ExampleInterfaceType extends InterfaceType
         'description' => 'An example interface',
     ];
 
-    public function resolveType($root): StringType
+    public function resolveType(mixed $root): StringType
     {
         return Type::string();
     }

@@ -12,6 +12,7 @@ class RuleObjectPass implements Rule
         return true;
     }
 
+    /** @return array<int,string>|string */
     public function message()
     {
         return 'this message is not expected to be triggered';

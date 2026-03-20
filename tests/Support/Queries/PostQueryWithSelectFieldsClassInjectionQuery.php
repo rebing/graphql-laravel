@@ -32,7 +32,7 @@ class PostQueryWithSelectFieldsClassInjectionQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $ctx, SelectFields $fields, ResolveInfo $info, Closure $selectFields, ClassToInject $class)
+    public function resolve(mixed $root, array $args, mixed $ctx, SelectFields $fields, ResolveInfo $info, Closure $selectFields, ClassToInject $class): mixed
     {
         $selectClass = $selectFields(5);
 

@@ -28,7 +28,8 @@ class ExampleValidationField extends Field
         ];
     }
 
-    public function resolve($root, $args): array
+    /** @return list<string> */
+    public function resolve(mixed $root, array $args): array
     {
         return ['test'];
     }

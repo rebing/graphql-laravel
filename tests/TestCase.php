@@ -34,8 +34,10 @@ class TestCase extends BaseTestCase
      */
     protected static $latestResponse;
 
-    protected $queries;
-    protected $data;
+    /** @var array<string,string> */
+    protected array $queries = [];
+    /** @var list<array<string,string>> */
+    protected array $data = [];
 
     protected function setUp(): void
     {
@@ -231,6 +233,8 @@ class TestCase extends BaseTestCase
     /**
      * Converts the trace as generated from \GraphQL\Error\FormattedError::toSafeTrace
      * to a more human-readable string for a failed test.
+     *
+     * @param list<array<string,mixed>> $trace
      */
     private function formatSafeTrace(array $trace): string
     {

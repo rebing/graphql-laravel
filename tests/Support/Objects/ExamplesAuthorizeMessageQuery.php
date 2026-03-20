@@ -15,6 +15,7 @@ class ExamplesAuthorizeMessageQuery extends Query
         'name' => 'Examples authorize query',
     ];
 
+    /** @param array<string,mixed> $args */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
     {
         return false;
@@ -37,7 +38,7 @@ class ExamplesAuthorizeMessageQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
     {
         $data = include __DIR__ . '/data.php';
 

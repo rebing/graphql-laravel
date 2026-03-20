@@ -22,7 +22,7 @@ class PostNonNullPaginationQuery extends Query
         return GraphQL::paginate('PostWithModel');
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): LengthAwarePaginator
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): LengthAwarePaginator
     {
         return Post::query()
             ->select($getSelectFields()->getSelect())

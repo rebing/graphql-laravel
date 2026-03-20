@@ -33,7 +33,7 @@ class ExamplesPaginationQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): LengthAwarePaginator
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): LengthAwarePaginator
     {
         /** @var array<int,array{test:string}> $data */
         $data = include __DIR__ . '/data.php';

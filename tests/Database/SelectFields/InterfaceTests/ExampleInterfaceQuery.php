@@ -21,7 +21,7 @@ class ExampleInterfaceQuery extends Query
         return Type::listOf(GraphQL::type('ExampleInterface'));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         $fields = $getSelectFields();
 

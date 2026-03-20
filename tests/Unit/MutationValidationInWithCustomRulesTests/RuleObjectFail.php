@@ -12,6 +12,7 @@ class RuleObjectFail implements Rule
         return false;
     }
 
+    /** @return array<int,string>|string */
     public function message()
     {
         return 'rule object validation fails';

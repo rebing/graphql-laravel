@@ -35,6 +35,7 @@ class WrapperType extends ObjectType implements WrapType
      * Resolve the wrap type.
      *
      * @param string $typeName The type name defined in graphql.php configuration file.
+     * @return array<string,array<string,mixed>>
      */
     protected function getMessagesFields(string $typeName): array
     {

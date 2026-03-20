@@ -33,7 +33,7 @@ class SearchQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $ctx, ResolveInfo $info, Closure $getSelectFields)
+    public function resolve(mixed $root, array $args, mixed $ctx, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();

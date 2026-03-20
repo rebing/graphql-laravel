@@ -29,7 +29,7 @@ class PostQueryWithNonInjectableTypehintsQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $ctx, SelectFields $fields, int $coolNumber)
+    public function resolve(mixed $root, array $args, mixed $ctx, SelectFields $fields, int $coolNumber): mixed
     {
         return Post::select($fields->getSelect())
             ->findOrFail($args['id']);
