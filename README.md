@@ -46,10 +46,178 @@ Review the configuration file:
 config/graphql.php
 ```
 
+## Quick Start
+
+Get a working GraphQL endpoint in under 5 minutes -- no database required.
+
+### 1. Create a Type
+
+Use the artisan generator to scaffold a type:
+
+```bash
+php artisan make:graphql:type BookType
+```
+
+Edit the generated `app/GraphQL/Types/BookType.php`:
+
+```php
+namespace App\GraphQL\Types;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class BookType extends GraphQLType
+{
+    protected $attributes = [
+        'name' => 'Book',
+        'description' => 'A book',
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+                'description' => 'The id of the book',
+            ],
+            'title' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The title of the book',
+            ],
+            'author' => [
+                'type' => Type::string(),
+                'description' => 'The name of the author',
+            ],
+        ];
+    }
+}
+```
+
+### 2. Create a Query
+
+```bash
+php artisan make:graphql:query BooksQuery
+```
+
+Edit `app/GraphQL/Queries/BooksQuery.php`:
+
+```php
+namespace App\GraphQL\Queries;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+
+class BooksQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'books',
+    ];
+
+    public function type(): Type
+    {
+        return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Book'))));
+    }
+
+    public function args(): array
+    {
+        return [
+            'title' => [
+                'type' => Type::string(),
+                'description' => 'Filter by title',
+            ],
+        ];
+    }
+
+    public function resolve($root, array $args): array
+    {
+        $books = [
+            ['id' => 1, 'title' => 'The Great Gatsby', 'author' => 'F. Scott Fitzgerald'],
+            ['id' => 2, 'title' => '1984', 'author' => 'George Orwell'],
+            ['id' => 3, 'title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee'],
+        ];
+
+        if (isset($args['title'])) {
+            return array_values(array_filter($books, fn ($book) => str_contains($book['title'], $args['title'])));
+        }
+
+        return $books;
+    }
+}
+```
+
+### 3. Register in config
+
+Add the type and query to the `default` schema in `config/graphql.php`:
+
+```php
+'schemas' => [
+    'default' => [
+        'query' => [
+            App\GraphQL\Queries\BooksQuery::class,
+        ],
+        'mutation' => [],
+        'types' => [
+            App\GraphQL\Types\BookType::class,
+        ],
+    ],
+],
+```
+
+### 4. Test it
+
+Start the dev server and send a query:
+
+```bash
+php artisan serve
+```
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"query": "{ books { id title author } }"}' \
+  http://localhost:8000/graphql
+```
+
+Expected response:
+
+```json
+{
+    "data": {
+        "books": [
+            {"id": 1, "title": "The Great Gatsby", "author": "F. Scott Fitzgerald"},
+            {"id": 2, "title": "1984", "author": "George Orwell"},
+            {"id": 3, "title": "To Kill a Mockingbird", "author": "Harper Lee"}
+        ]
+    }
+}
+```
+
+Try filtering with an argument:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"query": "{ books(title: \"1984\") { id title } }"}' \
+  http://localhost:8000/graphql
+```
+
+> **Tip:** For an interactive experience, install [GraphiQL](https://github.com/mll-lab/laravel-graphiql)
+> (`composer require mll-lab/laravel-graphiql --dev`) and visit `/graphiql` in your browser.
+
+### What's next?
+
+You now have a working GraphQL API. From here you can:
+
+- **Use Eloquent models** -- see [Creating a query](#creating-a-query) for a full example with database-backed types and the `SelectFields` helper for optimized eager loading
+- **Add mutations** -- see [Creating a mutation](#creating-a-mutation) to modify data
+- **Add validation** -- see [Validation](#validation) for built-in Laravel validation rules on arguments
+- **Add authorization** -- see [Authorization](#authorization) for per-operation access control
+- **Explore all generators** -- run `php artisan list make:graphql` to see all 12 available scaffolding commands
+
 ## Usage
 
 - [Laravel GraphQL](#laravel-graphql)
   - [Installation](#installation)
+  - [Quick Start](#quick-start)
   - [Usage](#usage)
     - [Concepts](#concepts)
       - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
