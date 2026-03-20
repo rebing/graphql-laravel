@@ -3662,8 +3662,20 @@ classes configured via the `pagination_type`, `simple_pagination_type`, or
   have different arguments ([Issue](https://github.com/rebing/graphql-laravel/issues/604)).
 
 ## GraphQL testing clients
- - [Firecamp](https://firecamp.io/graphql)
- - [GraphiQL](https://github.com/graphql/graphiql) [integration via laravel-graphiql](https://github.com/mll-lab/laravel-graphiql)
+
+You can interact with your GraphQL API using any of these clients:
+
+| Client | Notes |
+|--------|-------|
+| [GraphiQL](https://github.com/graphql/graphiql) | The reference GraphQL IDE. Use the [laravel-graphiql](https://github.com/mll-lab/laravel-graphiql) package for seamless in-app integration (`/graphiql` route) |
+| [Altair](https://altairgraphql.dev/) | Feature-rich desktop/browser client with file upload support, environments, and pre-request scripts |
+| [Postman](https://www.postman.com/) | Has native GraphQL support with schema introspection, auto-complete, and variable management |
+| [Insomnia](https://insomnia.rest/) | Lightweight REST/GraphQL client with schema fetching and query auto-complete |
+| [Bruno](https://www.usebruno.com/) | Open-source, offline-first API client with GraphQL support. Collections are stored as files, making them easy to version control |
+
+> **Tip:** Most of these clients rely on schema introspection. Introspection is
+> disabled by default in this package. Set `GRAPHQL_DISABLE_INTROSPECTION=false`
+> in your `.env` during development to enable it.
 
 ## Testing
 
