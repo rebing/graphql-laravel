@@ -3426,9 +3426,9 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 | `headers` | `[]` | Headers added to responses from the default controller |
 | `json_encoding_options` | `0` | JSON encoding options for responses from the default controller |
 | `apq.enable` | `false` | Enable [Automatic Persisted Queries](#automatic-persisted-queries-support) |
-| `apq.cache_driver` | `null` | Cache driver for APQ (`null` uses the default cache driver) |
-| `apq.cache_prefix` | `'graphql_apq'` | Cache key prefix for persisted queries |
-| `apq.cache_ttl` | `null` | Cache TTL for persisted queries |
+| `apq.cache_driver` | App default | Cache driver for APQ (defaults to your app's `cache.default` driver; env: `GRAPHQL_APQ_CACHE_DRIVER`) |
+| `apq.cache_prefix` | `'{cache.prefix}:graphql.apq'` | Cache key prefix for persisted queries |
+| `apq.cache_ttl` | `300` | Cache TTL in seconds for persisted queries |
 | `schemas` | | Defines available schemas and their settings. See [Schemas](#schemas) |
 | `schemas.*.query` | `[]` | Array of query classes for this schema |
 | `schemas.*.mutation` | `[]` | Array of mutation classes for this schema |
