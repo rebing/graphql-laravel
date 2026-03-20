@@ -18,21 +18,31 @@ parameters:
     ignoreErrors:
         -
           identifier: missingType.generics
-        - '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
+        -
+          message: '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
+          identifier: method.notFound
         # tests/Unit/GraphQLTest.php and tests/Database/SelectFields/InterfaceTests
-        - '/Call to an undefined method .+::getFields\(\)/'
-        - '/Call to an undefined method Mockery\\/'
+        -
+          message: '/Call to an undefined method .+::getFields\(\)/'
+          identifier: method.notFound
+        -
+          message: '/Call to an undefined method Mockery\\/'
+          identifier: method.notFound
         # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
-        - '/Trying to invoke Closure\|null but it might not be a callable/'
+        -
+          message: '/Trying to invoke Closure\|null but it might not be a callable/'
+          identifier: callable.nonCallable
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/larastan/larastan/issues/611
         -
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
+          identifier: property.nonObject
         -
           path: tests/*
           message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
+          identifier: method.nonObject
         -
           path: tests/*
           message: "/Offset 'config' might not exist/"
-    reportUnmatchedIgnoredErrors: true
+          identifier: offsetAccess.notFound
