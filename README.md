@@ -689,11 +689,9 @@ class UsersQuery extends Query
     {
         return [
             'id' => [
-                'name' => 'id', 
                 'type' => Type::string(),
             ],
             'email' => [
-                'name' => 'email', 
                 'type' => Type::string(),
             ]
         ];
@@ -787,11 +785,9 @@ class UpdateUserPasswordMutation extends Mutation
     {
         return [
             'id' => [
-                'name' => 'id', 
                 'type' => Type::nonNull(Type::string()),
             ],
             'password' => [
-                'name' => 'password', 
                 'type' => Type::nonNull(Type::string()),
             ]
         ];
@@ -887,7 +883,6 @@ class UserProfilePhotoMutation extends Mutation
     {
         return [
             'profilePicture' => [
-                'name' => 'profilePicture',
                 'type' => GraphQL::type('Upload'),
                 'rules' => ['required', 'image', 'max:1500'],
             ],
@@ -1013,12 +1008,10 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id' => [
-                'name' => 'id',
                 'type' => Type::string(),
                 'rules' => ['required']
             ],
             'email' => [
-                'name' => 'email',
                 'type' => Type::string(),
                 'rules' => ['required', 'email']
             ]
@@ -1057,11 +1050,9 @@ class UpdateUserEmailMutation extends Mutation
     {
         return [
             'id' => [
-                'name' => 'id', 
                 'type' => Type::string(),
             ],
             'email' => [
-                'name' => 'email', 
                 'type' => Type::string(),
             ]
         ];
@@ -1338,7 +1329,6 @@ class UsersQuery extends Query
     {
         return [
             'id' => [
-                'name' => 'id', 
                 'type' => Type::string(),
             ]
         ];
@@ -1539,7 +1529,7 @@ class Logstash extends Middleware
 
     private function formatArguments(array $args): array
     {
-        return collect(Arr::sanitize($args))
+        return collect($args)
             ->mapWithKeys(function ($value, $key) {
                 return ["\${$key}" => $value];
             })
@@ -2035,11 +2025,9 @@ class UsersQuery extends Query
     {
         return [
             'id' => [
-                'name' => 'id', 
                 'type' => Type::string(),
             ],
             'email' => [
-                'name' => 'email', 
                 'type' => Type::string(),
             ]
         ];
@@ -2085,18 +2073,12 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
 {
-    /**
-     * @var array
-     */
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
         'model'         => User::class,
     ];
 
-    /**
-    * @return array
-    */
     public function fields(): array
     {
         return [
@@ -2722,14 +2704,12 @@ class ReviewInput extends InputType
     {
         return [
             'comment' => [
-                'name' => 'comment',
                 'description' => 'A comment (250 max chars)',
                 'type' => Type::string(),
                 // You can define Laravel Validation here
                 'rules' => ['max:250']
             ],
             'score' => [
-                'name' => 'score',
                 'description' => 'A score (0 to 5)',
                 'type' => Type::int(),
                 // You must use 'integer' on rules if you want to validate if the number is inside a range
