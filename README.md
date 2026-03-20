@@ -833,9 +833,9 @@ It is important that you send the request as `multipart/form-data`:
 namespace App\GraphQL\Mutations;
 
 use Closure;
-use GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Mutation;
 
 class UserProfilePhotoMutation extends Mutation
@@ -955,11 +955,11 @@ bodyFormData.set('operations', JSON.stringify({
   'query': `mutation uploadSingleFile($file: Upload!) {
               upload_single_file  (attachment: $file)
             }`,
-  'variables': {"attachment": this.file}
+  'variables': {"attachment": file}
 }));
 bodyFormData.set('operationName', null);
 bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
-bodyFormData.append('file', this.file);
+bodyFormData.append('file', file);
 
 // Post the request to GraphQL controller via Axios, jQuery.ajax, or vanilla XMLHttpRequest
 let res = await axios.post('/graphql', bodyFormData, {
@@ -1096,7 +1096,7 @@ protected function resolve($root, array $args) {
 
 The format of the `'rules'` configuration key, or the rules returned by the
 `rules()` method, follows the same convention that Laravel supports, e.g.:
-- `'rules' => 'required|string`\
+- `'rules' => 'required|string'`\
   or
 - `'rules' => ['required', 'string']`\
   or
@@ -1404,7 +1404,6 @@ list the middleware class in the `$middleware` property of your query class.
 namespace App\GraphQL\Queries;
 
 use App\GraphQL\Middleware;
-use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Query;
 
 class UsersQuery extends Query
@@ -1992,7 +1991,7 @@ namespace App\GraphQL\Queries;
 
 use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\SelectFields;
@@ -2447,6 +2446,7 @@ Then use it like:
 ```php
 namespace App\GraphQL\Types;
 
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class TestType extends GraphQLType
@@ -2486,7 +2486,7 @@ Example for defining a UnionType:
 namespace App\GraphQL\Unions;
 
 use App\Post;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\UnionType;
 
 class SearchResultUnion extends UnionType
@@ -2524,7 +2524,7 @@ An implementation of an interface:
 ```php
 namespace App\GraphQL\Interfaces;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InterfaceType;
 
@@ -2568,7 +2568,7 @@ A Type that implements an interface:
 ```php
 namespace App\GraphQL\Types;
 
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use GraphQL\Type\Definition\Type;
 
@@ -2720,18 +2720,19 @@ The Input Object will be registered like any other type in your schema in `confi
 
 Then use it in a mutation, like:
 ```php
-// app/GraphQL/Type/TestMutation.php
-class TestMutation extends GraphQLType {
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Mutation;
 
+class TestMutation extends Mutation
+{
     public function args(): array
     {
         return [
             'review' => [
                 'type' => GraphQL::type('ReviewInput')
             ]
-        ]
+        ];
     }
-
 }
 ```
 
@@ -2907,7 +2908,7 @@ namespace App\GraphQL\Mutations;
 
 use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\Mutation;
@@ -3446,6 +3447,7 @@ model type and generate the correct `SELECT`/`WITH` clauses.
 
 ```php
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
