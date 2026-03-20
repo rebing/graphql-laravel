@@ -19,6 +19,21 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 * Queries return **types**, which can have custom **privacy** settings.
 * The queried fields will have the option to be retrieved **dynamically** from the database.
 
+## Requirements
+
+| Dependency | Version |
+|-----------|---------|
+| PHP | ^8.2 |
+| Laravel | 12.x - 13.x |
+| webonyx/graphql-php | ^15.22 |
+
+Optional dependencies:
+
+| Package | Purpose |
+|---------|---------|
+| `open-telemetry/api` ^1.0 | Required for the [OpenTelemetry tracing driver](#tracing--observability) |
+| `mll-lab/laravel-graphiql` | Interactive in-browser [GraphiQL](https://github.com/mll-lab/laravel-graphiql) IDE |
+
 ## Installation
 
 Require the package via Composer:
@@ -286,6 +301,7 @@ You now have a working GraphQL API. From here you can:
   - [Known Limitations](#known-limitations)
     - [SelectFields related](#selectfields-related)
   - [GraphQL testing clients](#graphql-testing-clients)
+  - [Testing](#testing)
   - [Upgrading](#upgrading)
 
 ### Concepts
@@ -865,102 +881,77 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/).
 
-##### Vue.js and Axios example
+##### Vue.js example
 
 ```vue
 <template>
-  <div class="input-group">
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" id="uploadFile" ref="uploadFile" @change="handleUploadChange">
-      <label class="custom-file-label" for="uploadFile">
-        Drop Files Here to upload
-      </label>
-    </div>
-    <div class="input-group-append">
-      <button class="btn btn-outline-success" type="button" @click="upload">Upload</button>
-    </div>
+  <div>
+    <input type="file" ref="fileInput" @change="handleFileChange" />
+    <button :disabled="!file" @click="upload">Upload</button>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'FileUploadExample',
-    data() {
-      return {
-        file: null,
-      };
-    },
-    methods: {
-      handleUploadChange() {
-        this.file = this.$refs.uploadFile.files[0];
-      },
-      async upload() {
-        if (!this.file) {
-          return;
-        }
-        // Creating form data object
-        let bodyFormData = new FormData();
-        bodyFormData.set('operations', JSON.stringify({
-                   // Mutation string
-            'query': `mutation uploadSingleFile($file: Upload!) {
-                        upload_single_file  (attachment: $file)
-                      }`,
-            'variables': {"attachment": this.file}
-        }));
-        bodyFormData.set('operationName', null);
-        bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
-        bodyFormData.append('file', this.file);
+<script setup>
+import { ref } from 'vue';
 
-        // Post the request to GraphQL controller
-        let res = await axios.post('/graphql', bodyFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        });
+const file = ref(null);
+const fileInput = ref(null);
 
-        if (res.data.status.code == 200) {
-          // On success file upload
-          this.file = null;
-        }
-      }
-    }
+function handleFileChange() {
+  file.value = fileInput.value.files[0];
+}
+
+async function upload() {
+  if (!file.value) return;
+
+  const formData = new FormData();
+  formData.set('operations', JSON.stringify({
+    query: `mutation uploadSingleFile($file: Upload!) {
+      upload_single_file(attachment: $file)
+    }`,
+    variables: { attachment: null },
+  }));
+  formData.set('map', JSON.stringify({ '0': ['variables.attachment'] }));
+  formData.append('0', file.value);
+
+  const response = await fetch('/graphql', {
+    method: 'POST',
+    body: formData,
+  });
+
+  const result = await response.json();
+
+  if (!result.errors) {
+    file.value = null;
   }
+}
 </script>
-
-<style scoped>
-</style>
 ```
 
-##### jQuery or vanilla javascript
+##### Vanilla JavaScript
+
 ```html
 <input type="file" id="fileUpload">
 ```
 ```javascript
-// Get the file from input element
-// In jQuery:
-let file = $('#fileUpload').prop('files')[0];
-// Vanilla JS:
-let file = document.getElementById("fileUpload").files[0];
+const fileInput = document.getElementById('fileUpload');
+const file = fileInput.files[0];
 
-// Create a FormData object
-let bodyFormData = new FormData();
-bodyFormData.set('operations', JSON.stringify({
-         // Mutation string
-  'query': `mutation uploadSingleFile($file: Upload!) {
-              upload_single_file  (attachment: $file)
-            }`,
-  'variables': {"attachment": file}
+const formData = new FormData();
+formData.set('operations', JSON.stringify({
+  query: `mutation uploadSingleFile($file: Upload!) {
+    upload_single_file(attachment: $file)
+  }`,
+  variables: { attachment: null },
 }));
-bodyFormData.set('operationName', null);
-bodyFormData.set('map', JSON.stringify({"file":["variables.file"]}));
-bodyFormData.append('file', file);
+formData.set('map', JSON.stringify({ '0': ['variables.attachment'] }));
+formData.append('0', file);
 
-// Post the request to GraphQL controller via Axios, jQuery.ajax, or vanilla XMLHttpRequest
-let res = await axios.post('/graphql', bodyFormData, {
-  headers: {
-    "Content-Type": "multipart/form-data"
-  }
+const response = await fetch('/graphql', {
+  method: 'POST',
+  body: formData,
 });
+const result = await response.json();
 ```
 
 ### Validation
@@ -3105,67 +3096,45 @@ For more information see:
 
 #### Client example
 
-Below a simple integration example with Vue/Apollo, the `createPersistedQueryLink`
+Below a simple integration example with Vue 3 and Apollo Client, where `createPersistedQueryLink`
 automatically manages the APQ flow.
 
 ```js
-// [example app.js]
+// [example apollo.js]
 
-require('./bootstrap');
+import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from '@apollo/client/core';
+import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
+import { sha256 } from 'crypto-hash';
 
-window.Vue = require('vue');
+const httpLink = new HttpLink({ uri: '/graphql' });
+const persistedQueryLink = createPersistedQueryLink({ sha256 });
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
-import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import VueApollo from 'vue-apollo';
-
-const httpLinkWithPersistedQuery = createPersistedQueryLink().concat(createHttpLink({
-    uri: '/graphql',
-}));
-
-// Create the apollo client
-const apolloClient = new ApolloClient({
-    link: ApolloLink.from([httpLinkWithPersistedQuery]),
-    cache: new InMemoryCache(),
-    connectToDevTools: true,
-})
-
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
-});
-
-Vue.use(VueApollo);
-
-const app = new Vue({
-    el: '#app',
-    apolloProvider,
+export const apolloClient = new ApolloClient({
+  link: ApolloLink.from([persistedQueryLink, httpLink]),
+  cache: new InMemoryCache(),
+  connectToDevTools: true,
 });
 ```
-```vue 
+```vue
 <!-- [example TestComponent.vue] -->
 
 <template>
-    <div>
-        <p>Test APQ</p>
-        <p>-> <span v-if="$apollo.queries.hello.loading">Loading...</span>{{ hello }}</p>
-    </div>
+  <div>
+    <p>Test APQ</p>
+    <p v-if="loading">Loading...</p>
+    <p v-else>{{ result?.hello }}</p>
+  </div>
 </template>
 
-<script>
-    import gql from 'graphql-tag';
-    export default {
-        apollo: {
-            hello: gql`query{hello}`,
-        },
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+<script setup>
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
+
+const { result, loading } = useQuery(gql`
+  query {
+    hello
+  }
+`);
 </script>
 ```
 
@@ -3347,100 +3316,46 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 
 ## Configuration options
 
-- `route`\
-  Holds all the configuration for the route group. Each schema will be available
-  via its name as a dedicated route.
-  - `prefix`\
-    The route prefix to your GraphQL endpoint without the leading `/`.\
-    The default makes the API available via `/graphql`
-  - `controller`\
-    Allows overriding the default controller class, in case you want to extend or
-    replace the existing one (also supports `array` format).
-  - `middleware`\
-    Global GraphQL middleware applying in case no schema-specific middleware was
-    provided
-  - `group_attributes`\
-    Additional route group attributes
-- `default_schema`\
-  The name of the default schema used, when none is provided via the route
-- `batching`\
-  - `enable`\
-    Whether to support GraphQL batching or not (default: `false`)
-  - `max_batch_size`\
-    Maximum number of operations allowed in a single batch (default: `10`, set to `null` for no limit)
-- `error_formatter`\
-  This callable will be passed the Error object for each errors GraphQL catch.
-  The method should return an array representing the error.
-- `errors_handler`\
-  Custom Error Handling. The default handler will pass exceptions to laravel
-  Error Handling mechanism.
-- `security`\
-  Various options to limit the query complexity and depth, see docs at
-  https://webonyx.github.io/graphql-php/security/
-  - `query_max_complexity` (default: `500`)
-  - `query_max_depth` (default: `13`)
-  - `disable_introspection` (env: `GRAPHQL_DISABLE_INTROSPECTION`, default: `true`)
-- `pagination_type`\
-  You can define your own pagination type.
-- `simple_pagination_type`\
-  You can define your own simple pagination type.
-- `cursor_pagination_type`\
-  You can define your own cursor pagination type.
-- `defaultFieldResolver`\
-  Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
-- `headers`\
-  Any headers that will be added to the response returned by the default controller
-- `json_encoding_options`\
-  Any JSON encoding options when returning a response from the default controller
-- `apq`\
-  Automatic Persisted Queries (APQ)
-  - `enable`\
-    It's disabled by default.
-  - `cache_driver`\
-    Which cache driver to use.
-  - `cache_prefix`\
-    The cache prefix to use.
-  - `cache_ttl`\
-    How long to cache the queries.
-- `schemas`\
-  Defines the available GraphQL schemas and their queries, mutations, types,
-  middleware, and other per-schema settings. See [Schemas](#schemas).
-  - `query`\
-    Array of query classes for this schema
-  - `mutation`\
-    Array of mutation classes for this schema
-  - `types`\
-    Array of type classes scoped to this schema
-  - `middleware`\
-    Per-schema HTTP middleware (overrides `route.middleware`)
-  - `method`\
-    HTTP methods to support (default: `['POST']`). Must be uppercase.
-  - `execution_middleware`\
-    Per-schema execution middleware (overrides global `execution_middleware`)
-  - `route_attributes`\
-    Additional Laravel route attributes (e.g. `domain`, `prefix`)
-  - `controller`\
-    Override the controller for this schema
-  - `tracing`\
-    Per-schema tracing overrides (see below)
-- `types`\
-  Global types shared across all schemas. See [Creating a query](#creating-a-query).
-- `execution_middleware`\
-  Global list of [execution middleware](#graphql-execution-middleware) classes.
-  The terminal `GraphqlExecutionMiddleware` is always appended automatically.
-- `resolver_middleware_append`\
-  Global [resolver middleware](#resolver-middleware) appended after per-field
-  middleware (default: `null`, treated as empty array).
-- `tracing`\
-  Observability configuration. See [Tracing / Observability](#tracing--observability).
-  - `driver`\
-    Tracing driver class (default: `null` = disabled). Built-in:
-    `OpenTelemetryTracingDriver`.
-  - `field_tracing`\
-    Instrument individual field resolvers (default: `false`)
-  - `driver_options`\
-    Array of options passed to the driver constructor (e.g.
-    `'include_document' => true`)
+| Option | Default | Description |
+|--------|---------|-------------|
+| `route.prefix` | `graphql` | URL prefix for GraphQL endpoints (without leading `/`) |
+| `route.controller` | Built-in | Override the default controller class (supports string and array format) |
+| `route.middleware` | `[]` | Global HTTP middleware for all schemas (unless overridden per-schema) |
+| `route.group_attributes` | `[]` | Additional route group attributes |
+| `default_schema` | `'default'` | Name of the default schema when none is specified via the route |
+| `batching.enable` | `false` | Enable/disable GraphQL [batching](#batching) |
+| `batching.max_batch_size` | `10` | Max operations per batch (`null` for no limit) |
+| `error_formatter` | Built-in | Callable receiving each Error object; must return an array |
+| `errors_handler` | Built-in | Custom error handling; default passes exceptions to Laravel's error handler |
+| `security.query_max_complexity` | `500` | Maximum allowed query complexity. See [graphql-php security docs](https://webonyx.github.io/graphql-php/security/) |
+| `security.query_max_depth` | `13` | Maximum allowed query depth |
+| `security.disable_introspection` | `true` | Disable schema introspection (env: `GRAPHQL_DISABLE_INTROSPECTION`) |
+| `pagination_type` | Built-in | Custom pagination type class |
+| `simple_pagination_type` | Built-in | Custom simple pagination type class |
+| `cursor_pagination_type` | Built-in | Custom cursor pagination type class |
+| `defaultFieldResolver` | `null` | Override the [default field resolver](http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver) |
+| `headers` | `[]` | Headers added to responses from the default controller |
+| `json_encoding_options` | `0` | JSON encoding options for responses from the default controller |
+| `apq.enable` | `false` | Enable [Automatic Persisted Queries](#automatic-persisted-queries-support) |
+| `apq.cache_driver` | `null` | Cache driver for APQ (`null` uses the default cache driver) |
+| `apq.cache_prefix` | `'graphql_apq'` | Cache key prefix for persisted queries |
+| `apq.cache_ttl` | `null` | Cache TTL for persisted queries |
+| `schemas` | | Defines available schemas and their settings. See [Schemas](#schemas) |
+| `schemas.*.query` | `[]` | Array of query classes for this schema |
+| `schemas.*.mutation` | `[]` | Array of mutation classes for this schema |
+| `schemas.*.types` | `[]` | Array of type classes scoped to this schema |
+| `schemas.*.middleware` | — | Per-schema HTTP middleware (overrides `route.middleware`) |
+| `schemas.*.method` | `['POST']` | HTTP methods to support (must be uppercase) |
+| `schemas.*.execution_middleware` | — | Per-schema execution middleware (overrides global `execution_middleware`) |
+| `schemas.*.route_attributes` | `[]` | Additional Laravel route attributes (e.g. `domain`, `prefix`) |
+| `schemas.*.controller` | — | Override the controller for this schema |
+| `schemas.*.tracing` | — | Per-schema tracing overrides |
+| `types` | `[]` | Global types shared across all schemas. See [Creating a query](#creating-a-query) |
+| `execution_middleware` | Built-in set | Global [execution middleware](#graphql-execution-middleware) classes. Terminal middleware is always appended automatically |
+| `resolver_middleware_append` | `null` | Global [resolver middleware](#resolver-middleware) appended after per-field middleware |
+| `tracing.driver` | `null` | Tracing driver class (`null` = disabled). Built-in: `OpenTelemetryTracingDriver`. See [Tracing](#tracing--observability) |
+| `tracing.field_tracing` | `false` | Instrument individual field resolvers |
+| `tracing.driver_options` | `[]` | Array of options passed to the driver constructor (e.g. `'include_document' => true`) |
 
 ## Performance considerations
 
@@ -3519,6 +3434,116 @@ classes configured via the `pagination_type`, `simple_pagination_type`, or
 ## GraphQL testing clients
  - [Firecamp](https://firecamp.io/graphql)
  - [GraphiQL](https://github.com/graphql/graphiql) [integration via laravel-graphiql](https://github.com/mll-lab/laravel-graphiql)
+
+## Testing
+
+You can test your GraphQL API using Laravel's built-in HTTP testing helpers. No
+additional packages are required.
+
+### Querying an endpoint
+
+Use `postJson` to send a GraphQL request and assert the response:
+
+```php
+namespace Tests\Feature;
+
+use Tests\TestCase;
+
+class BooksQueryTest extends TestCase
+{
+    public function test_can_query_books(): void
+    {
+        $response = $this->postJson('/graphql', [
+            'query' => '{ books { id title author } }',
+        ]);
+
+        $response->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'books' => [
+                        '*' => ['id', 'title', 'author'],
+                    ],
+                ],
+            ]);
+    }
+}
+```
+
+### Using query variables
+
+```php
+public function test_can_fetch_user_by_id(): void
+{
+    $response = $this->postJson('/graphql', [
+        'query' => 'query FetchUser($id: String!) { user(id: $id) { id email } }',
+        'variables' => ['id' => '1'],
+    ]);
+
+    $response->assertOk()
+        ->assertJsonPath('data.user.id', '1');
+}
+```
+
+### Testing mutations
+
+```php
+public function test_can_update_user_password(): void
+{
+    $response = $this->postJson('/graphql', [
+        'query' => 'mutation { updateUserPassword(id: "1", password: "newpassword") { id } }',
+    ]);
+
+    $response->assertOk()
+        ->assertJsonPath('data.updateUserPassword.id', '1');
+}
+```
+
+### Testing a non-default schema
+
+Pass the schema name as part of the URL path:
+
+```php
+public function test_user_schema_requires_auth(): void
+{
+    $response = $this->postJson('/graphql/user', [
+        'query' => '{ profile { id email } }',
+    ]);
+
+    $response->assertUnauthorized();
+}
+```
+
+### Asserting errors
+
+```php
+public function test_authorization_rejects_guest(): void
+{
+    $response = $this->postJson('/graphql', [
+        'query' => '{ protectedQuery { id } }',
+    ]);
+
+    $response->assertOk()
+        ->assertJsonPath('errors.0.message', 'Unauthorized');
+}
+
+public function test_validation_returns_errors(): void
+{
+    $response = $this->postJson('/graphql', [
+        'query' => 'mutation { updateUserEmail(id: "", email: "not-an-email") { id } }',
+    ]);
+
+    $response->assertOk()
+        ->assertJsonPath('errors.0.message', 'validation')
+        ->assertJsonStructure([
+            'errors' => [
+                ['extensions' => ['validation']],
+            ],
+        ]);
+}
+```
+
+> **Tip:** For database-backed tests, use Laravel's `RefreshDatabase` or
+> `DatabaseTransactions` trait as you would in any feature test.
 
 ## Upgrading
 
