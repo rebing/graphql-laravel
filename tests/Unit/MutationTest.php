@@ -17,7 +17,7 @@ class MutationTest extends FieldTest
     /**
      * @return class-string<UpdateExampleMutationWithInputType>
      */
-    protected function getFieldClass()
+    protected function getFieldClass(): string
     {
         return UpdateExampleMutationWithInputType::class;
     }

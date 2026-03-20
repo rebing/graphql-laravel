@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use GraphQL\Type\Definition\StringType;
+use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InterfaceType;
 
@@ -14,7 +14,7 @@ class ExampleInterfaceType extends InterfaceType
         'description' => 'An example interface',
     ];
 
-    public function resolveType(mixed $root): StringType
+    public function resolveType(mixed $root): ScalarType
     {
         return Type::string();
     }

@@ -31,6 +31,9 @@ class ExamplesMiddlewareQuery extends Query
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): mixed
     {
         $data = include __DIR__ . '/data.php';

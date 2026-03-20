@@ -11,7 +11,7 @@ class QueryTest extends FieldTest
     /**
      * @return class-string<ExamplesQuery>
      */
-    protected function getFieldClass()
+    protected function getFieldClass(): string
     {
         return ExamplesQuery::class;
     }

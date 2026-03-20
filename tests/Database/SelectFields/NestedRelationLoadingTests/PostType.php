@@ -31,7 +31,7 @@ class PostType extends GraphQLType
                 ],
                 'query' => function (array $args, HasMany $query): HasMany {
                     if (isset($args['flag'])) {
-                        $query->where('comments.flag', '=', $args['flag']);
+                        $query->where('comments.flag', '=', $args['flag']); // @phpstan-ignore argument.type
                     }
 
                     return $query;

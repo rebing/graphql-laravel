@@ -58,6 +58,9 @@ class UpdateExampleMutation extends Mutation
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): mixed
     {
         return [

@@ -22,6 +22,9 @@ class PrimaryKeyPaginationQuery extends Query
         return GraphQL::paginate('Post');
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $ctx, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */

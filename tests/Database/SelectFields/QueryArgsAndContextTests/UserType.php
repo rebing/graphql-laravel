@@ -35,9 +35,9 @@ class UserType extends GraphQLType
                 ],
                 'query' => function (array $args, HasMany $query, GraphQLContext $ctx): HasMany {
                     if (isset($ctx->data['flag'])) {
-                        $query->where('posts.flag', '=', $ctx->data['flag']);
+                        $query->where('posts.flag', '=', $ctx->data['flag']); // @phpstan-ignore argument.type
                     } elseif (isset($args['flag'])) {
-                        $query->where('posts.flag', '=', $args['flag']);
+                        $query->where('posts.flag', '=', $args['flag']); // @phpstan-ignore argument.type
                     }
 
                     return $query;
@@ -47,7 +47,7 @@ class UserType extends GraphQLType
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('Post')))),
                 'alias' => 'posts',
                 'query' => function (array $args, HasMany $query): HasMany {
-                    $query->where('posts.flag', '=', 1);
+                    $query->where('posts.flag', '=', 1); // @phpstan-ignore argument.type
 
                     return $query;
                 },

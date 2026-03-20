@@ -33,6 +33,9 @@ class SearchQuery extends Query
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $ctx, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */

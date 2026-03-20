@@ -33,6 +33,9 @@ class ExamplesPaginationQuery extends Query
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): LengthAwarePaginator
     {
         /** @var array<int,array{test:string}> $data */

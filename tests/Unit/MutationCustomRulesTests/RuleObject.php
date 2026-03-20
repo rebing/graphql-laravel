@@ -12,7 +12,9 @@ class RuleObject implements Rule
         return false;
     }
 
-    /** @return array<int,string>|string */
+    /**
+     * @return array<int,string>|string
+     */
     public function message()
     {
         return 'arg1 is invalid';

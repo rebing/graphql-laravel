@@ -22,6 +22,8 @@ use Rebing\GraphQL\Tests\Support\database\factories\PostFactory;
  * @property bool $flag
  * @property Carbon|null $published_at
  * @property bool $is_published
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property-read Collection|Comment[] $comments
  * @property-read Collection|Like[] $likes
  */

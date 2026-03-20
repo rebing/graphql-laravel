@@ -28,7 +28,10 @@ class UploadMultipleFilesMutation extends Mutation
         ];
     }
 
-    /** @return array<int,string> */
+    /**
+     * @param array<string,mixed> $args
+     * @return array<int,string>
+     */
     public function resolve(mixed $root, array $args): array
     {
         return array_map(

@@ -15,7 +15,9 @@ class FormattableDate extends Field
 
     protected string $defaultFormat;
 
-    /** @param array<string,mixed> $settings */
+    /**
+     * @param array<string,mixed> $settings
+     */
     public function __construct(array $settings = [], string $defaultFormat = 'Y-m-d H:i')
     {
         $this->attributes = array_merge($this->attributes, $settings);
@@ -43,8 +45,10 @@ class FormattableDate extends Field
         return Type::string();
     }
 
-    /** @param array<string,mixed> $args */
-    public function resolve($root, array $args): ?string
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args): ?string
     {
         $date = $root->{$this->getProperty()};
 

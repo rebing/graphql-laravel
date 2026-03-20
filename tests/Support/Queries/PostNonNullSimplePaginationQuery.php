@@ -22,6 +22,9 @@ class PostNonNullSimplePaginationQuery extends Query
         return GraphQL::simplePaginate('PostWithModel');
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): Paginator
     {
         return Post::query()

@@ -30,7 +30,10 @@ class ExamplesFilteredQuery extends Query
         ];
     }
 
-    /** @return list<array<string,mixed>> */
+    /**
+     * @param array<string,mixed> $args
+     * @return list<array<string,mixed>>
+     */
     public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
     {
         $data = include __DIR__ . '/data.php';

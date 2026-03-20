@@ -27,7 +27,10 @@ class ExampleField extends Field
         ];
     }
 
-    /** @return list<string> */
+    /**
+     * @param array<string,mixed> $args
+     * @return list<string>
+     */
     public function resolve(mixed $root, array $args): array
     {
         return ['test'];

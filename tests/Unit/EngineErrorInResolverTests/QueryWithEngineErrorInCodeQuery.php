@@ -18,6 +18,9 @@ class QueryWithEngineErrorInCodeQuery extends Mutation
         return Type::nonNull(Type::string());
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): string
     {
         throw new TypeError('Simulating a TypeError');

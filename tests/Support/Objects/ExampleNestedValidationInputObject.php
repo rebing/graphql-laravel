@@ -29,7 +29,10 @@ class ExampleNestedValidationInputObject extends InputType
         ];
     }
 
-    /** @return list<string> */
+    /**
+     * @param array<string,mixed> $args
+     * @return list<string>
+     */
     public function resolve(mixed $root, array $args): array
     {
         return ['test'];

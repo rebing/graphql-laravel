@@ -23,6 +23,9 @@ class PostMessagesQuery extends Query
         return [];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): mixed
     {
         return [

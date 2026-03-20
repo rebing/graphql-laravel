@@ -30,6 +30,9 @@ class PostWithSelectFieldsAndModelQuery extends Query
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
     {
         return Post::select($getSelectFields()->getSelect())

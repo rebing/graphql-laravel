@@ -16,7 +16,9 @@ class LikableInterfaceType extends InterfaceType
         'name' => 'LikableInterface',
     ];
 
-    /** @return list<\GraphQL\Type\Definition\Type> */
+    /**
+     * @return list<Type>
+     */
     public function types(): array
     {
         return [

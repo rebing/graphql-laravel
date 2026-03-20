@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 use Closure;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Language\AST\NodeKind;
+use GraphQL\Language\AST\VariableDefinitionNode;
 use GraphQL\Language\Visitor;
 use GraphQL\Type\Schema;
 use Rebing\GraphQL\Support\ExecutionMiddleware\AbstractExecutionMiddleware;
@@ -18,7 +19,7 @@ class ChangeQueryArgTypeMiddleware extends AbstractExecutionMiddleware
         $query = $params->getParsedQuery();
 
         Visitor::visit($query, [
-            NodeKind::VARIABLE_DEFINITION => function ($node, $key, $parent, $path, $ancestors) {
+            NodeKind::VARIABLE_DEFINITION => function (VariableDefinitionNode $node): VariableDefinitionNode {
                 $node->type->name->value = 'Int';
 
                 return $node;

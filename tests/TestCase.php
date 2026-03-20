@@ -25,6 +25,9 @@ use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @property \Illuminate\Foundation\Application $app
+ */
 class TestCase extends BaseTestCase
 {
     /**
@@ -93,12 +96,12 @@ class TestCase extends BaseTestCase
         }
     }
 
-    protected function assertGraphQLSchema($schema): void
+    protected function assertGraphQLSchema(Schema $schema): void
     {
         self::assertInstanceOf(Schema::class, $schema);
     }
 
-    protected function assertGraphQLSchemaHasQuery($schema, $key): void
+    protected function assertGraphQLSchemaHasQuery(Schema $schema, string $key): void
     {
         // Query
         $query = $schema->getQueryType();
@@ -113,7 +116,7 @@ class TestCase extends BaseTestCase
         self::assertInstanceOf(ObjectType::class, $queryType);
     }
 
-    protected function assertGraphQLSchemaHasMutation($schema, $key): void
+    protected function assertGraphQLSchemaHasMutation(Schema $schema, string $key): void
     {
         // Mutation
         $mutation = $schema->getMutationType();

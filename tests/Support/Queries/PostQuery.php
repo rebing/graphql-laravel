@@ -28,6 +28,9 @@ class PostQuery extends Query
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): mixed
     {
         return Post::findOrFail($args['id']);

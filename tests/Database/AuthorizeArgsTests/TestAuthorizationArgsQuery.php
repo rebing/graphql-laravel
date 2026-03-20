@@ -30,7 +30,9 @@ class TestAuthorizationArgsQuery extends Query
         ];
     }
 
-    /** @param array<string,mixed> $args */
+    /**
+     * @param array<string,mixed> $args
+     */
     public function authorize(
         $root,
         array $args,

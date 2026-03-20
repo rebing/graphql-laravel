@@ -22,6 +22,9 @@ class UsersQuery extends Query
         return Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('User'))));
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */

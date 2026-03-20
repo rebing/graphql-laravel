@@ -38,6 +38,9 @@ class MutationWithCustomRuleWithClosure extends Mutation
         ];
     }
 
+    /**
+     * @param array<string,mixed> $args
+     */
     public function resolve(mixed $root, array $args): string
     {
         return 'mutation result';
