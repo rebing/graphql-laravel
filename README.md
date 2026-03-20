@@ -286,6 +286,10 @@ them, in addition to the global middleware. For example:
         'route_attributes' => [
             'domain' => 'api.example.com',
         ],
+        // Override the default controller for this schema.
+        // Supports string ('Class@method') and array ([Class::class, 'method']) formats.
+        // The controller method receives the same parameters as GraphQLController@query.
+        // 'controller' => App\Http\Controllers\MyGraphQLController::class . '@query',
     ],
 ],
 ```
@@ -299,6 +303,8 @@ _default_ schema is accessible via `/graphql`.
 
 You can customize the HTTP route generated for a specific schema using the `route_attributes` key.
 This is useful for setting parameters supported by Laravel routes, e.g. a custom `domain`.
+The attributes are merged into the route's action array, so standard Laravel route attributes
+like `domain`, `prefix`, `as` (route name), and `where` (parameter constraints) are all supported.
 
 ```php
 'schemas' => [
@@ -357,7 +363,9 @@ You can use the `php artisan make:graphql:schemaConfig` command to create a new 
 
 First you usually create a type you want to return from the query. The Eloquent `'model'` is only required if specifying relations.
 
-> **Note:** The `selectable` key is required, if it's a non-database field or not a relation
+> **Note:** The `selectable` key defaults to `true`, meaning `SelectFields` will include the
+> field in the SQL `SELECT`. Set it to `false` for computed/virtual fields that don't correspond
+> to a database column (e.g. accessors, custom resolvers).
 
 ```php
 namespace App\GraphQL\Types;
@@ -443,6 +451,16 @@ Alternatively you can:
   GraphQL::addType(\App\GraphQL\Types\UserType::class);
   ```
 
+- or register multiple types at once with `addTypes`:
+  ```php
+  GraphQL::addTypes([
+      \App\GraphQL\Types\UserType::class,
+      'CustomName' => \App\GraphQL\Types\PostType::class,
+  ]);
+  ```
+  Both indexed entries (class name auto-resolved) and associative entries
+  (explicit name => class) are supported.
+
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
 namespace App\GraphQL\Queries;
@@ -509,6 +527,13 @@ Add the query to the `config/graphql.php` configuration file
 
 And that's it. You should be able to query GraphQL with a POST request to the url `/graphql` (or anything you choose in your config). Try a POST request with the following `query` input
 
+> **Note:** The `resolve()` method supports dependency injection for parameters
+> beyond the first three (`$root`, `$args`, `$context`). You can typehint
+> `Closure $getSelectFields` to receive a lazy factory, or typehint
+> `SelectFields $fields` directly to get an eager-loaded instance. Any other
+> class typehint will be resolved from Laravel's service container. See
+> [Resolve method](#resolve-method) for full details.
+
 ```graphql
 query FetchUsers {
     users {
@@ -538,7 +563,7 @@ namespace App\GraphQL\Mutations;
 
 use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\Mutation;
@@ -831,7 +856,7 @@ namespace App\GraphQL\Mutations;
 
 use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
@@ -1045,9 +1070,17 @@ transformed to `prohibits:recipients.0.mintParams` so that Laravel's Validator
 correctly resolves the sibling field reference.
 
 This applies to all dependent rules including `prohibits`, `required_with`,
-`required_without`, `required_if`, `same`, `different`, and others. For rules
-like `required_if` that take both a field reference and a value (e.g.
-`required_if:mode,advanced`), only the field reference parameter is transformed.
+`required_with_all`, `required_without`, `required_without_all`, `present_with`,
+`present_with_all`, `missing_with`, `missing_with_all`, `exclude_with`,
+`exclude_without`, `same`, `different`, `required_if`, `required_unless`,
+`prohibited_if`, `prohibited_unless`, `exclude_if`, `exclude_unless`,
+`accepted_if`, `declined_if`, `present_if`, `present_unless`, `missing_if`,
+`missing_unless`, `required_if_accepted`, `required_if_declined`,
+`prohibited_if_accepted`, `prohibited_if_declined`, and comparison rules like
+`gt`, `gte`, `lt`, `lte`, `before`, `after`, `before_or_equal`, `after_or_equal`
+(when they reference a sibling field). For rules like `required_if` that take
+both a field reference and a value (e.g. `required_if:mode,advanced`), only the
+field reference parameter is transformed. See `RulesPrefixer` for the full list.
 
 **Disabling automatic prefixing:** If you need to opt out of this behavior for
 a specific query or mutation, override `processCollectedRules()`:
@@ -1101,7 +1134,7 @@ namespace App\GraphQL\Queries;
 
 use Closure;
 use App\User;
-use GraphQL;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\SelectFields;
@@ -1239,7 +1272,7 @@ Alternatively, you can override `getMiddleware` to supply your own logic:
     }
 ```
 
-If you want to register middleware globally, use the `resolver_middleware_append` key in `config/graphql.php`:
+If you want to register middleware globally, use the `resolver_middleware_append` key in `config/graphql.php` (defaults to `null`, treated as an empty array):
 
 ```php  
 return [
@@ -1458,7 +1491,9 @@ class UserType extends GraphQLType
                 'privacy'       => function (array $args, $ctx): bool {
                     // Only the authenticated user can see their own email.
                     // $ctx is the query context value (see notes below).
-                    return isset($ctx->user) && $ctx->user->id === Auth::id();
+                    // By default, AddAuthUserContextValueMiddleware sets
+                    // $ctx to the authenticated user model directly.
+                    return $ctx && $ctx->id === Auth::id();
                 },
             ],
         ];
@@ -1480,7 +1515,7 @@ class MePrivacy extends Privacy
 {
     public function validate(array $fieldArgs, $queryContext = null): bool
     {
-        return isset($queryContext->user) && $queryContext->user->id === Auth::id();
+        return $queryContext && $queryContext->id === Auth::id();
     }
 }
 ```
@@ -1537,12 +1572,11 @@ If the field declares its own `args`, they are available in `$args`:
 > the field declares no arguments, `$args` will be an empty array. These are
 > *not* the root query/mutation arguments.
 
-> **`$ctx` - the query context value.** This is the context object passed to
+> **`$ctx` - the query context value.** This is the context value passed to
 > the GraphQL execution. By default, the built-in
-> `AddAuthUserContextValueMiddleware` execution middleware sets this to an object
-> with a `user` property containing the authenticated user. You can customize
-> the context via your own execution middleware or the `graphql.default_context_value`
-> config option.
+> `AddAuthUserContextValueMiddleware` execution middleware sets this directly to
+> the authenticated user model (i.e. `Auth::user()`), or `null` if no user is
+> authenticated. You can customize the context via your own execution middleware.
 
 > **Privacy vs Authorization.** `authorize()` on a Query or Mutation gates the
 > *entire* operation - if it fails, the whole request is rejected with an error.
@@ -1841,6 +1875,13 @@ The attribute can be a comma separated string or an array of attributes to
 always include.
 
 ```php
+// Array form:
+'always' => ['title', 'body'],
+// String form (comma-separated):
+'always' => 'title,body',
+```
+
+```php
 namespace App\GraphQL\Types;
 
 use App\User;
@@ -1964,7 +2005,7 @@ class UserType extends GraphQLType
                  ],
                 // $args are the local arguments passed to the relation
                 // $query is the relation builder object
-                // $ctx is the GraphQL context (can be customized by overriding `\Rebing\GraphQL\GraphQLController::queryContext`
+                // $ctx is the GraphQL context (customizable via execution middleware)
                 // The return value should be the query builder or void
                 'query'         => function (array $args, $query, $ctx): void {
                     $query->addSelect('some_column')
@@ -2014,18 +2055,17 @@ class PostsQuery extends Query
 
 Query `posts(limit:10,page:1){data{id},total,per_page}` might return
 
-```
+```json
 {
     "data": {
-        "posts: [
+        "posts": {
             "data": [
                 {"id": 3},
-                {"id": 5},
-                ...
+                {"id": 5}
             ],
             "total": 21,
             "per_page": 10
-        ]
+        }
     }
 }
 ```
@@ -2064,6 +2104,10 @@ class PostsQuery extends Query
 }
 ```
 
+`SimplePaginationType` exposes the following fields: `data` (the paginated items),
+`per_page`, `current_page`, `from`, `to`, and `has_more_pages`. Unlike full
+pagination, `total` and `last_page` are **not** available.
+
 [Cursor Pagination](https://laravel.com/docs/pagination#cursor-pagination) will be used, if a query or mutation returns a `CursorPaginationType`.
 
 ```php
@@ -2094,6 +2138,16 @@ class PostsQuery extends Query
     }
 }
 ```
+
+`CursorPaginationType` exposes the following fields: `data` (the paginated
+items), `per_page`, `previous_cursor` (`String`, nullable), and `next_cursor`
+(`String`, nullable).
+
+> **Note:** If you use a custom pagination class via the `pagination_type`,
+> `simple_pagination_type`, or `cursor_pagination_type` config keys, your class
+> must implement `\Rebing\GraphQL\Support\Contracts\WrapType` for
+> `SelectFields` to work correctly. The built-in pagination types already
+> implement this interface. See [Wrap Types](#wrap-types) for more details.
 
 ### Batching
 
@@ -2230,7 +2284,7 @@ class TestType extends GraphQLType
     {
         return [
             'episode_type' => [
-                'type' => GraphQL::type('EpisodeEnum')
+                'type' => GraphQL::type('episode')
             ]
         ];
     }
@@ -2713,7 +2767,7 @@ class UpdateUserMutation extends Mutation
     public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $user = User::find($args['id']);
-        $user->fill($args['input']));
+        $user->fill($args['input']);
         $user->save();
 
         return $user;
@@ -2855,7 +2909,7 @@ The `macro` function accepts a name as its first argument, and a `Closure` as it
 
 Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
 
-APQ is disabled by default and can be enabled in the config via `apq.enabled=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
+APQ is disabled by default and can be enabled in the config via `apq.enable=true` or by setting the environment variable `GRAPHQL_APQ_ENABLE=true`.
 
 A persisted query is an ID or hash that can be generated on the client sent to the server instead of the entire GraphQL query string. 
 This smaller signature reduces bandwidth utilization and speeds up client loading times.
@@ -2986,7 +3040,7 @@ with an [exporter](https://opentelemetry.io/docs/languages/php/exporters/) for
 your backend. The
 [Getting Started guide](https://opentelemetry.io/docs/languages/php/getting-started/)
 walks through a complete example. Once the SDK is configured, the driver
-automatically picks up the global `TracerProvider` — no additional wiring is
+automatically picks up the global `TracerProvider` - no additional wiring is
 needed in this package.
 
 #### Per-field resolver tracing
@@ -3003,6 +3057,12 @@ field resolvers, enable `field_tracing`:
 
 With OpenTelemetry this creates a child span for each resolved field.
 
+When tracing is enabled (i.e. a `driver` is configured), the tracing execution
+and resolver middlewares (`TracingExecutionMiddleware` and
+`TracingResolverMiddleware`) are automatically registered - you do not need to
+add them to the `execution_middleware` or `resolver_middleware_append` config
+arrays manually.
+
 > **Note:** Field tracing produces high-cardinality data and is intended for
 > development/debugging. Use it with caution in production.
 
@@ -3011,10 +3071,10 @@ With OpenTelemetry this creates a child span for each resolved field.
 You can implement the `Rebing\GraphQL\Support\Tracing\TracingDriver` interface
 to create your own driver. The interface has four methods:
 
-- `startOperation(schemaName, operationName, operationType, source)` — called before execution
-- `endOperation(context, ExecutionResult)` — called after execution; receives the opaque context from `startOperation` and may modify the result
-- `startFieldResolve(ResolveInfo)` — called before each field resolve (when field tracing is enabled)
-- `endFieldResolve(context, ResolveInfo)` — called after each field resolve
+- `startOperation(schemaName, operationName, operationType, source)` - called before execution
+- `endOperation(context, ExecutionResult)` - called after execution; receives the opaque context from `startOperation` and may modify the result
+- `startFieldResolve(ResolveInfo)` - called before each field resolve (when field tracing is enabled)
+- `endFieldResolve(context, ResolveInfo)` - called after each field resolve
 
 Register your driver class in the `tracing.driver` config key and it will be
 resolved from the Laravel service container. If the driver constructor accepts
@@ -3049,7 +3109,7 @@ schema's config array.
 'schemas' => [
     'default' => [
         'query' => [/* ... */],
-        // No 'tracing' key — inherits global (disabled)
+        // No 'tracing' key - inherits global (disabled)
     ],
     'monitored' => [
         'query' => [/* ... */],
@@ -3158,6 +3218,8 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
   You can define your own pagination type.
 - `simple_pagination_type`\
   You can define your own simple pagination type.
+- `cursor_pagination_type`\
+  You can define your own cursor pagination type.
 - `defaultFieldResolver`\
   Overrides the default field resolver, see http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver
 - `headers`\
@@ -3174,8 +3236,6 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
     The cache prefix to use.
   - `cache_ttl`\
     How long to cache the queries.
-- `detect_unused_variables`\
-  If enabled, variables provided but not consumed by the query will throw an error
 
 ## Guides
 
@@ -3184,35 +3244,35 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 Version 10 hardens several security defaults. Existing applications may
 need to explicitly re-enable previously-open behaviour.
 
-- **HTTP method restricted to POST** — Schemas now default to `'method' => ['POST']`.
+- **HTTP method restricted to POST** - Schemas now default to `'method' => ['POST']`.
   To re-enable GET requests, add `'method' => ['GET', 'POST']` to each schema in `config/graphql.php`.
-- **Batching disabled** — `batching.enable` now defaults to `false`.
+- **Batching disabled** - `batching.enable` now defaults to `false`.
   Set it to `true` to restore batching.
-- **Max batch size** — New `batching.max_batch_size` option (default `10`).
+- **Max batch size** - New `batching.max_batch_size` option (default `10`).
   Set to `null` to remove the limit.
-- **Query depth limit** — `security.query_max_depth` now defaults to `13` (was `null`).
+- **Query depth limit** - `security.query_max_depth` now defaults to `13` (was `null`).
   Set to `null` to remove the limit.
-- **Query complexity limit** — `security.query_max_complexity` now defaults to `500` (was `null`).
+- **Query complexity limit** - `security.query_max_complexity` now defaults to `500` (was `null`).
   Set to `null` to remove the limit.
-- **Introspection disabled** — `security.disable_introspection` now defaults to `true`.
+- **Introspection disabled** - `security.disable_introspection` now defaults to `true`.
   To allow introspection (e.g. in dev), set env `GRAPHQL_DISABLE_INTROSPECTION=false`.
-- **Introspection env var renamed** — The env var changed from
+- **Introspection env var renamed** - The env var changed from
   `GRAPHQL_INTROSPECTION` to `GRAPHQL_DISABLE_INTROSPECTION` (inverted logic).
   Update `.env` files accordingly.
-- **Authorization runs before validation** — Field authorization (`authorize()`) is
+- **Authorization runs before validation** - Field authorization (`authorize()`) is
   now checked before argument validation rules. Unauthorized requests are
   rejected without revealing validation details.
-- **Strict authorization comparison** — The `authorize()` return value is now
+- **Strict authorization comparison** - The `authorize()` return value is now
   compared with `!== true` (strict). Ensure your `authorize()` methods return
   an actual `bool`.
-- **Cross-field validation rules in nested InputTypes** — Validation rules like
+- **Cross-field validation rules in nested InputTypes** - Validation rules like
   `prohibits:otherField`, `required_without:otherField`, `required_if:field,value`,
   etc. defined on InputType fields are now automatically transformed to use
   fully-qualified dot-notation paths. This fixes cross-field rules that previously
   didn't work in nested or list InputTypes. If this causes issues, you can disable
   it per mutation/query by overriding `processCollectedRules()` to return `$rules`
   unchanged.
-- **Privacy enforcement moved from `SelectFields` to field resolvers** — The
+- **Privacy enforcement moved from `SelectFields` to field resolvers** - The
   `privacy` attribute on Type fields is now enforced universally via resolver
   wrapping in `Type::getFields()`, instead of only inside `SelectFields`. This
   means privacy now works on nested/sub-types and when `SelectFields` is not
@@ -3225,7 +3285,7 @@ need to explicitly re-enable previously-open behaviour.
      +public function validate(array $fieldArgs, $queryContext = null): bool
      ```
      Update any privacy logic that relied on inspecting root query arguments.
-  2. Privacy closures receive the same change — `$args` now contains the field's
+  2. Privacy closures receive the same change - `$args` now contains the field's
      own arguments, not the root query's arguments.
    3. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
       statement. The column is still fetched, but the field resolver returns
