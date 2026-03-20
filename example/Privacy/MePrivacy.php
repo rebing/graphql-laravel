@@ -7,8 +7,8 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $queryArgs, $queryContext = null): bool
+    public function validate(array $fieldArgs, $queryContext = null): bool
     {
-        return $queryArgs['id'] == Auth::id();
+        return $fieldArgs['id'] == Auth::id();
     }
 }

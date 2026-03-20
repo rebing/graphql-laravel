@@ -11,12 +11,12 @@ class PrivacyArgs extends Privacy
     /**
      * @inheritDoc
      */
-    public function validate(array $queryArgs, $queryContext = null): bool
+    public function validate(array $fieldArgs, $queryContext = null): bool
     {
         $expectedQueryArgs = [
-            'arg_from_query' => true,
+            'arg_from_field' => true,
         ];
-        Assert::assertSame($expectedQueryArgs, $queryArgs);
+        Assert::assertSame($expectedQueryArgs, $fieldArgs);
 
         return true;
     }
