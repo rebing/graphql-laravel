@@ -35,8 +35,8 @@ class SelectFields
 
     /**
      * @param array $queryArgs Arguments given with the query/mutation
-     * @param mixed $ctx The GraphQL context; can be anything and is only passed through
-     *                   Can be created/overridden by \Rebing\GraphQL\GraphQLController::queryContext
+     * @param mixed $ctx The GraphQL context; can be anything and is only passed through.
+     *                   Can be customized via execution middleware (e.g. AddAuthUserContextValueMiddleware).
      * @param array<string,mixed> $fieldsAndArguments Field and argument tree
      */
     public function __construct(GraphqlType $parentType, array $queryArgs, $ctx, array $fieldsAndArguments)
