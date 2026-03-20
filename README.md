@@ -19,16 +19,6 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 * Queries return **types**, which can have custom **privacy** settings.
 * The queried fields will have the option to be retrieved **dynamically** from the database.
 
-It offers the following features and improvements over the original package by
-[Folklore](https://github.com/folkloreinc/laravel-graphql):
-* Per-operation authorization
-* Per-field callback defining its visibility (e.g. hiding from unauthenticated users)
-* `SelectFields` abstraction available in `resolve()`, allowing for advanced eager loading
-  and thus dealing with n+1 problems
-* Pagination support
-* Server-side support for [query batching](https://www.apollographql.com/blog/batching-client-graphql-queries-a685f5bcd41b/)
-* Support for file uploads
-
 ## Installation
 
 Require the package via Composer:
@@ -3536,4 +3526,3 @@ For upgrade guides, see [UPGRADE.md](UPGRADE.md):
 
 - [Upgrading from 9 to 10](UPGRADE.md#upgrading-from-9-to-10)
 - [Upgrading from v1 to v2](UPGRADE.md#upgrading-from-v1-to-v2)
-- [Migrating from Folklore](UPGRADE.md#migrating-from-folklore)
