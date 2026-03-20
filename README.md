@@ -3981,3 +3981,7 @@ For upgrade guides, see [UPGRADE.md](UPGRADE.md):
 
 - [Upgrading from 9 to 10](UPGRADE.md#upgrading-from-9-to-10)
 - [Upgrading from v1 to v2](UPGRADE.md#upgrading-from-v1-to-v2)
+
+## Credits
+
+This project was originally forked from [Folklore's laravel-graphql](https://github.com/folkloreinc/laravel-graphql).
