@@ -37,9 +37,7 @@ class TypeTest extends TestCase
 
     public function testGetAttributesFieldsClosure(): void
     {
-        $type = $this->getMockBuilder(ExampleType::class)
-                    ->onlyMethods(['getFields'])
-                    ->getMock();
+        $type = $this->createPartialMock(ExampleType::class, ['getFields']);
 
         $type->expects(self::once())
             ->method('getFields');
@@ -50,9 +48,7 @@ class TypeTest extends TestCase
 
     public function testGetAttributesInterfacesClosure(): void
     {
-        $type = $this->getMockBuilder(ExampleType::class)
-            ->onlyMethods(['interfaces'])
-            ->getMock();
+        $type = $this->createPartialMock(ExampleType::class, ['interfaces']);
 
         $type->expects(self::once())
             ->method('interfaces');
