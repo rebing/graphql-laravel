@@ -71,6 +71,7 @@ php artisan make:graphql:type BookType
 Edit the generated `app/GraphQL/Types/BookType.php`:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use GraphQL\Type\Definition\Type;
@@ -112,6 +113,7 @@ php artisan make:graphql:query BooksQuery
 Edit `app/GraphQL/Queries/BooksQuery.php`:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use GraphQL\Type\Definition\Type;
@@ -525,6 +527,7 @@ In your config, you can reference the name of the class, rather than an array.
 ```
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Schemas;
 
 use Rebing\GraphQL\Support\Contracts\ConfigConvertible;
@@ -559,6 +562,7 @@ First you usually create a type you want to return from the query. The Eloquent 
 > to a database column (e.g. accessors, custom resolvers).
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use App\Models\User;
@@ -654,6 +658,7 @@ Alternatively you can:
 
 Then you need to define a query that returns this type (or a list). You can also specify arguments that you can use in the resolve method.
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -750,6 +755,7 @@ This is conventional abstraction, technically you can do anything you want in a 
 For example, a mutation to update the password of a user. First you need to define the Mutation:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -851,6 +857,7 @@ It is important that you send the request as `multipart/form-data`:
 > that middlewares which are changing request, will not have any effect.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -1019,6 +1026,7 @@ class UpdateUserEmailMutation extends Mutation
 #### Example using the `rules()` method
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -1102,7 +1110,7 @@ The format of the `'rules'` configuration key, or the rules returned by the
 For the `args()` method or the `'args'` definition for a field, the field names
 are directly used for the validation. However, for input types, which can be
 nested and occur multiple times, the field names are mapped as e.g.
-`data.0.fieldname`. This is imported to understand when returning rules from
+`data.0.fieldname`. This is important to understand when returning rules from
 the `rules()` method.
 
 #### Handling validation errors
@@ -1271,7 +1279,7 @@ configuration will likely never be triggered, because the GraphQL execution
 engine already prevents this field from being accepted in the first place.
 
 Or to be more clear: if a GraphQL type system violation occurs, then no Laravel
-validation will be even execution, as the code does not get so far.
+validation will be even executed, as the code does not get so far.
 
 ### Resolve method
 
@@ -1297,6 +1305,7 @@ There are two hardcoded classes which depend on the local data for the query:
 Example:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -1371,6 +1380,7 @@ This command will place a new ResolvePage class within your app/GraphQL/Middlewa
 In this middleware, we will set the Paginator current page to the argument we accept via our `PaginationType`:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Middleware;
 
 use Closure;
@@ -1397,6 +1407,7 @@ If you would like to assign middleware to specific queries/mutations,
 list the middleware class in the `$middleware` property of your query class.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use App\GraphQL\Middleware;
@@ -1415,6 +1426,7 @@ If you want a middleware to run during every GraphQL query/mutation to your appl
 list the middleware class in the `$middleware` property of your base query class.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use App\GraphQL\Middleware;
@@ -1478,6 +1490,7 @@ If you define a terminate method on your middleware and your web server is using
 the terminate method will automatically be called after the response is sent to the browser:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Middleware;
 
 use Countable;
@@ -1554,6 +1567,7 @@ For authorization similar to Laravel's Request (or middleware) functionality, we
 An example of Laravel's `'auth'` middleware:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
@@ -1575,6 +1589,7 @@ class UsersQuery extends Query
 Or we can make use of arguments passed via the GraphQL query:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
@@ -1599,6 +1614,7 @@ class UsersQuery extends Query
 You can also provide a custom error message when the authorization fails (defaults to Unauthorized):
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
@@ -1784,6 +1800,7 @@ curl -X POST -H "Content-Type: application/json" \
 You can also define a field as a class if you want to reuse it in multiple types.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Fields;
 
 use GraphQL\Type\Definition\Type;
@@ -1819,7 +1836,7 @@ class PictureField extends Field
         $width = isset($args['width']) ? $args['width']:100;
         $height = isset($args['height']) ? $args['height']:100;
 
-        return 'https://via.placeholder.com/'.$width.'x'.$height;
+        return 'https://placehold.co/'.$width.'x'.$height;
     }
 }
 ```
@@ -1827,6 +1844,7 @@ class PictureField extends Field
 You can then use it in your type declaration
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\PictureField;
@@ -1867,6 +1885,7 @@ Instead of using the class name, you can also supply an actual instance of the `
 Let's imagine we want a field type that can output dates formatted in all sorts of ways.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Fields;
 
 use GraphQL\Type\Definition\Type;
@@ -1928,6 +1947,7 @@ class FormattableDate extends Field
 You can use this field in your type as follows:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\FormattableDate;
@@ -1983,6 +2003,7 @@ The Closure accepts an optional parameter for the depth of the query to analyse.
 Your Query would look like:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -2048,6 +2069,7 @@ always include.
 ```
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use App\Models\User;
@@ -2191,6 +2213,7 @@ Note that unless you use [resolver middleware](#defining-middleware),
 you will have to manually supply both the limit and page values:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -2242,6 +2265,7 @@ the paginated resources in a data object at the same level as the returned pagin
 [Simple Pagination](https://laravel.com/docs/pagination#simple-pagination) will be used, if a query or mutation returns a `SimplePaginationType`.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -2277,6 +2301,7 @@ pagination, `total` and `last_page` are **not** available.
 [Cursor Pagination](https://laravel.com/docs/pagination#cursor-pagination) will be used, if a query or mutation returns a `CursorPaginationType`.
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Closure;
@@ -2406,6 +2431,7 @@ Read more about Enums [here](https://graphql.org/learn/schema/#enumeration-types
 
 First create an Enum as an extension of the GraphQLType class:
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Enums;
 
 use Rebing\GraphQL\Support\EnumType;
@@ -2440,6 +2466,7 @@ The Enum will be registered like any other type in your schema in `config/graphq
 
 Then use it like:
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -2479,6 +2506,7 @@ It's useful if you need to return unrelated types in the same Query. For example
 Example for defining a UnionType:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Unions;
 
 use App\Post;
@@ -2518,6 +2546,7 @@ You can use interfaces to abstract a set of fields. Read more about Interfaces [
 An implementation of an interface:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Interfaces;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -2562,6 +2591,7 @@ class CharacterInterface extends InterfaceType
 A Type that implements an interface:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -2669,6 +2699,7 @@ Read more about Input Object [here](https://graphql.org/learn/schema/#input-type
 
 First create an InputObjectType as an extension of the GraphQLType class:
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
@@ -2742,6 +2773,7 @@ Read more about OneOf in the [RFC](https://github.com/graphql/graphql-spec/pull/
 Create a OneOf Input Type by setting `'isOneOf' => true` in the attributes:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
@@ -2777,6 +2809,7 @@ class SearchInput extends InputType
 
 #### Using OneOf Input Types
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use GraphQL\Type\Definition\Type;
@@ -2867,6 +2900,7 @@ Here you might want the input names to be different from the column names in the
 Example, where the database columns are `first_name` and `last_name`:
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\InputObject;
 
 use GraphQL\Type\Definition\Type;
@@ -2900,6 +2934,7 @@ class UserInput extends InputType
 ```
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Mutations;
 
 use Closure;
@@ -2985,6 +3020,7 @@ using [Apollo GraphOS](https://www.apollographql.com/docs/graphos/schema-design/
 
 
 ```php
+declare(strict_types = 1);
 namespace App\GraphQL\Types;
 
 use App\Models\User;
@@ -3049,6 +3085,7 @@ queries, mutations and types, you may use the macro method on the `GraphQL` faca
 For example, from a service provider's boot method:
 
 ```php
+declare(strict_types = 1);
 namespace App\Providers;
 
 use GraphQL\Type\Definition\Type;
