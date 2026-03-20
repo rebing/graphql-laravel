@@ -14,10 +14,10 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
   * per schema HTTP middlewares
   * per schema GraphQL execution middlewares
 * Custom GraphQL **resolver middleware** can be defined for each query/mutation
-  
-When using the `SelectFields` class for Eloquent support, additional features are available:
-* Queries return **types**, which can have custom **privacy** settings.
-* The queried fields will have the option to be retrieved **dynamically** from the database.
+* Two [data loading](#data-loading) strategies for avoiding n+1 queries:
+  * **[Dataloaders](#dataloaders)** -- uses webonyx/graphql-php's built-in deferred resolution to batch field loads from any data source
+  * **[`SelectFields`](#eager-loading-relationships)** -- analyzes the GraphQL query to generate optimized Eloquent `select()` and eager-loaded `with()` calls
+* Queries return **types**, which can have custom **[privacy](#privacy)** settings
 
 > **Note:** GraphQL **subscriptions** are not supported by this package. If you
 > need real-time push functionality, consider a dedicated solution like
@@ -37,6 +37,9 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 - [Concepts](#concepts)
   - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
 - [Data loading](#data-loading)
+  - [Dataloaders (deferred resolution)](#dataloaders-deferred-resolution)
+  - [SelectFields (Eloquent eager loading)](#selectfields-eloquent-eager-loading)
+  - [Choosing an approach](#choosing-an-approach)
 - [Middleware Overview](#middleware-overview)
   - [HTTP middleware](#http-middleware)
   - [GraphQL execution middleware](#graphql-execution-middleware)
@@ -68,6 +71,10 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 - [Query variables](#query-variables)
 - [Custom field](#custom-field)
   - [Even better reusable fields](#even-better-reusable-fields)
+- [Dataloaders](#dataloaders)
+  - [Creating a loader](#creating-a-loader)
+  - [Using a loader in a type](#using-a-loader-in-a-type)
+  - [Using a DataLoader library](#using-a-dataloader-library)
 - [Eager loading relationships](#eager-loading-relationships)
 - [Type relationship query](#type-relationship-query)
 - [Pagination](#pagination)
@@ -325,7 +332,8 @@ curl -X POST -H "Content-Type: application/json" \
 
 You now have a working GraphQL API. From here you can:
 
-- **Use Eloquent models** -- see [Creating a query](#creating-a-query) for a full example with database-backed types and the `SelectFields` helper for optimized eager loading
+- **Optimize data loading** -- see [Dataloaders](#dataloaders) for the recommended way to avoid n+1 queries with any data source
+- **Use Eloquent models** -- see [Creating a query](#creating-a-query) for a full example with database-backed types; for Eloquent-specific column optimization see the [`SelectFields`](#eager-loading-relationships) helper
 - **Add mutations** -- see [Creating a mutation](#creating-a-mutation) to modify data
 - **Add validation** -- see [Validation](#validation) for built-in Laravel validation rules on arguments
 - **Add authorization** -- see [Authorization](#authorization) for per-operation access control
@@ -348,8 +356,10 @@ free to skip this part.
   basically any data you want to return.
 - "resolver"  
   Any time data is returned, it is "resolved". Usually in query/mutations this
-  specified the primary way to retrieve your data (e.g. using `SelectFields` or
-  [dataloaders](https://github.com/overblog/dataloader-php))
+  specifies the primary way to retrieve your data. Two common strategies are
+  [dataloaders](#dataloaders) (deferred batching) and
+  [`SelectFields`](#eager-loading-relationships) (Eloquent eager loading). See
+  [Data loading](#data-loading) for a comparison.
 
 Typically, all queries/mutations/types are defined using the `$attributes`
 property and the `args()` / `fields()` methods as well as the `resolve()` method.
@@ -389,20 +399,54 @@ specific your type system is.
 The act of loading/retrieving your data is called "resolving" in GraphQL. GraphQL
 itself does **not** define the "how" and leaves it up to the implementor.
 
-In the context of Laravel it's natural to assume the primary source of data will
-be Eloquent. This library therefore provides a convenient helper called
-`SelectFields` which tries its best to
-[eager load relations](#eager-loading-relationships) and to
-[avoid n+1 problems](https://laravel.com/docs/eloquent-relationships#eager-loading).
+You can use any kind of data source you like (Eloquent, static data,
+ElasticSearch results, caching, etc.) in your resolvers, but you need to be
+mindful of the execution model to avoid repetitive fetches. This library
+supports two strategies for optimized data loading. Dataloaders are the
+recommended starting point -- they work with any data source and follow the
+standard GraphQL community pattern for n+1 prevention. `SelectFields` is
+available as an Eloquent-specific alternative that offers column-level
+precision.
 
-Be aware that this is not the only way and it's also common to use _concepts_
-called "dataloaders". They usually take advantage of "deferred" executions of
-resolved fields, as explained in [graphql-php solving n+1 problem](https://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem).
+### Dataloaders (deferred resolution)
 
-The gist is that you can use any kind of data source you like (Eloquent,
-static data, ElasticSearch results, caching, etc.) in your resolvers but you've
-to be mindful of the execution model to avoid repetitive fetches and perform
-smart pre-fetching of your data.
+Dataloaders take advantage of the "deferred" execution model built into
+[webonyx/graphql-php](https://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem).
+Instead of analyzing the query upfront, each field resolver collects the keys it
+needs and defers the actual fetch. Once all non-deferred fields are resolved, the
+deferred callbacks fire, batching all collected keys into a single query.
+
+This is the recommended approach for most applications -- it works with **any
+data source** (Eloquent, APIs, caches, etc.) and does not require any special
+type configuration. See [Dataloaders](#dataloaders) for usage and examples.
+
+### SelectFields (Eloquent eager loading)
+
+If your application is heavily Eloquent-based and you want column-level query
+precision, `SelectFields` is a built-in helper that analyzes the GraphQL query's
+requested fields **before** execution and generates optimized Eloquent `select()`
+and `with()` calls. It selects only the requested columns and eager-loads
+relations to [avoid n+1 problems](https://laravel.com/docs/eloquent-relationships#eager-loading).
+
+This approach is Eloquent-specific and requires a `model` config key on your
+types, along with additional field configuration (`alias`, `selectable`,
+`always`, etc.). See [Eager loading relationships](#eager-loading-relationships)
+for usage and examples.
+
+### Choosing an approach
+
+| | SelectFields | Dataloaders |
+|---|---|---|
+| **Data source** | Eloquent only | Any (Eloquent, APIs, caches, etc.) |
+| **N+1 strategy** | Upfront eager loading via query AST analysis | Deferred batching at resolve time |
+| **Column precision** | Selects only requested columns | Typically all columns (customizable per loader) |
+| **Relation scoping** | Custom `query` callbacks on type fields | Logic inside the loader |
+| **Type configuration** | Requires `model`, `alias`, `selectable`, `always`, etc. | No special type config needed |
+| **Setup** | Type-hint `SelectFields` or `Closure` in resolver | Create a loader class, register in the container |
+| **Best for** | Eloquent-heavy apps needing column-level optimization | Most applications; especially mixed data sources and cross-resolver batching |
+
+The two approaches are independent and can coexist in the same application --
+use `SelectFields` for some resolvers and dataloaders for others.
 
 ## Middleware Overview
 
@@ -1995,6 +2039,161 @@ class UserType extends GraphQLType
 }
 ```
 
+## Dataloaders
+
+Dataloaders are the standard GraphQL pattern for solving n+1 problems and are
+the recommended default data loading strategy. They use **deferred resolution**
+-- a mechanism built into
+[webonyx/graphql-php](https://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem),
+the GraphQL engine this library is built on. Unlike
+[`SelectFields`](#eager-loading-relationships), dataloaders do not require
+Eloquent models or special type configuration, and they work with any data
+source.
+
+The pattern has two phases:
+
+1. **Collect** -- each field resolver registers the key it needs (e.g. a user ID)
+   and returns a `GraphQL\Deferred` instead of a value.
+2. **Batch** -- once all non-deferred fields are resolved, the deferred callbacks
+   fire. The first callback triggers a bulk fetch for all collected keys; the
+   rest read from the already-loaded result.
+
+### Creating a loader
+
+A loader is a plain PHP class that accumulates keys and performs a single bulk
+query when triggered. Registering it as a
+[scoped singleton](https://laravel.com/docs/container#the-scoped-method) ensures
+a fresh instance per request (safe for Laravel Octane and queue workers).
+
+```php
+declare(strict_types = 1);
+namespace App\GraphQL\Loaders;
+
+use App\Models\User;
+use GraphQL\Deferred;
+
+class UserLoader
+{
+    /** @var list<int> */
+    private array $pendingIds = [];
+
+    /** @var array<int,User> */
+    private array $loaded = [];
+
+    /**
+     * Register a key to be loaded and return a deferred resolver.
+     */
+    public function load(int $id): Deferred
+    {
+        $this->pendingIds[] = $id;
+
+        return new Deferred(function () use ($id): ?User {
+            $this->loadPending();
+
+            return $this->loaded[$id] ?? null;
+        });
+    }
+
+    /**
+     * Bulk-fetch all pending keys in a single query.
+     */
+    private function loadPending(): void
+    {
+        $ids = array_diff(array_unique($this->pendingIds), array_keys($this->loaded));
+        $this->pendingIds = [];
+
+        if ($ids === []) {
+            return;
+        }
+
+        $users = User::whereIn('id', $ids)->get()->keyBy('id');
+
+        foreach ($users as $id => $user) {
+            $this->loaded[$id] = $user;
+        }
+    }
+}
+```
+
+Register it in a service provider:
+
+```php
+// AppServiceProvider::register()
+
+$this->app->scoped(\App\GraphQL\Loaders\UserLoader::class);
+```
+
+### Using a loader in a type
+
+Resolve the loader from the container and call `load()` with the key. The
+returned `Deferred` is handled transparently by the GraphQL execution engine --
+no changes to your schema, middleware, or controller are required.
+
+```php
+declare(strict_types = 1);
+namespace App\GraphQL\Types;
+
+use App\GraphQL\Loaders\UserLoader;
+use App\Models\Post;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Type as GraphQLType;
+
+class PostType extends GraphQLType
+{
+    protected $attributes = [
+        'name' => 'Post',
+        'description' => 'A blog post',
+    ];
+
+    public function fields(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+            ],
+            'title' => [
+                'type' => Type::nonNull(Type::string()),
+            ],
+            'author' => [
+                'type' => GraphQL::type('User'),
+                'description' => 'The post author, loaded via dataloader',
+                'resolve' => function (Post $post) {
+                    return app(UserLoader::class)->load($post->author_id);
+                },
+            ],
+        ];
+    }
+}
+```
+
+If a query requests 50 posts, the `author` resolver is called 50 times -- but
+only one `SELECT * FROM users WHERE id IN (...)` query is executed, because all
+50 IDs are collected during the "collect" phase and fetched together when the
+first `Deferred` callback fires.
+
+### How it works
+
+`GraphQL\Deferred` is a synchronous promise provided by webonyx/graphql-php. When
+a resolver returns a `Deferred`, the executor sets the value aside and continues
+resolving other fields. Once no more immediate fields remain, it drains the
+deferred queue: each callback runs, and if any callback returns another
+`Deferred`, that is queued too. This continues until all values are fully resolved.
+
+Because this library's execution middleware calls `GraphQL::executeQuery()` (which
+uses the built-in `SyncPromiseAdapter` internally), `Deferred` works out of the
+box with no additional configuration.
+
+### Using a DataLoader library
+
+For applications with many loaders, the
+[overblog/dataloader-php](https://github.com/overblog/dataloader-php) library
+provides a higher-level `DataLoader` class with automatic request batching,
+per-request memoization, and cache priming. It ships with a webonyx/graphql-php
+sync promise adapter. For most Laravel applications the simple loader pattern
+shown above is sufficient, but `overblog/dataloader-php` can reduce boilerplate
+when you have dozens of entity types to batch-load.
+
 ## Eager loading relationships
 
 The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models. 
@@ -3563,12 +3762,12 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 | `schemas.*.query` | `[]` | Array of query classes for this schema |
 | `schemas.*.mutation` | `[]` | Array of mutation classes for this schema |
 | `schemas.*.types` | `[]` | Array of type classes scoped to this schema |
-| `schemas.*.middleware` | — | Per-schema HTTP middleware (overrides `route.middleware`) |
+| `schemas.*.middleware` | - | Per-schema HTTP middleware (overrides `route.middleware`) |
 | `schemas.*.method` | `['POST']` | HTTP methods to support (must be uppercase) |
-| `schemas.*.execution_middleware` | — | Per-schema execution middleware (overrides global `execution_middleware`) |
+| `schemas.*.execution_middleware` | - | Per-schema execution middleware (overrides global `execution_middleware`) |
 | `schemas.*.route_attributes` | `[]` | Additional Laravel route attributes (e.g. `domain`, `prefix`) |
-| `schemas.*.controller` | — | Override the controller for this schema |
-| `schemas.*.tracing` | — | Per-schema tracing overrides |
+| `schemas.*.controller` | - | Override the controller for this schema |
+| `schemas.*.tracing` | - | Per-schema tracing overrides |
 | `types` | `[]` | Global types shared across all schemas. See [Creating a query](#creating-a-query) |
 | `execution_middleware` | Built-in set | Global [execution middleware](#graphql-execution-middleware) classes. Terminal middleware is always appended automatically |
 | `resolver_middleware_append` | `null` | Global [resolver middleware](#resolver-middleware) appended after per-field middleware |
