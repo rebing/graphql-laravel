@@ -718,7 +718,7 @@ For example, using `curl`:
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   -d '{"query": "query FetchUsers { users { id email } }"}' \
-  http://homestead.app/graphql
+  http://localhost:8000/graphql
 ```
 
 ### Creating a mutation
@@ -809,7 +809,7 @@ For example, using `curl`:
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   -d '{"query": "mutation users { updateUserPassword(id: \"1\", password: \"newpassword\") { id email } }"}' \
-  http://homestead.app/graphql
+  http://localhost:8000/graphql
 ```
 
 #### File uploads
@@ -1781,7 +1781,7 @@ For example, using `curl`:
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   -d '{"query": "query FetchUserByID($id: Int) { user(id: $id) { id email } }", "variables": {"id": 123}}' \
-  http://homestead.app/graphql
+  http://localhost:8000/graphql
 ```
 
 ### Custom field
