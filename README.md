@@ -297,6 +297,11 @@ You now have a working GraphQL API. From here you can:
       - [Per-field resolver tracing](#per-field-resolver-tracing)
       - [Custom tracing drivers](#custom-tracing-drivers)
       - [Per-schema tracing](#per-schema-tracing)
+  - [Error handling](#error-handling)
+    - [Built-in error types](#built-in-error-types)
+    - [Error response format](#error-response-format)
+    - [Error reporting](#error-reporting)
+    - [Customizing error formatting](#customizing-error-formatting)
   - [Misc features](#misc-features)
     - [Detecting unused variables](#detecting-unused-variables)
   - [Configuration options](#configuration-options)
@@ -3289,6 +3294,84 @@ schema's config array.
 Per-schema `tracing` arrays are deep-merged over the global config: schema
 values win for top-level keys, and `driver_options` is merged separately so you
 can override individual options without repeating the full array.
+
+## Error handling
+
+This library has two distinct error layers:
+
+- **Errors** (`Rebing\GraphQL\Error\*`): Extend `GraphQL\Error\Error` from
+  webonyx/graphql-php. These are **client-safe** and appear in GraphQL JSON
+  responses.
+- **Exceptions** (`Rebing\GraphQL\Exception\*`): Extend `RuntimeException`.
+  These indicate **configuration or developer errors** (e.g. a missing schema or
+  unregistered type) and are not included in GraphQL responses.
+
+### Built-in error types
+
+| Class | Category | When thrown |
+|-------|----------|------------|
+| `ValidationError` | `validation` | Argument validation rules fail (via `rules()` or inline `'rules'` key) |
+| `AuthorizationError` | `authorization` | `authorize()` returns anything other than `true` |
+| `AutomaticPersistedQueriesError` | `apq` | APQ hash mismatch, query not found, or APQ disabled |
+
+### Error response format
+
+Errors are returned in the standard GraphQL `errors` array. The library enriches
+each error with an `extensions` key:
+
+```json
+{
+  "errors": [
+    {
+      "message": "validation",
+      "extensions": {
+        "category": "validation",
+        "validation": {
+          "email": ["The email field is required."]
+        }
+      },
+      "locations": [{"line": 1, "column": 20}]
+    }
+  ]
+}
+```
+
+For `AuthorizationError`, the response contains `extensions.category` set to
+`"authorization"` and the `message` from `getAuthorizationMessage()` (defaults
+to `"Unauthorized"`).
+
+### Error reporting
+
+The default `errors_handler` selectively reports errors to Laravel's exception
+handler:
+
+- `ValidationError` and `AuthorizationError` are **not reported** (they are
+  expected application-level errors, not bugs).
+- GraphQL syntax/type errors (e.g. invalid queries) are **not reported**.
+- All other exceptions (unexpected errors, database failures, etc.) **are
+  reported** through Laravel's `ExceptionHandler`, which typically logs them.
+
+### Customizing error formatting
+
+You can replace the default error formatter and/or error handler via config:
+
+```php
+// config/graphql.php
+
+// Receives each GraphQL\Error\Error; must return an array
+'error_formatter' => [App\GraphQL\ErrorFormatter::class, 'format'],
+
+// Receives all errors + the formatter; must return an array of formatted errors
+'errors_handler' => [App\GraphQL\ErrorHandler::class, 'handle'],
+```
+
+The default formatter (`GraphQL::formatError`) respects `app.debug`: when debug
+mode is enabled, errors include `debugMessage` and `trace` fields for easier
+development. In production these are omitted.
+
+> **Tip:** Laravel's built-in `ValidationException` (thrown by `Validator::validate()`)
+> is also handled by the default formatter -- it is automatically converted to the
+> same `extensions.validation` format shown above.
 
 ## Misc features
 
