@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+2026-03-21, 10.0.0-RC2
+----------------------
+
 ## Breaking changes
 - `Privacy::validate()` first parameter renamed from `$queryArgs` to `$fieldArgs` — it now receives the field's own arguments instead of root query arguments
 - `SelectFields` now identifies wrapper types via the `Rebing\GraphQL\Support\Contracts\WrapType` marker interface. Custom pagination types and wrap types used with `SelectFields` **must** implement this interface. [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
