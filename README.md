@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://rebing-graphql.slack.com/join/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc#/shared-invite/email)
 
-This package provides an integration of GraphQL for Laravel. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [Introduction to GraphQL](https://graphql.org/learn/) or you can read the [GraphQL specifications](https://spec.graphql.org/).
+This package provides a code-first integration of GraphQL for Laravel. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You define your schema entirely in PHP classes (types, queries, mutations) rather than in `.graphql` schema files. You can find more information about GraphQL in the [Introduction to GraphQL](https://graphql.org/learn/) or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
 * Allows creating **queries** and **mutations** as request endpoints
 * Supports multiple schemas
