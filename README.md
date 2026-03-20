@@ -34,71 +34,70 @@ When using the `SelectFields` class for Eloquent support, additional features ar
   - [3. Register in config](#3-register-in-config)
   - [4. Test it](#4-test-it)
   - [What's next?](#whats-next)
-- [Usage](#usage)
-  - [Concepts](#concepts)
-    - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
-  - [Data loading](#data-loading)
-  - [Middleware Overview](#middleware-overview)
-    - [HTTP middleware](#http-middleware)
-    - [GraphQL execution middleware](#graphql-execution-middleware)
-    - [GraphQL resolver middleware](#graphql-resolver-middleware)
-  - [Schemas](#schemas)
-    - [Route attributes](#route-attributes)
-    - [Schema classes](#schema-classes)
-  - [Creating a query](#creating-a-query)
-  - [Creating a mutation](#creating-a-mutation)
-    - [File uploads](#file-uploads)
-      - [Vue.js example](#vuejs-example)
-      - [Vanilla JavaScript](#vanilla-javascript)
-  - [Validation](#validation)
-    - [Example defining rules in each argument](#example-defining-rules-in-each-argument)
-    - [Example using the `rules()` method](#example-using-the-rules-method)
-    - [Example using Laravel's validator directly](#example-using-laravels-validator-directly)
-    - [Handling validation errors](#handling-validation-errors)
-    - [Customizing error messages](#customizing-error-messages)
-    - [Customizing attributes](#customizing-attributes)
-    - [Cross-field validation rules in nested input types](#cross-field-validation-rules-in-nested-input-types)
-    - [Misc notes](#misc-notes)
-  - [Resolve method](#resolve-method)
-  - [Resolver middleware](#resolver-middleware)
-    - [Defining middleware](#defining-middleware)
-    - [Registering middleware](#registering-middleware)
-    - [Terminable middleware](#terminable-middleware)
-  - [Authorization](#authorization)
-  - [Privacy](#privacy)
-  - [Query variables](#query-variables)
-  - [Custom field](#custom-field)
-    - [Even better reusable fields](#even-better-reusable-fields)
-  - [Eager loading relationships](#eager-loading-relationships)
-  - [Type relationship query](#type-relationship-query)
-  - [Pagination](#pagination)
-  - [Batching](#batching)
-  - [Scalar types](#scalar-types)
-  - [Enums](#enums)
-  - [SelectFields and abstract types](#selectfields-and-abstract-types)
-  - [Unions](#unions)
-  - [Interfaces](#interfaces)
-    - [Supporting custom queries on interface relations](#supporting-custom-queries-on-interface-relations)
-    - [Sharing interface fields](#sharing-interface-fields)
-  - [Input Object](#input-object)
-  - [OneOf Input Objects](#oneof-input-objects)
-    - [Creating a OneOf Input Type](#creating-a-oneof-input-type)
-    - [Using OneOf Input Types](#using-oneof-input-types)
-    - [Generating OneOf Input Types](#generating-oneof-input-types)
-  - [Type modifiers](#type-modifiers)
-  - [Field and input alias](#field-and-input-alias)
-  - [JSON columns](#json-columns)
-  - [Field deprecation](#field-deprecation)
-  - [Default field resolver](#default-field-resolver)
-  - [Macros](#macros)
-  - [Automatic Persisted Queries support](#automatic-persisted-queries-support)
-    - [Notes](#notes)
-    - [Client example](#client-example)
-  - [Tracing / Observability](#tracing--observability)
-    - [Enabling OpenTelemetry](#enabling-opentelemetry)
-    - [Per-field resolver tracing](#per-field-resolver-tracing)
-    - [Custom tracing drivers](#custom-tracing-drivers)
-    - [Per-schema tracing](#per-schema-tracing)
+- [Concepts](#concepts)
+  - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
+- [Data loading](#data-loading)
+- [Middleware Overview](#middleware-overview)
+  - [HTTP middleware](#http-middleware)
+  - [GraphQL execution middleware](#graphql-execution-middleware)
+  - [GraphQL resolver middleware](#graphql-resolver-middleware)
+- [Schemas](#schemas)
+  - [Route attributes](#route-attributes)
+  - [Schema classes](#schema-classes)
+- [Creating a query](#creating-a-query)
+- [Creating a mutation](#creating-a-mutation)
+  - [File uploads](#file-uploads)
+    - [Vue.js example](#vuejs-example)
+    - [Vanilla JavaScript](#vanilla-javascript)
+- [Validation](#validation)
+  - [Example defining rules in each argument](#example-defining-rules-in-each-argument)
+  - [Example using the `rules()` method](#example-using-the-rules-method)
+  - [Example using Laravel's validator directly](#example-using-laravels-validator-directly)
+  - [Handling validation errors](#handling-validation-errors)
+  - [Customizing error messages](#customizing-error-messages)
+  - [Customizing attributes](#customizing-attributes)
+  - [Cross-field validation rules in nested input types](#cross-field-validation-rules-in-nested-input-types)
+  - [Misc notes](#misc-notes)
+- [Resolve method](#resolve-method)
+- [Resolver middleware](#resolver-middleware)
+  - [Defining middleware](#defining-middleware)
+  - [Registering middleware](#registering-middleware)
+  - [Terminable middleware](#terminable-middleware)
+- [Authorization](#authorization)
+- [Privacy](#privacy)
+- [Query variables](#query-variables)
+- [Custom field](#custom-field)
+  - [Even better reusable fields](#even-better-reusable-fields)
+- [Eager loading relationships](#eager-loading-relationships)
+- [Type relationship query](#type-relationship-query)
+- [Pagination](#pagination)
+- [Batching](#batching)
+- [Scalar types](#scalar-types)
+- [Enums](#enums)
+- [SelectFields and abstract types](#selectfields-and-abstract-types)
+- [Unions](#unions)
+- [Interfaces](#interfaces)
+  - [Supporting custom queries on interface relations](#supporting-custom-queries-on-interface-relations)
+  - [Sharing interface fields](#sharing-interface-fields)
+- [Input Object](#input-object)
+- [OneOf Input Objects](#oneof-input-objects)
+  - [Creating a OneOf Input Type](#creating-a-oneof-input-type)
+  - [Using OneOf Input Types](#using-oneof-input-types)
+  - [Generating OneOf Input Types](#generating-oneof-input-types)
+- [Type modifiers](#type-modifiers)
+- [Field and input alias](#field-and-input-alias)
+- [JSON columns](#json-columns)
+- [Field deprecation](#field-deprecation)
+- [Default field resolver](#default-field-resolver)
+- [Macros](#macros)
+- [Automatic Persisted Queries support](#automatic-persisted-queries-support)
+  - [Notes](#notes)
+  - [Client example](#client-example)
+- [Tracing / Observability](#tracing--observability)
+  - [Enabling OpenTelemetry](#enabling-opentelemetry)
+  - [Per-field resolver tracing](#per-field-resolver-tracing)
+  - [Custom tracing drivers](#custom-tracing-drivers)
+  - [Per-schema tracing](#per-schema-tracing)
 - [Security](#security)
   - [Introspection](#introspection)
   - [Query depth limiting](#query-depth-limiting)
@@ -332,9 +331,7 @@ You now have a working GraphQL API. From here you can:
 - **Add authorization** -- see [Authorization](#authorization) for per-operation access control
 - **Explore all generators** -- run `php artisan list make:graphql` to see all 12 available scaffolding commands
 
-## Usage
-
-### Concepts
+## Concepts
 
 Before diving head first into code, it's good to familiarize yourself with the
 concepts surrounding GraphQL. If you've already experience with GraphQL, feel
@@ -367,7 +364,7 @@ Optional keys are:
 - `resolve`: override the default field resolver
 - `deprecationReason`: document why something is deprecated
 
-#### A word on declaring a field `nonNull`
+### A word on declaring a field `nonNull`
 
 It's quite common, and actually good practice, to see the gracious use of
 `Type::nonNull()` on any kind of input and/or output fields.
@@ -387,7 +384,7 @@ Some examples
 There exists a lot of tooling in the GraphQL ecosystem, which benefits the more
 specific your type system is.
 
-### Data loading
+## Data loading
 
 The act of loading/retrieving your data is called "resolving" in GraphQL. GraphQL
 itself does **not** define the "how" and leaves it up to the implementor.
@@ -407,7 +404,7 @@ static data, ElasticSearch results, caching, etc.) in your resolvers but you've
 to be mindful of the execution model to avoid repetitive fetches and perform
 smart pre-fetching of your data.
 
-### Middleware Overview
+## Middleware Overview
 
 The following middleware concepts are supported:
 
@@ -423,7 +420,7 @@ Briefly said, a middleware _usually_ is a class:
   just return
 - has the freedom to mutate the parameters passed on
 
-#### HTTP middleware
+### HTTP middleware
 
 Any [Laravel compatible HTTP middleware](https://laravel.com/docs/middleware)
 can be provided on a global level for all GraphQL endpoints via the config
@@ -431,7 +428,7 @@ can be provided on a global level for all GraphQL endpoints via the config
 `graphql.schemas.<yourschema>.middleware`. The per-schema middleware overrides
 the global one.
 
-#### GraphQL execution middleware
+### GraphQL execution middleware
 
 The processing of a GraphQL request, henceforth called "execution", flows
 through a set of middlewares.
@@ -446,7 +443,7 @@ middleware, which is usually expected to be called last (and does not call
 further middlewares). In case you're interested in the details, please see
 `\Rebing\GraphQL\GraphQL::appendGraphqlExecutionMiddleware`
 
-#### GraphQL resolver middleware
+### GraphQL resolver middleware
 
 After the HTTP middleware and the execution middleware is applied, the
 "resolver middleware" is executed for the query/mutation being targeted
@@ -454,7 +451,7 @@ After the HTTP middleware and the execution middleware is applied, the
 
 See [Resolver middleware](#resolver-middleware) for more details.
 
-### Schemas
+## Schemas
 
 Schemas are required for defining GraphQL endpoints. You can define multiple
 schemas and assign different **HTTP middleware** and **execution middleware** to
@@ -510,7 +507,7 @@ which it is accessible. Per the default configuration of `prefix = graphql`, the
 _default_ schema is accessible via `/graphql`.
 
 
-#### Route attributes
+### Route attributes
 
 You can customize the HTTP route generated for a specific schema using the `route_attributes` key.
 This is useful for setting parameters supported by Laravel routes, e.g. a custom `domain`.
@@ -532,7 +529,7 @@ like `domain`, `prefix`, `as` (route name), and `where` (parameter constraints) 
 ```
 
 
-#### Schema classes
+### Schema classes
 
 You may alternatively define the configuration of a schema in a class that implements `ConfigConvertible`.
 
@@ -571,7 +568,7 @@ class DefaultSchema implements ConfigConvertible
 
 You can use the `php artisan make:graphql:schemaConfig` command to create a new schema configuration class automatically.
 
-### Creating a query
+## Creating a query
 
 First you usually create a type you want to return from the query. The Eloquent `'model'` is only required if specifying relations.
 
@@ -762,7 +759,7 @@ curl -X POST -H "Content-Type: application/json" \
   http://localhost:8000/graphql
 ```
 
-### Creating a mutation
+## Creating a mutation
 
 A mutation is like any other query. It accepts arguments and returns an object of a certain type. Mutations are meant to be used for operations **modifying** (mutating) the state on the server (which queries are not supposed to perform).
 
@@ -853,7 +850,7 @@ curl -X POST -H "Content-Type: application/json" \
   http://localhost:8000/graphql
 ```
 
-#### File uploads
+### File uploads
 
 This library uses https://github.com/laragraph/utils which is compliant with the spec at https://github.com/jaydenseric/graphql-multipart-request-spec .
 
@@ -912,7 +909,7 @@ class UserProfilePhotoMutation extends Mutation
 
 Note: You can test your file upload implementation using [Altair](https://altairgraphql.dev/) as explained [here](https://altairgraphql.dev/docs/features/file-upload).
 
-##### Vue.js example
+#### Vue.js example
 
 ```vue
 <template>
@@ -959,7 +956,7 @@ async function upload() {
 </script>
 ```
 
-##### Vanilla JavaScript
+#### Vanilla JavaScript
 
 ```html
 <input type="file" id="fileUpload">
@@ -985,7 +982,7 @@ const response = await fetch('/graphql', {
 const result = await response.json();
 ```
 
-### Validation
+## Validation
 
 Laravel's validation is supported on queries, mutations, input types and field
 arguments.
@@ -1009,7 +1006,7 @@ the same location as the GraphQL type itself. However, you may hit certain
 restrictions with this approach (like multi-field validation using `*`), in
 which case you can override the `rules()` method.
 
-#### Example defining rules in each argument
+### Example defining rules in each argument
 
 ```php
 class UpdateUserEmailMutation extends Mutation
@@ -1034,7 +1031,7 @@ class UpdateUserEmailMutation extends Mutation
 }
 ```
 
-#### Example using the `rules()` method
+### Example using the `rules()` method
 
 ```php
 declare(strict_types = 1);
@@ -1094,7 +1091,7 @@ class UpdateUserEmailMutation extends Mutation
 }
 ```
 
-#### Example using Laravel's validator directly
+### Example using Laravel's validator directly
 
 Calling `validate()` in the example below will throw Laravel's `ValidationException`
 which is handed by the default `error_formatter` by this library:
@@ -1122,7 +1119,7 @@ nested and occur multiple times, the field names are mapped as e.g.
 `data.0.fieldname`. This is important to understand when returning rules from
 the `rules()` method.
 
-#### Handling validation errors
+### Handling validation errors
 
 Exceptions are used to communicate back in the GraphQL response that validation
 errors occurred. When using the built-in support, the exception
@@ -1167,7 +1164,7 @@ field to their respective errors:
 You can customize the way this is handled by providing your own `error_formatter`
 in the configuration, replacing the default one from this library.
 
-#### Customizing error messages
+### Customizing error messages
 
 The validation errors returned can be customised by overriding the
 `validationErrorMessages` method. This method should return an array of custom
@@ -1191,7 +1188,7 @@ public function validationErrorMessages(array $args = []): array
 }
 ```
 
-#### Customizing attributes
+### Customizing attributes
 
 The validation attributes can be customised by overriding the
 `validationAttributes` method. This method should return an array of custom
@@ -1206,7 +1203,7 @@ public function validationAttributes(array $args = []): array
 }
 ```
 
-#### Cross-field validation rules in nested input types
+### Cross-field validation rules in nested input types
 
 When using Laravel validation rules that reference sibling fields (like
 `prohibits`, `required_without`, `required_if`, etc.) within an InputType, the
@@ -1279,7 +1276,7 @@ class MyMutation extends Mutation
 }
 ```
 
-#### Misc notes
+### Misc notes
 
 Certain type declarations of GraphQL may cancel our or render certain validations
 unnecessary. A good example is using `Type::nonNull()` to ultimately declare
@@ -1290,7 +1287,7 @@ engine already prevents this field from being accepted in the first place.
 Or to be more clear: if a GraphQL type system violation occurs, then no Laravel
 validation will be even executed, as the code does not get so far.
 
-### Resolve method
+## Resolve method
 
 The resolve method is used in both queries and mutations, and it's here that responses are created.
 
@@ -1360,7 +1357,7 @@ class UsersQuery extends Query
 }
 ```
 
-### Resolver middleware
+## Resolver middleware
 
 These are **GraphQL specific resolver middlewares** and are only
 conceptually related to Laravel's "HTTP middleware". The main difference:
@@ -1376,7 +1373,7 @@ conceptually related to Laravel's "HTTP middleware". The main difference:
   - Is technically not compatible with HTTP middleware
   - Takes different arguments
 
-#### Defining middleware
+### Defining middleware
 
 To create a new middleware, use the `make:graphql:middleware` Artisan command
 
@@ -1409,7 +1406,7 @@ class ResolvePage extends Middleware
 }
 ```
 
-#### Registering middleware
+### Registering middleware
 
 If you would like to assign middleware to specific queries/mutations,
 list the middleware class in the `$middleware` property of your query class.
@@ -1491,7 +1488,7 @@ The resulting pipeline order is: prepended global middleware, per-field
 middleware, appended global middleware. This is used internally by the tracing
 system but is available for any middleware that must run outermost.
 
-#### Terminable middleware
+### Terminable middleware
 
 Sometimes a middleware may need to do some work after the response has been sent to the browser.
 If you define a terminate method on your middleware and your web server is using FastCGI,
@@ -1564,7 +1561,7 @@ The terminate method receives both the resolver arguments and the query result.
 Once you have defined a terminable middleware, you should add it to the list of
 middleware in your queries and mutations.
 
-### Authorization
+## Authorization
 
 For authorization similar to Laravel's Request (or middleware) functionality, we can override the `authorize()` function in a Query or Mutation.
 
@@ -1649,7 +1646,7 @@ class UsersQuery extends Query
 }
 ```
 
-### Privacy
+## Privacy
 
 You can set custom privacy attributes for every Type's Field. If a field is not
 allowed, `null` will be returned. Privacy is enforced at the field resolver
@@ -1780,7 +1777,7 @@ If the field declares its own `args`, they are available in `$args`:
 > propagates up to the nearest nullable parent. Always use nullable types for
 > privacy-protected fields.
 
-### Query variables
+## Query variables
 
 GraphQL offers you the possibility to use variables in your query so you don't need to "hardcode" value. This is done like that:
 
@@ -1803,7 +1800,7 @@ curl -X POST -H "Content-Type: application/json" \
   http://localhost:8000/graphql
 ```
 
-### Custom field
+## Custom field
 
 You can also define a field as a class if you want to reuse it in multiple types.
 
@@ -1886,7 +1883,7 @@ class UserType extends GraphQLType
 }
 ```
 
-#### Even better reusable fields
+### Even better reusable fields
 
 Instead of using the class name, you can also supply an actual instance of the `Field`. This allows you to not only re-use the field, but will also open up the possibility to re-use the resolver.
 
@@ -1998,7 +1995,7 @@ class UserType extends GraphQLType
 }
 ```
 
-### Eager loading relationships
+## Eager loading relationships
 
 The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models. 
 Only the required fields will be queried from the database.
@@ -2165,7 +2162,7 @@ class PostType extends GraphQLType
 }
 ```
 
-### Type relationship query
+## Type relationship query
 
 > **Note:** this only applies when making use of the `SelectFields` class to query Eloquent models!
 
@@ -2205,7 +2202,7 @@ class UserType extends GraphQLType
 }
 ```
 
-### Pagination
+## Pagination
 
 Pagination will be used, if a query or mutation returns a `PaginationType`.
 
@@ -2340,7 +2337,7 @@ items), `per_page`, `previous_cursor` (`String`, nullable), and `next_cursor`
 > `SelectFields` to work correctly. The built-in pagination types already
 > implement this interface. See [Wrap Types](#wrap-types) for more details.
 
-### Batching
+## Batching
 
 Batched requests are required to be sent via a POST request.
 
@@ -2399,7 +2396,7 @@ Support for batching can be enabled by setting the config `batching.enable` to `
 
 The maximum number of operations per batch is controlled by `batching.max_batch_size` (default: `10`). Requests exceeding this limit will receive an error response. Set to `null` to allow unlimited operations (not recommended).
 
-### Scalar types
+## Scalar types
 
 GraphQL comes with built-in scalar types for string, int, boolean, etc. It's possible to create custom scalar types to special purpose fields.
 
@@ -2424,7 +2421,7 @@ For more advanced use, please [refer to the official documentation regarding sca
 > scalars which includes complex logic to validate field, it might impact your
 > response times.
 
-### Enums
+## Enums
 
 Enumeration types are a special kind of scalar that is restricted to a particular set of allowed values.
 Read more about Enums [here](https://graphql.org/learn/schema/#enumeration-types)
@@ -2485,7 +2482,7 @@ class TestType extends GraphQLType
 }
 ```
 
-### SelectFields and abstract types
+## SelectFields and abstract types
 
 When using `SelectFields` with union or interface types, custom `query`
 callbacks on relation fields defined in member/concrete types are supported.
@@ -2497,7 +2494,7 @@ each request different relations, `SelectFields` will merge all requested
 relations into the eager-load set. This is a known limitation of how
 `SelectFields` handles abstract types.
 
-### Unions
+## Unions
 
 A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
 
@@ -2539,7 +2536,7 @@ class SearchResultUnion extends UnionType
 
 ```
 
-### Interfaces
+## Interfaces
 
 You can use interfaces to abstract a set of fields. Read more about Interfaces [here](https://graphql.org/learn/schema/#interfaces)
 
@@ -2633,7 +2630,7 @@ class HumanType extends GraphQLType
 }
 ```
 
-#### Supporting custom queries on interface relations
+### Supporting custom queries on interface relations
 
 If an interface contains a relation with a custom query, it's required to implement `public function types()` returning an array of `GraphQL::type()`, i.e. all the possible types it may resolve to (quite similar as it works for unions) so that it works correctly with `SelectFields`.
 
@@ -2650,7 +2647,7 @@ Based on the previous code example, the method would look like:
     }
 ```
 
-#### Sharing interface fields
+### Sharing interface fields
 
 Since you often have to repeat many of the field definitions of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
 You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
@@ -2692,7 +2689,7 @@ public function fields(): array
 }
 ```
 
-### Input Object
+## Input Object
 
 Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be `InputType`. You can add rules option if you want to validate input data.
 Read more about Input Object [here](https://graphql.org/learn/schema/#input-types)
@@ -2761,12 +2758,12 @@ class TestMutation extends Mutation
 }
 ```
 
-### OneOf Input Objects
+## OneOf Input Objects
 
 OneOf Input Objects are a special type of input object where **exactly one field** must be provided. This is useful for creating polymorphic inputs or "input unions" where you want to accept one of several possible input types.
 Read more about OneOf in the [RFC](https://github.com/graphql/graphql-spec/pull/825) or in the [GraphQL PHP Documentation](https://webonyx.github.io/graphql-php/type-definitions/inputs/#using-the-isoneof-configuration-option)
 
-#### Creating a OneOf Input Type
+### Creating a OneOf Input Type
 
 Create a OneOf Input Type by setting `'isOneOf' => true` in the attributes:
 
@@ -2805,7 +2802,7 @@ class SearchInput extends InputType
 }
 ```
 
-#### Using OneOf Input Types
+### Using OneOf Input Types
 ```php
 declare(strict_types = 1);
 namespace App\GraphQL\Queries;
@@ -2859,7 +2856,7 @@ class UserQuery extends Query
 }
 ```
 
-#### Generating OneOf Input Types
+### Generating OneOf Input Types
 
 You can generate a OneOf input type using the Artisan command with the `--oneof` flag:
 
@@ -2869,7 +2866,7 @@ php artisan make:graphql:input SearchInput --oneof
 
 This will create a new input type with `'isOneOf' => true` already configured.
 
-### Type modifiers
+## Type modifiers
 
 Type modifiers can be applied by wrapping your chosen type in `Type::nonNull` or `Type::listOf` calls
 or alternatively you can use the shorthand syntax available via `GraphQL::type` to build up more complex
@@ -2887,7 +2884,7 @@ GraphQL::type('[String]!');
 GraphQL::type('[String!]!');
 ```
 
-### Field and input alias
+## Field and input alias
 
 It is possible to alias query and mutation arguments as well as input object fields.
 
@@ -2976,7 +2973,7 @@ class UpdateUserMutation extends Mutation
 }
 ```
 
-### JSON columns
+## JSON columns
 
 When using JSON columns in your database, the field won't be defined as a "relationship",
 but rather a simple column with nested data. To get a nested object that's not a database relationship,
@@ -3008,7 +3005,7 @@ class UserType extends GraphQLType
 }
 ```
 
-### Field deprecation
+## Field deprecation
 
 Sometimes you would want to deprecate a field but still have to maintain backward compatibility
 until clients completely stop using that field. You can deprecate a field using
@@ -3062,7 +3059,7 @@ class UserType extends GraphQLType
 }
 ```
 
-### Default field resolver
+## Default field resolver
 
 It's possible to override the default field resolver provided by the underlying
 webonyx/graphql-php library using the config option `defaultFieldResolver`.
@@ -3075,7 +3072,7 @@ You can define any valid callable (static class method, closure, etc.) for it:
 
 The parameters received are your regular "resolve" function signature.
 
-### Macros
+## Macros
 
 If you would like to define some helpers that you can re-use in a variety of your
 queries, mutations and types, you may use the macro method on the `GraphQL` facade.
@@ -3108,7 +3105,7 @@ class AppServiceProvider extends ServiceProvider
 
 The `macro` function accepts a name as its first argument, and a `Closure` as its second.
 
-### Automatic Persisted Queries support
+## Automatic Persisted Queries support
 
 Automatic Persisted Queries (APQ) improve network performance by sending smaller requests, with zero build-time configuration.
 
@@ -3137,10 +3134,10 @@ For more information see:
 > In such case either disable the middleware or trim the query on the client
 > before hashing.
 
-#### Notes
+### Notes
  - The error descriptions are aligned with [apollo-server](https://github.com/apollographql/apollo-server).
 
-#### Client example
+### Client example
 
 Below a simple integration example with Vue 3 and Apollo Client, where `createPersistedQueryLink`
 automatically manages the APQ flow.
@@ -3184,7 +3181,7 @@ const { result, loading } = useQuery(gql`
 </script>
 ```
 
-### Tracing / Observability
+## Tracing / Observability
 
 GraphQL operations can be instrumented with timing data by configuring a tracing
 driver. Tracing is **disabled by default** (`'driver' => null`).
@@ -3193,7 +3190,7 @@ The built-in `OpenTelemetryTracingDriver` emits spans via the OpenTelemetry API
 following the [GraphQL semantic conventions](https://opentelemetry.io/docs/specs/semconv/graphql/graphql-spans/).
 It requires the `open-telemetry/api` ^1.0 package.
 
-#### Enabling OpenTelemetry
+### Enabling OpenTelemetry
 
 Install the OpenTelemetry API package first:
 
@@ -3224,7 +3221,7 @@ walks through a complete example. Once the SDK is configured, the driver
 automatically picks up the global `TracerProvider` - no additional wiring is
 needed in this package.
 
-#### Per-field resolver tracing
+### Per-field resolver tracing
 
 By default, only the top-level operation is traced. To instrument individual
 field resolvers, enable `field_tracing`:
@@ -3247,7 +3244,7 @@ arrays manually.
 > **Note:** Field tracing produces high-cardinality data and is intended for
 > development/debugging. Use it with caution in production.
 
-#### Custom tracing drivers
+### Custom tracing drivers
 
 You can implement the `Rebing\GraphQL\Support\Tracing\TracingDriver` interface
 to create your own driver. The interface has four methods:
@@ -3262,7 +3259,7 @@ resolved from the Laravel service container. If the driver constructor accepts
 an `array $driverOptions` parameter, it will receive the merged `driver_options`
 from the global and per-schema tracing config.
 
-#### Per-schema tracing
+### Per-schema tracing
 
 By default, the global `tracing` configuration applies to every schema. You can
 override tracing on a per-schema basis by adding a `tracing` key inside the
