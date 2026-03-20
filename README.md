@@ -1478,7 +1478,7 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $queryArgs, $queryContext = null): bool
+    public function validate(array $fieldArgs, $queryContext = null): bool
     {
         return isset($queryContext->user) && $queryContext->user->id === Auth::id();
     }
@@ -3216,12 +3216,18 @@ need to explicitly re-enable previously-open behaviour.
   `privacy` attribute on Type fields is now enforced universally via resolver
   wrapping in `Type::getFields()`, instead of only inside `SelectFields`. This
   means privacy now works on nested/sub-types and when `SelectFields` is not
-  used. Two breaking behavioral changes:
-  1. The `$queryArgs` parameter passed to privacy callbacks and
-     `Privacy::validate()` now contains the **field's own arguments** instead of
-     the root query's arguments. Update any privacy logic that relied on
-     inspecting root query arguments.
-  2. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
+  used. Three breaking changes:
+  1. The first parameter of `Privacy::validate()` has been renamed from
+     `$queryArgs` to `$fieldArgs` and now contains the **field's own arguments**
+     instead of the root query's arguments. Update your Privacy subclasses:
+     ```diff
+     -public function validate(array $queryArgs, $queryContext = null): bool
+     +public function validate(array $fieldArgs, $queryContext = null): bool
+     ```
+     Update any privacy logic that relied on inspecting root query arguments.
+  2. Privacy closures receive the same change — `$args` now contains the field's
+     own arguments, not the root query's arguments.
+  3. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
      statement. The column is still fetched, but the field resolver returns
      `null`. If you relied on the denied column being absent from SQL queries,
      adjust accordingly.

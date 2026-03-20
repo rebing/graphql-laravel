@@ -11,7 +11,7 @@ class PrivacyQueryContext extends Privacy
     /**
      * @inheritDoc
      */
-    public function validate(array $queryArgs, $queryContext = null): bool
+    public function validate(array $fieldArgs, $queryContext = null): bool
     {
         $expectedQueryContext = [
             'arg_from_context_true' => true,

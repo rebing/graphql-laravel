@@ -80,11 +80,11 @@ class PostType extends GraphQLType
                         'type' => Type::boolean(),
                     ],
                 ],
-                'privacy' => function (array $queryArgs): bool {
-                    $expectedQueryArgs = [
+                'privacy' => function (array $fieldArgs): bool {
+                    $expectedFieldArgs = [
                         'arg_from_field' => true,
                     ];
-                    Assert::assertSame($expectedQueryArgs, $queryArgs);
+                    Assert::assertSame($expectedFieldArgs, $fieldArgs);
 
                     return true;
                 },
@@ -107,7 +107,7 @@ class PostType extends GraphQLType
             'title_privacy_closure_query_context' => [
                 'alias' => 'title',
                 'type' => Type::string(),
-                'privacy' => static function (array $queryArgs, $queryContext): bool {
+                'privacy' => static function (array $fieldArgs, $queryContext): bool {
                     $expectedQueryContext = [
                         'arg_from_context_true' => true,
                         'arg_from_context_false' => false,

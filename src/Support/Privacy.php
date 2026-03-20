@@ -11,11 +11,11 @@ abstract class Privacy
     }
 
     /**
-     * @param array<string, mixed> $queryArgs The field's own declared arguments
+     * @param array<string, mixed> $fieldArgs The field's own declared arguments
      * @param mixed $queryContext The query context value
      *
      * @return bool Return `true` to allow access to the field in question,
      *              `false` otherwise
      */
-    abstract public function validate(array $queryArgs, $queryContext = null): bool;
+    abstract public function validate(array $fieldArgs, $queryContext = null): bool;
 }

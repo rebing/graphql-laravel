@@ -10,7 +10,7 @@ class PrivacyAllowed extends Privacy
     /**
      * @inheritDoc
      */
-    public function validate(array $queryArgs, $queryContext = null): bool
+    public function validate(array $fieldArgs, $queryContext = null): bool
     {
         return true;
     }
