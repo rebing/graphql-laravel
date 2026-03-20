@@ -105,14 +105,15 @@ class TestCase extends BaseTestCase
     {
         // Query
         $query = $schema->getQueryType();
+        self::assertNotNull($query);
         $queryFields = $query->getFields();
         self::assertArrayHasKey($key, $queryFields);
 
         $queryField = $queryFields[$key];
-        $queryListType = $queryField->getType();
-        $queryType = $queryListType->getWrappedType();
         self::assertInstanceOf(FieldDefinition::class, $queryField);
+        $queryListType = $queryField->getType();
         self::assertInstanceOf(ListOfType::class, $queryListType);
+        $queryType = $queryListType->getWrappedType();
         self::assertInstanceOf(ObjectType::class, $queryType);
     }
 
@@ -120,6 +121,7 @@ class TestCase extends BaseTestCase
     {
         // Mutation
         $mutation = $schema->getMutationType();
+        self::assertNotNull($mutation);
         $mutationFields = $mutation->getFields();
         self::assertArrayHasKey($key, $mutationFields);
 

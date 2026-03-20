@@ -18,9 +18,9 @@ class ChangeQueryArgTypeMiddleware extends AbstractExecutionMiddleware
     {
         $query = $params->getParsedQuery();
 
-        Visitor::visit($query, [
+        Visitor::visit($query, [ // @phpstan-ignore argument.type
             NodeKind::VARIABLE_DEFINITION => function (VariableDefinitionNode $node): VariableDefinitionNode {
-                $node->type->name->value = 'Int';
+                $node->type->name->value = 'Int'; // @phpstan-ignore property.notFound
 
                 return $node;
             },

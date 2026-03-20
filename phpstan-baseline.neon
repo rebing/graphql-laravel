@@ -498,27 +498,3 @@ parameters:
 			count: 1
 			path: src/Support/UploadType.php
 
-		-
-			rawMessage: 'Call to an undefined method GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type::getWrappedType().'
-			identifier: method.notFound
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			rawMessage: 'Cannot call method getFields() on GraphQL\Type\Definition\ObjectType|null.'
-			identifier: method.nonObject
-			count: 2
-			path: tests/TestCase.php
-
-		-
-			rawMessage: Access to an undefined property GraphQL\Language\AST\ListTypeNode|GraphQL\Language\AST\NamedTypeNode|GraphQL\Language\AST\NonNullTypeNode::$name.
-			identifier: property.notFound
-			count: 1
-			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
-
-		-
-			rawMessage: 'Parameter #2 $visitor of static method GraphQL\Language\Visitor::visit() expects array<string, array<string, callable(GraphQL\Language\AST\Node): (GraphQL\Language\AST\Node|GraphQL\Language\AST\NodeList<GraphQL\Language\AST\Node>|GraphQL\Language\VisitorOperation|void|false|null)>|(callable(GraphQL\Language\AST\Node): (GraphQL\Language\AST\Node|GraphQL\Language\AST\NodeList<GraphQL\Language\AST\Node>|GraphQL\Language\VisitorOperation|void|false|null))>, array{VariableDefinition: Closure(GraphQL\Language\AST\VariableDefinitionNode): GraphQL\Language\AST\VariableDefinitionNode} given.'
-			identifier: argument.type
-			count: 1
-			path: tests/Unit/ExecutionMiddlewareTest/ChangeQueryArgTypeMiddleware.php
-
