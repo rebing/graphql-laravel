@@ -299,6 +299,12 @@ You now have a working GraphQL API. From here you can:
       - [Per-field resolver tracing](#per-field-resolver-tracing)
       - [Custom tracing drivers](#custom-tracing-drivers)
       - [Per-schema tracing](#per-schema-tracing)
+  - [Security](#security)
+    - [Introspection](#introspection)
+    - [Query depth limiting](#query-depth-limiting)
+    - [Query complexity analysis](#query-complexity-analysis)
+    - [Batching limits](#batching-limits)
+    - [Recommended production configuration](#recommended-production-configuration)
   - [Error handling](#error-handling)
     - [Built-in error types](#built-in-error-types)
     - [Error response format](#error-response-format)
@@ -3331,6 +3337,104 @@ schema's config array.
 Per-schema `tracing` arrays are deep-merged over the global config: schema
 values win for top-level keys, and `driver_options` is merged separately so you
 can override individual options without repeating the full array.
+
+## Security
+
+GraphQL APIs have a different attack surface than REST APIs. A single endpoint
+accepts arbitrary queries, so without safeguards a client can craft deeply
+nested or highly complex queries that exhaust server resources.
+
+### Introspection
+
+Schema introspection lets clients discover your entire type system -- every
+query, mutation, field, and argument. This is essential for development tooling
+(GraphiQL, IDE plugins, codegen) but exposes your full API surface in
+production.
+
+Introspection is **disabled by default**:
+
+```php
+// config/graphql.php
+'security' => [
+    'disable_introspection' => env('GRAPHQL_DISABLE_INTROSPECTION', true),
+],
+```
+
+Set `GRAPHQL_DISABLE_INTROSPECTION=false` in your `.env` during development.
+
+### Query depth limiting
+
+Deeply nested queries can cause excessive resolver calls and memory usage. The
+`query_max_depth` option rejects queries that exceed the allowed nesting level:
+
+```php
+'security' => [
+    'query_max_depth' => 13, // default
+],
+```
+
+For example, with a depth limit of 3, the query `{ users { posts { comments { author { name } } } } }` would be rejected because it nests 4 levels deep.
+
+Tune this based on your schema's legitimate nesting requirements. Start strict
+and increase only if real queries require it.
+
+### Query complexity analysis
+
+Complex queries (many fields, large lists) can be expensive even when shallow.
+The `query_max_complexity` option assigns a cost to each resolved field and
+rejects queries that exceed the budget:
+
+```php
+'security' => [
+    'query_max_complexity' => 500, // default
+],
+```
+
+You can assign custom complexity to individual fields using the `complexity`
+callback supported by webonyx/graphql-php:
+
+```php
+'posts' => [
+    'type' => Type::listOf(GraphQL::type('Post')),
+    'complexity' => fn (int $childCost, array $args): int => $childCost * ($args['limit'] ?? 10),
+],
+```
+
+See the [webonyx/graphql-php security documentation](https://webonyx.github.io/graphql-php/security/)
+for full details on how complexity is calculated.
+
+### Batching limits
+
+When [batching](#batching) is enabled, clients can send multiple operations in a
+single HTTP request. Without a cap, this can be used to amplify the impact of
+expensive queries. Batching is disabled by default, and when enabled the
+`batching.max_batch_size` option (default: `10`) limits the number of operations
+per request.
+
+### Recommended production configuration
+
+```php
+// config/graphql.php
+'security' => [
+    'disable_introspection' => env('GRAPHQL_DISABLE_INTROSPECTION', true),
+    'query_max_depth' => 13,
+    'query_max_complexity' => 500,
+],
+
+'batching' => [
+    'enable' => false,
+],
+```
+
+Additional measures to consider at the infrastructure level:
+- **Rate limiting** -- Apply Laravel's `ThrottleRequests` middleware via
+  `route.middleware` or per-schema `middleware` to limit requests per client.
+- **Request size limits** -- Configure your web server (Nginx `client_max_body_size`,
+  Apache `LimitRequestBody`) to reject oversized request bodies.
+- **Timeout limits** -- Set PHP `max_execution_time` and web server timeouts to
+  prevent long-running queries from holding connections open.
+- **Persisted queries** -- Enable [APQ](#automatic-persisted-queries-support) and,
+  once warmed, consider rejecting ad-hoc queries entirely for maximum lockdown.
 
 ## Error handling
 
