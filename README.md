@@ -19,6 +19,11 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 * Queries return **types**, which can have custom **privacy** settings.
 * The queried fields will have the option to be retrieved **dynamically** from the database.
 
+> **Note:** GraphQL **subscriptions** are not supported by this package. If you
+> need real-time push functionality, consider a dedicated solution like
+> [Lighthouse](https://lighthouse-php.com/) (which has subscription support) or
+> implement subscriptions separately via Laravel broadcasting / WebSockets.
+
 ## Requirements
 
 | Dependency | Version |
