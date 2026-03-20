@@ -11,6 +11,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Rebing\GraphQL\Console\EnumMakeCommand;
+use Rebing\GraphQL\Console\ExecutionMiddlewareMakeCommand;
 use Rebing\GraphQL\Console\FieldMakeCommand;
 use Rebing\GraphQL\Console\InputMakeCommand;
 use Rebing\GraphQL\Console\InterfaceMakeCommand;
@@ -160,7 +161,7 @@ class GraphQLServiceProvider extends ServiceProvider
             EnumMakeCommand::class,
             FieldMakeCommand::class,
             InputMakeCommand::class,
-            InterfaceMakeCommand::class,
+            ExecutionMiddlewareMakeCommand::class,
             InterfaceMakeCommand::class,
             MiddlewareMakeCommand::class,
             MutationMakeCommand::class,
