@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+## Breaking changes
+- `Privacy::validate()` first parameter renamed from `$queryArgs` to `$fieldArgs` — it now receives the field's own arguments instead of root query arguments
+
 ### Added
 - Add tracing support with OpenTelemetry driver [\#1220 / mfn](https://github.com/rebing/graphql-laravel/pull/1220)
 
@@ -12,6 +15,7 @@ CHANGELOG
 - Fix `SelectFields` not calling custom `query` callbacks on relation fields inside `UnionType` members [\#900 / mfn](https://github.com/rebing/graphql-laravel/pull/1225)
 - Fix cross-field validation rules (`prohibits`, `required_without`, `required_if`, etc.) not working in nested InputTypes [\#930 / mfn](https://github.com/rebing/graphql-laravel/pull/1226)
 - Fix `privacy` attribute ignored on nested/sub-types by moving enforcement from `SelectFields` to field resolvers in `Type::getFields()` [\#1161 / mfn](https://github.com/rebing/graphql-laravel/pull/1227)
+
 
 2026-03-18, 10.0.0-RC1
 ----------------------
