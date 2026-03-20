@@ -241,8 +241,8 @@ You now have a working GraphQL API. From here you can:
     - [Creating a query](#creating-a-query)
     - [Creating a mutation](#creating-a-mutation)
       - [File uploads](#file-uploads)
-        - [Vue.js and Axios example](#vuejs-and-axios-example)
-        - [jQuery or vanilla javascript](#jquery-or-vanilla-javascript)
+        - [Vue.js example](#vuejs-example)
+        - [Vanilla JavaScript](#vanilla-javascript)
     - [Validation](#validation)
       - [Example defining rules in each argument](#example-defining-rules-in-each-argument)
       - [Example using the `rules()` method](#example-using-the-rules-method)
@@ -366,11 +366,11 @@ In the context of Laravel it's natural to assume the primary source of data will
 be Eloquent. This library therefore provides a convenient helper called
 `SelectFields` which tries its best to
 [eager load relations](#eager-loading-relationships) and to
-[avoid n+1 problems](https://www.google.com/search?hl=en&q=n%2B1%20problem).
+[avoid n+1 problems](https://laravel.com/docs/eloquent-relationships#eager-loading).
 
 Be aware that this is not the only way and it's also common to use _concepts_
 called "dataloaders". They usually take advantage of "deferred" executions of
-resolved fields, as explained in [graphql-php solving n+1 problem](https://github.com/webonyx/graphql-php/blob/master/docs/data-fetching.md#solving-n1-problem).
+resolved fields, as explained in [graphql-php solving n+1 problem](https://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem).
 
 The gist is that you can use any kind of data source you like (Eloquent,
 static data, ElasticSearch results, caching, etc.) in your resolvers but you've
@@ -551,7 +551,7 @@ First you usually create a type you want to return from the query. The Eloquent 
 ```php
 namespace App\GraphQL\Types;
 
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
@@ -647,7 +647,7 @@ Then you need to define a query that returns this type (or a list). You can also
 namespace App\GraphQL\Queries;
 
 use Closure;
-use App\User;
+use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -743,7 +743,8 @@ For example, a mutation to update the password of a user. First you need to defi
 namespace App\GraphQL\Mutations;
 
 use Closure;
-use App\User;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -781,7 +782,7 @@ class UpdateUserPasswordMutation extends Mutation
             return null;
         }
 
-        $user->password = bcrypt($args['password']);
+        $user->password = Hash::make($args['password']);
         $user->save();
 
         return $user;
@@ -879,7 +880,7 @@ class UserProfilePhotoMutation extends Mutation
 }
 ```
 
-Note: You can test your file upload implementation using [Altair](https://altair.sirmuel.design/) as explained [here](https://www.xkoji.dev/blog/working-with-file-uploads-using-altair-graphql/).
+Note: You can test your file upload implementation using [Altair](https://altairgraphql.dev/) as explained [here](https://altairgraphql.dev/docs/features/file-upload).
 
 ##### Vue.js example
 
@@ -1011,7 +1012,7 @@ class UpdateUserEmailMutation extends Mutation
 namespace App\GraphQL\Mutations;
 
 use Closure;
-use App\User;
+use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -1289,7 +1290,7 @@ Example:
 namespace App\GraphQL\Queries;
 
 use Closure;
-use App\User;
+use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -1545,7 +1546,7 @@ An example of Laravel's `'auth'` middleware:
 ```php
 namespace App\GraphQL\Queries;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -1566,7 +1567,7 @@ Or we can make use of arguments passed via the GraphQL query:
 ```php
 namespace App\GraphQL\Queries;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -1590,7 +1591,7 @@ You can also provide a custom error message when the authorization fails (defaul
 ```php
 namespace App\GraphQL\Queries;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -1627,7 +1628,7 @@ The privacy callback receives two arguments: the **field's own arguments**
 **Using a closure:**
 
 ```php
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class UserType extends GraphQLType
 {
@@ -1663,7 +1664,7 @@ class UserType extends GraphQLType
 You can also create a class that extends the abstract `Privacy` class:
 
 ```php
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
@@ -1808,7 +1809,7 @@ class PictureField extends Field
         $width = isset($args['width']) ? $args['width']:100;
         $height = isset($args['height']) ? $args['height']:100;
 
-        return 'http://placehold.it/'.$width.'x'.$height;
+        return 'https://via.placeholder.com/'.$width.'x'.$height;
     }
 }
 ```
@@ -1819,7 +1820,7 @@ You can then use it in your type declaration
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\PictureField;
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
@@ -1920,7 +1921,7 @@ You can use this field in your type as follows:
 namespace App\GraphQL\Types;
 
 use App\GraphQL\Fields\FormattableDate;
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
@@ -1975,7 +1976,7 @@ Your Query would look like:
 namespace App\GraphQL\Queries;
 
 use Closure;
-use App\User;
+use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -2039,7 +2040,7 @@ always include.
 ```php
 namespace App\GraphQL\Types;
 
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -2892,7 +2893,7 @@ class UserInput extends InputType
 namespace App\GraphQL\Mutations;
 
 use Closure;
-use App\User;
+use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -2970,13 +2971,13 @@ Sometimes you would want to deprecate a field but still have to maintain backwar
 until clients completely stop using that field. You can deprecate a field using
 [directive](https://www.graphql-tools.com/docs/generate-schema/#descriptions--deprecations). If you add `deprecationReason`
 to field attributes it will become marked as deprecated in GraphQL documentation. You can validate schema on client
-using [Apollo Engine](https://www.apollographql.com/blog/schema-validation-with-apollo-engine-4032456425ba/).
+using [Apollo GraphOS](https://www.apollographql.com/docs/graphos/schema-design/schema-checks/).
 
 
 ```php
 namespace App\GraphQL\Types;
 
-use App\User;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
@@ -3081,7 +3082,7 @@ Please see the various options there for which cache, prefix, TTL, etc. to use.
 
 For more information see: 
  - [Apollo - Automatic persisted queries](https://www.apollographql.com/docs/apollo-server/performance/apq/) 
- - [Apollo link persisted queries - protocol](https://github.com/apollographql/apollo-link-persisted-queries#protocol)
+ - [Apollo Client - Persisted Query Link](https://www.apollographql.com/docs/react/api/link/persisted-queries/)
 
 > Note: the APQ protocol requires the hash sent by the client being compared
 > with the computed hash on the server. In case a mutating middleware like
@@ -3333,7 +3334,7 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 | `pagination_type` | Built-in | Custom pagination type class |
 | `simple_pagination_type` | Built-in | Custom simple pagination type class |
 | `cursor_pagination_type` | Built-in | Custom cursor pagination type class |
-| `defaultFieldResolver` | `null` | Override the [default field resolver](http://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver) |
+| `defaultFieldResolver` | `null` | Override the [default field resolver](https://webonyx.github.io/graphql-php/data-fetching/#default-field-resolver) |
 | `headers` | `[]` | Headers added to responses from the default controller |
 | `json_encoding_options` | `0` | JSON encoding options for responses from the default controller |
 | `apq.enable` | `false` | Enable [Automatic Persisted Queries](#automatic-persisted-queries-support) |
