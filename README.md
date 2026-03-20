@@ -50,9 +50,6 @@ config/graphql.php
 
 - [Laravel GraphQL](#laravel-graphql)
   - [Installation](#installation)
-    - [Dependencies:](#dependencies)
-    - [Installation:](#installation-1)
-      - [Laravel](#laravel)
   - [Usage](#usage)
     - [Concepts](#concepts)
       - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
