@@ -11,14 +11,11 @@ class FieldMakeCommandTest extends TestCase
 {
     public function testCommand(): void
     {
-        $filesystemMock = $this
-            ->getMockBuilder(Filesystem::class)
-            ->onlyMethods([
-                'isDirectory',
-                'makeDirectory',
-                'put',
-            ])
-            ->getMock();
+        $filesystemMock = $this->createPartialMock(Filesystem::class, [
+            'isDirectory',
+            'makeDirectory',
+            'put',
+        ]);
         $filesystemMock
             ->expects(self::once())
             ->method('put')

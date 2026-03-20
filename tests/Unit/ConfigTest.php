@@ -82,9 +82,7 @@ class ConfigTest extends TestCase
 
     public function testErrorFormatter(): void
     {
-        $error = $this->getMockBuilder(ErrorFormatter::class)
-                    ->onlyMethods(['formatError'])
-                    ->getMock();
+        $error = $this->createPartialMock(ErrorFormatter::class, ['formatError']);
 
         $error->expects(self::once())
             ->method('formatError');

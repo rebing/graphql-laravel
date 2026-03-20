@@ -362,9 +362,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testValidationPassesWhenCrossFieldRulesAreSatisfied(): void
     {
-        $field = $this->getMockBuilder(CrossFieldTestMutation::class)
-            ->onlyMethods(['resolve'])
-            ->getMock();
+        $field = $this->createPartialMock(CrossFieldTestMutation::class, ['resolve']);
 
         $field->expects(self::once())
             ->method('resolve');

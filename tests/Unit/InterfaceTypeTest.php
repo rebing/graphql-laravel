@@ -21,9 +21,7 @@ class InterfaceTypeTest extends TestCase
 
     public function testGetAttributesResolveType(): void
     {
-        $type = $this->getMockBuilder(ExampleInterfaceType::class)
-                    ->onlyMethods(['resolveType'])
-                    ->getMock();
+        $type = $this->createPartialMock(ExampleInterfaceType::class, ['resolveType']);
 
         $type->expects(self::once())
             ->method('resolveType');

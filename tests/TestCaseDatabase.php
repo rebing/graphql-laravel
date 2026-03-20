@@ -18,7 +18,7 @@ abstract class TestCaseDatabase extends TestCase
         $this->artisan('migrate');
     }
 
-    protected function setUpTraits()
+    protected function setUpTraits(): array
     {
         $uses = parent::setUpTraits();
 

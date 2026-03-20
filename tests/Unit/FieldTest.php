@@ -42,9 +42,7 @@ class FieldTest extends TestCase
     public function testResolve(): void
     {
         $class = $this->getFieldClass();
-        $field = $this->getMockBuilder($class)
-                    ->onlyMethods(['resolve'])
-                    ->getMock();
+        $field = $this->createPartialMock($class, ['resolve']);
 
         $field->expects(self::once())
             ->method('resolve');
