@@ -30,7 +30,7 @@ When using the `SelectFields` class for Eloquent support, additional features ar
 |-----------|---------|
 | PHP | ^8.2 |
 | Laravel | 12.x - 13.x |
-| webonyx/graphql-php | ^15.22 |
+| webonyx/graphql-php | ^15.22.1 |
 
 Optional dependencies:
 
