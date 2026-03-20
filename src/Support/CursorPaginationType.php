@@ -9,9 +9,10 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Support\Collection;
+use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class CursorPaginationType extends ObjectType
+class CursorPaginationType extends ObjectType implements WrapType
 {
     public function __construct(string $typeName, ?string $customName = null)
     {

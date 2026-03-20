@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
+use Rebing\GraphQL\Support\Contracts\WrapType;
 
 class SelectFields
 {
@@ -196,9 +196,8 @@ class SelectFields
                 // Check if the field is a relation that needs to be requested from the DB
                 $queryable = static::isQueryable($fieldObject->config);
 
-                // Pagination
-                if (is_a($parentType, Config::get('graphql.pagination_type', PaginationType::class)) ||
-                    is_a($parentType, Config::get('graphql.simple_pagination_type', SimplePaginationType::class)) || is_a($parentType, Config::get('graphql.cursor_pagination_type', CursorPaginationType::class))) {
+                // Wrap type (pagination or custom wrapper)
+                if ($parentType instanceof WrapType) {
                     /* @var GraphqlType $fieldType */
                     $fieldType = $fieldObject->config['type'];
                     static::handleFields(
