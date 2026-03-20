@@ -28,7 +28,7 @@
       <directory suffix="Test.php">./tests/Database</directory>
     </testsuite>
   </testsuites>
-  <source>
+  <source ignoreIndirectDeprecations="true">
     <include>
       <directory suffix=".php">./src</directory>
     </include>
