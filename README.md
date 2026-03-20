@@ -3591,7 +3591,7 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
 
 ### Wrap Types
 
-You can wrap types to add more information to the queries and mutations. Similar as the pagination is working you can do the same with your extra data that you want to inject ([see test examples](https://github.com/rebing/graphql-laravel/tree/master/tests/Unit/WithTypeTests)). For instance, in your query:
+You can wrap types to add more information to the queries and mutations. Similar to how pagination works, you can do the same with your extra data that you want to inject. For instance, in your query:
 
 ```php
 public function type(): Type
