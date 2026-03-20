@@ -38,11 +38,4 @@ parameters:
           path: tests/*
           message: '/Cannot access property \$[a-z]+ on Rebing\\GraphQL\\Tests\\Support\\Models\\[A-Za-z]+\|null./'
           identifier: property.nonObject
-        -
-          path: tests/*
-          message: '/Cannot call method make\(\) on Illuminate\\Foundation\\Application\|null\./'
-          identifier: method.nonObject
-        -
-          path: tests/*
-          message: "/Offset 'config' might not exist/"
-          identifier: offsetAccess.notFound
+

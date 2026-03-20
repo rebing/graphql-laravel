@@ -23,7 +23,7 @@ abstract class TestCaseDatabase extends TestCase
         $uses = parent::setUpTraits();
 
         if (isset($uses[SqlAssertionTrait::class])) {
-            $this->setupTraitForSqlAssertion();
+            $this->setupTraitForSqlAssertion(); // @phpstan-ignore method.notFound
         }
 
         return $uses;

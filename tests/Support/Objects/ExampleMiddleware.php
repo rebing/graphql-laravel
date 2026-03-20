@@ -10,7 +10,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class ExampleMiddleware extends Middleware
 {
-    public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
+    public function handle(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $next): mixed
     {
         if (4 === $args['index']) {
             $args['index'] = 0;
@@ -33,7 +33,7 @@ class ExampleMiddleware extends Middleware
         return $result;
     }
 
-    public function terminate($root, $args, $context, ResolveInfo $info, $result): void
+    public function terminate(mixed $root, mixed $args, mixed $context, ResolveInfo $info, mixed $result): void
     {
         if (6 === $args['index']) {
             throw new Exception('Terminate happens after the response is sent');

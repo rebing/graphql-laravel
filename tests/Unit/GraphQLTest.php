@@ -262,6 +262,7 @@ class GraphQLTest extends TestCase
     {
         $objectType = new ObjectType([
             'name' => 'ObjectType',
+            'fields' => [],
         ]);
         $type = GraphQL::objectType($objectType, [
             'name' => 'ExampleType',
@@ -364,6 +365,7 @@ class GraphQLTest extends TestCase
         $types = GraphQL::getTypes();
         self::assertArrayHasKey('CustomExample', $types);
 
+        self::assertIsString($types['CustomExample']);
         $type = app($types['CustomExample']);
         self::assertInstanceOf(CustomExampleType::class, $type);
 
@@ -378,6 +380,7 @@ class GraphQLTest extends TestCase
         $types = GraphQL::getTypes();
         self::assertArrayHasKey('CustomExample', $types);
 
+        self::assertIsString($types['CustomExample']);
         $type = app($types['CustomExample']);
         self::assertInstanceOf(ExampleType::class, $type);
 
@@ -390,6 +393,7 @@ class GraphQLTest extends TestCase
         $types = GraphQL::getTypes();
         self::assertArrayHasKey('Example', $types);
 
+        self::assertIsString($types['Example']);
         $type = app($types['Example']);
         self::assertInstanceOf(ExampleType::class, $type);
     }

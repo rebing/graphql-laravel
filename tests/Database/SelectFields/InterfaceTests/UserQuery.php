@@ -21,7 +21,10 @@ class UserQuery extends Query
         return Type::listOf(GraphQL::type('User'));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         $fields = $getSelectFields();
 

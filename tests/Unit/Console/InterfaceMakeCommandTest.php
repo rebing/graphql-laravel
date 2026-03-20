@@ -30,6 +30,9 @@ class InterfaceMakeCommandTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string,array<string,string>>
+     */
     public static function dataForMakeCommand(): array
     {
         return [

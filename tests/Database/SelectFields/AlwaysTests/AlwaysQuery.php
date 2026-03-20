@@ -22,7 +22,10 @@ class AlwaysQuery extends Query
         return Type::listOf(GraphQL::type('Post'));
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info, Closure $getSelectFields)
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $getSelectFields): mixed
     {
         /** @var SelectFields $selectFields */
         $selectFields = $getSelectFields();

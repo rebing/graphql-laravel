@@ -58,7 +58,10 @@ class UpdateExampleMutation extends Mutation
         ];
     }
 
-    public function resolve($root, $args)
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args): mixed
     {
         return [
             'test' => \Safe\json_encode($args),

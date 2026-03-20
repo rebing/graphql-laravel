@@ -5,9 +5,9 @@ namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 
 class SimpleMessage
 {
-    public $message;
-    public $type;
-    public $code;
+    public string $message;
+    public string $type;
+    public mixed $code = null;
 
     /**
      * Create a message to return to the users in frontend.

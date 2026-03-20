@@ -16,6 +16,9 @@ class LikableInterfaceType extends InterfaceType
         'name' => 'LikableInterface',
     ];
 
+    /**
+     * @return list<Type>
+     */
     public function types(): array
     {
         return [
@@ -42,7 +45,7 @@ class LikableInterfaceType extends InterfaceType
         ];
     }
 
-    public function resolveType($root)
+    public function resolveType(mixed $root): ?Type
     {
         if ($root instanceof Post) {
             return GraphQL::type('Post');
@@ -51,5 +54,7 @@ class LikableInterfaceType extends InterfaceType
         if ($root instanceof Comment) {
             return GraphQL::type('Comment');
         }
+
+        return null;
     }
 }

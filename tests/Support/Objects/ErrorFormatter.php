@@ -8,6 +8,9 @@ use Rebing\GraphQL\Error\ValidationError;
 
 class ErrorFormatter
 {
+    /**
+     * @return array<string,mixed>
+     */
     public function formatError(Error $e): array
     {
         $error = [

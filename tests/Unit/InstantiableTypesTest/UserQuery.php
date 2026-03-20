@@ -24,7 +24,10 @@ class UserQuery extends Query
         return [];
     }
 
-    public function resolve($root, $args)
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args): mixed
     {
         return (object) [
             'id' => 1,

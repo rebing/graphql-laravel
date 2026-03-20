@@ -58,6 +58,6 @@ class MyCustomScalarString extends ScalarType implements TypeConvertible
 
     public function toType(): Type
     {
-        return new static();
+        return new self();
     }
 }

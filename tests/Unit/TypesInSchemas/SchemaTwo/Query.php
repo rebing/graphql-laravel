@@ -19,7 +19,7 @@ class Query extends BaseQuery
         return Type::nonNull(GraphQL::type('Type'));
     }
 
-    public function resolve()
+    public function resolve(): mixed
     {
         $result = new stdClass();
         // Must match Type field

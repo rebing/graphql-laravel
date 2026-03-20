@@ -25,6 +25,9 @@ use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @property \Illuminate\Foundation\Application $app
+ */
 class TestCase extends BaseTestCase
 {
     /**
@@ -34,8 +37,10 @@ class TestCase extends BaseTestCase
      */
     protected static $latestResponse;
 
-    protected $queries;
-    protected $data;
+    /** @var array<string,string> */
+    protected array $queries = [];
+    /** @var list<array<string,string>> */
+    protected array $data = [];
 
     protected function setUp(): void
     {
@@ -91,30 +96,32 @@ class TestCase extends BaseTestCase
         }
     }
 
-    protected function assertGraphQLSchema($schema): void
+    protected function assertGraphQLSchema(Schema $schema): void
     {
         self::assertInstanceOf(Schema::class, $schema);
     }
 
-    protected function assertGraphQLSchemaHasQuery($schema, $key): void
+    protected function assertGraphQLSchemaHasQuery(Schema $schema, string $key): void
     {
         // Query
         $query = $schema->getQueryType();
+        self::assertNotNull($query);
         $queryFields = $query->getFields();
         self::assertArrayHasKey($key, $queryFields);
 
         $queryField = $queryFields[$key];
-        $queryListType = $queryField->getType();
-        $queryType = $queryListType->getWrappedType();
         self::assertInstanceOf(FieldDefinition::class, $queryField);
+        $queryListType = $queryField->getType();
         self::assertInstanceOf(ListOfType::class, $queryListType);
+        $queryType = $queryListType->getWrappedType();
         self::assertInstanceOf(ObjectType::class, $queryType);
     }
 
-    protected function assertGraphQLSchemaHasMutation($schema, $key): void
+    protected function assertGraphQLSchemaHasMutation(Schema $schema, string $key): void
     {
         // Mutation
         $mutation = $schema->getMutationType();
+        self::assertNotNull($mutation);
         $mutationFields = $mutation->getFields();
         self::assertArrayHasKey($key, $mutationFields);
 
@@ -231,6 +238,8 @@ class TestCase extends BaseTestCase
     /**
      * Converts the trace as generated from \GraphQL\Error\FormattedError::toSafeTrace
      * to a more human-readable string for a failed test.
+     *
+     * @param list<array<string,mixed>> $trace
      */
     private function formatSafeTrace(array $trace): string
     {

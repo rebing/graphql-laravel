@@ -26,14 +26,14 @@ class ExampleInterfaceType extends InterfaceType
             'exampleRelation' => [
                 'type' => Type::nonNull(Type::listOf(Type::nonNull(GraphQL::type('ExampleRelation')))),
                 'query' => function (array $args, HasMany $query): HasMany {
-                    return $query->where('id', '>=', 1);
+                    return $query->where('id', '>=', 1); // @phpstan-ignore argument.type
                 },
                 'alias' => 'comments',
             ],
         ];
     }
 
-    public function resolveType()
+    public function resolveType(mixed $root): Type
     {
         return GraphQL::type('InterfaceImpl1');
     }

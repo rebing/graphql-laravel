@@ -5,5 +5,6 @@ namespace Rebing\GraphQL\Tests\Database\SelectFields\QueryArgsAndContextTests;
 
 class GraphQLContext
 {
-    public $data;
+    /** @var array<string,mixed> */
+    public array $data = [];
 }

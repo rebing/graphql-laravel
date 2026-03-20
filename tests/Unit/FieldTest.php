@@ -7,15 +7,16 @@ use Closure;
 use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
 use GraphQL\Type\Definition\ResolveInfo;
 use PHPUnit\Framework\MockObject\Stub;
+use Rebing\GraphQL\Support\Field;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleField;
 use Rebing\GraphQL\Tests\TestCase;
 
 class FieldTest extends TestCase
 {
     /**
-     * @return class-string<ExampleField>
+     * @return class-string<Field>
      */
-    protected function getFieldClass()
+    protected function getFieldClass(): string
     {
         return ExampleField::class;
     }

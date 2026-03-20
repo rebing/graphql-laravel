@@ -13,8 +13,11 @@ class FormattableDate extends Field
         'description' => 'A field that can format dates in all sorts of ways.',
     ];
 
-    protected $defaultFormat;
+    protected string $defaultFormat;
 
+    /**
+     * @param array<string,mixed> $settings
+     */
     public function __construct(array $settings = [], string $defaultFormat = 'Y-m-d H:i')
     {
         $this->attributes = array_merge($this->attributes, $settings);
@@ -42,7 +45,10 @@ class FormattableDate extends Field
         return Type::string();
     }
 
-    public function resolve($root, array $args): ?string
+    /**
+     * @param array<string,mixed> $args
+     */
+    public function resolve(mixed $root, array $args): ?string
     {
         $date = $root->{$this->getProperty()};
 
