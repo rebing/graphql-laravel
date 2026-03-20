@@ -451,12 +451,6 @@ parameters:
 			path: src/Support/SelectFields.php
 
 		-
-			rawMessage: 'Offset ''selectable'' on array{name: string, type: (callable(): (GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\OutputType&GraphQL\Type\Definition\Type), resolve?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, args?: iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, description?: string|null, visible?: bool|(callable(): bool), deprecationReason?: string|null, ...} in isset() does not exist.'
-			identifier: isset.offset
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
 			rawMessage: 'Parameter #1 $callback of function call_user_func expects callable(): mixed, array{mixed, mixed} given.'
 			identifier: argument.type
 			count: 1
@@ -471,12 +465,6 @@ parameters:
 		-
 			rawMessage: Property Rebing\GraphQL\Support\SelectFields::$select type has no value type specified in iterable type array.
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: Result of && is always false.
-			identifier: booleanAnd.alwaysFalse
 			count: 1
 			path: src/Support/SelectFields.php
 

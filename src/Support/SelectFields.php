@@ -187,7 +187,7 @@ class SelectFields
             }
 
             // First check if the field is even accessible
-            $canSelect = static::validateField($fieldObject);
+            $canSelect = ($fieldObject->config['selectable'] ?? true) !== false;
 
             if ($canSelect) {
                 // Add a query, if it exists
@@ -315,24 +315,6 @@ class SelectFields
                 $select[] = $field;
             }
         }
-    }
-
-    /**
-     * Check whether the field is selectable.
-     *
-     * @param FieldDefinition $fieldObject Validated field
-     *
-     * @return bool `true`  if selectable
-     *              `false` if not selectable
-     */
-    protected static function validateField(FieldDefinition $fieldObject): bool
-    {
-        // If not a selectable field
-        if (isset($fieldObject->config['selectable']) && false === $fieldObject->config['selectable']) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
