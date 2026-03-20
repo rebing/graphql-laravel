@@ -1430,14 +1430,17 @@ class UsersQuery extends Query
 
 You can set custom privacy attributes for every Type's Field. If a field is not
 allowed, `null` will be returned. Privacy is enforced at the field resolver
-level, so it works universally — whether the type is a root query result, a
+level, so it works universally - whether the type is a root query result, a
 nested sub-type, or accessed via `SelectFields`.
 
-The privacy callback receives the **field's own arguments** and the query
-context. For example, if you want the user's email to only be accessible
-to themselves:
+The privacy callback receives two arguments: the **field's own arguments**
+(`$args`) and the **query context** (`$ctx`).
+
+**Using a closure:**
 
 ```php
+use Auth;
+
 class UserType extends GraphQLType
 {
     // ...
@@ -1447,24 +1450,27 @@ class UserType extends GraphQLType
         return [
             'id' => [
                 'type'          => Type::nonNull(Type::string()),
-                'description'   => 'The id of the user'
+                'description'   => 'The id of the user',
             ],
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
-                'privacy'       => function(array $args, $ctx): bool {
-                    return $args['id'] == Auth::id();
-                }
-            ]
+                'privacy'       => function (array $args, $ctx): bool {
+                    // Only the authenticated user can see their own email.
+                    // $ctx is the query context value (see notes below).
+                    return isset($ctx->user) && $ctx->user->id === Auth::id();
+                },
+            ],
         ];
     }
 
     // ...
-
 }
 ```
 
-or you can create a class that extends the abstract GraphQL Privacy class:
+**Using a Privacy class:**
+
+You can also create a class that extends the abstract `Privacy` class:
 
 ```php
 use Auth;
@@ -1474,17 +1480,18 @@ class MePrivacy extends Privacy
 {
     public function validate(array $queryArgs, $queryContext = null): bool
     {
-        return $queryArgs['id'] == Auth::id();
+        return isset($queryContext->user) && $queryContext->user->id === Auth::id();
     }
 }
 ```
+
+Then reference it by class name on the field:
 
 ```php
 use MePrivacy;
 
 class UserType extends GraphQLType
 {
-
     // ...
 
     public function fields(): array
@@ -1492,20 +1499,62 @@ class UserType extends GraphQLType
         return [
             'id' => [
                 'type'          => Type::nonNull(Type::string()),
-                'description'   => 'The id of the user'
+                'description'   => 'The id of the user',
             ],
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
                 'privacy'       => MePrivacy::class,
-            ]
+            ],
         ];
     }
 
     // ...
-
 }
 ```
+
+**Using field arguments in a privacy check:**
+
+If the field declares its own `args`, they are available in `$args`:
+
+```php
+'ssn' => [
+    'type'    => Type::string(),
+    'args'    => [
+        'reason' => [
+            'type' => Type::nonNull(Type::string()),
+        ],
+    ],
+    'privacy' => function (array $args, $ctx): bool {
+        // Only allow access when a valid reason is provided.
+        return in_array($args['reason'] ?? '', ['legal', 'compliance']);
+    },
+],
+```
+
+> **`$args` - field arguments, not query arguments.** The `$args` parameter
+> contains the arguments declared on the field itself (via the `args` key). If
+> the field declares no arguments, `$args` will be an empty array. These are
+> *not* the root query/mutation arguments.
+
+> **`$ctx` - the query context value.** This is the context object passed to
+> the GraphQL execution. By default, the built-in
+> `AddAuthUserContextValueMiddleware` execution middleware sets this to an object
+> with a `user` property containing the authenticated user. You can customize
+> the context via your own execution middleware or the `graphql.default_context_value`
+> config option.
+
+> **Privacy vs Authorization.** `authorize()` on a Query or Mutation gates the
+> *entire* operation - if it fails, the whole request is rejected with an error.
+> `privacy` on a Type field gates *individual fields* and silently returns
+> `null` when denied. Use `authorize()` for access control on operations and
+> `privacy` for field-level visibility within types.
+
+> **Caution with non-null fields.** When privacy denies access, the field
+> resolver returns `null`. If the field is typed as `Type::nonNull(...)`, this
+> `null` violates the GraphQL non-null contract and causes an error that
+> propagates up to the nearest nullable parent. Always use nullable types for
+> privacy-protected fields.
 
 ### Query variables
 
