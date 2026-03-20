@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/rebing/graphql-laravel.svg?style=flat-square)](https://packagist.org/packages/rebing/graphql-laravel)
 [![Get on Slack](https://img.shields.io/badge/slack-join-orange.svg)](https://join.slack.com/t/rebing-graphql/shared_invite/enQtNTE5NjQzNDI5MzQ4LTdhNjk0ZGY1N2U1YjE4MGVlYmM2YTc2YjQ0MmIwODY5MWMwZWIwYmY1MWY4NTZjY2Q5MzdmM2Q3NTEyNDYzZjc)
 
-This package provides an integration of GraphQL for Laravel. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [GraphQL Introduction](https://reactjs.org/blog/2015/05/01/graphql-introduction.html) on the [React](https://reactjs.org/) blog or you can read the [GraphQL specifications](https://spec.graphql.org/).
+This package provides an integration of GraphQL for Laravel. It is based on the [PHP port of GraphQL reference implementation](https://github.com/webonyx/graphql-php). You can find more information about GraphQL in the [Introduction to GraphQL](https://graphql.org/learn/) or you can read the [GraphQL specifications](https://spec.graphql.org/).
 
 * Allows creating **queries** and **mutations** as request endpoints
 * Supports multiple schemas
@@ -202,6 +202,10 @@ curl -X POST -H "Content-Type: application/json" \
 
 > **Tip:** For an interactive experience, install [GraphiQL](https://github.com/mll-lab/laravel-graphiql)
 > (`composer require mll-lab/laravel-graphiql --dev`) and visit `/graphiql` in your browser.
+
+> **Note:** Introspection is disabled by default. To enable it during development
+> (required for GraphiQL and IDE tooling), set `GRAPHQL_DISABLE_INTROSPECTION=false`
+> in your `.env` file.
 
 ### What's next?
 
@@ -1497,7 +1501,7 @@ use Rebing\GraphQL\Support\Middleware;
 
 class Logstash extends Middleware
 {
-    public function terminate($root, array $args, $context, ResolveInfo $info, $result): void
+    public function terminate($field, array $args, $context, ResolveInfo $info, $result): void
     {
         Log::channel('logstash')->info('', (
             collect([
@@ -3408,6 +3412,45 @@ To prevent such scenarios, you can add the `UnusedVariablesMiddleware` to your
     The cache prefix to use.
   - `cache_ttl`\
     How long to cache the queries.
+- `schemas`\
+  Defines the available GraphQL schemas and their queries, mutations, types,
+  middleware, and other per-schema settings. See [Schemas](#schemas).
+  - `query`\
+    Array of query classes for this schema
+  - `mutation`\
+    Array of mutation classes for this schema
+  - `types`\
+    Array of type classes scoped to this schema
+  - `middleware`\
+    Per-schema HTTP middleware (overrides `route.middleware`)
+  - `method`\
+    HTTP methods to support (default: `['POST']`). Must be uppercase.
+  - `execution_middleware`\
+    Per-schema execution middleware (overrides global `execution_middleware`)
+  - `route_attributes`\
+    Additional Laravel route attributes (e.g. `domain`, `prefix`)
+  - `controller`\
+    Override the controller for this schema
+  - `tracing`\
+    Per-schema tracing overrides (see below)
+- `types`\
+  Global types shared across all schemas. See [Creating a query](#creating-a-query).
+- `execution_middleware`\
+  Global list of [execution middleware](#graphql-execution-middleware) classes.
+  The terminal `GraphqlExecutionMiddleware` is always appended automatically.
+- `resolver_middleware_append`\
+  Global [resolver middleware](#resolver-middleware) appended after per-field
+  middleware (default: `null`, treated as empty array).
+- `tracing`\
+  Observability configuration. See [Tracing / Observability](#tracing--observability).
+  - `driver`\
+    Tracing driver class (default: `null` = disabled). Built-in:
+    `OpenTelemetryTracingDriver`.
+  - `field_tracing`\
+    Instrument individual field resolvers (default: `false`)
+  - `driver_options`\
+    Array of options passed to the driver constructor (e.g.
+    `'include_document' => true`)
 
 ## Performance considerations
 
