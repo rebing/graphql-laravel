@@ -61,4 +61,13 @@ class FieldTest extends TestCase
         $attributes = $field->getAttributes();
         DeepClosureAssert::assertEquals($attributes, $array);
     }
+
+    public function testDynamicAttributeAccess(): void
+    {
+        $class = $this->getFieldClass();
+        $field = new $class();
+
+        self::assertIsString($field->__get('name'));
+        self::assertNull($field->__get('nonexistent_attribute'));
+    }
 }

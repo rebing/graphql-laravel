@@ -23,6 +23,7 @@ use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\Support\Objects\UpdateExampleMutation;
 use Rebing\GraphQL\Tests\TestCase;
 use Rebing\GraphQL\Tests\Unit\AliasArguments\Stubs\ExampleNestedValidationInputObject;
+use stdClass;
 
 class GraphQLTest extends TestCase
 {
@@ -502,5 +503,82 @@ class GraphQLTest extends TestCase
     public function testIsMacroable(): void
     {
         self::assertContains(Macroable::class, class_uses_recursive(GraphQL::getFacadeRoot()));
+    }
+
+    public function testClearType(): void
+    {
+        $types = GraphQL::getTypes();
+        self::assertArrayHasKey('Example', $types);
+
+        GraphQL::clearType('Example');
+
+        $types = GraphQL::getTypes();
+        self::assertArrayNotHasKey('Example', $types);
+    }
+
+    public function testClearSchema(): void
+    {
+        // Build the schema to populate the cache
+        GraphQL::schema('custom');
+        $schemas = GraphQL::getSchemas();
+        self::assertArrayHasKey('custom', $schemas);
+
+        GraphQL::clearSchema('custom');
+
+        $schemas = GraphQL::getSchemas();
+        self::assertArrayNotHasKey('custom', $schemas);
+    }
+
+    public function testClearTypes(): void
+    {
+        $types = GraphQL::getTypes();
+        self::assertNotEmpty($types);
+
+        GraphQL::clearTypes();
+
+        $types = GraphQL::getTypes();
+        self::assertEmpty($types);
+    }
+
+    public function testClearSchemas(): void
+    {
+        // Build schemas to populate the cache
+        GraphQL::schema('default');
+        GraphQL::schema('custom');
+        $schemas = GraphQL::getSchemas();
+        self::assertNotEmpty($schemas);
+
+        GraphQL::clearSchemas();
+
+        $schemas = GraphQL::getSchemas();
+        self::assertEmpty($schemas);
+    }
+
+    public function testObjectTypeThrowsForNonTypeConvertible(): void
+    {
+        $this->expectException(TypeNotFound::class);
+        $this->expectExceptionMessage('Unable to convert stdClass to a GraphQL type');
+
+        GraphQL::objectType(stdClass::class);
+    }
+
+    public function testSchemaConfigInvalidTypeThrows(): void
+    {
+        $this->app['config']->set('graphql.schemas.invalid_type', 123);
+
+        $this->expectException(SchemaNotFound::class);
+        $this->expectExceptionMessage("Configuration for schema 'invalid_type' must be either an array or a class implementing");
+
+        GraphQL::schema('invalid_type');
+    }
+
+    public function testSchemaConfigEmptyStringThrows(): void
+    {
+        $this->app['config']->set('graphql.schemas.empty_string', '');
+
+        $this->expectException(SchemaNotFound::class);
+        $this->expectExceptionMessage("Empty configuration found for schema 'empty_string'");
+
+        GraphQL::schema('empty_string');
     }
 }

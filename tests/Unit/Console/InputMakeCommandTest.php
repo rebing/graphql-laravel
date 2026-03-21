@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\Console;
 
+use Illuminate\Filesystem\Filesystem;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rebing\GraphQL\Console\InputMakeCommand;
 use Rebing\GraphQL\Tests\Support\Traits\MakeCommandAssertionTrait;
@@ -28,6 +29,43 @@ class InputMakeCommandTest extends TestCase
             $expectedClassDefinition,
             $expectedGraphqlName,
         );
+    }
+
+    public function testCommandWithOneofOption(): void
+    {
+        $filesystemMock = $this->createPartialMock(Filesystem::class, [
+            'isDirectory',
+            'makeDirectory',
+            'put',
+        ]);
+        $filesystemMock
+            ->expects(self::once())
+            ->method('put')
+            ->with(
+                self::callback(function (string $path): bool {
+                    $this->assertMatchesRegularExpression('|laravel[/\\\\]app/GraphQL/Inputs/Example.php|', $path);
+
+                    return true;
+                }),
+                self::callback(function (string $contents): bool {
+                    $this->assertMatchesRegularExpression('/class Example extends InputType/', $contents);
+                    $this->assertStringContainsString("'isOneOf' => true", $contents);
+                    $this->assertStringNotContainsString("'isOneOf' => false", $contents);
+
+                    return true;
+                }),
+            );
+        $this->instance(Filesystem::class, $filesystemMock);
+
+        $command = $this->app->make(InputMakeCommand::class);
+
+        $tester = $this->runCommand($command, [
+            'name' => 'Example',
+            '--oneof' => true,
+        ]);
+
+        self::assertSame(0, $tester->getStatusCode());
+        self::assertMatchesRegularExpression('/Input.*created successfully/', $tester->getDisplay());
     }
 
     /**

@@ -70,4 +70,41 @@ class UnusedVariablesTest extends TestCase
         ];
         self::assertEquals($expected, $content);
     }
+
+    public function testFeatureEnabledNoVariablesPassesThrough(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            UnusedVariablesMiddleware::class,
+        ]);
+
+        $response = $this->call('POST', '/graphql', [
+            'query' => $this->queries['examples'],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayNotHasKey('errors', $content);
+        self::assertArrayHasKey('data', $content);
+    }
+
+    public function testFeatureEnabledAllVariablesUsedPassesThrough(): void
+    {
+        $this->app['config']->set('graphql.execution_middleware', [
+            UnusedVariablesMiddleware::class,
+        ]);
+
+        $response = $this->call('POST', '/graphql', [
+            'query' => $this->queries['examplesWithVariables'],
+            'variables' => [
+                'index' => 0,
+            ],
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->getData(true);
+        self::assertArrayNotHasKey('errors', $content);
+        self::assertArrayHasKey('data', $content);
+    }
 }
