@@ -43,6 +43,7 @@
         "webonyx/graphql-php": "^15.22.1"
     },
     "require-dev": {
+        "brianium/paratest": "^7.8.5|^8.0",
         "ext-pdo_sqlite": "*",
         "eliashaeussler/deep-closure-comparator": "^1.2",
         "fakerphp/faker": "^1.24",
@@ -73,7 +74,7 @@
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog phpunit"
+        "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest"
     },
     "extra": {
         "branch-alias": {
