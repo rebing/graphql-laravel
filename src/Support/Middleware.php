@@ -20,10 +20,11 @@ abstract class Middleware
      * @param array<int, mixed> $arguments
      *
      * @see Field::getResolver()  Middleware is resolved in the field resolver pipeline
+     * @param array{0:mixed,1:array<string,mixed>,2:mixed,3:ResolveInfo} $arguments
      */
     public function resolve(array $arguments, Closure $next): mixed
     {
-        return $this->handle(...$arguments, ...[ // @phpstan-ignore argument.type (Pipeline guarantees correct argument types at runtime)
+        return $this->handle(...$arguments, ...[
             function (...$arguments) use ($next) {
                 return $next($arguments);
             },

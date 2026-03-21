@@ -25,7 +25,7 @@ abstract class Field
     /** @var array<string,mixed> */
     protected $attributes = [];
 
-    /** @var list<class-string> */
+    /** @var list<class-string<Middleware>> */
     protected $middleware = [];
 
     /**
@@ -164,7 +164,7 @@ abstract class Field
      */
     public function getValidator(array $args, array $rules): ValidatorContract
     {
-        // allow our error messages to be customised
+        // allow our error messages to be customized
         $messages = $this->validationErrorMessages($args);
 
         // allow our attributes to be customized
@@ -174,7 +174,7 @@ abstract class Field
     }
 
     /**
-     * @return list<class-string>
+     * @return list<class-string<Middleware>>
      */
     protected function getMiddleware(): array
     {
@@ -187,8 +187,8 @@ abstract class Field
      * Note: Despite the name, this method both prepends and appends global
      * middlewares. The name is kept for backward compatibility.
      *
-     * @phpstan-param list<class-string> $middleware
-     * @return list<class-string|object>
+     * @param list<class-string<Middleware>|Middleware> $middleware
+     * @return array<array-key, class-string<Middleware>|Middleware>
      */
     protected function appendGlobalMiddlewares(array $middleware): array
     {
@@ -390,11 +390,9 @@ abstract class Field
     /**
      * Dynamically retrieve the value of an attribute.
      *
-     * @param string $key
-     *
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         $attributes = $this->getAttributes();
 

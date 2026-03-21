@@ -367,6 +367,7 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('CustomExample', $types);
 
         self::assertIsString($types['CustomExample']);
+        /** @var Type $type */
         $type = app($types['CustomExample']);
         self::assertInstanceOf(CustomExampleType::class, $type);
 
@@ -559,7 +560,7 @@ class GraphQLTest extends TestCase
         $this->expectException(TypeNotFound::class);
         $this->expectExceptionMessage('Unable to convert stdClass to a GraphQL type');
 
-        GraphQL::objectType(stdClass::class);
+        GraphQL::objectType(stdClass::class); //@phpstan-ignore-line
     }
 
     public function testSchemaConfigInvalidTypeThrows(): void

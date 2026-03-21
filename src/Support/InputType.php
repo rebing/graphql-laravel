@@ -10,6 +10,6 @@ abstract class InputType extends Type
 {
     public function toType(): GraphqlType
     {
-        return new InputObjectType($this->toArray()); // @phpstan-ignore argument.type (toArray() builds a valid config, but its dynamic shape can't be statically verified)
+        return new InputObjectType($this->toArray());
     }
 }

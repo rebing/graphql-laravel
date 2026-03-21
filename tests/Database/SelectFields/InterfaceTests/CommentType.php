@@ -16,7 +16,7 @@ class CommentType extends GraphQLType
 
     public function fields(): array
     {
-        $interface = GraphQL::type('LikableInterface');
+        $interface = GraphQL::interfaceType('LikableInterface');
 
         return $interface->getFields();
     }
@@ -24,7 +24,7 @@ class CommentType extends GraphQLType
     public function interfaces(): array
     {
         return [
-            GraphQL::type('LikableInterface'),
+            GraphQL::interfaceType('LikableInterface'),
         ];
     }
 }

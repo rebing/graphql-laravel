@@ -24,11 +24,11 @@ abstract class AbstractExecutionMiddleware
     abstract public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult;
 
     /**
-     * @param array<string,mixed> $arguments
+     * @param array{0:string,1:Schema,2:OperationParams,3:mixed,4:mixed} $arguments
      */
     public function resolve(array $arguments, Closure $next): ExecutionResult
     {
-        return $this->handle(...$arguments, ...[ // @phpstan-ignore argument.type (Pipeline guarantees correct argument types at runtime)
+        return $this->handle(...$arguments, ...[
             function (...$arguments) use ($next) {
                 return $next($arguments);
             },

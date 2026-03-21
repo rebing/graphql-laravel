@@ -22,7 +22,7 @@ class LikeType extends GraphQLType
                 'type' => Type::nonNull(Type::id()),
             ],
             'likable' => [
-                'type' => GraphQL::type('LikableInterface'),
+                'type' => GraphQL::interfaceType('LikableInterface'),
             ],
         ];
     }

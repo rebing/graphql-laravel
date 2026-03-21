@@ -19,9 +19,9 @@ class EnumTypeTest extends TestCase
 
         self::assertEquals($objectType->name, $type->name);
 
-        $typeValues = $type->toArray();
+        $typeValues = $type->toArray()['values'] ?? [];
         $values = $objectType->getValues();
-        self::assertEquals(array_keys($typeValues['values'])[0], $values[0]->name);
-        self::assertEquals($typeValues['values']['TEST']['value'], $values[0]->value);
+        self::assertEquals(array_keys($typeValues)[0], $values[0]->name);
+        self::assertEquals($typeValues['TEST']['value'], $values[0]->value);
     }
 }

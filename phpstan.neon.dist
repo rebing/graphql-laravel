@@ -22,9 +22,7 @@ parameters:
           message: '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
           identifier: method.notFound
         # tests/Unit/GraphQLTest.php and tests/Database/SelectFields/InterfaceTests
-        -
-          message: '/Call to an undefined method .+::getFields\(\)/'
-          identifier: method.notFound
+
         -
           message: '/Call to an undefined method Mockery\\/'
           identifier: method.notFound

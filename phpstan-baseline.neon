@@ -1,2 +1,55 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			rawMessage: Access to an undefined property Rebing\GraphQL\Support\Contracts\TypeConvertible::$description.
+			identifier: property.notFound
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			rawMessage: Access to an undefined property Rebing\GraphQL\Support\Contracts\TypeConvertible::$name.
+			identifier: property.notFound
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			rawMessage: 'Property GraphQL\Type\Definition\ObjectType::$name (string) does not accept string|null.'
+			identifier: assign.propertyType
+			count: 1
+			path: src/GraphQL.php
+
+		-
+			rawMessage: 'Cannot access offset string on array<string, mixed>|Illuminate\Database\Query\Expression|string.'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $with with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Parameter #2 $array of function array_key_exists expects array, array<string, mixed>|Illuminate\Database\Query\Expression|string given.'
+			identifier: argument.type
+			count: 1
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Parameter &$select @param-out type of method Rebing\GraphQL\Support\SelectFields::handleRelation() expects array<array<string, mixed>|Illuminate\Database\Query\Expression|string>, array given.'
+			identifier: paramOut.type
+			count: 5
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Parameter &$with by-ref type of method Rebing\GraphQL\Support\SelectFields::handleFields() expects array<string, mixed>, array given.'
+			identifier: parameterByRef.type
+			count: 2
+			path: src/Support/SelectFields.php
+
+		-
+			rawMessage: 'Method Rebing\GraphQL\Support\Type::getAttributes() should return array{fields: callable(): iterable<string, mixed>, resolveType: callable(): mixed, interfaces: callable(): iterable<GraphQL\Type\Definition\InterfaceType>} but returns non-empty-array<string, mixed>.'
+			identifier: return.type
+			count: 1
+			path: src/Support/Type.php

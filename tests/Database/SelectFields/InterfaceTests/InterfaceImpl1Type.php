@@ -17,7 +17,7 @@ class InterfaceImpl1Type extends GraphQLType
 
     public function fields(): array
     {
-        $interface = GraphQL::type('ExampleInterface');
+        $interface = GraphQL::interfaceType('ExampleInterface');
 
         return [
             'title' => [
@@ -29,7 +29,7 @@ class InterfaceImpl1Type extends GraphQLType
     public function interfaces(): array
     {
         return [
-            GraphQL::type('ExampleInterface'),
+            GraphQL::interfaceType('ExampleInterface'),
         ];
     }
 }

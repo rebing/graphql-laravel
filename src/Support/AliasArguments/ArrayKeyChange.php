@@ -50,8 +50,12 @@ class ArrayKeyChange
     {
         $segment = array_shift($segments); // $segments is never empty here — comes from explode()
 
+        if (null === $segment) {
+            return $target;
+        }
+
         if (empty($segments)) {
-            if (\array_key_exists($segment, $target) && $replaceKey !== $segment) { // @phpstan-ignore argument.type
+            if (\array_key_exists($segment, $target) && $replaceKey !== $segment) {
                 $target[$replaceKey] = $target[$segment];
                 unset($target[$segment]);
             }
@@ -69,7 +73,7 @@ class ArrayKeyChange
             return $target;
         }
 
-        if (\array_key_exists($segment, $target) && \is_array($target[$segment])) { // @phpstan-ignore argument.type
+        if (\array_key_exists($segment, $target) && \is_array($target[$segment])) {
             $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
         }
 

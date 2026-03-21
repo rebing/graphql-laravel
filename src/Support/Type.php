@@ -6,6 +6,7 @@ namespace Rebing\GraphQL\Support;
 use Closure;
 use GraphQL\Executor\Executor;
 use GraphQL\Type\Definition\FieldDefinition;
+use GraphQL\Type\Definition\InterfaceType as GraphqlInterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type as GraphqlType;
@@ -38,7 +39,7 @@ abstract class Type implements TypeConvertible
     }
 
     /**
-     * @return array<GraphqlType|callable>
+     * @return array<InterfaceType|GraphqlInterfaceType|callable(): InterfaceType|GraphqlInterfaceType>
      */
     public function interfaces(): array
     {
@@ -57,9 +58,7 @@ abstract class Type implements TypeConvertible
         $resolveMethod = 'resolve' . Str::studly($name) . 'Field';
 
         if (method_exists($this, $resolveMethod)) {
-            return function () use ($resolveMethod) {
-                return $this->$resolveMethod(...\func_get_args());
-            };
+            return $this->{$resolveMethod}(...);
         }
 
         if (isset($field['alias']) && \is_string($field['alias']) && !($this instanceof InputType)) {
@@ -163,7 +162,11 @@ abstract class Type implements TypeConvertible
 
     /**
      * Get the attributes from the container.
-     * @return array<string,mixed>
+     * @return array{
+     *      fields: callable(): iterable<string,mixed>,
+     *      resolveType: callable,
+     *      interfaces: callable(): iterable<GraphqlInterfaceType>
+     *  }&array<string,mixed>
      */
     public function getAttributes(): array
     {
@@ -178,9 +181,16 @@ abstract class Type implements TypeConvertible
             },
         ], $attributes);
     }
-
     /**
-     * @return array<string,mixed>
+     * @return array{
+     *     types?: callable(): iterable<ObjectType>,
+     *     resolveType?: callable,
+     *     name?: string|null,
+     *     description?: string|null,
+     *     fields: callable(): iterable<string,mixed>,
+     *     interfaces: callable(): iterable<GraphqlInterfaceType>,
+     *     values?: array<string,mixed>
+     * }&array<string,mixed>
      */
     public function toArray(): array
     {
@@ -189,27 +199,20 @@ abstract class Type implements TypeConvertible
 
     public function toType(): GraphqlType
     {
-        return new ObjectType($this->toArray()); // @phpstan-ignore argument.type (toArray() builds a valid config, but its dynamic shape can't be statically verified)
+        return new ObjectType($this->toArray());
     }
 
     /**
      * Dynamically retrieve the value of an attribute.
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         $attributes = $this->getAttributes();
 
         return $attributes[$key] ?? null;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function __set(string $key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         $this->attributes[$key] = $value;
     }

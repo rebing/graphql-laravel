@@ -27,10 +27,10 @@ use Rebing\GraphQL\Support\Contracts\WrapType;
 
 class SelectFields
 {
-    /** @var array<int, string|Expression> */
-    protected $select = [];
-    /** @var array<string, mixed> */
-    protected $relations = [];
+    /** @var list<string|Expression>|array<array-key, array<string, mixed>> */
+    protected array $select = [];
+    /** @var array<string,mixed> */
+    protected array $relations = [];
 
     public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
@@ -51,7 +51,6 @@ class SelectFields
             'fields' => $fieldsAndArguments,
         ];
 
-        /** @var array{0:mixed[],1:mixed[]} $result */
         $result = static::getSelectableFieldsAndRelations($queryArgs, $requestedFields, $parentType, null, true, $ctx);
 
         [$this->select, $this->relations] = $result;
@@ -64,9 +63,9 @@ class SelectFields
      * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
      * @param array<int|string, mixed> $requestedFields
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
-     * @return array<int, mixed>|Closure - if first recursion, return an array,
-     *                                   where the first key is 'select' array and second is 'with' array.
-     *                                   On other recursions return a closure that will be used in with
+     * @return ($topLevel is true ? array{0:list<string|Expression>|array<array-key, array<string, mixed>>, 1:array<string,mixed>} : Closure(Query):Query ) - if first recursion, return an array,
+     *                                                                                                                                                      where the first key is 'select' array and second is 'with' array.
+     *                                                                                                                                                      On other recursions return a closure that will be used in with
      */
     public static function getSelectableFieldsAndRelations(
         array $queryArgs,
@@ -75,8 +74,8 @@ class SelectFields
         ?Closure $customQuery = null,
         bool $topLevel = true,
         $ctx = null,
-    ) {
-        /** @var array<int|string, mixed> $select */
+    ): array|Closure {
+        /** @var list<string|Expression>|array<array-key, array<string, mixed>> $select */
         $select = [];
         /** @var array<string, mixed> $with */
         $with = [];
@@ -102,34 +101,48 @@ class SelectFields
             return [$select, $with];
         }
 
-        return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx): void {
+        return function ($query) use ($with, $select, $customQuery, $requestedFields, $ctx): mixed {
             if ($customQuery) {
                 $query = $customQuery($requestedFields['args'], $query, $ctx) ?? $query;
             }
 
             $query->addSelect($select);
             $query->with($with);
+
+            return $query;
         };
     }
 
     protected static function getTableNameFromParentType(GraphqlType $parentType): ?string
     {
-        return isset($parentType->config['model']) ? app($parentType->config['model'])->getTable() : null;
+        $model = static::getModelFromType($parentType);
+
+        return $model ? app($model)->getTable() : null;
     }
 
     protected static function getPrimaryKeyFromParentType(GraphqlType $parentType): ?string
     {
-        return isset($parentType->config['model']) ? app($parentType->config['model'])->getKeyName() : null;
+        $model = static::getModelFromType($parentType);
+
+        return $model ? app($model)->getKeyName() : null;
+    }
+
+    /**
+     * @return class-string<Model>|null
+     */
+    protected static function getModelFromType(GraphqlType $type): ?string
+    {
+        return $type->config['model'] ?? null;
     }
 
     /**
      * Get the selects and withs from the given fields
      * and recurse if necessary.
      *
-     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
+     * @param array<string,mixed> $queryArgs Arguments given with the query/mutation
      * @param array<int|string,mixed> $requestedFields
-     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
-     * @param array<int|string, mixed> $with Passed by reference, adds further relations
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select Passed by reference, adds further fields to select
+     * @param array<string,mixed> $with Passed by reference, adds further relations
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      */
     protected static function handleFields(
@@ -228,11 +241,12 @@ class SelectFields
                             $key,
                             $customQuery,
                         );
-                    } elseif (isset($parentType->config['model'])) {
+                    } elseif (static::getModelFromType($parentType)) {
+                        $model = static::getModelFromType($parentType);
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
-                        $relationsKey = $fieldObject->config['alias'] ?? $key;
-                        $relation = app($parentType->config['model'])->{$relationsKey}();
+                        $relationsKey = (string) ($fieldObject->config['alias'] ?? $key);
+                        $relation = app($model)->{$relationsKey}();
 
                         static::handleRelation($select, $relation, $parentTable, $field);
 
@@ -290,13 +304,16 @@ class SelectFields
     protected static function isMongodbInstance(GraphqlType $parentType): bool
     {
         $mongoType = 'MongoDB\Laravel\Eloquent\Model';
+        $model = static::getModelFromType($parentType);
 
-        return isset($parentType->config['model']) ? app($parentType->config['model']) instanceof $mongoType : false;
+        return $model && app($model) instanceof $mongoType;
     }
 
     /**
      * @param string|Expression $field
-     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select Passed by reference, adds further fields to select
+     *
+     * @param-out   list<string|Expression>|array<array-key, array<string, mixed>>  $select
      */
     protected static function addFieldToSelect($field, array &$select, ?string $parentTable, bool $forRelation): void
     {
@@ -331,9 +348,12 @@ class SelectFields
     }
 
     /**
-     * @param Relation<Model, Model, mixed> $relation
-     * @param array<int|string, mixed> $select
-     * @param array<string, mixed> $field
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select
+     * @param Relation $relation
+     * @param array<int|string,mixed> $field
+     *
+     * @param-out list<string|Expression>|array<array-key, array<string, mixed>> $select
+     * @param-out array<int|string,mixed> $field
      */
     protected static function handleRelation(array &$select, $relation, ?string $parentTable, &$field): void
     {
@@ -389,7 +409,9 @@ class SelectFields
     /**
      * Add selects that are given by the 'always' attribute.
      *
-     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select Passed by reference, adds further fields to select
+     *
+     * @param-out  list<string|Expression>|array<array-key, array<string, mixed>>  $select
      */
     protected static function addAlwaysFields(
         FieldDefinition $fieldObject,
@@ -412,11 +434,12 @@ class SelectFields
     }
 
     /**
-     * @param array<string, mixed> $queryArgs
-     * @param array<string, mixed> $field
-     * @param array<int|string, mixed> $select
-     * @param array<int|string, mixed> $with
+     * @param array<string,mixed> $queryArgs Arguments given with the query/mutation
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select
      * @param mixed $ctx
+     * @param array<int|string,mixed> $field
+     *
+     * @param-out list<string|Expression>|array<array-key, array<string, mixed>> $select
      */
     protected static function handleInterfaceFields(
         array $queryArgs,
@@ -429,7 +452,7 @@ class SelectFields
         string $key,
         ?Closure $customQuery,
     ): void {
-        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+        $relationsKey = (string) Arr::get($fieldObject->config, 'alias', $key);
 
         $with[$relationsKey] = function ($query) use (
             $queryArgs,
@@ -469,7 +492,9 @@ class SelectFields
                         }
 
                         /* @var Relation $query */
-                        return app($type->config['model'])->getTable() === $query->getParent()->getTable(); // @phpstan-ignore offsetAccess.notFound ('model' is a Rebing extension to webonyx's ObjectType config)
+                        $model = static::getModelFromType($type);
+
+                        return app($model)->getTable() === $query->getParent()->getTable();
                     },
                 );
                 $typesFiltered = array_values($typesFiltered);
@@ -488,7 +513,6 @@ class SelectFields
                 $newParentType = $newParentType->getInnermostType();
             }
 
-            /** @var callable $callable */
             $callable = static::getSelectableFieldsAndRelations(
                 $queryArgs,
                 $field,
@@ -511,9 +535,11 @@ class SelectFields
      *
      * @param array<string,mixed> $queryArgs Arguments given with the query/mutation
      * @param array<string,mixed> $field
-     * @param mixed[] $select Passed by reference, adds further fields to select
-     * @param mixed[] $with Passed by reference, adds further relations
+     * @param list<string|Expression>|array<array-key, array<string, mixed>> $select Passed by reference, adds further fields to select
+     * @param array<string,mixed> $with Passed by reference, adds further relations
      * @param mixed $ctx
+     *
+     * @param-out  list<string|Expression>|array<array-key, array<string, mixed>>  $select
      */
     protected static function handleUnionFields(
         array $queryArgs,
@@ -526,7 +552,7 @@ class SelectFields
         string $key,
         ?Closure $customQuery,
     ): void {
-        $relationsKey = Arr::get($fieldObject->config, 'alias', $key);
+        $relationsKey = (string) Arr::get($fieldObject->config, 'alias', $key);
 
         $with[$relationsKey] = function ($query) use (
             $queryArgs,
@@ -554,15 +580,14 @@ class SelectFields
                 $types,
                 function (ObjectType $type) use ($query) {
                     // Widen the config type: Rebing adds 'model' beyond webonyx's ObjectConfig
-                    /** @var array<string,mixed> $typeConfig */
-                    $typeConfig = $type->config;
+                    $model = static::getModelFromType($type);
 
-                    if (!isset($typeConfig['model'])) {
+                    if (!$model) {
                         return false;
                     }
 
                     /* @var Relation $query */
-                    return app($typeConfig['model'])->getTable() === $query->getParent()->getTable();
+                    return app($model)->getTable() === $query->getParent()->getTable();
                 },
             );
             $typesFiltered = array_values($typesFiltered);
@@ -588,7 +613,6 @@ class SelectFields
                 return $query;
             }
 
-            /** @var callable $callable */
             $callable = static::getSelectableFieldsAndRelations(
                 $queryArgs,
                 $field,
@@ -649,7 +673,7 @@ class SelectFields
     }
 
     /**
-     * @return array<int, string|Expression>
+     * @return list<string|Expression>|array<array-key, array<string, mixed>>
      */
     public function getSelect(): array
     {

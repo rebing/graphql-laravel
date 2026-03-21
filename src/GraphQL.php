@@ -10,9 +10,11 @@ use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\Directive;
+use GraphQL\Type\Definition\InterfaceType as GraphQLInterfaceType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\NullableType;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Config\Repository;
@@ -33,10 +35,12 @@ use Rebing\GraphQL\Support\CursorPaginationType;
 use Rebing\GraphQL\Support\ExecutionMiddleware\GraphqlExecutionMiddleware;
 use Rebing\GraphQL\Support\ExecutionMiddleware\TracingExecutionMiddleware;
 use Rebing\GraphQL\Support\Field;
+use Rebing\GraphQL\Support\Middleware;
 use Rebing\GraphQL\Support\OperationParams;
 use Rebing\GraphQL\Support\PaginationType;
 use Rebing\GraphQL\Support\SimplePaginationType;
 use Rebing\GraphQL\Support\Tracing\TracingManager;
+use RuntimeException;
 
 class GraphQL
 {
@@ -46,21 +50,21 @@ class GraphQL
     protected $app;
 
     /** @var array<string,Schema> */
-    protected $schemas = [];
+    protected array $schemas = [];
 
     /**
      * Maps GraphQL type names to their class name.
      *
-     * @var array<string,object|string>
+     * @var array<string, class-string<ScalarType>|ScalarType|Type>
      */
-    protected $types = [];
+    protected array $types = [];
 
     /**
      * These middleware are executed before all resolve methods
      *
-     * @var list<object|class-string>
+     * @var list<Middleware|class-string<Middleware>>
      */
-    protected $globalResolverMiddlewares = [];
+    protected array $globalResolverMiddlewares = [];
 
     /**
      * Middleware prepended to the resolver pipeline (before per-field and global appended middleware).
@@ -68,15 +72,14 @@ class GraphQL
      * Used by the tracing system to unwrap the context scope before any
      * other resolver middleware sees it.
      *
-     * @var list<object|class-string>
+     * @var list<Middleware|class-string<Middleware>>
      */
-    protected $prependedGlobalResolverMiddlewares = [];
+    protected array $prependedGlobalResolverMiddlewares = [];
 
     /** @var Type[] */
-    protected $typesInstances = [];
+    protected array $typesInstances = [];
 
-    /** @var Repository */
-    protected $config;
+    protected Repository $config;
 
     public function __construct(Container $app, Repository $config)
     {
@@ -222,7 +225,7 @@ class GraphQL
     }
 
     /**
-     * @phpstan-param class-string|object $class
+     * @phpstan-param class-string<Middleware>|Middleware $class
      */
     public function appendGlobalResolverMiddleware(object|string $class): void
     {
@@ -233,7 +236,7 @@ class GraphQL
      * Prepend a resolver middleware so it runs before all other resolver
      * middleware (including per-field middleware and appended global middleware).
      *
-     * @phpstan-param class-string|object $class
+     * @phpstan-param class-string<Middleware>|Middleware $class
      */
     public function prependGlobalResolverMiddleware(object|string $class): void
     {
@@ -241,7 +244,7 @@ class GraphQL
     }
 
     /**
-     * @phpstan-return list<object|class-string>
+     * @phpstan-return list<Middleware|class-string<Middleware>>
      */
     public function getPrependedGlobalResolverMiddlewares(): array
     {
@@ -249,18 +252,18 @@ class GraphQL
     }
 
     /**
-     * @phpstan-return list<object|class-string>
+     * @return list<Middleware|class-string<Middleware>>
      */
     public function getGlobalResolverMiddlewares(): array
     {
-        /** @var list<class-string|object> $resolverMiddlewares */
+        /** @var list<Middleware|class-string<Middleware>> $resolverMiddlewares */
         $resolverMiddlewares = $this->config->get('graphql.resolver_middleware_append') ?? [];
 
         return array_merge($resolverMiddlewares, $this->globalResolverMiddlewares);
     }
 
     /**
-     * @param array<int|string,string> $types
+     * @param array<int|string,ScalarType|class-string<ScalarType>> $types
      */
     public function addTypes(array $types): void
     {
@@ -270,11 +273,12 @@ class GraphQL
     }
 
     /**
-     * @param object|string $class
+     * @param ScalarType|class-string<ScalarType> $class
      */
     public function addType($class, ?string $name = null): void
     {
         if (!$name) {
+            /** @var ScalarType $type */
             $type = \is_object($class) ? $class : $this->app->make($class);
             $name = $type->name;
         }
@@ -345,9 +349,20 @@ class GraphQL
         return $instance;
     }
 
+    public function interfaceType(string $name, bool $fresh = false): GraphQLInterfaceType
+    {
+        $type = $this->type($name, $fresh);
+
+        if (!$type instanceof GraphQLInterfaceType) {
+            throw new RuntimeException(\sprintf('Interface "%s" must resolve to an InterfaceType', $name));
+        }
+
+        return $type;
+    }
+
     /**
-     * @param ObjectType|array<int|string,class-string|array<string,mixed>>|string $type
-     * @param array<string,string> $opts
+     * @param ObjectType|array<int|string,class-string<Field>|Field|array<string,mixed>>|class-string<TypeConvertible>|TypeConvertible $type
+     * @param array{name?: string|null, description?: string|null} $opts
      */
     public function objectType($type, array $opts = []): Type
     {
@@ -365,7 +380,7 @@ class GraphQL
                 }
 
                 if (isset($objectType->config[$key])) {
-                    $objectType->config[$key] = $value; // @phpstan-ignore assign.propertyType (only 'name'/'description' keys are set in practice)
+                    $objectType->config[$key] = $value;
                 }
             }
         } elseif (\is_array($type)) {
@@ -378,8 +393,8 @@ class GraphQL
     }
 
     /**
-     * @param ObjectType|string $type
-     * @param array<string,string> $opts
+     * @param ObjectType|class-string<TypeConvertible>|TypeConvertible $type
+     * @param array{name?: string|null, description?: string|null} $opts
      */
     protected function buildObjectTypeFromClass($type, array $opts = []): Type
     {
@@ -405,8 +420,8 @@ class GraphQL
     }
 
     /**
-     * @param array<int|string,class-string|array<string,mixed>|Field> $fields
-     * @param array<string,string> $opts
+     * @param array<int|string,class-string<Field>|Field|array<string,mixed>> $fields
+     * @param array{name?: string|null, description?: string|null} $opts
      */
     protected function buildObjectTypeFromFields(array $fields, array $opts = []): ObjectType
     {
@@ -425,7 +440,7 @@ class GraphQL
             $typeFields[$name] = $field;
         }
 
-        return new ObjectType(array_merge([ // @phpstan-ignore argument.type (dynamic field config array can't be statically verified)
+        return new ObjectType(array_merge([
             'fields' => $typeFields,
         ], $opts));
     }
@@ -443,7 +458,7 @@ class GraphQL
         $schemaQuery = $schemaConfig['query'] ?? [];
         $schemaMutation = $schemaConfig['mutation'] ?? [];
         $schemaSubscription = $schemaConfig['subscription'] ?? [];
-        /** @var array<int|string,string> $schemaTypes */
+        /** @var list<class-string<ScalarType>> $schemaTypes */
         $schemaTypes = $schemaConfig['types'] ?? [];
         $schemaDirectives = $schemaConfig['directives'] ?? [];
 
@@ -482,7 +497,7 @@ class GraphQL
 
                 return $types;
             },
-            'typeLoader' => function ($name) use (
+            'typeLoader' => function (string $name) use (
                 $query,
                 $mutation,
                 $subscription

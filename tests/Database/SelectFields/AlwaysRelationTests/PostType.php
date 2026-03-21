@@ -42,7 +42,7 @@ class PostType extends GraphQLType
     public function interfaces(): array
     {
         return [
-            GraphQL::type('LikableInterface'),
+            GraphQL::interfaceType('LikableInterface'),
         ];
     }
 }

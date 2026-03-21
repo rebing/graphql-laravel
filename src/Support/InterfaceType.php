@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Support;
 
 use Closure;
 use GraphQL\Type\Definition\InterfaceType as BaseInterfaceType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 
 abstract class InterfaceType extends Type
@@ -15,28 +16,19 @@ abstract class InterfaceType extends Type
             return null;
         }
 
-        $resolver = [$this, 'resolveType'];
-
-        return function () use ($resolver) {
-            $args = \func_get_args();
-
-            return \call_user_func_array($resolver, $args);
-        };
+        return $this->resolveType(...);
     }
 
+    /**
+     * @return Closure(): list<ObjectType>|null
+     */
     protected function getTypesResolver(): ?Closure
     {
         if (!method_exists($this, 'types')) {
             return null;
         }
 
-        $resolver = [$this, 'types'];
-
-        return function () use ($resolver): array {
-            $args = \func_get_args();
-
-            return \call_user_func_array($resolver, $args);
-        };
+        return $this->types(...);
     }
 
     /**
@@ -63,6 +55,6 @@ abstract class InterfaceType extends Type
 
     public function toType(): GraphqlType
     {
-        return new BaseInterfaceType($this->toArray()); // @phpstan-ignore argument.type (toArray() builds a valid config, but its dynamic shape can't be statically verified)
+        return new BaseInterfaceType($this->toArray());
     }
 }

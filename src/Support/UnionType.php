@@ -27,7 +27,7 @@ abstract class UnionType extends Type
         }
 
         if (method_exists($this, 'resolveType')) {
-            $attributes['resolveType'] = [$this, 'resolveType'];
+            $attributes['resolveType'] = $this->resolveType(...);
         }
 
         return $attributes;

@@ -8,6 +8,7 @@ use GraphQL\Type\Definition\NullableType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Support\Collection;
 use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -43,8 +44,8 @@ class CursorPaginationType extends ObjectType implements WrapType
             'data' => [
                 'type' => GraphQLType::nonNull(GraphQLType::listOf(GraphQLType::nonNull($underlyingType))),
                 'description' => 'List of items on the current page',
-                'resolve' => function (CursorPaginator $data): Collection {
-                    return $data->getCollection(); // @phpstan-ignore method.notFound (getCollection() is on the concrete class, not the contract)
+                'resolve' => function (AbstractCursorPaginator $data): Collection {
+                    return $data->getCollection();
                 },
             ],
             'per_page' => [

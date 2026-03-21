@@ -13,11 +13,10 @@ use GraphQL\Type\Definition\WrappingType;
 class AliasArguments
 {
     /** @var array<string,mixed> */
-    private $queryArguments;
+    private array $queryArguments = [];
     /** @var array<string,mixed> */
-    private $requestArguments;
-    /** @var int */
-    private $maxDepth;
+    private array $requestArguments = [];
+    private int $maxDepth;
 
     /**
      * @param array<string,mixed> $queryArguments
@@ -139,7 +138,7 @@ class AliasArguments
                         );
                     }
                 }
-            } elseif (null !== $fieldData && \is_array($fieldData)) {
+            } elseif (\is_array($fieldData)) {
                 // Single object
                 $pathAndAlias = $pathAndAlias + $this->getAliasesInFields(
                     $type->getFields(),
