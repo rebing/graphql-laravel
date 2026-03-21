@@ -28,7 +28,7 @@ abstract class AbstractExecutionMiddleware
      */
     public function resolve(array $arguments, Closure $next): ExecutionResult
     {
-        return $this->handle(...$arguments, ...[
+        return $this->handle(...$arguments, ...[ // @phpstan-ignore argument.type (Pipeline guarantees correct argument types at runtime)
             function (...$arguments) use ($next) {
                 return $next($arguments);
             },

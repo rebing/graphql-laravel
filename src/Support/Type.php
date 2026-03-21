@@ -45,6 +45,9 @@ abstract class Type implements TypeConvertible
         return [];
     }
 
+    /**
+     * @param array<string, mixed> $field
+     */
     protected function getFieldResolver(string $name, array $field): ?callable
     {
         if (isset($field['resolve'])) {
@@ -54,12 +57,8 @@ abstract class Type implements TypeConvertible
         $resolveMethod = 'resolve' . Str::studly($name) . 'Field';
 
         if (method_exists($this, $resolveMethod)) {
-            $resolver = [$this, $resolveMethod];
-
-            return function () use ($resolver) {
-                $args = \func_get_args();
-
-                return \call_user_func_array($resolver, $args);
+            return function () use ($resolveMethod) {
+                return $this->$resolveMethod(...\func_get_args());
             };
         }
 
@@ -190,7 +189,7 @@ abstract class Type implements TypeConvertible
 
     public function toType(): GraphqlType
     {
-        return new ObjectType($this->toArray());
+        return new ObjectType($this->toArray()); // @phpstan-ignore argument.type (toArray() builds a valid config, but its dynamic shape can't be statically verified)
     }
 
     /**

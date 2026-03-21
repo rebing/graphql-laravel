@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -26,15 +27,15 @@ use Rebing\GraphQL\Support\Contracts\WrapType;
 
 class SelectFields
 {
-    /** @var array */
+    /** @var array<int, string|Expression> */
     protected $select = [];
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $relations = [];
 
     public const ALWAYS_RELATION_KEY = 'ALWAYS_RELATION_KEY';
 
     /**
-     * @param array $queryArgs Arguments given with the query/mutation
+     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through.
      *                   Can be customized via execution middleware (e.g. AddAuthUserContextValueMiddleware).
      * @param array<string,mixed> $fieldsAndArguments Field and argument tree
@@ -60,11 +61,12 @@ class SelectFields
      * Retrieve the fields (top level) and relations that
      * will be selected with the query.
      *
-     * @param array $queryArgs Arguments given with the query/mutation
+     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
+     * @param array<int|string, mixed> $requestedFields
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
-     * @return array|Closure - if first recursion, return an array,
-     *                       where the first key is 'select' array and second is 'with' array.
-     *                       On other recursions return a closure that will be used in with
+     * @return array<int, mixed>|Closure - if first recursion, return an array,
+     *                                   where the first key is 'select' array and second is 'with' array.
+     *                                   On other recursions return a closure that will be used in with
      */
     public static function getSelectableFieldsAndRelations(
         array $queryArgs,
@@ -74,7 +76,9 @@ class SelectFields
         bool $topLevel = true,
         $ctx = null,
     ) {
+        /** @var array<int|string, mixed> $select */
         $select = [];
+        /** @var array<string, mixed> $with */
         $with = [];
 
         if ($parentType instanceof WrappingType) {
@@ -122,10 +126,10 @@ class SelectFields
      * Get the selects and withs from the given fields
      * and recurse if necessary.
      *
-     * @param array $queryArgs Arguments given with the query/mutation
-     * @param array<string,mixed> $requestedFields
-     * @param array $select Passed by reference, adds further fields to select
-     * @param array $with Passed by reference, adds further relations
+     * @param array<string, mixed> $queryArgs Arguments given with the query/mutation
+     * @param array<int|string,mixed> $requestedFields
+     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
+     * @param array<int|string, mixed> $with Passed by reference, adds further relations
      * @param mixed $ctx The GraphQL context; can be anything and is only passed through
      */
     protected static function handleFields(
@@ -228,7 +232,7 @@ class SelectFields
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                         $relationsKey = $fieldObject->config['alias'] ?? $key;
-                        $relation = \call_user_func([app($parentType->config['model']), $relationsKey]);
+                        $relation = app($parentType->config['model'])->{$relationsKey}();
 
                         static::handleRelation($select, $relation, $parentTable, $field);
 
@@ -292,7 +296,7 @@ class SelectFields
 
     /**
      * @param string|Expression $field
-     * @param array $select Passed by reference, adds further fields to select
+     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
      */
     protected static function addFieldToSelect($field, array &$select, ?string $parentTable, bool $forRelation): void
     {
@@ -318,6 +322,8 @@ class SelectFields
 
     /**
      * Determines whether the fieldObject is queryable.
+     *
+     * @param array<string, mixed> $fieldObject
      */
     protected static function isQueryable(array $fieldObject): bool
     {
@@ -325,8 +331,9 @@ class SelectFields
     }
 
     /**
-     * @param Relation $relation
-     * @param array $field
+     * @param Relation<Model, Model, mixed> $relation
+     * @param array<int|string, mixed> $select
+     * @param array<string, mixed> $field
      */
     protected static function handleRelation(array &$select, $relation, ?string $parentTable, &$field): void
     {
@@ -336,7 +343,7 @@ class SelectFields
         } elseif (method_exists($relation, 'getQualifiedForeignPivotKeyName')) {
             $foreignKey = $relation->getQualifiedForeignPivotKeyName();
         } else {
-            /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
+            /** @var BelongsTo<Model, Model>|HasManyThrough<Model, Model, Model>|HasOneOrMany<Model, Model, mixed> $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
         $foreignKey = $parentTable ? ($parentTable . '.' . \Safe\preg_replace(
@@ -382,7 +389,7 @@ class SelectFields
     /**
      * Add selects that are given by the 'always' attribute.
      *
-     * @param array $select Passed by reference, adds further fields to select
+     * @param array<int|string, mixed> $select Passed by reference, adds further fields to select
      */
     protected static function addAlwaysFields(
         FieldDefinition $fieldObject,
@@ -390,7 +397,7 @@ class SelectFields
         ?string $parentTable,
         bool $forRelation = false,
     ): void {
-        if (isset($fieldObject->config['always'])) {
+        if (isset($fieldObject->config['always'])) { // @phpstan-ignore isset.offset ('always' is a Rebing extension to webonyx's FieldDefinition config)
             $always = $fieldObject->config['always'];
 
             if (\is_string($always)) {
@@ -405,6 +412,10 @@ class SelectFields
     }
 
     /**
+     * @param array<string, mixed> $queryArgs
+     * @param array<string, mixed> $field
+     * @param array<int|string, mixed> $select
+     * @param array<int|string, mixed> $with
      * @param mixed $ctx
      */
     protected static function handleInterfaceFields(
@@ -453,8 +464,12 @@ class SelectFields
                 $typesFiltered = array_filter(
                     $parentType->config['types'](),
                     function (GraphqlType $type) use ($query) {
+                        if (!$type instanceof ObjectType) {
+                            return false;
+                        }
+
                         /* @var Relation $query */
-                        return app($type->config['model'])->getTable() === $query->getParent()->getTable();
+                        return app($type->config['model'])->getTable() === $query->getParent()->getTable(); // @phpstan-ignore offsetAccess.notFound ('model' is a Rebing extension to webonyx's ObjectType config)
                     },
                 );
                 $typesFiltered = array_values($typesFiltered);
@@ -633,11 +648,17 @@ class SelectFields
         return null;
     }
 
+    /**
+     * @return array<int, string|Expression>
+     */
     public function getSelect(): array
     {
         return $this->select;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getRelations(): array
     {
         return $this->relations;

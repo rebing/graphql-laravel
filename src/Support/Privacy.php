@@ -5,7 +5,7 @@ namespace Rebing\GraphQL\Support;
 
 abstract class Privacy
 {
-    public function fire(...$args): bool
+    public function fire(mixed ...$args): bool
     {
         return $this->validate(...$args);
     }

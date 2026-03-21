@@ -50,6 +50,6 @@ class UploadType extends ScalarType implements TypeConvertible
 
     public function toType(): Type
     {
-        return new static();
+        return new static(); // @phpstan-ignore new.static (subclasses may intentionally rely on late static binding)
     }
 }

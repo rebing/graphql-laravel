@@ -5,6 +5,11 @@ namespace Rebing\GraphQL\Support\AliasArguments;
 
 class ArrayKeyChange
 {
+    /**
+     * @param array<string, mixed> $array
+     * @param array<string, string> $pathKeyMappings
+     * @return array<string, mixed>
+     */
     public function modify(array $array, array $pathKeyMappings): array
     {
         $pathKeyMappings = $this->orderPaths($pathKeyMappings);
@@ -17,6 +22,7 @@ class ArrayKeyChange
     }
 
     /**
+     * @param array<string, string> $paths
      * @return array<string, string>
      */
     private function orderPaths(array $paths): array
@@ -35,12 +41,17 @@ class ArrayKeyChange
         return substr_count($path, '.');
     }
 
+    /**
+     * @param array<string, mixed> $target
+     * @param list<string> $segments
+     * @return array<string, mixed>
+     */
     private function changeKey(array $target, array $segments, string $replaceKey): array
     {
-        $segment = array_shift($segments);
+        $segment = array_shift($segments); // $segments is never empty here — comes from explode()
 
         if (empty($segments)) {
-            if (\array_key_exists($segment, $target) && $replaceKey !== $segment) {
+            if (\array_key_exists($segment, $target) && $replaceKey !== $segment) { // @phpstan-ignore argument.type
                 $target[$replaceKey] = $target[$segment];
                 unset($target[$segment]);
             }
@@ -58,7 +69,7 @@ class ArrayKeyChange
             return $target;
         }
 
-        if (\array_key_exists($segment, $target) && \is_array($target[$segment])) {
+        if (\array_key_exists($segment, $target) && \is_array($target[$segment])) { // @phpstan-ignore argument.type
             $target[$segment] = $this->changeKey($target[$segment], $segments, $replaceKey);
         }
 

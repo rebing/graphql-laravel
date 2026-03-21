@@ -34,6 +34,8 @@ class PaginationType extends ObjectType implements WrapType
 
     /**
      * @phpstan-param (NullableType&GraphQLType)|NonNull $underlyingType
+     *
+     * @return array<string, array<string, mixed>>
      */
     protected function getPaginationFields(GraphQLType $underlyingType): array
     {

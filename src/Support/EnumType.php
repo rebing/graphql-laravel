@@ -10,6 +10,6 @@ abstract class EnumType extends Type
 {
     public function toType(): GraphqlType
     {
-        return new GraphqlEnumType($this->toArray());
+        return new GraphqlEnumType($this->toArray()); // @phpstan-ignore argument.type (toArray() builds a valid config, but its dynamic shape can't be statically verified)
     }
 }
