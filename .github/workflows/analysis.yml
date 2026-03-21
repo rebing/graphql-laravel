@@ -88,3 +88,33 @@ jobs:
       - run: composer update --prefer-dist --no-progress
 
       - run: composer lint
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      COMPOSER_NO_INTERACTION: 1
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.5
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - run: composer update --prefer-dist --no-progress
+
+      - run: composer audit
