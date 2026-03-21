@@ -3,6 +3,9 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\UploadTests;
 
+use GraphQL\Error\Error;
+use GraphQL\Error\InvariantViolation;
+use GraphQL\Language\AST\StringValueNode;
 use Illuminate\Http\UploadedFile;
 use Rebing\GraphQL\Support\UploadType;
 use Rebing\GraphQL\Tests\TestCase;
@@ -186,5 +189,26 @@ class UploadTest extends TestCase
             ],
         ];
         self::assertSame($expectedResult, $result);
+    }
+
+    public function testSerializeThrows(): void
+    {
+        $uploadType = new UploadType();
+
+        $this->expectException(InvariantViolation::class);
+        $this->expectExceptionMessage('`Upload` cannot be serialized');
+
+        $uploadType->serialize('some value');
+    }
+
+    public function testParseLiteralThrows(): void
+    {
+        $uploadType = new UploadType();
+
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('`Upload` cannot be hardcoded in query');
+
+        $node = new StringValueNode(['value' => 'test', 'block' => false]);
+        $uploadType->parseLiteral($node);
     }
 }
