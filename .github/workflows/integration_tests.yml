@@ -47,6 +47,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          ini-file: development
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it
@@ -91,6 +92,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          ini-file: development
           coverage: none
 
       # Due to version incompatibility with older Laravels we test, we remove it

@@ -38,7 +38,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.5
           coverage: none
 
       # Remove unnecessary dependencies not needed in this context
@@ -63,13 +63,15 @@ jobs:
     name: Code Style checker
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      COMPOSER_NO_INTERACTION: 1
 
     steps:
       - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.5
           coverage: none
 
       - name: Get composer cache directory

@@ -15,6 +15,17 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
     exit 1
 fi
 
+# --------------------------------------------------------------------------- #
+#  Cleanup helper – kill background processes on exit
+# --------------------------------------------------------------------------- #
+PIDS_TO_KILL=()
+cleanup() {
+    for pid in "${PIDS_TO_KILL[@]+"${PIDS_TO_KILL[@]}"}"; do
+        kill "$pid" 2>/dev/null || true
+    done
+}
+trap cleanup EXIT
+
 echo "Install Laravel"
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel
 cd ../laravel
@@ -42,6 +53,7 @@ sed -e "s|// ExampleQuery::class,|\\\App\\\GraphQL\\\Queries\\\ExampleQuery::cla
 
 echo "Start Webserver"
 php -S 127.0.0.1:8001 -t public >/dev/null 2>&1 &
+PIDS_TO_KILL+=($!)
 sleep 2
 
 echo "Send GraphQL HTTP request to fetch ExampleQuery"
