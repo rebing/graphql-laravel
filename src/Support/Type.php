@@ -45,6 +45,9 @@ abstract class Type implements TypeConvertible
         return [];
     }
 
+    /**
+     * @param array<string, mixed> $field
+     */
     protected function getFieldResolver(string $name, array $field): ?callable
     {
         if (isset($field['resolve'])) {

@@ -43,54 +43,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\AliasArguments::get() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/AliasArguments.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() has parameter $segments with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() has parameter $target with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::changeKey() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() has parameter $array with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() has parameter $pathKeyMappings with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::modify() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\AliasArguments\ArrayKeyChange::orderPaths() has parameter $paths with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/AliasArguments/ArrayKeyChange.php
-
-		-
 			rawMessage: 'Call to an undefined method Illuminate\Contracts\Pagination\CursorPaginator::getCollection().'
 			identifier: method.notFound
 			count: 1
@@ -109,78 +61,6 @@ parameters:
 			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
 		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method buildSchemaFromConfig() parameter #1 $schemaConfig with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method execute() return type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method formatError() return type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method getGlobalResolverMiddlewares() return type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method getSchemas() return type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method objectType() parameter #1 $type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method objectType() parameter #2 $opts with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() parameter #2 $params with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() parameter #3 $opts with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method query() return type with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method queryAndReturnResult() parameter #2 $params with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
-			rawMessage: 'Class Rebing\GraphQL\Support\Facades\GraphQL has PHPDoc tag @method for method queryAndReturnResult() parameter #3 $opts with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Facades/GraphQL.php
-
-		-
 			rawMessage: 'Cannot call method getName() on ReflectionType|null.'
 			identifier: method.nonObject
 			count: 1
@@ -193,80 +73,8 @@ parameters:
 			path: src/Support/Field.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::__set() has parameter $value with no type specified.'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::aliasArgs() has parameter $arguments with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::aliasArgs() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::appendGlobalMiddlewares() should return list<class-string|object> but returns array.'
+			rawMessage: 'Method Rebing\GraphQL\Support\Field::appendGlobalMiddlewares() should return list<class-string|object> but returns list<object|string>.'
 			identifier: return.type
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::attributes() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::authorize() has parameter $args with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::getArgs() has parameter $arguments with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::getArgs() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::getAttributes() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::getValidator() has parameter $args with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::getValidator() has parameter $rules with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::validationErrorMessages() has parameter $args with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::validationErrorMessages() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Field.php
 
@@ -283,164 +91,14 @@ parameters:
 			path: src/Support/InterfaceType.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has no return type specified.'
-			identifier: missingType.return
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has parameter $context with no type specified.'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::handle() has parameter $root with no type specified.'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::resolve() has no return type specified.'
-			identifier: missingType.return
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Middleware::resolve() has parameter $arguments with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
 			rawMessage: 'Parameter #2 $args of method Rebing\GraphQL\Support\Middleware::handle() expects array<string, mixed>, Closure given.'
 			identifier: argument.type
 			count: 1
 			path: src/Support/Middleware.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\PaginationType::getPaginationFields() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/PaginationType.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Privacy::fire() has parameter $args with no type specified.'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Support/Privacy.php
-
-		-
 			rawMessage: Access to an undefined property GraphQL\Type\Definition\Type::$config.
 			identifier: property.notFound
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::__construct() has parameter $queryArgs with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::addAlwaysFields() has parameter $select with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::addFieldToSelect() has parameter $select with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getRelations() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelect() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() has parameter $queryArgs with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() has parameter $requestedFields with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::getSelectableFieldsAndRelations() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $queryArgs with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $select with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleFields() has parameter $with with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $field with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $queryArgs with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $select with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleInterfaceFields() has parameter $with with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleRelation() has parameter $field with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::handleRelation() has parameter $select with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\SelectFields::isQueryable() has parameter $fieldObject with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/SelectFields.php
 
@@ -455,24 +113,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: Property Rebing\GraphQL\Support\SelectFields::$relations type has no value type specified in iterable type array.
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: Property Rebing\GraphQL\Support\SelectFields::$select type has no value type specified in iterable type array.
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Type::getFieldResolver() has parameter $field with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Support/Type.php
 
 		-
 			rawMessage: 'Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{$this(Rebing\GraphQL\Support\Type), non-falsy-string} given.'
@@ -497,4 +137,3 @@ parameters:
 			identifier: new.static
 			count: 1
 			path: src/Support/UploadType.php
-

@@ -32,6 +32,7 @@ abstract class Field
      * to provide custom authorization.
      *
      * @param mixed $root
+     * @param array<string, mixed> $args
      * @param mixed $ctx
      */
     public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
@@ -39,6 +40,9 @@ abstract class Field
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function attributes(): array
     {
         return [];
@@ -57,7 +61,8 @@ abstract class Field
     /**
      * Define custom Laravel Validator messages as per Laravel 'custom error messages'.
      *
-     * @param array $args submitted arguments
+     * @param array<string, mixed> $args submitted arguments
+     * @return array<string, string>
      */
     public function validationErrorMessages(array $args = []): array
     {
@@ -152,6 +157,10 @@ abstract class Field
         }
     }
 
+    /**
+     * @param array<string, mixed> $args
+     * @param array<string, mixed> $rules
+     */
     public function getValidator(array $args, array $rules): ValidatorContract
     {
         // allow our error messages to be customised
@@ -320,11 +329,19 @@ abstract class Field
         return SelectFields::class;
     }
 
+    /**
+     * @param array<int, mixed> $arguments
+     * @return array<string, mixed>
+     */
     protected function aliasArgs(array $arguments): array
     {
         return (new AliasArguments($this->args(), $arguments[1]))->get();
     }
 
+    /**
+     * @param array<int, mixed> $arguments
+     * @return array<string, mixed>
+     */
     protected function getArgs(array $arguments): array
     {
         return $this->aliasArgs($arguments);
@@ -332,6 +349,8 @@ abstract class Field
 
     /**
      * Get the attributes from the container.
+     *
+     * @return array<string, mixed>
      */
     public function getAttributes(): array
     {
@@ -381,7 +400,7 @@ abstract class Field
         return $attributes[$key] ?? null;
     }
 
-    public function __set(string $key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         $this->attributes[$key] = $value;
     }

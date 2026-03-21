@@ -30,6 +30,9 @@ class AliasArguments
         $this->maxDepth = $this->getArrayDepth($this->requestArguments);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function get(): array
     {
         $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, $this->requestArguments);
