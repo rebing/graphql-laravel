@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL;
 
-use Error as PhpError;
 use Exception;
 use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
@@ -638,6 +637,7 @@ class GraphQL
      */
     public static function handleErrors(array $errors, callable $formatter): array
     {
+        /** @var ExceptionHandler $handler */
         $handler = app()->make(ExceptionHandler::class);
 
         foreach ($errors as $error) {
@@ -645,12 +645,7 @@ class GraphQL
             $error = $error->getPrevious() ?: $error;
 
             // Don't report certain GraphQL errors
-            if ($error instanceof ValidationError ||
-                $error instanceof AuthorizationError ||
-                !(
-                    $error instanceof Exception ||
-                    $error instanceof PhpError
-                )) {
+            if ($error instanceof ValidationError || $error instanceof AuthorizationError) {
                 continue;
             }
 

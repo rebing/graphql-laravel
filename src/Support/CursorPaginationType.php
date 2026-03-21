@@ -44,7 +44,7 @@ class CursorPaginationType extends ObjectType implements WrapType
                 'type' => GraphQLType::nonNull(GraphQLType::listOf(GraphQLType::nonNull($underlyingType))),
                 'description' => 'List of items on the current page',
                 'resolve' => function (CursorPaginator $data): Collection {
-                    return $data->getCollection();
+                    return $data->getCollection(); // @phpstan-ignore method.notFound (getCollection() is on the concrete class, not the contract)
                 },
             ],
             'per_page' => [

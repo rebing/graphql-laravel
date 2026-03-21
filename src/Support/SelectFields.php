@@ -397,7 +397,7 @@ class SelectFields
         ?string $parentTable,
         bool $forRelation = false,
     ): void {
-        if (isset($fieldObject->config['always'])) {
+        if (isset($fieldObject->config['always'])) { // @phpstan-ignore isset.offset ('always' is a Rebing extension to webonyx's FieldDefinition config)
             $always = $fieldObject->config['always'];
 
             if (\is_string($always)) {
@@ -464,8 +464,12 @@ class SelectFields
                 $typesFiltered = array_filter(
                     $parentType->config['types'](),
                     function (GraphqlType $type) use ($query) {
+                        if (!$type instanceof ObjectType) {
+                            return false;
+                        }
+
                         /* @var Relation $query */
-                        return app($type->config['model'])->getTable() === $query->getParent()->getTable();
+                        return app($type->config['model'])->getTable() === $query->getParent()->getTable(); // @phpstan-ignore offsetAccess.notFound ('model' is a Rebing extension to webonyx's ObjectType config)
                     },
                 );
                 $typesFiltered = array_values($typesFiltered);

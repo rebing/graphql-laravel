@@ -15,6 +15,7 @@ use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionMethod;
+use ReflectionNamedType;
 
 /**
  * @property string $name
@@ -278,7 +279,7 @@ abstract class Field
             $additionalArguments = array_map(function ($param) use ($arguments, $fieldsAndArguments) {
                 $paramType = $param->getType();
 
-                if ($paramType->isBuiltin()) {
+                if (!$paramType instanceof ReflectionNamedType || $paramType->isBuiltin()) {
                     throw new InvalidArgumentException("'$param->name' could not be injected");
                 }
 
