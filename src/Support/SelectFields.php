@@ -232,7 +232,7 @@ class SelectFields
                         // Get the next parent type, so that 'with' queries could be made
                         // Both keys for the relation are required (e.g 'id' <-> 'user_id')
                         $relationsKey = $fieldObject->config['alias'] ?? $key;
-                        $relation = \call_user_func([app($parentType->config['model']), $relationsKey]);
+                        $relation = app($parentType->config['model'])->{$relationsKey}();
 
                         static::handleRelation($select, $relation, $parentTable, $field);
 

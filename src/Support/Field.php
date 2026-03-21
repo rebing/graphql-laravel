@@ -186,7 +186,7 @@ abstract class Field
      * Note: Despite the name, this method both prepends and appends global
      * middlewares. The name is kept for backward compatibility.
      *
-     * @phpstan-param list<string> $middleware
+     * @phpstan-param list<class-string> $middleware
      * @return list<class-string|object>
      */
     protected function appendGlobalMiddlewares(array $middleware): array

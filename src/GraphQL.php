@@ -254,6 +254,7 @@ class GraphQL
      */
     public function getGlobalResolverMiddlewares(): array
     {
+        /** @var list<class-string|object> $resolverMiddlewares */
         $resolverMiddlewares = $this->config->get('graphql.resolver_middleware_append') ?? [];
 
         return array_merge($resolverMiddlewares, $this->globalResolverMiddlewares);
@@ -365,7 +366,7 @@ class GraphQL
                 }
 
                 if (isset($objectType->config[$key])) {
-                    $objectType->config[$key] = $value;
+                    $objectType->config[$key] = $value; // @phpstan-ignore assign.propertyType (only 'name'/'description' keys are set in practice)
                 }
             }
         } elseif (\is_array($type)) {
@@ -425,7 +426,7 @@ class GraphQL
             $typeFields[$name] = $field;
         }
 
-        return new ObjectType(array_merge([
+        return new ObjectType(array_merge([ // @phpstan-ignore argument.type (dynamic field config array can't be statically verified)
             'fields' => $typeFields,
         ], $opts));
     }
@@ -468,7 +469,7 @@ class GraphQL
             $directives[$directive->name] = $directive;
         }
 
-        return new Schema([
+        return new Schema([ // @phpstan-ignore argument.type (objectType() always returns ObjectType but is typed as Type)
             'query' => $query,
             'mutation' => $mutation,
             'subscription' => $subscription,

@@ -23,7 +23,7 @@ abstract class Middleware
      */
     public function resolve(array $arguments, Closure $next): mixed
     {
-        return $this->handle(...$arguments, ...[
+        return $this->handle(...$arguments, ...[ // @phpstan-ignore argument.type (Pipeline guarantees correct argument types at runtime)
             function (...$arguments) use ($next) {
                 return $next($arguments);
             },

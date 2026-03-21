@@ -13,30 +13,6 @@ parameters:
 			path: src/GraphQL.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\GraphQL::getGlobalResolverMiddlewares() should return list<class-string|object> but returns array<mixed, mixed>.'
-			identifier: return.type
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\ObjectType constructor expects array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}, non-empty-array<string, array|string> given.'
-			identifier: argument.type
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Schema constructor expects array{description?: string|null, query?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, mutation?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, subscription?: (callable(): (GraphQL\Type\Definition\ObjectType|null))|GraphQL\Type\Definition\ObjectType|null, types?: (callable(): iterable<callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType>)|(callable(): iterable<GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type>)|iterable<(callable(): GraphQL\Type\Definition\Type&GraphQL\Type\Definition\NamedType)|(GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)>|null, directives?: array<GraphQL\Type\Definition\Directive>|null, typeLoader?: (callable(string): ((GraphQL\Type\Definition\NamedType&GraphQL\Type\Definition\Type)|null))|null, assumeValid?: bool|null, ...}|GraphQL\Type\SchemaConfig, array{query: GraphQL\Type\Definition\Type, mutation: GraphQL\Type\Definition\Type|null, subscription: GraphQL\Type\Definition\Type|null, directives: array, types: Closure(): list<GraphQL\Type\Definition\NonNull|(GraphQL\Type\Definition\NullableType&GraphQL\Type\Definition\Type)>, typeLoader: Closure(mixed): (GraphQL\Type\Definition\Type|null)} given.'
-			identifier: argument.type
-			count: 1
-			path: src/GraphQL.php
-
-		-
-			rawMessage: 'Property GraphQL\Type\Definition\ObjectType::$config (array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}) does not accept array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|string|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|string|null, fields: (callable(): iterable)|iterable|string, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>|string, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|string|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|string|null, ...}.'
-			identifier: assign.propertyType
-			count: 1
-			path: src/GraphQL.php
-
-		-
 			rawMessage: Result of || is always true.
 			identifier: booleanOr.alwaysTrue
 			count: 1
@@ -47,18 +23,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: src/Support/CursorPaginationType.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\EnumType constructor expects array{name?: string|null, description?: string|null, values: (callable(): iterable<int|string, mixed>)|iterable<int|string, mixed>, astNode?: GraphQL\Language\AST\EnumTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\EnumTypeExtensionNode>|null}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/EnumType.php
-
-		-
-			rawMessage: 'Parameter #2 $schema of method Rebing\GraphQL\Support\ExecutionMiddleware\AbstractExecutionMiddleware::handle() expects GraphQL\Type\Schema, Closure given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/ExecutionMiddleware/AbstractExecutionMiddleware.php
 
 		-
 			rawMessage: 'Cannot call method getName() on ReflectionType|null.'
@@ -73,30 +37,6 @@ parameters:
 			path: src/Support/Field.php
 
 		-
-			rawMessage: 'Method Rebing\GraphQL\Support\Field::appendGlobalMiddlewares() should return list<class-string|object> but returns list<object|string>.'
-			identifier: return.type
-			count: 1
-			path: src/Support/Field.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\InputObjectType constructor expects array{name?: string|null, description?: string|null, isOneOf?: bool|null, fields: (callable(): iterable<array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|callable(): (array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>)|iterable<array{name?: string, type: (callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type))|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|(callable(): (array{name?: string, type: callable(): (GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type), defaultValue?: mixed, description?: string|null, deprecationReason?: string|null, astNode?: GraphQL\Language\AST\InputValueDefinitionNode|null}|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)))|GraphQL\Type\Definition\InputObjectField|(GraphQL\Type\Definition\InputType&GraphQL\Type\Definition\Type)>, parseValue?: (callable(array<string, mixed>): mixed)|null, astNode?: GraphQL\Language\AST\InputObjectTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\InputObjectTypeExtensionNode>|null}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/InputType.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\InterfaceType constructor expects array{name?: string|null, description?: string|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, resolveType?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (callable(): (GraphQL\Type\Definition\ObjectType|string|null)|GraphQL\Deferred|GraphQL\Type\Definition\ObjectType|string|null))|null, resolveValue?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, astNode?: GraphQL\Language\AST\InterfaceTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\InterfaceTypeExtensionNode>|null}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/InterfaceType.php
-
-		-
-			rawMessage: 'Parameter #2 $args of method Rebing\GraphQL\Support\Middleware::handle() expects array<string, mixed>, Closure given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/Middleware.php
-
-		-
 			rawMessage: Access to an undefined property GraphQL\Type\Definition\Type::$config.
 			identifier: property.notFound
 			count: 1
@@ -107,30 +47,6 @@ parameters:
 			identifier: isset.offset
 			count: 1
 			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Parameter #1 $callback of function call_user_func expects callable(): mixed, array{mixed, mixed} given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/SelectFields.php
-
-		-
-			rawMessage: 'Parameter #1 $callback of function call_user_func_array expects callable(): mixed, array{$this(Rebing\GraphQL\Support\Type), non-falsy-string} given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/Type.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\ObjectType constructor expects array{name?: string|null, description?: string|null, resolveField?: (callable(mixed, array<string, mixed>, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, argsMapper?: (callable(array<string, mixed>, GraphQL\Type\Definition\FieldDefinition, GraphQL\Language\AST\FieldNode, mixed): mixed)|null, fields: (callable(): iterable)|iterable, interfaces?: (callable(): iterable<callable(): GraphQL\Type\Definition\InterfaceType|GraphQL\Type\Definition\InterfaceType>)|iterable<(callable(): GraphQL\Type\Definition\InterfaceType)|GraphQL\Type\Definition\InterfaceType>, isTypeOf?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (bool|GraphQL\Deferred|null))|null, astNode?: GraphQL\Language\AST\ObjectTypeDefinitionNode|null, ...}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/Type.php
-
-		-
-			rawMessage: 'Parameter #1 $config of class GraphQL\Type\Definition\UnionType constructor expects array{name?: string|null, description?: string|null, types: (callable(): iterable<callable(): GraphQL\Type\Definition\ObjectType|GraphQL\Type\Definition\ObjectType>)|iterable<(callable(): GraphQL\Type\Definition\ObjectType)|GraphQL\Type\Definition\ObjectType>, resolveType?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): (callable(): (GraphQL\Type\Definition\ObjectType|string|null)|GraphQL\Deferred|GraphQL\Type\Definition\ObjectType|string|null))|null, resolveValue?: (callable(mixed, mixed, GraphQL\Type\Definition\ResolveInfo): mixed)|null, astNode?: GraphQL\Language\AST\UnionTypeDefinitionNode|null, extensionASTNodes?: array<GraphQL\Language\AST\UnionTypeExtensionNode>|null}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: src/Support/UnionType.php
 
 		-
 			rawMessage: 'Unsafe usage of new static().'
