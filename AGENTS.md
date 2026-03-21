@@ -2,6 +2,8 @@
 
 A Laravel wrapper for `webonyx/graphql-php`. PHP 8.2+, Laravel 12+.
 
+For development setup, commands, code style, and the PR workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Project Structure
 
 ```
@@ -29,22 +31,6 @@ tests/                        # Two PHPUnit suites
 
 config/config.php             # Publishable Laravel config (schemas, types, middleware, security, tracing)
 ```
-
-## Commands
-
-- Run all tests: `composer tests`
-- Run single test: `vendor/bin/phpunit --filter TestClassName::testMethodName`
-- Run test file: `vendor/bin/phpunit tests/Unit/GraphQLTest.php`
-- Fix code style: `composer fix-style`
-- Static analysis: `composer phpstan`
-- Update PHPStan baseline: `composer phpstan-baseline`
-
-## CI
-
-Three GitHub Actions workflows run on PRs and pushes to `master`:
-- **tests.yml**: PHPUnit across PHP 8.2–8.5, Laravel 12–13, prefer-lowest/prefer-stable
-- **analysis.yml**: PHPStan (static analysis) + code style lint
-- **integration_tests.yml**: Integration tests against a real Laravel app
 
 ## Architecture
 
@@ -90,18 +76,6 @@ Type (abstract)            # Base for all GraphQL types: fields(), attributes(),
 - Types auto-discover resolvers via `resolve{StudlyFieldName}Field()` methods on the Type class
 - Authorization: override `authorize()` on `Field`/`Query`/`Mutation`
 - Validation: override `rules()` to return Laravel validation rules for args
-
-## Code Style
-
-- PHP 8.2+, strict types required: `declare(strict_types = 1);` (note spaces around `=`)
-- Namespace on same line after declare
-- Import all classes at top; no inline `\Fully\Qualified\Names`
-- Use strict type hints on all methods
-- PHPDoc for arrays/collections: `@var array<string,mixed>`, `@var list<object>`, `@param array<string,Schema> $schemas`
-- PHPStan level 8 with strict rules; check `phpstan-baseline.neon` for known issues
-- PSR-12 via php-cs-fixer with `mfn/php-cs-fixer-config` ruleset
-- Use Laravel contracts/interfaces: `Illuminate\Contracts\Config\Repository` not `Config` class
-- Use `thecodingmachine/safe` functions where applicable
 
 ## Test Conventions
 
