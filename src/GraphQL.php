@@ -317,7 +317,7 @@ class GraphQL
 
     public function getType(string $name, bool $fresh = false): Type
     {
-        $standardTypes = Type::getStandardTypes();
+        $standardTypes = Type::builtInScalars();
 
         if (\in_array($name, $standardTypes)) {
             return $standardTypes[$name];
@@ -461,7 +461,7 @@ class GraphQL
             ? $this->objectType($schemaSubscription, ['name' => 'Subscription'])
             : null;
 
-        $directives = Directive::getInternalDirectives();
+        $directives = Directive::builtInDirectives();
 
         foreach ($schemaDirectives as $class) {
             $directive = $this->app->make($class);

@@ -201,7 +201,7 @@ class GraphQLTest extends TestCase
 
     public function testStandardTypes(): void
     {
-        $standardTypes = Type::getStandardTypes();
+        $standardTypes = Type::builtInScalars();
 
         foreach ($standardTypes as $standardType) {
             $type = GraphQL::type($standardType->name);
@@ -217,7 +217,7 @@ class GraphQLTest extends TestCase
 
     public function testStandardTypeModifiers(): void
     {
-        $standardTypes = Type::getStandardTypes();
+        $standardTypes = Type::builtInScalars();
 
         foreach ($standardTypes as $standardType) {
             $type = GraphQL::type("$standardType->name!");
