@@ -72,7 +72,7 @@
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "cs-update": "composer update --working-dir=tools/cs-fixer",
         "cs-lint": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff --dry-run",
-        "cs-fix": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix",
+        "cs-fix": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff",
         "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest",
         "bc-update": "composer update --working-dir=tools/bc-check",
         "bc-check": "composer install --working-dir=tools/bc-check --quiet && tools/bc-check/vendor/bin/roave-backward-compatibility-check",
