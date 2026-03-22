@@ -72,6 +72,7 @@
         "cs-lint": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff --dry-run",
         "cs-fix": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff",
         "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest",
+        "tests-coverage": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest --coverage-clover=coverage.xml",
         "bc-update": "composer update --working-dir=tools/bc-check",
         "bc-check": "composer install --working-dir=tools/bc-check --quiet && tools/bc-check/vendor/bin/roave-backward-compatibility-check",
         "bc-baseline": "composer install --working-dir=tools/bc-check --quiet && php bin/update-bc-baseline.php --strip-baseline && tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php"
