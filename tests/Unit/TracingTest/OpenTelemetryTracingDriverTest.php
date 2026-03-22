@@ -63,7 +63,6 @@ class OpenTelemetryTracingDriverTest extends TestCase
         self::assertCount(1, $spans);
 
         $span = $spans[0];
-        self::assertInstanceOf(SpanDataInterface::class, $span);
         self::assertSame('query', $span->getName());
         self::assertSame(SpanKind::KIND_SERVER, $span->getKind());
         self::assertSame('query', $span->getAttributes()->get('graphql.operation.type'));

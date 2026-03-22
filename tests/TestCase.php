@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests;
 
-use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
@@ -96,11 +95,6 @@ class TestCase extends BaseTestCase
         }
     }
 
-    protected function assertGraphQLSchema(Schema $schema): void
-    {
-        self::assertInstanceOf(Schema::class, $schema);
-    }
-
     protected function assertGraphQLSchemaHasQuery(Schema $schema, string $key): void
     {
         // Query
@@ -110,7 +104,6 @@ class TestCase extends BaseTestCase
         self::assertArrayHasKey($key, $queryFields);
 
         $queryField = $queryFields[$key];
-        self::assertInstanceOf(FieldDefinition::class, $queryField);
         $queryListType = $queryField->getType();
         self::assertInstanceOf(ListOfType::class, $queryListType);
         $queryType = $queryListType->getWrappedType();
@@ -127,7 +120,6 @@ class TestCase extends BaseTestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        self::assertInstanceOf(FieldDefinition::class, $mutationField);
         self::assertInstanceOf(ObjectType::class, $mutationType);
     }
 

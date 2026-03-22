@@ -12,7 +12,6 @@ class InputTypeTest extends TestCase
     public function testToType(): void
     {
         $type = new ExampleInputType();
-        /** @var InputObjectType $objectType */
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
@@ -44,7 +43,6 @@ class InputTypeTest extends TestCase
             }
         };
 
-        /** @var InputObjectType $objectType */
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
@@ -54,7 +52,6 @@ class InputTypeTest extends TestCase
     public function testNonOneOfIsDefault(): void
     {
         $type = new ExampleInputType();
-        /** @var InputObjectType $objectType */
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
