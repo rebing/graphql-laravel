@@ -85,6 +85,7 @@ or update them explicitly with `composer <tool>-update`.
 | `composer cs-lint` | Check code style without modifying files |
 | `composer phpstan` | Run static analysis (level 8) |
 | `composer phpstan-baseline` | Regenerate the PHPStan baseline |
+| `composer phpstan-update` | Update the static analysis tools (`tools/phpstan/`) |
 | `composer cs-update` | Update the code style fixer (`tools/cs-fixer/`) |
 | `composer bc-update` | Update the backward compatibility checker (`tools/bc-check/`) |
 | `composer bc-check` | Check for backward compatibility breaks against the last stable release |
@@ -180,6 +181,20 @@ This regenerates the baseline XML. Commit the updated
 
 **After a new stable release:** the tool auto-detects the new tag as the
 comparison base. Run `composer bc-baseline` to clean up stale entries.
+
+### Bumping the Laravel Major Version
+
+When upgrading the minimum supported Laravel version:
+
+1. Update `illuminate/contracts` and `illuminate/support` constraints in the
+   root `composer.json`.
+2. Update `illuminate/contracts` in `tools/phpstan/composer.json` to match --
+   this ensures larastan resolves against the same Laravel major version as the
+   project.
+3. Update the `laravel/framework` constraint in root `require-dev`.
+4. Update the Laravel version matrix in CI workflows:
+   - `.github/workflows/tests.yml` (`matrix.laravel`)
+   - `.github/workflows/integration_tests.yml` (`matrix.laravel`)
 
 ### CI
 

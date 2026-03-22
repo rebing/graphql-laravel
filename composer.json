@@ -47,15 +47,12 @@
         "ext-pdo_sqlite": "*",
         "eliashaeussler/deep-closure-comparator": "^1.2",
         "fakerphp/faker": "^1.24",
-        "larastan/larastan": "^3",
         "laravel/framework": "^12.0|^13.0",
         "mockery/mockery": "^1.6.10",
         "open-telemetry/sdk": "^1.13",
         "open-telemetry/sem-conv": "^1.38",
         "orchestra/testbench": "^10.0|^11.0",
-        "phpstan/phpstan": "^2",
-        "phpunit/phpunit": "^11.5.3|^12.0.1|^13.0",
-        "thecodingmachine/phpstan-safe-rule": "^1"
+        "phpunit/phpunit": "^11.5.3|^12.0.1|^13.0"
     },
     "autoload": {
         "psr-4": {
@@ -68,8 +65,9 @@
         }
     },
     "scripts": {
-        "phpstan": "phpstan analyse --memory-limit=512M --error-format=raw",
-        "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
+        "phpstan": "composer install --working-dir=tools/phpstan --quiet && tools/phpstan/vendor/bin/phpstan analyse --memory-limit=512M --error-format=raw",
+        "phpstan-baseline": "composer install --working-dir=tools/phpstan --quiet && tools/phpstan/vendor/bin/phpstan analyse --memory-limit=512M --generate-baseline",
+        "phpstan-update": "composer update --working-dir=tools/phpstan",
         "cs-update": "composer update --working-dir=tools/cs-fixer",
         "cs-lint": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff --dry-run",
         "cs-fix": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff",

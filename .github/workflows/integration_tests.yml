@@ -50,9 +50,6 @@ jobs:
           ini-file: development
           coverage: none
 
-      # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev larastan/larastan --no-update
-      - run: composer remove --dev phpstan/phpstan --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
@@ -94,9 +91,6 @@ jobs:
           ini-file: development
           coverage: none
 
-      # Due to version incompatibility with older Laravels we test, we remove it
-      - run: composer remove --dev larastan/larastan --no-update
-      - run: composer remove --dev phpstan/phpstan --no-update
       - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
 
       - name: Get composer cache directory
