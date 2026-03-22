@@ -1,0 +1,8 @@
+{
+    "require": {
+        "roave/backward-compatibility-check": "^8"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -65,10 +65,13 @@ After cloning this repository locally, execute the following commands:
 ```bash
 cd /path/to/graphql-laravel
 composer install
+composer bc-install
 ```
 
-All dev tooling (PHPUnit, PHPStan, php-cs-fixer, paratest) is installed via
-Composer.
+The project uses two separate Composer installations: the main one for the
+library and its dev tools, and a second one in `tools/bc-check/` for the
+backward compatibility checker (installed in isolation to avoid dependency
+conflicts). Both need to be kept up to date.
 
 ### Commands
 
@@ -79,6 +82,9 @@ Composer.
 | `composer lint` | Check code style without modifying files |
 | `composer phpstan` | Run static analysis (level 8) |
 | `composer phpstan-baseline` | Regenerate the PHPStan baseline |
+| `composer bc-install` | Install the backward compatibility checker (`tools/bc-check/`) |
+| `composer bc-check` | Check for backward compatibility breaks against the last stable release |
+| `composer bc-baseline` | Regenerate the BC baseline after an intentional breaking change |
 
 ### Coding Standards
 
@@ -140,11 +146,44 @@ project root directory:
 composer tests
 ```
 
+### Backward Compatibility
+
+This project uses [roave/backward-compatibility-check](https://github.com/Roave/BackwardCompatibilityCheck) to detect unintentional breaking changes in the public and protected API.
+
+The tool is installed in a separate Composer root at `tools/bc-check/` (see
+[Roave's recommended approach](https://github.com/Roave/BackwardCompatibilityCheck/pull/770))
+to avoid dependency conflicts with the main project. Run `composer bc-install`
+to install or update it.
+
+**Checking for breaks:**
+
+```bash
+composer bc-check
+```
+
+The tool automatically detects the latest stable semver tag, compares it against
+`HEAD`, and reads `.roave-backward-compatibility-check.xml` to suppress known
+intentional breaks.
+
+**After an intentional breaking change:**
+
+```bash
+composer bc-baseline
+```
+
+This regenerates the baseline XML. Commit the updated
+`.roave-backward-compatibility-check.xml` alongside your changes.
+
+**After a new stable release:** the tool auto-detects the new tag as the
+comparison base. Run `composer bc-baseline` to clean up stale entries.
+
+### CI
+
 Three GitHub Actions workflows run on every PR:
 
 1. **Tests** (`tests.yml`) -- PHPUnit across PHP 8.2--8.5, Laravel 12--13,
    with both `prefer-lowest` and `prefer-stable` dependency resolution.
 2. **Analysis** (`analysis.yml`) -- PHPStan static analysis, code style lint,
-   and `composer audit` (security).
+   `composer audit` (security), and backward compatibility check.
 3. **Integration tests** (`integration_tests.yml`) -- Runs against a real
     Laravel application and verifies OpenTelemetry integration.

@@ -22,6 +22,12 @@ src/                          # Production code (Rebing\GraphQL namespace)
     ├── Contracts/            # TypeConvertible, ConfigConvertible
     └── Facades/              # GraphQL facade
 
+bin/                          # Dev scripts (standalone PHP, no autoload)
+└── update-bc-baseline.php    # Generates/replaces baseline XML from BC checker output
+
+tools/                        # Isolated dev tool installations (separate composer roots)
+└── bc-check/                 # roave/backward-compatibility-check (own composer.json, no lock committed)
+
 tests/                        # Two PHPUnit suites
 ├── TestCase.php              # Base: extends Orchestra Testbench, no DB
 ├── TestCaseDatabase.php      # Base: adds SQLite in-memory DB + migrations

@@ -74,7 +74,10 @@
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
         "lint": "php-cs-fixer fix --diff --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest"
+        "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest",
+        "bc-install": "composer update --working-dir=tools/bc-check",
+        "bc-check": "tools/bc-check/vendor/bin/roave-backward-compatibility-check",
+        "bc-baseline": "php bin/update-bc-baseline.php --strip-baseline && tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php"
     },
     "extra": {
         "branch-alias": {
