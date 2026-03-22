@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roave-bc-check xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Roave/BackwardCompatibilityCheck/8.21.x/Resources/schema.xsd">
+  <baseline>
+    <ignored-regex>#\[BC\] ADDED\: Parameter fieldArgs was added to Method validate\(\) of class Rebing\\GraphQL\\Support\\Privacy#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: Parameter 0 of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed name from queryArgs to fieldArgs#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: Rebing\\GraphQL\\Support\\Rules was marked "@internal"#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$args of Rebing\\GraphQL\\Support\\Privacy\#fire\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$context of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$root of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$value of Rebing\\GraphQL\\Support\\Field\#__set\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The return type of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The return type of Rebing\\GraphQL\\Support\\Middleware\#resolve\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] REMOVED\: Method Rebing\\GraphQL\\Support\\SelectFields\:\:validateField\(\) was removed#</ignored-regex>
+  </baseline>
+</roave-bc-check>
