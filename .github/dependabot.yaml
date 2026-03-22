@@ -10,7 +10,10 @@ updates:
           - '*'
 
   - package-ecosystem: composer
-    directory: /
+    directories:
+      - /
+      - /tools/bc-check
+      - /tools/cs-fixer
     schedule:
       interval: monthly
     groups:

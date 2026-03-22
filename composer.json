@@ -47,10 +47,8 @@
         "ext-pdo_sqlite": "*",
         "eliashaeussler/deep-closure-comparator": "^1.2",
         "fakerphp/faker": "^1.24",
-        "friendsofphp/php-cs-fixer": "^3",
         "larastan/larastan": "^3",
         "laravel/framework": "^12.0|^13.0",
-        "mfn/php-cs-fixer-config": "^2",
         "mockery/mockery": "^1.6.10",
         "open-telemetry/sdk": "^1.13",
         "open-telemetry/sem-conv": "^1.38",
@@ -72,12 +70,13 @@
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M --error-format=raw",
         "phpstan-baseline": "phpstan analyse --memory-limit=512M --generate-baseline",
-        "lint": "php-cs-fixer fix --diff --dry-run",
-        "fix-style": "php-cs-fixer fix",
+        "cs-update": "composer update --working-dir=tools/cs-fixer",
+        "cs-lint": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff --dry-run",
+        "cs-fix": "composer install --working-dir=tools/cs-fixer --quiet && tools/cs-fixer/vendor/bin/php-cs-fixer fix --diff",
         "tests": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest",
-        "bc-install": "composer update --working-dir=tools/bc-check",
-        "bc-check": "tools/bc-check/vendor/bin/roave-backward-compatibility-check",
-        "bc-baseline": "php bin/update-bc-baseline.php --strip-baseline && tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php"
+        "bc-update": "composer update --working-dir=tools/bc-check",
+        "bc-check": "composer install --working-dir=tools/bc-check --quiet && tools/bc-check/vendor/bin/roave-backward-compatibility-check",
+        "bc-baseline": "composer install --working-dir=tools/bc-check --quiet && php bin/update-bc-baseline.php --strip-baseline && tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php"
     },
     "extra": {
         "branch-alias": {
