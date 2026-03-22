@@ -51,6 +51,10 @@ When working on your change, please keep the following in mind:
   - Description of the change [\#123 / your-github-username](https://github.com/rebing/graphql-laravel/pull/123)
   ```
 
+- **Update `.gitattributes`** if you add new files or directories that are only
+  needed for development (e.g. tooling configs, scripts, test fixtures). Mark
+  them with `export-ignore` so they are excluded from Composer distribution
+  archives.
 - **Fix code style** before submitting. _Hint: run `composer fix-style`._
 - **CI must pass.** All three workflows (tests, analysis, integration) must be
   green before a PR can be merged.
