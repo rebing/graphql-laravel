@@ -1,8 +1,8 @@
 includes:
-    - ./vendor/larastan/larastan/extension.neon
+    - ./tools/phpstan/vendor/larastan/larastan/extension.neon
     - ./phpstan-baseline.neon
-    - ./vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - ./vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
+    - ./tools/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - ./tools/phpstan/vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
 parameters:
     level: 8
     tmpDir: tmp/phpstan/

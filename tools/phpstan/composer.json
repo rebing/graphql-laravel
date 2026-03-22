@@ -1,0 +1,11 @@
+{
+    "require": {
+        "illuminate/contracts": "^13",
+        "larastan/larastan": "^3",
+        "phpstan/phpstan": "^2",
+        "thecodingmachine/phpstan-safe-rule": "^1"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
