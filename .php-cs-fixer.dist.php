@@ -2,7 +2,7 @@
 
 use PhpCsFixer\Config;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/tools/cs-fixer/vendor/autoload.php';
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
     ->exclude('tmp');

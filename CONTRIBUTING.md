@@ -55,7 +55,7 @@ When working on your change, please keep the following in mind:
   needed for development (e.g. tooling configs, scripts, test fixtures). Mark
   them with `export-ignore` so they are excluded from Composer distribution
   archives.
-- **Fix code style** before submitting. _Hint: run `composer fix-style`._
+- **Fix code style** before submitting. _Hint: run `composer cs-fix`._
 - **CI must pass.** All three workflows (tests, analysis, integration) must be
   green before a PR can be merged.
 
@@ -69,24 +69,24 @@ After cloning this repository locally, execute the following commands:
 ```bash
 cd /path/to/graphql-laravel
 composer install
-composer bc-install
 ```
 
-The project uses two separate Composer installations: the main one for the
-library and its dev tools, and a second one in `tools/bc-check/` for the
-backward compatibility checker (installed in isolation to avoid dependency
-conflicts). Both need to be kept up to date.
+The project uses multiple separate Composer installations: the main one for the
+library and its dev tools and the others in `tools/` in isolation to avoid
+dependency conflicts. They auto-install on first use, but you can also install
+or update them explicitly with `composer <tool>-update`.
 
 ### Commands
 
 | Command | What it does |
 |---------|--------------|
 | `composer tests` | Run the full test suite via paratest (parallel) |
-| `composer fix-style` | Auto-fix code style (php-cs-fixer) |
-| `composer lint` | Check code style without modifying files |
+| `composer cs-fix` | Auto-fix code style (php-cs-fixer) |
+| `composer cs-lint` | Check code style without modifying files |
 | `composer phpstan` | Run static analysis (level 8) |
 | `composer phpstan-baseline` | Regenerate the PHPStan baseline |
-| `composer bc-install` | Install the backward compatibility checker (`tools/bc-check/`) |
+| `composer cs-update` | Update the code style fixer (`tools/cs-fixer/`) |
+| `composer bc-update` | Update the backward compatibility checker (`tools/bc-check/`) |
 | `composer bc-check` | Check for backward compatibility breaks against the last stable release |
 | `composer bc-baseline` | Regenerate the BC baseline after an intentional breaking change |
 
@@ -156,8 +156,8 @@ This project uses [roave/backward-compatibility-check](https://github.com/Roave/
 
 The tool is installed in a separate Composer root at `tools/bc-check/` (see
 [Roave's recommended approach](https://github.com/Roave/BackwardCompatibilityCheck/pull/770))
-to avoid dependency conflicts with the main project. Run `composer bc-install`
-to install or update it.
+to avoid dependency conflicts with the main project. Run `composer bc-update`
+to update it.
 
 **Checking for breaks:**
 
