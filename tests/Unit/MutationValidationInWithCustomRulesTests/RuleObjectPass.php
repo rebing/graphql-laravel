@@ -3,20 +3,12 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\MutationValidationInWithCustomRulesTests;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class RuleObjectPass implements Rule
+class RuleObjectPass implements ValidationRule
 {
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return true;
-    }
-
-    /**
-     * @return array<int,string>|string
-     */
-    public function message()
-    {
-        return 'this message is not expected to be triggered';
     }
 }

@@ -2,6 +2,7 @@ includes:
     - ./tools/phpstan/vendor/larastan/larastan/extension.neon
     - ./phpstan-baseline.neon
     - ./tools/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - ./tools/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - ./tools/phpstan/vendor/phpstan/phpstan-phpunit/extension.neon
     - ./tools/phpstan/vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
 parameters:

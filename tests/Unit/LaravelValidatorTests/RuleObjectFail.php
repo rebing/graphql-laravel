@@ -3,20 +3,13 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\LaravelValidatorTests;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class RuleObjectFail implements Rule
+class RuleObjectFail implements ValidationRule
 {
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return false;
-    }
-
-    /**
-     * @return array<int,string>|string
-     */
-    public function message()
-    {
-        return 'rule object validation fails';
+        $fail('rule object validation fails');
     }
 }
