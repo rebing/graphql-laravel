@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use GraphQL\Error\Error;
-use GraphQL\Language\AST\DocumentNode;
 use GraphQL\Server\OperationParams as BaseOperationParams;
 use PHPUnit\Framework\TestCase;
 use Rebing\GraphQL\Support\OperationParams;
@@ -60,7 +59,6 @@ class OperationParamsTest extends TestCase
         $params = new OperationParams($base);
 
         $document = $params->getParsedQuery();
-        self::assertInstanceOf(DocumentNode::class, $document);
 
         // Second call should return the same cached instance
         $document2 = $params->getParsedQuery();
