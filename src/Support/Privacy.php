@@ -11,11 +11,12 @@ abstract class Privacy
     }
 
     /**
+     * @param mixed $root The query root value, which is the result of the parent field's resolver
      * @param array<string, mixed> $fieldArgs The field's own declared arguments
      * @param mixed $queryContext The query context value
      *
      * @return bool Return `true` to allow access to the field in question,
      *              `false` otherwise
      */
-    abstract public function validate(array $fieldArgs, $queryContext = null): bool;
+    abstract public function validate($root, array $fieldArgs, $queryContext = null): bool;
 }

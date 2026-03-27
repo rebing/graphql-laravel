@@ -124,7 +124,7 @@ abstract class Type implements TypeConvertible
     protected static function wrapResolverWithPrivacy(?callable $originalResolve, $privacy): Closure
     {
         return function ($root, array $args, $context, ResolveInfo $info) use ($originalResolve, $privacy) {
-            if (!static::evaluatePrivacy($privacy, $args, $context)) {
+            if (!static::evaluatePrivacy($privacy, $root, $args, $context)) {
                 return null;
             }
 
@@ -143,7 +143,7 @@ abstract class Type implements TypeConvertible
      * @param array<string,mixed> $args The field's own arguments
      * @param mixed $context The query context value
      */
-    protected static function evaluatePrivacy(mixed $privacy, array $args, $context): bool
+    protected static function evaluatePrivacy(mixed $privacy, $root, array $args, $context): bool
     {
         if (\is_callable($privacy)) {
             return (bool) $privacy($args, $context);
@@ -153,7 +153,7 @@ abstract class Type implements TypeConvertible
             /** @var Privacy $instance */
             $instance = app($privacy);
 
-            return $instance->fire($args, $context);
+            return $instance->fire($root, $args, $context);
         }
 
         throw new RuntimeException(

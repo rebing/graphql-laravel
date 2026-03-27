@@ -1719,7 +1719,7 @@ class UserType extends GraphQLType
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
-                'privacy'       => function (array $args, $ctx): bool {
+                'privacy'       => function ($root, array $args, $ctx): bool {
                     // Only the authenticated user can see their own email.
                     // $ctx is the query context value (see notes below).
                     // By default, AddAuthUserContextValueMiddleware sets
@@ -1744,9 +1744,9 @@ use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $fieldArgs, $queryContext = null): bool
+    public function validate($root, array $fieldArgs, $queryContext = null): bool
     {
-        return $queryContext && $queryContext->id === Auth::id();
+        return $queryContext && $queryContext->id === Auth::id() && $root->owner_id === Auth::id();
     }
 }
 ```
@@ -1791,7 +1791,7 @@ If the field declares its own `args`, they are available in `$args`:
             'type' => Type::nonNull(Type::string()),
         ],
     ],
-    'privacy' => function (array $args, $ctx): bool {
+    'privacy' => function ($root, array $args, $ctx): bool {
         // Only allow access when a valid reason is provided.
         return in_array($args['reason'] ?? '', ['legal', 'compliance']);
     },

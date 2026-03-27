@@ -7,7 +7,8 @@ CHANGELOG
 ----------------------
 
 ## Breaking changes
-- `Privacy::validate()` first parameter renamed from `$queryArgs` to `$fieldArgs` — it now receives the field's own arguments instead of root query arguments
+- `Privacy::validate()` new `$root` parameter, which contains the root value for the field resolver, allowing for more flexible privacy policies.
+- `Privacy::validate()` `$queryArgs` parameter renamed to `$fieldArgs` — it now receives the field's own arguments instead of root query arguments
 - `SelectFields` now identifies wrapper types via the `Rebing\GraphQL\Support\Contracts\WrapType` marker interface. Custom pagination types and wrap types used with `SelectFields` **must** implement this interface. [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
 - `Middleware::handle()` and `Middleware::resolve()` now declare native `mixed` parameter and return types
 
