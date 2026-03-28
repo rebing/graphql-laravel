@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\SelectFields\ValidateFieldTests;
 
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use PHPUnit\Framework\Assert;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -46,14 +47,14 @@ class PostType extends GraphQLType
             'title_privacy_closure_allowed' => [
                 'alias' => 'title',
                 'type' => Type::string(),
-                'privacy' => function (array $args): bool {
+                'privacy' => function (mixed $root, array $args): bool {
                     return true;
                 },
             ],
             'title_privacy_closure_denied' => [
                 'alias' => 'title',
                 'type' => Type::string(),
-                'privacy' => function (array $args): bool {
+                'privacy' => function (mixed $root, array $args): bool {
                     return false;
                 },
             ],
@@ -80,7 +81,7 @@ class PostType extends GraphQLType
                         'type' => Type::boolean(),
                     ],
                 ],
-                'privacy' => function (array $fieldArgs): bool {
+                'privacy' => function (mixed $root, array $fieldArgs): bool {
                     $expectedFieldArgs = [
                         'arg_from_field' => true,
                     ];
@@ -107,7 +108,7 @@ class PostType extends GraphQLType
             'title_privacy_closure_query_context' => [
                 'alias' => 'title',
                 'type' => Type::string(),
-                'privacy' => static function (array $fieldArgs, $queryContext): bool {
+                'privacy' => static function (mixed $root, array $fieldArgs, $queryContext): bool {
                     $expectedQueryContext = [
                         'arg_from_context_true' => true,
                         'arg_from_context_false' => false,
@@ -121,6 +122,26 @@ class PostType extends GraphQLType
                 'alias' => 'title',
                 'type' => Type::string(),
                 'privacy' => PrivacyQueryContext::class,
+            ],
+            'title_privacy_closure_root' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'always' => ['flag'],
+                'privacy' => function (mixed $root, array $fieldArgs): bool {
+                    Assert::assertInstanceOf(Post::class, $root);
+
+                    return (bool) $root->flag;
+                },
+            ],
+            'title_privacy_closure_resolve_info' => [
+                'alias' => 'title',
+                'type' => Type::string(),
+                'privacy' => static function (mixed $root, array $fieldArgs, mixed $queryContext, ?ResolveInfo $resolveInfo): bool {
+                    Assert::assertInstanceOf(ResolveInfo::class, $resolveInfo);
+                    Assert::assertSame('title_privacy_closure_resolve_info', $resolveInfo->fieldName);
+
+                    return true;
+                },
             ],
         ];
     }

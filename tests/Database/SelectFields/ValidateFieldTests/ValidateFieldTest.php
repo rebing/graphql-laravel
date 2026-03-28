@@ -631,4 +631,98 @@ SQL,
         ];
         self::assertEquals($expectedResult, $result);
     }
+
+    /**
+     * Test that the privacy closure receives the root object ($root)
+     * and can make per-row visibility decisions based on it.
+     *
+     * Two posts are created: one with flag=true, one with flag=false.
+     * The privacy closure on `title_privacy_closure_root` checks `$root->flag`,
+     * so only the flagged post's title should be visible.
+     */
+    public function testPrivacyClosureReceivesRoot(): void
+    {
+        Post::factory()
+            ->create([
+                'title' => 'visible post',
+                'flag' => true,
+            ]);
+        Post::factory()
+            ->create([
+                'title' => 'hidden post',
+                'flag' => false,
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_root
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->httpGraphql($query);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."flag", "posts"."id" from "posts";
+SQL,
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_root' => 'visible post',
+                    ],
+                    [
+                        'title_privacy_closure_root' => null,
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * Test that the privacy closure receives ResolveInfo as the 4th argument.
+     */
+    public function testPrivacyClosureReceivesResolveInfo(): void
+    {
+        Post::factory()
+            ->create([
+                'title' => 'post title',
+            ]);
+
+        $query = <<<'GRAQPHQL'
+{
+  validateFields {
+    title_privacy_closure_resolve_info
+  }
+}
+GRAQPHQL;
+
+        $this->sqlCounterReset();
+
+        $result = $this->httpGraphql($query);
+
+        $this->assertSqlQueries(
+            <<<'SQL'
+select "posts"."title", "posts"."id" from "posts";
+SQL,
+        );
+
+        $expectedResult = [
+            'data' => [
+                'validateFields' => [
+                    [
+                        'title_privacy_closure_resolve_info' => 'post title',
+                    ],
+                ],
+            ],
+        ];
+        self::assertEquals($expectedResult, $result);
+    }
 }

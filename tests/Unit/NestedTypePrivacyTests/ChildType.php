@@ -20,13 +20,13 @@ class ChildType extends GraphQLType
             ],
             'secret_name' => [
                 'type' => Type::string(),
-                'privacy' => function (array $args): bool {
+                'privacy' => function (mixed $root, array $args): bool {
                     return false;
                 },
             ],
             'allowed_name' => [
                 'type' => Type::string(),
-                'privacy' => function (array $args): bool {
+                'privacy' => function (mixed $root, array $args): bool {
                     return true;
                 },
             ],

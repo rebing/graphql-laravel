@@ -1694,8 +1694,9 @@ allowed, `null` will be returned. Privacy is enforced at the field resolver
 level, so it works universally - whether the type is a root query result, a
 nested sub-type, or accessed via `SelectFields`.
 
-The privacy callback receives two arguments: the **field's own arguments**
-(`$args`) and the **query context** (`$ctx`).
+The privacy callback receives four arguments: the **root value** (`$root` - the
+parent object being resolved), the **field's own arguments** (`$args`), the
+**query context** (`$ctx`), and optionally the **ResolveInfo** (`$info`).
 
 **Using a closure:**
 
@@ -1716,12 +1717,13 @@ class UserType extends GraphQLType
             'email' => [
                 'type'          => Type::string(),
                 'description'   => 'The email of user',
-                'privacy'       => function (array $args, $ctx): bool {
+                'privacy'       => function (mixed $root, array $args, $ctx): bool {
                     // Only the authenticated user can see their own email.
+                    // $root is the User model being resolved.
                     // $ctx is the query context value (see notes below).
                     // By default, AddAuthUserContextValueMiddleware sets
                     // $ctx to the authenticated user model directly.
-                    return $ctx && $ctx->id === Auth::id();
+                    return $root->id === Auth::id();
                 },
             ],
         ];
@@ -1737,13 +1739,14 @@ You can also create a class that extends the abstract `Privacy` class:
 
 ```php
 use Illuminate\Support\Facades\Auth;
+use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\Privacy;
 
 class MePrivacy extends Privacy
 {
-    public function validate(array $fieldArgs, $queryContext = null): bool
+    public function validate(mixed $root, array $fieldArgs, mixed $queryContext = null, ?ResolveInfo $resolveInfo = null): bool
     {
-        return $queryContext && $queryContext->id === Auth::id();
+        return $root->id === Auth::id();
     }
 }
 ```
@@ -1788,12 +1791,18 @@ If the field declares its own `args`, they are available in `$args`:
             'type' => Type::nonNull(Type::string()),
         ],
     ],
-    'privacy' => function (array $args, $ctx): bool {
+    'privacy' => function (mixed $root, array $args, $ctx): bool {
         // Only allow access when a valid reason is provided.
         return in_array($args['reason'] ?? '', ['legal', 'compliance']);
     },
 ],
 ```
+
+> **`$root` - the parent object.** This is the result of the parent field's
+> resolver. For fields on a `UserType` resolved from a query returning
+> Eloquent models, `$root` will be the `User` model instance. This allows
+> per-row privacy decisions (e.g. only show a field if the current user
+> "owns" the object).
 
 > **`$args` - field arguments, not query arguments.** The `$args` parameter
 > contains the arguments declared on the field itself (via the `args` key). If
