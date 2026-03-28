@@ -3,12 +3,10 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Database\AuthorizeArgsTests;
 
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use PHPUnit\Framework\Assert;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 
 class TestAuthorizationArgsQuery extends Query
 {
@@ -38,7 +36,6 @@ class TestAuthorizationArgsQuery extends Query
         array $args,
         $ctx,
         ?ResolveInfo $resolveInfo = null,
-        ?Closure $getSelectFields = null,
     ): bool {
         Assert::assertNull($root);
 
@@ -50,9 +47,6 @@ class TestAuthorizationArgsQuery extends Query
         Assert::assertInstanceOf(GraphQLContext::class, $ctx);
 
         Assert::assertInstanceOf(ResolveInfo::class, $resolveInfo);
-
-        $selectFields = $getSelectFields();
-        Assert::assertInstanceOf(SelectFields::class, $selectFields);
 
         return true;
     }

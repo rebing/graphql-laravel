@@ -30,10 +30,6 @@ parameters:
         -
           message: '/Call to an undefined method Mockery\\/'
           identifier: method.notFound
-        # tests/Database/AuthorizeArgsTests/TestAuthorizationArgsQuery.php
-        -
-          message: '/Trying to invoke Closure\|null but it might not be a callable/'
-          identifier: callable.nonCallable
         # Mass ignore the raw array property access used in many tests for now
         # See also https://github.com/larastan/larastan/issues/611
         -

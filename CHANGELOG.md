@@ -3,6 +3,10 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+## Breaking changes
+- Remove `$getSelectFields` parameter from `Field::authorize()` [\#1250 / mfn](https://github.com/rebing/graphql-laravel/pull/1250)
+  it has been non-functional since half a decade
+
 2026-03-21, 10.0.0-RC2
 ----------------------
 

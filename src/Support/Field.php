@@ -36,7 +36,7 @@ abstract class Field
      * @param array<string, mixed> $args
      * @param mixed $ctx
      */
-    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null): bool
     {
         return true;
     }
@@ -247,7 +247,7 @@ abstract class Field
             // 1 - the provided `args` of the query or type (if applicable), empty array otherwise
             // 2 - the `$contextValue` (usually set via a GraphQL execution middleware, e.g. `AddAuthUserContextValueMiddleware`)
             // 3 - \GraphQL\Type\Definition\ResolveInfo as provided by the underlying GraphQL PHP library
-            // 4 (!) - added by this library, encapsulates creating a `SelectFields` instance
+            // 4 (!) - added by this library later via DI, encapsulates creating a `SelectFields` instance; only available for resolve()
             $arguments = \func_get_args();
 
             // Authorize first - prevents unauthenticated users from probing
