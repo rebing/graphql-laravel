@@ -2,10 +2,17 @@
 <roave-bc-check xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Roave/BackwardCompatibilityCheck/8.21.x/Resources/schema.xsd">
   <baseline>
     <ignored-regex>#\[BC\] ADDED\: Parameter fieldArgs was added to Method validate\(\) of class Rebing\\GraphQL\\Support\\Privacy#</ignored-regex>
-    <ignored-regex>#\[BC\] CHANGED\: Parameter 0 of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed name from queryArgs to fieldArgs#</ignored-regex>
+    <ignored-regex>#\[BC\] ADDED\: Parameter resolveInfo was added to Method validate\(\) of class Rebing\\GraphQL\\Support\\Privacy#</ignored-regex>
+    <ignored-regex>#\[BC\] ADDED\: Parameter root was added to Method validate\(\) of class Rebing\\GraphQL\\Support\\Privacy#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: Parameter 0 of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed name from queryArgs to root#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: Parameter 1 of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed name from queryContext to fieldArgs#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: Rebing\\GraphQL\\Support\\Rules was marked "@internal"#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The number of required arguments for Rebing\\GraphQL\\Support\\Privacy\#validate\(\) increased from 1 to 2#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The parameter \$args of Rebing\\GraphQL\\Support\\Privacy\#fire\(\) changed from no type to mixed#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The parameter \$context of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$queryArgs of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed from array to mixed#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$queryContext of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed from no type to a non\-contravariant array#</ignored-regex>
+    <ignored-regex>#\[BC\] CHANGED\: The parameter \$queryContext of Rebing\\GraphQL\\Support\\Privacy\#validate\(\) changed from no type to array#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The parameter \$root of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The parameter \$value of Rebing\\GraphQL\\Support\\Field\#__set\(\) changed from no type to mixed#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The return type of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>

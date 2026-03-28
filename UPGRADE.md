@@ -37,17 +37,25 @@ need to explicitly re-enable previously-open behaviour.
   `privacy` attribute on Type fields is now enforced universally via resolver
   wrapping in `Type::getFields()`, instead of only inside `SelectFields`. This
   means privacy now works on nested/sub-types and when `SelectFields` is not
-  used. Three breaking changes:
-  1. The first parameter of `Privacy::validate()` has been renamed from
-     `$queryArgs` to `$fieldArgs` and now contains the **field's own arguments**
-     instead of the root query's arguments. Update your Privacy subclasses:
+  used. Breaking changes:
+  1. `Privacy::validate()` signature has changed. The first parameter was renamed
+     from `$queryArgs` to `$fieldArgs` and now contains the **field's own arguments**
+     instead of the root query's arguments. Additionally, a new `mixed $root`
+     parameter (the parent object) was prepended, `$queryContext` is now typed as
+     `mixed`, and an optional `?ResolveInfo $resolveInfo` parameter was added.
+     Update your Privacy subclasses:
      ```diff
      -public function validate(array $queryArgs, $queryContext = null): bool
-     +public function validate(array $fieldArgs, $queryContext = null): bool
+     +public function validate(mixed $root, array $fieldArgs, mixed $queryContext = null, ?ResolveInfo $resolveInfo = null): bool
      ```
      Update any privacy logic that relied on inspecting root query arguments.
-  2. Privacy closures receive the same change - `$args` now contains the field's
-     own arguments, not the root query's arguments.
+  2. Privacy closures receive the same changes - `$root` is now the first
+     argument, followed by `$args` (the field's own arguments), `$context`,
+     and optionally `$resolveInfo`:
+     ```diff
+     -'privacy' => function (array $args, $ctx): bool {
+     +'privacy' => function (mixed $root, array $args, $ctx, ?ResolveInfo $info = null): bool {
+     ```
   3. `SelectFields` no longer excludes denied columns from the SQL `SELECT`
      statement. The column is still fetched, but the field resolver returns
      `null`. If you relied on the denied column being absent from SQL queries,
@@ -67,6 +75,14 @@ need to explicitly re-enable previously-open behaviour.
   ```diff
   -public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
   +public function handle(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $next): mixed
+  ```
+- **`$getSelectFields` removed from `authorize()`** - The optional
+  `Closure $getSelectFields` parameter has been removed from
+  `Field::authorize()`. It was non-functional since 2019 (always `null`).
+  Remove it from your `authorize()` overrides:
+  ```diff
+  -public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+  +public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null): bool
   ```
 
 ## Upgrading from v1 to v2
