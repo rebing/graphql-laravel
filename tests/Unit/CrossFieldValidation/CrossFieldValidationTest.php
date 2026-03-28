@@ -38,7 +38,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testProhibitsInListInputTypeIsTransformed(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -62,7 +62,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testRequiredWithoutInListInputTypeIsTransformed(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -82,7 +82,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testMultipleListItemsGetCorrectIndices(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -105,7 +105,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testNonListInputTypeIsTransformed(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'singleRecipient' => [
@@ -125,7 +125,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testRequiredIfOnlyPrefixesFirstParam(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'conditionalItems' => [
@@ -147,7 +147,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testDeepNestedInputTypeIsTransformed(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'deepNested' => [
@@ -172,7 +172,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testTopLevelRulesAreNotModified(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -291,7 +291,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testPipeDelimitedStringRulesAreNotSplitButTransformedAsWhole(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         // getRules returns array rules (not pipe-delimited), but let's test
         // RulesPrefixer directly with a pipe-delimited string
@@ -318,7 +318,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testProcessCollectedRulesPrefixesByDefault(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -341,7 +341,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testProcessCollectedRulesOverrideDisablesPrefixing(): void
     {
-        $field = new CrossFieldDisabledPrefixingMutation();
+        $field = new CrossFieldDisabledPrefixingMutation;
 
         $rules = $field->getRules([
             'recipients' => [
@@ -387,7 +387,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testValidationFailsWhenCrossFieldRulesAreViolated(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
         $attributes = $field->getAttributes();
 
         $exception = null;
@@ -422,7 +422,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testRequiredWithoutValidationFailsInList(): void
     {
-        $field = new CrossFieldTestMutation();
+        $field = new CrossFieldTestMutation;
         $attributes = $field->getAttributes();
 
         $exception = null;
@@ -455,7 +455,7 @@ class CrossFieldValidationTest extends TestCase
      */
     public function testNonStringNonArrayRuleValueIsPassedThrough(): void
     {
-        $ruleObject = new stdClass();
+        $ruleObject = new stdClass;
         $ruleObject->custom = true;
 
         $args = $this->makeListInputArgs(['fieldA', 'fieldB']);

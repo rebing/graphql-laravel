@@ -23,7 +23,7 @@ class OpenTelemetryTracingDriverTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->exporter = new InMemoryExporter();
+        $this->exporter = new InMemoryExporter;
         $tracerProvider = new TracerProvider(new SimpleSpanProcessor($this->exporter));
 
         $this->otelScope = Configurator::create()

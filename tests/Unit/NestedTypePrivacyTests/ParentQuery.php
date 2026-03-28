@@ -21,12 +21,12 @@ class ParentQuery extends Query
 
     public function resolve(): stdClass
     {
-        $child = new stdClass();
+        $child = new stdClass;
         $child->public_name = 'public value';
         $child->secret_name = 'secret value';
         $child->allowed_name = 'allowed value';
 
-        $parent = new stdClass();
+        $parent = new stdClass;
         $parent->name = 'parent name';
         $parent->child = $child;
 

@@ -36,8 +36,8 @@ GRAQPHQL;
                         'category' => 'validation',
                         'validation' => [
                             'field' => [
-                                    'The field field is required.',
-                                ],
+                                'The field field is required.',
+                            ],
                         ],
                     ],
                     'locations' => [

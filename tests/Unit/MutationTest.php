@@ -70,7 +70,7 @@ class MutationTest extends FieldTest
     public function testResolveThrowValidationError(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
         $this->expectException(ValidationError::class);
@@ -80,7 +80,7 @@ class MutationTest extends FieldTest
     public function testValidationError(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
         $exception = null;
@@ -115,7 +115,7 @@ class MutationTest extends FieldTest
     public function testWithInput(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -152,7 +152,7 @@ class MutationTest extends FieldTest
     public function testWithEmptyInput(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -182,7 +182,7 @@ class MutationTest extends FieldTest
     public function testWithInputDepthOne(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -214,7 +214,7 @@ class MutationTest extends FieldTest
     public function testWithInputWithEmptyInputObjects(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -258,7 +258,7 @@ class MutationTest extends FieldTest
     public function testWithEmptyArrayOfInputsObjects(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -289,7 +289,7 @@ class MutationTest extends FieldTest
     public function testWithArrayOfInputsObjects(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         $attributes = $field->getAttributes();
 
@@ -328,7 +328,7 @@ class MutationTest extends FieldTest
     public function testCustomValidationErrorMessages(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
         $attributes = $field->getAttributes();
 
         $exception = null;
@@ -366,7 +366,7 @@ class MutationTest extends FieldTest
     public function testCustomValidationAttributes(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
         $attributes = $field->getAttributes();
 
         $exception = null;
@@ -387,7 +387,7 @@ class MutationTest extends FieldTest
     {
         $this->expectException(ValidationError::class);
 
-        $field = new UpdateExampleMutationForRuleTesting();
+        $field = new UpdateExampleMutationForRuleTesting;
         $attributes = $field->getAttributes();
 
         $attributes['resolve'](null, [

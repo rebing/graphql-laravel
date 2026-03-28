@@ -11,7 +11,7 @@ class InputTypeTest extends TestCase
 {
     public function testToType(): void
     {
-        $type = new ExampleInputType();
+        $type = new ExampleInputType;
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
@@ -24,7 +24,7 @@ class InputTypeTest extends TestCase
 
     public function testOneOfAttribute(): void
     {
-        $type = new class() extends \Rebing\GraphQL\Support\InputType {
+        $type = new class extends \Rebing\GraphQL\Support\InputType {
             protected $attributes = [
                 'name' => 'TestOneOfInput',
                 'isOneOf' => true,
@@ -51,7 +51,7 @@ class InputTypeTest extends TestCase
 
     public function testNonOneOfIsDefault(): void
     {
-        $type = new ExampleInputType();
+        $type = new ExampleInputType;
         $objectType = $type->toType();
 
         self::assertInstanceOf(InputObjectType::class, $objectType);
