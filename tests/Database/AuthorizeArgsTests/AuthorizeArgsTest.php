@@ -27,6 +27,7 @@ query {
 GRAPHQL;
 
         // All relevant test assertions are in \Rebing\GraphQL\Tests\Database\AuthorizeArgsTests\TestAuthorizationArgsQuery::authorize
+        // expectErrors because resolve() returns void on a nonNull(string) field
         $this->httpGraphql($graphql, [
             'expectErrors' => true,
         ]);

@@ -1620,12 +1620,11 @@ declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
 class UsersQuery extends Query
 {
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null): bool
     {
         // true, if logged in
         return ! Auth::guest();
@@ -1642,12 +1641,11 @@ declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
 class UsersQuery extends Query
 {
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null): bool
     {
         if (isset($args['id'])) {
             return Auth::id() == $args['id'];
@@ -1667,12 +1665,11 @@ declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
 use Illuminate\Support\Facades\Auth;
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
 class UsersQuery extends Query
 {
-    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null, Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ResolveInfo $resolveInfo = null): bool
     {
         if (isset($args['id'])) {
             return Auth::id() == $args['id'];

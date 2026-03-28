@@ -18,7 +18,7 @@ class ExamplesAuthorizeQuery extends Query
     /**
      * @param array<string,mixed> $args
      */
-    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
+    public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null): bool
     {
         return false;
     }
