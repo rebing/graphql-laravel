@@ -148,7 +148,7 @@ class GraphQLServiceProvider extends ServiceProvider
         $tracingManager = $this->app->make(TracingManager::class);
 
         if ($tracingManager->hasAnyFieldTracing()) {
-            $graphQL->prependGlobalResolverMiddleware(new TracingResolverMiddleware());
+            $graphQL->prependGlobalResolverMiddleware(new TracingResolverMiddleware);
         }
     }
 

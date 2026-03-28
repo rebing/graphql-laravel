@@ -12,7 +12,7 @@ class InterfaceTypeTest extends TestCase
 {
     public function testGetAttributes(): void
     {
-        $type = new ExampleInterfaceType();
+        $type = new ExampleInterfaceType;
         $attributes = $type->getAttributes();
 
         self::assertArrayHasKey('resolveType', $attributes);
@@ -32,7 +32,7 @@ class InterfaceTypeTest extends TestCase
 
     public function testToType(): void
     {
-        $type = new ExampleInterfaceType();
+        $type = new ExampleInterfaceType;
         $interfaceType = $type->toType();
 
         self::assertInstanceOf(InterfaceType::class, $interfaceType);

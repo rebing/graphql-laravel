@@ -193,7 +193,7 @@ class UploadTest extends TestCase
 
     public function testSerializeThrows(): void
     {
-        $uploadType = new UploadType();
+        $uploadType = new UploadType;
 
         $this->expectException(InvariantViolation::class);
         $this->expectExceptionMessage('`Upload` cannot be serialized');
@@ -203,7 +203,7 @@ class UploadTest extends TestCase
 
     public function testParseLiteralThrows(): void
     {
-        $uploadType = new UploadType();
+        $uploadType = new UploadType;
 
         $this->expectException(Error::class);
         $this->expectExceptionMessage('`Upload` cannot be hardcoded in query');

@@ -29,7 +29,7 @@ class FieldTest extends TestCase
     public function testGetAttributes(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
         $attributes = $field->getAttributes();
 
         self::assertArrayHasKey('name', $attributes);
@@ -55,7 +55,7 @@ class FieldTest extends TestCase
     public function testToArray(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
         $array = $field->toArray();
 
         $attributes = $field->getAttributes();
@@ -65,7 +65,7 @@ class FieldTest extends TestCase
     public function testDynamicAttributeAccess(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class();
+        $field = new $class;
 
         self::assertIsString($field->__get('name'));
         self::assertNull($field->__get('nonexistent_attribute'));

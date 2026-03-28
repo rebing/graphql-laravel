@@ -14,7 +14,7 @@ class CacheMiddleware extends AbstractExecutionMiddleware
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
         return new ExecutionResult([
-                'examples' => [['test' => 'Cached response']],
+            'examples' => [['test' => 'Cached response']],
         ]);
     }
 }

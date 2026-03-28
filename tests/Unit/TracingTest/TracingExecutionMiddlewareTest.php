@@ -11,7 +11,7 @@ class TracingExecutionMiddlewareTest extends TestCase
 {
     public function testTracingMiddlewareCallsDriverStartAndEnd(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);
@@ -27,7 +27,7 @@ class TracingExecutionMiddlewareTest extends TestCase
 
     public function testTracingMiddlewareResolvesOperationTypeForMutation(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);
@@ -43,7 +43,7 @@ class TracingExecutionMiddlewareTest extends TestCase
 
     public function testTracingMiddlewareResolvesOperationName(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);
@@ -70,7 +70,7 @@ class TracingExecutionMiddlewareTest extends TestCase
 
     public function testTracingMiddlewareWorksWithCustomSchema(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);
@@ -87,7 +87,7 @@ class TracingExecutionMiddlewareTest extends TestCase
 
     public function testTracingMiddlewareCallsEndOperationWithErrorOnException(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);

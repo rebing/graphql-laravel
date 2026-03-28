@@ -11,7 +11,7 @@ class TracingResolverMiddlewareTest extends TestCase
 {
     public function testFieldTracingDisabledByDefault(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         // field_tracing defaults to false
@@ -24,7 +24,7 @@ class TracingResolverMiddlewareTest extends TestCase
 
     public function testFieldTracingRecordsResolvers(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app['config']->set('graphql.tracing.field_tracing', true);
@@ -38,7 +38,7 @@ class TracingResolverMiddlewareTest extends TestCase
 
     public function testFieldTracingCallsDriverMethods(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app['config']->set('graphql.tracing.field_tracing', true);
@@ -53,7 +53,7 @@ class TracingResolverMiddlewareTest extends TestCase
 
     public function testFieldTracingNotRegisteredWhenDisabled(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
 
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app['config']->set('graphql.tracing.field_tracing', false);

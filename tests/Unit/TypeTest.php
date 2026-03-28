@@ -16,7 +16,7 @@ class TypeTest extends TestCase
 {
     public function testGetFields(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $fields = $type->getFields();
 
         self::assertArrayHasKey('test', $fields);
@@ -28,7 +28,7 @@ class TypeTest extends TestCase
 
     public function testGetAttributes(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $attributes = $type->getAttributes();
 
         self::assertArrayHasKey('name', $attributes);
@@ -61,7 +61,7 @@ class TypeTest extends TestCase
 
     public function testToArray(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $array = $type->toArray();
 
         $attributes = $type->getAttributes();
@@ -70,7 +70,7 @@ class TypeTest extends TestCase
 
     public function testToType(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $objectType = $type->toType();
 
         self::assertInstanceOf(ObjectType::class, $objectType);
@@ -83,7 +83,7 @@ class TypeTest extends TestCase
 
     public function testGetFieldResolverAutoDiscovery(): void
     {
-        $type = new class() extends GraphQLType {
+        $type = new class extends GraphQLType {
             protected $attributes = ['name' => 'ResolverDiscovery'];
 
             public function fields(): array
@@ -110,7 +110,7 @@ class TypeTest extends TestCase
 
     public function testGetFieldResolverAlias(): void
     {
-        $type = new class() extends GraphQLType {
+        $type = new class extends GraphQLType {
             protected $attributes = ['name' => 'AliasResolver'];
 
             public function fields(): array
@@ -135,7 +135,7 @@ class TypeTest extends TestCase
 
     public function testGetFieldResolverAliasIgnoredForInputType(): void
     {
-        $type = new class() extends InputType {
+        $type = new class extends InputType {
             protected $attributes = ['name' => 'AliasInputResolver'];
 
             public function fields(): array

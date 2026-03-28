@@ -101,7 +101,7 @@ class TracingManagerTest extends TestCase
 
     public function testDriverForReturnsDriverInstance(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app->instance(FakeTracingDriver::class, $driver);
 
@@ -124,7 +124,7 @@ class TracingManagerTest extends TestCase
     public function testDriverForCachesSameDriverForSameConfig(): void
     {
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
         $this->app->instance(FakeTracingDriver::class, $driver);
 
         /** @var TracingManager $manager */
@@ -247,7 +247,7 @@ class TracingManagerTest extends TestCase
 
     public function testPerSchemaTracingDisabledDoesNotAffectOtherSchemas(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app['config']->set('graphql.schemas.default.tracing', false);
         $this->app->instance(FakeTracingDriver::class, $driver);
@@ -268,7 +268,7 @@ class TracingManagerTest extends TestCase
 
     public function testPerSchemaTracingEnabledWithoutGlobalDriver(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
         $this->app['config']->set('graphql.tracing.driver', null);
         $this->app['config']->set('graphql.schemas.custom.tracing', [
             'driver' => FakeTracingDriver::class,
@@ -291,7 +291,7 @@ class TracingManagerTest extends TestCase
 
     public function testPerSchemaFieldTracingEnabled(): void
     {
-        $driver = new FakeTracingDriver();
+        $driver = new FakeTracingDriver;
         $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
         $this->app['config']->set('graphql.tracing.field_tracing', false);
         $this->app['config']->set('graphql.schemas.custom.tracing', [

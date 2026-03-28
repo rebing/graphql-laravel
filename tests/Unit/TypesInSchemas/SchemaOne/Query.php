@@ -21,7 +21,7 @@ class Query extends BaseQuery
 
     public function resolve(): mixed
     {
-        $result = new stdClass();
+        $result = new stdClass;
         // Must match Type field
         $result->name = 'example from schema one';
 
