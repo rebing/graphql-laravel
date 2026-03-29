@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+use Illuminate\Support\Str;
+
 return [
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
@@ -271,10 +273,10 @@ return [
         'enable' => env('GRAPHQL_APQ_ENABLE', false),
 
         // The cache driver used for APQ
-        'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', config('cache.default')),
+        'cache_driver' => env('GRAPHQL_APQ_CACHE_DRIVER', env('CACHE_STORE', 'database')),
 
         // The cache prefix
-        'cache_prefix' => config('cache.prefix') . ':graphql.apq',
+        'cache_prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-cache-') . ':graphql.apq',
 
         // The cache ttl in seconds - See https://www.apollographql.com/docs/apollo-server/performance/apq/#adjusting-cache-time-to-live-ttl
         'cache_ttl' => 300,
