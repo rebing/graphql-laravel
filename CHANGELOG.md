@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+2026-03-29, 10.0.0-RC3
+----------------------
+
 ## Breaking changes
 - `Privacy::validate()` and closure signature changed [\#1251 / mfn](https://github.com/rebing/graphql-laravel/pull/1251)
   new `mixed $root` first parameter, new optional `?ResolveInfo $resolveInfo` fourth parameter, `$queryContext` now typed as `mixed`
