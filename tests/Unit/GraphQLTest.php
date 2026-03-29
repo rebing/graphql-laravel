@@ -568,4 +568,33 @@ class GraphQLTest extends TestCase
 
         GraphQL::schema('empty_string');
     }
+
+    public function testGetTypeCrashesForPaginationTypeAfterSecondSchemaBuilt(): void
+    {
+        // 1. Build default schema — ExamplesPaginationQuery calls GraphQL::paginate('Example'),
+        //    which stores a PaginationType in both typesInstances and types
+        $schema = GraphQL::schema('default');
+
+        // Force lazy type resolution so paginate() is actually called
+        $schema->getTypeMap();
+
+        // Confirm the pagination type was registered
+        $types = GraphQL::getTypes();
+        self::assertArrayHasKey('ExamplePagination', $types);
+
+        // 2. Clear the cached schema so the next schema() call triggers clearTypeInstances()
+        GraphQL::clearSchema('custom');
+
+        // 3. Build second schema — calls clearTypeInstances(), wiping the instances cache
+        //    but leaving the PaginationType object in $this->types
+        GraphQL::schema('custom');
+
+        // 4. This crashes with "Call to undefined method PaginationType::toType()"
+        //    because PaginationType extends ObjectType which has no toType() method,
+        //    and the typesInstances cache was cleared so getType() falls through
+        //    to calling ->toType() on the raw object
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Call to undefined method Rebing\GraphQL\Support\PaginationType::toType()');
+        GraphQL::getType('ExamplePagination');
+    }
 }
