@@ -75,14 +75,16 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
         }
 
         // retrieve from cache
-        if (!$cache->has($apqCacheIdentifier)) {
+        $datum = $cache->get($apqCacheIdentifier);
+
+        if (null === $datum) {
             throw AutomaticPersistedQueriesError::persistedQueriesNotFound();
         }
 
         [
             'query' => $params->query,
             'parsedQuery' => $parsedQuery,
-        ] = $cache->get($apqCacheIdentifier);
+        ] = $datum;
 
         $params->setParsedQuery($parsedQuery);
 
