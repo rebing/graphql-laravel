@@ -203,7 +203,7 @@ class SelectFields
                 // Wrap type (pagination or custom wrapper)
                 if ($parentType instanceof WrapType) {
                     /* @var GraphqlType $fieldType */
-                    $fieldType = $fieldObject->config['type'];
+                    $fieldType = $fieldObject->getType();
                     static::handleFields(
                         $queryArgs,
                         $field,
@@ -237,7 +237,7 @@ class SelectFields
                         static::handleRelation($select, $relation, $parentTable, $field);
 
                         // New parent type, which is the relation
-                        $newParentType = $parentType->getField($key)->config['type'];
+                        $newParentType = $parentType->getField($key)->getType();
 
                         static::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
@@ -262,7 +262,7 @@ class SelectFields
                             $customQuery,
                         );
                     } else {
-                        static::handleFields($queryArgs, $field, $fieldObject->config['type'], $select, $with, $ctx);
+                        static::handleFields($queryArgs, $field, $fieldObject->getType(), $select, $with, $ctx);
                     }
                 }
                 // Select
@@ -448,7 +448,7 @@ class SelectFields
             // New parent type, which is the relation
             try {
                 if (method_exists($parentType, 'getField')) {
-                    $newParentType = $parentType->getField($key)->config['type'];
+                    $newParentType = $parentType->getField($key)->getType();
                     $customQuery = $parentType->getField($key)->config['query'] ?? $customQuery;
                 } else {
                     return $query;
@@ -478,7 +478,7 @@ class SelectFields
                     /* @var GraphqlType $type */
                     $type = $typesFiltered[0];
                     $relationField = $type->getField($key);
-                    $newParentType = $relationField->config['type'];
+                    $newParentType = $relationField->getType();
                     // If a custom query is available on the selected type, it should replace the interface's one
                     $customQuery = $relationField->config['query'] ?? $customQuery;
                 }
@@ -542,7 +542,7 @@ class SelectFields
 
             static::handleRelation($select, $query, $parentTable, $field);
 
-            $newParentType = $fieldObject->config['type'];
+            $newParentType = $fieldObject->getType();
 
             static::addAlwaysFields($fieldObject, $field, $parentTable, true);
 
@@ -572,7 +572,7 @@ class SelectFields
 
                 try {
                     $relationField = $type->getField($key);
-                    $newParentType = $relationField->config['type'];
+                    $newParentType = $relationField->getType();
                     // 'query' is a Rebing extension to webonyx's FieldDefinitionConfig
                     $customQuery = $relationField->config['query'] ?? $customQuery; // @phpstan-ignore nullCoalesce.offset
                 } catch (InvariantViolation) {
@@ -582,10 +582,6 @@ class SelectFields
 
             if ($newParentType instanceof WrappingType) {
                 $newParentType = $newParentType->getInnermostType();
-            }
-
-            if (!$newParentType instanceof GraphqlType) {
-                return $query;
             }
 
             /** @var callable $callable */
