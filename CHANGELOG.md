@@ -13,6 +13,7 @@ CHANGELOG
 - Fix `SelectFields` crashing when field types use callable [\#1252 / mfn](https://github.com/rebing/graphql-laravel/pull/1252)
 - Fix APQ middleware race condition (TOCTOU) [\#1253 / mfn](https://github.com/rebing/graphql-laravel/pull/1253)
 - Fix `OperationParams` not copying `originalInput`/`readOnly`, causing TypeError [\#1254 / mfn](https://github.com/rebing/graphql-laravel/pull/1254)
+- Fix APQ config not using `config()` inside config file [\#1255 / mfn](https://github.com/rebing/graphql-laravel/pull/1255)
 
 2026-03-21, 10.0.0-RC2
 ----------------------
