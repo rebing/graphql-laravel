@@ -69,12 +69,8 @@ class OperationParamsTest extends TestCase
     /**
      * When webonyx's Helper::validateOperationParams() detects invalid variables,
      * it accesses $params->originalInput['variables'] to build the error message.
-     *
-     * Since OperationParams::init() doesn't copy originalInput from the base,
-     * the typed property (array) is uninitialized, causing a TypeError instead
-     * of returning the proper validation error.
      */
-    public function testValidateOperationParamsWithInvalidVariablesCrashesOnUninitializedOriginalInput(): void
+    public function testValidateOperationParamsWithInvalidVariablesReturnsValidationError(): void
     {
         $base = BaseOperationParams::create([
             'query' => '{ hello }',
@@ -84,11 +80,12 @@ class OperationParamsTest extends TestCase
 
         $helper = new Helper;
 
-        // Should return a validation error about variables,
-        // but crashes with TypeError because originalInput is uninitialized
-        $this->expectException(\Error::class);
-        $this->expectExceptionMessage('must not be accessed before initialization');
+        $errors = $helper->validateOperationParams($params);
 
-        $helper->validateOperationParams($params);
+        self::assertCount(1, $errors);
+        self::assertSame(
+            'GraphQL Request parameter "variables" must be object or JSON string parsed to object, but got "[1, 2]"',
+            $errors[0]->getMessage(),
+        );
     }
 }

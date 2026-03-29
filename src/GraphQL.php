@@ -134,6 +134,8 @@ class GraphQL
         $baseParams->query = $query;
         $baseParams->operation = $operationName;
         $baseParams->variables = $variables;
+        $baseParams->originalInput = [];
+        $baseParams->readOnly = false;
         $params = new OperationParams($baseParams);
 
         return $this->executeAndReturnResult($schemaName, $schema, $params, $rootValue, $context);

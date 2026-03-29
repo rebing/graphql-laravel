@@ -28,6 +28,8 @@ class OperationParams extends BaseOperationParams
         $this->operation = $baseOperationParams->operation;
         $this->variables = $baseOperationParams->variables;
         $this->extensions = $baseOperationParams->extensions;
+        $this->originalInput = $baseOperationParams->originalInput;
+        $this->readOnly = $baseOperationParams->readOnly;
 
         $this->baseOperationParams = $baseOperationParams;
     }
