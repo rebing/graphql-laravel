@@ -584,10 +584,6 @@ class SelectFields
                 $newParentType = $newParentType->getInnermostType();
             }
 
-            if (!$newParentType instanceof GraphqlType) {
-                return $query;
-            }
-
             /** @var callable $callable */
             $callable = static::getSelectableFieldsAndRelations(
                 $queryArgs,
