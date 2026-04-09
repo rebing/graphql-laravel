@@ -1,25 +1,23 @@
 <?php
 
 declare(strict_types = 1);
+namespace App\GraphQL\Queries;
 
-use GraphQL\GraphQL;
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Models\User;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 
 class UserQuery extends Query
 {
-    use Authenticate;
-
     protected $attributes = [
-        'name' => 'Users',
+        'name' => 'User',
     ];
 
     public function type(): Type
     {
-        return GraphQL::type('user');
+        return GraphQL::type('User');
     }
 
     public function args(): array
@@ -27,18 +25,13 @@ class UserQuery extends Query
         return [
             'id' => [
                 'name' => 'id',
-                'type' => Type::int(),
+                'type' => Type::nonNull(Type::int()),
             ],
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        /** @var SelectFields $fields */
-        $fields = $getSelectFields();
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
-
-        return User::where('id', '=', $args['id'])->with($with)->select($select)->first();
+        return User::findOrFail($args['id']);
     }
 }

@@ -9,10 +9,9 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class PaginationType extends ObjectType implements WrapType
+class PaginationType extends ObjectType
 {
     public function __construct(string $typeName, ?string $customName = null)
     {
@@ -53,7 +52,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): int {
                     return $data->total();
                 },
-                'selectable' => false,
             ],
             'per_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
@@ -61,7 +59,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): int {
                     return $data->perPage();
                 },
-                'selectable' => false,
             ],
             'current_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
@@ -69,7 +66,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): int {
                     return $data->currentPage();
                 },
-                'selectable' => false,
             ],
             'from' => [
                 'type' => GraphQLType::int(),
@@ -77,7 +73,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): ?int {
                     return $data->firstItem();
                 },
-                'selectable' => false,
             ],
             'to' => [
                 'type' => GraphQLType::int(),
@@ -85,7 +80,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): ?int {
                     return $data->lastItem();
                 },
-                'selectable' => false,
             ],
             'last_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
@@ -93,7 +87,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): int {
                     return $data->lastPage();
                 },
-                'selectable' => false,
             ],
             'has_more_pages' => [
                 'type' => GraphQLType::nonNull(GraphQLType::boolean()),
@@ -101,7 +94,6 @@ class PaginationType extends ObjectType implements WrapType
                 'resolve' => function (LengthAwarePaginator $data): bool {
                     return $data->hasMorePages();
                 },
-                'selectable' => false,
             ],
         ];
     }

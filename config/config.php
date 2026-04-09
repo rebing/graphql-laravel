@@ -206,27 +206,18 @@ return [
     /*
      * You can define your own pagination type.
      * Reference \Rebing\GraphQL\Support\PaginationType::class
-     *
-     * Custom classes must implement \Rebing\GraphQL\Support\Contracts\WrapType
-     * so that SelectFields can recognize them as wrapper types.
      */
     'pagination_type' => Rebing\GraphQL\Support\PaginationType::class,
 
     /*
      * You can define your own simple pagination type.
      * Reference \Rebing\GraphQL\Support\SimplePaginationType::class
-     *
-     * Custom classes must implement \Rebing\GraphQL\Support\Contracts\WrapType
-     * so that SelectFields can recognize them as wrapper types.
      */
     'simple_pagination_type' => Rebing\GraphQL\Support\SimplePaginationType::class,
 
     /*
      * You can define your own cursor pagination type.
      * Reference Rebing\GraphQL\Support\CursorPaginationType::class
-     *
-     * Custom classes must implement \Rebing\GraphQL\Support\Contracts\WrapType
-     * so that SelectFields can recognize them as wrapper types.
      */
     'cursor_pagination_type' => Rebing\GraphQL\Support\CursorPaginationType::class,
 

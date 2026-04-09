@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use Rebing\GraphQL\Support\Contracts\ResolverParameterInjector;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -27,6 +28,31 @@ abstract class Field
 
     /** @var list<class-string> */
     protected $middleware = [];
+
+    /** @var list<ResolverParameterInjector> */
+    protected static array $parameterInjectors = [];
+
+    /**
+     * Register a parameter injector for resolver method DI.
+     *
+     * External packages use this to inject custom types into resolver methods.
+     * Injectors are checked in registration order; the first one that supports
+     * a given type-hint wins.
+     */
+    public static function registerParameterInjector(ResolverParameterInjector $injector): void
+    {
+        static::$parameterInjectors[] = $injector;
+    }
+
+    /**
+     * Remove all registered parameter injectors.
+     *
+     * Primarily useful in tests to reset state between test cases.
+     */
+    public static function clearParameterInjectors(): void
+    {
+        static::$parameterInjectors = [];
+    }
 
     /**
      * Override this in your queries or mutations
@@ -247,7 +273,7 @@ abstract class Field
             // 1 - the provided `args` of the query or type (if applicable), empty array otherwise
             // 2 - the `$contextValue` (usually set via a GraphQL execution middleware, e.g. `AddAuthUserContextValueMiddleware`)
             // 3 - \GraphQL\Type\Definition\ResolveInfo as provided by the underlying GraphQL PHP library
-            // 4 (!) - added by this library later via DI, encapsulates creating a `SelectFields` instance; only available for resolve()
+            // 4+ - additional parameters resolved via registered ResolverParameterInjectors or the service container
             $arguments = \func_get_args();
 
             // Authorize first - prevents unauthenticated users from probing
@@ -285,18 +311,15 @@ abstract class Field
 
                 $className = $paramType->getName();
 
-                if (Closure::class === $className) {
-                    return function () use ($arguments, $fieldsAndArguments) {
-                        return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
-                    };
-                }
-
-                if ($this->selectFieldClass() === $className) {
-                    return $this->instanciateSelectFields($arguments, $fieldsAndArguments);
-                }
-
                 if (ResolveInfo::class === $className) {
                     return $arguments[3];
+                }
+
+                // Check registered parameter injectors (e.g. SelectFields from an external package)
+                foreach (static::$parameterInjectors as $injector) {
+                    if ($injector->supports($className)) {
+                        return $injector->resolve($className, $arguments, $fieldsAndArguments, $this);
+                    }
                 }
 
                 return app()->make($className);
@@ -307,27 +330,6 @@ abstract class Field
                 $additionalArguments,
             ));
         };
-    }
-
-    /**
-     * @param array<int,mixed> $arguments
-     * @param array<string,mixed> $fieldsAndArguments
-     */
-    protected function instanciateSelectFields(array $arguments, array $fieldsAndArguments): SelectFields
-    {
-        $ctx = $arguments[2] ?? null;
-
-        $selectFieldsClass = $this->selectFieldClass();
-
-        return new $selectFieldsClass($this->type(), $arguments[1], $ctx, $fieldsAndArguments);
-    }
-
-    /**
-     * @return class-string<SelectFields>
-     */
-    protected function selectFieldClass(): string
-    {
-        return SelectFields::class;
     }
 
     /**

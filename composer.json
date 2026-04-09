@@ -102,6 +102,7 @@
     },
     "suggest": {
         "mll-lab/laravel-graphiql": "Easily integrate GraphiQL into your Laravel projects.",
-        "open-telemetry/api": "Required for the OpenTelemetryTracingDriver (^1.0)."
+        "open-telemetry/api": "Required for the OpenTelemetryTracingDriver (^1.0).",
+        "rebing/graphql-laravel-select-fields": "Optimizes Eloquent queries by analysing requested GraphQL fields to build minimal SELECT and eager-load only needed relations."
     }
 }
