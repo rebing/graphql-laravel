@@ -26,17 +26,11 @@ library no longer contains any SelectFields-related code.
    `is_relation`, `query`) remain **unchanged** — the external package reads
    the same keys.
 
-3. If you have **custom pagination types** that implemented `WrapType`,
-   install this package and the interface is available again at
-   `Rebing\GraphQL\Support\Contracts\WrapType` — the same namespace as before.
-
 **Other breaking changes related to SelectFields:**
 
 - The `Closure` type-hint in `resolve()` methods no longer automatically
   provides a SelectFields factory. Install the external package to restore
   this behavior.
-- `WrapType` marker interface removed from the core library. Installing the
-  external package restores it at the same namespace.
 - `'selectable' => false` removed from core pagination type metadata fields.
   The external package's pagination subclasses re-add it.
 - `Field::selectFieldClass()` and `Field::instanciateSelectFields()` methods
