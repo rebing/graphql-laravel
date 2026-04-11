@@ -9,10 +9,9 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class SimplePaginationType extends ObjectType implements WrapType
+class SimplePaginationType extends ObjectType
 {
     public function __construct(string $typeName, ?string $customName = null)
     {
@@ -53,7 +52,6 @@ class SimplePaginationType extends ObjectType implements WrapType
                 'resolve' => function (Paginator $data): int {
                     return $data->perPage();
                 },
-                'selectable' => false,
             ],
             'current_page' => [
                 'type' => GraphQLType::nonNull(GraphQLType::int()),
@@ -61,7 +59,6 @@ class SimplePaginationType extends ObjectType implements WrapType
                 'resolve' => function (Paginator $data): int {
                     return $data->currentPage();
                 },
-                'selectable' => false,
             ],
             'from' => [
                 'type' => GraphQLType::int(),
@@ -69,7 +66,6 @@ class SimplePaginationType extends ObjectType implements WrapType
                 'resolve' => function (Paginator $data): ?int {
                     return $data->firstItem();
                 },
-                'selectable' => false,
             ],
             'to' => [
                 'type' => GraphQLType::int(),
@@ -77,7 +73,6 @@ class SimplePaginationType extends ObjectType implements WrapType
                 'resolve' => function (Paginator $data): ?int {
                     return $data->lastItem();
                 },
-                'selectable' => false,
             ],
             'has_more_pages' => [
                 'type' => GraphQLType::nonNull(GraphQLType::boolean()),
@@ -85,7 +80,6 @@ class SimplePaginationType extends ObjectType implements WrapType
                 'resolve' => function (Paginator $data): bool {
                     return $data->hasMorePages();
                 },
-                'selectable' => false,
             ],
         ];
     }

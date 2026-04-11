@@ -1,15 +1,13 @@
 <?php
 
 declare(strict_types = 1);
-namespace Rebing\GraphQL\Query\User;
+namespace App\GraphQL\Queries;
 
-use Closure;
-use GraphQL\GraphQL;
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use Models\User;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
-use Rebing\GraphQL\Support\SelectFields;
 
 class UsersQuery extends Query
 {
@@ -19,7 +17,7 @@ class UsersQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('user'));
+        return Type::listOf(GraphQL::type('User'));
     }
 
     public function args(): array
@@ -32,13 +30,14 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
-        /** @var SelectFields $fields */
-        $fields = $getSelectFields();
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
+        $query = User::query();
 
-        return User::where('id', '=', $args['id'])->with($with)->select($select)->get();
+        if (isset($args['ids'])) {
+            $query->whereIn('id', $args['ids']);
+        }
+
+        return $query->get();
     }
 }

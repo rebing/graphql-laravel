@@ -3,6 +3,20 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+### Breaking changes
+- `SelectFields` extracted to separate package `rebing/graphql-laravel-select-fields`
+  - `Rebing\GraphQL\Support\SelectFields` class removed from core
+  - `Rebing\GraphQL\Support\Contracts\WrapType` interface removed from core
+  - `Closure` type-hint in `resolve()` no longer auto-injects SelectFields factory
+  - `Field::selectFieldClass()` and `Field::instanciateSelectFields()` removed
+  - `'selectable' => false` removed from pagination type metadata fields
+  - Generated query/mutation stubs no longer include SelectFields boilerplate
+  - Install `rebing/graphql-laravel-select-fields` to restore all functionality
+
+### Added
+- `Rebing\GraphQL\Support\Contracts\ResolverParameterInjector` interface for extensible resolver DI
+- `Field::registerParameterInjector()` / `Field::clearParameterInjectors()` for external DI hooks
+
 2026-03-29, 10.0.0-RC3
 ----------------------
 

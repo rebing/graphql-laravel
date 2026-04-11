@@ -5,6 +5,50 @@
 Version 10 hardens several security defaults. Existing applications may
 need to explicitly re-enable previously-open behaviour.
 
+### SelectFields extracted to separate package
+
+`SelectFields` has been moved to the separate
+`rebing/graphql-laravel-select-fields` package for modularity. The core
+library no longer contains any SelectFields-related code.
+
+**If you do NOT use SelectFields:** no action is required.
+
+**If you use SelectFields:**
+
+1. Install the new package:
+   ```bash
+   composer require rebing/graphql-laravel-select-fields
+   ```
+   That's it for most users. The package's service provider auto-registers.
+   All classes remain at their original namespaces — no import changes needed.
+
+2. Your Type field configurations (`model`, `alias`, `selectable`, `always`,
+   `is_relation`, `query`) remain **unchanged** — the external package reads
+   the same keys.
+
+**Other breaking changes related to SelectFields:**
+
+- The `Closure` type-hint in `resolve()` methods no longer automatically
+  provides a SelectFields factory. Install the external package to restore
+  this behavior.
+- `'selectable' => false` removed from core pagination type metadata fields.
+  The external package's pagination subclasses re-add it.
+- `Field::selectFieldClass()` and `Field::instanciateSelectFields()` methods
+  removed. If you overrode these, migrate to the new
+  `ResolverParameterInjector` interface
+  (`Rebing\GraphQL\Support\Contracts\ResolverParameterInjector`).
+- Artisan-generated queries/mutations no longer include SelectFields
+  boilerplate. See the external package's documentation for the pattern.
+
+### Resolver parameter injection extensibility
+
+A new `ResolverParameterInjector` interface
+(`Rebing\GraphQL\Support\Contracts\ResolverParameterInjector`) allows external
+packages to hook into the resolver DI system. Register injectors via
+`Field::registerParameterInjector()`. See the interface docblock for details.
+
+### Security and configuration changes
+
 - **HTTP method restricted to POST** - Schemas now default to `'method' => ['POST']`.
   To re-enable GET requests, add `'method' => ['GET', 'POST']` to each schema in `config/graphql.php`.
 - **Batching disabled** - `batching.enable` now defaults to `false`.

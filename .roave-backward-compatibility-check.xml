@@ -17,6 +17,8 @@
     <ignored-regex>#\[BC\] CHANGED\: The parameter \$value of Rebing\\GraphQL\\Support\\Field\#__set\(\) changed from no type to mixed#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The return type of Rebing\\GraphQL\\Support\\Middleware\#handle\(\) changed from no type to mixed#</ignored-regex>
     <ignored-regex>#\[BC\] CHANGED\: The return type of Rebing\\GraphQL\\Support\\Middleware\#resolve\(\) changed from no type to mixed#</ignored-regex>
-    <ignored-regex>#\[BC\] REMOVED\: Method Rebing\\GraphQL\\Support\\SelectFields\:\:validateField\(\) was removed#</ignored-regex>
+    <ignored-regex>#\[BC\] REMOVED\: Class Rebing\\GraphQL\\Support\\SelectFields has been deleted#</ignored-regex>
+    <ignored-regex>#\[BC\] REMOVED\: Method Rebing\\GraphQL\\Support\\Field\#instanciateSelectFields\(\) was removed#</ignored-regex>
+    <ignored-regex>#\[BC\] REMOVED\: Method Rebing\\GraphQL\\Support\\Field\#selectFieldClass\(\) was removed#</ignored-regex>
   </baseline>
 </roave-bc-check>
