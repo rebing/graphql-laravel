@@ -115,7 +115,7 @@ packages to hook into the resolver DI system. Register injectors via
 - **Middleware type hints** - `Middleware::handle()` and `Middleware::resolve()` now
   declare native `mixed` types for `$root`, `$context`, and the return type. If your
   middleware subclass overrides these methods without matching return types, PHP 8.1+
-  will emit a deprecation notice. Add `: mixed` to your method signatures:
+  will emit a fatal error. Add `: mixed` to your method signatures:
   ```diff
   -public function handle($root, array $args, $context, ResolveInfo $info, Closure $next)
   +public function handle(mixed $root, array $args, mixed $context, ResolveInfo $info, Closure $next): mixed
