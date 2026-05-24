@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests;
 
+use Illuminate\Foundation\Application;
 use Rebing\GraphQL\Tests\Support\Traits\SqlAssertionTrait;
 
 abstract class TestCaseDatabase extends TestCase
@@ -39,5 +40,18 @@ abstract class TestCaseDatabase extends TestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+    }
+
+    /**
+     * Whether the running Laravel framework version emits a quoted
+     * `as "aggregate"` alias in aggregate SQL queries (e.g. count(*)
+     * from the `unique` validation rule).
+     *
+     * Introduced in Laravel 13.10.0 by laravel/framework#60140
+     * ("Delimit aggregate alias"). Older versions emit `as aggregate`.
+     */
+    protected static function quotesAggregateAlias(): bool
+    {
+        return version_compare(Application::VERSION, '13.10.0', '>=');
     }
 }
