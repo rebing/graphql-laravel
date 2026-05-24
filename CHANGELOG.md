@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+2026-05-24, 10.0.0-RC4
+----------------------
+
 ### Breaking changes
 - `SelectFields` extracted to separate package `rebing/graphql-laravel-select-fields`
   - `Rebing\GraphQL\Support\SelectFields` class removed from core
