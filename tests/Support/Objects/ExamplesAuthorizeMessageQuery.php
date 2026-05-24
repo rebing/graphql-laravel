@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -43,7 +42,7 @@ class ExamplesAuthorizeMessageQuery extends Query
     /**
      * @param array<string,mixed> $args
      */
-    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo, Closure $getSelectFields): mixed
+    public function resolve(mixed $root, array $args, mixed $context, ResolveInfo $resolveInfo): mixed
     {
         $data = include __DIR__ . '/data.php';
 

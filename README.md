@@ -17,7 +17,7 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
 * Custom GraphQL **resolver middleware** can be defined for each query/mutation
 * Two [data loading](#data-loading) strategies for avoiding n+1 queries:
   * **[Dataloaders](#dataloaders)** -- uses webonyx/graphql-php's built-in deferred resolution to batch field loads from any data source
-  * **[`SelectFields`](#eager-loading-relationships)** -- analyzes the GraphQL query to generate optimized Eloquent `select()` and eager-loaded `with()` calls
+  * **[SelectFields](https://github.com/rebing/graphql-laravel-select-fields)** (optional separate package) -- analyzes the GraphQL query to generate optimized Eloquent `select()` and eager-loaded `with()` calls
 * Queries return **types**, which can have custom **[privacy](#privacy)** settings
 
 > **Note:** GraphQL **subscriptions** are not supported by this package. If you
@@ -39,7 +39,6 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
   - [A word on declaring a field `nonNull`](#a-word-on-declaring-a-field-nonnull)
 - [Data loading](#data-loading)
   - [Dataloaders (deferred resolution)](#dataloaders-deferred-resolution)
-  - [SelectFields (Eloquent eager loading)](#selectfields-eloquent-eager-loading)
   - [Choosing an approach](#choosing-an-approach)
 - [Middleware Overview](#middleware-overview)
   - [HTTP middleware](#http-middleware)
@@ -82,7 +81,6 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
 - [Batching](#batching)
 - [Scalar types](#scalar-types)
 - [Enums](#enums)
-- [SelectFields and abstract types](#selectfields-and-abstract-types)
 - [Unions](#unions)
 - [Interfaces](#interfaces)
   - [Supporting custom queries on interface relations](#supporting-custom-queries-on-interface-relations)
@@ -122,7 +120,7 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
 - [Configuration options](#configuration-options)
 - [Performance considerations](#performance-considerations)
   - [Wrap Types](#wrap-types)
-    - [Using wrap types with `SelectFields`](#using-wrap-types-with-selectfields)
+    - [Using wrap types with SelectFields](#using-wrap-types-with-selectfields)
 - [Known limitations](#known-limitations)
   - [SelectFields related](#selectfields-related)
 - [GraphQL testing clients](#graphql-testing-clients)
@@ -334,7 +332,7 @@ curl -X POST -H "Content-Type: application/json" \
 You now have a working GraphQL API. From here you can:
 
 - **Optimize data loading** -- see [Dataloaders](#dataloaders) for the recommended way to avoid n+1 queries with any data source
-- **Use Eloquent models** -- see [Creating a query](#creating-a-query) for a full example with database-backed types; for Eloquent-specific column optimization see the [`SelectFields`](#eager-loading-relationships) helper
+- **Use Eloquent models** -- see [Creating a query](#creating-a-query) for a full example with database-backed types; for Eloquent-specific column optimization see the optional [`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields) package
 - **Add mutations** -- see [Creating a mutation](#creating-a-mutation) to modify data
 - **Add validation** -- see [Validation](#validation) for built-in Laravel validation rules on arguments
 - **Add authorization** -- see [Authorization](#authorization) for per-operation access control
@@ -357,10 +355,9 @@ free to skip this part.
   basically any data you want to return.
 - "resolver"  
   Any time data is returned, it is "resolved". Usually in query/mutations this
-  specifies the primary way to retrieve your data. Two common strategies are
-  [dataloaders](#dataloaders) (deferred batching) and
-  [`SelectFields`](#eager-loading-relationships) (Eloquent eager loading). See
-  [Data loading](#data-loading) for a comparison.
+  specifies the primary way to retrieve your data. A common strategy is
+  [dataloaders](#dataloaders) (deferred batching). See
+  [Data loading](#data-loading) for more details.
 
 Typically, all queries/mutations/types are defined using the `$attributes`
 property and the `args()` / `fields()` methods as well as the `resolve()` method.
@@ -405,8 +402,9 @@ ElasticSearch results, caching, etc.) in your resolvers, but you need to be
 mindful of the execution model to avoid repetitive fetches. This library
 supports two strategies for optimized data loading. Dataloaders are the
 recommended starting point -- they work with any data source and follow the
-standard GraphQL community pattern for n+1 prevention. `SelectFields` is
-available as an Eloquent-specific alternative that offers column-level
+standard GraphQL community pattern for n+1 prevention. The optional
+[`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields)
+package is available as an Eloquent-specific alternative that offers column-level
 precision.
 
 ### Dataloaders (deferred resolution)
@@ -423,16 +421,12 @@ type configuration. See [Dataloaders](#dataloaders) for usage and examples.
 
 ### SelectFields (Eloquent eager loading)
 
-If your application is heavily Eloquent-based and you want column-level query
-precision, `SelectFields` is a built-in helper that analyzes the GraphQL query's
-requested fields **before** execution and generates optimized Eloquent `select()`
-and `with()` calls. It selects only the requested columns and eager-loads
-relations to [avoid n+1 problems](https://laravel.com/docs/eloquent-relationships#eager-loading).
-
-This approach is Eloquent-specific and requires a `model` config key on your
-types, along with additional field configuration (`alias`, `selectable`,
-`always`, etc.). See [Eager loading relationships](#eager-loading-relationships)
-for usage and examples.
+> **Note:** SelectFields has been extracted to a separate optional package:
+> [`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields).
+> Install it via `composer require rebing/graphql-laravel-select-fields` to use
+> the `SelectFields` class and its field configuration keys (`selectable`,
+> `is_relation`, `always`, `query`). See the package's README for full
+> documentation.
 
 ### Choosing an approach
 
@@ -441,9 +435,7 @@ for usage and examples.
 | **Data source** | Eloquent only | Any (Eloquent, APIs, caches, etc.) |
 | **N+1 strategy** | Upfront eager loading via query AST analysis | Deferred batching at resolve time |
 | **Column precision** | Selects only requested columns | Typically all columns (customizable per loader) |
-| **Relation scoping** | Custom `query` callbacks on type fields | Logic inside the loader |
-| **Type configuration** | Requires `model`, `alias`, `selectable`, `always`, etc. | No special type config needed |
-| **Setup** | Type-hint `SelectFields` or `Closure` in resolver | Create a loader class, register in the container |
+| **Setup** | `composer require rebing/graphql-laravel-select-fields` | Create a loader class, register in the container |
 | **Best for** | Eloquent-heavy apps needing column-level optimization | Most applications; especially mixed data sources and cross-resolver batching |
 
 The two approaches are independent and can coexist in the same application --
@@ -617,9 +609,9 @@ You can use the `php artisan make:graphql:schemaConfig` command to create a new 
 
 First you usually create a type you want to return from the query. The Eloquent `'model'` is only required if specifying relations.
 
-> **Note:** The `selectable` key defaults to `true`, meaning `SelectFields` will include the
-> field in the SQL `SELECT`. Set it to `false` for computed/virtual fields that don't correspond
-> to a database column (e.g. accessors, custom resolvers).
+> **Note:** If you use the [`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields)
+> package, you can set `'selectable' => false` on computed/virtual fields that don't
+> correspond to a database column (e.g. accessors, custom resolvers).
 
 ```php
 declare(strict_types = 1);
@@ -634,7 +626,7 @@ class UserType extends GraphQLType
     protected $attributes = [
         'name'          => 'User',
         'description'   => 'A user',
-        // Note: only necessary if you use `SelectFields`
+        // Note: only necessary if you use the SelectFields package
         'model'         => User::class,
     ];
 
@@ -751,7 +743,7 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
         if (isset($args['id'])) {
             return User::where('id' , $args['id'])->get();
@@ -783,10 +775,10 @@ And that's it. You should be able to query GraphQL with a POST request to the ur
 
 > **Note:** The `resolve()` method supports dependency injection for parameters
 > beyond the first three (`$root`, `$args`, `$context`). You can typehint
-> `Closure $getSelectFields` to receive a lazy factory, or typehint
-> `SelectFields $fields` directly to get an eager-loaded instance. Any other
-> class typehint will be resolved from Laravel's service container. See
-> [Resolve method](#resolve-method) for full details.
+> `ResolveInfo $info` to receive the GraphQL resolve info. Any other class
+> typehint will be resolved from Laravel's service container. External packages
+> can register custom parameter injectors via `Field::registerParameterInjector()`.
+> See [Resolve method](#resolve-method) for full details.
 
 ```graphql
 query FetchUsers {
@@ -847,7 +839,7 @@ class UpdateUserPasswordMutation extends Mutation
         ];
     }
 
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
         $user = User::find($args['id']);
         if(!$user) {
@@ -943,7 +935,7 @@ class UserProfilePhotoMutation extends Mutation
         ];
     }
 
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
     {
         $file = $args['profilePicture'];
 
@@ -1351,7 +1343,7 @@ You can typehint any class that you will need an instance of.
 
 There are two hardcoded classes which depend on the local data for the query:
 - `GraphQL\Type\Definition\ResolveInfo` has information useful for field resolution process.
-- `Rebing\GraphQL\Support\SelectFields` allows eager loading of related Eloquent models, see [Eager loading relationships](#eager-loading-relationships).
+- Any class registered via `Field::registerParameterInjector()` (e.g. the `SelectFields` class from `rebing/graphql-laravel-select-fields`).
 
 Example:
 
@@ -1359,12 +1351,10 @@ Example:
 declare(strict_types = 1);
 namespace App\GraphQL\Queries;
 
-use Closure;
 use App\Models\User;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\SelectFields;
 use Rebing\GraphQL\Support\Query;
 use SomeClassNamespace\SomeClassThatDoLogging;
 
@@ -1388,14 +1378,11 @@ class UsersQuery extends Query
         ];
     }
 
-    public function resolve($root, array $args, $context, ResolveInfo $info, SelectFields $fields, SomeClassThatDoLogging $logging)
+    public function resolve($root, array $args, $context, ResolveInfo $info, SomeClassThatDoLogging $logging)
     {
         $logging->log('fetched user');
 
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
-
-        $users = User::select($select)->with($with);
+        $users = User::all();
 
         return $users->get();
     }
@@ -1692,8 +1679,8 @@ class UsersQuery extends Query
 
 You can set custom privacy attributes for every Type's Field. If a field is not
 allowed, `null` will be returned. Privacy is enforced at the field resolver
-level, so it works universally - whether the type is a root query result, a
-nested sub-type, or accessed via `SelectFields`.
+level, so it works universally - whether the type is a root query result or a
+nested sub-type.
 
 The privacy callback receives four arguments: the **root value** (`$root` - the
 parent object being resolved), the **field's own arguments** (`$args`), the
@@ -2052,8 +2039,7 @@ Dataloaders are the standard GraphQL pattern for solving n+1 problems and are
 the recommended default data loading strategy. They use **deferred resolution**
 -- a mechanism built into
 [webonyx/graphql-php](https://webonyx.github.io/graphql-php/data-fetching/#solving-n1-problem),
-the GraphQL engine this library is built on. Unlike
-[`SelectFields`](#eager-loading-relationships), dataloaders do not require
+the GraphQL engine this library is built on. Dataloaders do not require
 Eloquent models or special type configuration, and they work with any data
 source.
 
@@ -2203,987 +2189,19 @@ when you have dozens of entity types to batch-load.
 
 ## Eager loading relationships
 
-The `Rebing\GraphQL\Support\SelectFields` class allows to eager load related Eloquent models. 
-Only the required fields will be queried from the database.
-
-The class can be instantiated by **typehinting** `SelectFields $selectField` in your resolve method.
-
-You can also construct the class by typehinting a `Closure`.
-The Closure accepts an optional parameter for the depth of the query to analyse.
-
-Your Query would look like:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Queries;
-
-use Closure;
-use App\Models\User;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\SelectFields;
-use Rebing\GraphQL\Support\Query;
-
-class UsersQuery extends Query
-{
-    protected $attributes = [
-        'name' => 'users',
-    ];
-
-    public function type(): Type
-    {
-        return Type::listOf(GraphQL::type('User'));
-    }
-
-    public function args(): array
-    {
-        return [
-            'id' => [
-                'type' => Type::string(),
-            ],
-            'email' => [
-                'type' => Type::string(),
-            ]
-        ];
-    }
-
-    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
-    {
-        /** @var SelectFields $fields */
-        $fields = $getSelectFields();
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
-
-        $users = User::select($select)->with($with);
-
-        return $users->get();
-    }
-}
-```
-
-Your Type for User might look like shown below. The `profile` and `posts`
-relations must also exist in the UserModel's relations. If some fields are
-required for the relation to load or validation etc, then you can define an
-`always` attribute that will add the given attributes to select.
-
-The attribute can be a comma separated string or an array of attributes to
-always include.
-
-```php
-// Array form:
-'always' => ['title', 'body'],
-// String form (comma-separated):
-'always' => 'title,body',
-```
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Types;
-
-use App\Models\User;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
-
-class UserType extends GraphQLType
-{
-    protected $attributes = [
-        'name'          => 'User',
-        'description'   => 'A user',
-        'model'         => User::class,
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'uuid' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The uuid of the user'
-            ],
-            'email' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The email of user'
-            ],
-            'profile' => [
-                'type' => GraphQL::type('Profile'),
-                'description' => 'The user profile',
-            ],
-            'posts' => [
-                'type' => Type::listOf(GraphQL::type('Post')),
-                'description' => 'The user posts',
-                // Can also be defined as a string
-                'always' => ['title', 'body'],
-            ]
-        ];
-    }
-}
-```
-
-At this point we have a profile and a post type as expected for any model
-
-```php
-class ProfileType extends GraphQLType
-{
-    protected $attributes = [
-        'name'          => 'Profile',
-        'description'   => 'A user profile',
-        'model'         => UserProfileModel::class,
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'name' => [
-                'type' => Type::string(),
-                'description' => 'The name of user'
-            ]
-        ];
-    }
-}
-```
-
-```php
-class PostType extends GraphQLType
-{
-    protected $attributes = [
-        'name'          => 'Post',
-        'description'   => 'A post',
-        'model'         => PostModel::class,
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'title' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The title of the post'
-            ],
-            'body' => [
-                'type' => Type::string(),
-                'description' => 'The body the post'
-            ]
-        ];
-    }
-}
-```
-
-## Type relationship query
-
-> **Note:** this only applies when making use of the `SelectFields` class to query Eloquent models!
-
-You can also specify the `query` that will be included with a relationship via Eloquent's query builder:
-
-```php
-class UserType extends GraphQLType
-{
-
-    // ...
-
-    public function fields(): array
-    {
-        return [
-            // ...
-
-            // Relation
-            'posts' => [
-                'type'          => Type::listOf(GraphQL::type('Post')),
-                'description'   => 'A list of posts written by the user',
-                'args'          => [
-                    'date_from' => [
-                        'type' => Type::string(),
-                    ],
-                 ],
-                // $args are the local arguments passed to the relation
-                // $query is the relation builder object
-                // $ctx is the GraphQL context (customizable via execution middleware)
-                // The return value should be the query builder or void
-                'query'         => function (array $args, $query, $ctx): void {
-                    $query->addSelect('some_column')
-                          ->where('posts.created_at', '>', $args['date_from']);
-                }
-            ]
-        ];
-    }
-}
-```
-
-## Pagination
-
-Pagination will be used, if a query or mutation returns a `PaginationType`.
-
-Note that unless you use [resolver middleware](#defining-middleware),
-you will have to manually supply both the limit and page values:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Queries;
-
-use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Query;
-
-class PostsQuery extends Query
-{
-    public function type(): Type
-    {
-        return GraphQL::paginate('posts');
-    }
-
-    // ...
-
-    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
-    {
-        $fields = $getSelectFields();
-
-        return Post::with($fields->getRelations())
-            ->select($fields->getSelect())
-            ->paginate($args['limit'], ['*'], 'page', $args['page']);
-    }
-}
-```
-
-Query `posts(limit:10,page:1){data{id},total,per_page}` might return
-
-```json
-{
-    "data": {
-        "posts": {
-            "data": [
-                {"id": 3},
-                {"id": 5}
-            ],
-            "total": 21,
-            "per_page": 10
-        }
-    }
-}
-```
-
-Note that you need to add in the extra 'data' object when you request paginated resources as the returned data gives you
-the paginated resources in a data object at the same level as the returned pagination metadata.
-
-[Simple Pagination](https://laravel.com/docs/pagination#simple-pagination) will be used, if a query or mutation returns a `SimplePaginationType`.
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Queries;
-
-use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Query;
-
-class PostsQuery extends Query
-{
-    public function type(): Type
-    {
-        return GraphQL::simplePaginate('posts');
-    }
-
-    // ...
-
-    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
-    {
-        $fields = $getSelectFields();
-
-        return Post::with($fields->getRelations())
-            ->select($fields->getSelect())
-            ->simplePaginate($args['limit'], ['*'], 'page', $args['page']);
-    }
-}
-```
-
-`SimplePaginationType` exposes the following fields: `data` (the paginated items),
-`per_page`, `current_page`, `from`, `to`, and `has_more_pages`. Unlike full
-pagination, `total` and `last_page` are **not** available.
-
-[Cursor Pagination](https://laravel.com/docs/pagination#cursor-pagination) will be used, if a query or mutation returns a `CursorPaginationType`.
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Queries;
-
-use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Query;
-
-class PostsQuery extends Query
-{
-    public function type(): Type
-    {
-        return GraphQL::cursorPaginate('posts');
-    }
-
-    // ...
-
-    public function resolve($root, array $args, $context, ResolveInfo $info, Closure $getSelectFields)
-    {
-        $fields = $getSelectFields();
-
-        return Post::with($fields->getRelations())
-            ->select($fields->getSelect())
-            ->cursorPaginate($args['limit'], ['*'], 'cursorName', $args['cursor']);
-    }
-}
-```
-
-`CursorPaginationType` exposes the following fields: `data` (the paginated
-items), `per_page`, `previous_cursor` (`String`, nullable), and `next_cursor`
-(`String`, nullable).
-
-> **Note:** If you use a custom pagination class via the `pagination_type`,
-> `simple_pagination_type`, or `cursor_pagination_type` config keys, your class
-> must implement `\Rebing\GraphQL\Support\Contracts\WrapType` for
-> `SelectFields` to work correctly. The built-in pagination types already
-> implement this interface. See [Wrap Types](#wrap-types) for more details.
-
-## Batching
-
-Batched requests are required to be sent via a POST request.
-
-You can send multiple queries (or mutations) at once by grouping them together. Therefore, instead of creating two HTTP requests:
-
-```
-POST
-{
-    query: "query postsQuery { posts { id, comment, author_id } }"
-}
-
-POST
-{
-    query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
-    variables: { "comment": "Hi there!" }
-}
-```
-
-you could batch it as one
-
-```
-POST
-[
-    {
-        query: "query postsQuery { posts { id, comment, author_id } }"
-    },
-    {
-        query: "mutation storePostMutation($comment: String!) { store_post(comment: $comment) { id } }",
-        variables: { "comment": "Hi there!" }
-    }
-]
-```
-
-For systems sending multiple requests at once, this can help performance by batching together queries that will be made within a certain interval of time.
-
-There are tools that help with this and can handle the batching for you, e.g. [Apollo](https://www.apollographql.com/)
-
-> **A note on query batching:** whilst it may look like an "only win" situations,
-> there are possible downsides using batching:
-> 
-> - All queries/mutations are executed in the same "process execution context".  
->   If your code has side-effects which might not show up in the usual FastCGI
->   environment (single request/response), it may cause issues here.
-> 
-> - The "HTTP middleware" is only executed for the whole batch _once_  
->   In case you would expect it being triggered for each query/mutation included.
->   This may be especially relevant for logging or rate limiting.  
->   OTOH with "resolver middleware" this will work as expected (though the solve
->   different problems).
-> 
-> - Batch size limits  
->   By default, a maximum of 10 operations per batch is enforced via the
->   `batching.max_batch_size` config option. Set to `null` for no limit.
-
-Support for batching can be enabled by setting the config `batching.enable` to `true` (disabled by default).
-
-The maximum number of operations per batch is controlled by `batching.max_batch_size` (default: `10`). Requests exceeding this limit will receive an error response. Set to `null` to allow unlimited operations (not recommended).
-
-## Scalar types
-
-GraphQL comes with built-in scalar types for string, int, boolean, etc. It's possible to create custom scalar types to special purpose fields.
-
-An example could be a link: instead of using `Type::string()` you could create a scalar type `Link` and reference it with `GraphQL::type('Link')`.
-
-The benefits would be:
-
-- a dedicated description so you can give more meaning/purpose to a field than just call it a string type
-- explicit conversion logic for the following steps:
-  - converting from the internal logic to the serialized GraphQL output (`serialize`)
-  - query/field input argument conversion (`parseLiteral`)
-  - when passed as variables to your query (`parseValue`)
-
-This also means validation logic can be added within these methods to _ensure_ that the value delivered/received is e.g. a true link.
-
-A scalar type has to implement all the methods; you can quick start this with `artisan make:graphql:scalar <typename>`. Then just add the scalar to your existing types in the schema.
-
-For more advanced use, please [refer to the official documentation regarding scalar types](https://webonyx.github.io/graphql-php/type-system/scalar-types).
-
-> **A note on performance:** be mindful of the code you include in your scalar
-> types methods. If you return a large number of fields making use of custom
-> scalars which includes complex logic to validate field, it might impact your
-> response times.
-
-## Enums
-
-Enumeration types are a special kind of scalar that is restricted to a particular set of allowed values.
-Read more about Enums [here](https://graphql.org/learn/schema/#enumeration-types)
-
-First create an Enum as an extension of the GraphQLType class:
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Enums;
-
-use Rebing\GraphQL\Support\EnumType;
-
-class EpisodeEnum extends EnumType
-{
-    protected $attributes = [
-        'name' => 'episode',
-        'description' => 'The types of demographic elements',
-        'values' => [
-            'NEWHOPE' => 'NEWHOPE',
-            'EMPIRE' => 'EMPIRE',
-            'JEDI' => 'JEDI',
-        ],
-    ];
-}
-```
-
-> **Note:** within the `$attributes['values']` array the key is enum value the GraphQL client
-> will be able to choose from, while the value is what will your server receive (what will enum
-> be resolved to).
-
-The Enum will be registered like any other type in your schema in `config/graphql.php`:
-
-```php
-'schemas' => [
-    'default' => [
-        'types' => [
-            EpisodeEnum::class,
-        ],
-```
-
-Then use it like:
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Types;
-
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
-
-class TestType extends GraphQLType
-{
-    public function fields(): array
-    {
-        return [
-            'episode_type' => [
-                'type' => GraphQL::type('episode')
-            ]
-        ];
-    }
-}
-```
-
-## SelectFields and abstract types
-
-When using `SelectFields` with union or interface types, custom `query`
-callbacks on relation fields defined in member/concrete types are supported.
-`SelectFields` will match the concrete type at eager-load time and apply the
-callback automatically.
-
-**Note:** When a query includes inline fragments on multiple member types that
-each request different relations, `SelectFields` will merge all requested
-relations into the eager-load set. This is a known limitation of how
-`SelectFields` handles abstract types.
-
-## Unions
-
-A Union is an abstract type that simply enumerates other Object Types. The value of Union Type is actually a value of one of included Object Types.
-
-It's useful if you need to return unrelated types in the same Query. For example when implementing a search for multiple different entities.
-
-Example for defining a UnionType:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Unions;
-
-use App\Post;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\UnionType;
-
-class SearchResultUnion extends UnionType
-{
-    protected $attributes = [
-        'name' => 'searchResult',
-    ];
-
-    public function types(): array
-    {
-        return [
-            GraphQL::type('Post'),
-            GraphQL::type('Episode'),
-        ];
-    }
-
-    public function resolveType($value)
-    {
-        if ($value instanceof Post) {
-            return GraphQL::type('Post');
-        } elseif ($value instanceof Episode) {
-            return GraphQL::type('Episode');
-        }
-    }
-}
-
-```
-
-## Interfaces
-
-You can use interfaces to abstract a set of fields. Read more about Interfaces [here](https://graphql.org/learn/schema/#interfaces)
-
-An implementation of an interface:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Interfaces;
-
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InterfaceType;
-
-class CharacterInterface extends InterfaceType
-{
-    protected $attributes = [
-        'name' => 'character',
-        'description' => 'Character interface.',
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'id' => [
-                'type' => Type::nonNull(Type::int()),
-                'description' => 'The id of the character.'
-            ],
-            'name' => Type::string(),
-            'appearsIn' => [
-                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
-                'description' => 'A list of episodes in which the character has an appearance.'
-            ],
-        ];
-    }
-
-    public function resolveType($root)
-    {
-        // Use the resolveType to resolve the Type which is implemented trough this interface
-        $type = $root['type'];
-        if ($type === 'human') {
-            return GraphQL::type('Human');
-        } elseif  ($type === 'droid') {
-            return GraphQL::type('Droid');
-        }
-    }
-}
-```
-
-A Type that implements an interface:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Types;
-
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Type as GraphQLType;
-use GraphQL\Type\Definition\Type;
-
-class HumanType extends GraphQLType
-{
-    protected $attributes = [
-        'name' => 'human',
-        'description' => 'A human.'
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'id' => [
-                'type' => Type::nonNull(Type::int()),
-                'description' => 'The id of the human.',
-            ],
-            'name' => Type::string(),
-            'appearsIn' => [
-                'type' => Type::nonNull(Type::listOf(GraphQL::type('Episode'))),
-                'description' => 'A list of episodes in which the human has an appearance.'
-            ],
-            'totalCredits' => [
-                'type' => Type::nonNull(Type::int()),
-                'description' => 'The total amount of credits this human owns.'
-            ]
-        ];
-    }
-
-    public function interfaces(): array
-    {
-        return [
-            GraphQL::type('Character')
-        ];
-    }
-}
-```
-
-### Supporting custom queries on interface relations
-
-If an interface contains a relation with a custom query, it's required to implement `public function types()` returning an array of `GraphQL::type()`, i.e. all the possible types it may resolve to (quite similar as it works for unions) so that it works correctly with `SelectFields`.
-
-Additionally, if your query uses inline fragments to select fields that only exist on concrete types (e.g. `...on Post { created_at }`), implementing `types()` is required so that `SelectFields` can look up those fields from the concrete types.
-
-Based on the previous code example, the method would look like:
-```php
-    public function types(): array
-    {
-        return[
-            GraphQL::type('Human'),
-            GraphQL::type('Droid'),
-        ];
-    }
-```
-
-### Sharing interface fields
-
-Since you often have to repeat many of the field definitions of the Interface in the concrete types, it makes sense to share the definitions of the Interface.
-You can access and reuse specific interface fields with the method `getField(string fieldName): FieldDefinition`. To get all fields as an array use `getFields(): array`
-
-With this you could write the `fields` method of your `HumanType` class like this:
-
-
-```php
-public function fields(): array
-{
-    $interface = GraphQL::type('Character');
-
-    return [
-        $interface->getField('id'),
-        $interface->getField('name'),
-        $interface->getField('appearsIn'),
-
-        'totalCredits' => [
-            'type' => Type::nonNull(Type::int()),
-            'description' => 'The total amount of credits this human owns.'
-        ]
-    ];
-}
-```
-
-Or by using the `getFields` method:
-
-```php
-public function fields(): array
-{
-    $interface = GraphQL::type('Character');
-
-    return array_merge($interface->getFields(), [
-        'totalCredits' => [
-            'type' => Type::nonNull(Type::int()),
-            'description' => 'The total amount of credits this human owns.'
-        ]
-    ]);
-}
-```
-
-## Input Object
-
-Input Object types allow you to create complex inputs. Fields have no args or resolve options and their type must be `InputType`. You can add rules option if you want to validate input data.
-Read more about Input Object [here](https://graphql.org/learn/schema/#input-types)
-
-First create an InputObjectType as an extension of the GraphQLType class:
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\InputObject;
-
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
-
-class ReviewInput extends InputType
-{
-    protected $attributes = [
-        'name' => 'reviewInput',
-        'description' => 'A review with a comment and a score (0 to 5)'
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'comment' => [
-                'description' => 'A comment (250 max chars)',
-                'type' => Type::string(),
-                // You can define Laravel Validation here
-                'rules' => ['max:250']
-            ],
-            'score' => [
-                'description' => 'A score (0 to 5)',
-                'type' => Type::int(),
-                // You must use 'integer' on rules if you want to validate if the number is inside a range
-                // Otherwise it will validate the number of 'characters' the number can have.
-                'rules' => ['integer', 'min:0', 'max:5']
-            ]
-        ];
-    }
-}
-```
-
-The Input Object will be registered like any other type in your schema in `config/graphql.php`:
-
-```php
-'schemas' => [
-    'default' => [
-        'types' => [
-            'ReviewInput' => ReviewInput::class
-        ],
-```
-
-Then use it in a mutation, like:
-```php
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Mutation;
-
-class TestMutation extends Mutation
-{
-    public function args(): array
-    {
-        return [
-            'review' => [
-                'type' => GraphQL::type('ReviewInput')
-            ]
-        ];
-    }
-}
-```
-
-## OneOf Input Objects
-
-OneOf Input Objects are a special type of input object where **exactly one field** must be provided. This is useful for creating polymorphic inputs or "input unions" where you want to accept one of several possible input types.
-Read more about OneOf in the [RFC](https://github.com/graphql/graphql-spec/pull/825) or in the [GraphQL PHP Documentation](https://webonyx.github.io/graphql-php/type-definitions/inputs/#using-the-isoneof-configuration-option)
-
-### Creating a OneOf Input Type
-
-Create a OneOf Input Type by setting `'isOneOf' => true` in the attributes:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\InputObject;
-
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
-
-class SearchInput extends InputType
-{
-    protected $attributes = [
-        'name' => 'SearchInput',
-        'description' => 'Search by exactly one criteria',
-        'isOneOf' => true,
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'byId' => [
-                'type' => Type::id(),
-                'description' => 'Search by user ID',
-            ],
-            'byEmail' => [
-                'type' => Type::string(),
-                'description' => 'Search by email address',
-            ],
-            'byUsername' => [
-                'type' => Type::string(),
-                'description' => 'Search by username',
-            ],
-        ];
-    }
-}
-```
-
-### Using OneOf Input Types
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Queries;
-
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Query;
-use App\Models\User;
-
-class UserQuery extends Query
-{
-    protected $attributes = [
-        'name' => 'user',
-        'description' => 'Find a user by search criteria'
-    ];
-
-    public function type(): Type
-    {
-        return GraphQL::type('User');
-    }
-
-    public function args(): array
-    {
-        return [
-            'search' => [
-                'type' => Type::nonNull(GraphQL::type('SearchInput')),
-                'description' => 'Search criteria (exactly one field required)',
-            ],
-        ];
-    }
-
-    public function resolve($root, array $args)
-    {
-        $search = $args['search'];
-
-        // Exactly one of these will be set
-        if (isset($search['byId'])) {
-            return User::find($search['byId']);
-        }
-
-        if (isset($search['byEmail'])) {
-            return User::where('email', $search['byEmail'])->first();
-        }
-
-        if (isset($search['byUsername'])) {
-            return User::where('username', $search['byUsername'])->first();
-        }
-
-        return null;
-    }
-}
-```
-
-### Generating OneOf Input Types
-
-You can generate a OneOf input type using the Artisan command with the `--oneof` flag:
-
-```bash
-php artisan make:graphql:input SearchInput --oneof
-```
-
-This will create a new input type with `'isOneOf' => true` already configured.
-
-## Type modifiers
-
-Type modifiers can be applied by wrapping your chosen type in `Type::nonNull` or `Type::listOf` calls
-or alternatively you can use the shorthand syntax available via `GraphQL::type` to build up more complex
-types.
-
-```php
-GraphQL::type('MyInput!');
-GraphQL::type('[MyInput]');
-GraphQL::type('[MyInput]!');
-GraphQL::type('[MyInput!]!');
-
-GraphQL::type('String!');
-GraphQL::type('[String]');
-GraphQL::type('[String]!');
-GraphQL::type('[String!]!');
-```
-
-## Field and input alias
-
-It is possible to alias query and mutation arguments as well as input object fields.
-
-It can be especially useful for mutations saving data to the database.
-
-Here you might want the input names to be different from the column names in the database.
-
-Example, where the database columns are `first_name` and `last_name`:
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\InputObject;
-
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
-
-class UserInput extends InputType
-{
-    protected $attributes = [
-        'name' => 'userInput',
-        'description' => 'A user.'
-    ];
-
-    public function fields(): array
-    {
-        return [
-            'firstName' => [
-                'alias' => 'first_name',
-                'description' => 'The first name of the user',
-                'type' => Type::string(),
-                'rules' => ['max:30']
-            ],
-            'lastName' => [
-                'alias' => 'last_name',
-                'description' => 'The last name of the user',
-                'type' => Type::string(),
-                'rules' => ['max:30']
-            ]
-        ];
-    }
-}
-```
-
-```php
-declare(strict_types = 1);
-namespace App\GraphQL\Mutations;
-
-use Closure;
-use App\Models\User;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ResolveInfo;
-use Rebing\GraphQL\Support\Mutation;
-
-class UpdateUserMutation extends Mutation
-{
-    protected $attributes = [
-        'name' => 'updateUser'
-    ];
-
-    public function type(): Type
-    {
-        return GraphQL::type('User');
-    }
-
-    public function args(): array
-    {
-        return [
-            'id' => [
-                'type' => Type::nonNull(Type::string())
-            ],
-            'input' => [
-                'type' => GraphQL::type('UserInput')
-            ]
-        ];
-    }
-
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
-    {
-        $user = User::find($args['id']);
-        $user->fill($args['input']);
-        $user->save();
-
-        return $user;
-    }
-}
-```
+> **Note:** The `SelectFields` class has been moved to the separate
+> [`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields)
+> package. Install it with `composer require rebing/graphql-laravel-select-fields`
+> to use Eloquent-optimized field selection and eager loading in your resolvers.
+> See the package's README for full documentation.
 
 ## JSON columns
 
 When using JSON columns in your database, the field won't be defined as a "relationship",
-but rather a simple column with nested data. To get a nested object that's not a database relationship,
-use the `is_relation` attribute in your Type:
+but rather a simple column with nested data. If you use the
+[`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields)
+package, set the `is_relation` attribute to `false` in your Type to prevent
+SelectFields from treating it as an Eloquent relation:
 
 ```php
 class UserType extends GraphQLType
@@ -3199,8 +2217,7 @@ class UserType extends GraphQLType
             'posts' => [
                 'type'          => Type::listOf(GraphQL::type('Post')),
                 'description'   => 'A list of posts written by the user',
-                // Now this will simply request the "posts" column, and it won't
-                // query for all the underlying columns in the "post" object
+                // Tells SelectFields this is not an Eloquent relation
                 // The value defaults to true
                 'is_relation' => false
             ]
@@ -3810,49 +2827,16 @@ public function resolve($root, array $args)
 }
 ```
 
-#### Using wrap types with `SelectFields`
+#### Using wrap types with SelectFields
 
-If you use `SelectFields` (via the `$getSelectFields` closure) in a query that
-returns a wrap type, your wrapper class **must** implement the
-`Rebing\GraphQL\Support\Contracts\WrapType` marker interface. This tells
-`SelectFields` to look through the wrapper's `data` field to find the underlying
-model type and generate the correct `SELECT`/`WITH` clauses.
-
-```php
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Contracts\WrapType;
-use Rebing\GraphQL\Support\Facades\GraphQL;
-
-class PostWrappedType extends ObjectType implements WrapType
-{
-    public function __construct()
-    {
-        parent::__construct([
-            'name' => 'PostWrapped',
-            'fields' => fn () => [
-                'data' => [
-                    'type' => Type::listOf(GraphQL::type('Post')),
-                    'is_relation' => false,
-                ],
-                'message' => [
-                    'type' => Type::string(),
-                    'selectable' => false,
-                ],
-            ],
-        ]);
-    }
-}
-```
-
-The built-in pagination types (`PaginationType`, `SimplePaginationType`,
-`CursorPaginationType`) already implement this interface. Custom pagination
-classes configured via the `pagination_type`, `simple_pagination_type`, or
-`cursor_pagination_type` config keys must also implement it.
+If you use the [`rebing/graphql-laravel-select-fields`](https://github.com/rebing/graphql-laravel-select-fields)
+package with a query that returns a wrap type, your wrapper class must implement
+the `WrapType` marker interface from that package. See the SelectFields package
+documentation for details.
 
 ## Known limitations
 
-### SelectFields related
+### SelectFields related (see `rebing/graphql-laravel-select-fields`)
 - Resolving fields via aliases will only resolve them once, even if the fields
   have different arguments ([Issue](https://github.com/rebing/graphql-laravel/issues/604)).
 

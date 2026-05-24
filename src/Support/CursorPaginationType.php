@@ -9,10 +9,9 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Support\Collection;
-use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class CursorPaginationType extends ObjectType implements WrapType
+class CursorPaginationType extends ObjectType
 {
     public function __construct(string $typeName, ?string $customName = null)
     {
@@ -53,7 +52,6 @@ class CursorPaginationType extends ObjectType implements WrapType
                 'resolve' => function (CursorPaginator $data): int {
                     return $data->perPage();
                 },
-                'selectable' => false,
             ],
             'previous_cursor' => [
                 'type' => GraphQLType::string(),
@@ -61,7 +59,6 @@ class CursorPaginationType extends ObjectType implements WrapType
                 'resolve' => function (CursorPaginator $data): ?string {
                     return $data->previousCursor()?->encode();
                 },
-                'selectable' => false,
             ],
             'next_cursor' => [
                 'type' => GraphQLType::string(),
@@ -69,7 +66,6 @@ class CursorPaginationType extends ObjectType implements WrapType
                 'resolve' => function (CursorPaginator $data): ?string {
                     return $data->nextCursor()?->encode();
                 },
-                'selectable' => false,
             ],
         ];
     }

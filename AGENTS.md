@@ -72,13 +72,13 @@ Type (abstract)            # Base for all GraphQL types: fields(), attributes(),
 ### Key Classes
 
 - **`GraphQL`** (`src/GraphQL.php`): Singleton, uses `Macroable`. Type registry with modifier parsing (`GraphQL::type('[User!]!')`). Schema building, query execution, error formatting.
-- **`SelectFields`** (`src/Support/SelectFields.php`): Optimizes Eloquent queries by analyzing GraphQL field selections for `select()` and `with()`.
 - **`Privacy`** (`src/Support/Privacy.php`): Abstract base for field-level access control.
 - **`ConfigConvertible`** (`src/Support/Contracts/ConfigConvertible.php`): Interface for class-based schema definitions (returns array with `query`, `mutation`, `types`, `middleware`, etc.).
+- **`ResolverParameterInjector`** (`src/Support/Contracts/ResolverParameterInjector.php`): Interface for extensible resolver DI. External packages register injectors via `Field::registerParameterInjector()`.
 
 ### Resolver Conventions
 
-- `Field::resolve()` supports dependency injection: `SelectFields`, `ResolveInfo`, `Closure`, or any container-resolvable class
+- `Field::resolve()` supports dependency injection: `ResolveInfo`, or any container-resolvable class. External packages (e.g. `rebing/graphql-laravel-select-fields`) can register custom injectors via `Field::registerParameterInjector()`.
 - Types auto-discover resolvers via `resolve{StudlyFieldName}Field()` methods on the Type class
 - Authorization: override `authorize()` on `Field`/`Query`/`Mutation`
 - Validation: override `rules()` to return Laravel validation rules for args

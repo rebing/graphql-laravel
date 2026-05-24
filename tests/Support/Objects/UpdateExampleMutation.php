@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Support\Objects;
 
-use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
@@ -58,7 +57,7 @@ class UpdateExampleMutation extends Mutation
      * @param mixed $context
      * @return array<string,mixed>
      */
-    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields): array
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo): array
     {
         return [
             'test' => $args['test'],

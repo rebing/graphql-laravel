@@ -6,10 +6,9 @@ namespace Rebing\GraphQL\Tests\Unit\WithTypeTests;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Support\Collection;
-use Rebing\GraphQL\Support\Contracts\WrapType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 
-class WrapperType extends ObjectType implements WrapType
+class WrapperType extends ObjectType
 {
     /**
      * @param string $typeName The type name defined in graphql.php configuration file.
