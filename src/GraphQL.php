@@ -8,6 +8,7 @@ use GraphQL\Error\DebugFlag;
 use GraphQL\Error\Error;
 use GraphQL\Error\FormattedError;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\Server\Exception\GetMethodSupportsOnlyQueryOperation;
 use GraphQL\Server\OperationParams as BaseOperationParams;
 use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\NonNull;
@@ -648,6 +649,14 @@ class GraphQL
 
             // Don't report certain GraphQL errors
             if ($error instanceof ValidationError || $error instanceof AuthorizationError) {
+                continue;
+            }
+
+            // `ReadOnlyOperationMiddleware` raises this RequestError to refuse
+            // non-`query` operations submitted via GET. It's an expected client
+            // error (analogous to `ValidationError`/`AuthorizationError`) and
+            // should not be reported as a server bug.
+            if ($error instanceof GetMethodSupportsOnlyQueryOperation) {
                 continue;
             }
 

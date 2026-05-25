@@ -109,6 +109,7 @@ This package provides a code-first integration of GraphQL for Laravel. It is bas
   - [Query depth limiting](#query-depth-limiting)
   - [Query complexity analysis](#query-complexity-analysis)
   - [Batching limits](#batching-limits)
+  - [GET requests and read-only enforcement](#get-requests-and-read-only-enforcement)
   - [Recommended production configuration](#recommended-production-configuration)
 - [Error handling](#error-handling)
   - [Built-in error types](#built-in-error-types)
@@ -2622,6 +2623,45 @@ single HTTP request. Without a cap, this can be used to amplify the impact of
 expensive queries. Batching is disabled by default, and when enabled the
 `batching.max_batch_size` option (default: `10`) limits the number of operations
 per request.
+
+### GET requests and read-only enforcement
+
+By default each schema only accepts `POST` (`'method' => ['POST']`). If you
+opt a schema in to `GET` (e.g. for CDN-cacheable persisted queries), enable
+the `ReadOnlyOperationMiddleware` execution middleware so that mutations and
+subscriptions submitted via `GET` are rejected.
+
+The middleware is shipped pre-listed (commented out) in the published config:
+
+```php
+// config/graphql.php
+'execution_middleware' => [
+    Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware::class,
+    Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware::class,
+    Rebing\GraphQL\Support\ExecutionMiddleware\ReadOnlyOperationMiddleware::class,
+    Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware::class,
+],
+```
+
+Without this middleware, an operation submitted via `GET` is executed
+regardless of its type, which leaks mutation arguments into URLs, server
+access logs and CDN caches and bypasses defenses that assume `GET` is safe.
+This mirrors the protection that webonyx/graphql-php's
+`Server\Helper::executeOperation()` applies; we enforce it explicitly because
+the library calls `GraphQL::executeQuery()` directly.
+
+The rejection produces the standard GraphQL error
+`GET supports only query operation` with HTTP `200`. The middleware is opt-in
+so consumers running with the default `POST`-only configuration are unaffected.
+
+> **Ordering matters when APQ is enabled.** When used together with
+> `AutomaticPersistedQueriesMiddleware`, list `ReadOnlyOperationMiddleware`
+> *after* it (as shown above). APQ materialises the query body from the
+> cache; running this middleware first against an APQ-only request would
+> cause `OperationParams::getParsedQuery()` to throw
+> `No GraphQL query available`. The ordering relative to
+> `GraphqlExecutionMiddleware` is enforced by the framework, which always
+> appends `GraphqlExecutionMiddleware` last.
 
 ### Recommended production configuration
 
