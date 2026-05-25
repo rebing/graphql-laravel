@@ -6,6 +6,9 @@ CHANGELOG
 ### Added
 - `ExecutionMiddleware\ReadOnlyOperationMiddleware` rejects GET requests targeting mutations [\#1261 / mfn](https://github.com/rebing/graphql-laravel/pull/1261)
 
+### Changed
+- `ExecutionMiddleware\AddAuthUserContextValueMiddleware` now resolves the auth guard from the config [\#1262 / mfn](https://github.com/rebing/graphql-laravel/pull/1262)
+
 2026-05-24, 10.0.0-RC4
 ----------------------
 
