@@ -212,4 +212,37 @@ class OpenTelemetryTracingDriverTest extends TestCase
         self::assertCount(1, $spans);
         self::assertSame('rebing/graphql-laravel', $spans[0]->getInstrumentationScope()->getName());
     }
+
+    public function testStartOperationFallbackSpanNameWhenOperationTypeIsNull(): void
+    {
+        // Covers the `'GraphQL Operation'` fallback span name in
+        // `OpenTelemetryTracingDriver::startOperation()` when
+        // `$operationType` is null. The TracingExecutionMiddleware passes
+        // null when it cannot determine the operation type (e.g. parse
+        // failure); calling `startOperation()` directly is the most
+        // focused way to assert the fallback.
+        $driver = new OpenTelemetryTracingDriver;
+
+        $context = $driver->startOperation('default', null, null, null);
+
+        // We must end the operation so the span is exported.
+        $driver->endOperation($context, new \GraphQL\Executor\ExecutionResult(['ok' => true]));
+
+        $spans = $this->getExportedSpans();
+        self::assertCount(1, $spans);
+        self::assertSame('GraphQL Operation', $spans[0]->getName());
+    }
+
+    public function testStartOperationFallbackSpanNameWhenOperationTypeIsEmptyString(): void
+    {
+        // Same fallback branch when an empty string is provided rather than null.
+        $driver = new OpenTelemetryTracingDriver;
+
+        $context = $driver->startOperation('default', null, '', null);
+        $driver->endOperation($context, new \GraphQL\Executor\ExecutionResult(['ok' => true]));
+
+        $spans = $this->getExportedSpans();
+        self::assertCount(1, $spans);
+        self::assertSame('GraphQL Operation', $spans[0]->getName());
+    }
 }

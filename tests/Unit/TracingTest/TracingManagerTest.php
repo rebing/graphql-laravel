@@ -413,4 +413,24 @@ class TracingManagerTest extends TestCase
         self::assertSame(FakeTracingDriver::class, $config['driver']);
         self::assertTrue($config['field_tracing']);
     }
+
+    public function testClassBasedSchemaWithoutConfigConvertibleIsSkipped(): void
+    {
+        // Covers `resolveSchemaTracing()` line where a string schema config
+        // resolves to a class instance that doesn't implement
+        // `ConfigConvertible`. The manager treats this as "no per-schema
+        // tracing override" and falls through to the global config.
+        $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
+        $this->app['config']->set('graphql.schemas.bogus_schema', NotConfigConvertibleSchema::class);
+
+        /** @var TracingManager $manager */
+        $manager = $this->app->make(TracingManager::class);
+
+        // `resolveSchemaTracing` returns null because instance is not ConfigConvertible.
+        // `resolveConfig` therefore uses the global config as-is.
+        $config = $manager->resolveConfig('bogus_schema');
+
+        self::assertNotNull($config);
+        self::assertSame(FakeTracingDriver::class, $config['driver']);
+    }
 }
