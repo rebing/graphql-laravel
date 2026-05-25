@@ -535,4 +535,24 @@ class AutomatedPersistedQueriesTest extends TestCase
         ];
         self::assertEquals($expected, $content);
     }
+
+    public function testQueryWithoutPersistedQueryExtensionWhenApqEnabled(): void
+    {
+        // APQ is enabled (set in getEnvironmentSetUp), but the request does
+        // NOT include any `extensions.persistedQuery`. The middleware should
+        // simply forward to the next layer and execute the query normally.
+        // This exercises the "no persistedQuery extension" branch in
+        // `AutomaticPersistedQueriesMiddleware::handle()`.
+        $response = $this->call('POST', '/graphql', [
+            'query' => trim($this->queries['examples']),
+        ]);
+
+        self::assertEquals(200, $response->getStatusCode());
+
+        $content = $response->json();
+
+        self::assertArrayNotHasKey('errors', $content);
+        self::assertArrayHasKey('data', $content);
+        self::assertEquals(['examples' => $this->data], $content['data']);
+    }
 }

@@ -116,4 +116,45 @@ class TracingExecutionMiddlewareTest extends TestCase
         self::assertSame('Test exception', $driver->endResult->errors[0]->getMessage());
         self::assertInstanceOf(RuntimeException::class, $driver->endResult->errors[0]->getPrevious());
     }
+
+    public function testOperationTypeIsNullWhenQueryIsUnparseable(): void
+    {
+        // Covers the `try { $params->getParsedQuery(); } catch (Throwable)`
+        // branch in `TracingExecutionMiddleware::resolveOperationType()`.
+        // A syntactically invalid query cannot be parsed, so operationType
+        // resolves to null but tracing still wraps the operation.
+        $driver = new FakeTracingDriver;
+
+        $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
+        $this->app->instance(FakeTracingDriver::class, $driver);
+
+        GraphQL::queryAndReturnResult('{ parse(error) }');
+
+        self::assertNotNull($driver->startArgs);
+        self::assertNull($driver->startArgs['operationType']);
+        self::assertTrue($driver->endCalled);
+    }
+
+    public function testOperationTypeIsNullWhenOperationNameDoesNotMatch(): void
+    {
+        // The document defines `query Foo { ... }` but we ask for `Bar`.
+        // The middleware iterates definitions, sees the name mismatch
+        // (`continue`) and reaches the end of the loop returning null.
+        // This covers both the `continue;` branch (line 95) and the final
+        // `return null;` (line 102) of `resolveOperationType()`.
+        $driver = new FakeTracingDriver;
+
+        $this->app['config']->set('graphql.tracing.driver', FakeTracingDriver::class);
+        $this->app->instance(FakeTracingDriver::class, $driver);
+
+        GraphQL::queryAndReturnResult(
+            'query Foo { examples { test } }',
+            null,
+            ['operationName' => 'Bar'],
+        );
+
+        self::assertNotNull($driver->startArgs);
+        self::assertSame('Bar', $driver->startArgs['operationName']);
+        self::assertNull($driver->startArgs['operationType']);
+    }
 }

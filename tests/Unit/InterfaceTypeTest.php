@@ -42,4 +42,55 @@ class InterfaceTypeTest extends TestCase
         $fields = $interfaceType->getFields();
         self::assertArrayHasKey('test', $fields);
     }
+
+    public function testGetAttributesIncludesTypesResolverWhenDefined(): void
+    {
+        // Covers `InterfaceType::getTypesResolver()`. The shared
+        // ExampleInterfaceType fixture does NOT define `types()`, so this
+        // path was previously uncovered. Here we use an inline subclass
+        // that defines `types()` to assert the resolver is wired up.
+        $type = new class extends \Rebing\GraphQL\Support\InterfaceType {
+            protected $attributes = ['name' => 'AnimalInterface'];
+
+            public function fields(): array
+            {
+                return [
+                    'name' => ['type' => \GraphQL\Type\Definition\Type::string()],
+                ];
+            }
+
+            /**
+             * @return list<\GraphQL\Type\Definition\Type>
+             */
+            public function types(): array
+            {
+                return [
+                    \GraphQL\Type\Definition\Type::string(),
+                ];
+            }
+
+            public function resolveType(mixed $root): \GraphQL\Type\Definition\Type
+            {
+                return \GraphQL\Type\Definition\Type::string();
+            }
+        };
+
+        $attributes = $type->getAttributes();
+
+        self::assertArrayHasKey('types', $attributes);
+        self::assertInstanceOf(Closure::class, $attributes['types']);
+
+        $resolved = $attributes['types']();
+        self::assertCount(1, $resolved);
+    }
+
+    public function testGetAttributesOmitsTypesResolverWhenNotDefined(): void
+    {
+        // The default ExampleInterfaceType has no `types()` method, so
+        // getTypesResolver() must return null and `types` must not be set.
+        $type = new ExampleInterfaceType;
+        $attributes = $type->getAttributes();
+
+        self::assertArrayNotHasKey('types', $attributes);
+    }
 }
