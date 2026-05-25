@@ -280,6 +280,12 @@ return [
         Rebing\GraphQL\Support\ExecutionMiddleware\ValidateOperationParamsMiddleware::class,
         // AutomaticPersistedQueriesMiddleware listed even if APQ is disabled, see the docs for the `'apq'` configuration
         Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware::class,
+        // Reject non-`query` operations (mutations, subscriptions) submitted via GET.
+        // When used together with `AutomaticPersistedQueriesMiddleware`, list this
+        // entry AFTER it (as below): APQ materialises the query body from cache,
+        // and running this middleware first would fail APQ-only requests with a
+        // "No GraphQL query available" error.
+        // \Rebing\GraphQL\Support\ExecutionMiddleware\ReadOnlyOperationMiddleware::class,
         Rebing\GraphQL\Support\ExecutionMiddleware\AddAuthUserContextValueMiddleware::class,
         // \Rebing\GraphQL\Support\ExecutionMiddleware\UnusedVariablesMiddleware::class,
     ],

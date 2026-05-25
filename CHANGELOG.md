@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
 
+### Added
+- `ExecutionMiddleware\ReadOnlyOperationMiddleware` rejects GET requests targeting mutations [\#1261 / mfn](https://github.com/rebing/graphql-laravel/pull/1261)
+
 2026-05-24, 10.0.0-RC4
 ----------------------
 
