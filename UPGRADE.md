@@ -128,6 +128,22 @@ packages to hook into the resolver DI system. Register injectors via
   -public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null, ?Closure $getSelectFields = null): bool
   +public function authorize($root, array $args, $ctx, ?ResolveInfo $resolveInfo = null): bool
   ```
+- **Auth context guard now resolved per-schema** -
+  `AddAuthUserContextValueMiddleware` previously always called
+  `Auth::guard()->user()` (the application's default guard) to populate the
+  GraphQL context. It now resolves the guard from
+  `graphql.schemas.<name>.group_attributes.guard` (per-schema), then the
+  global `graphql.route.group_attributes.guard`, then the default. Multi-guard
+  apps that authenticated via a non-default guard (e.g. `auth:api`) but were
+  silently receiving the default-guard user (typically `web`) in `$ctx`
+  should now see the correct user. Verify your authorization logic still
+  behaves as expected. Set the `group_attributes.guard` key on each schema
+  (or globally) to match the auth middleware you use.
+
+  The middleware constructor signature changed from `(Factory $auth)` to
+  `(Factory $auth, Repository $config)`. Container resolution is unaffected.
+  If you subclass the middleware with a custom constructor, update the
+  `parent::__construct(...)` call to pass both dependencies.
 
 ## Upgrading from v1 to v2
 

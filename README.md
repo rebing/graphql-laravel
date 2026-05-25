@@ -520,7 +520,7 @@ them, in addition to the global middleware. For example:
         'types' => [
         
         ],
-        'middleware' => ['auth'],
+        'middleware' => ['auth:api'],
         // Which HTTP methods to support; must be given in UPPERCASE!
         // Default is POST only; enable GET explicitly if needed
         'method' => ['GET', 'POST'], 
@@ -531,6 +531,13 @@ them, in addition to the global middleware. For example:
         // Example: expose this schema on a dedicated subdomain
         'route_attributes' => [
             'domain' => 'api.example.com',
+        ],
+        // Per-schema route group attributes. The `guard` entry is consumed by
+        // the built-in `AddAuthUserContextValueMiddleware` to populate the
+        // GraphQL context value (`$ctx`) from the named guard. Defaults to
+        // the application's default guard when unset.
+        'group_attributes' => [
+            'guard' => 'api',
         ],
         // Override the default controller for this schema.
         // Supports string ('Class@method') and array ([Class::class, 'method']) formats.
@@ -1802,7 +1809,13 @@ If the field declares its own `args`, they are available in `$args`:
 > the GraphQL execution. By default, the built-in
 > `AddAuthUserContextValueMiddleware` execution middleware sets this directly to
 > the authenticated user model (i.e. `Auth::user()`), or `null` if no user is
-> authenticated. You can customize the context via your own execution middleware.
+> authenticated. The guard is resolved in this order:
+> `graphql.schemas.<name>.group_attributes.guard` (per-schema), then the
+> global `graphql.route.group_attributes.guard`, then the application's
+> default guard. This keeps the GraphQL context consistent with the guard
+> that authenticated the route — important in multi-guard apps where the
+> default guard (typically `web`) and the schema's actual guard (e.g. `api`)
+> differ. You can customize the context via your own execution middleware.
 
 > **Privacy vs Authorization.** `authorize()` on a Query or Mutation gates the
 > *entire* operation - if it fails, the whole request is rejected with an error.
