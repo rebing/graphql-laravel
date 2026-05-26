@@ -20,10 +20,10 @@ library no longer contains any SelectFields-related code.
    composer require rebing/graphql-laravel-select-fields
    ```
    That's it for most users. The package's service provider auto-registers.
-   All classes remain at their original namespaces — no import changes needed.
+   All classes remain at their original namespaces - no import changes needed.
 
 2. Your Type field configurations (`model`, `alias`, `selectable`, `always`,
-   `is_relation`, `query`) remain **unchanged** — the external package reads
+   `is_relation`, `query`) remain **unchanged** - the external package reads
    the same keys.
 
 **Other breaking changes related to SelectFields:**
@@ -144,6 +144,18 @@ packages to hook into the resolver DI system. Register injectors via
   `(Factory $auth, Repository $config)`. Container resolution is unaffected.
   If you subclass the middleware with a custom constructor, update the
   `parent::__construct(...)` call to pass both dependencies.
+- **Route group middleware no longer double-applied** - When `route.middleware`
+  was set globally and a schema did not define its own `middleware`, each
+  entry was previously stored twice in the route's action middleware list
+  (visible via `Route::middleware()`). Laravel's `Route::gatherMiddleware()`
+  deduplicated identical strings at request time, so for typical
+  string-based middleware (`throttle:60,1`, `auth:api`, etc.) the runtime
+  pipeline already ran each only once - the visible duplication was
+  cosmetic. After the fix, the action middleware is correct at registration
+  time and edge cases (closure middleware, stateful middleware instances)
+  that did not deduplicate cleanly now also run exactly once. If your
+  application explicitly relied on the double execution (extremely unlikely),
+  list the middleware in both `route.middleware` and per-schema `middleware`.
 
 ## Upgrading from v1 to v2
 

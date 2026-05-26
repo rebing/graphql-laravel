@@ -9,6 +9,9 @@ CHANGELOG
 ### Changed
 - `ExecutionMiddleware\AddAuthUserContextValueMiddleware` now resolves the auth guard from the config [\#1262 / mfn](https://github.com/rebing/graphql-laravel/pull/1262)
 
+### Fixed
+- Avoid duplicate middleware if no per-schema middleware is defined [\#1263 / mfn](https://github.com/rebing/graphql-laravel/pull/1263)
+
 2026-05-24, 10.0.0-RC4
 ----------------------
 

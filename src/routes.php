@@ -35,7 +35,7 @@ if ($routeConfig) {
                 $method = $schemaConfig['method'] ?? ['POST'];
                 $actions = array_filter([
                     'uses' => $schemaConfig['controller'] ?? $routeConfig['controller'] ?? GraphQLController::class . '@query',
-                    'middleware' => $schemaConfig['middleware'] ?? $routeConfig['middleware'] ?? null,
+                    'middleware' => $schemaConfig['middleware'] ?? null,
                     ...$schemaConfig['route_attributes'] ?? [],
                 ]);
 
