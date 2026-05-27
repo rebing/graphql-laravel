@@ -8,8 +8,8 @@ need to explicitly re-enable previously-open behaviour.
 ### SelectFields extracted to separate package
 
 `SelectFields` has been moved to the separate
-`rebing/graphql-laravel-select-fields` package for modularity. The core
-library no longer contains any SelectFields-related code.
+https://github.com/rebing/graphql-laravel-select-fields package for modularity.
+The core library no longer contains any SelectFields-related code.
 
 **If you do NOT use SelectFields:** no action is required.
 
