@@ -11,6 +11,7 @@ CHANGELOG
 
 ### Fixed
 - Avoid duplicate middleware if no per-schema middleware is defined [\#1263 / mfn](https://github.com/rebing/graphql-laravel/pull/1263)
+- APQ middleware validates queries before persisting them in cache [\#1264 / mfn](https://github.com/rebing/graphql-laravel/pull/1264)
 
 2026-05-24, 10.0.0-RC4
 ----------------------
