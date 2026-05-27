@@ -627,6 +627,7 @@ namespace App\GraphQL\Types;
 
 use App\Models\User;
 use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
@@ -664,7 +665,12 @@ class UserType extends GraphQLType
                 'type' => Type::boolean(),
                 'description' => 'True, if the queried user is the current user',
                 'selectable' => false, // Does not try to query this from the database
-            ]
+            ],
+            // Reference another registered GraphQL type for relations
+            'profile' => [
+                'type' => GraphQL::type('UserProfile'),
+                'description' => 'The user profile',
+            ],
         ];
     }
 
@@ -777,6 +783,45 @@ Add the query to the `config/graphql.php` configuration file
         // ...
     ]
 ]
+```
+
+#### Fetching a single record
+
+```php
+declare(strict_types = 1);
+namespace App\GraphQL\Queries;
+
+use App\Models\User;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Query;
+
+class UserQuery extends Query
+{
+    protected $attributes = [
+        'name' => 'user',
+    ];
+
+    public function type(): Type
+    {
+        return Type::nonNull(GraphQL::type('User'));
+    }
+
+    public function args(): array
+    {
+        return [
+            'id' => [
+                'type' => Type::nonNull(Type::int()),
+            ],
+        ];
+    }
+
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo)
+    {
+        return User::findOrFail($args['id']);
+    }
+}
 ```
 
 And that's it. You should be able to query GraphQL with a POST request to the url `/graphql` (or anything you choose in your config). Try a POST request with the following `query` input
@@ -894,6 +939,60 @@ curl -X POST -H "Content-Type: application/json" \
   -d '{"query": "mutation users { updateUserPassword(id: \"1\", password: \"newpassword\") { id email } }"}' \
   http://localhost:8000/graphql
 ```
+
+#### Mutation with inline validation rules
+
+You can attach Laravel validation rules directly to each argument via the
+`'rules'` key. This is often simpler than overriding the `rules()` method for
+straightforward validations:
+
+```php
+declare(strict_types = 1);
+namespace App\GraphQL\Mutations;
+
+use GraphQL\Type\Definition\Type;
+use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Support\Mutation;
+
+class LoginMutation extends Mutation
+{
+    protected $attributes = [
+        'name' => 'login',
+        'description' => 'Log in by email and password',
+    ];
+
+    public function type(): Type
+    {
+        return GraphQL::type('User');
+    }
+
+    public function args(): array
+    {
+        return [
+            'email' => [
+                'type' => Type::nonNull(Type::string()),
+                'rules' => ['required', 'email'],
+            ],
+            'password' => [
+                'type' => Type::nonNull(Type::string()),
+                'rules' => ['required', 'string', 'min:8'],
+            ],
+            'remember_me' => [
+                'type' => Type::boolean(),
+                'rules' => ['boolean'],
+            ],
+        ];
+    }
+
+    public function resolve($root, array $args)
+    {
+        // Authenticate and return the user...
+    }
+}
+```
+
+See [Validation](#validation) for more advanced rule definitions including
+the `rules()` method, callable rules, and nested input type rules.
 
 ### File uploads
 
@@ -1678,6 +1777,35 @@ class UsersQuery extends Query
     {
         return 'You are not authorized to perform this action';
     }
+
+    // ...
+}
+```
+
+If you share the same authorization logic across multiple queries or mutations,
+extract it into a reusable trait:
+
+```php
+declare(strict_types = 1);
+namespace App\GraphQL\Concerns;
+
+use Illuminate\Support\Facades\Auth;
+
+trait RequiresAuthentication
+{
+    public function authorize($root, array $args, $ctx): bool
+    {
+        return !Auth::guest();
+    }
+}
+```
+
+Then use it on any query or mutation:
+
+```php
+class UsersQuery extends Query
+{
+    use \App\GraphQL\Concerns\RequiresAuthentication;
 
     // ...
 }
