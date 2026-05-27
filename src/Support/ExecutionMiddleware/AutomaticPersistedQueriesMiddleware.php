@@ -9,6 +9,7 @@ use GraphQL\Type\Schema;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Contracts\Config\Repository;
 use Rebing\GraphQL\Error\AutomaticPersistedQueriesError;
+use Rebing\GraphQL\Support\DocumentValidationGate;
 use Rebing\GraphQL\Support\OperationParams;
 
 class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
@@ -62,6 +63,18 @@ class AutomaticPersistedQueriesMiddleware extends AbstractExecutionMiddleware
             }
 
             $parsedQuery = $params->getParsedQuery();
+
+            // Validate before persisting: prevents pathologically deep, complex,
+            // or introspection-only documents from filling the cache backend.
+            $validationErrors = DocumentValidationGate::validate(
+                $schema,
+                $parsedQuery,
+                $params->variables,
+            );
+
+            if ([] !== $validationErrors) {
+                return new ExecutionResult(null, $validationErrors);
+            }
 
             $datum = [
                 'query' => $query,

@@ -8,6 +8,7 @@ use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL as GraphQLBase;
 use GraphQL\Type\Schema;
 use Illuminate\Contracts\Config\Repository;
+use Rebing\GraphQL\Support\DocumentValidationGate;
 use Rebing\GraphQL\Support\OperationParams;
 
 /**
@@ -25,10 +26,32 @@ class GraphqlExecutionMiddleware extends AbstractExecutionMiddleware
 
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
-        $query = $params->getParsedQuery();
+        $document = $params->getParsedQuery();
+
+        // Validation runs once, here. webonyx is told to skip its internal pass
+        // by passing `[]` as the validationRules argument below; see
+        // `DocumentValidationGate` for the rationale.
+        $validationErrors = DocumentValidationGate::validate(
+            $schema,
+            $document,
+            $params->variables,
+        );
+
+        if ([] !== $validationErrors) {
+            return new ExecutionResult(null, $validationErrors);
+        }
 
         $defaultFieldResolver = $this->config->get('graphql.defaultFieldResolver');
 
-        return GraphQLBase::executeQuery($schema, $query, $rootValue, $contextValue, $params->variables, $params->operation, $defaultFieldResolver);
+        return GraphQLBase::executeQuery(
+            $schema,
+            $document,
+            $rootValue,
+            $contextValue,
+            $params->variables,
+            $params->operation,
+            $defaultFieldResolver,
+            [], // See above: passing [] skips webonyx's internal validation
+        );
     }
 }
