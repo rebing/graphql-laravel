@@ -1,0 +1,55 @@
+name: Code Style Fix
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cs-fix:
+    name: Auto-fix code style
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository
+      && github.head_ref != 'master'
+    env:
+      COMPOSER_NO_INTERACTION: 1
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-cs-fixer-${{ hashFiles('tools/cs-fixer/composer.json') }}
+          restore-keys: ${{ runner.os }}-cs-fixer-
+
+      - run: composer cs-fix
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "style: apply php-cs-fixer"
+            git push
+          fi
