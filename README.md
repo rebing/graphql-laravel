@@ -2804,6 +2804,46 @@ so consumers running with the default `POST`-only configuration are unaffected.
 > `GraphqlExecutionMiddleware` is enforced by the framework, which always
 > appends `GraphqlExecutionMiddleware` last.
 
+### CSRF protection
+
+When your GraphQL endpoint uses cookie-based authentication (Laravel sessions,
+Sanctum cookie-mode), it is vulnerable to Cross-Site Request Forgery. A
+malicious page can submit a form POST to your `/graphql` endpoint and the
+browser will attach the session cookie automatically -- executing mutations on
+behalf of the logged-in user.
+
+This does **not** apply when authentication uses explicit credentials only
+(Bearer tokens, API keys) because browsers never attach those automatically.
+
+The `CsrfGuard` middleware protects against this by ensuring that every request
+either came from the same origin (verified via the browser's `Sec-Fetch-Site`
+header), or carries indicators that would have forced a CORS preflight (custom
+headers, non-simple Content-Type):
+
+```php
+use Rebing\GraphQL\Support\Middleware\CsrfGuard;
+
+// config/graphql.php — apply to all schemas:
+'route' => [
+    'middleware' => [CsrfGuard::class],
+],
+
+// Or per-schema with custom options:
+'schemas' => [
+    'admin' => [
+        'middleware' => [CsrfGuard::class], // strict defaults
+    ],
+    'public' => [
+        'middleware' => [
+            CsrfGuard::using(strictWhenAmbiguous: false), // allow non-browser clients
+        ],
+    ],
+],
+```
+
+The middleware is opt-in and has strict safe defaults. See the PHPDoc on
+`CsrfGuard::using()` for a full explanation of each configurable flag.
+
 ### Recommended production configuration
 
 ```php

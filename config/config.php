@@ -15,6 +15,16 @@ return [
 
         // Any middleware for the graphql route group
         // This middleware will apply to all schemas
+        //
+        // To protect against CSRF when using cookie/session authentication,
+        // add the CsrfGuard middleware:
+        //
+        // \Rebing\GraphQL\Support\Middleware\CsrfGuard::class,
+        //
+        // Or with custom options (e.g. permissive mode for mixed browser/API clients):
+        //
+        // \Rebing\GraphQL\Support\Middleware\CsrfGuard::using(strictWhenAmbiguous: false),
+        //
         'middleware' => [],
 
         // Additional route group attributes
@@ -92,7 +102,11 @@ return [
                 // ExampleType::class,
             ],
 
-            // Laravel HTTP middleware
+            // Laravel HTTP middleware applied to this schema's route.
+            // Overrides the global route.middleware when set (non-null).
+            //
+            // Example with CSRF protection (recommended for session-authenticated schemas):
+            // 'middleware' => [\Rebing\GraphQL\Support\Middleware\CsrfGuard::class],
             'middleware' => null,
 
             // Which HTTP methods to support; must be given in UPPERCASE!
