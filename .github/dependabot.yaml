@@ -15,6 +15,7 @@ updates:
       - /tools/bc-check
       - /tools/cs-fixer
       - /tools/phpstan
+      - /tools/rector
     schedule:
       interval: monthly
     groups:
