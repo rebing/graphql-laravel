@@ -1,0 +1,71 @@
+name: Code Style Fix
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cs-fix:
+    name: Auto-fix code style
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository
+      && github.head_ref != 'master'
+    env:
+      COMPOSER_NO_INTERACTION: 1
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-cs-fix-${{ hashFiles('composer.json', 'tools/rector/composer.json', 'tools/cs-fixer/composer.json') }}
+          restore-keys: ${{ runner.os }}-cs-fix-
+
+      - run: composer update --prefer-dist --no-progress
+
+      - run: composer rector-fix
+
+      - name: Commit rector changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "style: apply rector"
+          fi
+
+      - run: composer cs-fix
+
+      - name: Commit php-cs-fixer changes
+        run: |
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "style: apply php-cs-fixer"
+          fi
+
+      - name: Push if any commits were added
+        run: |
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]; then
+            git push
+          fi
