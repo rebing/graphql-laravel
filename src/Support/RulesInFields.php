@@ -71,7 +71,7 @@ class RulesInFields
             }
 
             if (\is_array($field['fields'])) {
-                $rules = $rules + $this->getRules($field['fields'], $key . '.fields', $fieldObject->getType());
+                $rules += $this->getRules($field['fields'], $key . '.fields', $fieldObject->getType());
             }
 
             $args = $fieldObject->config['args'] ?? [];

@@ -91,14 +91,14 @@ class Rules
                     $key = "$prefix.$index";
 
                     if (null !== $input) {
-                        $rules = $rules + $this->getInputTypeRules($type, $key, $input);
+                        $rules += $this->getInputTypeRules($type, $key, $input);
                     }
                 }
 
                 return $rules;
             }
 
-            $rules = $rules + $this->getInputTypeRules($type, $prefix, $resolutionArguments);
+            $rules += $this->getInputTypeRules($type, $prefix, $resolutionArguments);
         }
 
         return $rules;
@@ -140,7 +140,7 @@ class Rules
                 $type = $field instanceof InputObjectField
                     ? $field->getType()
                     : $field->type;
-                $rules = $rules + $this->inferRulesFromType($type, $key, $resolutionArguments[$name]);
+                $rules += $this->inferRulesFromType($type, $key, $resolutionArguments[$name]);
             }
         }
 

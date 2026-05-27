@@ -90,6 +90,9 @@ or update them explicitly with `composer <tool>-update`.
 | `composer bc-update` | Update the backward compatibility checker (`tools/bc-check/`) |
 | `composer bc-check` | Check for backward compatibility breaks against the last stable release |
 | `composer bc-baseline` | Regenerate the BC baseline after an intentional breaking change |
+| `composer rector-lint` | Run Rector in dry-run mode (shows suggested refactors, no changes) |
+| `composer rector-fix` | Apply Rector refactors |
+| `composer rector-update` | Update Rector (`tools/rector/`) |
 
 ### Coding Standards
 

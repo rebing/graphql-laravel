@@ -75,7 +75,10 @@
         "tests-coverage": "LOG_DEPRECATIONS_CHANNEL=errorlog paratest --coverage-clover=coverage.xml",
         "bc-update": "composer update --working-dir=tools/bc-check",
         "bc-check": "composer install --working-dir=tools/bc-check --quiet && php -d memory_limit=-1 tools/bc-check/vendor/bin/roave-backward-compatibility-check",
-        "bc-baseline": "composer install --working-dir=tools/bc-check --quiet && php bin/update-bc-baseline.php --strip-baseline && php -d memory_limit=-1 tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php"
+        "bc-baseline": "composer install --working-dir=tools/bc-check --quiet && php bin/update-bc-baseline.php --strip-baseline && php -d memory_limit=-1 tools/bc-check/vendor/bin/roave-backward-compatibility-check 2>&1 | php bin/update-bc-baseline.php",
+        "rector-update": "composer update --working-dir=tools/rector",
+        "rector-lint": "composer install --working-dir=tools/rector --quiet && tools/rector/vendor/bin/rector process --config=rector.php --dry-run",
+        "rector-fix": "composer install --working-dir=tools/rector --quiet && tools/rector/vendor/bin/rector process --config=rector.php"
     },
     "extra": {
         "branch-alias": {

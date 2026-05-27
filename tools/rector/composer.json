@@ -1,0 +1,8 @@
+{
+    "require": {
+        "rector/rector": "^2"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
