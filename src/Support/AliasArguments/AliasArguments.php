@@ -132,7 +132,7 @@ class AliasArguments
             if ($isWrappedInList && \is_array($fieldData)) {
                 foreach ($fieldData as $item) {
                     if (\is_array($item)) {
-                        $pathAndAlias += $this->getAliasesInFields(
+                        $pathAndAlias = $pathAndAlias + $this->getAliasesInFields(
                             $type->getFields(),
                             $item,
                             $newPrefix,
