@@ -19,7 +19,7 @@ class CursorPaginationType extends ObjectType
 
         $underlyingType = GraphQL::type($typeName);
 
-        $config =[
+        $config = [
             'name' => $name,
             'fields' => $this->getPaginationFields($underlyingType),
         ];
