@@ -39,17 +39,33 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-cs-fixer-${{ hashFiles('tools/cs-fixer/composer.json') }}
-          restore-keys: ${{ runner.os }}-cs-fixer-
+          key: ${{ runner.os }}-cs-fix-${{ hashFiles('composer.json', 'tools/rector/composer.json', 'tools/cs-fixer/composer.json') }}
+          restore-keys: ${{ runner.os }}-cs-fix-
 
-      - run: composer cs-fix
+      - run: composer update --prefer-dist --no-progress
 
-      - name: Commit and push if changed
+      - run: composer rector-fix
+
+      - name: Commit rector changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           if ! git diff --cached --quiet; then
+            git commit -m "style: apply rector"
+          fi
+
+      - run: composer cs-fix
+
+      - name: Commit php-cs-fixer changes
+        run: |
+          git add -A
+          if ! git diff --cached --quiet; then
             git commit -m "style: apply php-cs-fixer"
+          fi
+
+      - name: Push if any commits were added
+        run: |
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]; then
             git push
           fi
