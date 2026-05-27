@@ -60,6 +60,9 @@ jobs:
     name: Code Style checker
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    if: >-
+      github.event_name != 'pull_request'
+      || github.event.pull_request.head.repo.full_name != github.repository
     env:
       COMPOSER_NO_INTERACTION: 1
 
