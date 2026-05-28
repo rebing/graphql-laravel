@@ -1,0 +1,73 @@
+name: pull requests
+
+# Closes PRs from forks that don't allow maintainer edits.
+# Credit: https://github.com/laravel/.github/blob/main/.github/workflows/pull-requests.yml
+# Origin:  https://github.com/github/docs/blob/main/.github/workflows/notify-when-maintainers-cannot-edit.yaml
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  uneditable:
+    if: github.repository == 'rebing/graphql-laravel'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pullNumber = context.issue.number;
+
+            const query = `
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $number) {
+                    headRepositoryOwner { login }
+                    maintainerCanModify
+                    state
+                  }
+                }
+              }
+            `;
+
+            try {
+              const result = await github.graphql(query, { owner, repo, number: pullNumber });
+              const pr = result.repository.pullRequest;
+
+              if (pr.headRepositoryOwner.login === owner) {
+                console.log('PR from same org; skipping.');
+                return;
+              }
+              if (pr.state !== 'OPEN') {
+                console.log('PR already closed/merged; skipping.');
+                return;
+              }
+              if (pr.maintainerCanModify) {
+                console.log('Maintainer edits allowed; skipping.');
+                return;
+              }
+
+              console.log('PR from fork without maintainer edits; commenting and closing.');
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: pullNumber,
+                body: "Thanks for submitting a PR!\n\nIn order to review and merge PRs efficiently, we require that all PRs grant maintainer edit access before review. See the [GitHub documentation on allowing changes to a PR branch from a fork](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork). Note: GitHub does not allow maintainer edits from organization-owned forks \u2014 please resubmit from a personal account with maintainer edits enabled."
+              });
+
+              await github.rest.pulls.update({
+                owner,
+                repo,
+                pull_number: pullNumber,
+                state: 'closed'
+              });
+            } catch (e) {
+              console.log(e);
+            }
