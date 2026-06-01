@@ -28,7 +28,7 @@ class SimplePaginationType extends ObjectType
             $config['model'] = $underlyingType->config['model'];
         }
 
-        parent::__construct($config);
+        parent::__construct($config); // @phpstan-ignore argument.type ('model' is a valid graphql-laravel config key, but not part of webonyx's ObjectConfig shape)
     }
 
     /**
