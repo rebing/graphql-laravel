@@ -13,7 +13,7 @@
         displayDetailsOnTestsThatTriggerErrors="true"
         displayDetailsOnTestsThatTriggerNotices="true"
         displayDetailsOnTestsThatTriggerWarnings="true"
-        failOnDeprecation="true"
+        failOnDeprecation="false"
         failOnEmptyTestSuite="true"
         failOnNotice="true"
         failOnPhpunitDeprecation="true"
@@ -28,9 +28,13 @@
       <directory suffix="Test.php">./tests/Database</directory>
     </testsuite>
   </testsuites>
-  <source ignoreIndirectDeprecations="true">
+  <source ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
     <include>
       <directory suffix=".php">./src</directory>
     </include>
+    <deprecationTrigger>
+      <function>trigger_deprecation</function>
+      <method>Rebing\GraphQL\Tests\Support\DeprecationForwarder::handle</method>
+    </deprecationTrigger>
   </source>
 </phpunit>

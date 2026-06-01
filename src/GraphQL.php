@@ -368,7 +368,7 @@ class GraphQL
                 }
 
                 if (isset($objectType->config[$key])) {
-                    $objectType->config[$key] = $value; // @phpstan-ignore assign.propertyType (only 'name'/'description' keys are set in practice)
+                    $objectType->config[$key] = $value;
                 }
             }
         } elseif (\is_array($type)) {
