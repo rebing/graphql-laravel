@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Rebing\GraphQL\GraphQLServiceProvider;
 use Rebing\GraphQL\Support\Facades\GraphQL;
+use Rebing\GraphQL\Tests\Support\DeprecationForwarder;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleFilterInputType;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeMessageQuery;
 use Rebing\GraphQL\Tests\Support\Objects\ExamplesAuthorizeQuery;
@@ -47,6 +48,19 @@ class TestCase extends BaseTestCase
 
         $this->queries = include __DIR__ . '/Support/Objects/queries.php';
         $this->data = include __DIR__ . '/Support/Objects/data.php';
+
+        // Forward deprecations triggered while the application is booted to
+        // PHPUnit so they are captured, classified and reported (see the
+        // DeprecationForwarder class for the why & how). Installed last so it
+        // sits on top of Testbench/Laravel's error handler.
+        DeprecationForwarder::register();
+    }
+
+    protected function tearDown(): void
+    {
+        DeprecationForwarder::unregister();
+
+        parent::tearDown();
     }
 
     protected function getEnvironmentSetUp($app): void
@@ -82,17 +96,6 @@ class TestCase extends BaseTestCase
         ]);
 
         $app['config']->set('app.debug', true);
-
-        $deprecationChannel = $app['config']->get('logging.deprecations.channel');
-
-        if ($deprecationChannel) {
-            // By setting `logging.channels.deprecations` here manually we
-            // override some behaviour in `\Orchestra\Testbench\Bootstrap\HandleExceptions::ensureDeprecationLoggerIsConfigured`
-            // and avoid enabling the stacktrace
-            $app['config']->set('logging.channels.deprecations', [
-                'driver' => $deprecationChannel,
-            ]);
-        }
     }
 
     protected function assertGraphQLSchemaHasQuery(Schema $schema, string $key): void
