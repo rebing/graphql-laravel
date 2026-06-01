@@ -14,6 +14,8 @@ parameters:
     excludePaths:
         - tests/Support/database/
         - tests/integration-otel/
+    stubFiles:
+        - phpstan-stubs/ObjectType.stub
     inferPrivatePropertyTypeFromConstructor: true
     checkUninitializedProperties: true
     checkModelProperties: true

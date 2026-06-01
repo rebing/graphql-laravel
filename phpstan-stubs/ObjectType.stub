@@ -1,0 +1,26 @@
+<?php declare(strict_types=1);
+
+namespace GraphQL\Type\Definition;
+
+/**
+ * Stub correcting webonyx/graphql-php's overly strict `ObjectConfig` shape.
+ *
+ * At runtime `ObjectType::__construct()` simply stores the whole config array
+ * (`$this->config = $config`), so additional keys are explicitly supported.
+ * graphql-laravel relies on this to propagate a `model` key through the config
+ * (read back via `$type->config['model']`), but the upstream PHPStan shape is
+ * sealed and rejects any key it does not enumerate.
+ *
+ * Modelling the parameter as an unsealed array shape (note the trailing `...`)
+ * reflects the real contract: the required `fields` key is still enforced while
+ * library-specific extension keys such as `model` are permitted.
+ */
+class ObjectType
+{
+    /**
+     * @phpstan-param array{name?: string|null, fields: (callable(): iterable<mixed>)|iterable<mixed>, ...} $config
+     */
+    public function __construct(array $config)
+    {
+    }
+}

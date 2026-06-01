@@ -27,7 +27,7 @@ class WrapperType extends ObjectType
             $config['model'] = $underlyingType->config['model'];
         }
 
-        parent::__construct($config); // @phpstan-ignore argument.type ('model' is a valid graphql-laravel config key, but not part of webonyx's ObjectConfig shape)
+        parent::__construct($config);
     }
 
     /**
