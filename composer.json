@@ -101,6 +101,13 @@
         "allow-plugins": {
             "php-http/discovery": false,
             "tbachert/spi": false
+        },
+        "policy": {
+            "abandoned": {
+                "ignore": {
+                    "eliashaeussler/deep-closure-comparator": "Marked abandoned upstream (suggested replacement: sebastian/comparator). The suggested replacement does not provide closure-equality assertions on its own - those rely on the built-in ClosureComparator added in sebastian/comparator 7.1.0, which is only guaranteed once the phpunit floor reaches ^12.3.0. Revisit when the floor moves or an actively-maintained alternative emerges."
+                }
+            }
         }
     },
     "suggest": {
