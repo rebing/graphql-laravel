@@ -1,7 +1,14 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/10.0.0...master)
+
+2026-06-18, 10.0.0
+------------------
+
+Stable release of the 10.x series.
+
+No user-facing changes since 10.0.0-RC5. See the 10.0.0-RC1 through 10.0.0-RC5 entries below for the full set of breaking changes, additions, and fixes.
 
 2026-05-27, 10.0.0-RC5
 ----------------------
@@ -59,10 +66,15 @@ CHANGELOG
 
 ### Added
 - Add tracing support with OpenTelemetry driver [\#1220 / mfn](https://github.com/rebing/graphql-laravel/pull/1220)
+- `GraphQL::prependGlobalResolverMiddleware()` for resolver middleware that must run before field/global appended middleware [\#1220 / mfn](https://github.com/rebing/graphql-laravel/pull/1220)
 - `Rebing\GraphQL\Support\Contracts\WrapType` marker interface for wrapper types (pagination types and custom wrap types) [\#1228 / mfn](https://github.com/rebing/graphql-laravel/issues/1228)
+
+### Changed
+- Bump minimum `webonyx/graphql-php` version to `^15.31.0` [\#1246 / mfn](https://github.com/rebing/graphql-laravel/pull/1246)
 
 ## Fixed
 - Narrow `GraphQL::type()` PHPStan return type to `(NullableType&Type)|NonNull` so consumers can pass it to `Type::nonNull()` without static analysis errors [\#1221 / mfn](https://github.com/rebing/graphql-laravel/pull/1221)
+- Fix missing registration of the `make:graphql:executionMiddleware` Artisan command [\#1229 / mfn](https://github.com/rebing/graphql-laravel/pull/1229)
 - Fix `SelectFields` forcing `select *` for Interface return types instead of selecting only the requested columns [\#683 / mfn](https://github.com/rebing/graphql-laravel/issues/683)
 - Fix `SelectFields` not calling custom `query` callbacks on relation fields inside `UnionType` members [\#900 / mfn](https://github.com/rebing/graphql-laravel/pull/1225)
 - Fix cross-field validation rules (`prohibits`, `required_without`, `required_if`, etc.) not working in nested InputTypes [\#930 / mfn](https://github.com/rebing/graphql-laravel/pull/1226)
@@ -77,14 +89,12 @@ CHANGELOG
 - Security hardening: safer defaults for production deployments [\#1210 / mfn](https://github.com/rebing/graphql-laravel/pull/1210)
     - Default HTTP method changed from `GET`/`POST` to `POST` only
     - Batching disabled by default (`batching.default` → `false`)
+    - Added `max_batch_size` config option to limit batch query operations
     - Introspection disabled by default (`GRAPHQL_DISABLE_INTROSPECTION` env var)
     - Default `query_max_depth` set to `13` (was unlimited)
     - Default `query_max_complexity` set to `500` (was unlimited)
     - Authorization now runs before validation in field resolver
     - Authorization uses strict `=== true` comparison
-    - 
-## Added
-    - Added `max_batch_size` config option to limit batch query operations
 
 2026-03-18, 9.17.0
 ------------------

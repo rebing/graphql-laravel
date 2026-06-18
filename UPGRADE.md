@@ -51,6 +51,11 @@ packages to hook into the resolver DI system. Register injectors via
 
 - **HTTP method restricted to POST** - Schemas now default to `'method' => ['POST']`.
   To re-enable GET requests, add `'method' => ['GET', 'POST']` to each schema in `config/graphql.php`.
+  If you re-enable GET, also add
+  `Rebing\GraphQL\Support\ExecutionMiddleware\ReadOnlyOperationMiddleware` to
+  your execution middleware after
+  `Rebing\GraphQL\Support\ExecutionMiddleware\AutomaticPersistedQueriesMiddleware`
+  so mutations and subscriptions are rejected on GET requests.
 - **Batching disabled** - `batching.enable` now defaults to `false`.
   Set it to `true` to restore batching.
 - **Max batch size** - New `batching.max_batch_size` option (default `10`).
@@ -77,6 +82,10 @@ packages to hook into the resolver DI system. Register injectors via
   didn't work in nested or list InputTypes. If this causes issues, you can disable
   it per mutation/query by overriding `processCollectedRules()` to return `$rules`
   unchanged.
+- **Validation internals** - `Rebing\GraphQL\Support\Rules` is now marked
+  `@internal`. If you used it directly, move that logic behind public extension
+  points such as `rules()`, `getRules()`, `getValidator()`, or
+  `processCollectedRules()`.
 - **Privacy enforcement moved from `SelectFields` to field resolvers** - The
   `privacy` attribute on Type fields is now enforced universally via resolver
   wrapping in `Type::getFields()`, instead of only inside `SelectFields`. This
@@ -104,14 +113,6 @@ packages to hook into the resolver DI system. Register injectors via
      statement. The column is still fetched, but the field resolver returns
      `null`. If you relied on the denied column being absent from SQL queries,
      adjust accordingly.
-- `SelectFields` now identifies wrapper types (pagination types, custom wrap
-  types) via the `Rebing\GraphQL\Support\Contracts\WrapType` marker interface
-  instead of config lookups.
-  If you use a custom pagination class (via the `pagination_type`,
-  `simple_pagination_type`, or `cursor_pagination_type` config keys) or a custom
-  wrap type with `GraphQL::wrapType()`, your class must
-  `implement \Rebing\GraphQL\Support\Contracts\WrapType` for `SelectFields` to
-  work correctly.
 - **Middleware type hints** - `Middleware::handle()` and `Middleware::resolve()` now
   declare native `mixed` types for `$root`, `$context`, and the return type. If your
   middleware subclass overrides these methods without matching return types, PHP 8.1+
