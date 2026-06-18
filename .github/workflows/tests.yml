@@ -26,12 +26,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  matrix:
+    name: Matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      php: ${{ steps.php.outputs.version }}
+      latest_php: ${{ steps.php.outputs.highest }}
+      laravel: ${{ steps.laravel.outputs.matrix }}
+      latest_laravel: ${{ steps.laravel.outputs.latest }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: php
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v2
+
+      - id: laravel
+        name: Read Laravel versions from composer.json
+        run: |
+          node <<'JS' >> "$GITHUB_OUTPUT"
+          const fs = require('fs');
+
+          const composer = JSON.parse(fs.readFileSync('composer.json', 'utf8'));
+          const constraint = composer['require-dev']['laravel/framework'];
+          const majors = [...constraint.matchAll(/\^(\d+)\.0/g)].map((match) => match[1]);
+          const versions = [...new Set(majors)].map((major) => `^${major}.0`);
+
+          console.log(`matrix=${JSON.stringify(versions)}`);
+          console.log(`latest=${versions[versions.length - 1]}`);
+          JS
+
   tests:
+    needs: matrix
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4, 8.5]
-        laravel: [^12.0, ^13.0]
+        php: ${{ fromJSON(needs.matrix.outputs.php) }}
+        laravel: ${{ fromJSON(needs.matrix.outputs.laravel) }}
         stability: [prefer-lowest, prefer-stable]
         exclude:
           - php: 8.2
@@ -52,8 +83,6 @@ jobs:
           coverage: none
           extensions: pdo_sqlite
 
-      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -65,30 +94,28 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.stability }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.stability }}-composer-
 
-      - run: composer update --prefer-dist --no-progress --${{ matrix.stability }}
+      - run: composer update --prefer-dist --no-progress --${{ matrix.stability }} --with "illuminate/contracts:${{ matrix.laravel }}" --with "illuminate/support:${{ matrix.laravel }}" --with "laravel/framework:${{ matrix.laravel }}"
 
       - name: Run tests
         run: composer tests
 
   coverage:
+    needs: matrix
     name: Coverage
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       COMPOSER_NO_INTERACTION: 1
-      PHP_VERSION: '8.5'
 
     steps:
       - uses: actions/checkout@v6
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.PHP_VERSION }}
+          php-version: ${{ needs.matrix.outputs.latest_php }}
           ini-file: development
           coverage: pcov
           extensions: pdo_sqlite
-
-      - run: composer require illuminate/contracts:^13.0 --no-update
 
       - name: Get composer cache directory
         id: composer-cache
@@ -98,10 +125,10 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ env.PHP_VERSION }}-prefer-stable-composer-${{ hashFiles('composer.json') }}
-          restore-keys: ${{ runner.os }}-${{ env.PHP_VERSION }}-prefer-stable-composer-
+          key: ${{ runner.os }}-${{ needs.matrix.outputs.latest_php }}-prefer-stable-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-${{ needs.matrix.outputs.latest_php }}-prefer-stable-composer-
 
-      - run: composer update --prefer-dist --no-progress --prefer-stable
+      - run: composer update --prefer-dist --no-progress --prefer-stable --with "illuminate/contracts:${{ needs.matrix.outputs.latest_laravel }}" --with "illuminate/support:${{ needs.matrix.outputs.latest_laravel }}" --with "laravel/framework:${{ needs.matrix.outputs.latest_laravel }}"
 
       - name: Run tests with coverage
         run: composer tests-coverage
