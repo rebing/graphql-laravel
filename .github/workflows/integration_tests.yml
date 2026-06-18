@@ -26,12 +26,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  matrix:
+    name: Matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      php: ${{ steps.php.outputs.version }}
+      laravel: ${{ steps.laravel.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: php
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v2
+
+      - id: laravel
+        name: Read Laravel versions from composer.json
+        run: |
+          node <<'JS' >> "$GITHUB_OUTPUT"
+          const fs = require('fs');
+
+          const composer = JSON.parse(fs.readFileSync('composer.json', 'utf8'));
+          const constraint = composer['require-dev']['laravel/framework'];
+          const majors = [...constraint.matchAll(/\^(\d+)\.0/g)].map((match) => match[1]);
+          const versions = [...new Set(majors)].map((major) => `^${major}.0`);
+
+          console.log(`matrix=${JSON.stringify(versions)}`);
+          JS
+
   integration:
+    needs: matrix
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4, 8.5]
-        laravel: [^12.0, ^13.0]
+        php: ${{ fromJSON(needs.matrix.outputs.php) }}
+        laravel: ${{ fromJSON(needs.matrix.outputs.laravel) }}
         exclude:
           - php: 8.2
             laravel: ^13.0
@@ -50,8 +78,6 @@ jobs:
           ini-file: development
           coverage: none
 
-      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -63,16 +89,17 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress
+      - run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${{ matrix.laravel }}" --with "illuminate/support:${{ matrix.laravel }}" --with "laravel/framework:${{ matrix.laravel }}"
 
       - run: tests/integration-laravel.sh ${{ matrix.laravel }}
 
   integration-otel:
+    needs: matrix
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4, 8.5]
-        laravel: [^12.0, ^13.0]
+        php: ${{ fromJSON(needs.matrix.outputs.php) }}
+        laravel: ${{ fromJSON(needs.matrix.outputs.laravel) }}
         exclude:
           - php: 8.2
             laravel: ^13.0
@@ -91,8 +118,6 @@ jobs:
           ini-file: development
           coverage: none
 
-      - run: composer require illuminate/contracts:${{ matrix.laravel }} --no-update
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -104,6 +129,6 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.php }}-composer-otel-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress
+      - run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${{ matrix.laravel }}" --with "illuminate/support:${{ matrix.laravel }}" --with "laravel/framework:${{ matrix.laravel }}"
 
       - run: tests/integration-otel/run.sh ${{ matrix.laravel }}
