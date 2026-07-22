@@ -83,6 +83,25 @@ class VariantsDirectivesTest extends TestCase
         self::assertSame(['top' => 3], array_values($variants)[0]['args']);
     }
 
+    public function testExcludedDivergentAncestorForcesVariantOnNestedField(): void
+    {
+        // Raw divergence must be detected through directive-excluded ancestor
+        // branches (spec §1.1: raw occurrences are directive-blind per tree
+        // position) — otherwise the excluded branch's args poison the legacy
+        // merged entry with no forcing variant.
+        $this->httpGraphql('{ captureTree {
+            x: author { comments(top: 2) { id } }
+            y: author @include(if: false) { comments(top: 1) { id } }
+        } }');
+
+        $comments = CaptureTreeQuery::$tree['author']['fields']['comments'] ?? null;
+        self::assertIsArray($comments);
+        $variants = $comments['argsVariants'] ?? null;
+        self::assertIsArray($variants);
+        self::assertCount(1, $variants);
+        self::assertSame(['top' => 2], array_values($variants)[0]['args']);
+    }
+
     public function testAllOccurrencesExcludedEmitsNoVariants(): void
     {
         $this->httpGraphql('{ captureTree {

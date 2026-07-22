@@ -27,6 +27,9 @@ use GraphQL\Type\Introspection;
 class VariantsTreeEnricher
 {
     /**
+     * Runs at the same call site as (and adds only a constant factor to) the
+     * existing lookAhead()->queryPlan() walk over the same selection sets.
+     *
      * @param array<string,mixed> $legacyTree Output of $info->lookAhead()->queryPlan()
      * @return array<string,mixed>
      */
@@ -44,7 +47,7 @@ class VariantsTreeEnricher
 
         foreach ($info->fieldNodes as $fieldNode) {
             if (null !== $fieldNode->selectionSet) {
-                $selectionSets[] = [$fieldNode->selectionSet, $info->fieldDefinition->getType()];
+                $selectionSets[] = [$fieldNode->selectionSet, $info->fieldDefinition->getType(), true];
             }
         }
 
@@ -57,15 +60,15 @@ class VariantsTreeEnricher
 
     /**
      * @param array<string,mixed> $legacyLevel The legacy-shape field map at this level
-     * @param list<array{0:SelectionSetNode,1:Type}> $selectionSets Selection sets contributing to this level
+     * @param list<array{0:SelectionSetNode,1:Type,2:bool}> $selectionSets Selection sets contributing to this level, each with its cumulative directive-active flag
      * @return array<string,mixed>
      */
     protected function enrichLevel(array $legacyLevel, array $selectionSets, ResolveInfo $info): array
     {
         $occurrences = [];
 
-        foreach ($selectionSets as [$selectionSet, $parentType]) {
-            $this->collectOccurrences($selectionSet, $parentType, $info, true, $occurrences);
+        foreach ($selectionSets as [$selectionSet, $parentType, $contextActive]) {
+            $this->collectOccurrences($selectionSet, $parentType, $info, $contextActive, $occurrences);
         }
 
         foreach ($occurrences as $fieldName => $occs) {
@@ -77,11 +80,15 @@ class VariantsTreeEnricher
 
             // Recurse into children along the merged path first, so nested
             // divergences under a non-conflicting ancestor are detected too.
+            // ALL occurrences descend (raw detection is directive-blind per
+            // spec §1.1) — each carries its cumulative active flag, so
+            // excluded-ancestor branches contribute to raw hash counting
+            // below while never becoming variant content.
             $childSets = [];
 
-            foreach ($active as $o) {
+            foreach ($occs as $o) {
                 if (null !== $o['selectionSet']) {
-                    $childSets[] = [$o['selectionSet'], $o['type']];
+                    $childSets[] = [$o['selectionSet'], $o['type'], $o['active']];
                 }
             }
 
@@ -95,30 +102,7 @@ class VariantsTreeEnricher
                 continue;
             }
 
-            $variants = [];
-
-            foreach ($active as $o) {
-                $hash = $o['hash'];
-
-                if (!isset($variants[$hash])) {
-                    $variants[$hash] = [
-                        'args' => $o['args'],
-                        'fields' => [],
-                        '_sets' => [],
-                    ];
-                }
-
-                if (null !== $o['selectionSet']) {
-                    $variants[$hash]['_sets'][] = [$o['selectionSet'], $o['type']];
-                }
-            }
-
-            foreach ($variants as $hash => $variant) {
-                $variants[$hash]['fields'] = $this->buildSubtree($variant['_sets'], $info);
-                unset($variants[$hash]['_sets']);
-            }
-
-            $legacyLevel[$fieldName]['argsVariants'] = $variants;
+            $legacyLevel[$fieldName]['argsVariants'] = $this->buildVariants($active, $info);
         }
 
         return $legacyLevel;
@@ -129,15 +113,15 @@ class VariantsTreeEnricher
      * for one variant, merging its contributing selection sets and applying
      * the emission rule recursively (merge escalation).
      *
-     * @param list<array{0:SelectionSetNode,1:Type}> $selectionSets
+     * @param list<array{0:SelectionSetNode,1:Type,2:bool}> $selectionSets Each with its cumulative directive-active flag
      * @return array<string,mixed>
      */
     protected function buildSubtree(array $selectionSets, ResolveInfo $info): array
     {
         $occurrences = [];
 
-        foreach ($selectionSets as [$selectionSet, $parentType]) {
-            $this->collectOccurrences($selectionSet, $parentType, $info, true, $occurrences);
+        foreach ($selectionSets as [$selectionSet, $parentType, $contextActive]) {
+            $this->collectOccurrences($selectionSet, $parentType, $info, $contextActive, $occurrences);
         }
 
         $fields = [];
@@ -151,11 +135,14 @@ class VariantsTreeEnricher
 
             $last = $active[\count($active) - 1];
 
+            // ALL occurrences descend for nested raw detection (spec §1.1),
+            // flagged with their cumulative active state; inactive ones only
+            // feed raw hash counting, never entry/variant content.
             $childSets = [];
 
-            foreach ($active as $o) {
+            foreach ($occs as $o) {
                 if (null !== $o['selectionSet']) {
-                    $childSets[] = [$o['selectionSet'], $o['type']];
+                    $childSets[] = [$o['selectionSet'], $o['type'], $o['active']];
                 }
             }
 
@@ -168,32 +155,49 @@ class VariantsTreeEnricher
             $rawHashes = array_unique(array_column($occs, 'hash'));
 
             if (\count($rawHashes) >= 2) {
-                $variants = [];
-
-                foreach ($active as $o) {
-                    $hash = $o['hash'];
-
-                    if (!isset($variants[$hash])) {
-                        $variants[$hash] = ['args' => $o['args'], 'fields' => [], '_sets' => []];
-                    }
-
-                    if (null !== $o['selectionSet']) {
-                        $variants[$hash]['_sets'][] = [$o['selectionSet'], $o['type']];
-                    }
-                }
-
-                foreach ($variants as $hash => $variant) {
-                    $variants[$hash]['fields'] = $this->buildSubtree($variant['_sets'], $info);
-                    unset($variants[$hash]['_sets']);
-                }
-
-                $entry['argsVariants'] = $variants;
+                $entry['argsVariants'] = $this->buildVariants($active, $info);
             }
 
             $fields[$fieldName] = $entry;
         }
 
         return $fields;
+    }
+
+    /**
+     * Group the directive-active occurrences of one field by args hash into
+     * variant entries and build each variant's subtree from its contributing
+     * selection sets (same-hash occurrences merge into one variant).
+     *
+     * @param list<array{args:array<string,mixed>,hash:string,active:bool,selectionSet:SelectionSetNode|null,type:Type}> $active
+     * @return array<string,array{args:array<string,mixed>,fields:array<string,mixed>}>
+     */
+    protected function buildVariants(array $active, ResolveInfo $info): array
+    {
+        $variants = [];
+        $variantSets = [];
+
+        foreach ($active as $o) {
+            $hash = $o['hash'];
+
+            if (!isset($variants[$hash])) {
+                $variants[$hash] = [
+                    'args' => $o['args'],
+                    'fields' => [],
+                ];
+                $variantSets[$hash] = [];
+            }
+
+            if (null !== $o['selectionSet']) {
+                $variantSets[$hash][] = [$o['selectionSet'], $o['type'], true];
+            }
+        }
+
+        foreach ($variants as $hash => $variant) {
+            $variants[$hash]['fields'] = $this->buildSubtree($variantSets[$hash], $info);
+        }
+
+        return $variants;
     }
 
     /**
