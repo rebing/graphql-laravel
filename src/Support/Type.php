@@ -132,6 +132,14 @@ abstract class Type implements TypeConvertible
                 return $originalResolve($root, $args, $context, $info);
             }
 
+            // Honor the configured default resolver (call-time lookup, so
+            // runtime config changes and multi-schema setups are respected).
+            $configuredResolver = config('graphql.defaultFieldResolver');
+
+            if (null !== $configuredResolver) {
+                return \call_user_func($configuredResolver, $root, $args, $context, $info);
+            }
+
             return Executor::defaultFieldResolver($root, $args, $context, $info);
         };
     }
