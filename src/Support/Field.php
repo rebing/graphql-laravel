@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use Rebing\GraphQL\Support\ArgsVariants\VariantsTreeEnricher;
 use Rebing\GraphQL\Support\Contracts\ResolverParameterInjector;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionMethod;
@@ -291,7 +292,10 @@ abstract class Field
                 $this->validateArguments($args, $rules);
             }
 
-            $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
+            $fieldsAndArguments = (new VariantsTreeEnricher)->enrich(
+                $arguments[3]->lookAhead()->queryPlan(),
+                $arguments[3],
+            );
 
             // Validate arguments in fields
             $this->validateFieldArguments($fieldsAndArguments);
