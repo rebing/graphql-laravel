@@ -3,12 +3,12 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\ArgsVariants;
 
+use GraphQL\Executor\Values;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\SelectionSetNode;
-use GraphQL\Executor\Values;
 use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\HasFieldsType;
 use GraphQL\Type\Definition\ResolveInfo;

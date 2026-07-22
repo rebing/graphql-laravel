@@ -109,7 +109,9 @@ class VariantsStructureTest extends TestCase
         self::assertFalse($this->treeContainsKey(CaptureTreeQuery::$tree, 'argsVariants'));
     }
 
-    /** @param array<int|string,mixed> $tree */
+    /**
+     * @param array<int|string,mixed> $tree
+     */
     protected function treeContainsKey(array $tree, string $needle): bool
     {
         foreach ($tree as $key => $value) {

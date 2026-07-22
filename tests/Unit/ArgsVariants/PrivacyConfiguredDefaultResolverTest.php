@@ -58,7 +58,9 @@ class PrivacyDefaultResolverType extends BaseType
         'name' => 'PrivacyDefaultResolver',
     ];
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function fields(): array
     {
         return [

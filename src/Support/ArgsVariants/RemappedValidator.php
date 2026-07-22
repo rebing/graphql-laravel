@@ -34,19 +34,25 @@ final class RemappedValidator implements ValidatorContract
         return $this->inner->fails();
     }
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function failed(): array
     {
         return $this->inner->failed();
     }
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function validate(): array
     {
         return $this->inner->validate();
     }
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function validated(): array
     {
         return $this->inner->validated();
@@ -63,7 +69,9 @@ final class RemappedValidator implements ValidatorContract
         return $this;
     }
 
-    /** @param callable|string $callback */
+    /**
+     * @param callable|string $callback
+     */
     public function after($callback): static
     {
         $this->inner->after($callback);

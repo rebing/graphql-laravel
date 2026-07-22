@@ -13,7 +13,9 @@ class CommentType extends GraphQLType
         'name' => 'VariantComment',
     ];
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function fields(): array
     {
         return [

@@ -14,7 +14,9 @@ class PostType extends GraphQLType
         'name' => 'VariantPost',
     ];
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function fields(): array
     {
         return [

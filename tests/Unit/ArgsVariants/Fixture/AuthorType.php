@@ -14,7 +14,9 @@ class AuthorType extends GraphQLType
         'name' => 'VariantAuthor',
     ];
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function fields(): array
     {
         return [

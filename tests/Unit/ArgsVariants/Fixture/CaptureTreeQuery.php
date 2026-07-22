@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\ArgsVariants\Fixture;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type as GraphqlType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\Type as GraphqlType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
 

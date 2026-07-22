@@ -14,7 +14,9 @@ class RulesPostType extends GraphQLType
         'name' => 'RulesPost',
     ];
 
-    /** @return array<string,mixed> */
+    /**
+     * @return array<string,mixed>
+     */
     public function fields(): array
     {
         return [
