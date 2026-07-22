@@ -190,6 +190,9 @@ abstract class Field
             }
         }
 
+        // A custom getValidator() override returning a contract-only validator
+        // silently skips this attribute-name cleanup; only the error-key remap
+        // below still protects user-facing output.
         if ($variantAttributes && method_exists($validator, 'setAttributeNames')) {
             $validator->setAttributeNames($variantAttributes);
         }
