@@ -26,7 +26,7 @@ class RulesPostType extends GraphQLType
                 'args' => [
                     'top' => [
                         'type' => Type::int(),
-                        'rules' => ['integer', 'max:10'],
+                        'rules' => ['integer', 'max:10', 'not_in:7'],
                     ],
                 ],
             ],

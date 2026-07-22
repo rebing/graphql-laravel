@@ -59,7 +59,7 @@ class VariantsStructureTest extends TestCase
 
         $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
         self::assertIsArray($variants);
-        self::assertCount(2, $variants);
+        self::assertSame([['top' => 3], ['top' => 5]], array_column($variants, 'args'));
     }
 
     public function testNestedConflictUnderNonConflictingAncestor(): void

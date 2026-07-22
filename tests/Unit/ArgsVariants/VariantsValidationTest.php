@@ -71,6 +71,47 @@ class VariantsValidationTest extends TestCase
         self::assertSame('validation', $result['errors'][0]['message']);
     }
 
+    public function testDistinctFailuresFromMultipleVariantsAggregateUnderCleanKey(): void
+    {
+        $result = $this->httpGraphql('{ rulesCapture {
+            a: comments(top: 99) { id }
+            b: comments(top: 7) { id }
+        } }', ['expectErrors' => true]);
+
+        self::assertSame('validation', $result['errors'][0]['message']);
+
+        $validation = $result['errors'][0]['extensions']['validation'];
+        self::assertNotEmpty($validation);
+
+        foreach ($validation as $key => $messages) {
+            self::assertStringNotContainsString('argsVariants', $key, 'no variant segments may leak into user-facing keys');
+            self::assertDoesNotMatchRegularExpression('/[0-9a-f]{32}/', $key);
+        }
+
+        // Exactly one key for this arg: both variants' failures (max:10 and
+        // not_in:7) must aggregate under the single clean key, not fan out
+        // into per-variant keys.
+        self::assertSame(['comments.args.top'], array_keys($validation));
+        self::assertCount(2, $validation['comments.args.top'], 'max:10 and not_in:7 are distinct messages, both retained');
+    }
+
+    public function testIdenticalFailuresFromMultipleVariantsDeduplicate(): void
+    {
+        // Both variants violate max:10 with the identical message text
+        // (same attribute name after remapping), pinning the
+        // in_array(..., true) dedup in Field::remapVariantValidationKeys().
+        $result = $this->httpGraphql('{ rulesCapture {
+            a: comments(top: 99) { id }
+            b: comments(top: 50) { id }
+        } }', ['expectErrors' => true]);
+
+        self::assertSame('validation', $result['errors'][0]['message']);
+
+        $validation = $result['errors'][0]['extensions']['validation'];
+        self::assertSame(['comments.args.top'], array_keys($validation));
+        self::assertCount(1, $validation['comments.args.top'], 'identical failures from different variants must dedupe');
+    }
+
     public function testValidationErrorReadsRemappedMessagesThroughDecorator(): void
     {
         // Unit-level guard for the decorator + ValidationError read-through

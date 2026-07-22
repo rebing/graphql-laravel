@@ -101,10 +101,33 @@ class ArgsHasherTest extends TestCase
             ArgsHasher::hash(['suit' => ArgsHasherTestSuit::Spades]),
         );
     }
+
+    public function testPureEnumsNormalizeToTheirName(): void
+    {
+        self::assertSame(
+            ArgsHasher::hash(['c' => ArgsHasherTestColor::Red]),
+            ArgsHasher::hash(['c' => ArgsHasherTestColor::Red]),
+        );
+        self::assertNotSame(
+            ArgsHasher::hash(['c' => ArgsHasherTestColor::Red]),
+            ArgsHasher::hash(['c' => ArgsHasherTestColor::Blue]),
+        );
+        // Documented behavior: a pure enum hashes equal to its case name string.
+        self::assertSame(
+            ArgsHasher::hash(['c' => ArgsHasherTestColor::Red]),
+            ArgsHasher::hash(['c' => 'Red']),
+        );
+    }
 }
 
 enum ArgsHasherTestSuit: string
 {
     case Hearts = 'H';
     case Spades = 'S';
+}
+
+enum ArgsHasherTestColor
+{
+    case Red;
+    case Blue;
 }

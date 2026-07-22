@@ -128,4 +128,44 @@ class VariantsDirectivesTest extends TestCase
         self::assertCount(1, $variants);
         self::assertSame(['top' => 3], array_values($variants)[0]['args']);
     }
+
+    public function testDirectiveOnInlineFragmentExcludesItsFields(): void
+    {
+        $this->httpGraphql('{ captureTree {
+            a: comments(top: 3) { id }
+            ... on VariantPost @include(if: false) {
+                b: comments(top: 5) { id }
+            }
+        } }');
+
+        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
+        self::assertIsArray($variants);
+        self::assertCount(1, $variants);
+        self::assertSame(['top' => 3], array_values($variants)[0]['args']);
+    }
+
+    public function testSkipTakesPrecedenceWhenCoOccurringWithInclude(): void
+    {
+        $this->httpGraphql('{ captureTree {
+            a: comments(top: 3) { id }
+            b: comments(top: 5) @skip(if: true) @include(if: true) { id }
+        } }');
+
+        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
+        self::assertIsArray($variants);
+        self::assertCount(1, $variants);
+        self::assertSame(['top' => 3], array_values($variants)[0]['args']);
+
+        // No manual reset here: CaptureTreeQuery::validateFieldArguments()
+        // unconditionally overwrites self::$tree on every request, so the
+        // read below reflects only this second query.
+        $this->httpGraphql('{ captureTree {
+            a: comments(top: 3) { id }
+            b: comments(top: 5) @skip(if: false) @include(if: true) { id }
+        } }');
+
+        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
+        self::assertIsArray($variants);
+        self::assertCount(2, $variants);
+    }
 }
