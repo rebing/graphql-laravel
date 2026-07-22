@@ -9,6 +9,7 @@ use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
@@ -180,9 +181,50 @@ abstract class Field
 
         $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
 
-        if ($validator->fails()) {
-            throw new ValidationError('validation', $validator);
+        $variantAttributes = [];
+
+        foreach ($argsRules as $ruleKey => $unusedRules) {
+            if (str_contains((string) $ruleKey, '.argsVariants.')) {
+                $cleanKey = \Safe\preg_replace('/\.argsVariants\.[0-9a-f]{32}(?=\.args\.)/', '', (string) $ruleKey);
+                $variantAttributes[$ruleKey] = $cleanKey;
+            }
         }
+
+        if ($variantAttributes && method_exists($validator, 'setAttributeNames')) {
+            $validator->setAttributeNames($variantAttributes);
+        }
+
+        if ($validator->fails()) {
+            throw new ValidationError('validation', $this->remapVariantValidationKeys($validator));
+        }
+    }
+
+    /**
+     * Strip '.argsVariants.<hash>' segments from validation error keys so
+     * user-facing keys keep the historical 'path.args.argName' format;
+     * failures from multiple variants of one argument aggregate under it.
+     */
+    protected function remapVariantValidationKeys(ValidatorContract $validator): ValidatorContract
+    {
+        $original = $validator->errors();
+
+        if (!str_contains(implode(' ', $original->keys()), '.argsVariants.')) {
+            return $validator;
+        }
+
+        $bag = new MessageBag;
+
+        foreach ($original->messages() as $messageKey => $errors) {
+            $cleanKey = \Safe\preg_replace('/\.argsVariants\.[0-9a-f]{32}(?=\.args\.)/', '', $messageKey);
+
+            foreach ($errors as $error) {
+                if (!\in_array($error, $bag->get($cleanKey), true)) {
+                    $bag->add($cleanKey, $error);
+                }
+            }
+        }
+
+        return new ArgsVariants\RemappedValidator($validator, $bag);
     }
 
     /**

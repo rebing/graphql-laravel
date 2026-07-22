@@ -76,9 +76,26 @@ class RulesInFields
 
             $args = $fieldObject->config['args'] ?? [];
 
+            $argsVariants = \is_array($field['argsVariants'] ?? null)
+                ? $field['argsVariants']
+                : null;
+
             foreach ($args as $argName => $info) {
-                if (isset($info['rules'])) {
+                if (!isset($info['rules'])) {
+                    continue;
+                }
+
+                if (null === $argsVariants) {
                     $rules[$key . '.args.' . $argName] = $this->resolveRules($info['rules'], $field['args']);
+
+                    continue;
+                }
+
+                // Validate each argument variant independently; the data for
+                // these keys lives in the enriched tree itself.
+                foreach ($argsVariants as $hash => $variant) {
+                    $rules[$key . '.argsVariants.' . $hash . '.args.' . $argName]
+                        = $this->resolveRules($info['rules'], $variant['args']);
                 }
             }
         }
