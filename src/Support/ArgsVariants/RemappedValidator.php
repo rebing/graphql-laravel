@@ -3,8 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Support\ArgsVariants;
 
-use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Support\MessageBag;
 
 /**
  * Decorates a validator so that error keys have their
@@ -15,16 +15,16 @@ final class RemappedValidator implements ValidatorContract
 {
     public function __construct(
         private readonly ValidatorContract $inner,
-        private readonly MessageBagContract $remapped,
+        private readonly MessageBag $remapped,
     ) {
     }
 
-    public function errors(): MessageBagContract
+    public function errors(): MessageBag
     {
         return $this->remapped;
     }
 
-    public function getMessageBag(): MessageBagContract
+    public function getMessageBag(): MessageBag
     {
         return $this->remapped;
     }

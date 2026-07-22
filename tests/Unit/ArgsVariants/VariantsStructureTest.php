@@ -45,7 +45,7 @@ class VariantsStructureTest extends TestCase
 
         $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
         self::assertIsArray($variants);
-        self::assertSame([['top' => 3], ['top' => 5]], array_values(array_column($variants, 'args')));
+        self::assertSame([['top' => 3], ['top' => 5]], array_column($variants, 'args'));
     }
 
     public function testConflictInsideInlineFragment(): void
@@ -71,12 +71,13 @@ class VariantsStructureTest extends TestCase
             y: author { comments(top: 2) { id } }
         } }');
 
-        $author = CaptureTreeQuery::$tree['author'];
+        $author = CaptureTreeQuery::$tree['author'] ?? null;
+        self::assertIsArray($author);
         self::assertArrayNotHasKey('argsVariants', $author);
 
         $variants = $author['fields']['comments']['argsVariants'] ?? null;
         self::assertIsArray($variants);
-        self::assertSame([['top' => 1], ['top' => 2]], array_values(array_column($variants, 'args')));
+        self::assertSame([['top' => 1], ['top' => 2]], array_column($variants, 'args'));
     }
 
     public function testNestedConflictInsideVariantSubtree(): void
@@ -90,7 +91,8 @@ class VariantsStructureTest extends TestCase
             p3: author { c: comments(top: 9) { id } }
         } }');
 
-        $commentsEntry = CaptureTreeQuery::$tree['author']['fields']['comments'];
+        $commentsEntry = CaptureTreeQuery::$tree['author']['fields']['comments'] ?? null;
+        self::assertIsArray($commentsEntry);
         $variants = $commentsEntry['argsVariants'];
         self::assertCount(2, $variants);
 

@@ -7,7 +7,6 @@ use GraphQL\Executor\Values;
 use GraphQL\Language\AST\FieldNode;
 use GraphQL\Language\AST\FragmentSpreadNode;
 use GraphQL\Language\AST\InlineFragmentNode;
-use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\SelectionSetNode;
 use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\HasFieldsType;
@@ -277,7 +276,7 @@ class VariantsTreeEnricher
         }
     }
 
-    protected function isActive(Node $node, ResolveInfo $info): bool
+    protected function isActive(FieldNode|FragmentSpreadNode|InlineFragmentNode $node, ResolveInfo $info): bool
     {
         $skip = Values::getDirectiveValues(Directive::skipDirective(), $node, $info->variableValues);
 

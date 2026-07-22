@@ -14,6 +14,9 @@ use Rebing\GraphQL\Tests\TestCase;
 
 class PrivacyConfiguredDefaultResolverTest extends TestCase
 {
+    /**
+     * @param array<string,mixed> $args
+     */
     public static function upperResolver(mixed $root, array $args, mixed $context, ResolveInfo $info): mixed
     {
         $value = \GraphQL\Executor\Executor::defaultFieldResolver($root, $args, $context, $info);

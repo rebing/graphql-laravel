@@ -111,7 +111,7 @@ class VariantsTreeEnricherTest extends TestCase
             [\Rebing\GraphQL\Support\ArgsVariants\ArgsHasher::hash(['top' => 3]), \Rebing\GraphQL\Support\ArgsVariants\ArgsHasher::hash(['top' => 5])],
             array_keys($variants),
         );
-        self::assertSame([['top' => 3], ['top' => 5]], array_values(array_column($variants, 'args')));
+        self::assertSame([['top' => 3], ['top' => 5]], array_column($variants, 'args'));
 
         // Variant subtrees carry the legacy shape, per occurrence:
         $first = array_values($variants)[0];
@@ -128,6 +128,7 @@ class VariantsTreeEnricherTest extends TestCase
     {
         $this->httpGraphql('{ captureTree { a: comments(top: 3) { id } b: comments(top: 3) { body } } }');
 
+        self::assertNotNull(CaptureTreeQuery::$tree);
         self::assertFalse($this->treeContainsKey(CaptureTreeQuery::$tree, 'argsVariants'));
     }
 
@@ -140,14 +141,15 @@ class VariantsTreeEnricherTest extends TestCase
 
         $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
         self::assertIsArray($variants);
-        self::assertSame([['top' => 1], ['top' => 2]], array_values(array_column($variants, 'args')));
+        self::assertSame([['top' => 1], ['top' => 2]], array_column($variants, 'args'));
     }
 
     public function testLegacyMergedEntryIsStillPresentNextToVariants(): void
     {
         $this->httpGraphql('{ captureTree { a: comments(top: 3) { id } b: comments(top: 5) { id } } }');
 
-        $entry = CaptureTreeQuery::$tree['comments'];
+        $entry = CaptureTreeQuery::$tree['comments'] ?? null;
+        self::assertIsArray($entry);
         // Legacy merge semantics (arrayMergeDeep, last wins) must be untouched:
         self::assertSame(['top' => 5], $entry['args']);
         self::assertArrayHasKey('id', $entry['fields']);

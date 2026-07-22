@@ -69,11 +69,16 @@ class VariantsDirectivesTest extends TestCase
         } }';
 
         $this->httpGraphql($query, ['variables' => ['flag' => true]]);
-        self::assertCount(2, CaptureTreeQuery::$tree['comments']['argsVariants']);
+        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
+        self::assertIsArray($variants);
+        self::assertCount(2, $variants);
 
-        CaptureTreeQuery::$tree = null;
+        // No manual reset here: CaptureTreeQuery::validateFieldArguments()
+        // unconditionally overwrites self::$tree on every request, so the
+        // read below reflects only this second query.
         $this->httpGraphql($query, ['variables' => ['flag' => false]]);
-        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'];
+        $variants = CaptureTreeQuery::$tree['comments']['argsVariants'] ?? null;
+        self::assertIsArray($variants);
         self::assertCount(1, $variants);
         self::assertSame(['top' => 3], array_values($variants)[0]['args']);
     }
