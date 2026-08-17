@@ -6,8 +6,10 @@ namespace Rebing\GraphQL\Tests\Unit\PaginationTypeTest;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\PaginationType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\TestCase;
+use stdClass;
 
 /**
  * Covers `Rebing\GraphQL\Support\PaginationType` end-to-end.
@@ -130,6 +132,22 @@ GRAPHQL;
         self::assertInstanceOf(ObjectType::class, $type);
         self::assertSame('CustomPaginationName', $type->name());
         self::assertSame($type, GraphQL::paginate('Example', 'CustomPaginationName'));
+    }
+
+    public function testPaginationPreservesUnderlyingModel(): void
+    {
+        $underlyingType = new class extends GraphQLType {
+            protected $attributes = [
+                'name' => 'ModeledExample',
+                'model' => stdClass::class,
+            ];
+        };
+        GraphQL::addType($underlyingType);
+
+        $type = GraphQL::paginate('ModeledExample', 'ModeledExamplePagination');
+
+        self::assertInstanceOf(ObjectType::class, $type);
+        self::assertSame(stdClass::class, $type->config['model']);
     }
 
     public function testPaginationFieldsHaveExpectedShape(): void
