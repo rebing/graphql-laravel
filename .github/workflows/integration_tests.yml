@@ -34,10 +34,12 @@ jobs:
       php: ${{ steps.php.outputs.version }}
       laravel: ${{ steps.laravel.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - id: php
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@v2
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@b1da538007a030a09a7d257bd3881829a3544882 # v2.1.0
 
       - id: laravel
         name: Read Laravel versions from composer.json
@@ -70,9 +72,11 @@ jobs:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: ${{ matrix.php }}
           ini-file: development
@@ -83,15 +87,19 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${{ matrix.laravel }}" --with "illuminate/support:${{ matrix.laravel }}" --with "laravel/framework:${{ matrix.laravel }}"
+      - env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+        run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${LARAVEL_VERSION}" --with "illuminate/support:${LARAVEL_VERSION}" --with "laravel/framework:${LARAVEL_VERSION}"
 
-      - run: tests/integration-laravel.sh ${{ matrix.laravel }}
+      - env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+        run: tests/integration-laravel.sh "${LARAVEL_VERSION}"
 
   integration-otel:
     needs: matrix
@@ -110,9 +118,11 @@ jobs:
       COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: ${{ matrix.php }}
           ini-file: development
@@ -123,12 +133,16 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-${{ matrix.php }}-composer-otel-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
 
-      - run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${{ matrix.laravel }}" --with "illuminate/support:${{ matrix.laravel }}" --with "laravel/framework:${{ matrix.laravel }}"
+      - env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+        run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${LARAVEL_VERSION}" --with "illuminate/support:${LARAVEL_VERSION}" --with "laravel/framework:${LARAVEL_VERSION}"
 
-      - run: tests/integration-otel/run.sh ${{ matrix.laravel }}
+      - env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+        run: tests/integration-otel/run.sh "${LARAVEL_VERSION}"
