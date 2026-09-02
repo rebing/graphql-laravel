@@ -25,9 +25,6 @@ parameters:
         -
           message: '/Call to an undefined method Illuminate\\Testing\\TestResponse::(content|getData|getStatusCode)\(\)/'
           identifier: method.notFound
-        -
-          message: '/Call to an undefined method Mockery\\/'
-          identifier: method.notFound
         # PHPUnit 13.2 soft-deprecated expectExceptionMessage() in favour of
         # expectExceptionMessageIsOrContains(), which only exists in >=13.2.
         # We still support phpunit ^11.5|^12.0|^13.0, so we cannot migrate yet.
@@ -37,4 +34,3 @@ parameters:
           identifier: method.deprecated
           paths:
               - tests/
-

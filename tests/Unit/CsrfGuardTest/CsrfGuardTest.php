@@ -105,6 +105,46 @@ class CsrfGuardTest extends TestCase
         );
     }
 
+    public function testUnknownFetchMetadataFallsThroughToOtherChecks(): void
+    {
+        $response = $this->call(
+            'POST',
+            '/graphql',
+            ['query' => '{ examples { test } }'],
+            [],
+            [],
+            ['HTTP_SEC_FETCH_SITE' => 'future-browser-value'],
+        );
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertStringContainsString(
+            'Request lacks indicators',
+            (string) $response->getContent(),
+        );
+    }
+
+    public function testFetchMetadataCheckCanBeDisabled(): void
+    {
+        $this->app['config']->set('graphql.route.middleware', [
+            CsrfGuard::using(checkFetchMetadata: false),
+        ]);
+        $this->reloadRoutes();
+
+        $response = $this->call(
+            'POST',
+            '/graphql',
+            ['query' => '{ examples { test } }'],
+            [],
+            [],
+            [
+                'HTTP_SEC_FETCH_SITE' => 'cross-site',
+                'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest',
+            ],
+        );
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
     // ------------------------------------------------------------------
     // Custom header checks
     // ------------------------------------------------------------------
@@ -125,6 +165,29 @@ class CsrfGuardTest extends TestCase
         self::assertArrayHasKey('data', $data);
     }
 
+    public function testCustomHeaderCheckCanBeDisabled(): void
+    {
+        $this->app['config']->set('graphql.route.middleware', [
+            CsrfGuard::using(allowCustomHeader: false),
+        ]);
+        $this->reloadRoutes();
+
+        $response = $this->call(
+            'POST',
+            '/graphql',
+            ['query' => '{ examples { test } }'],
+            [],
+            [],
+            ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'],
+        );
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertStringContainsString(
+            'Request lacks indicators',
+            (string) $response->getContent(),
+        );
+    }
+
     // ------------------------------------------------------------------
     // Content-Type checks
     // ------------------------------------------------------------------
@@ -138,6 +201,24 @@ class CsrfGuardTest extends TestCase
         self::assertSame(200, $response->getStatusCode());
         $data = $response->getData(true);
         self::assertArrayHasKey('data', $data);
+    }
+
+    public function testNonSimpleContentTypeCheckCanBeDisabled(): void
+    {
+        $this->app['config']->set('graphql.route.middleware', [
+            CsrfGuard::using(allowNonSimpleContentType: false),
+        ]);
+        $this->reloadRoutes();
+
+        $response = $this->json('POST', '/graphql', [
+            'query' => '{ examples { test } }',
+        ]);
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertStringContainsString(
+            'Request lacks indicators',
+            (string) $response->getContent(),
+        );
     }
 
     public function testApplicationGraphqlAllowsRequest(): void

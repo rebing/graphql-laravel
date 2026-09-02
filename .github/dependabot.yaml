@@ -4,10 +4,15 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 7
     groups:
       deps:
         patterns:
           - '*'
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: composer
     directories:
@@ -18,7 +23,12 @@ updates:
       - /tools/rector
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 7
     groups:
       deps:
         patterns:
           - '*'
+        update-types:
+          - minor
+          - patch

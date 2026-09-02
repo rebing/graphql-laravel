@@ -6,8 +6,10 @@ namespace Rebing\GraphQL\Tests\Unit\SimplePaginationTest;
 use GraphQL\Type\Definition\ObjectType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\SimplePaginationType;
+use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
 use Rebing\GraphQL\Tests\TestCase;
+use stdClass;
 
 /**
  * Covers `Rebing\GraphQL\Support\SimplePaginationType` and the
@@ -120,6 +122,22 @@ GRAPHQL;
         self::assertSame('CustomSimplePaginationName', $type->name());
         // Subsequent call returns the same cached instance keyed by custom name.
         self::assertSame($type, GraphQL::simplePaginate('Example', 'CustomSimplePaginationName'));
+    }
+
+    public function testSimplePaginationPreservesUnderlyingModel(): void
+    {
+        $underlyingType = new class extends GraphQLType {
+            protected $attributes = [
+                'name' => 'SimpleModeledExample',
+                'model' => stdClass::class,
+            ];
+        };
+        GraphQL::addType($underlyingType);
+
+        $type = GraphQL::simplePaginate('SimpleModeledExample', 'SimpleModeledExamplePagination');
+
+        self::assertInstanceOf(ObjectType::class, $type);
+        self::assertSame(stdClass::class, $type->config['model']);
     }
 
     public function testSimplePaginationFieldsHaveExpectedShape(): void

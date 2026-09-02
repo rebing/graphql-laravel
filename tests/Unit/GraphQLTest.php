@@ -36,6 +36,24 @@ class GraphQLTest extends TestCase
         self::assertArrayHasKey('Example', $schema->getTypeMap());
     }
 
+    public function testSchemaWithSubscription(): void
+    {
+        $schema = GraphQL::buildSchemaFromConfig([
+            'query' => [
+                'examples' => ExamplesQuery::class,
+            ],
+            'subscription' => [
+                'exampleUpdates' => ExamplesQuery::class,
+            ],
+        ]);
+
+        $subscription = $schema->getSubscriptionType();
+
+        self::assertNotNull($subscription);
+        self::assertArrayHasKey('exampleUpdates', $subscription->getFields());
+        $schema->assertValid();
+    }
+
     public function testSchemaWithName(): void
     {
         $schema = GraphQL::schema('custom');

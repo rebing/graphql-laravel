@@ -5,6 +5,7 @@ namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
 use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
+use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\InputType;
@@ -24,6 +25,32 @@ class TypeTest extends TestCase
             'type' => Type::string(),
             'description' => 'A test field',
         ]);
+    }
+
+    public function testGetFieldsPreservesFieldDefinition(): void
+    {
+        $objectType = new ObjectType([
+            'name' => 'NativeObjectType',
+            'fields' => [
+                'nativeField' => Type::string(),
+            ],
+        ]);
+        $fieldDefinition = $objectType->getField('nativeField');
+        $type = new class($fieldDefinition) extends GraphQLType {
+            public function __construct(private readonly FieldDefinition $fieldDefinition)
+            {
+            }
+
+            public function fields(): array
+            {
+                return ['ignoredArrayKey' => $this->fieldDefinition];
+            }
+        };
+
+        $fields = $type->getFields();
+
+        self::assertArrayNotHasKey('ignoredArrayKey', $fields);
+        self::assertSame($fieldDefinition, $fields['nativeField']);
     }
 
     public function testGetAttributes(): void
