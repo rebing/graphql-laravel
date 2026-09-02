@@ -3,6 +3,17 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/10.0.0...master)
 
+### Added
+- Fields-and-arguments tree: additive `argsVariants` entries for fields requested
+  with multiple distinct argument sets (aliases or divergent branches); groundwork
+  for fixing [#604](https://github.com/rebing/graphql-laravel/issues/604) together
+  with `rebing/graphql-laravel-select-fields`
+- Nested field argument validation now runs once per argument variant
+
+### Fixed
+- Privacy-wrapped fields without an own resolver now honor the configured
+  `graphql.defaultFieldResolver` instead of always using webonyx's default
+
 2026-06-18, 10.0.0
 ------------------
 

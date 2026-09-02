@@ -9,10 +9,12 @@ use GraphQL\Type\Definition\Type as GraphQLType;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 use InvalidArgumentException;
 use Rebing\GraphQL\Error\AuthorizationError;
 use Rebing\GraphQL\Error\ValidationError;
 use Rebing\GraphQL\Support\AliasArguments\AliasArguments;
+use Rebing\GraphQL\Support\ArgsVariants\VariantsTreeEnricher;
 use Rebing\GraphQL\Support\Contracts\ResolverParameterInjector;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use ReflectionMethod;
@@ -179,9 +181,53 @@ abstract class Field
 
         $validator = $this->getValidator($fieldsAndArgumentsSelection, $argsRules);
 
-        if ($validator->fails()) {
-            throw new ValidationError('validation', $validator);
+        $variantAttributes = [];
+
+        foreach ($argsRules as $ruleKey => $unusedRules) {
+            if (str_contains((string) $ruleKey, '.argsVariants.')) {
+                $cleanKey = \Safe\preg_replace('/\.argsVariants\.[0-9a-f]{32}(?=\.args\.)/', '', (string) $ruleKey);
+                $variantAttributes[$ruleKey] = $cleanKey;
+            }
         }
+
+        // A custom getValidator() override returning a contract-only validator
+        // silently skips this attribute-name cleanup; only the error-key remap
+        // below still protects user-facing output.
+        if ($variantAttributes && method_exists($validator, 'setAttributeNames')) {
+            $validator->setAttributeNames($variantAttributes);
+        }
+
+        if ($validator->fails()) {
+            throw new ValidationError('validation', $this->remapVariantValidationKeys($validator));
+        }
+    }
+
+    /**
+     * Strip '.argsVariants.<hash>' segments from validation error keys so
+     * user-facing keys keep the historical 'path.args.argName' format;
+     * failures from multiple variants of one argument aggregate under it.
+     */
+    protected function remapVariantValidationKeys(ValidatorContract $validator): ValidatorContract
+    {
+        $original = $validator->errors();
+
+        if (!str_contains(implode(' ', $original->keys()), '.argsVariants.')) {
+            return $validator;
+        }
+
+        $bag = new MessageBag;
+
+        foreach ($original->messages() as $messageKey => $errors) {
+            $cleanKey = \Safe\preg_replace('/\.argsVariants\.[0-9a-f]{32}(?=\.args\.)/', '', $messageKey);
+
+            foreach ($errors as $error) {
+                if (!\in_array($error, $bag->get($cleanKey), true)) {
+                    $bag->add($cleanKey, $error);
+                }
+            }
+        }
+
+        return new ArgsVariants\RemappedValidator($validator, $bag);
     }
 
     /**
@@ -291,7 +337,10 @@ abstract class Field
                 $this->validateArguments($args, $rules);
             }
 
-            $fieldsAndArguments = $arguments[3]->lookAhead()->queryPlan();
+            $fieldsAndArguments = (new VariantsTreeEnricher)->enrich(
+                $arguments[3]->lookAhead()->queryPlan(),
+                $arguments[3],
+            );
 
             // Validate arguments in fields
             $this->validateFieldArguments($fieldsAndArguments);

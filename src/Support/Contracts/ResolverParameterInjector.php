@@ -30,7 +30,7 @@ interface ResolverParameterInjector
      *
      * @param string $className The fully-qualified class name from the type-hint
      * @param array<int,mixed> $arguments The 4 standard resolver arguments [root, args, ctx, resolveInfo]
-     * @param array<string,mixed> $fieldsAndArguments The query plan from ResolveInfo::lookAhead()->queryPlan()
+     * @param array<string,mixed> $fieldsAndArguments The query plan from ResolveInfo::lookAhead()->queryPlan(), enriched with additive 'argsVariants' entries ({@see \Rebing\GraphQL\Support\ArgsVariants\VariantsTreeEnricher}); field entries may carry 'argsVariants' => [<hash> => ['args' => …, 'fields' => …]] when the field was requested with divergent argument sets
      * @param Field $field The Field/Query/Mutation instance owning the resolver
      */
     public function resolve(string $className, array $arguments, array $fieldsAndArguments, Field $field): mixed;
