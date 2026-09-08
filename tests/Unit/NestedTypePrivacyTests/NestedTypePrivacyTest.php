@@ -3,6 +3,8 @@
 declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit\NestedTypePrivacyTests;
 
+use GraphQL\Executor\Executor;
+use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Tests\TestCase;
 
 /**
@@ -88,6 +90,32 @@ GRAPHQL;
             ],
         ];
         self::assertEquals($expectedResult, $result);
+    }
+
+    public function testPrivacyAllowedUsesConfiguredDefaultFieldResolver(): void
+    {
+        $this->app['config']->set(
+            'graphql.defaultFieldResolver',
+            static function (mixed $root, array $args, mixed $context, ResolveInfo $info): mixed {
+                $value = Executor::defaultFieldResolver($root, $args, $context, $info);
+
+                return \is_string($value) ? strtoupper($value) : $value;
+            },
+        );
+
+        $query = <<<'GRAPHQL'
+{
+  parent {
+    child {
+      allowed_name
+    }
+  }
+}
+GRAPHQL;
+
+        $result = $this->httpGraphql($query);
+
+        self::assertSame('ALLOWED VALUE', $result['data']['parent']['child']['allowed_name']);
     }
 
     public function testPrivacyMixedOnNestedSubType(): void

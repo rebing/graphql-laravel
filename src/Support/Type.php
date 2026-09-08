@@ -115,9 +115,9 @@ abstract class Type implements TypeConvertible
     /**
      * Wrap a field resolver with a privacy check.
      *
-     * If privacy denies access, `null` is returned without calling the
-     * original resolver.  When no original resolver is provided the
-     * default field resolver from webonyx/graphql-php is used.
+     * If privacy denies access, `null` is returned without calling a resolver.
+     * Otherwise, resolution uses the field resolver, the configured default
+     * resolver, or finally the default from webonyx/graphql-php.
      *
      * @param mixed $privacy Closure or Privacy class name
      */
@@ -130,6 +130,12 @@ abstract class Type implements TypeConvertible
 
             if ($originalResolve) {
                 return $originalResolve($root, $args, $context, $info);
+            }
+
+            $configuredResolver = config('graphql.defaultFieldResolver');
+
+            if (null !== $configuredResolver) {
+                return \call_user_func($configuredResolver, $root, $args, $context, $info);
             }
 
             return Executor::defaultFieldResolver($root, $args, $context, $info);
