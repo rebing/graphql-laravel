@@ -96,7 +96,9 @@ class GraphQLController extends Controller
 
     protected function findSchemaNameInRequest(Request $request, string $routePrefix): ?string
     {
-        $path = $request->getPathInfo();
+        // Decode the same way the router does when matching, so a percent-encoded
+        // segment such as /graphql/%64efault resolves to the schema whose route matched.
+        $path = rawurldecode($request->getPathInfo());
 
         if (!Str::startsWith($path, $routePrefix)) {
             return null;
