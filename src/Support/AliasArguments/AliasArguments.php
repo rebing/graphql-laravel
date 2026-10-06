@@ -91,8 +91,6 @@ class AliasArguments
                 continue;
             }
 
-            $type = null;
-
             // $arg is either an array DSL notation or an InputObjectField
             if ($arg instanceof InputObjectField) {
                 $type = $arg->getType();

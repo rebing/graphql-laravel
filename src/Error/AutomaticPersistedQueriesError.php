@@ -18,13 +18,13 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
     public static function persistedQueriesNotSupported(): self
     {
         return new self(
-            self::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
-            $nodes = null,
-            $source = null,
-            $positions = [],
-            $path = null,
-            $previous = null,
-            $extensions = [
+            message: self::MESSAGE_PERSISTED_QUERY_NOT_SUPPORTED,
+            nodes: null,
+            source: null,
+            positions: [],
+            path: null,
+            previous: null,
+            extensions: [
                 'code' => self::CODE_PERSISTED_QUERY_NOT_SUPPORTED,
             ],
         );
@@ -33,13 +33,13 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
     public static function persistedQueriesNotFound(): self
     {
         return new self(
-            self::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
-            $nodes = null,
-            $source = null,
-            $positions = [],
-            $path = null,
-            $previous = null,
-            $extensions = [
+            message: self::MESSAGE_PERSISTED_QUERY_NOT_FOUND,
+            nodes: null,
+            source: null,
+            positions: [],
+            path: null,
+            previous: null,
+            extensions: [
                 'code' => self::CODE_PERSISTED_QUERY_NOT_FOUND,
             ],
         );
@@ -51,13 +51,13 @@ class AutomaticPersistedQueriesError extends Error implements ProvidesErrorCateg
     public static function internalServerError($message = null): self
     {
         return new self(
-            $message ?? '',
-            $nodes = null,
-            $source = null,
-            $positions = [],
-            $path = null,
-            $previous = null,
-            $extensions = [
+            message: $message ?? '',
+            nodes: null,
+            source: null,
+            positions: [],
+            path: null,
+            previous: null,
+            extensions: [
                 'code' => self::CODE_INTERNAL_SERVER_ERROR,
             ],
         );
