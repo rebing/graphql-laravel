@@ -5,6 +5,7 @@ CHANGELOG
 
 ### Fixed
 - Privacy-wrapped fields honor the configured default field resolver [\#1280 / mfn](https://github.com/rebing/graphql-laravel/pull/1280)
+- `GraphQLController` resolves the schema from the URL-decoded request path, matching how the router matched it [\#1282 / pawell67](https://github.com/rebing/graphql-laravel/pull/1282)
 
 2026-06-18, 10.0.0
 ------------------
