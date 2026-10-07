@@ -1,7 +1,10 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/10.0.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/10.1.0...master)
+
+2026-10-07, 10.1.0
+------------------
 
 ### Fixed
 - Privacy-wrapped fields honor the configured default field resolver [\#1280 / mfn](https://github.com/rebing/graphql-laravel/pull/1280)
