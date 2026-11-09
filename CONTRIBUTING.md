@@ -140,6 +140,19 @@ composer phpstan
 
 If you need to update the baseline, run `composer phpstan-baseline`.
 
+The package ships `phpstan-extension.neon` and `phpstan-stubs/` to describe
+Rebing's extended GraphQL field configuration to PHPStan. Applications and
+downstream packages can load these declarations explicitly:
+
+```neon
+includes:
+    - vendor/rebing/graphql-laravel/phpstan-extension.neon
+```
+
+Keep the extension configuration and its stubs in Composer distribution archives.
+Unlike the development-only `phpstan.neon.dist`, the extension configuration must
+not include this repository's analysis paths or development tool dependencies.
+
 ### Running Tests
 
 The test suite has two base classes:

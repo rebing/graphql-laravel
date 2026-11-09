@@ -1,0 +1,58 @@
+<?php declare(strict_types=1);
+
+namespace GraphQL\Type\Definition;
+
+use GraphQL\Language\AST\FieldDefinitionNode;
+use GraphQL\Language\AST\FieldNode;
+use GraphQL\Language\AST\InputValueDefinitionNode;
+
+/**
+ * Preserve webonyx's standard field config types while permitting extension keys.
+ * Rebing passes the complete field config through to FieldDefinition::$config,
+ * including keys such as alias, privacy, and rules used by downstream packages.
+ *
+ * @phpstan-type FieldResolver callable(mixed, array<string, mixed>, mixed, ResolveInfo): mixed
+ * @phpstan-type ArgsMapper callable(array<string, mixed>, FieldDefinition, FieldNode, mixed): mixed
+ * @phpstan-type ArgumentType (Type&InputType)|callable(): (Type&InputType)
+ * @phpstan-type ArgumentListConfig iterable<array{
+ *     name?: string,
+ *     type: ArgumentType,
+ *     defaultValue?: mixed,
+ *     description?: string|null,
+ *     deprecationReason?: string|null,
+ *     astNode?: InputValueDefinitionNode|null
+ * }|ArgumentType>
+ * @phpstan-type FieldType (Type&OutputType)|callable(): (Type&OutputType)
+ * @phpstan-type ComplexityFn callable(int, array<string, mixed>): int
+ * @phpstan-type VisibilityFn callable(): bool
+ * @phpstan-type FieldDefinitionConfig array{
+ *     name: string,
+ *     type: FieldType,
+ *     resolve?: FieldResolver|null,
+ *     args?: ArgumentListConfig|null,
+ *     argsMapper?: ArgsMapper|null,
+ *     description?: string|null,
+ *     visible?: VisibilityFn|bool,
+ *     deprecationReason?: string|null,
+ *     astNode?: FieldDefinitionNode|null,
+ *     complexity?: ComplexityFn|null,
+ *     ...
+ * }
+ */
+class FieldDefinition
+{
+    /** @phpstan-var FieldDefinitionConfig */
+    public array $config;
+}
+
+// PHPStan validates stubs independently; referenced symbols need stub shells.
+abstract class Type {}
+interface OutputType {}
+interface InputType {}
+class ResolveInfo {}
+
+namespace GraphQL\Language\AST;
+
+class FieldDefinitionNode {}
+class FieldNode {}
+class InputValueDefinitionNode {}
