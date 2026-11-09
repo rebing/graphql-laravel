@@ -1,7 +1,11 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/10.1.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/10.2.0...master)
+
+2026-11-09, 10.2.0
+------------------
+- Add (more) phpstab stubs [\#1287 / mfn](https://github.com/rebing/graphql-laravel/pull/1287)
 
 2026-10-07, 10.1.0
 ------------------
