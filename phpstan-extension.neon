@@ -1,0 +1,4 @@
+parameters:
+    stubFiles:
+        - phpstan-stubs/FieldDefinition.stub
+        - phpstan-stubs/ObjectType.stub
