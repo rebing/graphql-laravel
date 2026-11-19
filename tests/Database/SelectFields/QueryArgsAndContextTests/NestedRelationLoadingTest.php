@@ -975,8 +975,7 @@ SQL,
         $users = User::factory()->count(2)
             ->create()
             ->each(function (User $user): void {
-                /** @var Post $post */
-                $post = Post::factory()
+                Post::factory()
                     ->create([
                         'flag' => true,
                         'user_id' => $user->id,
