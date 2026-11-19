@@ -642,9 +642,10 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
+        $aggregateAlias = self::quotesAggregateAlias() ? '"aggregate"' : 'aggregate';
         $this->assertSqlQueries(
-            <<<'SQL'
-select count(*) as aggregate from "posts";
+            <<<SQL
+select count(*) as {$aggregateAlias} from "posts";
 select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
 SQL,
         );
