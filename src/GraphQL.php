@@ -117,7 +117,7 @@ class GraphQL
 
         $schema = $this->schema($schemaName);
 
-        $baseParams = new BaseOperationParams;
+        $baseParams = new BaseOperationParams();
         $baseParams->query = $query;
         $baseParams->operation = $operationName;
         $baseParams->variables = $variables;
@@ -302,6 +302,8 @@ class GraphQL
         // If it's already an ObjectType, just update properties and return it.
         // If it's an array, assume it's an array of fields and build ObjectType
         // from it. Otherwise, build it from a string or an instance.
+        $objectType = null;
+
         if ($type instanceof ObjectType) {
             $objectType = $type;
 

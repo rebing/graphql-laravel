@@ -11,7 +11,7 @@ class EnumTypeTest extends TestCase
 {
     public function testToType(): void
     {
-        $type = new ExampleEnumType;
+        $type = new ExampleEnumType();
         /** @var EnumType $objectType */
         $objectType = $type->toType();
 

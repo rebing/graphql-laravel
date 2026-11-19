@@ -45,19 +45,11 @@ GRAPHQL;
             ],
         ]);
 
-        if (self::quotesAggregateAlias()) {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as "aggregate" from "users" where "name" = ?;
-                SQL,
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as aggregate from "users" where "name" = ?;
-                SQL,
-            );
-        }
+        $this->assertSqlQueries(
+            <<<'SQL'
+select count(*) as aggregate from "users" where "name" = ?;
+SQL,
+        );
 
         $expectedResult = [
             'data' => [
@@ -90,19 +82,11 @@ GRAPHQL;
             ],
         ]);
 
-        if (self::quotesAggregateAlias()) {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as "aggregate" from "users" where "name" = ?;
-                SQL,
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as aggregate from "users" where "name" = ?;
-                SQL,
-            );
-        }
+        $this->assertSqlQueries(
+            <<<'SQL'
+select count(*) as aggregate from "users" where "name" = ?;
+SQL,
+        );
 
         $expected = [
             'errors' => [
@@ -204,19 +188,11 @@ GRAPHQL;
             ],
         ]);
 
-        if (self::quotesAggregateAlias()) {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as "aggregate" from "users" where "name" = ?;
-                SQL,
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as aggregate from "users" where "name" = ?;
-                SQL,
-            );
-        }
+        $this->assertSqlQueries(
+            <<<'SQL'
+select count(*) as aggregate from "users" where "name" = ?;
+SQL,
+        );
 
         $expected = [
             'errors' => [

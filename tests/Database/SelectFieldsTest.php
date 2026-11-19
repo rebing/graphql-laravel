@@ -642,21 +642,12 @@ GRAQPHQL;
             'query' => $graphql,
         ]);
 
-        if (self::quotesAggregateAlias()) {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as "aggregate" from "posts";
-                select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
-                SQL,
-            );
-        } else {
-            $this->assertSqlQueries(
-                <<<'SQL'
-                select count(*) as aggregate from "posts";
-                select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
-                SQL,
-            );
-        }
+        $this->assertSqlQueries(
+            <<<'SQL'
+select count(*) as aggregate from "posts";
+select "posts"."id", "posts"."title" from "posts" limit 15 offset 0;
+SQL,
+        );
 
         $expectedResult = [
             'data' => [
