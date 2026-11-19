@@ -13,6 +13,6 @@ class CustomGraphqlContextMiddleware extends AbstractExecutionMiddleware
 {
     public function handle(string $schemaName, Schema $schema, OperationParams $params, $rootValue, $contextValue, Closure $next): ExecutionResult
     {
-        return $next($schemaName, $schema, $params, $rootValue, new GraphQLContext());
+        return $next($schemaName, $schema, $params, $rootValue, new GraphQLContext);
     }
 }

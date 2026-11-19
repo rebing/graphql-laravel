@@ -13,7 +13,7 @@ class LaravelValidatorTest extends TestCase
         $rules = [
             'arg' => [
                 'in:valid_name',
-                new RuleObjectPass(),
+                new RuleObjectPass,
             ],
         ];
 
@@ -31,7 +31,7 @@ class LaravelValidatorTest extends TestCase
         $rules = [
             'arg' => [
                 'in:valid_name',
-                new RuleObjectFail(),
+                new RuleObjectFail,
             ],
         ];
 
@@ -52,7 +52,7 @@ class LaravelValidatorTest extends TestCase
         $rules = [
             'arg' => [
                 'in:valid_name',
-                new RuleObjectPass(),
+                new RuleObjectPass,
             ],
         ];
 
@@ -73,7 +73,7 @@ class LaravelValidatorTest extends TestCase
         $rules = [
             'arg' => [
                 'in:valid_name',
-                new RuleObjectFail(),
+                new RuleObjectFail,
             ],
         ];
 
