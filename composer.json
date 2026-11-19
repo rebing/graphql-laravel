@@ -39,7 +39,7 @@
         "illuminate/contracts": "^12.0|^13.0",
         "illuminate/support": "^12.0|^13.0",
         "laragraph/utils": "^2.0.1",
-        "thecodingmachine/safe": "^3.0",
+        "thecodingmachine/safe": "^3.4",
         "webonyx/graphql-php": "^15.22.1"
     },
     "require-dev": {
