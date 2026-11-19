@@ -23,7 +23,7 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         return [
             'arg1' => [
                 'required',
-                new RuleObject(),
+                new RuleObject,
             ],
         ];
     }

@@ -19,7 +19,7 @@ class UserType extends GraphQLType
             'id' => [
                 'type' => Type::id(),
             ],
-            'dateOfBirth' => new FormattableDate(),
+            'dateOfBirth' => new FormattableDate,
             'createdAt' => new FormattableDate([
                 'alias' => 'created_at',
             ]),

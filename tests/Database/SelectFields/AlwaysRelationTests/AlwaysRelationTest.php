@@ -113,12 +113,12 @@ GRAQPHQL;
                 'post_id' => $post->id,
             ]);
 
-        $postLike = new Like();
+        $postLike = new Like;
         $postLike->likable()->associate($post);
         $postLike->user()->associate($user);
         $postLike->save();
 
-        $commentLike = new Like();
+        $commentLike = new Like;
         $commentLike->likable()->associate($comment);
         $commentLike->user()->associate($user);
         $commentLike->save();

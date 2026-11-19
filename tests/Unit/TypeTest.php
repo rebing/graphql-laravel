@@ -14,7 +14,7 @@ class TypeTest extends TestCase
 {
     public function testGetFields(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $fields = $type->getFields();
 
         self::assertArrayHasKey('test', $fields);
@@ -26,7 +26,7 @@ class TypeTest extends TestCase
 
     public function testGetAttributes(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $attributes = $type->getAttributes();
 
         self::assertArrayHasKey('name', $attributes);
@@ -63,7 +63,7 @@ class TypeTest extends TestCase
 
     public function testToArray(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         $array = $type->toArray();
 
         $attributes = $type->getAttributes();
@@ -72,7 +72,7 @@ class TypeTest extends TestCase
 
     public function testToType(): void
     {
-        $type = new ExampleType();
+        $type = new ExampleType;
         /** @var ObjectType $objectType */
         $objectType = $type->toType();
 

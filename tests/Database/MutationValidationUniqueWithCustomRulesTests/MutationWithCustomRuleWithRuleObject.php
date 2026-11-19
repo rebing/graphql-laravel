@@ -23,11 +23,11 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         return [
             'arg_unique_rule_pass' => [
                 'unique:users,name',
-                new RuleObjectPass(),
+                new RuleObjectPass,
             ],
             'arg_unique_rule_fail' => [
                 'unique:users,name',
-                new RuleObjectFail(),
+                new RuleObjectFail,
             ],
         ];
     }

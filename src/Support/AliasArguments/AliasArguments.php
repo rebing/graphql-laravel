@@ -34,7 +34,7 @@ class AliasArguments
     {
         $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, $this->requestArguments);
 
-        return (new ArrayKeyChange())->modify($this->requestArguments, $pathsWithAlias);
+        return (new ArrayKeyChange)->modify($this->requestArguments, $pathsWithAlias);
     }
 
     /**

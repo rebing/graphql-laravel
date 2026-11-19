@@ -43,7 +43,7 @@ class LoginMutation extends Mutation
 
     public function resolve($root, $args)
     {
-        $loginService = new UserLoginService();
+        $loginService = new UserLoginService;
         $user = $loginService->doLogin($args['email'], $args['password'], Arr::get($args, 'remember_me'));
 
         return $user;
