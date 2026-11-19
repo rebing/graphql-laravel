@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/9.16.0...master)
 
+## Changed
+- Raised minimum version of `thecodingmachine/safe` to `^3.4` for PHP 8.6 support
+
 ## Removed
 - Support for Laravel 11 & PHPUnit 10 have been removed
 
