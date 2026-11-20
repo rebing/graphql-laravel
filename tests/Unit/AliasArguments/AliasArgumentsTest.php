@@ -91,7 +91,7 @@ class AliasArgumentsTest extends TestCase
             ],
         ]);
 
-        $arguments = \Safe\json_decode($response['data']['updateExample']['test'], true);
+        $arguments = json_decode($response['data']['updateExample']['test'], true);
 
         self::assertEquals([
             'test_with_alias_and_null' => null,

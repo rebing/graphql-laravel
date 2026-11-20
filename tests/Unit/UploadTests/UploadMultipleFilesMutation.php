@@ -31,8 +31,8 @@ class UploadMultipleFilesMutation extends Mutation
     public function resolve($root, $args): array
     {
         return array_map(
-            static function (File $file): string {
-                return \Safe\file_get_contents($file->getPathname());
+            static function (File $file): string|false {
+                return file_get_contents($file->getPathname());
             },
             $args['files'],
         );
