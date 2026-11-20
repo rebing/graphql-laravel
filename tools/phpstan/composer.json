@@ -4,8 +4,7 @@
         "larastan/larastan": "^3",
         "phpstan/phpstan": "^2",
         "phpstan/phpstan-deprecation-rules": "^2",
-        "phpstan/phpstan-phpunit": "^2",
-        "thecodingmachine/phpstan-safe-rule": "^1"
+        "phpstan/phpstan-phpunit": "^2"
     },
     "config": {
         "sort-packages": true

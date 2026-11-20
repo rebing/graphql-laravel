@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Rebing\GraphQL\Helpers;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand('make:graphql:query')]
@@ -33,7 +34,7 @@ class QueryMakeCommand extends GeneratorCommand
     protected function replaceGraphqlName(string $stub): string
     {
         $graphqlName = lcfirst($this->getNameInput());
-        $graphqlName = \Safe\preg_replace('/Query$/', '', $graphqlName);
+        $graphqlName = Helpers::stripSuffix($graphqlName, 'Query');
 
         return str_replace(
             'DummyGraphqlName',

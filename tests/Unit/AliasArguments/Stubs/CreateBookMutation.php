@@ -40,7 +40,7 @@ class CreateBookMutation extends Mutation
     public function resolve($root, array $args): array
     {
         return [
-            'test' => \Safe\json_encode($args),
+            'test' => json_encode($args),
         ];
     }
 }

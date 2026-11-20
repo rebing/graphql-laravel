@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Console;
 
 use Illuminate\Console\GeneratorCommand;
+use Rebing\GraphQL\Helpers;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand('make:graphql:mutation')]
@@ -33,7 +34,7 @@ class MutationMakeCommand extends GeneratorCommand
     protected function replaceGraphqlName(string $stub): string
     {
         $graphqlName = lcfirst($this->getNameInput());
-        $graphqlName = \Safe\preg_replace('/Mutation$/', '', $graphqlName);
+        $graphqlName = Helpers::stripSuffix($graphqlName, 'Mutation');
 
         return str_replace(
             'DummyGraphqlName',
