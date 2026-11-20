@@ -34,7 +34,7 @@ class PostQueryWithSelectFieldsClassInjectionQuery extends Query
 
     public function resolve($root, $args, $ctx, SelectFields $fields, ResolveInfo $info, Closure $selectFields, ClassToInject $class)
     {
-        $selectClass = $selectFields(5);
+        $selectFields(5);
 
         return Post::select($fields->getSelect())
             ->findOrFail($args['id']);

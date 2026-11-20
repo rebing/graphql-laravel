@@ -1,7 +1,10 @@
 CHANGELOG
 =========
 
-[Next release](https://github.com/rebing/graphql-laravel/compare/9.16.0...master)
+[Next release](https://github.com/rebing/graphql-laravel/compare/9.17.0...9.x)
+
+2026-03-18, 9.17.0
+------------------
 
 ## Removed
 - Support for Laravel 11 & PHPUnit 10 have been removed

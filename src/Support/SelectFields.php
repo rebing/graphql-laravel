@@ -370,11 +370,14 @@ class SelectFields
             /** @var BelongsTo|HasManyThrough|HasOneOrMany $relation */
             $foreignKey = $relation->getQualifiedForeignKeyName();
         }
-        $foreignKey = $parentTable ? ($parentTable . '.' . \Safe\preg_replace(
-            '/^' . preg_quote($parentTable, '/') . '\./',
-            '',
-            $foreignKey,
-        )) : $foreignKey;
+
+        if ($parentTable) {
+            $prefix = $parentTable . '.';
+
+            if (!str_starts_with($foreignKey, $prefix)) {
+                $foreignKey = $prefix . $foreignKey;
+            }
+        }
 
         if (is_a($relation, MorphTo::class)) {
             $foreignKeyType = $relation->getMorphType();

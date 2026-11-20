@@ -121,7 +121,7 @@ class AliasArgumentsCircularTest extends TestCase
         $elapsedTime = microtime(true) - $startTime;
 
         // Assert the response is correct (check aliases are applied)
-        $arguments = \Safe\json_decode($response['data']['createBook']['test'], true);
+        $arguments = json_decode($response['data']['createBook']['test'], true);
 
         self::assertArrayHasKey('book', $arguments);
         self::assertEquals('Book Level 1', $arguments['book']['title_alias']);
@@ -183,7 +183,7 @@ class AliasArgumentsCircularTest extends TestCase
             ],
         ]);
 
-        $arguments = \Safe\json_decode($response['data']['createBook']['test'], true);
+        $arguments = json_decode($response['data']['createBook']['test'], true);
 
         // Verify top-level book aliases
         self::assertEquals('Original Book', $arguments['book']['title_alias']);

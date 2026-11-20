@@ -74,9 +74,10 @@ GRAQPHQL;
 
         $result = $this->httpGraphql($query);
 
+        $aggregateAlias = self::quotesAggregateAlias() ? '"aggregate"' : 'aggregate';
         $this->assertSqlQueries(
-            <<<'SQL'
-select count(*) as aggregate from "posts";
+            <<<SQL
+select count(*) as {$aggregateAlias} from "posts";
 select "posts"."title", "posts"."id" from "posts" limit 1 offset 0;
 select "comments"."title", "comments"."post_id", "comments"."id" from "comments" where "comments"."post_id" in (?) order by "comments"."id" asc;
 SQL,
@@ -133,9 +134,10 @@ GRAQPHQL;
 
         $result = $this->httpGraphql($query);
 
+        $aggregateAlias = self::quotesAggregateAlias() ? '"aggregate"' : 'aggregate';
         $this->assertSqlQueries(
-            <<<'SQL'
-            select count(*) as aggregate from "posts";
+            <<<SQL
+            select count(*) as {$aggregateAlias} from "posts";
             select * from "posts" limit 1 offset 0;
             SQL,
         );

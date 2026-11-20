@@ -22,11 +22,11 @@ class MutationWithCustomRuleWithRuleObject extends Mutation
         return [
             'arg_in_rule_pass' => [
                 'in:valid_name',
-                new RuleObjectPass(),
+                new RuleObjectPass,
             ],
             'arg_in_rule_fail' => [
                 'in:valid_name',
-                new RuleObjectFail(),
+                new RuleObjectFail,
             ],
         ];
     }

@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.2, 8.3, 8.4, 8.5]
+        php: [8.2, 8.3, 8.4, 8.5, 8.6]
         laravel: [^12.0, ^13.0]
         stability: [prefer-lowest, prefer-stable]
         exclude:
@@ -68,4 +68,13 @@ jobs:
       - run: composer update --prefer-dist --no-progress --${{ matrix.stability }}
 
       - name: Run tests
+        id: run-tests
+        # Laravel 12 session handlers lack PHP 8.6 compatibility fixes; see laravel/framework#61517.
+        continue-on-error: ${{ matrix.php == 8.6 && matrix.laravel == '^12.0' }}
         run: composer tests
+
+      - name: Report non-blocking test failure
+        if: ${{ steps.run-tests.outcome == 'failure' && steps.run-tests.conclusion == 'success' }}
+        run: |
+          echo "::warning::Tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the Run tests log."
+          echo "Tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the **Run tests** log." >> "$GITHUB_STEP_SUMMARY"

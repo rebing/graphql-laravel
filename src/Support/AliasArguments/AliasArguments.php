@@ -34,7 +34,7 @@ class AliasArguments
     {
         $pathsWithAlias = $this->getAliasesInFields($this->queryArguments, $this->requestArguments);
 
-        return (new ArrayKeyChange())->modify($this->requestArguments, $pathsWithAlias);
+        return (new ArrayKeyChange)->modify($this->requestArguments, $pathsWithAlias);
     }
 
     /**
@@ -87,8 +87,6 @@ class AliasArguments
             if (null !== $requestData && !\array_key_exists($name, $requestData)) {
                 continue;
             }
-
-            $type = null;
 
             // $arg is either an array DSL notation or an InputObjectField
             if ($arg instanceof InputObjectField) {
