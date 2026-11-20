@@ -124,9 +124,6 @@ Key conventions:
 - **Use Laravel contracts/interfaces** (e.g.
   `Illuminate\Contracts\Config\Repository`) rather than concrete classes.
 
-- **Use `thecodingmachine/safe` functions** where applicable (e.g.
-  `Safe\preg_match` instead of `preg_match`).
-
 ### Static Analysis
 
 This project uses [PHPStan](https://github.com/phpstan/phpstan) at **level 8**

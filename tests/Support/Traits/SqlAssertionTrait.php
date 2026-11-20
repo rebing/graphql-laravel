@@ -96,7 +96,7 @@ trait SqlAssertionTrait
                         // literals directly, which means it includes
                         // IDs which may change during multiple test
                         // runs, which we now manually need to normalize
-                        return \Safe\preg_replace(
+                        return preg_replace(
                             [
                                 // Covers integers in `WHERE IN ()`
                                 '/\d+(,|\))/',

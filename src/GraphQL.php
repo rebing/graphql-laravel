@@ -293,10 +293,10 @@ class GraphQL
         $modifiers = [];
 
         while (true) {
-            if (\Safe\preg_match('/^(.+)!$/', $name, $matches)) {
+            if (Helpers::preg_match('/^(.+)!$/', $name, $matches)) {
                 $name = $matches[1];
                 array_unshift($modifiers, 'nonNull');
-            } elseif (\Safe\preg_match('/^\[(.+)]$/', $name, $matches)) {
+            } elseif (Helpers::preg_match('/^\[(.+)]$/', $name, $matches)) {
                 $name = $matches[1];
                 array_unshift($modifiers, 'listOf');
             } else {

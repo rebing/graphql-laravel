@@ -5,6 +5,8 @@ namespace Rebing\GraphQL\Tests\Unit\ExecutionMiddlewareTest;
 
 use Closure;
 use GraphQL\Executor\ExecutionResult;
+use GraphQL\Language\AST\NamedTypeNode;
+use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\NodeKind;
 use GraphQL\Language\AST\VariableDefinitionNode;
 use GraphQL\Language\Visitor;
@@ -18,9 +20,11 @@ class ChangeQueryArgTypeMiddleware extends AbstractExecutionMiddleware
     {
         $query = $params->getParsedQuery();
 
-        Visitor::visit($query, [ // @phpstan-ignore argument.type
-            NodeKind::VARIABLE_DEFINITION => function (VariableDefinitionNode $node): VariableDefinitionNode {
-                $node->type->name->value = 'Int'; // @phpstan-ignore property.notFound
+        Visitor::visit($query, [
+            NodeKind::VARIABLE_DEFINITION => function (Node $node): Node {
+                if ($node instanceof VariableDefinitionNode && $node->type instanceof NamedTypeNode) {
+                    $node->type->name->value = 'Int';
+                }
 
                 return $node;
             },

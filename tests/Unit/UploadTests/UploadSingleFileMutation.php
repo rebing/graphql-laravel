@@ -30,8 +30,8 @@ class UploadSingleFileMutation extends Mutation
     /**
      * @param array<string,mixed> $args
      */
-    public function resolve(mixed $root, array $args): string
+    public function resolve(mixed $root, array $args): string|false
     {
-        return \Safe\file_get_contents($args['file']->getPathname());
+        return file_get_contents($args['file']->getPathname());
     }
 }

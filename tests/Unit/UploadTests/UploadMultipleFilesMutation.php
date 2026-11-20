@@ -30,13 +30,13 @@ class UploadMultipleFilesMutation extends Mutation
 
     /**
      * @param array<string,mixed> $args
-     * @return array<int,string>
+     * @return array<int,string|false>
      */
     public function resolve(mixed $root, array $args): array
     {
         return array_map(
-            static function (File $file): string {
-                return \Safe\file_get_contents($file->getPathname());
+            static function (File $file): string|false {
+                return file_get_contents($file->getPathname());
             },
             $args['files'],
         );
