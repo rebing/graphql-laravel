@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
-use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Tests\Support\Objects\ExampleType;
@@ -63,11 +62,17 @@ class TypeTest extends TestCase
 
     public function testToArray(): void
     {
-        $type = new ExampleType;
-        $array = $type->toArray();
+        $type = $this->createPartialMock(ExampleType::class, ['getAttributes']);
+        $attributes = [
+            'name' => 'Example',
+            'fields' => static fn (): array => ['test' => Type::string()],
+        ];
 
-        $attributes = $type->getAttributes();
-        DeepClosureAssert::assertEquals($attributes, $array);
+        $type->expects(self::once())
+            ->method('getAttributes')
+            ->willReturn($attributes);
+
+        self::assertSame($attributes, $type->toArray());
     }
 
     public function testToType(): void
