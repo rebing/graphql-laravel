@@ -3,6 +3,9 @@ CHANGELOG
 
 [Next release](https://github.com/rebing/graphql-laravel/compare/10.2.0...master)
 
+### Fixed
+- Require `thecodingmachine/safe` 3.4 or newer to avoid missing function wrappers on PHP 8.6. PHP 8.6 is tested with Laravel 13; Laravel 12's PHP 8.6 session-handler failures remain non-blocking in CI.
+
 2026-11-09, 10.2.0
 ------------------
 - Add (more) phpstab stubs [\#1287 / mfn](https://github.com/rebing/graphql-laravel/pull/1287)
