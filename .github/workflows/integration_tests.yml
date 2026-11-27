@@ -40,6 +40,9 @@ jobs:
 
       - id: php
         uses: WyriHaximus/github-action-composer-php-versions-in-range@b1da538007a030a09a7d257bd3881829a3544882 # v2.1.0
+        with:
+          # v2.1.0 still lists the released PHP 8.6 under its nightly input.
+          nightly: 'true'
 
       - id: laravel
         name: Read Laravel versions from composer.json
@@ -97,9 +100,19 @@ jobs:
           LARAVEL_VERSION: ${{ matrix.laravel }}
         run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${LARAVEL_VERSION}" --with "illuminate/support:${LARAVEL_VERSION}" --with "laravel/framework:${LARAVEL_VERSION}"
 
-      - env:
+      - name: Run integration tests
+        id: run-tests
+        # Laravel 12 session handlers lack PHP 8.6 compatibility fixes; see laravel/framework#61517.
+        continue-on-error: ${{ matrix.php == '8.6' && matrix.laravel == '^12.0' }}
+        env:
           LARAVEL_VERSION: ${{ matrix.laravel }}
         run: tests/integration-laravel.sh "${LARAVEL_VERSION}"
+
+      - name: Report non-blocking test failure
+        if: ${{ steps.run-tests.outcome == 'failure' && steps.run-tests.conclusion == 'success' }}
+        run: |
+          echo "::warning::Integration tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the Run integration tests log."
+          echo "Integration tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the **Run integration tests** log." >> "$GITHUB_STEP_SUMMARY"
 
   integration-otel:
     needs: matrix
@@ -143,6 +156,16 @@ jobs:
           LARAVEL_VERSION: ${{ matrix.laravel }}
         run: composer update --prefer-dist --no-progress --with "illuminate/contracts:${LARAVEL_VERSION}" --with "illuminate/support:${LARAVEL_VERSION}" --with "laravel/framework:${LARAVEL_VERSION}"
 
-      - env:
+      - name: Run OpenTelemetry integration tests
+        id: run-tests
+        # This also boots Laravel's default session stack; see laravel/framework#61517.
+        continue-on-error: ${{ matrix.php == '8.6' && matrix.laravel == '^12.0' }}
+        env:
           LARAVEL_VERSION: ${{ matrix.laravel }}
         run: tests/integration-otel/run.sh "${LARAVEL_VERSION}"
+
+      - name: Report non-blocking test failure
+        if: ${{ steps.run-tests.outcome == 'failure' && steps.run-tests.conclusion == 'success' }}
+        run: |
+          echo "::warning::OpenTelemetry integration tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the Run OpenTelemetry integration tests log."
+          echo "OpenTelemetry integration tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the **Run OpenTelemetry integration tests** log." >> "$GITHUB_STEP_SUMMARY"
