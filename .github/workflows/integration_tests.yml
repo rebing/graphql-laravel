@@ -39,10 +39,7 @@ jobs:
           persist-credentials: false
 
       - id: php
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@b1da538007a030a09a7d257bd3881829a3544882 # v2.1.0
-        with:
-          # v2.1.0 still lists the released PHP 8.6 under its nightly input.
-          nightly: 'true'
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@2c7b893179642a867c8d5b0e1b1e6e2b4c371c49 # v2.2.0
 
       - id: laravel
         name: Read Laravel versions from composer.json
