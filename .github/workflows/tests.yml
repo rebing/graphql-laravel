@@ -41,7 +41,7 @@ jobs:
           persist-credentials: false
 
       - id: php
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@b1da538007a030a09a7d257bd3881829a3544882 # v2.1.0
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@2c7b893179642a867c8d5b0e1b1e6e2b4c371c49 # v2.2.0
 
       - id: laravel
         name: Read Laravel versions from composer.json
@@ -104,7 +104,16 @@ jobs:
         run: composer update --prefer-dist --no-progress "--${STABILITY}" --with "illuminate/contracts:${LARAVEL_VERSION}" --with "illuminate/support:${LARAVEL_VERSION}" --with "laravel/framework:${LARAVEL_VERSION}"
 
       - name: Run tests
+        id: run-tests
+        # Laravel 12 session handlers lack PHP 8.6 compatibility fixes; see laravel/framework#61517.
+        continue-on-error: ${{ matrix.php == '8.6' && matrix.laravel == '^12.0' }}
         run: composer tests
+
+      - name: Report non-blocking test failure
+        if: ${{ steps.run-tests.outcome == 'failure' && steps.run-tests.conclusion == 'success' }}
+        run: |
+          echo "::warning::Tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the Run tests log."
+          echo "Tests failed on PHP 8.6 + Laravel 12 (non-blocking). See the **Run tests** log." >> "$GITHUB_STEP_SUMMARY"
 
   coverage:
     needs: matrix

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Rebing\GraphQL\Tests\Unit;
 
 use Closure;
-use EliasHaeussler\DeepClosureComparator\DeepClosureAssert;
 use GraphQL\Type\Definition\ResolveInfo;
 use PHPUnit\Framework\MockObject\Stub;
 use Rebing\GraphQL\Support\Field;
@@ -55,11 +54,17 @@ class FieldTest extends TestCase
     public function testToArray(): void
     {
         $class = $this->getFieldClass();
-        $field = new $class;
-        $array = $field->toArray();
+        $field = $this->createPartialMock($class, ['getAttributes']);
+        $attributes = [
+            'name' => 'example',
+            'resolve' => static fn (): string => 'resolved',
+        ];
 
-        $attributes = $field->getAttributes();
-        DeepClosureAssert::assertEquals($attributes, $array);
+        $field->expects(self::once())
+            ->method('getAttributes')
+            ->willReturn($attributes);
+
+        self::assertSame($attributes, $field->toArray());
     }
 
     public function testDynamicAttributeAccess(): void
